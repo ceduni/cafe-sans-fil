@@ -53,3 +53,5 @@ données de l'application.
 <!-- Les dossiers du répertoire sont organisés comme suit: -->
 
 # Contributeurs ⭐
+
+Si vous êtes interessé à participer au projet, contactez [Louis-Edouard LAFONTANT](mailto:louis.edouard.lafontant@umontreal.ca)
