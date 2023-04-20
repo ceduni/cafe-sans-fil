@@ -1,6 +1,7 @@
-# udem-cafe
+# Café sans fil
 
-Ce projet pilote consiste à développer une application complète (backend + frontend) permettant aux étudiants et membres de l'UdeM de faire des transactions à distance avec les cafés étudiants de l'UdeM. 
+Ce projet pilote vise à améliorer le service des cafés étudiants de l'UdeM. Il consiste à développer une application web complète (backend + frontend) facilitant la recherche de cafés et produits, la prise de commandes et la gestion du menu et de l'inventaire.   
+L'application sera accessible à tout membre de l'UdeM (étudiant, employé, professeur, chercheur...).et offrira certains rôles (membre, staff, admin) donnant accès à certaines fonctionnalités.
 
 ![Café La Planck](https://admission.umontreal.ca/fileadmin/_processed_/8/1/csm_Cafe_etudiant_960x720_7865dfbe95.jpg)
 
@@ -11,7 +12,7 @@ Ce projet pilote consiste à développer une application complète (backend + fr
 L'application offrira certains rôles donnant accès à certaines fonctionnalités. 
 
 - **Membre**: Rôle **de base** dans l'application. Avec ce rôle, un utilisateur peut accéder au menu et passer des commandes.  
-- **Staff**: Rôle **réservé aux bénévoles** travaillant au café, incluant toutes les actions du rôle membre. Il permet en plus de traiter les commandes et modifier le menu.  
+- **Staff**: Rôle **réservé aux bénévoles** travaillant au café, incluant toutes les actions du rôle membre. Il permet en plus de traiter les commandes, modifier le menu et gérer l'inventaire.  
 - **Admin**: Rôle **réservé aux responsables de la maintenance** de l'application, incluant toutes les actions du rôle membre. Il permet de faire toute opération sur la base de données.
 
 ## Échéancier
