@@ -1,9 +1,9 @@
+<img src="./logo_cafe_sans_fil.png" height="120">
+
 # Café sans fil
 
 Ce projet pilote vise à améliorer le service des cafés étudiants de l'UdeM. Il consiste à développer une application web complète (backend + frontend) facilitant la recherche de cafés et produits, la prise de commandes et la gestion du menu et de l'inventaire.   
 L'application sera accessible à tout membre de l'UdeM (étudiant, employé, professeur, chercheur...).et offrira certains rôles (membre, staff, admin) donnant accès à certaines fonctionnalités.
-
-![Café La Planck](https://admission.umontreal.ca/fileadmin/_processed_/8/1/csm_Cafe_etudiant_960x720_7865dfbe95.jpg)
 
 ## Fonctionnalités
 
@@ -17,8 +17,8 @@ L'application offrira certains rôles donnant accès à certaines fonctionnalit�
 
 ## Échéancier
 
-> Début: 1er mai 2023  
-> Fin: 11 aout 2023
+> Début: 1er septembre 2023  
+> Fin: 11 décembre 2023
 
 Le détail de l'échéancier est présenté dans le fichier [**TIMELINE**](TIMELINE.md)
 
@@ -35,16 +35,22 @@ données de l'application.
 
 - Fichiers et style relationnel  
 - SQLite
+- MySQL
 
 ### API
 
 - En Python  
 - FastAPI
 
+#### Resources
+
+- [How to create an API in Python](https://anderfernandez.com/en/blog/how-to-create-api-python/)
+
 ### Application web
 
 - JavaScript, SPA (single page application)  
-- Vuejs
+- React
+- Bootstrap
 
 # Documentation 📖
 
@@ -54,5 +60,8 @@ données de l'application.
 <!-- Les dossiers du répertoire sont organisés comme suit: -->
 
 # Contributeurs ⭐
+
+- Axel ZAREB [@axeelz](https://github.com/axeelz)
+- Southidej OUDANONH [@GokaGokai](https://github.com/GokaGokai)
 
 Si vous êtes interessé à participer au projet, contactez [Louis-Edouard LAFONTANT](mailto:louis.edouard.lafontant@umontreal.ca)
