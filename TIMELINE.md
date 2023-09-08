@@ -30,4 +30,32 @@ Ce fichier présente l'échéancier du projet.
 
 <!-- ## Semaine 2 (2023-05-08) -->
 
-## Semaine 1 (2023-05-01)
+## Semaine 1 (2023-09-08)
+
+Réunion de démarrage du projet, réalisation du planning général et des exigences du projet.
+
+### Planification
+
+13 semaines de travail prévues
+
+3 grosses parties : **BD, API, App web (front-end)**
+
+- S1, S2 : Exigences du projet
+- S2, S3 : Choix de technologies & architecture des données
+- S3, S4, S5 : Design de l'API et BD
+  ...
+- S13 : Déploiement & tests des utilisateurs
+
+### Exigences du projet
+
+- (1) Lister les cafés + localisation (pavillon, formuler une requête comme "jus de fruits" ou par moyen de paiement, tags) — [Consommateur]
+- (2) Lister les menus — [Public]
+- Voir la fiche de présentation d'un café (photo, horaires, coordonnées, etc.) — [Public]
+- Identification de l'étudiant, création de compte (voir mécanisme d'authentification, QR code, auth UdeM?) — [Consommateur]
+- Gérer le menu de mon café (ajouter, modifier, supprimer) — [Bénévole, Admin (structure des bénévoles au sein d'un café?)]
+- Gérer la liste des bénévoles — [Admin]
+- Prise de commande — [Consommateur, Bénévole]
+- Paiement en ligne avec contraintes (montant min, frais) — [Consommateur, Admin]
+- Générer des rapports de vente, stats, etc. — [Bénévole, Admin]
+- Système de récompenses / Gamification — [Consommateur, Bénévole, Admin]
+- Avoir un canal de communication / recommandation, sondages, etc. — [Consommateur, Admin]
