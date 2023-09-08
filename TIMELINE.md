@@ -1,62 +1,96 @@
 # Échéancier
 
-Ce fichier présente l'échéancier du projet.
+<!-- ## Semaine 15 (2023-12-11) -->
 
-<!-- ## Semaine 15 (2023-08-07) -->
+<!-- ## Semaine 14 (2023-12-04) -->
 
-<!-- ## Semaine 14 (2023-07-31) -->
+<!-- ## Semaine 13 (2023-11-27) -->
 
-<!-- ## Semaine 13 (2023-07-24) -->
+<!-- ## Semaine 12 (2023-11-20) -->
 
-<!-- ## Semaine 12 (2023-07-17) -->
+<!-- ## Semaine 11 (2023-11-13) -->
 
-<!-- ## Semaine 11 (2023-07-10) -->
+<!-- ## Semaine 10 (2023-11-06) -->
 
-<!-- ## Semaine 10 (2023-07-03) -->
+<!-- ## Semaine 9 (2023-10-30) -->
 
-<!-- ## Semaine 9 (2023-06-26) -->
+<!-- ## Semaine 8 (2023-10-23) -->
 
-<!-- ## Semaine 8 (2023-06-19) -->
+<!-- ## Semaine 7 (2023-10-16) -->
 
-<!-- ## Semaine 7 (2023-06-12) -->
+<!-- ## Semaine 6 (2023-10-09) -->
 
-<!-- ## Semaine 6 (2023-06-05) -->
+<!-- ## Semaine 5 (2023-10-02) -->
 
-<!-- ## Semaine 5 (2023-05-29) -->
+<!-- ## Semaine 4 (2023-09-25) -->
 
-<!-- ## Semaine 4 (2023-05-22) -->
+<!-- ## Semaine 3 (2023-09-18) -->
 
-<!-- ## Semaine 3 (2023-05-15) -->
+<!-- ## Semaine 2 (2023-09-11) -->
 
-<!-- ## Semaine 2 (2023-09-14) -->
+## Semaine 1 (2023-09-04)
 
-## Semaine 1 (2023-09-07)
+### Objectifs de la première semaine
 
-- Réunion de démarrage du projet, réalisation du planning général et des exigences du projet.
-- Envoi d'un e-mail aux gérants de Tore et Fraction pour leur informer de notre projet et demander un RDV avec Jeremy pour nous donner leurs besoins et participer plus tard aux tests utilisateurs.
+- **Lancement du projet** : Réunion initiale pour démarrer les travaux.
+- **Planification globale** : Définition de la roadmap et des étapes clés.
+- **Définition des exigences** : Précision des fonctionnalités et des besoins pour l'application.
+- **Communication avec les cafés** : Prise de contact avec le responsable du Café Tore et Fraction.
 
-### Planification
+### Vue d'ensemble du projet
 
-13 semaines de travail prévues
+![Plan du Projet](https://cdn.discordapp.com/attachments/1143019940950069249/1149783550854434827/cafe_sans_fils_project_plan.png)
 
-3 grosses parties : **BD, API, App web (front-end)**
+La durée totale du projet est estimée à 13 semaines. Il est catégorisé en trois sections principales : **la base de données**, **l'API** et **l'interface Web**.
 
-- S1, S2 : Exigences du projet
-- S2, S3 : Choix de technologies & architecture des données
-- S3, S4, S5 : Design de l'API et BD
-  ...
-- S13 : Déploiement & tests des utilisateurs
+
+### Phases clés
+
+- **Semaines 1 à 2** : Mise en place et définition des exigences.
+- **Semaines 2 à 3** : Sélection des technologies et mise en place de l'architecture des données.
+- **Semaines 3 à 5** : Élaboration de l'API et de la base de données.
+...
+- **Semaine 13** : Phase finale avec déploiement et réalisation des tests utilisateurs.
 
 ### Exigences du projet
 
-- (1) Lister les cafés + localisation (pavillon, formuler une requête comme "jus de fruits" ou par moyen de paiement, tags) — [Consommateur]
-- (2) Lister les menus — [Public]
-- Voir la fiche de présentation d'un café (photo, horaires, coordonnées, etc.) — [Public]
-- Identification de l'étudiant, création de compte (voir mécanisme d'authentification, QR code, auth UdeM?) — [Consommateur]
-- Gérer le menu de mon café (ajouter, modifier, supprimer) — [Bénévole, Admin (structure des bénévoles au sein d'un café?)]
-- Gérer la liste des bénévoles — [Admin]
-- Prise de commande — [Consommateur, Bénévole]
-- Paiement en ligne avec contraintes (montant min, frais) — [Consommateur, Admin]
-- Générer des rapports de vente, stats, etc. — [Bénévole, Admin]
-- Système de récompenses / Gamification — [Consommateur, Bénévole, Admin]
-- Avoir un canal de communication / recommandation, sondages, etc. — [Consommateur, Admin]
+- **Localisation des cafés**  
+  - Lister les cafés basés sur leur localisation. Offrir une fonction de recherche où les utilisateurs peuvent formuler des requêtes spécifiques en utilisant des étiquettes ou des "tags" associés aux items du menu (par exemple, un tag "jus de fruits"). Incorporer l'utilisation d'une map pour une visualisation facile des emplacements des cafés et fournir des détails sur les moyens de paiement disponibles.  
+  - _Qui_: 🔵 Consommateur
+
+- **Lister les menus**  
+  - _Qui_: 🟠 Public
+
+- **Fiche de présentation d'un café**  
+  - Affichage des détails tels que photo, horaires, coordonnées, et autres informations pertinentes.  
+  - _Qui_: 🟠 Public
+
+- **Identification de l'étudiant & création de compte**  
+  - Mettre en œuvre un mécanisme d'authentification, utiliser un QR code, et s'intégrer avec la source UdeM.  
+  - _Qui_: 🔵 Consommateur
+
+- **Gestion du menu pour un café spécifique**  
+  - Ajouter, modifier, supprimer du contenu.  
+  - _Note_: Investiguer la structure des bénévoles au sein d'un café et définir leurs rôles.
+  - _Qui_: 🟢 Bénévole, 🔴 Admin  
+
+- **Gestion de la liste des bénévoles**  
+  - _Qui_: 🔴 Admin
+
+- **Prise de commande**  
+  - _Qui_: 🔵 Consommateur, 🟢 Bénévole
+
+- **Paiement en ligne**  
+  - Intégrer des contraintes comme un montant minimum et des frais.  
+  - _Qui_: 🔵 Consommateur, 🔴 Admin
+
+- **Rapports et statistiques**  
+  - Générer des rapports de vente, statistiques et autres informations pertinentes.  
+  - _Qui_: 🟢 Bénévole, 🔴 Admin
+
+- **Système de récompenses/Gamification**  
+  - _Qui_: 🔵 Consommateur
+
+- **Canal de communication**  
+  - Offrir un moyen pour les recommandations, sondages et autres formes de communication.  
+  - _Qui_: 🔵 Consommateur, 🟢 Bénévole
