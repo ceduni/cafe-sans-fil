@@ -33,6 +33,7 @@ Ce fichier présente l'échéancier du projet.
 ## Semaine 1 (2023-09-08)
 
 Réunion de démarrage du projet, réalisation du planning général et des exigences du projet.
+Envoi d'un e-mail aux gérants de Tore et Fraction pour leur informer de notre projet et demander un RDV avec Jeremy pour nous donner leurs besoins et participer plus tard aux tests utilisateurs.
 
 ### Planification
 
