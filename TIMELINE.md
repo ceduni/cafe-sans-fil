@@ -71,7 +71,7 @@ La durée totale du projet est estimée à 13 semaines. Il est catégorisé en t
 
 - **Gestion du menu pour un café spécifique**  
   Ajouter, modifier, supprimer du contenu.  
-  _Note_: Investiguer la structure des bénévoles au sein d'un café et définir leurs rôles.
+  _Note_: Investiguer la structure des bénévoles au sein d'un café et définir leurs rôles.  
   _Qui_: 🟢 Bénévole, 🔴 Admin  
 
 - **Gestion de la liste des bénévoles**  
