@@ -39,7 +39,7 @@
 
 ### Vue d'ensemble du projet
 
-![Plan du Projet](https://cdn.discordapp.com/attachments/1143019940950069249/1149783550854434827/cafe_sans_fils_project_plan.png)
+![Plan du Projet](https://cdn.discordapp.com/attachments/841456989443325973/1149925649943887943/cafe_sans_fils_rounded_updated_v2.png)
 
 La durée totale du projet est estimée à 13 semaines. Il est catégorisé en trois sections principales : **la base de données**, **l'API** et **l'interface Web**.
 
@@ -49,7 +49,7 @@ La durée totale du projet est estimée à 13 semaines. Il est catégorisé en t
 - **Semaines 1 à 2** : Mise en place et définition des exigences.
 - **Semaines 2 à 3** : Sélection des technologies et mise en place de l'architecture des données.
 - **Semaines 3 à 5** : Élaboration de l'API et de la base de données.
-...
+- **Semaines 5 à 13** : Développement et intégration des fonctionnalités principales.
 - **Semaine 13** : Phase finale avec déploiement et réalisation des tests utilisateurs.
 
 ### Exigences du projet
@@ -59,6 +59,7 @@ La durée totale du projet est estimée à 13 semaines. Il est catégorisé en t
   _Qui_: 🔵 Consommateur
 
 - **Lister les menus**  
+  Afficher les différents items offerts par les cafés, incluant les prix, les descriptions et éventuellement des images. Permettre aux utilisateurs de parcourir les offres avant de faire une sélection.  
   _Qui_: 🟠 Public
 
 - **Fiche de présentation d'un café**  
@@ -66,7 +67,7 @@ La durée totale du projet est estimée à 13 semaines. Il est catégorisé en t
   _Qui_: 🟠 Public
 
 - **Identification de l'étudiant & création de compte**  
-  Mettre en œuvre un mécanisme d'authentification, utiliser un QR code, et s'intégrer avec la source UdeM.  
+  Mettre en œuvre un mécanisme d'authentification, utiliser un QR code, et s'intégrer avec le service UdeM.  
   _Qui_: 🔵 Consommateur
 
 - **Gestion du menu pour un café spécifique**  
@@ -75,9 +76,11 @@ La durée totale du projet est estimée à 13 semaines. Il est catégorisé en t
   _Qui_: 🟢 Bénévole, 🔴 Admin  
 
 - **Gestion de la liste des bénévoles**  
+  Offre aux administrateurs la capacité de gérer les bénévoles associés à un café. Cela inclut l'ajout, la modification, et la suppression de bénévoles, ainsi que la gestion de leurs rôles et responsabilités.  
   _Qui_: 🔴 Admin
 
 - **Prise de commande**  
+  Permet aux consommateurs de sélectionner et commander des items du menu. Les bénévoles reçoivent et traitent ces commandes pour préparation.  
   _Qui_: 🔵 Consommateur, 🟢 Bénévole
 
 - **Paiement en ligne**  
@@ -89,7 +92,8 @@ La durée totale du projet est estimée à 13 semaines. Il est catégorisé en t
   _Qui_: 🟢 Bénévole, 🔴 Admin
 
 - **Système de récompenses/Gamification**  
-  _Qui_: 🔵 Consommateur
+  Introduit un mécanisme incitatif pour encourager les consommateurs à passer des commandes ou à participer à certaines activités. Les récompenses peuvent être sous forme de points, de remises ou d'autres avantages.  
+  _Qui_: 🔵 Consommateur, 🔴 Admin
 
 - **Canal de communication**  
   Offrir un moyen pour les recommandations, sondages et autres formes de communication.  
