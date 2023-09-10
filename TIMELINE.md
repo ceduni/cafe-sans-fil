@@ -54,48 +54,36 @@ La durée totale du projet est estimée à 13 semaines. Il est catégorisé en t
 
 ### Exigences du projet
 
-- **Localisation des cafés**  
-  Lister les cafés basés sur leur localisation. Offrir une fonction de recherche où les utilisateurs peuvent formuler des requêtes spécifiques en utilisant des étiquettes ou des "tags" associés aux items du menu (par exemple, un tag "jus de fruits"). Incorporer l'utilisation d'une map pour une visualisation facile des emplacements des cafés et fournir des détails sur les moyens de paiement disponibles.  
-  🔵 *Consommateur*
+- **Localisation des cafés** | 🔵 *Consommateur*  
+  Lister les cafés basés sur leur localisation. Offrir une fonction de recherche où les utilisateurs peuvent formuler des requêtes spécifiques en utilisant des étiquettes ou des "tags" associés aux items du menu (par exemple, un tag "jus de fruits"). Incorporer l'utilisation d'une map pour une visualisation facile des emplacements des cafés et fournir des détails sur les moyens de paiement disponibles.
 
-- **Lister les menus**  
-  Afficher les différents items offerts par les cafés, incluant les prix, les descriptions et éventuellement des images. Permettre aux utilisateurs de parcourir les offres avant de faire une sélection.  
-  🟠 *Public*
+- **Lister les menus** | 🟠 *Public*  
+  Afficher les différents items offerts par les cafés, incluant les prix, les descriptions et éventuellement des images. Permettre aux utilisateurs de parcourir les offres avant de faire une sélection.
 
-- **Fiche de présentation d'un café**  
-  Affichage des détails tels que photo, horaires, coordonnées, et autres informations pertinentes.  
-  🟠 *Public*
+- **Fiche de présentation d'un café** | 🟠 *Public*  
+  Affichage des détails tels que photo, horaires, coordonnées, et autres informations pertinentes.
 
-- **Identification de l'étudiant & création de compte**  
-  Mettre en œuvre un mécanisme d'authentification, utiliser un QR code, et s'intégrer avec le service UdeM.  
-  🔵 *Consommateur*
+- **Identification de l'étudiant & création de compte** | 🔵 *Consommateur*  
+  Mettre en œuvre un mécanisme d'authentification, utiliser un QR code, et s'intégrer avec le service UdeM.
 
-- **Gestion du menu pour un café spécifique**  
+- **Gestion du menu pour un café spécifique** | 🟢 *Bénévole*, 🔴 *Admin*  
   Ajouter, modifier, supprimer du contenu.  
-  _Note_: Investiguer la structure des bénévoles au sein d'un café et définir leurs rôles.  
-  🟢 *Bénévole*, 🔴 *Admin* 
+  _Note_: Investiguer la structure des bénévoles au sein d'un café et définir leurs rôles.
 
-- **Gestion de la liste des bénévoles**  
-  Offre aux administrateurs la capacité de gérer les bénévoles associés à un café. Cela inclut l'ajout, la modification, et la suppression de bénévoles, ainsi que la gestion de leurs rôles et responsabilités.  
-  🔴 *Admin*
+- **Gestion de la liste des bénévoles** | 🔴 *Admin*  
+  Offre aux administrateurs la capacité de gérer les bénévoles associés à un café. Cela inclut l'ajout, la modification, et la suppression de bénévoles, ainsi que la gestion de leurs rôles et responsabilités.
 
-- **Prise de commande**  
-  Permet aux consommateurs de sélectionner et commander des items du menu. Les bénévoles reçoivent et traitent ces commandes pour préparation.  
-  🔵 *Consommateur*, 🟢 *Bénévole*
+- **Prise de commande** | 🔵 *Consommateur*, 🟢 *Bénévole*  
+  Permet aux consommateurs de sélectionner et commander des items du menu. Les bénévoles reçoivent et traitent ces commandes pour préparation.
 
-- **Paiement en ligne**  
-  Intégrer des contraintes comme un montant minimum et des frais.  
-  🔵 *Consommateur*, 🔴 *Admin*
+- **Paiement en ligne** | 🔵 *Consommateur*, 🔴 *Admin*  
+  Intégrer des contraintes comme un montant minimum et des frais.
 
-- **Rapports et statistiques**  
-  Générer des rapports de vente, statistiques et autres informations pertinentes.  
-  🟢 *Bénévole*, 🔴 *Admin*
+- **Rapports et statistiques** | 🟢 *Bénévole*, 🔴 *Admin*  
+  Générer des rapports de vente, statistiques et autres informations pertinentes.
 
-- **Système de récompenses/Gamification**  
-  Introduit un mécanisme incitatif pour encourager les consommateurs à passer des commandes ou à participer à certaines activités. Les récompenses peuvent être sous forme de points, de remises ou d'autres avantages.  
-  🔵 *Consommateur*, 🔴 *Admin*
+- **Système de récompenses/Gamification** | 🔵 *Consommateur*, 🔴 *Admin*  
+  Introduit un mécanisme incitatif pour encourager les consommateurs à passer des commandes ou à participer à certaines activités. Les récompenses peuvent être sous forme de points, de remises ou d'autres avantages.
 
-- **Canal de communication**  
-  Offrir un moyen pour les recommandations, sondages et autres formes de communication.  
-  🔵 *Consommateur*, 🟢 *Bénévole*
-
+- **Canal de communication** | 🔵 *Consommateur*, 🟢 *Bénévole*  
+  Offrir un moyen pour les recommandations, sondages et autres formes de communication.
