@@ -1,6 +1,6 @@
 <br>
 <p align="center">
-    <img src="https://cdn.discordapp.com/attachments/1150280747983319092/1150284369353781248/l5.png" height="240">
+    <img src="https://cdn.discordapp.com/attachments/1150280747983319092/1150596609965559858/l5_with_shadow.png" height="240">
 </p>
 
 # ☕ Café sans fil
