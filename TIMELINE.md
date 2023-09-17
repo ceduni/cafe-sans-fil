@@ -26,7 +26,13 @@
 
 <!-- ## Semaine 3 (2023-09-18) -->
 
-<!-- ## Semaine 2 (2023-09-11) -->
+## Semaine 2 (2023-09-11)
+
+### Objectifs de la deuxième semaine
+
+- **Débrief des besoins des cafés** : Récapitulatif des exigences et des fonctionnalités voulues par les cafés (notamment Tore et Fraction).
+- **Discussion sur les technologies** : Évaluation des technologies disponibles et sélection des outils à utiliser pour le projet.
+- **Définition des prochaines étapes** : Planification des prochaines étapes et des tâches à accomplir, notamment prendre chaque éxigence pour la transformer en un flux, faire des mini maquettes, etc.
 
 ## Semaine 1 (2023-09-04)
 
@@ -43,7 +49,6 @@
 
 La durée totale du projet est estimée à 13 semaines. Il est catégorisé en trois sections principales : **la base de données**, **l'API** et **l'interface Web**.
 
-
 ### Phases clés
 
 - **Semaines 1 à 2** : Mise en place et définition des exigences.
@@ -54,36 +59,36 @@ La durée totale du projet est estimée à 13 semaines. Il est catégorisé en t
 
 ### Exigences du projet
 
-- **Localisation des cafés** | 🔵 *Consommateur*  
+- **Localisation des cafés** | 🔵 _Consommateur_  
   Lister les cafés basés sur leur localisation. Offrir une fonction de recherche où les utilisateurs peuvent formuler des requêtes spécifiques en utilisant des étiquettes ou des "tags" associés aux items du menu (par exemple, un tag "jus de fruits"). Incorporer l'utilisation d'une map pour une visualisation facile des emplacements des cafés et fournir des détails sur les moyens de paiement disponibles.
 
-- **Lister les menus** | 🟠 *Public*  
+- **Lister les menus** | 🟠 _Public_  
   Afficher les différents items offerts par les cafés, incluant les prix, les descriptions et éventuellement des images. Permettre aux utilisateurs de parcourir les offres avant de faire une sélection.
 
-- **Fiche de présentation d'un café** | 🟠 *Public*  
+- **Fiche de présentation d'un café** | 🟠 _Public_  
   Affichage des détails tels que photo, horaires, coordonnées, et autres informations pertinentes.
 
-- **Identification de l'étudiant & création de compte** | 🔵 *Consommateur*  
+- **Identification de l'étudiant & création de compte** | 🔵 _Consommateur_  
   Mettre en œuvre un mécanisme d'authentification, utiliser un QR code, et s'intégrer avec le service UdeM.
 
-- **Gestion du menu pour un café spécifique** | 🟢 *Bénévole*, 🔴 *Admin*  
+- **Gestion du menu pour un café spécifique** | 🟢 _Bénévole_, 🔴 _Admin_  
   Ajouter, modifier, supprimer du contenu.  
   _Note_: Investiguer la structure des bénévoles au sein d'un café et définir leurs rôles.
 
-- **Gestion de la liste des bénévoles** | 🔴 *Admin*  
+- **Gestion de la liste des bénévoles** | 🔴 _Admin_  
   Offre aux administrateurs la capacité de gérer les bénévoles associés à un café. Cela inclut l'ajout, la modification, et la suppression de bénévoles, ainsi que la gestion de leurs rôles et responsabilités.
 
-- **Prise de commande** | 🔵 *Consommateur*, 🟢 *Bénévole*  
+- **Prise de commande** | 🔵 _Consommateur_, 🟢 _Bénévole_  
   Permet aux consommateurs de sélectionner et commander des items du menu. Les bénévoles reçoivent et traitent ces commandes pour préparation.
 
-- **Paiement en ligne** | 🔵 *Consommateur*, 🔴 *Admin*  
+- **Paiement en ligne** | 🔵 _Consommateur_, 🔴 _Admin_  
   Intégrer des contraintes comme un montant minimum et des frais.
 
-- **Rapports et statistiques** | 🟢 *Bénévole*, 🔴 *Admin*  
+- **Rapports et statistiques** | 🟢 _Bénévole_, 🔴 _Admin_  
   Générer des rapports de vente, statistiques et autres informations pertinentes.
 
-- **Système de récompenses/Gamification** | 🔵 *Consommateur*, 🔴 *Admin*  
+- **Système de récompenses/Gamification** | 🔵 _Consommateur_, 🔴 _Admin_  
   Introduit un mécanisme incitatif pour encourager les consommateurs à passer des commandes ou à participer à certaines activités. Les récompenses peuvent être sous forme de points, de remises ou d'autres avantages.
 
-- **Canal de communication** | 🔵 *Consommateur*, 🟢 *Bénévole*  
+- **Canal de communication** | 🔵 _Consommateur_, 🟢 _Bénévole_  
   Offrir un moyen pour les recommandations, sondages et autres formes de communication.
