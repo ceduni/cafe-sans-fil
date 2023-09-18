@@ -1,0 +1,72 @@
+{
+  "cafes": [
+    {
+      "matiere": "DROIT",
+      "lieu": "PAVILLON MAXIMILIEN-CARON, LOCAL A-2470",
+      "statut": "CAFÉ EMPLOYÉ",
+      "nom": "Acquis de droit",
+      "description": "Sandwichs maisons préparés sur place. Succulents bagels au saumon fumé. De nombreux choix végé. Carte de fidélité disponible. Baby-foot. Ouvert l'été.",
+      "site_web": "https://www.droit.coop/fr/nav/Cafe.html",
+      "email": "jeremy.dinh@droit.coop",
+      "telephone": "(514) 998-9008",
+      "facebook": "https://www.facebook.com/cafe.acquis.de.droit",
+      "instagram": "https://www.instagram.com/cafeacquis/?hl=fr"
+    },
+    {
+      "matiere": "COMMUNICATION",
+      "lieu": "PAVILLON MARIE-VICTORIN, LOCAL D-266",
+      "nom": "CafCom",
+      "description": "Café intime. Grilled cheese maison.",
+      "site_web": "http://www.aecum.ca/cafcom",
+      "email": "cafcom@aecum.ca"
+    },
+    {
+      "matiere": "ANTHROPOLOGIE",
+      "lieu": "PAVILLON LIONEL-GROULX, LOCAL C-3029",
+      "nom": "Café Anthropologie",
+      "description": "Café accueillant et chaleureux, prix abordables.",
+      "email": "cafedanthropo@gmail.com",
+      "facebook": "https://www.facebook.com/search/top?q=caf%C3%A9%20anthropologie",
+      "instagram": "https://www.instagram.com/caf%C3%A9-anthropologie-udm-167230620307/?hl=fr"
+    },
+    {
+      "matiere": "MÉDECINE VÉTÉRINAIRE",
+      "lieu": "CAMPUS DE SAINT-HYACINTHE, LOCAL 0140",
+      "nom": "Café Beagel",
+      "description": "Cafés, bagels et jeux de société",
+      "email": "cafebeagel@gmail.com",
+      "telephone": "(514) 814-3535"
+    },
+    {
+      "matiere": "SCIENCES INFIRMIÈRES ET NUTRITION",
+      "lieu": "PAVILLON LILIANE-DE-STEWART, LOCAL 1125",
+      "nom": "Café nutri-bar",
+      "description": "Menu majoritairement santé. Seul service alimentaire du pavillon.",
+      "email": "nutribarudem@gmail.com"
+    },
+    {
+      "matiere": "CHIMIE",
+      "lieu": "CAMPUS MIL, LOCAL B-0110.1",
+      "nom": "Café-In",
+      "description": "Avec son café torréfié localement, ses pâtisseries fraîches et les fameux jeudis pizza, le Café-In est le catalyseur le plus efficace pour une journée au bilan positif!",
+      "site_web": "http://www.cafein.ca/",
+      "email": "contact@cafein.ca",
+      "telephone": "(514) 343-6111 poste 30442"
+    },
+    {
+      "matiere": "KINÉSIOLOGIE ET ÉDUCATION PHYSIQUE",
+      "lieu": "CEPSUM, LOCAL 3222",
+      "nom": "CaféKine",
+      "description": "Barres protéinées. Permis d’alcool. Diffusion d’évènements sportifs. Prix concurrentiel de la bière. Ouvert le soir. Seul café sportif ouvert 7 jours sur 7, même l’été.",
+      "email": "cafekine.udem@gmail.com"
+    },
+    {
+      "matiere": "GÉOGRAPHIE",
+      "lieu": "CAMPUS MIL, LOCAL B-0110.4",
+      "nom": "Holocène",
+      "description": "Café 100 % végé. Produits véganes. Prix abordables surtout pour les samosas. Bonne ambiance. Immense collection de jeux de société. Café third wave à prix dérisoire.",
+      "email": "assogeoudm@gmail.com",
+      "telephone": "438 503-5913"
+    }
+  ]
+}
