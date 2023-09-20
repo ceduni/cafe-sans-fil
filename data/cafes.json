@@ -82,6 +82,122 @@
       "tel": "(438)-503-5913",
       "facebook": "https://www.facebook.com/cafegeoudem/",
       "image": ""
+    },
+    {
+      "matiere": "AMÉNAGEMENT, URBANISME, ARCHITECTURE, DESIGN, PAYSAGE",
+      "lieu": "PAVILLON DE LA FACULTÉ DE L’AMÉNAGEMENT, LOCAL 1100",
+      "nom": "L’établi",
+      "description": "Pour un café chaud ou un froid, l'équipe de L’Établi est là pour vous accueillir.",
+      "email": "benoit.archambault@amenagement.coop",
+      "facebook": "https://www.facebook.com/Letabliame/",
+      "instagram": "https://www.instagram.com/cafe.etabli/?hl=fr",
+      "image": ""
+    },
+    {
+      "matiere": "MÉDECINE",
+      "lieu": "PAVILLON ROGER-GAUDRY, LOCAL X-031",
+      "nom": "L’Intermed",
+      "description": "Café autogéré par une vingtaine d’étudiantes et d’étudiants bénévoles visant à promouvoir l’implication sociale.",
+      "email": "intermed@aeemum.org",
+      "facebook": "https://www.facebook.com/IntermedUdeM",
+      "image": ""
+    },
+    {
+      "matiere": "ÉDUCATION PERMANENTE",
+      "lieu": "PAVILLON 3200, RUE JEAN-BRILLANT, LOCAL B-2326",
+      "nom": "La Brunante",
+      "description": "Le SEUL café-bar sur le campus de la montagne à l’ouest de la tour.",
+      "site_web": "https://labrunante.com/",
+      "email": "gerance@labrunante.com",
+      "tel": "(514)-343-6111 poste 1232",
+      "facebook": "https://www.facebook.com/labrunante",
+      "image": ""
+    },
+    {
+      "matiere": "PHYSIQUE",
+      "lieu": "CAMPUS MIL, LOCAL B-0110.3",
+      "nom": "La Planck",
+      "description": "Café espresso à 0,25 $ et café latte à 1 $.",
+      "email": "lecafelaplanck@gmail.com",
+      "image": ""
+    },
+    {
+      "matiere": "SCIENCES DE L’ÉDUCATION",
+      "lieu": "PAVILLON MARIE-VICTORIN, LOCAL C-219",
+      "nom": "La Retenue",
+      "description": "Terrasse et grande variété de produits.",
+      "site_web": "https://horaires.me/0322312/Cafe_La_Retenue",
+      "facebook": "https://www.facebook.com/CafeLaRetenue",
+      "image": ""
+    },
+    {
+      "matiere": "BIOCHIMIE ET MÉDECINE MOLÉCULAIRE",
+      "lieu": "PAVILLON ROGER-GAUDRY, LOCAL E-212",
+      "nom": "Le Macrophage",
+      "description": "Espace pour jeux vidéos.",
+      "email": "aebbium@umontreal.ca",
+      "facebook": "https://www.facebook.com/MacrophageE212",
+      "image": ""
+    },
+    {
+      "matiere": "TRAVAIL SOCIAL",
+      "lieu": "PAVILLON LIONEL-GROULX, LOCAL C-7143",
+      "nom": "Le Mal-aimé",
+      "description": "Tout petit café très convivial et chaleureux avec bas prix.",
+      "email": "aetsum@umontreal.ca",
+      "tel": "(514)-343-6111 poste 3751",
+      "facebook": "https://www.facebook.com/cafemalaime",
+      "image": ""
+    },
+    {
+      "matiere": "MUSIQUE",
+      "lieu": "PAVILLON DE LA FACULTÉ DE MUSIQUE, LOCAL B-261",
+      "nom": "Le Triton",
+      "description": "Petit café au service simple sans prétention.",
+      "email": "benoit.archambault@amenagement.coop",
+      "tel": "(514)-343-6111 poste 39947",
+      "facebook": "https://www.facebook.com/cafeletriton",
+      "image": ""
+    },
+    {
+      "matiere": "BIOLOGIE",
+      "lieu": "CAMPUS MIL, LOCAL B-0110.2",
+      "nom": "Le Vivarium",
+      "description": "Café chaleureux et abordable, bonbons en vrac et nourriture végane.",
+      "email": "cafe.bio.udem@gmail.com",
+      "tel": "(819)-500-1491",
+      "facebook": "https://www.facebook.com/cafebiolevivarium",
+      "image": ""
+    },
+    {
+      "matiere": "PHARMACIE",
+      "lieu": "PAVILLON JEAN-COUTU, LOCAL S1-184",
+      "nom": "Pill Pub",
+      "description": "Café pas cher, situé dans un local très lumineux.",
+      "email": "pillpub.aepum@gmail.com",
+      "tel": "(514)-569-1660",
+      "facebook": "https://www.facebook.com/PillPub",
+      "image": ""
+    },
+    {
+      "matiere": "PSYCHOLOGIE",
+      "lieu": "PAVILLON MARIE-VICTORIN, LOCAL D-428",
+      "nom": "Psychic",
+      "description": "Café rénové.",
+      "email": "cafelepsychic@gmail.com",
+      "facebook": "https://www.facebook.com/LePsychic",
+      "instagram": "https://www.instagram.com/cafe_lepsychic/?hl=fr",
+      "image": ""
+    },
+    {
+      "matiere": "INFORMATIQUE ET RECHERCHE OPÉRATIONNELLE, MATHÉMATIQUES ET STATISTIQUES",
+      "lieu": "PAVILLON ANDRÉ-AISENSTADT, LOCAL AA-1221",
+      "nom": "Tore et fraction",
+      "description": "Café 100% bénévoles, vue du coucher de soleil magnifique, on remplit votre tasse pour 0,50$.",
+      "email": "toreetfraction@gmail.com",
+      "tel": "(514)-834-4601",
+      "facebook": "https://www.facebook.com/CafeToreetFraction",
+      "image": ""
     }
   ]
 }
