@@ -8,9 +8,10 @@
       "description": "Sandwichs maisons préparés sur place. Succulents bagels au saumon fumé. De nombreux choix végé. Carte de fidélité disponible. Baby-foot. Ouvert l'été.",
       "site_web": "https://www.droit.coop/fr/nav/Cafe.html",
       "email": "jeremy.dinh@droit.coop",
-      "telephone": "(514) 998-9008",
+      "tel": "(514)-998-9008",
       "facebook": "https://www.facebook.com/cafe.acquis.de.droit",
-      "instagram": "https://www.instagram.com/cafeacquis/?hl=fr"
+      "instagram": "https://www.instagram.com/cafeacquis/?hl=fr",
+      "image": ""
     },
     {
       "matiere": "COMMUNICATION",
@@ -18,7 +19,8 @@
       "nom": "CafCom",
       "description": "Café intime. Grilled cheese maison.",
       "site_web": "http://www.aecum.ca/cafcom",
-      "email": "cafcom@aecum.ca"
+      "email": "cafcom@aecum.ca",
+      "image": ""
     },
     {
       "matiere": "ANTHROPOLOGIE",
@@ -27,7 +29,8 @@
       "description": "Café accueillant et chaleureux, prix abordables.",
       "email": "cafedanthropo@gmail.com",
       "facebook": "https://www.facebook.com/search/top?q=caf%C3%A9%20anthropologie",
-      "instagram": "https://www.instagram.com/caf%C3%A9-anthropologie-udm-167230620307/?hl=fr"
+      "instagram": "https://www.instagram.com/caf%C3%A9-anthropologie-udm-167230620307/?hl=fr",
+      "image": ""
     },
     {
       "matiere": "MÉDECINE VÉTÉRINAIRE",
@@ -35,14 +38,18 @@
       "nom": "Café Beagel",
       "description": "Cafés, bagels et jeux de société",
       "email": "cafebeagel@gmail.com",
-      "telephone": "(514) 814-3535"
+      "tel": "(514)-814-3535",
+      "facebook": "https://www.facebook.com/CafeBeagel/",
+      "image": ""
     },
     {
       "matiere": "SCIENCES INFIRMIÈRES ET NUTRITION",
       "lieu": "PAVILLON LILIANE-DE-STEWART, LOCAL 1125",
       "nom": "Café nutri-bar",
       "description": "Menu majoritairement santé. Seul service alimentaire du pavillon.",
-      "email": "nutribarudem@gmail.com"
+      "email": "nutribarudem@gmail.com",
+      "facebook": "https://www.facebook.com/nutribar.udem",
+      "image": ""
     },
     {
       "matiere": "CHIMIE",
@@ -51,14 +58,20 @@
       "description": "Avec son café torréfié localement, ses pâtisseries fraîches et les fameux jeudis pizza, le Café-In est le catalyseur le plus efficace pour une journée au bilan positif!",
       "site_web": "http://www.cafein.ca/",
       "email": "contact@cafein.ca",
-      "telephone": "(514) 343-6111 poste 30442"
+      "tel": "(514)-343-6111 poste 30442",
+      "facebook": "https://www.facebook.com/UdeMCafeIn/",
+      "instagram": "https://www.instagram.com/le_cafe_in/?hl=fr",
+      "image": ""
     },
     {
       "matiere": "KINÉSIOLOGIE ET ÉDUCATION PHYSIQUE",
       "lieu": "CEPSUM, LOCAL 3222",
       "nom": "CaféKine",
       "description": "Barres protéinées. Permis d’alcool. Diffusion d’évènements sportifs. Prix concurrentiel de la bière. Ouvert le soir. Seul café sportif ouvert 7 jours sur 7, même l’été.",
-      "email": "cafekine.udem@gmail.com"
+      "email": "cafekine.udem@gmail.com",
+      "facebook": "https://www.facebook.com/CafeKine/",
+      "instagram": "https://www.instagram.com/cafekine.cepsum/?hl=en",
+      "image": ""
     },
     {
       "matiere": "GÉOGRAPHIE",
@@ -66,7 +79,9 @@
       "nom": "Holocène",
       "description": "Café 100 % végé. Produits véganes. Prix abordables surtout pour les samosas. Bonne ambiance. Immense collection de jeux de société. Café third wave à prix dérisoire.",
       "email": "assogeoudm@gmail.com",
-      "telephone": "438 503-5913"
+      "tel": "(438)-503-5913",
+      "facebook": "https://www.facebook.com/cafegeoudem/",
+      "image": ""
     }
   ]
 }
