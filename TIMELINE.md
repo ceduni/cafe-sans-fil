@@ -34,6 +34,11 @@
 - **Discussion sur les technologies** : Évaluation des technologies disponibles et sélection des outils à utiliser pour le projet.
 - **Définition des prochaines étapes** : Planification des prochaines étapes et des tâches à accomplir, notamment prendre chaque éxigence pour la transformer en un flux, faire des mini maquettes, etc.
 
+### Tâches éffectuées
+
+- Regroupement des informations utiles pour notre BDD sur tous les cafés dans un fichier JSON. (Voir [data/cafes.json](data/cafes.json))
+- Initialisation du front React avec Vite. (Dans le dossier [front](front/))
+
 ## Semaine 1 (2023-09-04)
 
 ### Objectifs de la première semaine
