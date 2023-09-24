@@ -39,6 +39,11 @@
 - Regroupement des informations utiles pour notre BDD sur tous les cafés dans un fichier JSON. (Voir [data/cafes.json](data/cafes.json))
 - Initialisation du front React avec Vite. (Dans le dossier [front](front/))
 
+### Tâches à faire
+
+- [ ] Faire le document des requirements.
+- [ ] Réliser les flux pour les exigences principales pour appréhender les routes de l'API.
+
 ## Semaine 1 (2023-09-04)
 
 ### Objectifs de la première semaine
