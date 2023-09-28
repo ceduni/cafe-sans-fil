@@ -212,7 +212,7 @@ Ce document présente les différents flux de données et leur output, afin de p
     {
         "orderId": 1001,
         "userId": 45,
-        "items": [ {"itemId": 001, "quantity": 2}, {"itemId": 002, "quantity": 1} ],
+        "items": [ {"itemId": 1, "quantity": 2}, {"itemId": 2, "quantity": 1} ],
         "status": "pending",
         "totalPrice": 8.5
     },
