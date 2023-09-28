@@ -127,14 +127,14 @@ Ce document présente les différents flux de données et leur output, afin de p
 ```json
 [
     {
-        "itemId": 001,
+        "itemId": 1,
         "name": "Espresso",
         "description": "Strong coffee made by forcing steam through finely-ground coffee beans.",
         "price": 2.5,
         "photo": "link_to_espresso_photo"
     },
     {
-        "itemId": 002,
+        "itemId": 2,
         "name": "Cappuccino",
         "description": "Coffee made with milk that has been frothed up with pressurized steam.",
         "price": 3.5,
@@ -148,7 +148,7 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 ```json
 {
-  "itemId": 001,
+  "itemId": 1,
   "name": "Espresso",
   "description": "Strong coffee made by forcing steam through finely-ground coffee beans.",
   "price": 2.5,
@@ -164,22 +164,167 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 <img width="832" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/31e97630-2ff7-4524-bc8c-a434cd8ed05b">
 
+### Input
+
+#### Add item to cart
+
+```json
+{ "cart": [{ "itemId": 1, "quantity": 2 }] }
+```
+
+#### Review and confirm order
+
+```json
+{
+  "orderId": 12345,
+  "totalAmount": 9.98,
+  "items": [
+    { "itemId": 1, "quantity": 2, "price": 2.5 },
+    { "itemId": 2, "quantity": 1, "price": 4.99 }
+  ]
+}
+```
+
+#### See order history
+
+```json
+{ "orders": [ { "orderId": 12345, "date": "2023-09-23", "totalAmount": 9.98, ... }, ... ] }
+```
+
 ## 6. Traitement des commandes (Staff)
 
 <img width="453" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/91cb9dd0-e5fd-4333-bc2d-f4318b000eb2">
+
+### Input
+
+#### Update order status
+
+```json
+{ "orderId": 1001, "status": "processed" }
+```
+
+### Output
+
+#### View incoming orders
+
+```json
+[
+    {
+        "orderId": 1001,
+        "userId": 45,
+        "items": [ {"itemId": 001, "quantity": 2}, {"itemId": 002, "quantity": 1} ],
+        "status": "pending",
+        "totalPrice": 8.5
+    },
+    ...
+]
+```
 
 ## 7. Gestion de menu (Staff)
 
 <img width="626" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/14ff638b-ef68-4cd0-a511-92bdeb9f34f2">
 
+### Input
+
+#### Add item to menu
+
+```json
+{ "name": "Latte", "description": "Coffee with steamed milk.", "price": 3.0, "photo": "link_to_latte_photo" }
+```
+
+#### Modify item in menu
+
+```json
+{
+  "name": "Latte",
+  "description": "Delicious coffee with steamed milk.",
+  "price": 3.5,
+  "photo": "link_to_updated_latte_photo"
+}
+```
+
 ## 8. Gestion de l'inventaire (Staff)
 
 <img width="450" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/97dfa692-9c9f-407b-97b0-5cf7b3c07a92">
+
+### Input
+
+#### Update inventory
+
+```json
+{ "itemId": 1, "quantity": 10 }
+```
+
+### Output
+
+#### Get current inventory
+
+```json
+[
+    {
+        "itemId": 1,
+        "quantity": 10
+    },
+    {
+        "itemId": 2,
+        "quantity": 5
+    },
+    ...
+]
+```
 
 ## 9. Gestion du personnel (Admin)
 
 <img width="589" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/07936f83-d718-40e8-bf1e-5991215cff9f">
 
+### Input
+
+#### Add staff member
+
+```json
+{ "name": "John Doe", "role": "Barista", "matricule": "123456" }
+```
+
+#### Update staff member
+
+```json
+{ "name": "John Doe", "role": "Manager", "matricule": "123456" }
+```
+
 ## 10. Rapports (Admins and Staff)
 
 <img width="301" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/a8113f9c-bc3e-4f3d-b8ed-bf96cff0d85e">
+
+### Input
+
+#### Select report criteria
+
+```json
+{ "type": "sales", "dateRange": { "start": "2023-09-01", "end": "2023-09-30" } }
+```
+
+### Output
+
+#### Get reports
+
+```json
+{
+    "startDate": "2023-09-01",
+    "endDate": "2023-09-30",
+    "totalSales": 1500,
+    "totalOrders": 180,
+    "itemsSold": [
+            {
+                "itemId": 101,
+                "itemName": "Café Latte",
+                "quantity": 85,
+                "total": 425
+            }, {
+                "itemId": 102,
+                "itemName": "Mocha",
+                "quantity": 40,
+                "total": 200
+            }, ...
+        ]
+}
+```
