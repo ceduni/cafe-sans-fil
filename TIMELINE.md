@@ -22,9 +22,31 @@
 
 <!-- ## Semaine 5 (2023-10-02) -->
 
-<!-- ## Semaine 4 (2023-09-25) -->
+## Semaine 4 (2023-09-25)
 
-<!-- ## Semaine 3 (2023-09-18) -->
+- **Révision des flux réalisés** : Révision des flux réalisés et des exigences associées.
+- **Documentation** : Ajustements et complétion de la documentation (wiki), ajout des risques.
+- **Architecture** : Discussions sur l'architecture de l'application et les possibles contraintes qui pourraient arriver.
+- **Initialisation de l'API** : Initialisation d'un dossier API avec FastAPI.
+
+### Tâches à faire
+
+- [ ] Ajouter des risques dans la documentation
+- [ ] Définir si on utilise MongoDB ou PostgreSQL
+- [ ] Utiliser un outil simple pour les graphiques (notamment timeline), voir draw.io
+- [ ] Initialiser un dossier API avec FastAPI
+- [ ] Ajouter la pahge de point de départ des flux
+
+## Semaine 3 (2023-09-18)
+
+- **Définition des exigences** : Définition des exigences principales et secondaires.
+- **Définition des flux** : Définition des flux pour les exigences principales, avec leur output et input.
+- **Documentation** : Rédaction de la documentation (wiki) pour les flux et les exigences.
+
+### Tâches à faire
+
+- [x] Réaliser le document exigences
+- [x] Réaliser les flux
 
 ## Semaine 2 (2023-09-11)
 
@@ -38,11 +60,6 @@
 
 - Regroupement des informations utiles pour notre BDD sur tous les cafés dans un fichier JSON. (Voir [data/cafes.json](data/cafes.json))
 - Initialisation du front React avec Vite. (Dans le dossier [front](front/))
-
-### Tâches à faire
-
-- [ ] Faire le document des requirements.
-- [ ] Réliser les flux pour les exigences principales pour appréhender les routes de l'API.
 
 ## Semaine 1 (2023-09-04)
 
