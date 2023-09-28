@@ -1,7 +1,7 @@
 # Exigences
 
 > Livrable: Exigences  
-> Dernière modification: 2023-09-27
+> Dernière modification: 2023-09-28
 
 Ce document présente la liste des exigences du projet.
 
@@ -15,7 +15,6 @@ Ci-dessous nous dressons la liste des fonctionnalités de l'application regroup�
 - 🔵 [_Client_](#fonctionnalités-client-🔵-client): Fonctionnalités accessibles aux clients des cafés, c.-à-d., toute personne possédant un compte à l'Université de Montréal
 - 🟢 [_Bénévole_](#fonctionnalités-administratives-🟢-bénévole): Fonctionnalités accessibles à tout étudiant agissant comme bénévole d'un café
 - 🔴 [_Admin_](#fonctionnalités-administratives-🔴-admin): Fonctionnalités accessibles à tout étudiant agissant comme administrateur d'un café
-- ⚫ _Mainteneur_: Les mainteneurs de l'application ont accès à toutes les fonctionnalités de l'application
 
 ### Fonctionnalités globales 🟠
 
@@ -123,7 +122,7 @@ L'interface doit être intuitive, facile à utiliser, esthétiquement plaisante,
 
 ### Compatibilité
 
-L'application web doit être compatible avec différents navigateurs. _(Elle doit également supporter à la fois le français et l'anglais?)_
+L'application web doit être compatible avec différents navigateurs. Elle doit également être prête à supporter du multilingue à l'avenir.
 
 ### Extensibilité
 
