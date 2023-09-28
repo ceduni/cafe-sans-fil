@@ -1,7 +1,7 @@
 # Exigences
 
 > Livrable: Exigences  
-> Dernière modification: 2023-09-25
+> Dernière modification: 2023-09-27
 
 Ce document présente la liste des exigences du projet.
 
@@ -13,22 +13,24 @@ Ci-dessous nous dressons la liste des fonctionnalités de l'application regroup�
 
 - 🟠 [_Public_](#fonctionnalités-publiques-🟠-public): Fonctionnalités accessibles à tout utilisateur de l'application, c.-à-d., toute personne pouvant s'y rendre
 - 🔵 [_Client_](#fonctionnalités-client-🔵-client): Fonctionnalités accessibles aux clients des cafés, c.-à-d., toute personne possédant un compte à l'Université de Montréal
-- 🟢 [_Bénévole_](#fonctionnalités-administratives-🟢-bénévole-🔴-admin): Fonctionnalités accessibles à tout étudiant agissant comme bénévole d'un café
-- 🔴 [_Admin_](#fonctionnalités-administratives-🟢-bénévole-🔴-admin): Fonctionnalités accessibles à tout étudiant agissant comme administrateur d'un café
+- 🟢 [_Bénévole_](#fonctionnalités-administratives-🟢-bénévole): Fonctionnalités accessibles à tout étudiant agissant comme bénévole d'un café
+- 🔴 [_Admin_](#fonctionnalités-administratives-🔴-admin): Fonctionnalités accessibles à tout étudiant agissant comme administrateur d'un café
+- ⚫ _Mainteneur_: Les mainteneurs de l'application ont accès à toutes les fonctionnalités de l'application
 
 ### Fonctionnalités globales 🟠
 
-#### Connexion 
+#### Connexion
 
 - Créer un compte
   - Nécessite un matricule et une adresse courriel de l'UdeM
 - Se connecter
   - Avec son matricule ou son adresse courriel
+- Se déconnecter
 
-### Recherche
+#### Recherche
 
 - Chercher un café par nom ou par item
-- Afficher la liste des cafés 
+- Afficher la liste des cafés
   - Nom du café
   - Ouvert/Fermé
   - Proximité
@@ -44,12 +46,12 @@ Ci-dessous nous dressons la liste des fonctionnalités de l'application regroup�
   - Description détaillée
   - Photo du café
   - Horaires d'ouverture et de fermeture
-  - Moyens de paiement acceptés
+  - Moyens de paiement acceptés (avec minimum si applicable)
 - Accéder au menu d'un café
   - Lister les items du menu
   - Filtrer le menu par type d'item
   - Filtrer le menu par item disponible
-- Afficher le détail d'un item du menu: 
+- Afficher le détail d'un item du menu:
   - nom
   - description
   - prix
@@ -57,7 +59,7 @@ Ci-dessous nous dressons la liste des fonctionnalités de l'application regroup�
   - vegan
   - ...
 
-### Fonctionnalités client 🔵 _Client_ 
+### Fonctionnalités client 🔵 _Client_
 
 #### Passer une commande
 
@@ -67,7 +69,7 @@ Ci-dessous nous dressons la liste des fonctionnalités de l'application regroup�
   - Finalisation et passation de la commande.
 - Voir l'historique des commandes pour chaque membre
 
-### Fonctionnalités administratives 🟢 _Bénévole_, 🔴 _Admin_
+### Fonctionnalités administratives 🟢 _Bénévole_
 
 #### Traitement des commandes
 
@@ -75,6 +77,8 @@ Ci-dessous nous dressons la liste des fonctionnalités de l'application regroup�
 - Modifier le statut d'une commande
   - Commande complétée
   - Commande annulée
+
+### Fonctionnalités administratives 🔴 _Admin_
 
 #### Café et Menu
 
@@ -119,7 +123,7 @@ L'interface doit être intuitive, facile à utiliser, esthétiquement plaisante,
 
 ### Compatibilité
 
-L'application web doit être compatible avec différents navigateurs. Elle doit également supporter à la fois le français et l'anglais.
+L'application web doit être compatible avec différents navigateurs. _(Elle doit également supporter à la fois le français et l'anglais?)_
 
 ### Extensibilité
 
@@ -128,9 +132,8 @@ Il doit être facile d'ajouter de nouvelles fonctionnalités ou d'améliorer les
 ### Maintenabilité
 
 Le code de l'application doit être bien documenté, structuré, et facile à
-maintenir. De plus, il doit être conçu en utilisant des technologies
-largement reconnues, afin que d'autres développeurs, y compris les
-étudiants de l'UdeM, puissent facilement reprendre et développer le projet dans le futur.
+maintenir. Il doit être conçu en utilisant des technologies
+largement reconnues, afin que d'autres développeurs puissent facilement reprendre le projet dans le futur.
 
 ### Résilience
 
