@@ -35,7 +35,7 @@
 - [ ] Définir si on utilise MongoDB ou PostgreSQL
 - [ ] Utiliser un outil simple pour les graphiques (notamment timeline), voir draw.io
 - [x] Initialiser un dossier API avec FastAPI
-- [ ] Ajouter la page de point de départ dans les flux
+- [x] Ajouter la page de point de départ dans les flux
 
 ## Semaine 3 (2023-09-18)
 
