@@ -13,10 +13,12 @@
 ## Installation
 
 - Avoir installé Python 3.7+ et pip (on s'assure que pip est à jour avec `python -m pip install --upgrade pip`)
-- Avoir installé les dépendances avec `pip install -r requirements.txt`
-- Lancer le serveur avec `uvicorn main:app --reload`
+- Avoir créé en local un environnement virtuel nommé `env` avec `python -m venv env` (voir ci-dessus)
+- Avoir activé l'environnement virtuel avec la commande ci-dessus
+- Avoir installé les dépendances avec `pip install -r requirements.txt`, **dans l'environnement virtuel**
+- Lancer le serveur avec `uvicorn main:app --reload`, **dans l'environnement virtuel**
 
-> La commande uvicorn main:app réfère à: - main: le fichier main.py (le module Python) - app: l'objet créé dans main.py avec la ligne app = FastAPI() - --reload fait restart le serveur à chaque changement dans le code, à utiliser en développement seulement!
+> La commande uvicorn main:app réfère à: - `main`: le fichier main.py (le module Python) - `app`: l'objet créé dans main.py avec la ligne `app = FastAPI()` - `--reload` fait restart le serveur à chaque changement dans le code, à utiliser en développement seulement!
 
 - L'api sera disponible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
 - Une documentation automatique de l'API est disponible à [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
