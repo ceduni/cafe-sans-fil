@@ -12,11 +12,15 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 #### Register
 
+> Cette étape débute lorsque l'utilisateur clique sur le bouton "Inscription" dans le menu de navigation.
+
 ```json
 { "matricule": "123456", "email": "johndoe@umontreal.ca", "password": "securePass123" }
 ```
 
 #### Login
+
+> Cette étape débute lorsque l'utilisateur clique sur le bouton "Connexion" dans le menu de navigation.
 
 ```json
 { "matricule": "123456", "password": "securePass123" }
