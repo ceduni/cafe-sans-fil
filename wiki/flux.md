@@ -4,6 +4,8 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 ## 1. Authentification & Autorisation
 
+> Le flux débute lorsque l'utilisateur clique sur le bouton "Connexion" ou "Inscription" dans le menu de navigation.
+
 <img width="609" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/a9d6bf6f-ae22-45d9-809b-61ba3040830b">
 
 ### Input
@@ -35,11 +37,15 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 ## 2. Présentation des cafés
 
+> Le flux débute dès la page d'accueil, connecté ou non.
+
 <img width="474" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/59c544ac-79a1-42da-af7e-031c8e3c28ed">
 
 ### Output
 
 #### Fetch full list
+
+> Cette étape débute au chargement de la page d'accueil.
 
 ```json
 {
@@ -64,6 +70,8 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 #### Fetch single cafe, selected by id
 
+> Cette étape débute lorsque l'utilisateur clique sur un café dans la liste.
+
 ```json
 {
   "id": 2,
@@ -87,6 +95,8 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 ## 3. Recherche
 
+> Le flux débute lorsque l'utilisateur clique sur le champ de recherche.
+
 <img width="474" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/592156d1-61b3-47e2-a257-41961970f3c2">
 
 ### Input
@@ -98,6 +108,8 @@ Ce document présente les différents flux de données et leur output, afin de p
 ### Output
 
 #### Search for a cafe
+
+> Cette étape débute lorsque l'utilisateur a fini de taper sa recherche.
 
 ```json
 {
@@ -114,15 +126,21 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 #### Select cafe from search result
 
+> Cette étape débute lorsque l'utilisateur clique sur un café depuis les résultats de recherche.
+
 [See above](#fetch-single-cafe-selected-by-id)
 
 ## 4. Menu des cafés
+
+> Le flux débute lorsque l'utilisateur clique sur le bouton "Menu" dans la page d'un café.
 
 <img width="474" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/8bffa692-368c-40d2-b286-85e63c08a721">
 
 ### Output
 
 #### Fetch cafe menu
+
+> Cette étape débute au chargement de la page du menu.
 
 ```json
 [
@@ -146,6 +164,8 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 #### Fetch single menu item, selected by id
 
+> Cette étape débute lorsque l'utilisateur clique sur un item dans le menu.
+
 ```json
 {
   "itemId": 1,
@@ -162,17 +182,23 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 ## 5. Passation de commandes
 
+> Le flux débute lorsque l'utilisateur clique sur le bouton "Commander" dans la page d'un café.
+
 <img width="832" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/31e97630-2ff7-4524-bc8c-a434cd8ed05b">
 
 ### Input
 
 #### Add item to cart
 
+> Cette étape débute lorsque l'utilisateur ajoute un item à son panier.
+
 ```json
 { "cart": [{ "itemId": 1, "quantity": 2 }] }
 ```
 
 #### Review and confirm order
+
+> Cette étape débute lorsque l'utilisateur clique sur le bouton "Commander" dans son panier.
 
 ```json
 {
@@ -187,17 +213,23 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 #### See order history
 
+> Cette étape débute lorsque l'utilisateur clique sur le bouton "Historique" sur la page de son profil.
+
 ```json
 { "orders": [ { "orderId": 12345, "date": "2023-09-23", "totalAmount": 9.98, ... }, ... ] }
 ```
 
 ## 6. Traitement des commandes (Staff)
 
+> Le flux débute lorsque le staff clique sur le bouton "Commandes" dans le menu de navigation, ou qu'il reçoit une notification.
+
 <img width="453" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/91cb9dd0-e5fd-4333-bc2d-f4318b000eb2">
 
 ### Input
 
 #### Update order status
+
+> Cette étape débute lorsque le staff modifie le statut d'une commande depuis la page "Commandes".
 
 ```json
 { "orderId": 1001, "status": "processed" }
@@ -206,6 +238,8 @@ Ce document présente les différents flux de données et leur output, afin de p
 ### Output
 
 #### View incoming orders
+
+> Cette étape débute lorsque le staff clique sur le bouton "Commandes" dans le menu de navigation, ou qu'il clique sur une notification.
 
 ```json
 [
@@ -222,17 +256,23 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 ## 7. Gestion de menu (Staff)
 
+> Le flux débute lorsque le staff clique sur le bouton Modifier le menu depuis la page de gestion d'un de ses cafés.
+
 <img width="626" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/14ff638b-ef68-4cd0-a511-92bdeb9f34f2">
 
 ### Input
 
 #### Add item to menu
 
+> Cette étape débute lorsque le staff ajoute un item au menu.
+
 ```json
 { "name": "Latte", "description": "Coffee with steamed milk.", "price": 3.0, "photo": "link_to_latte_photo" }
 ```
 
 #### Modify item in menu
+
+> Cette étape débute lorsque le staff modifie un item du menu.
 
 ```json
 {
@@ -245,11 +285,15 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 ## 8. Gestion de l'inventaire (Staff)
 
+> Le flux débute lorsque le staff clique sur le bouton "Inventaire" dans la page de gestion d'un de ses cafés.
+
 <img width="450" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/97dfa692-9c9f-407b-97b0-5cf7b3c07a92">
 
 ### Input
 
 #### Update inventory
+
+> Cette étape débute lorsque le staff modifie la quantité d'un item dans l'inventaire.
 
 ```json
 { "itemId": 1, "quantity": 10 }
@@ -258,6 +302,8 @@ Ce document présente les différents flux de données et leur output, afin de p
 ### Output
 
 #### Get current inventory
+
+> Cette étape débute lorsque le staff clique sur le bouton "Inventaire" dans la page de gestion d'un de ses cafés.
 
 ```json
 [
@@ -275,29 +321,39 @@ Ce document présente les différents flux de données et leur output, afin de p
 
 ## 9. Gestion du personnel (Admin)
 
+> Le flux débute lorsque l'admin clique sur le bouton "Gestion du personnel" dans la page de gestion d'un de ses cafés.
+
 <img width="589" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/07936f83-d718-40e8-bf1e-5991215cff9f">
 
 ### Input
 
 #### Add staff member
 
+> Cette étape débute lorsque l'admin ajoute un membre du staff.
+
 ```json
-{ "name": "John Doe", "role": "Barista", "matricule": "123456" }
+{ "matricule": "123456", "role": "Bénévole", "cafeId": 1 }
 ```
 
 #### Update staff member
 
+> Cette étape débute lorsque l'admin modifie un membre du staff.
+
 ```json
-{ "name": "John Doe", "role": "Manager", "matricule": "123456" }
+{ "matricule": "123456", "role": "Admin", "cafeId": 1 }
 ```
 
 ## 10. Rapports (Admins and Staff)
+
+> Le flux débute lorsque l'admin clique sur le bouton "Rapports" dans la page de gestion d'un de ses cafés.
 
 <img width="301" alt="image" src="https://github.com/ceduni/udem-cafe/assets/83944331/a8113f9c-bc3e-4f3d-b8ed-bf96cff0d85e">
 
 ### Input
 
 #### Select report criteria
+
+> Cette étape débute lorsque l'admin sélectionne les critères de son rapport.
 
 ```json
 { "type": "sales", "dateRange": { "start": "2023-09-01", "end": "2023-09-30" } }
@@ -306,6 +362,8 @@ Ce document présente les différents flux de données et leur output, afin de p
 ### Output
 
 #### Get reports
+
+> Cette étape débute lorsque l'admin clique sur le bouton "Générer" dans la page de rapports.
 
 ```json
 {
