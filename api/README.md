@@ -13,8 +13,8 @@
 ## Installation
 
 - Avoir installé Python 3.7+ et pip (on s'assure que pip est à jour avec `python -m pip install --upgrade pip`)
-- Avoir créé en local un environnement virtuel nommé `env` avec `python -m venv env` (voir ci-dessus)
-- Avoir activé l'environnement virtuel avec la commande ci-dessus
+- Avoir créé en local un environnement virtuel nommé `env` avec la commande indiquée dans la section Développement
+- Avoir activé l'environnement virtuel avec la commande indiquée dans la section Développement
 - Avoir installé les dépendances avec `pip install -r requirements.txt`, **dans l'environnement virtuel**
 - Lancer le serveur avec `uvicorn main:app --reload`, **dans l'environnement virtuel**
 
