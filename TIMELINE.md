@@ -20,7 +20,11 @@
 
 <!-- ## Semaine 6 (2023-10-09) -->
 
-<!-- ## Semaine 5 (2023-10-02) -->
+## Semaine 5 (2023-10-02)
+
+- **Définition des modèles** : Définition des modèles de données pour la base de données (schéma).
+- **Définition des routes** : Définition des premières routes de l'API, et tests avec Postman.
+- **Organisation des tâches** : Création d'un GitHub Project pour organiser les tâches à faire, avec issues et milestones.
 
 ## Semaine 4 (2023-09-25)
 
@@ -32,8 +36,8 @@
 ### Tâches à faire
 
 - [x] Ajouter des risques dans la documentation
-- [ ] Définir si on utilise MongoDB ou PostgreSQL
-- [ ] Utiliser un outil simple pour les graphiques (notamment timeline), voir draw.io
+- [x] Définir si on utilise MongoDB ou PostgreSQL
+- [x] Utiliser un outil simple pour les graphiques (notamment timeline), voir draw.io
 - [x] Initialiser un dossier API avec FastAPI
 - [x] Ajouter la page de point de départ dans les flux
 
