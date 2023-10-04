@@ -1,203 +1,203 @@
 {
   "cafes": [
     {
-      "matiere": "DROIT",
-      "lieu": "PAVILLON MAXIMILIEN-CARON, LOCAL A-2470",
+      "faculty": "DROIT",
+      "location": "PAVILLON MAXIMILIEN-CARON, LOCAL A-2470",
       "statut": "CAFÉ EMPLOYÉ",
-      "nom": "Acquis de droit",
-      "description": "Sandwichs maisons préparés sur place. Succulents bagels au saumon fumé. De nombreux choix végé. Carte de fidélité disponible. Baby-foot. Ouvert l'été.",
-      "site_web": "https://www.droit.coop/fr/nav/Cafe.html",
+      "name": "Acquis de droit",
+      "description": "Sandwichs maisons préparés sur place. Succulents bagels au saumon fumé. De namebreux choix végé. Carte de fidélité disponible. Baby-foot. Ouvert l'été.",
+      "website": "https://www.droit.coop/fr/nav/Cafe.html",
       "email": "jeremy.dinh@droit.coop",
-      "tel": "(514)-998-9008",
+      "phone_number": "(514)-998-9008",
       "facebook": "https://www.facebook.com/cafe.acquis.de.droit",
       "instagram": "https://www.instagram.com/cafeacquis/?hl=fr",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "COMMUNICATION",
-      "lieu": "PAVILLON MARIE-VICTORIN, LOCAL D-266",
-      "nom": "CafCom",
+      "faculty": "COMMUNICATION",
+      "location": "PAVILLON MARIE-VICTORIN, LOCAL D-266",
+      "name": "CafCom",
       "description": "Café intime. Grilled cheese maison.",
-      "site_web": "http://www.aecum.ca/cafcom",
+      "website": "http://www.aecum.ca/cafcom",
       "email": "cafcom@aecum.ca",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "ANTHROPOLOGIE",
-      "lieu": "PAVILLON LIONEL-GROULX, LOCAL C-3029",
-      "nom": "Café Anthropologie",
+      "faculty": "ANTHROPOLOGIE",
+      "location": "PAVILLON LIONEL-GROULX, LOCAL C-3029",
+      "name": "Café Anthropologie",
       "description": "Café accueillant et chaleureux, prix abordables.",
       "email": "cafedanthropo@gmail.com",
       "facebook": "https://www.facebook.com/search/top?q=caf%C3%A9%20anthropologie",
       "instagram": "https://www.instagram.com/caf%C3%A9-anthropologie-udm-167230620307/?hl=fr",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "MÉDECINE VÉTÉRINAIRE",
-      "lieu": "CAMPUS DE SAINT-HYACINTHE, LOCAL 0140",
-      "nom": "Café Beagel",
+      "faculty": "MÉDECINE VÉTÉRINAIRE",
+      "location": "CAMPUS DE SAINT-HYACINTHE, LOCAL 0140",
+      "name": "Café Beagel",
       "description": "Cafés, bagels et jeux de société",
       "email": "cafebeagel@gmail.com",
-      "tel": "(514)-814-3535",
+      "phone_number": "(514)-814-3535",
       "facebook": "https://www.facebook.com/CafeBeagel/",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "SCIENCES INFIRMIÈRES ET NUTRITION",
-      "lieu": "PAVILLON LILIANE-DE-STEWART, LOCAL 1125",
-      "nom": "Café nutri-bar",
+      "faculty": "SCIENCES INFIRMIÈRES ET NUTRITION",
+      "location": "PAVILLON LILIANE-DE-STEWART, LOCAL 1125",
+      "name": "Café nutri-bar",
       "description": "Menu majoritairement santé. Seul service alimentaire du pavillon.",
       "email": "nutribarudem@gmail.com",
       "facebook": "https://www.facebook.com/nutribar.udem",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "CHIMIE",
-      "lieu": "CAMPUS MIL, LOCAL B-0110.1",
-      "nom": "Café-In",
+      "faculty": "CHIMIE",
+      "location": "CAMPUS MIL, LOCAL B-0110.1",
+      "name": "Café-In",
       "description": "Avec son café torréfié localement, ses pâtisseries fraîches et les fameux jeudis pizza, le Café-In est le catalyseur le plus efficace pour une journée au bilan positif!",
-      "site_web": "http://www.cafein.ca/",
+      "website": "http://www.cafein.ca/",
       "email": "contact@cafein.ca",
-      "tel": "(514)-343-6111 poste 30442",
+      "phone_number": "(514)-343-6111 poste 30442",
       "facebook": "https://www.facebook.com/UdeMCafeIn/",
       "instagram": "https://www.instagram.com/le_cafe_in/?hl=fr",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "KINÉSIOLOGIE ET ÉDUCATION PHYSIQUE",
-      "lieu": "CEPSUM, LOCAL 3222",
-      "nom": "CaféKine",
+      "faculty": "KINÉSIOLOGIE ET ÉDUCATION PHYSIQUE",
+      "location": "CEPSUM, LOCAL 3222",
+      "name": "CaféKine",
       "description": "Barres protéinées. Permis d’alcool. Diffusion d’évènements sportifs. Prix concurrentiel de la bière. Ouvert le soir. Seul café sportif ouvert 7 jours sur 7, même l’été.",
       "email": "cafekine.udem@gmail.com",
       "facebook": "https://www.facebook.com/CafeKine/",
       "instagram": "https://www.instagram.com/cafekine.cepsum/?hl=en",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "GÉOGRAPHIE",
-      "lieu": "CAMPUS MIL, LOCAL B-0110.4",
-      "nom": "Holocène",
+      "faculty": "GÉOGRAPHIE",
+      "location": "CAMPUS MIL, LOCAL B-0110.4",
+      "name": "Holocène",
       "description": "Café 100 % végé. Produits véganes. Prix abordables surtout pour les samosas. Bonne ambiance. Immense collection de jeux de société. Café third wave à prix dérisoire.",
       "email": "assogeoudm@gmail.com",
-      "tel": "(438)-503-5913",
+      "phone_number": "(438)-503-5913",
       "facebook": "https://www.facebook.com/cafegeoudem/",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "AMÉNAGEMENT, URBANISME, ARCHITECTURE, DESIGN, PAYSAGE",
-      "lieu": "PAVILLON DE LA FACULTÉ DE L’AMÉNAGEMENT, LOCAL 1100",
-      "nom": "L’établi",
+      "faculty": "AMÉNAGEMENT, URBANISME, ARCHITECTURE, DESIGN, PAYSAGE",
+      "location": "PAVILLON DE LA FACULTÉ DE L’AMÉNAGEMENT, LOCAL 1100",
+      "name": "L’établi",
       "description": "Pour un café chaud ou un froid, l'équipe de L’Établi est là pour vous accueillir.",
       "email": "benoit.archambault@amenagement.coop",
       "facebook": "https://www.facebook.com/Letabliame/",
       "instagram": "https://www.instagram.com/cafe.etabli/?hl=fr",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "MÉDECINE",
-      "lieu": "PAVILLON ROGER-GAUDRY, LOCAL X-031",
-      "nom": "L’Intermed",
+      "faculty": "MÉDECINE",
+      "location": "PAVILLON ROGER-GAUDRY, LOCAL X-031",
+      "name": "L’Intermed",
       "description": "Café autogéré par une vingtaine d’étudiantes et d’étudiants bénévoles visant à promouvoir l’implication sociale.",
       "email": "intermed@aeemum.org",
       "facebook": "https://www.facebook.com/IntermedUdeM",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "ÉDUCATION PERMANENTE",
-      "lieu": "PAVILLON 3200, RUE JEAN-BRILLANT, LOCAL B-2326",
-      "nom": "La Brunante",
+      "faculty": "ÉDUCATION PERMANENTE",
+      "location": "PAVILLON 3200, RUE JEAN-BRILLANT, LOCAL B-2326",
+      "name": "La Brunante",
       "description": "Le SEUL café-bar sur le campus de la montagne à l’ouest de la tour.",
-      "site_web": "https://labrunante.com/",
+      "website": "https://labrunante.com/",
       "email": "gerance@labrunante.com",
-      "tel": "(514)-343-6111 poste 1232",
+      "phone_number": "(514)-343-6111 poste 1232",
       "facebook": "https://www.facebook.com/labrunante",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "PHYSIQUE",
-      "lieu": "CAMPUS MIL, LOCAL B-0110.3",
-      "nom": "La Planck",
+      "faculty": "PHYSIQUE",
+      "location": "CAMPUS MIL, LOCAL B-0110.3",
+      "name": "La Planck",
       "description": "Café espresso à 0,25 $ et café latte à 1 $.",
       "email": "lecafelaplanck@gmail.com",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "SCIENCES DE L’ÉDUCATION",
-      "lieu": "PAVILLON MARIE-VICTORIN, LOCAL C-219",
-      "nom": "La Retenue",
+      "faculty": "SCIENCES DE L’ÉDUCATION",
+      "location": "PAVILLON MARIE-VICTORIN, LOCAL C-219",
+      "name": "La Retenue",
       "description": "Terrasse et grande variété de produits.",
-      "site_web": "https://horaires.me/0322312/Cafe_La_Retenue",
+      "website": "https://horaires.me/0322312/Cafe_La_Retenue",
       "facebook": "https://www.facebook.com/CafeLaRetenue",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "BIOCHIMIE ET MÉDECINE MOLÉCULAIRE",
-      "lieu": "PAVILLON ROGER-GAUDRY, LOCAL E-212",
-      "nom": "Le Macrophage",
+      "faculty": "BIOCHIMIE ET MÉDECINE MOLÉCULAIRE",
+      "location": "PAVILLON ROGER-GAUDRY, LOCAL E-212",
+      "name": "Le Macrophage",
       "description": "Espace pour jeux vidéos.",
       "email": "aebbium@umontreal.ca",
       "facebook": "https://www.facebook.com/MacrophageE212",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "TRAVAIL SOCIAL",
-      "lieu": "PAVILLON LIONEL-GROULX, LOCAL C-7143",
-      "nom": "Le Mal-aimé",
+      "faculty": "TRAVAIL SOCIAL",
+      "location": "PAVILLON LIONEL-GROULX, LOCAL C-7143",
+      "name": "Le Mal-aimé",
       "description": "Tout petit café très convivial et chaleureux avec bas prix.",
       "email": "aetsum@umontreal.ca",
-      "tel": "(514)-343-6111 poste 3751",
+      "phone_number": "(514)-343-6111 poste 3751",
       "facebook": "https://www.facebook.com/cafemalaime",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "MUSIQUE",
-      "lieu": "PAVILLON DE LA FACULTÉ DE MUSIQUE, LOCAL B-261",
-      "nom": "Le Triton",
+      "faculty": "MUSIQUE",
+      "location": "PAVILLON DE LA FACULTÉ DE MUSIQUE, LOCAL B-261",
+      "name": "Le Triton",
       "description": "Petit café au service simple sans prétention.",
       "email": "benoit.archambault@amenagement.coop",
-      "tel": "(514)-343-6111 poste 39947",
+      "phone_number": "(514)-343-6111 poste 39947",
       "facebook": "https://www.facebook.com/cafeletriton",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "BIOLOGIE",
-      "lieu": "CAMPUS MIL, LOCAL B-0110.2",
-      "nom": "Le Vivarium",
+      "faculty": "BIOLOGIE",
+      "location": "CAMPUS MIL, LOCAL B-0110.2",
+      "name": "Le Vivarium",
       "description": "Café chaleureux et abordable, bonbons en vrac et nourriture végane.",
       "email": "cafe.bio.udem@gmail.com",
-      "tel": "(819)-500-1491",
+      "phone_number": "(819)-500-1491",
       "facebook": "https://www.facebook.com/cafebiolevivarium",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "PHARMACIE",
-      "lieu": "PAVILLON JEAN-COUTU, LOCAL S1-184",
-      "nom": "Pill Pub",
+      "faculty": "PHARMACIE",
+      "location": "PAVILLON JEAN-COUTU, LOCAL S1-184",
+      "name": "Pill Pub",
       "description": "Café pas cher, situé dans un local très lumineux.",
       "email": "pillpub.aepum@gmail.com",
-      "tel": "(514)-569-1660",
+      "phone_number": "(514)-569-1660",
       "facebook": "https://www.facebook.com/PillPub",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "PSYCHOLOGIE",
-      "lieu": "PAVILLON MARIE-VICTORIN, LOCAL D-428",
-      "nom": "Psychic",
+      "faculty": "PSYCHOLOGIE",
+      "location": "PAVILLON MARIE-VICTORIN, LOCAL D-428",
+      "name": "Psychic",
       "description": "Café rénové.",
       "email": "cafelepsychic@gmail.com",
       "facebook": "https://www.facebook.com/LePsychic",
       "instagram": "https://www.instagram.com/cafe_lepsychic/?hl=fr",
-      "image": ""
+      "image_url": ""
     },
     {
-      "matiere": "INFORMATIQUE ET RECHERCHE OPÉRATIONNELLE, MATHÉMATIQUES ET STATISTIQUES",
-      "lieu": "PAVILLON ANDRÉ-AISENSTADT, LOCAL AA-1221",
-      "nom": "Tore et fraction",
+      "faculty": "INFORMATIQUE ET RECHERCHE OPÉRATIONNELLE, MATHÉMATIQUES ET STATISTIQUES",
+      "location": "PAVILLON ANDRÉ-AISENSTADT, LOCAL AA-1221",
+      "name": "Tore et fraction",
       "description": "Café 100% bénévoles, vue du coucher de soleil magnifique, on remplit votre tasse pour 0,50$.",
       "email": "toreetfraction@gmail.com",
-      "tel": "(514)-834-4601",
+      "phone_number": "(514)-834-4601",
       "facebook": "https://www.facebook.com/CafeToreetFraction",
-      "image": ""
+      "image_url": ""
     }
   ]
 }

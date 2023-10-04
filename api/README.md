@@ -29,8 +29,8 @@
 
 #### 2023-10-04
 
-- On a créé un fichier `models.py` qui contient les modèles de données (pour l'instant, un seul modèle `User`)
-- On a crée une route test, testable avec Postman
+- On a créé un fichier `models.py` qui contient des premiers modèles de données
+- On a crée des premières routes test, testables avec Postman
 
 #### 2023-09-29
 
@@ -47,3 +47,7 @@
 - [Getting started MongoDB FastAPI](https://www.mongodb.com/developer/languages/python/python-quickstart-fastapi/)
 - [How to use FastAPI with MongoDB](https://plainenglish.io/blog/how-to-use-fastapi-with-mongodb-75b43c8e541d)
 - [Using FastAPI to Build Python Web APIs – Real Python](https://realpython.com/fastapi-python-web-apis/)
+
+## Difficulités rencontrées
+
+- Il a fallu spécifiquement installer pydantic 1.9 au lieu de la dernère version, car la v2 a causé des erreurs avec MongoDB et les BaseModel utilisant des ObjectId. De plus, la documentation officielle de MongoDB n'utilise pas la v2. (voir [ici](https://www.mongodb.com/community/forums/t/pydantic-v2-and-objectid-fields/241965)).
