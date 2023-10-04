@@ -3,6 +3,7 @@ from models import User
 
 app = FastAPI()
 
+
 @app.get("/")
 def read_root():
     return {"message": "Bienvenue sur l'API du projet Café sans fil!", "version": "0.1"}
@@ -11,9 +12,11 @@ def read_root():
 # Tout ce qui sera ajouté dans le router api sera préfixé par /api
 api = APIRouter(prefix="/api")
 
+
 @api.get("/hello")
 def hello():
     return {"message": "Hello World!"}
+
 
 sample_users_db = {
     "3d2e3d2e3d2e3d2e3d2e3d2e": {
@@ -35,6 +38,7 @@ sample_users_db = {
         }]
     }
 }
+
 
 @api.get("/users")
 def get_users():
