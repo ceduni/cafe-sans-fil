@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field, EmailStr
 from bson import ObjectId
 from typing import List, Optional
+from datetime import datetime
+
 
 class PyObjectId(ObjectId):
     @classmethod
@@ -16,6 +18,7 @@ class PyObjectId(ObjectId):
     @classmethod
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string")
+
 
 class User(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
@@ -113,3 +116,62 @@ class Cafe(BaseModel):
             }
         }
 
+
+class MenuItem(BaseModel):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    cafe_id: PyObjectId = Field(...)
+    name: str = Field(...)
+    description: str = Field(...)
+    price: float = Field(...)
+    image_url: Optional[str]
+    is_available: bool = Field(...)
+    category: str = Field(...)
+
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+        schema_extra = {
+            "example": {
+                "id": "9d8e9d8e9d8e9d8e9d8e9d8e",
+                "cafe_id": "5f897f7d7d6d6d6d6d6d6d6d",
+                "name": "Café au lait",
+                "description": "Café au lait, 2 laits, 2 sucres",
+                "price": 1.5,
+                "image_url": "https://i.imgur.com/hsihihdiz.jpg",
+                "is_available": True,
+                "category": "boisson"
+            }
+        }
+
+
+class Order(BaseModel):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    user_id: PyObjectId = Field(...)
+    cafe_id: PyObjectId = Field(...)
+    items: List[dict] = Field(...)
+    total_price: float = Field(...)
+    status: str = Field(...)
+    order_timestamp: datetime = datetime.now()
+    pickup_timestamp: datetime = Field(...)
+
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+        schema_extra = {
+            "example": {
+                "id": "2d2e3d2e3d2e3d2e3d2e3d2e",
+                "user_id": "3d2e3d2e3d2e3d2e3d2e3d2e",
+                "cafe_id": "5f897f7d7d6d6d6d6d6d6d6d",
+                "items": [{
+                    "item_id": "9d8e9d8e9d8e9d8e9d8e9d8e",
+                    "quantity": 2,
+                    "item_price": 1.5
+                }],
+                "total_price": 3.0,
+                "status": "active",
+                "order_timestamp": "2023-10-20T20:20:20.000Z",
+                "pickup_timestamp": "2023-10-20T20:40:20.000Z"
+            }
+        }
