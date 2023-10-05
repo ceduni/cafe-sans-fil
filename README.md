@@ -36,8 +36,6 @@ L'infrastructure de l'application consiste principalement en une base de donnée
 
 - Fichiers et style relationnel
 - MongoDB
-<!-- - SQLite -->
-<!-- - MySQL -->
 
 ### 🔗 API
 
