@@ -13,10 +13,10 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
 
 ## 👥 Roles
 
-L'application offrira certains rôles donnant accès à certaines fonctionnalités. 
+L'application offrira certains rôles donnant accès à certaines fonctionnalités.
 
-- **Membre**: Rôle **de base** dans l'application. Avec ce rôle, un utilisateur peut accéder au menu et passer des commandes.  
-- **Staff**: Rôle **réservé aux bénévoles** travaillant au café, incluant toutes les actions du rôle membre. Il permet en plus de traiter les commandes, modifier le menu et gérer l'inventaire.  
+- **Membre**: Rôle **de base** dans l'application. Avec ce rôle, un utilisateur peut accéder au menu et passer des commandes.
+- **Staff**: Rôle **réservé aux bénévoles** travaillant au café, incluant toutes les actions du rôle membre. Il permet en plus de traiter les commandes, modifier le menu et gérer l'inventaire.
 - **Admin**: Rôle **réservé aux responsables de la maintenance** de l'application, incluant toutes les actions du rôle membre. Il permet de faire toute opération sur la base de données.
 
 ## 📅 Échéancier
@@ -34,13 +34,14 @@ L'infrastructure de l'application consiste principalement en une base de donnée
 
 <!-- Le système de base de données envisagées doit être robuste et simple. -->
 
-- Fichiers et style relationnel  
-- SQLite
-- MySQL
+- Fichiers et style relationnel
+- MongoDB
+<!-- - SQLite -->
+<!-- - MySQL -->
 
 ### 🔗 API
 
-- En Python  
+- En Python
 - FastAPI
 
 #### Resources
@@ -49,17 +50,17 @@ L'infrastructure de l'application consiste principalement en une base de donnée
 
 ### 💻 Application web
 
-- JavaScript, SPA (single page application)  
+- JavaScript, SPA (single page application)
 - React
-- Bootstrap
+<!-- - Bootstrap -->
 
-# 📘 Documentation 
+# 📘 Documentation
 
-# 🗂️ Organisation 
+# 🗂️ Organisation
 
 <!-- Les dossiers du répertoire sont organisés comme suit: -->
 
-# 🌟 Contributeurs 
+# 🌟 Contributeurs
 
 - Axel ZAREB [@axeelz](https://github.com/axeelz)
 - Southidej OUDANONH [@GokaGokai](https://github.com/GokaGokai)

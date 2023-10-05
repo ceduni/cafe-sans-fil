@@ -26,6 +26,10 @@
 - **Définition des routes** : Définition des premières routes de l'API, et tests avec Postman.
 - **Organisation des tâches** : Création d'un GitHub Project pour organiser les tâches à faire, avec issues et milestones.
 
+### Tâches à faire
+
+- [ ] Review tout ce qu'on a fait, valider ou non les routes et le schéma de BD
+
 ## Semaine 4 (2023-09-25)
 
 - **Révision des flux réalisés** : Révision des flux réalisés et des exigences associées.
