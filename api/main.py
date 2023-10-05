@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from models import User, Cafe
 
 app = FastAPI()
@@ -56,8 +56,18 @@ def get_user(user_id: str):
     try:
         user = User(**sample_users_db[user_id])
     except KeyError:
-        return {"message": "Utilisateur non trouvé"}
+        raise HTTPException(status_code=404, detail=f"L'utilisateur {user_id} n'existe pas")
     return {"user": user}
+
+
+@api.post("/users")
+def create_user(user: User):
+    return {"message": "Vous ne pouvez pas créer un utilisateur"}
+
+
+@api.put("/users/{user_id}")
+def update_user(user_id: str, user: User):
+    return {"message": "Vous ne pouvez pas modifier un utilisateur"}
 
 
 # Cafe model
@@ -87,9 +97,89 @@ def get_cafes():
     return {"cafes": cafes}
 
 
+@api.get("/cafes?query={cafe_name}")
+def search_cafe(cafe_name: str):
+    return {"message": f"Ici s'afficheront tous les cafés correspondant à {cafe_name}"}
+
+
 @api.get("/cafes/{cafe_id}")
-def get_cafe(cafe_id: str):
-    return {"message": "Pas encore implémenté"}
+def get_single_cafe(cafe_id: str):
+    return {"message": f"Ici s'afficheront les informations sur le café {cafe_id}"}
+
+
+@api.post("/cafes")
+def create_cafe(cafe: Cafe):
+    return {"message": "Vous ne pouvez pas créer un café"}
+
+
+@api.put("/cafes/{cafe_id}")
+def update_cafe(cafe_id: str, cafe: Cafe):
+    return {"message": "Vous ne pouvez pas modifier un café"}
+
+
+@api.delete("/cafes/{cafe_id}")
+def delete_cafe(cafe_id: str):
+    return {"message": "Vous ne pouvez pas supprimer un café"}
+
+
+# Menu model
+
+
+@api.get("/cafes/{cafe_id}/menu")
+def get_menu(cafe_id: str):
+    return {"message": f"Ici s'affichera le menu du café {cafe_id}"}
+
+
+@api.post("/cafes/{cafe_id}/menu")
+def add_item_menu(cafe_id: str):
+    return {"message": "Vous ne pouvez pas ajouter un item au menu"}
+
+
+@api.put("/cafes/{cafe_id}/menu/{item_id}")
+def update_item_menu(cafe_id: str, item_id: str):
+    return {"message": "Vous ne pouvez pas modifier un item du menu"}
+
+
+@api.delete("/cafes/{cafe_id}/menu/{item_id}")
+def delete_item_menu(cafe_id: str, item_id: str):
+    return {"message": "Vous ne pouvez pas supprimer un item du menu"}
+
+
+@api.get("/items?query={item_name}")
+def search_item_across_cafes(item_name: str):
+    return {"message": f"Ici s'afficheront tous les cafés qui offrent {item_name}"}
+
+
+# Order model
+
+
+@api.post("/cafes/{cafe_id}/orders")
+def place_order(cafe_id: str):
+    return {"message": "Vous ne pouvez pas commander pour le moment"}
+
+
+@api.get("/orders/{order_id}")
+def get_order(order_id: str):
+    return {"message": f"Ici s'afficheront les détails de la commande {order_id}"}
+
+
+@api.put("/orders/{order_id}")
+def update_order(cafe_id: str, order_id: str):
+    return {"message": f"Vous ne pouvez pas modifier la commande {order_id}"}
+
+
+@api.get("/users/{user_id}/orders?status={status}")
+def get_user_orders(user_id: str, status: str):
+    if status is None:
+        return {"message": f"Ici s'afficheront toutes les commandes de l'utilisateur {user_id}"}
+    return {"message": f"Ici s'afficheront les commandes de l'utilisateur {user_id} ayant le statut {status}"}
+
+
+@api.get("/cafes/{cafe_id}/orders?status={status}")
+def get_orders(cafe_id: str, status: str):
+    if status is None:
+        return {"message": f"Ici s'afficheront toutes les commandes du café {cafe_id}"}
+    return {"message": f"Ici s'afficheront les commandes du café {cafe_id} ayant le statut {status}"}
 
 
 app.include_router(api)
