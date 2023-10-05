@@ -14,7 +14,7 @@
 - 🟠 **Public**: Tous les utilisateurs, y compris ceux qui ne sont pas connectés ou enregistrés.
 - 🔵 **Membre (ou Client)**: Rôle de base dans l'application qui permet à un utilisateur d'accéder au menu et de passer des commandes.
 - 🟢 **Staff (ou Bénévole)**: Personnes travaillant au café. Ils peuvent traiter des commandes, modifier le menu, et gérer l'inventaire.
-- 🔴 **Admin**: Responsables de la maintenance de l'application. Ils ont les privilèges les plus élevés et peuvent effectuer toutes les opérations sur la base de données.
+- 🔴 **Admin**: Superviseur ou manager du café. Il est en charge de la gestion globale du café, y compris la supervision des bénévoles, la gestion du menu et l'inventaire, et assurant le bon déroulement des opérations quotidiennes.
 
 ## Application:
 
