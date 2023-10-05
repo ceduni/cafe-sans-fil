@@ -44,10 +44,6 @@ L'infrastructure de l'application consiste principalement en une base de donnée
 - En Python
 - FastAPI
 
-#### Resources
-
-- [How to create an API in Python](https://anderfernandez.com/en/blog/how-to-create-api-python/)
-
 ### 💻 Application web
 
 - JavaScript, SPA (single page application)
