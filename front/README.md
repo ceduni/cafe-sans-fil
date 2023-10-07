@@ -3,6 +3,8 @@
 ## Développement
 
 - On utilise React et Vite pour le développement
+- On utilise [Tailwind CSS](https://tailwindcss.com/) pour le style
+- On utilise [shadcn ui](https://ui.shadcn.com/) pour certains composants, afin de ne pas perdre de temps à les créer nous-mêmes
 
 ## Installation
 
