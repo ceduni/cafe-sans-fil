@@ -5,9 +5,9 @@ const NavbarWrapper = () => {
   return (
     <>
       <Navbar />
-      <main>
+      <div id="content">
         <Outlet />
-      </main>
+      </div>
     </>
   );
 };

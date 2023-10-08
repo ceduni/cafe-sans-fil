@@ -4,7 +4,8 @@
 
 - On utilise React et Vite pour le développement
 - On utilise [Tailwind CSS](https://tailwindcss.com/) pour le style
-- On utilise [shadcn ui](https://ui.shadcn.com/) pour certains composants, afin de ne pas perdre de temps à les créer nous-mêmes
+- Afin de ne pas perdre de temps à créer des composants, on utilise [Tailwind UI](https://tailwindui.com/) pour certains composants
+- On utilise également [shadcn ui](https://ui.shadcn.com/) pour certains composants (pas de dépendance, juste du copier-coller)
 
 ## Installation
 
@@ -19,6 +20,10 @@
 #### 2023-10-07
 
 - Début de la création de la page d'accueil
+- Début de la création du menu de navigation et du système de routing
+- Création d'une page d'erreur
+- Début de la création de la page de connexion et d'inscription
+- Début de maquettes pour le panier et la page de recherche
 
 #### 2023-09-20
 

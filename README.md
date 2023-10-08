@@ -46,7 +46,7 @@ L'infrastructure de l'application consiste principalement en une base de donnée
 
 - JavaScript, SPA (single page application)
 - React
-<!-- - Bootstrap -->
+- Tailwind CSS
 
 # 📘 Documentation
 

@@ -3,6 +3,9 @@ import ReactDOM from "react-dom/client";
 import Home from "./routes/Home";
 import NavbarWrapper from "./components/NavbarWrapper";
 import ErrorPage from "./pages/ErrorPage";
+import Login from "./routes/Login";
+import SignUp from "./routes/SignUp";
+import Search from "./routes/Search";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
@@ -18,7 +21,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <div>Login</div>,
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
     ],
   },
