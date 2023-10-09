@@ -1,9 +1,13 @@
 import logo from "/logo.png";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
   return (
     <>
+      <Helmet>
+        <title>Se connecter | Café sans fil</title>
+      </Helmet>
       <div className="flex min-h-[80vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img className="mx-auto h-24 lg:h-32 w-auto" src={logo} alt="Café sans fil logo" />
