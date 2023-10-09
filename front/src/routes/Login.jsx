@@ -1,6 +1,7 @@
 import logo from "/logo.png";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import Input from "../components/ui/Input";
 
 const Login = () => {
   return (
@@ -23,14 +24,7 @@ const Login = () => {
                 Adresse courriel de l'UdeM
               </label>
               <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
-                />
+                <Input id="email" name="email" type="email" autoComplete="email" required />
               </div>
             </div>
 
@@ -46,14 +40,7 @@ const Login = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
-                />
+                <Input id="password" name="password" type="password" autoComplete="current-password" required />
               </div>
             </div>
 

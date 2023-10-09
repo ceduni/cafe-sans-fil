@@ -1,3 +1,4 @@
+import Input from "../components/ui/Input";
 import logo from "/logo.png";
 import { Helmet } from "react-helmet";
 
@@ -19,31 +20,19 @@ const SignUp = () => {
           <form className="space-y-6" action="#" method="POST">
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="prenom" className="block text-sm font-normal leading-6 text-gray-900">
+                <label htmlFor="prenom" className="block text-sm font-medium leading-6 text-gray-900">
                   Prénom
                 </label>
                 <div className="mt-2.5">
-                  <input
-                    type="text"
-                    name="prenom"
-                    id="prenom"
-                    autoComplete="given-name"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
-                  />
+                  <Input type="text" name="prenom" id="prenom" autoComplete="given-name" required />
                 </div>
               </div>
               <div>
-                <label htmlFor="nom" className="block text-sm font-normal leading-6 text-gray-900">
+                <label htmlFor="nom" className="block text-sm font-medium leading-6 text-gray-900">
                   Nom
                 </label>
                 <div className="mt-2.5">
-                  <input
-                    type="text"
-                    name="nom"
-                    id="nom"
-                    autoComplete="family-name"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
-                  />
+                  <Input type="text" name="nom" id="nom" autoComplete="family-name" required />
                 </div>
               </div>
             </div>
@@ -53,14 +42,7 @@ const SignUp = () => {
                 Adresse courriel de l'UdeM
               </label>
               <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
-                />
+                <Input type="email" name="email" id="email" autoComplete="email" required />
               </div>
             </div>
 
@@ -69,16 +51,15 @@ const SignUp = () => {
                 Matricule UdeM
               </label>
               <div className="mt-2">
-                <input
-                  id="matricule"
-                  name="matricule"
+                <Input
                   type="text"
+                  name="matricule"
+                  id="matricule"
                   pattern="[0-9]{8}"
                   onInvalid={(e) => {
                     e.target.setCustomValidity("Veuillez entrer un matricule valide (8 chiffres)");
                   }}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -90,14 +71,7 @@ const SignUp = () => {
                 </label>
               </div>
               <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
-                />
+                <Input id="password" name="password" type="password" autoComplete="current-password" required />
               </div>
             </div>
 
@@ -108,13 +82,12 @@ const SignUp = () => {
                 </label>
               </div>
               <div className="mt-2">
-                <input
+                <Input
                   id="password-confirm"
                   name="password-confirm"
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
