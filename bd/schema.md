@@ -4,60 +4,143 @@ Ce document présente la structure de notre BD MongoDB.
 
 ## Collections
 
+### User
 
-### Users
+```json
+{
+  "_id": "string (UUID) (Unique)",
+  "email": "string (Unique)",
+  "matricule": "string (Unique)",
+  "username": "string (Unique)",
+  "password": "string (hashed)",
+  "first_name": "string",
+  "last_name": "string"
+}
 
-- `_id`: ObjectId
-- `udem_email`: EmailStr (unique)
-- `first_name`: String
-- `last_name`: String
-- `roles`: Array of Objects
-  - `cafe_id`: ObjectId
-  - `role_type`: String ('benevole', 'admin')
+```
 
-### Cafés
+- **_id**: Une chaîne unique (UUID) pour identifier chaque utilisateur.
+- **email**: L'email de l'utilisateur.
+- **matricule**: Matricule de l'étudiant.
+- **username**: Nom d'utilisateur choisi par l'étudiant pour se connecter.
+- **password**: Mot de passe de l'utilisateur, qui sera haché avant d'être stocké pour des raisons de sécurité.
+- **first_name**: Prénom de l'utilisateur.
+- **last_name**: Nom de famille de l'utilisateur.
 
-- `_id`: ObjectId
-- `name`: String
-- `description`: String
-- `faculty`: String
-- `location`: String
-- `email`: EmailStr
-- `phone_number`: String (optional)
-- `website`: String (optional)
-- `facebook`: String (optional)
-- `instagram`: String (optional)
-- `image_url`: String (optional)
-- `is_open`: Boolean
-- `opening_hours`: Array of Objects
-  - `day`: String
-  - `open`: Time
-  - `close`: Time
-- `payment_methods`: Array of Objects
-  - `method`: String
-  - `minimum`: Float (optional)
+<br>
 
-### MenuItems
+### Cafe
 
-- `_id`: ObjectId
-- `cafe_id`: ObjectId (Reference to Café)
-- `name`: String
-- `description`: String
-- `price`: Float
-- `image_url`: String (optional)
-- `is_available`: Boolean
-- `category`: String
+```json
+{
+  "_id": "string (UUID) (Unique)",
+  "name": "string",
+  "description": "string (Optional)",
+  "image_url": "string (Optional)",
+  "faculty": "string",
+  "location": "string",
+  "is_open": "bool",
+  "opening_hours": [
+    {
+      "day": "string",
+      "blocks": [
+        {
+          "start": "string (HH:mm format)",
+          "end": "string (HH:mm format)" 
+        }
+      ]
+    }
+  ],
+  "contact": {
+    "email": "string (Optional)",
+    "phone_number": "string (Optional)",
+    "website": "string (Optional)"
+  },
+  "social_media": [
+    {
+      "platform_name": "string (Optional)",
+      "link": "string (Optional)"
+    }
+  ],
+  "payment_methods": [
+    {
+      "method": "string",
+      "minimum": "double (Optional)"
+    }
+  ],
+  "staff": [
+    {
+      "user_id": "string (UUID)",
+      "role": "string (e.g., 'benevole', 'admin')"
+    }
+  ],
+  "menu_items": [
+    {
+      "item_id": "string (UUID) (Unique)",
+      "name": "string",
+      "description": "string (Optional)",
+      "image_url": "string (Optional)",
+      "price": "double",
+      "is_available": "bool",
+      "category": "string (Optional)",
+      "additional_info_menu": {
+        "key": "string (Optional)",
+        "value": "string (Optional)"
+      }
+    }
+  ],
+  "additional_info_cafe": [
+    {
+      "key": "string (Optional)",
+      "value": "string (Optional)"
+    }
+  ]
+}
+```
 
-### Orders
+- **_id**: Un identifiant unique (UUID) pour chaque café.
+- **name**: Nom du café.
+- **description**: Brève description du café.
+- **image_url**: URL d'une image représentative du café.
+- **faculty**: Faculté à laquelle le café est associé.
+- **location**: L'emplacement précis du café sur le campus.
+- **is_open**: Booléen indiquant si le café est actuellement ouvert ou fermé.
+- **opening_hours**: Les heures d'ouverture pour chaque jour, présentées sous forme de blocs horaires.
+- **contact**: Informations de contact telles que le numéro de téléphone, l'email, le site web.
+- **social_media**: Réseaux sociaux associés au café (e.g., Facebook, Instagram).
+- **payment_methods**: Les méthodes de paiement acceptées par le café et les montants minimums associés.
+- **staff**: Liste des membres du personnel travaillant au café.
+- **menu_items**: Liste des éléments disponibles dans le menu du café.
+- **additional_info_menu**: Informations supplémentaires concernant l'élément du menu. Par exemple, cela pourrait inclure les tailles disponibles pour certains articles, ou d'autres détails spécifiques.
+- **additional_info_cafe**: Informations supplémentaires ou attributs uniques que certains cafés pourraient avoir. Par exemple, s'il y a des promotions spéciales, des événements ou toute autre information pertinente.
+  
+<br>
 
-- `_id`: ObjectId
-- `user_id`: ObjectId (Reference to User)
-- `cafe_id`: ObjectId (Reference to Café)
-- `items`: Array of Objects
-  - `item_id`: ObjectId
-  - `quantity`: Int
-  - `item_price`: Float
-- `total_price`: Float
-- `status`: String ('active', 'pending', 'completed', 'cancelled')
-- `order_timestamp`: DateTime
-- `pickup_timestamp`: DateTime
+### Order
+
+```json
+{
+  "_id": "string (UUID) (Unique)",
+  "user_id": "string (UUID)",
+  "cafe_id": "string (UUID)",
+  "items": [
+    {
+      "item_id": "string (UUID)",
+      "quantity": "int",
+      "item_price": "double"
+    }
+  ],
+  "total_price": "double",
+  "status": "string (e.g., 'placed', 'ready', 'completed', 'cancelled')",
+  "order_timestamp": "date"
+}
+```
+
+- **_id**: Un identifiant unique (UUID) pour chaque commande.
+- **user_id**: L'identifiant de l'utilisateur qui a passé la commande.
+- **cafe_id**: L'identifiant du café où la commande a été passée.
+- **items**: Les articles que l'utilisateur a commandés.
+- **total_price**: Prix total de la commande.
+- **status**: État actuel de la commande (e.g., "placed", "ready", "completed", "cancelled").
+- **order_time**: Heure à laquelle la commande a été passée.
+- **completion_time**: Heure à laquelle la commande a été complétée.
