@@ -36,3 +36,9 @@
 #### 2023-09-20
 
 - Initialisation du dossier front, setup du projet avec Vite et React
+
+## Ressources utiles
+
+- [Tailwind documentation](https://tailwindcss.com/docs)
+- [Small and reusable Tailwind components with React - Lucky Media](https://www.luckymedia.dev/blog/small-and-reusable-tailwind-components-with-react)
+- [Building reusable React components using Tailwind CSS - LogRocket Blog](https://blog.logrocket.com/building-reusable-react-components-using-tailwind-css/)
