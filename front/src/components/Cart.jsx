@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-const products = [
+export const products = [
   {
     id: 1,
     name: "Café latte",
@@ -24,7 +24,6 @@ const products = [
     imageSrc: "https://img.circulaire-en-ligne.ca/wp-content/uploads/Tuna-Mayo-Sub-Roll.jpg",
     imageAlt: "Sandwich au thon",
   },
-  // More products...
 ];
 
 const Cart = ({ open, setOpen }) => {

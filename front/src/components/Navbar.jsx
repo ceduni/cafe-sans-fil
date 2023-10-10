@@ -1,13 +1,23 @@
 import { Fragment, useState } from "react";
-import { Dialog, Popover, Transition } from "@headlessui/react";
+import { Dialog, Popover, Transition, Menu } from "@headlessui/react";
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
 import Cart from "./Cart";
 import Container from "./ui/Container";
 
+const routes = {
+  home: "/",
+  login: "/login",
+  signup: "/signup",
+  search: "/search",
+  profile: "/me",
+};
+
 const navigation = [
-  { name: "Cafés", href: "/" },
-  { name: "Profil", href: "/me" },
+  { name: "Cafés", href: routes.home },
+  { name: "Café test", href: "/cafe/tore-et-fraction" },
+  { name: "Café staff", href: "/cafe/tore-et-fraction/staff" },
+  { name: "Café commande", href: "/cafe/tore-et-fraction/order/1" },
   { name: "Page inconnue", href: "/page-inconnue" },
 ];
 
@@ -74,9 +84,9 @@ const Navbar = () => {
 
                   <div className="space-y-6 border-t border-gray-200 px-5 py-6">
                     <div className="flow-root">
-                      <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
+                      <Link to={routes.login} className="-m-2 p-2 block font-medium text-gray-900">
                         Se connecter
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </Dialog.Panel>
@@ -86,6 +96,10 @@ const Navbar = () => {
         </Transition.Root>
 
         <header className="relative bg-white">
+          <p className="flex items-center justify-center bg-emerald-600 p-4 sm:p-2 text-sm font-medium text-white">
+            Le site est en construction. Les fonctionnalités sont limitées.
+          </p>
+
           <nav aria-label="Top">
             <div className="border-b border-gray-200">
               <Container>
@@ -101,7 +115,7 @@ const Navbar = () => {
 
                   {/* Logo */}
                   <div className="ml-4 flex lg:ml-0">
-                    <Link to="/" className="text-xl font-bold text-gray-900 font-secondary">
+                    <Link to={routes.home} className="text-xl font-bold text-gray-900 font-secondary">
                       café sans&nbsp;fil
                     </Link>
                   </div>
@@ -132,7 +146,7 @@ const Navbar = () => {
                   <div className="ml-auto flex items-center">
                     <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                       <NavLink
-                        to="/login"
+                        to={routes.login}
                         className={({ isActive }) =>
                           classNames(
                             isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-700",
@@ -143,10 +157,70 @@ const Navbar = () => {
                       </NavLink>
                     </div>
 
+                    {/* Profile dropdown */}
+                    <Menu as="div" className="relative ml-3">
+                      <div>
+                        <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <span className="absolute -inset-1.5" />
+                          <span className="sr-only">Open user menu</span>
+                          <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500 select-none">
+                            <span className="text-sm font-medium leading-none text-white">JD</span>
+                          </span>
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95">
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
+                                to={routes.profile}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}>
+                                Mon profil
+                              </Link>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                href="#"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}>
+                                Mes commandes
+                              </a>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                href="#"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}>
+                                Déconnexion
+                              </a>
+                            )}
+                          </Menu.Item>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+
                     {/* Search */}
                     <div className="flex lg:ml-6">
                       <NavLink
-                        to="/search"
+                        to={routes.search}
                         className={({ isActive }) =>
                           classNames(isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-700", "p-2")
                         }>

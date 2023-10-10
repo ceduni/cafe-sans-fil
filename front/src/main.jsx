@@ -7,6 +7,9 @@ import Login from "./routes/Login";
 import SignUp from "./routes/SignUp";
 import Search from "./routes/Search";
 import Profile from "./routes/Profile";
+import Cafe from "./routes/Cafe";
+import StaffList from "./components/StaffList";
+import OrderHeader from "./components/OrderHeader";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
@@ -35,6 +38,18 @@ const router = createBrowserRouter([
       {
         path: "/me",
         element: <Profile />,
+      },
+      {
+        path: "/cafe/:id",
+        element: <Cafe />,
+      },
+      {
+        path: "/cafe/:id/staff",
+        element: <StaffList />,
+      },
+      {
+        path: "/cafe/:id/order/:orderId",
+        element: <OrderHeader />,
       },
     ],
   },

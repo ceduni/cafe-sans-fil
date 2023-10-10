@@ -17,6 +17,14 @@
 
 ## Avancée du développement
 
+#### 2023-10-09
+
+- Création de quelques composants de base
+- Début création page de profil
+- Début création page de café, affichage liste staff et header de page de commande
+- Début création carte affichage menu
+- Création Avatar cliquable pour afficher le menu de profil et déconnexion
+
 #### 2023-10-07
 
 - Début de la création de la page d'accueil
