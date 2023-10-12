@@ -29,7 +29,7 @@
 
 ### Résumé des discussions
 
-- **Design** : Discussions sur le design de l'application, les couleurs, le logo.
+- **Design** : Discussions sur le design de l'application, les couleurs, le logo. **On doit faire une version finale du logo avec éventuellement une version réduite pour les petits formats.**
 - **Concept de la page d'accueil** : Discussions sur le concept de la page d'accueil, la recherche intégrée, et notamment sur la possibilité de mettre en avant les cafés les plus proches de l'utilisateur.
   - **Décision** : On ne va pas inclure de système de localisation pour l'instant, car il faudrait que les gens acceptent de partager leur localisation, et cela pourrait être un frein pour certains utilisateurs. De plus, tout est dans le campus, donc les distances sont raisonnables.
 - **Discussions sur le système de commandes** : Discussions sur le système de commandes, notamment sur la possibilité de commander des items de plusieurs cafés en même temps.
@@ -43,7 +43,7 @@
 
 ### Tâches à faire
 
-- [ ] Review tout ce qu'on a fait, valider ou non les routes et le schéma de BD
+- [x] Review tout ce qu'on a fait, valider ou non les routes et le schéma de BD
 
 ## Semaine 4 (2023-09-25)
 
