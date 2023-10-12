@@ -16,9 +16,24 @@
 
 <!-- ## Semaine 8 (2023-10-23) -->
 
-<!-- ## Semaine 7 (2023-10-16) -->
+## Semaine 7 (2023-10-16)
 
-<!-- ## Semaine 6 (2023-10-09) -->
+> Semaine de relâche, pas de réunion
+
+**Avancement du front-end et de l'API**
+
+## Semaine 6 (2023-10-09)
+
+- **Modifications du schéma** : Modifications du schéma de la base de données pour mieux correspondre aux besoins après nos discussions de la semaine dernière.
+- **Début du front-end** : Début du développement du front-end.
+
+### Résumé des discussions
+
+- **Design** : Discussions sur le design de l'application, les couleurs, le logo.
+- **Concept de la page d'accueil** : Discussions sur le concept de la page d'accueil, la recherche intégrée, et notamment sur la possibilité de mettre en avant les cafés les plus proches de l'utilisateur.
+  - **Décision** : On ne va pas inclure de système de localisation pour l'instant, car il faudrait que les gens acceptent de partager leur localisation, et cela pourrait être un frein pour certains utilisateurs. De plus, tout est dans le campus, donc les distances sont raisonnables.
+- **Discussions sur le système de commandes** : Discussions sur le système de commandes, notamment sur la possibilité de commander des items de plusieurs cafés en même temps.
+  - **Décision** : On va permettre aux utilisateurs de mettre dans leur panier des items de plusieurs cafés en même temps, puis cela créera une commande par café. Cela sera plus simple pour les utilisateurs et les cafés, et cela permettra de ne pas avoir à gérer des commandes avec des items de plusieurs cafés.
 
 ## Semaine 5 (2023-10-02)
 
