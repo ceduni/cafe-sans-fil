@@ -144,3 +144,24 @@ Ce document présente la structure de notre BD MongoDB.
 - **status**: État actuel de la commande (e.g., "placed", "ready", "completed", "cancelled").
 - **order_time**: Heure à laquelle la commande a été passée.
 - **completion_time**: Heure à laquelle la commande a été complétée.
+
+### 📝 Notes sur les Statuts de Commande
+
+Chaque commande traverse différents statuts qui indiquent sa progression :
+
+- **🔄 placed**: 
+  - **Définition** : La commande est enregistrée mais n'est pas encore traitée par le café.
+  
+- **✅ ready**: 
+  - **Définition** : La commande a été traitée et est prête à être récupérée par le client.
+
+- **✔️ completed**: 
+  - **Définition** : La commande a été récupérée par le client et est considérée comme terminée.
+
+- **❌ cancelled**: 
+  - **Définition** : La commande a été annulée.
+  - **Détails** : 
+    - Peut se produire automatiquement si la commande n'est pas traitée ou récupérée dans le délai d'une heure.
+    - Peut également être annulée manuellement par le client ou le café pour diverses raisons, telles que l'indisponibilité d'un article ou un autre problème opérationnel.
+
+
