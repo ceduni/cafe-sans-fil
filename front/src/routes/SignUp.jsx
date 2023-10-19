@@ -1,6 +1,7 @@
 import Input from "../components/ui/Input";
 import logo from "/logo.png";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
@@ -100,6 +101,13 @@ const SignUp = () => {
               </button>
             </div>
           </form>
+
+          <p className="mt-10 text-center text-sm text-gray-500">
+            Vous avez déjà un compte?{" "}
+            <Link to="/login" className="font-semibold leading-6 text-emerald-600 hover:text-emerald-500">
+              Connectez-vous
+            </Link>
+          </p>
         </div>
       </div>
     </>

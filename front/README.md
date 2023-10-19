@@ -22,6 +22,9 @@
 - Modifications de design après discussions en équipe
 - Maquette de la page d'accueil avec cartes des cafés
 - Retiré page de recherche pour l'incorporer dans la page d'accueil
+- Création cards cafés
+- Ajout filtres sur la page d'accueil pour filtrer les cafés
+- Correction de divers bugs dans le code
 
 #### 2023-10-09
 

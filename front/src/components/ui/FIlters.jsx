@@ -4,7 +4,8 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from "@heroicons/react/20/solid";
 
 const sortOptions = [
-  { name: "Ordre alphabétique", href: "#", current: true },
+  { name: "De A à Z", href: "#", current: true },
+  { name: "De Z à A", href: "#", current: false },
   { name: "Les plus populaires", href: "#", current: false },
 ];
 
