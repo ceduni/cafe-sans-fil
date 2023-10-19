@@ -1,13 +1,30 @@
 import classNames from "classnames";
+import { Link } from "react-router-dom";
 
-const Card = ({ className, children }) => {
-  return (
-    <div className={classNames("overflow-hidden bg-white rounded-lg shadow-sm border", className)}>{children}</div>
-  );
+const Card = ({ className, children, link }) => {
+  if (link) {
+    return (
+      <Link to={link} className="contents">
+        <div
+          className={classNames(
+            "overflow-hidden bg-white rounded-lg shadow-sm border flex flex-col hover:shadow-lg transition-shadow duration-300 ease-in-out",
+            className
+          )}>
+          {children}
+        </div>
+      </Link>
+    );
+  } else {
+    return (
+      <div className={classNames("overflow-hidden bg-white rounded-lg shadow-sm border flex flex-col", className)}>
+        {children}
+      </div>
+    );
+  }
 };
 
 const Header = ({ className, children }) => {
-  return <div className={classNames("px-4 sm:px-6 py-5 bg-white border-b border-gray-200", className)}>{children}</div>;
+  return <div className={classNames("px-4 sm:px-6 py-5 border-b border-gray-200", className)}>{children}</div>;
 };
 
 const HeaderTitle = ({ className, as = "h3", children }) => {
@@ -16,18 +33,23 @@ const HeaderTitle = ({ className, as = "h3", children }) => {
   return <Tag className={classNames("text-lg font-medium leading-6 text-gray-900", className)}>{children}</Tag>;
 };
 
+const HeaderSubtitle = ({ className, as = "p", children }) => {
+  const Tag = as;
+
+  return <Tag className={classNames("mt-1 max-w-2xl text-xs font-semibold text-gray-500", className)}>{children}</Tag>;
+};
+
 const Body = ({ className, children }) => {
-  return <div className={classNames("px-4 py-5 sm:p-6", className)}>{children}</div>;
+  return <div className={classNames("px-3 py-4 sm:p-5 text-sm flex-grow", className)}>{children}</div>;
 };
 
 const Footer = ({ className, children }) => {
-  return (
-    <div className={classNames("px-4 sm:px-6 py-5 bg-white border-t border-gray-200 ", className)}>{children}</div>
-  );
+  return <div className={classNames("px-4 sm:px-6 py-5 border-t border-gray-200", className)}>{children}</div>;
 };
 
 Card.Header = Header;
 Card.Header.Title = HeaderTitle;
+Card.Header.Subtitle = HeaderSubtitle;
 Card.Body = Body;
 Card.Footer = Footer;
 

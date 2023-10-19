@@ -3,27 +3,32 @@ import { Helmet } from "react-helmet";
 import Card from "../components/ui/Card";
 import Search from "../components/Search";
 import cafeList from "../data/cafes.json";
+import { useState } from "react";
 
 const Home = () => {
+  const [isSearching, setIsSearching] = useState(false);
+
   return (
     <>
       <Helmet>
         <title>Accueil | Café sans-fil</title>
       </Helmet>
-      <Search />
+      <Search isSearching={isSearching} setIsSearching={setIsSearching} />
       <main>
         <Container>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
-            {cafeList["cafes"].map((cafe) => (
-              <Card key={cafe.id}>
-                <Card.Header>
-                  <Card.Header.Title>{cafe.name}</Card.Header.Title>
-                </Card.Header>
-                <Card.Body>{cafe.description}</Card.Body>
-                <Card.Footer>Visiter</Card.Footer>
-              </Card>
-            ))}
-          </div>
+          {!isSearching && (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
+              {cafeList["cafes"].map((cafe) => (
+                <Card key={cafe.name} link={`/cafe/${cafe.name}`}>
+                  <Card.Header>
+                    <Card.Header.Title>{cafe.name}</Card.Header.Title>
+                    <Card.Header.Subtitle>{cafe.location}</Card.Header.Subtitle>
+                  </Card.Header>
+                  <Card.Body>{cafe.description}</Card.Body>
+                </Card>
+              ))}
+            </div>
+          )}
         </Container>
       </main>
     </>

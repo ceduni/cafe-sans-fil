@@ -14,7 +14,6 @@ const routes = {
 
 const navigation = [
   { name: "Cafés", href: routes.home },
-  { name: "Café test", href: "/cafe/tore-et-fraction" },
   { name: "Café staff", href: "/cafe/tore-et-fraction/staff" },
   { name: "Café commande", href: "/cafe/tore-et-fraction/order/1" },
   { name: "Page inconnue", href: "/page-inconnue" },

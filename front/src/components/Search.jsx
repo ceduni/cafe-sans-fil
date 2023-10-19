@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Container from "./ui/Container";
 
-const Search = () => {
+const Search = ({ isSearching, setIsSearching }) => {
   return (
     <>
       <Container className="py-10">
@@ -19,6 +19,9 @@ const Search = () => {
               class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-emerald-600 focus:border-emerald-500"
               placeholder="Rechercher un café ou un produit"
               required
+              onChange={(e) => {
+                setIsSearching(e.target.value.length > 0);
+              }}
             />
             <button
               type="submit"
