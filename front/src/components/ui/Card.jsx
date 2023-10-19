@@ -36,7 +36,13 @@ const HeaderTitle = ({ className, as = "h3", children }) => {
 const HeaderSubtitle = ({ className, as = "p", children }) => {
   const Tag = as;
 
-  return <Tag className={classNames("mt-1 max-w-2xl text-xs font-semibold text-gray-500", className)}>{children}</Tag>;
+  return (
+    <Tag
+      className={classNames("mt-1 max-w-2xl text-xs font-semibold text-gray-500", className)}
+      style={{ textWrap: "pretty" }}>
+      {children}
+    </Tag>
+  );
 };
 
 const Body = ({ className, children }) => {
