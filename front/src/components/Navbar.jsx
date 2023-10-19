@@ -13,11 +13,7 @@ const routes = {
   profile: "/me",
 };
 
-const navigation = [
-  { name: "Cafés", href: routes.home },
-  { name: "Café staff", href: "/cafes/tore-et-fraction/staff" },
-  { name: "Café commande", href: "/cafes/tore-et-fraction/order/1" },
-];
+const navigation = [{ name: "Accueil", href: routes.home }];
 
 const avatarNavigation = [
   { name: "Mon profil", href: routes.profile },
