@@ -4,6 +4,7 @@ import Container from "../components/ui/Container";
 import { products } from "../components/Cart";
 import { Link } from "react-router-dom";
 import OpeningHours from "../components/ui/OpeningHours";
+import CafeMemberHeader from "../components/ui/CafeMemberHeader";
 
 const Cafe = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const Cafe = () => {
   return (
     <div className="bg-white">
       <Container className="py-10">
+        <CafeMemberHeader />
         <div className="mb-5 text-gray-500 font-semibold">
           <Link to="/" className="underline underline-offset-2 hover:no-underline">
             Liste des cafés
