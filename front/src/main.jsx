@@ -36,15 +36,15 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/cafe/:id",
+        path: "/cafes/:id",
         element: <Cafe />,
       },
       {
-        path: "/cafe/:id/staff",
+        path: "/cafes/:id/staff",
         element: <StaffList />,
       },
       {
-        path: "/cafe/:id/order/:orderId",
+        path: "/cafes/:id/order/:orderId",
         element: <OrderHeader />,
       },
     ],

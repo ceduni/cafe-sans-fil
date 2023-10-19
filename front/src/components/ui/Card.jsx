@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 const Card = ({ className, children, link }) => {
   if (link) {
     return (
-      <Link to={link} className="contents">
+      <Link to={link} className="contents" onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
         <div
           className={classNames(
             "overflow-hidden bg-white rounded-lg shadow-sm border flex flex-col hover:shadow-lg transition-shadow duration-300 ease-in-out",
             className
-          )}>
+          )}
+          tabIndex="0">
           {children}
         </div>
       </Link>

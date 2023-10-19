@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import ItemCard from "../components/ui/ItemCard";
 import Container from "../components/ui/Container";
 import { products } from "../components/Cart";
+import { Link } from "react-router-dom";
 
 const Cafe = () => {
   const { id } = useParams();
@@ -9,6 +10,13 @@ const Cafe = () => {
   return (
     <div className="bg-white">
       <Container className="py-10">
+        <div className="mb-5">
+          <Link to="/" className="underline underline-offset-2 hover:no-underline">
+            Liste des cafés
+          </Link>
+          &nbsp;&gt; {id}
+        </div>
+
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{id}</h2>
         <p className="mt-2 text-lg leading-8 text-gray-600">Description de {id}</p>
         <div className="my-2 flex items-center gap-x-1.5">
