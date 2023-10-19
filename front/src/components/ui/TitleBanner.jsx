@@ -1,6 +1,6 @@
 import Container from "./Container";
 
-// TODO: remoce if not used
+// TODO: remove if not used
 
 const TitleBanner = ({ title }) => {
   return (
