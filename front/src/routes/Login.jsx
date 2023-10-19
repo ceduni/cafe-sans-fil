@@ -7,11 +7,11 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Se connecter | Café sans fil</title>
+        <title>Se connecter | Café sans-fil</title>
       </Helmet>
       <div className="flex min-h-[80vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-24 lg:h-32 w-auto" src={logo} alt="Café sans fil logo" />
+          <img className="mx-auto h-24 lg:h-32 w-auto" src={logo} alt="Café sans-fil logo" />
           <h2 className="mt-6 text-center text-xl lg:text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Connectez-vous à votre compte
           </h2>

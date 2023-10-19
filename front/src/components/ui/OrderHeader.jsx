@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { CheckIcon, ChevronDownIcon, MapPinIcon } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
 import { useParams } from "react-router-dom";
-import Container from "./ui/Container";
+import Container from "./Container";
 import { BellAlertIcon, ClockIcon, InformationCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 
 function classNames(...classes) {

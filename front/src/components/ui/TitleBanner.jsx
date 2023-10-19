@@ -1,5 +1,7 @@
 import Container from "./Container";
 
+// TODO: remoce if not used
+
 const TitleBanner = ({ title }) => {
   return (
     <section className="bg-white shadow">

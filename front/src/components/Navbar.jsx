@@ -9,7 +9,6 @@ const routes = {
   home: "/",
   login: "/login",
   signup: "/signup",
-  search: "/search",
   profile: "/me",
 };
 
@@ -102,10 +101,6 @@ const Navbar = () => {
         </Transition.Root>
 
         <header className="relative bg-white">
-          <p className="flex items-center justify-center bg-emerald-600 p-4 sm:p-2 text-sm font-medium text-white">
-            Le site est en construction. Les fonctionnalités sont limitées.
-          </p>
-
           <nav aria-label="Top">
             <div className="border-b border-gray-200">
               <Container>
@@ -122,7 +117,7 @@ const Navbar = () => {
                   {/* Logo */}
                   <div className="ml-4 flex lg:ml-0">
                     <Link to={routes.home} className="text-xl font-bold text-gray-900 font-secondary">
-                      café sans&nbsp;fil
+                      café sans-fil
                     </Link>
                   </div>
 
@@ -224,7 +219,7 @@ const Navbar = () => {
                     </Menu>
 
                     {/* Search */}
-                    <div className="flex lg:ml-6">
+                    {/* <div className="flex lg:ml-6">
                       <NavLink
                         to={routes.search}
                         className={({ isActive }) =>
@@ -233,7 +228,7 @@ const Navbar = () => {
                         <span className="sr-only">Search</span>
                         <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
                       </NavLink>
-                    </div>
+                    </div> */}
 
                     {/* Cart */}
                     <div className="ml-4 flow-root lg:ml-6">

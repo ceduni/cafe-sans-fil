@@ -6,7 +6,7 @@ const Profile = () => {
   return (
     <>
       <Helmet>
-        <title>Profil | Café sans fil</title>
+        <title>Profil | Café sans-fil</title>
       </Helmet>
       <Container className="py-10">
         <div className="space-y-12">

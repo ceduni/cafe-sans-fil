@@ -1,4 +1,4 @@
-# Front-end de Café sans fil
+# Front-end de Café sans-fil
 
 ## Développement
 
@@ -16,6 +16,12 @@
 - Le front sera disponible à l'adresse indiquée dans le terminal (par défaut [http://localhost:5173](http://localhost:5173))
 
 ## Avancée du développement
+
+#### 2023-10-19
+
+- Modifications de design après discussions en équipe
+- Maquette de la page d'accueil avec cartes des cafés
+- Retiré page de recherche pour l'incorporer dans la page d'accueil
 
 #### 2023-10-09
 

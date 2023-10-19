@@ -5,11 +5,10 @@ import NavbarWrapper from "./components/NavbarWrapper";
 import ErrorPage from "./components/ErrorPage";
 import Login from "./routes/Login";
 import SignUp from "./routes/SignUp";
-import Search from "./routes/Search";
 import Profile from "./routes/Profile";
 import Cafe from "./routes/Cafe";
-import StaffList from "./components/StaffList";
-import OrderHeader from "./components/OrderHeader";
+import StaffList from "./components/ui/StaffList";
+import OrderHeader from "./components/ui/OrderHeader";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
@@ -30,10 +29,6 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUp />,
-      },
-      {
-        path: "/search",
-        element: <Search />,
       },
       {
         path: "/me",
