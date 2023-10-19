@@ -1,5 +1,5 @@
 import Container from "../components/ui/Container";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import Card from "../components/ui/Card";
 import Search from "../components/Search";
 import cafeList from "../data/cafes.json";

@@ -1,6 +1,6 @@
 import logo from "/logo.png";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import Input from "../components/ui/Input";
 
 const Login = () => {

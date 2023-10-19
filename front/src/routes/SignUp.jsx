@@ -1,6 +1,6 @@
 import Input from "../components/ui/Input";
 import logo from "/logo.png";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const SignUp = () => {
   return (
