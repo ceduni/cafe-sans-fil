@@ -20,6 +20,8 @@
 - L'api sera disponible à [http://127.0.0.1:8000](http://127.0.0.1:8000).
 - Une documentation automatique de l'API est disponible à [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
+> Pour quitter l'environnement virtuel, utilisez la commande `exit`.
+
 ## Avancée du développement
 
 #### 2023-10-20
