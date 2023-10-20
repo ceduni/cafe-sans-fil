@@ -143,7 +143,7 @@ const Filters = () => {
 
         <div>
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6">
-            <h1 className="text-3xl font-semibold tracking-tight text-gray-900">Cafés</h1>
+            <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Cafés</h1>
 
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
