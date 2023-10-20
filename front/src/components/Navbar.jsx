@@ -5,6 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 import Cart from "./Cart";
 import Container from "./ui/Container";
 import Avatar from "./ui/Avatar";
+import { useAuth } from "../hooks/useAuth";
 
 const routes = {
   home: "/",
@@ -25,6 +26,9 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
+  const { token, onLogout } = useAuth();
+  const isLoggedIn = token !== null;
+
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
 
@@ -145,76 +149,77 @@ const Navbar = () => {
                   </Popover.Group>
 
                   <div className="ml-auto flex items-center">
-                    <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                      <NavLink
-                        to={routes.login}
-                        className={({ isActive }) =>
-                          classNames(
-                            isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-700",
-                            "text-sm font-medium"
-                          )
-                        }>
-                        Se connecter
-                      </NavLink>
-                    </div>
-
-                    {/* Profile dropdown */}
-                    <Menu as="div" className="relative ml-3">
-                      <div>
-                        <Menu.Button>
-                          <Avatar name="John Doe"></Avatar>
-                        </Menu.Button>
-                      </div>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95">
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          {avatarNavigation.map((item) => (
-                            <Menu.Item key={item.name}>
+                    {isLoggedIn ? (
+                      <Menu as="div" className="relative ml-3">
+                        <div>
+                          <Menu.Button>
+                            <Avatar name="John Doe"></Avatar>
+                          </Menu.Button>
+                        </div>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95">
+                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            {avatarNavigation.map((item) => (
+                              <Menu.Item key={item.name}>
+                                {({ active }) => (
+                                  <Link
+                                    to={item.href}
+                                    className={classNames(
+                                      active ? "bg-gray-100" : "",
+                                      "block px-4 py-2 text-sm text-gray-700"
+                                    )}>
+                                    {item.name}
+                                  </Link>
+                                )}
+                              </Menu.Item>
+                            ))}
+                            <Menu.Item>
                               {({ active }) => (
-                                <Link
-                                  to={item.href}
+                                <a
+                                  href="#"
                                   className={classNames(
                                     active ? "bg-gray-100" : "",
                                     "block px-4 py-2 text-sm text-gray-700"
                                   )}>
-                                  {item.name}
-                                </Link>
+                                  Gestion cafés
+                                </a>
                               )}
                             </Menu.Item>
-                          ))}
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700"
-                                )}>
-                                Gestion cafés
-                              </a>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700"
-                                )}>
-                                Déconnexion
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <button
+                                  onClick={onLogout}
+                                  className={classNames(
+                                    active ? "bg-gray-100" : "",
+                                    "block px-4 py-2 text-sm text-gray-700 w-full text-left"
+                                  )}>
+                                  Déconnexion
+                                </button>
+                              )}
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                    ) : (
+                      <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                        <NavLink
+                          to={routes.login}
+                          className={({ isActive }) =>
+                            classNames(
+                              isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-700",
+                              "text-sm font-medium"
+                            )
+                          }>
+                          Se connecter
+                        </NavLink>
+                      </div>
+                    )}
 
                     {/* Search */}
                     {/* <div className="flex lg:ml-6">

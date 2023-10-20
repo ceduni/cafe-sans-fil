@@ -2,8 +2,11 @@ import logo from "/logo.png";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Input from "../components/ui/Input";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
+  const { onLogin } = useAuth();
+
   return (
     <>
       <Helmet>
@@ -18,7 +21,7 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" method="POST" onSubmit={onLogin}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Adresse courriel de l'UdeM

@@ -28,6 +28,7 @@
 - Correction de divers bugs dans le code
 - Ajout de la ProductView pour afficher en détail un produit et pouvoir l'ajouter au panier
 - Ajout quantité produits dans le panier
+- Début création contexte d'authentification et render des composants de manière conditionnelle (navbar notamment)
 
 #### 2023-10-09
 
@@ -54,3 +55,5 @@
 - [Tailwind documentation](https://tailwindcss.com/docs)
 - [Small and reusable Tailwind components with React - Lucky Media](https://www.luckymedia.dev/blog/small-and-reusable-tailwind-components-with-react)
 - [Building reusable React components using Tailwind CSS - LogRocket Blog](https://blog.logrocket.com/building-reusable-react-components-using-tailwind-css/)
+- [React Router 6: Authentication](https://www.robinwieruch.de/react-router-authentication/)
+- [Complete guide to authentication with React Router v6 - LogRocket Blog](https://blog.logrocket.com/complete-guide-authentication-with-react-router-v6/)
