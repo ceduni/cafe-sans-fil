@@ -41,7 +41,7 @@ const Navbar = () => {
       <div className="bg-white">
         {/* Mobile menu */}
         <Transition.Root show={open} as={Fragment}>
-          <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
+          <Dialog as="div" className="relative z-40 md:hidden" onClose={setOpen}>
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -111,7 +111,7 @@ const Navbar = () => {
                 <div className="flex h-16 items-center">
                   <button
                     type="button"
-                    className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
+                    className="relative rounded-md bg-white p-2 text-gray-400 md:hidden"
                     onClick={() => setOpen(true)}>
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open menu</span>
@@ -120,13 +120,14 @@ const Navbar = () => {
 
                   {/* Logo */}
                   <div className="ml-4 flex lg:ml-0">
-                    <Link to={routes.home} className="text-xl font-bold text-gray-900 font-secondary">
-                      café sans-fil
+                    <Link to={routes.home} className="flex items-center gap-2 md:gap-4">
+                      <img className="h-8 w-auto ml-2" src="/logo_min.png" alt="Café sans-fil" />
+                      <span className="text-xl font-bold text-gray-900 font-secondary">café sans-fil</span>
                     </Link>
                   </div>
 
                   {/* Flyout menus */}
-                  <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
+                  <Popover.Group className="hidden md:ml-8 md:block md:self-stretch">
                     <div className="flex h-full space-x-8">
                       {navigation.map((page) => (
                         <NavLink
@@ -207,7 +208,7 @@ const Navbar = () => {
                         </Transition>
                       </Menu>
                     ) : (
-                      <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                      <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-6">
                         <NavLink
                           to={routes.login}
                           className={({ isActive }) =>

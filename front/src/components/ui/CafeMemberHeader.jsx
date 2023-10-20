@@ -1,8 +1,15 @@
 import { BuildingStorefrontIcon, PencilIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Link, useParams } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const CafeMemberHeader = () => {
   const { id } = useParams();
+  const { token } = useAuth();
+  const isLogged = !!token;
+  if (!isLogged) {
+    return null;
+  }
+
   const IS_ADMIN = true;
   const status = { true: "admin", false: "bénevole" }[IS_ADMIN];
 
