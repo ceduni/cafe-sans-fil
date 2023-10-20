@@ -3,3 +3,4 @@ uvicorn == 0.14.0
 motor == 2.4.0
 beanie
 email-validator
+pymongo==3.12

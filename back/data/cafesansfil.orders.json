@@ -1,0 +1,164 @@
+[{
+  "_id": {
+    "$oid": "65324eaacba5a03d38fa65e6"
+  },
+  "order_id": {
+    "$binary": {
+      "base64": "x2GshroMRJir7kEj88UtQQ==",
+      "subType": "03"
+    }
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAA==",
+      "subType": "03"
+    }
+  },
+  "cafe_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAQ==",
+      "subType": "03"
+    }
+  },
+  "items": [
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAg==",
+          "subType": "03"
+        }
+      },
+      "quantity": 2,
+      "item_price": 5
+    }
+  ],
+  "total_price": 10,
+  "status": "placed",
+  "order_timestamp": {
+    "$date": "2023-10-19T14:30:00.000Z"
+  },
+  "completion_time": null
+},
+{
+  "_id": {
+    "$oid": "65324ececba5a03d38fa65e7"
+  },
+  "order_id": {
+    "$binary": {
+      "base64": "KwWPZg0lQwG7slCuDZTt8A==",
+      "subType": "03"
+    }
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAw==",
+      "subType": "03"
+    }
+  },
+  "cafe_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdABA==",
+      "subType": "03"
+    }
+  },
+  "items": [
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdABQ==",
+          "subType": "03"
+        }
+      },
+      "quantity": 3,
+      "item_price": 6
+    }
+  ],
+  "total_price": 18,
+  "status": "ready",
+  "order_timestamp": {
+    "$date": "2023-10-19T15:15:00.000Z"
+  },
+  "completion_time": null
+},
+{
+  "_id": {
+    "$oid": "65324ef2cba5a03d38fa65e8"
+  },
+  "order_id": {
+    "$binary": {
+      "base64": "Y0oGNfToQCu6vX49mx4CJw==",
+      "subType": "03"
+    }
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdABg==",
+      "subType": "03"
+    }
+  },
+  "cafe_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdABw==",
+      "subType": "03"
+    }
+  },
+  "items": [
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdACA==",
+          "subType": "03"
+        }
+      },
+      "quantity": 1,
+      "item_price": 8
+    }
+  ],
+  "total_price": 8,
+  "status": "completed",
+  "order_timestamp": {
+    "$date": "2023-10-19T16:00:00.000Z"
+  },
+  "completion_time": null
+},
+{
+  "_id": {
+    "$oid": "65324f33cba5a03d38fa65e9"
+  },
+  "order_id": {
+    "$binary": {
+      "base64": "ilFvA53mSzCnDZNhPiS6zg==",
+      "subType": "03"
+    }
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdACQ==",
+      "subType": "03"
+    }
+  },
+  "cafe_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAEA==",
+      "subType": "03"
+    }
+  },
+  "items": [
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAEQ==",
+          "subType": "03"
+        }
+      },
+      "quantity": 4,
+      "item_price": 7
+    }
+  ],
+  "total_price": 28,
+  "status": "cancelled",
+  "order_timestamp": {
+    "$date": "2023-10-19T17:15:00.000Z"
+  },
+  "completion_time": null
+}]

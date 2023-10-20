@@ -32,7 +32,8 @@ async def app_init():
     Initialize crucial application services.
     """
     # Establish a connection to MongoDB
-    db_client = AsyncIOMotorClient('mongodb://localhost:27017/').cafesansfil
+    # db_client = AsyncIOMotorClient('mongodb://localhost:27017/').cafesansfil
+    db_client = AsyncIOMotorClient("mongodb+srv://cafesansfil:cafesansfil@cluster0.lhfxwrd.mongodb.net/?retryWrites=true&w=majority").cafesansfil
     
     # Initialize Beanie with database and models
     await init_beanie(
