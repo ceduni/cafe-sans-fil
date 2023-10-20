@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
     token,
     onLogin: handleLogin,
     onLogout: handleLogout,
+    isLoggedIn: !!token,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

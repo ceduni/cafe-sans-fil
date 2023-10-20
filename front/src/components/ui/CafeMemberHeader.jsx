@@ -4,9 +4,9 @@ import { useAuth } from "../../hooks/useAuth";
 
 const CafeMemberHeader = () => {
   const { id } = useParams();
-  const { token } = useAuth();
-  const isLogged = !!token;
-  if (!isLogged) {
+  const { isLoggedIn } = useAuth();
+
+  if (!isLoggedIn) {
     return null;
   }
 

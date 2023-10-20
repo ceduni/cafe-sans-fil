@@ -2,18 +2,18 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export const LoggedInOnly = ({ children }) => {
-  const { token } = useAuth();
+  const { isLoggedIn } = useAuth();
 
-  if (!token) {
-    return <Navigate to="/" />;
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />;
   }
   return children;
 };
 
 export const LoggedOutOnly = ({ children }) => {
-  const { token } = useAuth();
+  const { isLoggedIn } = useAuth();
 
-  if (token) {
+  if (isLoggedIn) {
     return <Navigate to="/me" />;
   }
   return children;

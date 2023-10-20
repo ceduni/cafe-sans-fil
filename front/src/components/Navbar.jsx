@@ -26,8 +26,7 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
-  const { token, onLogout } = useAuth();
-  const isLoggedIn = token !== null;
+  const { isLoggedIn, onLogout } = useAuth();
 
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
