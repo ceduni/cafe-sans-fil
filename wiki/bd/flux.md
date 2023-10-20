@@ -1,4 +1,4 @@
-# 🌀 lux (slightly outdated)
+# 🌀 Flux (slightly outdated)
 
 Ce document présente les différents flux de données et leur output, afin de préparer les routes d'API.
 
