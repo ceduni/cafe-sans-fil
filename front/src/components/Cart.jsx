@@ -9,10 +9,20 @@ export const products = [
     href: "#",
     color: "Taille unique",
     price: "$2.00",
-    quantity: 1,
+    quantity: 7,
     imageSrc:
       "https://media.carrefour.fr/medias/370b7c262e583c43bae0e4ac1276d223/p_1500x1500/05711953145483-h1n1-s02.jpg",
     imageAlt: "Café latte",
+    sizes: [
+      { name: "XXS", inStock: true },
+      { name: "XS", inStock: true },
+      { name: "S", inStock: true },
+      { name: "M", inStock: true },
+      { name: "L", inStock: true },
+      { name: "XL", inStock: true },
+      { name: "XXL", inStock: true },
+      { name: "XXXL", inStock: false },
+    ],
   },
   {
     id: 2,
@@ -23,6 +33,16 @@ export const products = [
     quantity: 1,
     imageSrc: "https://img.circulaire-en-ligne.ca/wp-content/uploads/Tuna-Mayo-Sub-Roll.jpg",
     imageAlt: "Sandwich au thon",
+    sizes: [
+      { name: "XXS", inStock: true },
+      { name: "XS", inStock: true },
+      { name: "S", inStock: true },
+      { name: "M", inStock: true },
+      { name: "L", inStock: true },
+      { name: "XL", inStock: true },
+      { name: "XXL", inStock: true },
+      { name: "XXXL", inStock: false },
+    ],
   },
 ];
 
@@ -93,7 +113,18 @@ const Cart = ({ open, setOpen }) => {
                                     <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">Quantité: {product.quantity}</p>
+                                    <p className="text-gray-500">
+                                      Quantité:{" "}
+                                      <select
+                                        className="text-gray-900"
+                                        defaultValue={product.quantity <= 10 ? product.quantity : 1}>
+                                        {Array.from(Array(10).keys()).map((i) => (
+                                          <option key={i} value={i + 1}>
+                                            {i + 1}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </p>
 
                                     <div className="flex">
                                       <button
