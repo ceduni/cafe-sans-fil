@@ -42,7 +42,7 @@ const Cafe = () => {
       </Container>
       <Container className="py-10 border-t border-gray-200">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Menu</h2>
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
           {products.map((product) => (
             <ItemCard key={product.id} item={product} />
           ))}

@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 const CafeMemberHeader = () => {
   const { id } = useParams();
   const IS_ADMIN = true;
+  const status = { true: "admin", false: "bénevole" }[IS_ADMIN];
 
   const actions = [
     { name: "Commandes en cours", href: `/cafes/${id}/order/1`, icon: BuildingStorefrontIcon },
@@ -22,7 +23,7 @@ const CafeMemberHeader = () => {
   return (
     <div className="mb-10 p-6 rounded-lg bg-emerald-200">
       <div className="min-w-0 flex-1">
-        <h2 className="text-xl font-bold">Vous êtes bénévole dans ce café</h2>
+        <h2 className="text-xl font-bold">Vous êtes {status} dans ce café</h2>
       </div>
       <div className="mt-5 flex gap-3 flex-wrap">
         {actions.map((action) => (
