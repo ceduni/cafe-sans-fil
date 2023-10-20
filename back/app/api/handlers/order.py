@@ -1,0 +1,30 @@
+from fastapi import APIRouter, HTTPException, Depends
+from app.schemas.order_schema import Order
+from app.services.order_service import OrderService
+from uuid import UUID
+
+order_router = APIRouter()
+
+@order_router.get("/orders/{order_id}", response_model=Order)
+async def get_order(order_id: UUID):
+    order = await OrderService.retrieve_order(order_id)
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    return order
+
+@order_router.post("/orders", response_model=Order)
+async def create_order(order: Order):
+    return await OrderService.create_order(order)
+
+@order_router.put("/orders/{order_id}", response_model=Order)
+async def update_order(order_id: UUID, order: Order):
+    return await OrderService.update_order(order_id, order)
+
+# Todo
+# @router.get("/users/{user_id}/orders")
+# async def list_user_orders(user_id: UUID):
+#     return await OrderService.list_orders_for_user(user_id)
+
+# @router.get("/cafes/{cafe_id}/orders")
+# async def list_cafe_orders(cafe_id: UUID):
+#     return await OrderService.list_orders_for_cafe(cafe_id)
