@@ -1,31 +1,33 @@
-# API avec FastAPI
+# Back-end de Café sans-fil
 
-## Développement
+## Prérequis
 
-- On utilise un environnement virtuel pour éviter les conflits avec les dépendances, et ne pas avoir à les installer globalement
-- Il a été créé avec `python -m venv env`, cela crée un dossier `env` avec les fichiers nécessaires
-- Pour l'activer, il faut faire `source ./env/bin/activate` sur Linux, macOS ou `.\env\Scripts\Activate.ps1` avec Windows PowerShell
-- Une fois activé, `(env)` s'affichera désormais avant les commandes dans le terminal
-- Pour le désactiver, il faut entrer `deactivate`
-
-> **Note:** Après avoir installé des dépendances, il faut les ajouter au fichier `requirements.txt` avec la commande `pip freeze > requirements.txt`
-
-> **Note:** Il faut **toujours** activer l'environnement virtuel avant de lancer le serveur ou d'installer des dépendances
+- Assurez-vous d'avoir installé Python 3.7+.
+- Si vous n'avez pas `pipenv`, installez-le avec `pip install pipenv`.
 
 ## Installation
 
-- Avoir installé Python 3.7+ et pip (on s'assure que pip est à jour avec `python -m pip install --upgrade pip`)
-- Avoir créé en local un environnement virtuel nommé `env` avec la commande indiquée dans la section Développement
-- Avoir activé l'environnement virtuel avec la commande indiquée dans la section Développement
-- Avoir installé les dépendances avec `pip install -r requirements.txt`, **dans l'environnement virtuel**
-- Lancer le serveur avec `uvicorn main:app --reload`, **dans l'environnement virtuel**
+- On utilise `pipenv` pour gérer les dépendances et l'environnement virtuel du projet.
+- Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
+- Installez les dépendances nécessaires avec `pipenv install -r requirements.txt`.
+- Lancez le serveur avec `uvicorn app.main:app --reload`.
 
-> La commande uvicorn main:app réfère à: - `main`: le fichier main.py (le module Python) - `app`: l'objet créé dans main.py avec la ligne `app = FastAPI()` - `--reload` fait restart le serveur à chaque changement dans le code, à utiliser en développement seulement!
+> **Note:** La commande `uvicorn app.main:app` réfère à: 
+> - `app.main`: le fichier `main.py` dans le dossier `app` (le module Python).
+> - `app`: l'objet créé dans `main.py` avec la ligne `app = FastAPI()`.
+> - `--reload` fait redémarrer le serveur à chaque changement dans le code, à utiliser en développement seulement!
 
-- L'api sera disponible à [http://127.0.0.1:8000](http://127.0.0.1:8000)
-- Une documentation automatique de l'API est disponible à [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- L'api sera disponible à [http://127.0.0.1:8000](http://127.0.0.1:8000).
+- Une documentation automatique de l'API est disponible à [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
 ## Avancée du développement
+
+#### 2023-10-20
+
+- Refactorisation de la structure Backend et API pour une meilleure organisation et séparation des préoccupations.
+- Mise à jour majeure de l'API: Ajout des fonctionnalités CRUD pour les cafés et les éléments de menu, ainsi que leurs modèles, schémas et services associés.
+- Connexion à la base de données cloud Atlas et population avec des données initiales pour faciliter les tests et le développement.
+- Ajout d'une fonctionnalité de recherche unifiée pour les cafés et les éléments de menu, permettant une recherche fluide et intégrée sur l'ensemble de la base de données.
 
 #### 2023-10-04
 
@@ -42,11 +44,14 @@
 ## Ressources utilisées
 
 - [FastAPI](https://fastapi.tiangolo.com/#requirements)
-- [Aide par rapport au setup du venv](https://fastapi.tiangolo.com/contributing/#virtual-environment-with-venv)
 - [First steps FastAPI](https://fastapi.tiangolo.com/tutorial/first-steps/)
 - [Getting started MongoDB FastAPI](https://www.mongodb.com/developer/languages/python/python-quickstart-fastapi/)
 - [How to use FastAPI with MongoDB](https://plainenglish.io/blog/how-to-use-fastapi-with-mongodb-75b43c8e541d)
 - [Using FastAPI to Build Python Web APIs – Real Python](https://realpython.com/fastapi-python-web-apis/)
+- [FARM Stack Course - FastAPI, React, MongoDB](https://www.youtube.com/watch?v=OzUzrs8uJl8&list=PLAt-l74BsucNBwFANkqwisPMSLE62rKG_&index=2&t=2912s&ab_channel=freeCodeCamp.org)
+- [The ultimate FARM stack Todo app with JWT PART I - FastAPI + MongoDB | abdadeel](https://www.youtube.com/watch?v=G8MsHbCzyZ4&ab_channel=ABDLogs)
+- [How to build a FastAPI app with PostgreSQL](https://www.youtube.com/watch?v=398DuQbQJq0)
+
 
 ## Difficulités rencontrées
 

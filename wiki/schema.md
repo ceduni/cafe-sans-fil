@@ -8,22 +8,22 @@ Ce document présente la structure de notre BD MongoDB.
 
 ```json
 {
-  "_id": "string (UUID) (Unique)",
+  "user_id": "string (UUID) (Unique)",
   "email": "string (Unique)",
   "matricule": "string (Unique)",
   "username": "string (Unique)",
-  "password": "string (hashed)",
+  "hashed_password": "string (hashed)",
   "first_name": "string",
   "last_name": "string"
 }
 
 ```
 
-- **_id**: Une chaîne unique (UUID) pour identifier chaque utilisateur.
+- **user_id**: Une chaîne unique (UUID) pour identifier chaque utilisateur.
 - **email**: L'email de l'utilisateur.
 - **matricule**: Matricule de l'étudiant.
 - **username**: Nom d'utilisateur choisi par l'étudiant pour se connecter.
-- **password**: Mot de passe de l'utilisateur, qui sera haché avant d'être stocké pour des raisons de sécurité.
+- **hashed_password**: Mot de passe de l'utilisateur, qui sera haché avant d'être stocké pour des raisons de sécurité.
 - **first_name**: Prénom de l'utilisateur.
 - **last_name**: Nom de famille de l'utilisateur.
 
@@ -33,7 +33,7 @@ Ce document présente la structure de notre BD MongoDB.
 
 ```json
 {
-  "_id": "string (UUID) (Unique)",
+  "cafe_id": "string (UUID) (Unique)",
   "name": "string",
   "description": "string (Optional)",
   "image_url": "string (Optional)",
@@ -98,7 +98,7 @@ Ce document présente la structure de notre BD MongoDB.
 }
 ```
 
-- **_id**: Un identifiant unique (UUID) pour chaque café.
+- **cafe_id**: Un identifiant unique (UUID) pour chaque café.
 - **name**: Nom du café.
 - **description**: Brève description du café.
 - **image_url**: URL d'une image représentative du café.
@@ -120,7 +120,7 @@ Ce document présente la structure de notre BD MongoDB.
 
 ```json
 {
-  "_id": "string (UUID) (Unique)",
+  "order_id": "string (UUID) (Unique)",
   "user_id": "string (UUID)",
   "cafe_id": "string (UUID)",
   "items": [
@@ -136,7 +136,7 @@ Ce document présente la structure de notre BD MongoDB.
 }
 ```
 
-- **_id**: Un identifiant unique (UUID) pour chaque commande.
+- **order_id**: Un identifiant unique (UUID) pour chaque commande.
 - **user_id**: L'identifiant de l'utilisateur qui a passé la commande.
 - **cafe_id**: L'identifiant du café où la commande a été passée.
 - **items**: Les articles que l'utilisateur a commandés.

@@ -28,25 +28,20 @@ Le détail de l'échéancier est présenté dans le fichier [**TIMELINE**](TIMEL
 
 ## 🌐 Infrastructure
 
-L'infrastructure de l'application consiste principalement en une base de données assurant le stockage efficace des données, une API traitant les requêtes envoyées par les clients, et une application web permettant aux utilisateurs de visualiser et interagir avec les données de l'application.
+L'infrastructure de l'application est basée sur la technologie **FARM stack**, qui englobe FastAPI, React et MongoDB, offrant ainsi une solution moderne, performante et bien intégrée.
 
 ### 🗄️ Base de données
 
-<!-- Le système de base de données envisagées doit être robuste et simple. -->
-
-- Fichiers et style relationnel
-- MongoDB
+- **MongoDB**: Une base de données NoSQL axée sur la performance et la flexibilité, idéale pour des applications web modernes.
 
 ### 🔗 API
 
-- En Python
-- FastAPI
+- **FastAPI**: Un framework Python moderne et rapide (hautes performances) pour la création d'API basées sur des types standards.
 
 ### 💻 Application web
 
-- JavaScript, SPA (single page application)
-- React
-- Tailwind CSS
+- **React**: Une bibliothèque JavaScript pour construire des interfaces utilisateur interactives en SPA (single page application).
+- **Tailwind CSS**: Un framework CSS pour un design moderne et responsive.
 
 # 📘 Documentation
 

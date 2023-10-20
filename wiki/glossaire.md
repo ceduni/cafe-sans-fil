@@ -25,7 +25,6 @@
 ## Base de données:
 
 - **MongoDB**: Une base de données NoSQL orientée documents, classée parmi les bases de données dites "NoSQL". Elle s'écarte du modèle traditionnel de stockage de données relationnelles en lignes et colonnes.
-- **Style relationnel**: Un type de base de données qui utilise un modèle avec des lignes et des colonnes pour organiser les données, typiquement SQL.
 
 ## API:
 
