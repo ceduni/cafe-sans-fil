@@ -24,7 +24,10 @@
 - Retiré page de recherche pour l'incorporer dans la page d'accueil
 - Création cards cafés
 - Ajout filtres sur la page d'accueil pour filtrer les cafés
+- Ajout vue de bénévole / admin sur un café
 - Correction de divers bugs dans le code
+- Ajout de la ProductView pour afficher en détail un produit et pouvoir l'ajouter au panier
+- Ajout quantité produits dans le panier
 
 #### 2023-10-09
 
