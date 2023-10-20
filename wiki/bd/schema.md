@@ -1,4 +1,4 @@
-# 🗃️ BD (Base de Données)
+# 🗃️ Schemas (Base de Données)
 
 Ce document présente la structure de notre BD MongoDB.
 
