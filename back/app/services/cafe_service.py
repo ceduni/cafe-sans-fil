@@ -1,8 +1,9 @@
+import re
 from typing import List
 from uuid import UUID
 from app.models.cafe_model import Cafe as CafeModel
-from app.schemas.cafe_schema import Cafe
 from app.models.cafe_model import MenuItem as MenuItemModel 
+from app.schemas.cafe_schema import Cafe
 from app.schemas.cafe_schema import MenuItem
 from typing import Optional
 
@@ -87,3 +88,24 @@ class CafeService:
                     await cafe.save()
                     return
         raise ValueError("Menu item not found")
+
+    # --------------------------------------
+    #               Search
+    # --------------------------------------
+    @staticmethod
+    async def search_cafes_and_items(query: str):
+        # Search for cafes
+        matching_cafes = await CafeModel.find({"name": {"$regex": query, "$options": "i"}}).to_list()
+        
+        # Search for menu_items
+        cafes = await CafeModel.find({"menu_items": {"$elemMatch": {"name": {"$regex": query, "$options": "i"}}}}).to_list()
+        matching_items = []
+        for cafe in cafes:
+            for item in cafe.menu_items:
+                if re.search(query, item.name, re.IGNORECASE):
+                    matching_items.append(item)
+
+        return {
+            "matching_cafes": matching_cafes,
+            "matching_items": matching_items
+        }

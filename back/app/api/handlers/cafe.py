@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
 from app.schemas.cafe_schema import Cafe, MenuItem
 from app.services.cafe_service import CafeService
 from uuid import UUID
@@ -60,3 +60,13 @@ async def delete_menu_item(cafe_id: UUID, item_id: UUID):
         return deleted_item
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+# --------------------------------------
+#               Search
+# --------------------------------------
+@cafe_router.get("/search")
+async def unified_search(
+    query: str = Query(..., description="Search query")):
+    
+    results = await CafeService.search_cafes_and_items(query)
+    return results
