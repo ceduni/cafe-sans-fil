@@ -12,6 +12,7 @@ import OrderHeader from "./components/ui/OrderHeader";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
+import { LoggedInOnly, LoggedOutOnly } from "./helpers/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -25,15 +26,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login />,
+        element: (
+          <LoggedOutOnly>
+            <Login />
+          </LoggedOutOnly>
+        ),
       },
       {
         path: "/signup",
-        element: <SignUp />,
+        element: (
+          <LoggedOutOnly>
+            <SignUp />
+          </LoggedOutOnly>
+        ),
       },
       {
         path: "/me",
-        element: <Profile />,
+        element: (
+          <LoggedInOnly>
+            <Profile />
+          </LoggedInOnly>
+        ),
       },
       {
         path: "/cafes/:id",

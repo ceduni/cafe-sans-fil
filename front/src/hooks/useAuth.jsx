@@ -1,8 +1,11 @@
-import { useContext, useState, createContext } from "react";
+import { useContext, createContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "./useLocalStorage";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useLocalStorage("token", null);
+  const navigate = useNavigate();
 
   const fakeAuth = () =>
     new Promise((resolve) => {
@@ -15,11 +18,13 @@ export const AuthProvider = ({ children }) => {
 
     console.log("login");
     setToken(token);
+    navigate("/");
   };
 
   const handleLogout = () => {
     setToken(null);
     console.log("logout");
+    navigate("/", { replace: true });
   };
 
   const value = {
