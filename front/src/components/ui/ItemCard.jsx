@@ -4,8 +4,6 @@ import ProductView from "../ProductView";
 const ItemCard = ({ item }) => {
   const [itemPreviewOpen, setItemPreviewOpen] = useState(false);
 
-  console.log(item);
-
   return (
     <>
       <ProductView product={item} open={itemPreviewOpen} setOpen={setItemPreviewOpen} />
