@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import ScrollToTop from "../helpers/ScrollToTop";
 
-const NavbarWrapper = () => {
+const PageWrapper = () => {
   return (
     <>
       <ScrollToTop />
@@ -14,4 +14,4 @@ const NavbarWrapper = () => {
   );
 };
 
-export default NavbarWrapper;
+export default PageWrapper;

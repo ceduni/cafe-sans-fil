@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Home from "./routes/Home";
-import NavbarWrapper from "./components/NavbarWrapper";
+import PageWrapper from "./components/PageWrapper";
 import ErrorPage from "./components/ErrorPage";
 import Login from "./routes/Login";
 import SignUp from "./routes/SignUp";
@@ -16,7 +16,7 @@ import { HelmetProvider } from "react-helmet-async";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <NavbarWrapper />,
+    element: <PageWrapper />,
     errorElement: <ErrorPage />,
     children: [
       {
