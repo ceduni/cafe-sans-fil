@@ -2,7 +2,7 @@
 
 ## Prérequis
 
-- Assurez-vous d'avoir installé Python 3.7+.
+- Assurez-vous d'avoir installé Python 3.10.
 - Si vous n'avez pas `pipenv`, installez-le avec `pip install pipenv`.
 
 ## Installation
@@ -63,4 +63,6 @@
 
 ## Difficulités rencontrées
 
-- Il a fallu spécifiquement installer pydantic 1.9 au lieu de la dernère version, car la v2 a causé des erreurs avec MongoDB et les BaseModel utilisant des ObjectId. De plus, la documentation officielle de MongoDB n'utilise pas la v2. (voir [ici](https://www.mongodb.com/community/forums/t/pydantic-v2-and-objectid-fields/241965)).
+- Il a fallu spécifiquement installer pydantic 1.9 au lieu de la dernère version, car la v2 a causé des erreurs avec MongoDB et les BaseModel utilisant des ObjectId. De plus, la documentation officielle de MongoDB n'utilise pas la v2. (voir [ici](https://www.mongodb.com/community/forums/t/pydantic-v2-and-objectid-fields/241965)).  
+
+- Un problème rencontré sur MacBook était l'erreur "command not found" après avoir installé pipenv. La solution a été trouvée dans cette [vidéo](https://www.youtube.com/watch?v=Bzn_MZ0tNXU&ab_channel=SpecialCoder).
