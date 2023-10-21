@@ -99,19 +99,69 @@ class CafeService:
     # --------------------------------------
     #               Search
     # --------------------------------------
-    
+
     @staticmethod
-    async def search_cafes_and_items(query: str):
-        # Search for cafes
-        matching_cafes = await CafeModel.find({"name": {"$regex": query, "$options": "i"}}).to_list()
+    async def search_cafes_and_items(query: str = "", category: str = "", is_available: Optional[bool] = None, is_open: Optional[bool] = None):
+
+        # --- Filters ---
+        regex_pattern = {"$regex": query, "$options": "i"} if query else {}
+        cafe_filter = {
+            "$or": [
+                {"name": regex_pattern},
+                {"description": regex_pattern},
+                {"faculty": regex_pattern},
+                {"location": regex_pattern}
+            ]
+        } if query else {}
         
-        # Search for menu_items
-        cafes = await CafeModel.find({"menu_items": {"$elemMatch": {"name": {"$regex": query, "$options": "i"}}}}).to_list()
+        item_filter = {
+            "$or": [
+                {"name": regex_pattern},
+                {"description": regex_pattern}
+            ]
+        } if query else {}
+
+        if category:
+            item_filter["category"] = category
+
+        if is_available is not None:
+            item_filter["is_available"] = is_available
+
+        if is_open is not None:
+            cafe_filter["is_open"] = is_open
+
+        # --- Search ---
+        matching_cafes = []
         matching_items = []
-        for cafe in cafes:
-            for item in cafe.menu_items:
-                if re.search(query, item.name, re.IGNORECASE):
-                    matching_items.append(item)
+
+        # If category or is_available filter is provided, search only menu_items
+        if category or (is_available is not None):
+            cafes_with_matching_items = await CafeModel.find({
+                "menu_items": {"$elemMatch": item_filter}
+            }).to_list()
+            for cafe in cafes_with_matching_items:
+                matching_items.extend([item for item in cafe.menu_items if (not query or any([
+                    re.search(query, item.name, re.IGNORECASE),
+                    re.search(query, item.description, re.IGNORECASE)
+                ]))
+                and (not category or item.category == category)
+                and (is_available is None or item.is_available == is_available)])
+
+        # If is_open filter is provided, search only cafes
+        elif is_open is not None:
+            matching_cafes = await CafeModel.find(cafe_filter).to_list()
+
+        # If no filters, search cafes and menu_items
+        else:
+            matching_cafes = await CafeModel.find(cafe_filter).to_list()
+            cafes_with_matching_items = await CafeModel.find({
+                "menu_items": {"$elemMatch": item_filter}
+            }).to_list()
+            for cafe in cafes_with_matching_items:
+                matching_items.extend([item for item in cafe.menu_items if not query or any([
+                    re.search(query, item.name, re.IGNORECASE),
+                    re.search(query, item.description, re.IGNORECASE)
+                ])])
 
         return {
             "matching_cafes": matching_cafes,

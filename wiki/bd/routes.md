@@ -4,7 +4,7 @@ Ce document présente les routes de notre BD MongoDB.
 
 ## Cafés
 
-- GET /api/cafes?faculty=<faculty>&is_open=<true/false>&payment_method=<method>: List all cafés with optional filters.
+- GET /api/cafes: List all cafés.
 - GET /api/cafes/{cafe_id}: Retrieve detailed information about a café.
 - POST /api/cafes: Create a new café.
 - PUT /api/cafes/{cafe_id}: Update a café's information (Admin only).
@@ -19,7 +19,7 @@ Ce document présente les routes de notre BD MongoDB.
 
 ## Search
 
-- GET /api/search?query=<search_query>&category=<category>&available=<true/false>: Unified search for both items and cafés. The category and available parameters are optional.
+- GET /api/search?query=<search_query>&category=<category>&is_available=<true/false>&is_open=<true/false>: Unified search for both items and cafés. The category, is_available, and is_open parameters are optional.
 
 ## Users
 

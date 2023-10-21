@@ -13,6 +13,7 @@ cafe_router = APIRouter()
 # --------------------------------------
 #               Cafe
 # --------------------------------------
+
 @cafe_router.get("/cafes", response_model=List[Cafe])
 async def list_cafes():
     return await CafeService.list_cafes()
@@ -35,6 +36,7 @@ async def update_cafe(cafe_id: UUID, cafe: Cafe):
 # --------------------------------------
 #               Menu
 # --------------------------------------
+
 @cafe_router.get("/cafes/{cafe_id}/menu", response_model=List[MenuItem])
 async def list_menu_items(cafe_id: UUID):
     menu = await CafeService.retrieve_cafe_menu(cafe_id)
@@ -68,9 +70,13 @@ async def delete_menu_item(cafe_id: UUID, item_id: UUID):
 # --------------------------------------
 #               Search
 # --------------------------------------
+
 @cafe_router.get("/search")
 async def unified_search(
-    query: str = Query(..., description="Search query")):
+    query: str = Query(..., description="Search query"),
+    category: str = Query(None, description="Category to filter items by"),
+    is_available: bool = Query(None, description="Filter items based on availability"),
+    is_open: bool = Query(None, description="Filter cafés based on open status")):
     
-    results = await CafeService.search_cafes_and_items(query)
+    results = await CafeService.search_cafes_and_items(query, category, is_available, is_open)
     return results
