@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
 from app.schemas.order_schema import Order
 from app.services.order_service import OrderService
 from uuid import UUID
@@ -8,6 +8,10 @@ This module defines the API routes related to the ordering system of the applica
 """
 
 order_router = APIRouter()
+
+# --------------------------------------
+#               Order
+# --------------------------------------
 
 @order_router.get("/orders/{order_id}", response_model=Order)
 async def get_order(order_id: UUID):
@@ -24,11 +28,10 @@ async def create_order(order: Order):
 async def update_order(order_id: UUID, order: Order):
     return await OrderService.update_order(order_id, order)
 
-# Todo
-# @router.get("/users/{user_id}/orders")
-# async def list_user_orders(user_id: UUID):
-#     return await OrderService.list_orders_for_user(user_id)
+@order_router.get("/users/{user_id}/orders")
+async def list_user_orders(user_id: UUID, status: str = Query(None, description="Filter orders by status")):
+    return await OrderService.list_orders_for_user(user_id, status)
 
-# @router.get("/cafes/{cafe_id}/orders")
-# async def list_cafe_orders(cafe_id: UUID):
-#     return await OrderService.list_orders_for_cafe(cafe_id)
+@order_router.get("/cafes/{cafe_id}/orders")
+async def list_cafe_orders(cafe_id: UUID, status: str = Query(None, description="Filter orders by status")):
+    return await OrderService.list_orders_for_cafe(cafe_id, status)

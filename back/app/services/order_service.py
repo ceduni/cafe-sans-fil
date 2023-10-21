@@ -1,4 +1,5 @@
 from uuid import UUID
+from typing import List
 from app.models.order_model import Order as OrderModel
 from app.schemas.order_schema import Order
 
@@ -7,9 +8,9 @@ class OrderService:
     Service class that provides methods for CRUD operations related to Orders.
     """
     
-    # @staticmethod
-    # async def list_orders(user_id: UUID) -> List[Order]:
-    #     return await OrderModel.find(OrderModel.user_id == user_id).to_list()
+    # --------------------------------------
+    #               Order
+    # --------------------------------------
 
     @staticmethod
     async def create_order(data: Order) -> OrderModel:
@@ -27,8 +28,16 @@ class OrderService:
         await order.update({"$set": data.dict(exclude_unset=True)})
         return order
 
-    # @staticmethod
-    # async def delete_order(order_id: UUID) -> None:
-    #     order = await OrderService.retrieve_order(order_id)
-    #     if order:
-    #         await order.delete()
+    @staticmethod
+    async def list_orders_for_user(user_id: UUID, status: str = None) -> List[OrderModel]:
+        filter_query = {"user_id": user_id}
+        if status:
+            filter_query["status"] = status
+        return await OrderModel.find(filter_query).to_list()
+
+    @staticmethod
+    async def list_orders_for_cafe(cafe_id: UUID, status: str = None) -> List[OrderModel]:
+        filter_query = {"cafe_id": cafe_id}
+        if status:
+            filter_query["status"] = status
+        return await OrderModel.find(filter_query).to_list()

@@ -24,12 +24,18 @@
 
 ## Avancée du développement
 
+#### 2023-10-21
+
+- Mise à jour de la recherche: Inclusion des descriptions, facultés, localisations et filtres.
+- Ajout de la récupération des commandes pour l'utilisateur/le café avec filtrage de statut.
+
 #### 2023-10-20
 
-- Refactorisation de la structure Backend et API pour une meilleure organisation et séparation des préoccupations.
+- Refactorisation de la structure Backend et API.
 - Mise à jour majeure de l'API: Ajout des fonctionnalités CRUD pour les cafés et les éléments de menu, ainsi que leurs modèles, schémas et services associés.
-- Connexion à la base de données cloud Atlas et population avec des données initiales pour faciliter les tests et le développement.
-- Ajout d'une fonctionnalité de recherche unifiée pour les cafés et les éléments de menu, permettant une recherche fluide et intégrée sur l'ensemble de la base de données.
+- Connexion à la base de données cloud Atlas et population avec des données initiales.
+- Ajout d'une fonctionnalité de recherche unifiée pour les cafés et les éléments de menu.
+- Ajout de docstrings aux modules backend.
 
 #### 2023-10-04
 
@@ -53,7 +59,7 @@
 - [FARM Stack Course - FastAPI, React, MongoDB](https://www.youtube.com/watch?v=OzUzrs8uJl8&list=PLAt-l74BsucNBwFANkqwisPMSLE62rKG_&index=2&t=2912s&ab_channel=freeCodeCamp.org)
 - [The ultimate FARM stack Todo app with JWT PART I - FastAPI + MongoDB | abdadeel](https://www.youtube.com/watch?v=G8MsHbCzyZ4&ab_channel=ABDLogs)
 - [How to build a FastAPI app with PostgreSQL](https://www.youtube.com/watch?v=398DuQbQJq0)
-
+- [How to create an API in Python](https://anderfernandez.com/en/blog/how-to-create-api-python/)
 
 ## Difficulités rencontrées
 

@@ -7,9 +7,9 @@ class UserService:
     Service class that provides methods for CRUD operations related to Users.
     """
     
-    # @staticmethod
-    # async def list_users() -> List[User]:
-    #     return await UserModel.all().to_list()
+    # --------------------------------------
+    #               User
+    # --------------------------------------
 
     @staticmethod
     async def create_user(data: User) -> UserModel:
@@ -26,9 +26,3 @@ class UserService:
         user = await UserService.retrieve_user(user_id)
         await user.update({"$set": data.dict(exclude_unset=True)})
         return user
-
-    # @staticmethod
-    # async def delete_user(user_id: UUID) -> None:
-    #     user = await UserService.retrieve_user(user_id)
-    #     if user:
-    #         await user.delete()

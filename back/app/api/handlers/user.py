@@ -9,6 +9,10 @@ This module defines the API routes related to user management in the application
 
 user_router = APIRouter()
 
+# --------------------------------------
+#               User
+# --------------------------------------
+
 @user_router.get("/users/{user_id}", response_model=User)
 async def get_user(user_id: UUID):
     user = await UserService.retrieve_user(user_id)
