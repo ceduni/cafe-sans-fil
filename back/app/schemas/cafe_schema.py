@@ -2,6 +2,14 @@ from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel, EmailStr
 
+"""
+This module defines the Pydantic-based schemas for cafe operations in the Café application. 
+These schemas are utilized for request and response validation, serialization, 
+and documentation specific to cafe listings, details, and management.
+
+Note: These models are for API data interchange related to cafes and not direct database models.
+"""
+
 class TimeBlock(BaseModel):
     start: str  # HH:mm format
     end: str  # HH:mm format

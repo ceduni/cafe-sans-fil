@@ -3,7 +3,10 @@ from app.models.user_model import User as UserModel
 from app.schemas.user_schema import User
 
 class UserService:
-
+    """
+    Service class that provides methods for CRUD operations related to Users.
+    """
+    
     # @staticmethod
     # async def list_users() -> List[User]:
     #     return await UserModel.all().to_list()

@@ -3,7 +3,10 @@ from app.models.order_model import Order as OrderModel
 from app.schemas.order_schema import Order
 
 class OrderService:
-
+    """
+    Service class that provides methods for CRUD operations related to Orders.
+    """
+    
     # @staticmethod
     # async def list_orders(user_id: UUID) -> List[Order]:
     #     return await OrderModel.find(OrderModel.user_id == user_id).to_list()

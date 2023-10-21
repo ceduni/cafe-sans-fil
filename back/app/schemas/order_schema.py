@@ -4,6 +4,14 @@ from pydantic import BaseModel
 from datetime import datetime
 from enum import Enum
 
+"""
+This module defines the Pydantic-based schemas for order operations in the Café application. 
+These schemas are utilized for request and response validation, serialization, 
+and documentation specific to orders.
+
+Note: These models are for API data interchange related to orders and not direct database models.
+"""
+
 class OrderedItem(BaseModel):
     item_id: UUID
     quantity: int

@@ -3,6 +3,16 @@ from uuid import UUID, uuid4
 from beanie import Document, Indexed
 from pydantic import BaseModel, EmailStr, Field
 
+"""
+This module defines the Pydantic-based models used in the Café application for cafe management,
+which are specifically designed for database interaction via the Beanie ODM 
+(Object Document Mapper) for MongoDB. These models detail the structure, relationships, 
+and constraints of the cafe-related data stored in the database.
+
+Note: These models are intended for direct database interactions related to cafes and are 
+different from the API data interchange models.
+"""
+
 class TimeBlock(BaseModel):
     start: str  # HH:mm format
     end: str  # HH:mm format
@@ -15,7 +25,7 @@ class Contact(BaseModel):
     email: Optional[EmailStr] = None 
     phone_number: Optional[str] = None 
     website: Optional[str] = None 
-    
+        
 class SocialMedia(BaseModel):
     platform_name: Optional[str] = None 
     link: Optional[str] = None 

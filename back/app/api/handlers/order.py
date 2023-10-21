@@ -3,6 +3,10 @@ from app.schemas.order_schema import Order
 from app.services.order_service import OrderService
 from uuid import UUID
 
+"""
+This module defines the API routes related to the ordering system of the application.
+"""
+
 order_router = APIRouter()
 
 @order_router.get("/orders/{order_id}", response_model=Order)

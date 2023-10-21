@@ -4,6 +4,10 @@ from app.services.cafe_service import CafeService
 from uuid import UUID
 from typing import List
 
+"""
+This module defines the API routes related to cafes, their menus, and a unified search function for cafes and menu items.
+"""
+
 cafe_router = APIRouter()
 
 # --------------------------------------

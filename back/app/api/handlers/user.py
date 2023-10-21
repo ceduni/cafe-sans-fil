@@ -3,6 +3,10 @@ from app.schemas.user_schema import User
 from app.services.user_service import UserService
 from uuid import UUID
 
+"""
+This module defines the API routes related to user management in the application.
+"""
+
 user_router = APIRouter()
 
 @user_router.get("/users/{user_id}", response_model=User)

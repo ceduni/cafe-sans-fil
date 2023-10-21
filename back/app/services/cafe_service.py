@@ -8,9 +8,15 @@ from app.schemas.cafe_schema import MenuItem
 from typing import Optional
 
 class CafeService:
+    """
+    Service class that provides methods for CRUD operations and search functionality 
+    related to Cafe and its associated MenuItems.
+    """
+    
     # --------------------------------------
     #               Cafe
     # --------------------------------------
+
     @staticmethod
     async def list_cafes() -> List[Cafe]:
         return await CafeModel.all().to_list()
@@ -40,6 +46,7 @@ class CafeService:
     # --------------------------------------
     #               Menu
     # --------------------------------------
+
     @staticmethod
     async def retrieve_cafe_menu(cafe_id: UUID) -> List[MenuItem]:
         cafe = await CafeService.retrieve_cafe(cafe_id)
@@ -92,6 +99,7 @@ class CafeService:
     # --------------------------------------
     #               Search
     # --------------------------------------
+    
     @staticmethod
     async def search_cafes_and_items(query: str):
         # Search for cafes
