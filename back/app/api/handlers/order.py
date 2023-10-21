@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Query
+from fastapi import APIRouter, HTTPException, Query
 from app.schemas.order_schema import Order
 from app.services.order_service import OrderService
 from uuid import UUID

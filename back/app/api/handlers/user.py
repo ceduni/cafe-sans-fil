@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException
 from app.schemas.user_schema import User
 from app.services.user_service import UserService
 from uuid import UUID

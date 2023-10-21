@@ -18,9 +18,14 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_cafes() -> List[Cafe]:
-        return await CafeModel.all().to_list()
-    
+    async def list_cafes(is_open: Optional[bool] = None, payment_method: Optional[str] = None) -> List[Cafe]:
+        filter_criteria = {}
+        if is_open is not None:
+            filter_criteria["is_open"] = is_open
+        if payment_method:
+            filter_criteria["payment_methods.method"] = payment_method
+        return await CafeModel.find(filter_criteria).to_list()
+
     @staticmethod
     async def create_cafe(data: Cafe) -> CafeModel:
         cafe = CafeModel(**data.dict())
@@ -48,10 +53,14 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def retrieve_cafe_menu(cafe_id: UUID) -> List[MenuItem]:
+    async def list_menu_items(cafe_id: UUID, category: Optional[str] = None, is_available: Optional[bool] = None) -> List[MenuItem]:
         cafe = await CafeService.retrieve_cafe(cafe_id)
         if cafe and hasattr(cafe, 'menu_items'):
-            return cafe.menu_items
+            filtered_menu = []
+            for item in cafe.menu_items:
+                if (category is None or item.category == category) and (is_available is None or item.is_available == is_available):
+                    filtered_menu.append(item)
+            return filtered_menu
         return []
 
     @staticmethod
@@ -101,7 +110,7 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def search_cafes_and_items(query: str = "", category: str = "", is_available: Optional[bool] = None, is_open: Optional[bool] = None):
+    async def search_cafes_and_items(query: str = "", category: str = "", is_available: Optional[bool] = None, is_open: Optional[bool] = None, payment_method: str = None):
 
         # --- Filters ---
         regex_pattern = {"$regex": query, "$options": "i"} if query else {}
@@ -130,6 +139,9 @@ class CafeService:
         if is_open is not None:
             cafe_filter["is_open"] = is_open
 
+        if payment_method:
+            cafe_filter["payment_methods.method"] = payment_method
+
         # --- Search ---
         matching_cafes = []
         matching_items = []
@@ -147,8 +159,8 @@ class CafeService:
                 and (not category or item.category == category)
                 and (is_available is None or item.is_available == is_available)])
 
-        # If is_open filter is provided, search only cafes
-        elif is_open is not None:
+        # If is_open or payment_method filter is provided, search only cafes
+        elif is_open is not None or payment_method:
             matching_cafes = await CafeModel.find(cafe_filter).to_list()
 
         # If no filters, search cafes and menu_items

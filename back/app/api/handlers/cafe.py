@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Query
+from fastapi import APIRouter, HTTPException, Query
 from app.schemas.cafe_schema import Cafe, MenuItem
 from app.services.cafe_service import CafeService
 from uuid import UUID
@@ -15,8 +15,10 @@ cafe_router = APIRouter()
 # --------------------------------------
 
 @cafe_router.get("/cafes", response_model=List[Cafe])
-async def list_cafes():
-    return await CafeService.list_cafes()
+async def list_cafes(is_open: bool = Query(None, description="Filter cafés based on open status"),
+                     payment_method: str = Query(None, description="Filter cafés based on supported payment methods")):
+    return await CafeService.list_cafes(is_open, payment_method)
+
 
 @cafe_router.get("/cafes/{cafe_id}", response_model=Cafe)
 async def get_cafe(cafe_id: UUID):
@@ -38,8 +40,12 @@ async def update_cafe(cafe_id: UUID, cafe: Cafe):
 # --------------------------------------
 
 @cafe_router.get("/cafes/{cafe_id}/menu", response_model=List[MenuItem])
-async def list_menu_items(cafe_id: UUID):
-    menu = await CafeService.retrieve_cafe_menu(cafe_id)
+async def list_menu_items(
+    cafe_id: UUID, 
+    category: str = Query(None, description="Filter menu items based on category"),
+    is_available: bool = Query(None, description="Filter menu items based on availability")
+):
+    menu = await CafeService.list_menu_items(cafe_id, category, is_available)
     if not menu:
         raise HTTPException(status_code=404, detail="Menu not found for the given café.")
     return menu
@@ -76,7 +82,8 @@ async def unified_search(
     query: str = Query(..., description="Search query"),
     category: str = Query(None, description="Category to filter items by"),
     is_available: bool = Query(None, description="Filter items based on availability"),
-    is_open: bool = Query(None, description="Filter cafés based on open status")):
+    is_open: bool = Query(None, description="Filter cafés based on open status"),
+    payment_method: str = Query(None, description="Filter cafés based on supported payment methods")):
     
-    results = await CafeService.search_cafes_and_items(query, category, is_available, is_open)
+    results = await CafeService.search_cafes_and_items(query, category, is_available, is_open, payment_method)
     return results

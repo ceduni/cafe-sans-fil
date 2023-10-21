@@ -4,22 +4,22 @@ Ce document présente les routes de notre API.
 
 ## Cafés
 
-- **GET** `/api/cafes`: List all cafés.
-- **GET** `/api/cafes/{cafe_id}`: Retrieve detailed information about a café.
+- **GET** `/api/cafes?is_open=<true/false>&payment_method=<method>`: List all cafés.
+- **GET** `/api/cafes/{cafe_id}`: Retrieve information about a café.
 - **POST** `/api/cafes`: Create a new café.
 - **PUT** `/api/cafes/{cafe_id}`: Update a café's information (Admin only).
 
 ## Menus
 
-- **GET** `/api/cafes/{cafe_id}/menu`: Retrieve the menu of a café.
-- **GET** `/api/cafes/{cafe_id}/menu/{item_id}`: Get a specific menu item.
+- **GET** `/api/cafes/{cafe_id}/menu?category=<category>&is_available=<true/false>`: List menu of a café.
+- **GET** `/api/cafes/{cafe_id}/menu/{item_id}`: Retrieve information about a menu item.
 - **POST** `/api/cafes/{cafe_id}/menu`: Add an item to the menu (Admin).
 - **PUT** `/api/cafes/{cafe_id}/menu/{item_id}`: Update a menu item (Admin).
 - **DELETE** `/api/cafes/{cafe_id}/menu/{item_id}`: Delete a menu item (Admin).
 
 ## Search
 
-- **GET** `/api/search?query=<search_query>&category=<category>&is_available=<true/false>&is_open=<true/false>`: Unified search for both items and cafés. The category, is_available, and is_open parameters are optional.
+- **GET** `/api/search?query=<search_query>&category=<category>&is_available=<true/false>&is_open=<true/false>&payment_method=<method>`: Unified search for both items and cafés.
 
 ## Users
 
