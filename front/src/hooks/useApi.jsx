@@ -6,7 +6,8 @@ const useApi = (url) => {
   const [error, setError] = useState(null);
 
   const fetchData = async () => {
-    fetch(import.meta.env.VITE_API_ENDPOINT + "/api/" + url)
+    fetch(import.meta.env.VITE_API_ENDPOINT + "/api" + url)
+      .then((response) => (response.ok ? response : Promise.reject(response)))
       .then((response) => response.json())
       .then((data) => {
         setData(data);

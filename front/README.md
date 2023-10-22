@@ -17,6 +17,14 @@
 
 ## Avancée du développement
 
+#### 2023-10-22
+
+- Connexion avec l'API pour récupérer la liste des cafés, création animation de chargement
+
+#### 2023-10-20
+
+- Modifications design et implémentation authentification fonctionnelle (fake pour l'instant - n'importe quel email et mot de passe fonctionne)
+
 #### 2023-10-19
 
 - Modifications de design après discussions en équipe

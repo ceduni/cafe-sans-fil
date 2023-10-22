@@ -2,7 +2,7 @@ import useApi from "../hooks/useApi";
 import Card from "../components/ui/Card";
 
 const CafeList = () => {
-  const { data: cafeList, isLoading, error } = useApi("cafes");
+  const { data: cafeList, isLoading, error } = useApi("/cafes");
 
   if (isLoading) {
     return (
@@ -10,19 +10,19 @@ const CafeList = () => {
         {Array.from({ length: 8 }).map((_, i) => (
           <Card key={i}>
             <Card.Header>
-              <Card.Header.Title>
-                <div class="h-3 bg-gray-200 rounded-full w-36 mb-4"></div>
+              <Card.Header.Title as="div">
+                <div className="h-3 bg-gray-200 rounded-full w-36 mb-4"></div>
               </Card.Header.Title>
-              <Card.Header.Subtitle>
-                <div class="h-2.5 bg-gray-200 rounded-full w-48 mb-4"></div>
+              <Card.Header.Subtitle as="div">
+                <div className="h-2.5 bg-gray-200 rounded-full w-48 mb-4"></div>
               </Card.Header.Subtitle>
             </Card.Header>
             <Card.Body>
-              <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
-              <div class="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
-              <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
-              <div class="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
-              <div class="h-2 bg-gray-200 rounded-full"></div>
+              <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
+              <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
+              <div className="h-2 bg-gray-200 rounded-full"></div>
             </Card.Body>
           </Card>
         ))}
@@ -31,11 +31,15 @@ const CafeList = () => {
   }
 
   if (error) {
+    console.error(error);
     return (
       <div className="flex flex-col items-center justify-center py-10">
         <p className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Une erreur est survenue...</p>
         <p className="mt-6 text-base leading-7 text-gray-600 text-center">
-          <i>{error.message}</i> <br />
+          <i>
+            {error.status ? `${error.status} - ` : ""} {error.statusText || error.message}
+          </i>
+          <br />
           L'API est-elle bien lancée?
         </p>
       </div>
