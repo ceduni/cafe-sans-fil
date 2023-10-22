@@ -1,7 +1,6 @@
 import Container from "../components/ui/Container";
 import { Helmet } from "react-helmet-async";
 import Search from "../components/Search";
-import cafeList from "../data/cafes.json";
 import { useState } from "react";
 import Filters from "../components/ui/FIlters";
 import CafeList from "../components/CafeList";
