@@ -6,7 +6,7 @@ const CafeList = () => {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6 animate-pulse duration-100">
         {Array.from({ length: 8 }).map((_, i) => (
           <Card key={i}>
             <Card.Header>
