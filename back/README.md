@@ -7,7 +7,7 @@
 
 ## Configuration du fichier .env
 
-Pour configurer le fichier .env dans le backend, créez un fichier nommé .env dans `/backend/app`. Ajoutez ce qui suit dans le fichier .env :
+Pour configurer le fichier .env dans le backend, créez un fichier nommé .env dans `/back/app`. Ajoutez ce qui suit dans le fichier .env :
 
 ```
 JWT_SECRET_KEY=<RAMDOM_STRING>
