@@ -11,7 +11,7 @@ Ce document présente les routes de notre API.
 
 ## Menus
 
-- **GET** `/api/cafes/{cafe_id}/menu?category=<category>&is_available=<true/false>`: List menu of a café.s
+- **GET** `/api/cafes/{cafe_id}/menu?category=<category>&is_available=<true/false>`: List menu of a café.
 - **GET** `/api/cafes/{cafe_id}/menu/{item_id}`: Retrieve information about a menu item.
 - **POST** `/api/cafes/{cafe_id}/menu`: Add an item to the menu (Admin).
 - **PUT** `/api/cafes/{cafe_id}/menu/{item_id}`: Update a menu item (Admin).
