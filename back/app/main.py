@@ -11,26 +11,22 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 
-# Models and routers
-from app.api.router import router
+# Application settings and router
+from app.core.config import settings
+from app.api.api_v1.router import router
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.models.order_model import Order
 
 app = FastAPI(
-    title="Café Sans Fil",
-    # openapi_url="/api/openapi.json",
+    title=settings.PROJECT_NAME,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
     debug=True  
 )
 
-origins = [
-    # "http://localhost:3000",
-    "http://localhost:5173",  
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=settings.BACKEND_CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -44,13 +40,9 @@ async def app_init():
     Establishes a connection to MongoDB, initializes Beanie with the database 
     and the defined models (User, Cafe, Order).
     """
-
-    # Using local MongoDB instance
-    # db_client = AsyncIOMotorClient('mongodb://localhost:27017/').cafesansfil
-
-    # Using cloud-based MongoDB cluster
-    db_client = AsyncIOMotorClient("mongodb+srv://cafesansfil:cafesansfil@cluster0.lhfxwrd.mongodb.net/?retryWrites=true&w=majority").cafesansfil #
     
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING).cafesansfil 
+
     await init_beanie(
         database=db_client,
         document_models=[
@@ -60,4 +52,4 @@ async def app_init():
         ]
     )
     
-app.include_router(router, prefix="/api")
+app.include_router(router, prefix=settings.API_V1_STR)

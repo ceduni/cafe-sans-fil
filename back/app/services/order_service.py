@@ -13,6 +13,10 @@ class OrderService:
     # --------------------------------------
 
     @staticmethod
+    async def list_orders() -> List[Order]:
+        return await Order.find().to_list()
+
+    @staticmethod
     async def create_order(data: OrderCreate) -> Order:
         order = Order(**data.dict())
         await order.insert()

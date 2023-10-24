@@ -17,9 +17,13 @@ class User(Document):
     email: Indexed(EmailStr, unique=True)
     matricule: Indexed(str, unique=True)
     username: Indexed(str, unique=True)
-    hashed_password: str  # This will be hashed before saving
+    hashed_password: str
     first_name: str
     last_name: str
 
+    @classmethod
+    async def by_email(self, email: str) -> "User":
+        return await self.find_one(self.email == email)
+    
     class Collection:
         name = "users"

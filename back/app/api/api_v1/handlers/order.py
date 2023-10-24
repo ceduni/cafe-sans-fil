@@ -14,6 +14,10 @@ order_router = APIRouter()
 #               Order
 # --------------------------------------
 
+@order_router.get("/orders", response_model=List[OrderOut])
+async def list_orders():
+    return await OrderService.list_orders()
+
 @order_router.get("/orders/{order_id}", response_model=OrderOut)
 async def get_order(order_id: UUID):
     order = await OrderService.retrieve_order(order_id)

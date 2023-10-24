@@ -5,6 +5,18 @@
 - Assurez-vous d'avoir installé Python 3.10.
 - Si vous n'avez pas `pipenv`, installez-le avec `pip install pipenv`.
 
+## Configuration du fichier .env
+
+Pour configurer le fichier .env dans le backend, créez un fichier nommé .env dans `/backend/app`. Ajoutez ce qui suit dans le fichier .env :
+
+```
+JWT_SECRET_KEY=<RAMDOM_STRING>
+JWT_REFRESH_SECRET_KEY=<RANDOM_SECTURE_LONG_STRING>
+MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING>
+```
+
+> **Note importante:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECTURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend.
+
 ## Installation
 
 - On utilise `pipenv` pour gérer les dépendances et l'environnement virtuel du projet.
@@ -24,10 +36,16 @@
 
 ## Avancée du développement
 
+#### 2023-10-24
+
+- Ajout des routes d'authentification (login, test-token, refresh).
+- Mise à jour des schémas pour la validation des requêtes et des réponses.
+
 #### 2023-10-21
 
 - Mise à jour de la recherche: Inclusion des descriptions, facultés, localisations et filtres.
 - Ajout de la récupération des commandes pour l'utilisateur/le café avec filtrage de statut.
+- Ajout de paramètres de filtrage supplémentaires.
 
 #### 2023-10-20
 

@@ -33,7 +33,7 @@ class Order(Document):
     items: List[OrderedItem]
     total_price: float
     status: OrderStatus
-    order_timestamp: datetime
+    order_timestamp: datetime = Field(default_factory=datetime.utcnow)
     completion_time: Optional[datetime] = None
 
     class Collection:

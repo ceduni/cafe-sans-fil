@@ -19,7 +19,6 @@ async def list_cafes(is_open: bool = Query(None, description="Filter cafés base
                      payment_method: str = Query(None, description="Filter cafés based on supported payment methods")):
     return await CafeService.list_cafes(is_open, payment_method)
 
-
 @cafe_router.get("/cafes/{cafe_id}", response_model=CafeOut)
 async def get_cafe(cafe_id: UUID):
     cafe = await CafeService.retrieve_cafe(cafe_id)

@@ -10,6 +10,11 @@ motor = "==2.4.0"
 beanie = "==1.2.5"
 email-validator = "==2.0.0.post2"
 pymongo = "==3.12"
+python-decouple = "*"
+passlib = "*"
+python-jose = "*"
+python-multipart = "*"
+bcrypt = "*"
 
 [dev-packages]
 

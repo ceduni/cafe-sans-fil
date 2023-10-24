@@ -14,11 +14,11 @@ Note: These models are for API data interchange related to users and not direct 
 #               User
 # --------------------------------------
 
-class UserCreate(BaseModel):
+class UserAuth(BaseModel):
     email: EmailStr = Field(..., description="user email")
     matricule: str = Field(..., min_length=5, max_length=50, description="matricule")
     username: str = Field(..., min_length=1, max_length=50, description="username")
-    hashed_password: str = Field(..., min_length=5, max_length=50, description="hashed password")
+    password: str = Field(..., min_length=5, max_length=50, description="password")
     first_name: str = Field(..., min_length=1, max_length=50, description="first name")
     last_name: str = Field(..., min_length=1, max_length=50, description="last name")
 
@@ -28,19 +28,19 @@ class UserCreate(BaseModel):
                 "email": "john.doe@example.com",
                 "matricule": "M123456",
                 "username": "johndoe",
-                "hashed_password": "dWJ1bnR1MTIz",
+                "password": "password123",
                 "first_name": "John",
                 "last_name": "Doe"
             }
         }
 
 class UserUpdate(BaseModel):
-    email: Optional[EmailStr] = None
-    matricule: Optional[str] = None
-    username: Optional[str] = None
-    hashed_password: Optional[str] = None # This will be hashed before saving
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
+    email: Optional[EmailStr] = Field(None, description="user email")
+    matricule: Optional[str] = Field(None, min_length=5, max_length=50, description="matricule")
+    username: Optional[str] = Field(None, min_length=1, max_length=50, description="username")
+    password: Optional[str] = Field(None, min_length=5, max_length=50, description="password")
+    first_name: Optional[str] = Field(None, min_length=1, max_length=50, description="first name")
+    last_name: Optional[str] = Field(None, min_length=1, max_length=50, description="last name")
 
     class Config:
         schema_extra = {
@@ -48,7 +48,7 @@ class UserUpdate(BaseModel):
                 "email": "john.doe@example.com",
                 "matricule": "M123456",
                 "username": "johndoe",
-                "hashed_password": "dWJ1bnR1MTIz",
+                "password": "password123",
                 "first_name": "John",
                 "last_name": "Doe"
             }
@@ -59,7 +59,6 @@ class UserOut(BaseModel):
     email: EmailStr
     matricule: str
     username: str
-    #hashed_password: We don't want to show hashed password
     first_name: str
     last_name: str
 
