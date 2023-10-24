@@ -37,9 +37,9 @@ const Login = () => {
                   Mot de passe
                 </label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-500">
+                  <Link to="/reset" className="font-semibold text-emerald-600 hover:text-emerald-500">
                     Mot de passe oublié?
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="mt-2">
