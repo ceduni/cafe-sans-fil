@@ -1,10 +1,8 @@
 import re
 from typing import List
 from uuid import UUID
-from app.models.cafe_model import Cafe as CafeModel
-from app.models.cafe_model import MenuItem as MenuItemModel 
-from app.schemas.cafe_schema import Cafe
-from app.schemas.cafe_schema import MenuItem
+from app.models.cafe_model import Cafe, MenuItem
+from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate
 from typing import Optional
 
 class CafeService:
@@ -24,22 +22,23 @@ class CafeService:
             filter_criteria["is_open"] = is_open
         if payment_method:
             filter_criteria["payment_methods.method"] = payment_method
-        return await CafeModel.find(filter_criteria).to_list()
+        return await Cafe.find(filter_criteria).to_list()
 
     @staticmethod
-    async def create_cafe(data: Cafe) -> CafeModel:
-        cafe = CafeModel(**data.dict())
+    async def create_cafe(data: CafeCreate) -> Cafe:
+        cafe = Cafe(**data.dict())
         await cafe.insert()
         return cafe
 
     @staticmethod
-    async def retrieve_cafe(cafe_id: UUID) -> CafeModel:
-        return await CafeModel.find_one(CafeModel.cafe_id == cafe_id)
+    async def retrieve_cafe(cafe_id: UUID):
+        return await Cafe.find_one(Cafe.cafe_id == cafe_id)
 
     @staticmethod
-    async def update_cafe(cafe_id: UUID, data: Cafe) -> CafeModel:
+    async def update_cafe(cafe_id: UUID, data: CafeUpdate):
         cafe = await CafeService.retrieve_cafe(cafe_id)
         await cafe.update({"$set": data.dict(exclude_unset=True)})
+        await cafe.save()
         return cafe
 
     @staticmethod
@@ -64,7 +63,7 @@ class CafeService:
         return []
 
     @staticmethod
-    async def retrieve_menu_item(cafe_id: UUID, item_id: UUID) -> Optional[MenuItem]:
+    async def retrieve_menu_item(cafe_id: UUID, item_id: UUID):
         cafe = await CafeService.retrieve_cafe(cafe_id)
         if cafe and hasattr(cafe, 'menu_items'):
             for item in cafe.menu_items:
@@ -73,17 +72,17 @@ class CafeService:
         return None
 
     @staticmethod
-    async def create_menu_item(cafe_id: UUID, item: MenuItem) -> MenuItem:
+    async def create_menu_item(cafe_id: UUID, item: MenuItemCreate) -> MenuItem:
         cafe = await CafeService.retrieve_cafe(cafe_id)
         if cafe:
-            new_item = MenuItemModel(**item.dict())
+            new_item = MenuItem(**item.dict())
             cafe.menu_items.append(new_item)
             await cafe.save()
             return new_item
         raise ValueError("Cafe not found")
     
     @staticmethod
-    async def update_menu_item(cafe_id: UUID, item_id: UUID, item_data: MenuItem) -> MenuItem:
+    async def update_menu_item(cafe_id: UUID, item_id: UUID, item_data: MenuItemUpdate):
         cafe = await CafeService.retrieve_cafe(cafe_id)
         if cafe:
             for index, item in enumerate(cafe.menu_items):
@@ -148,7 +147,7 @@ class CafeService:
 
         # If category or is_available filter is provided, search only menu_items
         if category or (is_available is not None):
-            cafes_with_matching_items = await CafeModel.find({
+            cafes_with_matching_items = await Cafe.find({
                 "menu_items": {"$elemMatch": item_filter}
             }).to_list()
             for cafe in cafes_with_matching_items:
@@ -161,12 +160,12 @@ class CafeService:
 
         # If is_open or payment_method filter is provided, search only cafes
         elif is_open is not None or payment_method:
-            matching_cafes = await CafeModel.find(cafe_filter).to_list()
+            matching_cafes = await Cafe.find(cafe_filter).to_list()
 
         # If no filters, search cafes and menu_items
         else:
-            matching_cafes = await CafeModel.find(cafe_filter).to_list()
-            cafes_with_matching_items = await CafeModel.find({
+            matching_cafes = await Cafe.find(cafe_filter).to_list()
+            cafes_with_matching_items = await Cafe.find({
                 "menu_items": {"$elemMatch": item_filter}
             }).to_list()
             for cafe in cafes_with_matching_items:
