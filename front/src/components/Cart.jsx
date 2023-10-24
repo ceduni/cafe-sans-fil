@@ -112,19 +112,16 @@ const Cart = ({ open, setOpen }) => {
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                                   </div>
-                                  <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">
-                                      Quantité:{" "}
-                                      <select
-                                        className="text-gray-900"
-                                        defaultValue={product.quantity <= 10 ? product.quantity : 1}>
-                                        {Array.from(Array(10).keys()).map((i) => (
-                                          <option key={i} value={i + 1}>
-                                            {i + 1}
-                                          </option>
-                                        ))}
-                                      </select>
-                                    </p>
+                                  <div className="flex flex-1 justify-between text-sm items-end">
+                                    <select
+                                      className="text-gray-900 w-16 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                      defaultValue={product.quantity <= 10 ? product.quantity : 1}>
+                                      {Array.from(Array(10).keys()).map((i) => (
+                                        <option key={i} value={i + 1}>
+                                          {i + 1}
+                                        </option>
+                                      ))}
+                                    </select>
 
                                     <div className="flex">
                                       <button
