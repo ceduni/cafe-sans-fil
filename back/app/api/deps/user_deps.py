@@ -13,7 +13,7 @@ This module provides utility functions and dependencies for user authentication.
 """
 
 reuseable_oauth = OAuth2PasswordBearer(
-    tokenUrl=f"{settings.API_V1_STR}/auth/login",
+    tokenUrl=f"{settings.API_V1_STR}/auth/loginJWT",
     scheme_name="JWT"
 )
 
