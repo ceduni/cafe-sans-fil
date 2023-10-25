@@ -49,7 +49,7 @@ const CafeList = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
       {cafeList.map((cafe) => (
-        <Card key={cafe.name} link={`/cafes/${cafe.name}`}>
+        <Card key={cafe.name} link={`/cafes/${cafe.cafe_id}`}>
           <Card.Header>
             <Card.Header.Title>{cafe.name}</Card.Header.Title>
             <Card.Header.Subtitle>{cafe.location}</Card.Header.Subtitle>
