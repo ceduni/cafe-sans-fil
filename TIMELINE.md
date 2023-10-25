@@ -14,7 +14,11 @@
 
 <!-- ## Semaine 9 (2023-10-30) -->
 
-<!-- ## Semaine 8 (2023-10-23) -->
+## Semaine 8 (2023-10-23)
+
+- **Création routes API** : Ajout de l'authentification et des authorisations pour les routes de l'API.
+- **Front-end** : Avancements sur le front, création de contextes d'authentification, création UI de l'appli, création logique pour fetch l'API.
+- **Connexion avec l'API** : Connexion avec l'API pour récupérer la liste des cafés et les infos sur un café.
 
 ## Semaine 7 (2023-10-16)
 

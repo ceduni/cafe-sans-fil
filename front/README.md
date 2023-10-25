@@ -15,7 +15,21 @@
 - Exectuer `npm run dev` pour lancer le serveur de développement
 - Le front sera disponible à l'adresse indiquée dans le terminal (par défaut [http://localhost:5173](http://localhost:5173))
 
+### Configuration du fichier .env
+
+- Créer un fichier `.env` à la racine du dossier front
+- Ajouter la ligne `VITE_API_URL=http://127.0.0.1:8000` dans le fichier `.env`
+
 ## Avancée du développement
+
+#### 2023-10-24
+
+- Branchement de la page de café avec l'API pour récupérer les données d'un café à partir de son ID en cliquant sur une carte d'un café
+
+#### 2023-10-23
+
+- Modifications mineures de design
+- Maquette page ResetPassword
 
 #### 2023-10-22
 
