@@ -1,8 +1,21 @@
 import useApi from "../hooks/useApi";
 import Card from "../components/ui/Card";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 const CafeList = () => {
   const { data: cafeList, isLoading, error } = useApi("/cafes");
+
+  useEffect(() => {
+    if (error) {
+      toast.error(`${error.status ? `${error.status} - ` : ""} ${error.statusText || error.message}`, {
+        style: {
+          padding: "16px",
+        },
+      });
+      console.error(error);
+    }
+  }, [error]);
 
   if (isLoading) {
     return (
@@ -31,7 +44,6 @@ const CafeList = () => {
   }
 
   if (error) {
-    console.error(error);
     return (
       <div className="flex flex-col items-center justify-center py-10">
         <p className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Une erreur est survenue...</p>
