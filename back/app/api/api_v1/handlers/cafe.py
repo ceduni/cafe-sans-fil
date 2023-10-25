@@ -37,7 +37,6 @@ async def update_cafe(cafe_id: UUID, cafe: CafeUpdate, current_user: User = Depe
     await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
     return await CafeService.update_cafe(cafe_id, cafe)
 
-
 # --------------------------------------
 #               Menu
 # --------------------------------------

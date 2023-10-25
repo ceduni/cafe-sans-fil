@@ -14,6 +14,20 @@ class UserService:
     # --------------------------------------
 
     @staticmethod
+    async def authenticate(credential: str, password: str) -> Optional[User]:
+        if '@' in credential:
+            user = await UserService.get_user_by_email(email=credential)
+        else:
+            user = await UserService.get_user_by_username(username=credential)
+
+        if not user:
+            return None
+        if not verify_password(password=password, hashed_pass=user.hashed_password):
+            return None
+
+        return user
+    
+    @staticmethod
     async def authenticateByUsername(username: str, password: str) -> Optional[User]:
         user = await UserService.get_user_by_username(username=username)
         if not user:

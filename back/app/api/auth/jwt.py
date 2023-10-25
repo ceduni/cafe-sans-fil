@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from typing import Any
 from app.services.user_service import UserService
 from app.core.security import create_access_token, create_refresh_token
-from app.schemas.auth_schema import TokenSchema, CustomOAuth2PasswordRequestForm
+from app.schemas.auth_schema import TokenSchema
 from app.schemas.user_schema import UserOut
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
@@ -18,23 +18,9 @@ This module provides API routes for user authentication and token management.
 
 auth_router = APIRouter()
 
-@auth_router.post('/auth/loginJWT', summary="Login by Username (for JWT). Create access and refresh tokens for user", response_model=TokenSchema)
+@auth_router.post('/auth/login', summary="Create access and refresh tokens for user", response_model=TokenSchema)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
-    user = await UserService.authenticateByUsername(username=form_data.username, password=form_data.password)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Incorrect email or password"
-        )
-    
-    return {
-        "access_token": create_access_token(user.user_id),
-        "refresh_token": create_refresh_token(user.user_id),
-    }
-
-@auth_router.post('/auth/login', summary="Login by Email. Create access and refresh tokens for user", response_model=TokenSchema)
-async def login(form_data: CustomOAuth2PasswordRequestForm = Depends()) -> Any:
-    user = await UserService.authenticateByEmail(email=form_data.email, password=form_data.password)
+    user = await UserService.authenticate(credential=form_data.username, password=form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

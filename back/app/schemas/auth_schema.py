@@ -12,7 +12,3 @@ class TokenSchema(BaseModel):
 class TokenPayload(BaseModel):
     sub: UUID = None
     exp: int = None
-
-class CustomOAuth2PasswordRequestForm(BaseModel):
-    email: str
-    password: str
