@@ -1,6 +1,7 @@
 from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel, EmailStr, Field
+from enum import Enum
 
 """
 This module defines the Pydantic-based schemas for cafe operations in the Café application. 
@@ -31,9 +32,13 @@ class PaymentMethod(BaseModel):
     method: str
     minimum: Optional[float] = None
 
+class Role(str, Enum):
+    VOLUNTEER = "volunteer"
+    ADMIN = "admin"
+
 class StaffMember(BaseModel):
     user_id: UUID
-    role: str
+    role: Role
 
 # --------------------------------------
 #               Menu
@@ -154,7 +159,7 @@ class CafeCreate(BaseModel):
                 },
                 "social_media": [{"platform_name": "Facebook", "link": "http://fb.com/centralcafe"}],
                 "payment_methods": [{"method": "Credit Card", "minimum": 10.0}],
-                "staff": [{"user_id": "123e4567-e89b-12d3-a456-426614174001", "role": "admin"}],
+                "staff": [{"user_id": "15df2842-fc31-4107-99bf-3cb7b0b5baf5", "role": "admin"}],
                 "menu_items": [
                     {
                         "name": "Latte",

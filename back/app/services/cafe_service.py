@@ -2,8 +2,9 @@ import re
 from typing import List
 from uuid import UUID
 from app.models.cafe_model import Cafe, MenuItem
-from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate
-from typing import Optional
+from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate, Role
+from app.models.user_model import User
+from typing import Optional, Union
 
 class CafeService:
     """
@@ -178,3 +179,35 @@ class CafeService:
             "matching_cafes": matching_cafes,
             "matching_items": matching_items
         }
+    
+    # --------------------------------------
+    #               Authorization
+    # --------------------------------------
+
+    @staticmethod
+    async def is_authorized_for_cafe_action(cafe_id: UUID, current_user: User, required_roles: Union[Role, List[Role]]):
+
+        # If only one role is provided, convert to a list
+        if isinstance(required_roles, Role):
+            required_roles = [required_roles]
+
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        if not cafe:
+            print(f"Cafe with ID {cafe_id} not found in the database.")
+            raise ValueError("Cafe not found")
+
+        # Check if part of staff
+        user_in_staff = None
+        for user in cafe.staff:
+            if user.user_id == current_user.user_id:
+                user_in_staff = user
+                break
+
+        # Check if appropriate role
+        if user_in_staff:
+            if user_in_staff.role not in [role.value for role in required_roles]:
+                raise ValueError("Not authorized")
+        else:
+            raise ValueError("Not authorized")
+
+        return True

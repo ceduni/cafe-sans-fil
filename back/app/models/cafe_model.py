@@ -2,6 +2,7 @@ from typing import List, Optional
 from uuid import UUID, uuid4
 from beanie import Document, Indexed
 from pydantic import BaseModel, EmailStr, Field
+from enum import Enum
 
 """
 This module defines the Pydantic-based models used in the Café application for cafe management,
@@ -34,9 +35,13 @@ class PaymentMethod(BaseModel):
     method: str
     minimum: Optional[float] = None
 
+class Role(str, Enum):
+    VOLUNTEER = "volunteer"
+    ADMIN = "admin"
+    
 class StaffMember(BaseModel):
     user_id: UUID
-    role: str
+    role: Role
 
 class MenuItem(BaseModel):
     item_id: UUID = Field(default_factory=uuid4, unique=True)

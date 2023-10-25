@@ -1,8 +1,10 @@
-from fastapi import APIRouter, HTTPException, Query
-from app.schemas.cafe_schema import CafeOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate
+from fastapi import APIRouter, HTTPException, Query, Depends
+from app.schemas.cafe_schema import CafeOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate, Role
 from app.services.cafe_service import CafeService
 from uuid import UUID
 from typing import List
+from app.models.user_model import User
+from app.api.deps.user_deps import get_current_user
 
 """
 This module defines the API routes related to cafes, their menus, and a unified search function for cafes and menu items.
@@ -27,12 +29,14 @@ async def get_cafe(cafe_id: UUID):
     return cafe
 
 @cafe_router.post("/cafes", response_model=CafeOut)
-async def create_cafe(cafe: CafeCreate):
+async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current_user)):
     return await CafeService.create_cafe(cafe)
 
 @cafe_router.put("/cafes/{cafe_id}", response_model=CafeOut)
-async def update_cafe(cafe_id: UUID, cafe: CafeUpdate):
+async def update_cafe(cafe_id: UUID, cafe: CafeUpdate, current_user: User = Depends(get_current_user)):
+    await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
     return await CafeService.update_cafe(cafe_id, cafe)
+
 
 # --------------------------------------
 #               Menu
@@ -57,21 +61,24 @@ async def get_menu_item(cafe_id: UUID, item_id: UUID):
     return item
 
 @cafe_router.post("/cafes/{cafe_id}/menu",response_model=MenuItemOut)
-async def create_menu_item(cafe_id: UUID, item: MenuItemCreate):
+async def create_menu_item(cafe_id: UUID, item: MenuItemCreate, current_user: User = Depends(get_current_user)):
+    await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
     return await CafeService.create_menu_item(cafe_id, item)
 
 @cafe_router.put("/cafes/{cafe_id}/menu/{item_id}", response_model=MenuItemOut)
-async def update_menu_item(cafe_id: UUID, item_id: UUID, item: MenuItemUpdate):
+async def update_menu_item(cafe_id: UUID, item_id: UUID, item: MenuItemUpdate, current_user: User = Depends(get_current_user)):
+    await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
     return await CafeService.update_menu_item(cafe_id, item_id, item)
 
 @cafe_router.delete("/cafes/{cafe_id}/menu/{item_id}")
-async def delete_menu_item(cafe_id: UUID, item_id: UUID):
+async def delete_menu_item(cafe_id: UUID, item_id: UUID, current_user: User = Depends(get_current_user)):
+    await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
     try:
         deleted_item = await CafeService.delete_menu_item(cafe_id, item_id)
-        return deleted_item
+        return {"message": f"Item has been successfully deleted."}
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
-
+    
 # --------------------------------------
 #               Search
 # --------------------------------------

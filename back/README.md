@@ -36,6 +36,10 @@ MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING>
 
 ## Avancée du développement
 
+#### 2023-10-25
+
+- Ajout de vérifications d'autorisation pour les rôles.
+
 #### 2023-10-24
 
 - Ajout des routes d'authentification (login, test-token, refresh).
