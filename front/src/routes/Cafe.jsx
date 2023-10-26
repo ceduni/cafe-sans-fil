@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import OpeningHours from "../components/ui/OpeningHours";
 import CafeMemberHeader from "../components/ui/CafeMemberHeader";
 import useApi from "../hooks/useApi";
+import OpenIndicator from "../components/ui/OpenIndicator";
 
 const Cafe = () => {
   const { id } = useParams();
@@ -40,29 +41,15 @@ const Cafe = () => {
         </div>
 
         <img
-          className="mb-6 rounded-lg shadow-xl object-cover w-full md:w-auto md:h-96"
-          src="https://i.pinimg.com/originals/8f/5f/d0/8f5fd07d1034e0d4941c4ad9d58ec055.jpg"
+          className="mb-6 rounded-lg shadow-xl object-cover h-52 md:h-96"
+          src="https://placehold.co/800x400?text=Photo+du+café"
           alt=""
         />
 
-        {(isLoading && <div className="animate-pulse h-6 w-1/5 bg-gray-200 rounded-full mb-4" />) || (
+        {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
         )}
-        {(data?.is_open && (
-          <div className="my-3 flex items-center gap-x-1.5">
-            <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-              <div className="h-3 w-3 rounded-full bg-emerald-500" />
-            </div>
-            <p className="text-sm leading-5 text-gray-500 font-semibold">Ouvert</p>
-          </div>
-        )) || (
-          <div className="my-3 flex items-center gap-x-1.5">
-            <div className="flex-none rounded-full bg-red-500/20 p-1">
-              <div className="h-3 w-3 rounded-full bg-red-500" />
-            </div>
-            <p className="text-sm leading-5 text-gray-500 font-semibold">Fermé</p>
-          </div>
-        )}
+        <OpenIndicator isOpen={data?.is_open} />
         <p className="mt-2 text-lg leading-8 text-gray-600 max-w-3xl">{data?.description || "Description du café"}</p>
         <OpeningHours openingHours={data?.opening_hours} />
       </Container>
