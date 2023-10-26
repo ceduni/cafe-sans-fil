@@ -2,6 +2,7 @@ import useApi from "../hooks/useApi";
 import Card from "../components/ui/Card";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
+import EmptyState from "./ui/EmptyState";
 
 const CafeList = () => {
   const { data: cafeList, isLoading, error } = useApi("/cafes");
@@ -43,19 +44,8 @@ const CafeList = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center py-10">
-        <p className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Une erreur est survenue...</p>
-        <p className="mt-6 text-base leading-7 text-gray-600 text-center">
-          <i>
-            {error.status ? `${error.status} - ` : ""} {error.statusText || error.message}
-          </i>
-          <br />
-          L'API est-elle bien lancée?
-        </p>
-      </div>
-    );
+  if (error || cafeList?.length === 0) {
+    return <EmptyState itemName="café" />;
   }
 
   return (
