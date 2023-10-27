@@ -28,7 +28,6 @@ const Cafe = () => {
     <>
       <Helmet>{data?.name && <title>{data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
-        <CafeMemberHeader />
         <div className="mb-5 text-gray-500 font-semibold">
           <Link to="/" className="underline underline-offset-2 hover:no-underline">
             Liste des cafés
@@ -36,6 +35,8 @@ const Cafe = () => {
           <span className="px-3">&gt;</span>
           {(isLoading && <span className="animate-pulse">Chargement...</span>) || data?.name}
         </div>
+
+        <CafeMemberHeader />
 
         <img
           className="mb-6 rounded-lg shadow-xl object-cover h-52 md:h-96"
