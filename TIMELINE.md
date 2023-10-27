@@ -23,6 +23,7 @@
 ### Résumé des discussions
 
 - **Modération** : Comment gérer l'ajout d'un café et vérifier qui est vraiment admin? => Manuellement
+- **Authentification** : Username ? => Non seulement email et matricule à l'inscription
 - **Recherche** : Discussions sur la recherche, notamment sur la possibilité de rechercher par tags, et sur quelles propriétés des cafés on peut rechercher (ne pas rechercher trop large, faire en sorte que le mot commence par la query?).
 - **Filtres** : Discussions sur les filtres, notamment sur la possibilité de filtrer les cafés par pavillon.
 - **API** : Discussions sur l'API, notamment sur la structure de "additional_info_cafe" qui incluerait un type de message et une date de début et de fin.
