@@ -1,6 +1,7 @@
 import { useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
+import toast from "react-hot-toast";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -12,13 +13,35 @@ export const AuthProvider = ({ children }) => {
       setTimeout(() => resolve("2342f2f1d131rf12"), 250);
     });
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    const token = await fakeAuth();
+  const realAuth = async (email, password) => {
+    const login = fetch(import.meta.env.VITE_API_ENDPOINT + "/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      const data = response.json();
+      return data.access_token;
+    });
+    return login;
+  };
 
-    console.log("login");
-    setToken(token);
-    navigate("/");
+  const handleLogin = async (event, email, password) => {
+    event.preventDefault();
+    try {
+      const token = await fakeAuth();
+      setToken(token);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleLogout = () => {

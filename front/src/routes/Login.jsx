@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Input from "../components/ui/Input";
 import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
 
 const Login = () => {
   const { onLogin } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <>
@@ -21,13 +24,21 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" method="POST" onSubmit={onLogin}>
+          <form className="space-y-6" method="POST" onSubmit={(e) => onLogin(e, email, password)}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Adresse courriel de l'UdeM
               </label>
               <div className="mt-2">
-                <Input id="email" name="email" type="email" autoComplete="email" required />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
             </div>
 
@@ -43,17 +54,23 @@ const Login = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <Input id="password" name="password" type="password" autoComplete="current-password" required />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
             </div>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
-                Se connecter
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+              Se connecter
+            </button>
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
