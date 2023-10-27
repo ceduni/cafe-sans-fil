@@ -5,7 +5,6 @@
 - On utilise React et Vite pour le développement
 - On utilise [Tailwind CSS](https://tailwindcss.com/) pour le style
 - Afin de ne pas perdre de temps à créer des composants, on utilise [Tailwind UI](https://tailwindui.com/) pour certains composants
-- On utilise également [shadcn ui](https://ui.shadcn.com/) pour certains composants (pas de dépendance, juste du copier-coller)
 
 ## Installation
 
@@ -20,7 +19,21 @@
 - Créer un fichier `.env` à la racine du dossier front
 - Ajouter la ligne `VITE_API_URL=http://127.0.0.1:8000` dans le fichier `.env`
 
+## Structure du projet
+
+- `src` : Dossier contenant le code source
+  - `assets` : Dossier contenant les assets (icones, images, etc.)
+  - `components` : Dossier contenant les composants React
+- à compléter
+
 ## Avancée du développement
+
+#### 2023-10-26
+
+- Améliorations UI liste cafés et page café et séparation du code en composants
+- Ajout infos de contact et réseaux sociaux sur page café
+- Ajout méthodes de paiement sur page café
+- Affichage additional_info_cafe sur page café
 
 #### 2023-10-24
 

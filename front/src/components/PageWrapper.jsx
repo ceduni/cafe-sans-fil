@@ -12,7 +12,7 @@ const PageWrapper = () => {
       <div id="content">
         <Outlet />
       </div>
-      <Toaster />
+      <Toaster position="bottom-right" />
     </AuthProvider>
   );
 };

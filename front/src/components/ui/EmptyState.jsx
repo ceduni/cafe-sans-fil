@@ -1,10 +1,23 @@
-import { FolderOpenIcon } from "@heroicons/react/24/outline";
+import { FolderOpenIcon, XCircleIcon } from "@heroicons/react/24/outline";
 
-const EmptyState = ({ itemName = "élément", icon: Icon = FolderOpenIcon }) => {
+const EmptyState = ({ type = "empty", name = "élément", error }) => {
   return (
     <div className="flex flex-col items-center justify-center py-10">
-      <Icon className="h-12 w-12 text-gray-400" />
-      <p className="mt-6 text-base leading-7 text-gray-600 text-center">Aucun {itemName} n'a été trouvé.</p>
+      {type === "empty" && (
+        <>
+          <FolderOpenIcon className="h-12 w-12 text-gray-400" />
+          <p className="mt-6 leading-7 text-gray-600 font-semibold">Aucun {name} n'a été trouvé</p>
+        </>
+      )}
+      {type === "error" && (
+        <>
+          <XCircleIcon className="h-12 w-12 text-gray-400" />
+          <p className="mt-6 leading-7 text-gray-600 font-semibold">Une erreur est survenue</p>
+          <p className="leading-7 text-gray-600">
+            {!error.status ? "L'API est-elle bien lancée?" : `${error.status}: ${error.statusText || error.message}`}
+          </p>
+        </>
+      )}
     </div>
   );
 };

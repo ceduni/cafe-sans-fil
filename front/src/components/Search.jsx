@@ -17,7 +17,6 @@ const Search = ({ isSearching, setIsSearching }) => {
             id="default-search"
             className="block w-full p-4 pl-14 md:text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-emerald-600 focus:border-emerald-500"
             placeholder="Rechercher un café ou un produit"
-            required
             onChange={(e) => {
               setIsSearching(e.target.value.length > 0);
             }}

@@ -45,7 +45,7 @@ const ProductView = ({ product, open, setOpen }) => {
 
                   <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
                     <div className="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
-                      <img src={product.image_url} className="object-cover object-center" />
+                      <img src="https://placehold.co/300x300?text=Item" className="object-cover object-center" />
                     </div>
                     <div className="sm:col-span-8 lg:col-span-7">
                       <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">{product.name}</h2>

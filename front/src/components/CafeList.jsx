@@ -1,22 +1,18 @@
 import useApi from "../hooks/useApi";
 import Card from "../components/ui/Card";
-import toast from "react-hot-toast";
-import { useEffect } from "react";
 import EmptyState from "./ui/EmptyState";
+import OpenIndicator from "./ui/OpenIndicator";
 
 const CafeList = () => {
   const { data: cafeList, isLoading, error } = useApi("/cafes");
 
-  useEffect(() => {
-    if (error) {
-      toast.error(`${error.status ? `${error.status} - ` : ""} ${error.statusText || error.message}`, {
-        style: {
-          padding: "16px",
-        },
-      });
-      console.error(error);
-    }
-  }, [error]);
+  if (error) {
+    return <EmptyState type="error" error={error} />;
+  }
+
+  if (cafeList?.length === 0) {
+    return <EmptyState name="café" />;
+  }
 
   if (isLoading) {
     return (
@@ -44,10 +40,6 @@ const CafeList = () => {
     );
   }
 
-  if (error || cafeList?.length === 0) {
-    return <EmptyState itemName="café" />;
-  }
-
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
       {cafeList.map((cafe) => (
@@ -55,6 +47,7 @@ const CafeList = () => {
           <Card.Header>
             <Card.Header.Title>{cafe.name}</Card.Header.Title>
             <Card.Header.Subtitle>{cafe.location}</Card.Header.Subtitle>
+            <OpenIndicator isOpen={cafe.is_open} size="xs" />
           </Card.Header>
           <Card.Body>{cafe.description}</Card.Body>
         </Card>

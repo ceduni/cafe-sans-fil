@@ -7,29 +7,23 @@ import OpeningHours from "../components/ui/OpeningHours";
 import CafeMemberHeader from "../components/ui/CafeMemberHeader";
 import useApi from "../hooks/useApi";
 import OpenIndicator from "../components/ui/OpenIndicator";
+import EmptyState from "../components/ui/EmptyState";
+import InfoBox from "../components/ui/InfoBox";
+import { Helmet } from "react-helmet-async";
+import PaymentMethods from "../components/ui/PaymentMethods";
+import ContactCafe from "../components/ui/ContactCafe";
 
 const Cafe = () => {
   const { id } = useParams();
   const { data, isLoading, error } = useApi(`/cafes/${id}`);
 
   if (error) {
-    console.error(error);
-    return (
-      <div className="flex flex-col items-center justify-center py-10">
-        <p className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Une erreur est survenue...</p>
-        <p className="mt-6 text-base leading-7 text-gray-600 text-center">
-          <i>
-            {error.status ? `${error.status} - ` : ""} {error.statusText || error.message}
-          </i>
-          <br />
-          L'API est-elle bien lancée?
-        </p>
-      </div>
-    );
+    return <EmptyState type="error" error={error} />;
   }
 
   return (
-    <div className="bg-white">
+    <>
+      <Helmet>{data?.name && <title>{data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
         <CafeMemberHeader />
         <div className="mb-5 text-gray-500 font-semibold">
@@ -50,7 +44,23 @@ const Cafe = () => {
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
         )}
         <OpenIndicator isOpen={data?.is_open} />
-        <p className="mt-2 text-lg leading-8 text-gray-600 max-w-3xl">{data?.description || "Description du café"}</p>
+        <p className="mt-2 text-lg leading-8 text-gray-600 max-w-3xl">
+          {data?.description || (
+            <>
+              <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
+            </>
+          )}
+        </p>
+        {!isLoading && (
+          <>
+            <PaymentMethods arrayOfMethods={data?.payment_methods} />
+            <InfoBox
+              title="Notre valeur ajoutée"
+              message={`${data?.additional_info_cafe[0].key}: ${data?.additional_info_cafe[0].value}`}
+            />
+          </>
+        )}
         <OpeningHours openingHours={data?.opening_hours} />
       </Container>
       <Container className="py-10 border-t border-gray-200">
@@ -61,7 +71,11 @@ const Cafe = () => {
           ))}
         </div>
       </Container>
-    </div>
+      <Container className="py-10 border-t border-gray-200">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nous contacter</h2>
+        <ContactCafe contact={data?.contact} socialMedia={data?.social_media} />
+      </Container>
+    </>
   );
 };
 

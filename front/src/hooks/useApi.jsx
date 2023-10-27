@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const useApi = (url) => {
   const [data, setData] = useState(null);
@@ -16,6 +17,11 @@ const useApi = (url) => {
       .catch((error) => {
         setError(error);
         setIsLoading(false);
+        toast.error(`${error.statusText || error.message}`, {
+          style: {
+            padding: "16px",
+          },
+        });
       });
   };
 
