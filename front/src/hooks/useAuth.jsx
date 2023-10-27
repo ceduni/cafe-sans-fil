@@ -5,56 +5,59 @@ import toast from "react-hot-toast";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useLocalStorage("token", null);
+  const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
+  const [refreshToken, setRefreshToken] = useLocalStorage("refreshToken", null);
   const navigate = useNavigate();
 
-  const fakeAuth = () =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve("2342f2f1d131rf12"), 250);
-    });
+  const login = async (email, password) => {
+    try {
+      const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          username: email,
+          password: password,
+        }),
+      });
 
-  const realAuth = async (email, password) => {
-    const login = fetch(import.meta.env.VITE_API_ENDPOINT + "/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
+      if (response.status !== 200) {
+        throw new Error("Identifiant ou mot de passe incorrect");
       }
-      const data = response.json();
-      return data.access_token;
-    });
-    return login;
+
+      const token = await response.json();
+      return token;
+    } catch (error) {
+      toast.error(error.message);
+      return null;
+    }
   };
 
   const handleLogin = async (event, email, password) => {
     event.preventDefault();
-    try {
-      const token = await fakeAuth();
-      setToken(token);
+    const token = await login(email, password);
+
+    if (token) {
+      toast.success("Vous êtes connecté");
+      setAccessToken(token.access_token);
+      setRefreshToken(token.refresh_token);
       navigate("/");
-    } catch (error) {
-      console.log(error);
     }
   };
 
   const handleLogout = () => {
-    setToken(null);
-    console.log("logout");
+    toast.success("Vous êtes déconnecté");
+    setAccessToken(null);
+    setRefreshToken(null);
     navigate("/", { replace: true });
   };
 
   const value = {
-    token,
+    token: accessToken,
     onLogin: handleLogin,
     onLogout: handleLogout,
-    isLoggedIn: !!token,
+    isLoggedIn: !!accessToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

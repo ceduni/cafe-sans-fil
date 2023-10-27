@@ -27,13 +27,13 @@ const Login = () => {
           <form className="space-y-6" method="POST" onSubmit={(e) => onLogin(e, email, password)}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Adresse courriel de l'UdeM
+                Adresse courriel de l'UdeM ou matricule
               </label>
               <div className="mt-2">
                 <Input
                   id="email"
                   name="email"
-                  type="email"
+                  type="text"
                   autoComplete="email"
                   required
                   value={email}
