@@ -26,9 +26,10 @@
 - **Recherche** : Discussions sur la recherche, notamment sur la possibilité de rechercher par tags, et sur quelles propriétés des cafés on peut rechercher (ne pas rechercher trop large, faire en sorte que le mot commence par la query?).
 - **Filtres** : Discussions sur les filtres, notamment sur la possibilité de filtrer les cafés par pavillon.
 - **API** : Discussions sur l'API, notamment sur la structure de "additional_info_cafe" qui incluerait un type de message et une date de début et de fin.
-- **Items du menu** : Discussions sur les items du menu, notamment sur des variations d'items (ex: un café peut avoir plusieurs types de café, ou plusieurs tailles de café).
+- **Items du menu** : Discussions sur les items du menu, notamment sur des variations d'items (ex: un café peut avoir plusieurs tailles de café).
 - **Design** : Discussions sur le design, notamment la bannière qui indique si on est admin ou bénévole d'un café, et les actions asociées. Discussions sur à quoi va ressembler d'édition d'un café en tant qu'admin.
 - **Accès à la BD** : Discussions sur l'accès à la BD, installation du GUI MongoDB Compass.
+- **Autre** : Switch vers la fonctionnalité Wiki sur GitHub?
 
 ## Semaine 7 (2023-10-16)
 
