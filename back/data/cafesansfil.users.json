@@ -1,43 +1,119 @@
-[
-    {
-      "email": "john.doe@example.com",
-      "matricule": "M123456",
-      "username": "johndoe",
-      "hashed_password": "dWJ1bnR1MTIz",
-      "first_name": "John",
-      "last_name": "Doe"
-    },
-    {
-      "email": "jane.smith@example.com",
-      "matricule": "M123457",
-      "username": "janesmith",
-      "hashed_password": "c2VjcmV0MTIz",
-      "first_name": "Jane",
-      "last_name": "Smith"
-    },
-    {
-      "email": "alice.johnson@example.com",
-      "matricule": "M123458",
-      "username": "alicejohnson",
-      "hashed_password": "YWxwaGExMjM=",
-      "first_name": "Alice",
-      "last_name": "Johnson"
-    },
-    {
-      "email": "bob.williams@example.com",
-      "matricule": "M123459",
-      "username": "bobwilliams",
-      "hashed_password": "Ym9iMTIz",
-      "first_name": "Bob",
-      "last_name": "Williams"
-    },
-    {
-      "email": "charlie.brown@example.com",
-      "matricule": "M123460",
-      "username": "charliebrown",
-      "hashed_password": "Y2hhcmxpZTEyMw==",
-      "first_name": "Charlie",
-      "last_name": "Brown"
+[{
+  "_id": {
+    "$oid": "65324df7cba5a03d38fa65e1"
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "1/HcXMA/TQWb2Bv1Z/04gw==",
+      "subType": "04"
     }
-  ]
-  
+  },
+  "email": "john.doe@example.com",
+  "matricule": "M123456",
+  "username": "johndoe",
+  "hashed_password": "dWJ1bnR1MTIz",
+  "first_name": "John",
+  "last_name": "Doe"
+},
+{
+  "_id": {
+    "$oid": "65324e00cba5a03d38fa65e2"
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "4L6Up/7NSeuEtQ0eSWwK/g==",
+      "subType": "04"
+    }
+  },
+  "email": "jane.smith@example.com",
+  "matricule": "M123457",
+  "username": "janesmith",
+  "hashed_password": "c2VjcmV0MTIz",
+  "first_name": "Jane",
+  "last_name": "Smith"
+},
+{
+  "_id": {
+    "$oid": "65324e08cba5a03d38fa65e3"
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "ERjtPZmsTqSxVHbdZoS24g==",
+      "subType": "04"
+    }
+  },
+  "email": "alice.johnson@example.com",
+  "matricule": "M123458",
+  "username": "alicejohnson",
+  "hashed_password": "YWxwaGExMjM=",
+  "first_name": "Alice",
+  "last_name": "Johnson"
+},
+{
+  "_id": {
+    "$oid": "65324e11cba5a03d38fa65e4"
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "WL7F++D1SWizWDqlT+UvtQ==",
+      "subType": "04"
+    }
+  },
+  "email": "bob.williams@example.com",
+  "matricule": "M123459",
+  "username": "bobwilliams",
+  "hashed_password": "Ym9iMTIz",
+  "first_name": "Bob",
+  "last_name": "Williams"
+},
+{
+  "_id": {
+    "$oid": "65324e15cba5a03d38fa65e5"
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "qVAOYMiMSxC94QYpKl5wzA==",
+      "subType": "04"
+    }
+  },
+  "email": "charlie.brown@example.com",
+  "matricule": "M123460",
+  "username": "charliebrown",
+  "hashed_password": "Y2hhcmxpZTEyMw==",
+  "first_name": "Charlie",
+  "last_name": "Brown"
+},
+{
+  "_id": {
+    "$oid": "6532bae0eb211437115122ef"
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "jRVEVPWkTx2fsUsaa1NVIg==",
+      "subType": "04"
+    }
+  },
+  "email": "chocolat_chaud@gmail.com",
+  "matricule": "M333333",
+  "username": "cchaud",
+  "hashed_password": "dWJ1bndddzdzR1MTIz",
+  "first_name": "Chocolat",
+  "last_name": "Chaud"
+},
+{
+  "_id": {
+    "$oid": "6537b035de09a1c07f7ff408"
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Fd8oQvwxQQeZvzy3sLW69Q==",
+      "subType": "04"
+    }
+  },
+  "email": "cafe@sansfil.com",
+  "matricule": "C123456",
+  "username": "cafesansfil",
+  "hashed_password": "$2b$12$d0F/9KZ5T45NFZecZ7mFX.IHZhrdBDi2SrWV0fgNKWcspmLnI1Ruu",
+  "first_name": "Cafe",
+  "last_name": "SansFil"
+}]

@@ -90,6 +90,6 @@ class UserService:
     @staticmethod
     async def update_user(user_id: UUID, data: UserUpdate) -> User:
         user = await UserService.retrieve_user(user_id)
-        await user.update({"$set": data.dict(exclude_unset=True)})
+        await user.update({"$set": data.model_dump(exclude_unset=True)})
         return user
 

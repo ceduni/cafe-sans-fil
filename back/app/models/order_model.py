@@ -36,7 +36,7 @@ class Order(Document):
     order_timestamp: datetime = Field(default_factory=datetime.utcnow)
     completion_time: Optional[datetime] = None
 
-    class Collection:
+    class Settings:
         name = "orders"
 
 

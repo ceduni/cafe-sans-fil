@@ -1,6 +1,6 @@
 from typing import List, Optional
 from uuid import UUID
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from enum import Enum
 
 """
@@ -54,7 +54,7 @@ class MenuItemCreate(BaseModel):
     additional_info_menu: List[dict]  # Example: [{"key": "size", "value": "large"}]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "name": "Cheeseburger",
                 "description": "A delicious cheeseburger with lettuce, tomato, and cheese",
@@ -79,7 +79,7 @@ class MenuItemUpdate(BaseModel):
     additional_info_menu: Optional[List[dict]] = None  # Example: [{"key": "size", "value": "large"}]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "name": "Cheeseburger",
                 "description": "A delicious cheeseburger with lettuce, tomato, and cheese",
@@ -105,7 +105,7 @@ class MenuItemOut(BaseModel):
     additional_info_menu: List[dict]  # Example: [{"key": "size", "value": "large"}]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "item_id": "123e4567-e89b-12d3-a456-426614174000",
                 "name": "Cheeseburger",
@@ -141,7 +141,7 @@ class CafeCreate(BaseModel):
     additional_info_cafe: List[dict]  # [{"key": "promo", "value": "10% off on Mondays"}]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "name": "Central Cafe",
                 "description": "A popular cafe near the main library.",
@@ -192,7 +192,7 @@ class CafeUpdate(BaseModel):
     additional_info_cafe: Optional[List[dict]] = None # [{"key": "promo", "value": "10% off on Mondays"}]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "name": "Central Cafe",
                 "description": "A popular cafe near the main library.",
@@ -243,7 +243,8 @@ class CafeOut(BaseModel):
     additional_info_cafe: List[dict]  # [{"key": "promo", "value": "10% off on Mondays"}]
 
     class Config:
-        schema_extra = {
+        order = False
+        json_schema_extra = {
             "example": {
                 "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
                 "name": "Central Cafe",

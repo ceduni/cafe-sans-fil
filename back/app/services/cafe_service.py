@@ -27,7 +27,7 @@ class CafeService:
 
     @staticmethod
     async def create_cafe(data: CafeCreate) -> Cafe:
-        cafe = Cafe(**data.dict())
+        cafe = Cafe(**data.model_dump())
         await cafe.insert()
         return cafe
 
@@ -38,7 +38,7 @@ class CafeService:
     @staticmethod
     async def update_cafe(cafe_id: UUID, data: CafeUpdate):
         cafe = await CafeService.retrieve_cafe(cafe_id)
-        await cafe.update({"$set": data.dict(exclude_unset=True)})
+        await cafe.update({"$set": data.model_dump(exclude_unset=True)})
         await cafe.save()
         return cafe
 
@@ -76,7 +76,7 @@ class CafeService:
     async def create_menu_item(cafe_id: UUID, item: MenuItemCreate) -> MenuItem:
         cafe = await CafeService.retrieve_cafe(cafe_id)
         if cafe:
-            new_item = MenuItem(**item.dict())
+            new_item = MenuItem(**item.model_dump())
             cafe.menu_items.append(new_item)
             await cafe.save()
             return new_item
@@ -88,7 +88,7 @@ class CafeService:
         if cafe:
             for index, item in enumerate(cafe.menu_items):
                 if item.item_id == item_id:
-                    for key, value in item_data.dict(exclude_unset=True).items():
+                    for key, value in item_data.model_dump(exclude_unset=True).items():
                         setattr(cafe.menu_items[index], key, value)
                     await cafe.save()
                     return cafe.menu_items[index]

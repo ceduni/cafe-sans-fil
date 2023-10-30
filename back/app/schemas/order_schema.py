@@ -37,7 +37,7 @@ class OrderCreate(BaseModel):
     completion_time: Optional[datetime] = None
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "user_id": "123e4567-e89b-12d3-a456-426614174000",
                 "cafe_id": "123e4567-e89b-12d3-a456-426614174001",
@@ -64,7 +64,7 @@ class OrderUpdate(BaseModel):
     completion_time: Optional[datetime] = None
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "user_id": "123e4567-e89b-12d3-a456-426614174000",
                 "cafe_id": "123e4567-e89b-12d3-a456-426614174001",
@@ -92,7 +92,7 @@ class OrderOut(BaseModel):
     completion_time: Optional[datetime] = None
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "order_id": "123e4567-e89b-12d3-a456-426614174000",
                 "user_id": "123e4567-e89b-12d3-a456-426614174000",
