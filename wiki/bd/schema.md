@@ -14,7 +14,8 @@ Ce document présente la structure de notre BD MongoDB.
   "username": "string (Unique)",
   "hashed_password": "string (hashed)",
   "first_name": "string",
-  "last_name": "string"
+  "last_name": "string",
+  "photo_url": "string (Optional)"
 }
 
 ```
@@ -26,7 +27,8 @@ Ce document présente la structure de notre BD MongoDB.
 - **hashed_password**: Mot de passe de l'utilisateur, qui sera haché avant d'être stocké pour des raisons de sécurité.
 - **first_name**: Prénom de l'utilisateur.
 - **last_name**: Nom de famille de l'utilisateur.
-
+- **photo_url**: URL pointant vers la photo de profil de l'utilisateur.
+  
 <br>
 
 ### Cafe
@@ -38,7 +40,10 @@ Ce document présente la structure de notre BD MongoDB.
   "description": "string (Optional)",
   "image_url": "string (Optional)",
   "faculty": "string",
-  "location": "string",
+  "location": {
+    "pavillon": "string",
+    "local": "string"
+  },
   "is_open": "bool",
   "opening_hours": [
     {
@@ -83,16 +88,19 @@ Ce document présente la structure de notre BD MongoDB.
       "price": "double",
       "is_available": "bool",
       "category": "string (Optional)",
-      "additional_info_menu": {
-        "key": "string (Optional)",
-        "value": "string (Optional)"
+      "options": {
+        "type": "string (Optional)",
+        "value": "string (Optional)",
+        "fees": "double (Optional)"
       }
     }
   ],
-  "additional_info_cafe": [
+  "additional_info": [
     {
-      "key": "string (Optional)",
-      "value": "string (Optional)"
+      "type": "string (Optional)",
+      "value": "string (Optional)",
+      "start": "date (Optional)",
+      "end": "date (Optional)"
     }
   ]
 }
@@ -111,8 +119,15 @@ Ce document présente la structure de notre BD MongoDB.
 - **payment_methods**: Les méthodes de paiement acceptées par le café et les montants minimums associés.
 - **staff**: Liste des membres du personnel travaillant au café.
 - **menu_items**: Liste des éléments disponibles dans le menu du café.
-- **additional_info_menu**: Informations supplémentaires concernant l'élément du menu. Par exemple, cela pourrait inclure les tailles disponibles pour certains articles, ou d'autres détails spécifiques.
-- **additional_info_cafe**: Informations supplémentaires ou attributs uniques que certains cafés pourraient avoir. Par exemple, s'il y a des promotions spéciales, des événements ou toute autre information pertinente.
+- **options**:
+  - **type**: Type d'option pour le produit. Par exemple, "Taille" pour une boisson ou "Garniture" pour un hamburger.
+  - **value**: Valeur spécifique ou choix pour cette option. Par exemple, pour la taille: "petit", "moyen", "grand" ou pour une garniture: "fromage", "bacon".
+  - **fees**: Coût supplémentaire associé à cette option, le cas échéant.
+- **additional_info**:
+  - **type**: Catégorie d'information additionnelle. Par exemple, "Annonce" pour des nouvelles ou promotions spécifiques, ou "Autres" pour des informations diverses.
+  - **value**: Message ou description associée à cette catégorie d'information.
+  - **start**: Date de début, utile si l'information est temporaire ou saisonnière.
+  - **end**: Date de fin, indiquant quand cette information ne sera plus pertinente ou valide.
   
 <br>
 
