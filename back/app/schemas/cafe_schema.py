@@ -1,6 +1,6 @@
 from typing import List, Optional
 from uuid import UUID
-from pydantic import BaseModel, EmailStr, Field, ConfigDict
+from pydantic import BaseModel, EmailStr, Field
 from enum import Enum
 
 """
@@ -243,7 +243,6 @@ class CafeOut(BaseModel):
     additional_info_cafe: List[dict]  # [{"key": "promo", "value": "10% off on Mondays"}]
 
     class Config:
-        order = False
         json_schema_extra = {
             "example": {
                 "cafe_id": "123e4567-e89b-12d3-a456-426614174000",

@@ -41,7 +41,7 @@ async def app_init():
     and the defined models (User, Cafe, Order).
     """
     
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING).cafesansfil 
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME] 
 
     await init_beanie(
         database=db_client,
