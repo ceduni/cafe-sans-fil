@@ -9,7 +9,7 @@ const Footer = () => {
         </div>
         <div class="block text-sm text-gray-500 sm:text-center">
           <p className="font-semibold">Café sans-fil</p>
-          <p className="mb-3 italic">(Version 0.1.0)</p>
+          <p className="mb-3 italic">(Preview, version 0.1.0)</p>
           <p>
             Ceduni &bull; Projet disponible sur{" "}
             <a className="underline" href="https://github.com/ceduni/udem-cafe" target="_blank">
