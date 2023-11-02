@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Container from "./ui/Container";
 
-const Search = ({ isSearching, setIsSearching }) => {
+const SearchBar = ({ isSearching, setIsSearching }) => {
   return (
     <>
       <Container className="py-10">
@@ -27,4 +27,4 @@ const Search = ({ isSearching, setIsSearching }) => {
   );
 };
 
-export default Search;
+export default SearchBar;

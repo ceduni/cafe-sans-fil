@@ -1,27 +1,19 @@
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 
 const sortOptions = [
+  { name: "Par pavillon", href: "#", current: false },
   { name: "De A à Z", href: "#", current: true },
   { name: "De Z à A", href: "#", current: false },
-  { name: "Les plus populaires", href: "#", current: false },
 ];
 
-const filters = [
+const filterTypes = [
   {
     id: "facts",
     name: "Caractéristiques",
-    options: [
-      { value: "open", label: "Ouvert", checked: false },
-      { value: "chairs", label: "Chaises", checked: false },
-      { value: "terrace", label: "Terrasse", checked: false },
-      { value: "vegan", label: "Végétalien", checked: false },
-      { value: "vegetarian", label: "Végétarien", checked: false },
-      { value: "gluten-free", label: "Sans gluten", checked: false },
-      { value: "lactose-free", label: "Sans lactose", checked: false },
-    ],
+    options: [{ value: "open", label: "Ouvert", checked: false }],
   },
   {
     id: "payement",
@@ -50,7 +42,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Filters = () => {
+const Filters = ({ filters, setFilters }) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   return (
@@ -93,7 +85,7 @@ const Filters = () => {
 
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
-                    {filters.map((section) => (
+                    {filterTypes.map((section) => (
                       <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
                         {({ open }) => (
                           <>
@@ -113,18 +105,21 @@ const Filters = () => {
                               <div className="space-y-6">
                                 {section.options.map((option, optionIdx) => (
                                   <div key={option.value} className="flex items-center">
-                                    <input
-                                      id={`filter-mobile-${section.id}-${optionIdx}`}
-                                      name={`${section.id}[]`}
-                                      defaultValue={option.value}
-                                      type="checkbox"
-                                      defaultChecked={option.checked}
-                                      className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                                    />
                                     <label
-                                      htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                      className="ml-3 min-w-0 flex-1 text-gray-500">
-                                      {option.label}
+                                      className="relative inline-flex items-center cursor-pointer"
+                                      htmlFor={`filter-mobile-${section.id}-${optionIdx}`}>
+                                      <input
+                                        className="sr-only peer"
+                                        id={`filter-mobile-${section.id}-${optionIdx}`}
+                                        name={`${section.id}[]`}
+                                        defaultValue={option.value}
+                                        type="checkbox"
+                                        defaultChecked={option.checked}
+                                      />
+                                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                      <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-500">
+                                        {option.label}
+                                      </span>
                                     </label>
                                   </div>
                                 ))}
@@ -189,9 +184,9 @@ const Filters = () => {
 
               <button
                 type="button"
-                className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6"
+                className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 flex items-center gap-2"
                 onClick={() => setMobileFiltersOpen(true)}>
-                <span className="sr-only">Filtres</span>
+                <span className="hidden sm:block text-sm font-medium text-gray-700">Filtres</span>
                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>

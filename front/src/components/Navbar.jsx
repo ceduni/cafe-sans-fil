@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { Dialog, Popover, Transition, Menu } from "@headlessui/react";
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
 import Cart from "./Cart";
 import Container from "./ui/Container";
@@ -14,7 +14,9 @@ const routes = {
   profile: "/me",
 };
 
-const navigation = [{ name: "Accueil", href: routes.home }];
+const navigation = [
+  // { name: "Accueil", href: routes.home }
+];
 
 const avatarNavigation = [
   { name: "Mon profil", href: routes.profile },
@@ -73,30 +75,32 @@ const Navbar = () => {
                     </button>
                   </div>
 
-                  {/* Links */}
-                  <div className="space-y-6 px-5 py-6">
-                    {navigation.map((page) => (
-                      <div key={page.name} className="flow-root">
+                  <section>
+                    {/* Links */}
+                    <div className="space-y-6 px-5 py-6">
+                      {navigation.map((page) => (
+                        <div key={page.name} className="flow-root">
+                          <Link
+                            to={page.href}
+                            className="-m-2 p-2 block font-medium text-gray-900"
+                            onClick={() => setOpen(false)}>
+                            {page.name}
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="space-y-6 border-t border-gray-200 px-5 py-6">
+                      <div className="flow-root">
                         <Link
-                          to={page.href}
+                          to={routes.login}
                           className="-m-2 p-2 block font-medium text-gray-900"
                           onClick={() => setOpen(false)}>
-                          {page.name}
+                          Se connecter
                         </Link>
                       </div>
-                    ))}
-                  </div>
-
-                  <div className="space-y-6 border-t border-gray-200 px-5 py-6">
-                    <div className="flow-root">
-                      <Link
-                        to={routes.login}
-                        className="-m-2 p-2 block font-medium text-gray-900"
-                        onClick={() => setOpen(false)}>
-                        Se connecter
-                      </Link>
                     </div>
-                  </div>
+                  </section>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -220,18 +224,6 @@ const Navbar = () => {
                         </NavLink>
                       </div>
                     )}
-
-                    {/* Search */}
-                    {/* <div className="flex lg:ml-6">
-                      <NavLink
-                        to={routes.search}
-                        className={({ isActive }) =>
-                          classNames(isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-700", "p-2")
-                        }>
-                        <span className="sr-only">Search</span>
-                        <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                      </NavLink>
-                    </div> */}
 
                     {/* Cart */}
                     <div className="ml-4 flow-root lg:ml-6">
