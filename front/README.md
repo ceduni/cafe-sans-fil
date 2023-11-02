@@ -101,3 +101,4 @@
 - [React Router 6: Authentication](https://www.robinwieruch.de/react-router-authentication/)
 - [Complete guide to authentication with React Router v6 - LogRocket Blog](https://blog.logrocket.com/complete-guide-authentication-with-react-router-v6/)
 - [Handling JWT Access and Refresh Token using Axios in React App](https://blog.theashishmaurya.me/handling-jwt-access-and-refresh-token-using-axios-in-react-app)
+- [useApi React Hook | Andrew Stevens](https://andrewstevens.dev/posts/useApi-react-hook/)
