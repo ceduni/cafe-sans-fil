@@ -15,7 +15,7 @@ import ContactCafe from "../components/ui/ContactCafe";
 
 const Cafe = () => {
   const { id } = useParams();
-  const { data, isLoading, error } = useApi(`/cafes/${id}`);
+  const [data, isLoading, error] = useApi(`/cafes/${id}`);
 
   if (error) {
     if (error.status === 422) {

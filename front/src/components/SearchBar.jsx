@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Container from "./ui/Container";
 
-const SearchBar = ({ isSearching, setIsSearching }) => {
+const SearchBar = ({ searchQuery, setSearchQuery }) => {
   return (
     <>
       <Container className="py-10">
@@ -17,9 +17,11 @@ const SearchBar = ({ isSearching, setIsSearching }) => {
             id="default-search"
             className="block w-full p-4 pl-14 md:text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-emerald-600 focus:border-emerald-500"
             placeholder="Rechercher un café ou un produit"
-            onChange={(e) => {
-              setIsSearching(e.target.value.length > 0);
-            }}
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck="false"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </Container>
