@@ -15,6 +15,9 @@
 ## Semaine 9 (2023-10-30)
 
 - **Front**: Continué à développer le front-end.
+- **Back et BD**: Refactorings et améliorations de l'API et de la BD.
+
+Réunion: discussions sur le hosting et divers sujets.
 
 ## Semaine 8 (2023-10-23)
 
