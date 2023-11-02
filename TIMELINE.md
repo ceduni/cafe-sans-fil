@@ -60,7 +60,7 @@
 
 - [x] Ajouter des risques dans la documentation
 - [x] Définir si on utilise MongoDB ou PostgreSQL
-- [x] Utiliser un outil simple pour les graphiques (notamment timeline), voir draw.io
+- [x] Utiliser un outil simple pour les graphiques (notamment timeline), voir [diagrams.net (avant draw.io)](https://app.diagrams.net/)
 - [x] Initialiser un dossier API avec FastAPI
 - [x] Ajouter la page de point de départ dans les flux
 

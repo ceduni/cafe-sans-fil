@@ -154,3 +154,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.internal/*
