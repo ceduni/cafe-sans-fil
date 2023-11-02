@@ -12,7 +12,9 @@
 
 <!-- ## Semaine 10 (2023-11-06) -->
 
-<!-- ## Semaine 9 (2023-10-30) -->
+## Semaine 9 (2023-10-30)
+
+- **Front**: Continué à développer le front-end.
 
 ## Semaine 8 (2023-10-23)
 

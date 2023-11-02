@@ -28,6 +28,10 @@
 
 ## Avancée du développement
 
+#### 2023-11-01
+
+- Ajout recherche de cafés, optimisations de code et améliorations UI
+
 #### 2023-10-27
 
 - Connexion login à l'API, récupération du token et stockage dans le local storage
