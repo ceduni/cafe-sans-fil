@@ -2,7 +2,7 @@
 
 ## Prérequis
 
-- Assurez-vous d'avoir installé Python 3.10.
+- Assurez-vous d'avoir installé Python 3.11.
 - Si vous n'avez pas `pipenv`, installez-le avec `pip install pipenv`.
 
 ## Configuration du fichier .env

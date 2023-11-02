@@ -1,27 +1,16 @@
 import useApi from "../hooks/useApi";
 import EmptyState from "./ui/EmptyState";
 import { CafeCard, CafeCardLoading } from "./ui/CafeCard";
-import Filters from "./ui/Filters";
-import { useState, useEffect } from "react";
 
-const CafeList = () => {
-  const [data, isLoading, error] = useApi("/cafes");
-
-  const [filters, setFilters] = useState({
-    openOnly: false,
-    payment: [],
-  });
-
-  useEffect(() => {
-    console.log(filters);
-  }),
-    [filters];
+const SearchResults = ({ searchQuery }) => {
+  const [data, isLoading, error] = useApi(`/search?query=${searchQuery}`);
+  const cafes = data?.matching_cafes || [];
 
   if (error) {
     return <EmptyState type="error" error={error} />;
   }
 
-  if (data?.length === 0) {
+  if (cafes?.length === 0) {
     return <EmptyState name="café" />;
   }
 
@@ -37,9 +26,8 @@ const CafeList = () => {
 
   return (
     <>
-      <Filters filters={filters} setFilters={setFilters} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
-        {data.map((cafe) => (
+        {cafes.map((cafe) => (
           <CafeCard cafe={cafe} key={cafe.cafe_id} />
         ))}
       </div>
@@ -47,4 +35,4 @@ const CafeList = () => {
   );
 };
 
-export default CafeList;
+export default SearchResults;

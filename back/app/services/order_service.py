@@ -18,7 +18,7 @@ class OrderService:
 
     @staticmethod
     async def create_order(data: OrderCreate) -> Order:
-        order = Order(**data.dict())
+        order = Order(**data.model_dump())
         await order.insert()
         return order
 
@@ -29,7 +29,7 @@ class OrderService:
     @staticmethod
     async def update_order(order_id: UUID, data: OrderUpdate):
         order = await OrderService.retrieve_order(order_id)
-        await order.update({"$set": data.dict(exclude_unset=True)})
+        await order.update({"$set": data.model_dump(exclude_unset=True)})
         return order
 
     @staticmethod

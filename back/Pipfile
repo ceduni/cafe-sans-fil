@@ -4,12 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "==0.65.1"
-uvicorn = "==0.14.0"
-motor = "==2.4.0"
-beanie = "==1.2.5"
-email-validator = "==2.0.0.post2"
-pymongo = "==3.12"
+fastapi = "*"
+uvicorn = "*"
+motor = "*"
+beanie = "*"
+pydantic-settings = "*"
+email-validator = "*"
+pymongo = "*"
 python-decouple = "*"
 passlib = "*"
 python-jose = "*"
@@ -19,4 +20,5 @@ bcrypt = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.11"
+python_full_version = "3.11.6"

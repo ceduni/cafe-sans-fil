@@ -15,9 +15,12 @@ import ContactCafe from "../components/ui/ContactCafe";
 
 const Cafe = () => {
   const { id } = useParams();
-  const { data, isLoading, error } = useApi(`/cafes/${id}`);
+  const [data, isLoading, error] = useApi(`/cafes/${id}`);
 
   if (error) {
+    if (error.status === 422) {
+      throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
+    }
     return <EmptyState type="error" error={error} />;
   }
 
@@ -25,7 +28,6 @@ const Cafe = () => {
     <>
       <Helmet>{data?.name && <title>{data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
-        <CafeMemberHeader />
         <div className="mb-5 text-gray-500 font-semibold">
           <Link to="/" className="underline underline-offset-2 hover:no-underline">
             Liste des cafés
@@ -33,6 +35,8 @@ const Cafe = () => {
           <span className="px-3">&gt;</span>
           {(isLoading && <span className="animate-pulse">Chargement...</span>) || data?.name}
         </div>
+
+        <CafeMemberHeader />
 
         <img
           className="mb-6 rounded-lg shadow-xl object-cover h-52 md:h-96"

@@ -69,5 +69,5 @@ class Cafe(Document):
     menu_items: List[MenuItem]
     additional_info_cafe: List[dict]  # [{"key": "promo", "value": "10% off on Mondays"}]
 
-    class Collection:
+    class Settings:
         name = "cafes"

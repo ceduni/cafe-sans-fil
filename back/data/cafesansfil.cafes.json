@@ -5,7 +5,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "Xp4FCQvZSSOvVv/QR0I2jw==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Acquis de droit",
@@ -16,7 +16,7 @@
   "is_open": true,
   "opening_hours": [
     {
-      "day": "Monday",
+      "day": "Lundi",
       "blocks": [
         {
           "start": "08:00",
@@ -25,7 +25,34 @@
       ]
     },
     {
-      "day": "Tuesday",
+      "day": "Mardi",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "17:00"
+        }
+      ]
+    },
+    {
+      "day": "Mercredi",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "17:00"
+        }
+      ]
+    },
+    {
+      "day": "Jeudi",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "17:00"
+        }
+      ]
+    },
+    {
+      "day": "Vendredi",
       "blocks": [
         {
           "start": "08:00",
@@ -63,17 +90,8 @@
     {
       "user_id": {
         "$binary": {
-          "base64": "89Wo00+IS2WXr2pdCk+NPw==",
-          "subType": "03"
-        }
-      },
-      "role": "benevole"
-    },
-    {
-      "user_id": {
-        "$binary": {
-          "base64": "osW21+j5ChssPU5fanuMnQ==",
-          "subType": "03"
+          "base64": "Xp4FCQvZSSOvVv/QR0I2jw==",
+          "subType": "04"
         }
       },
       "role": "admin"
@@ -84,7 +102,7 @@
       "item_id": {
         "$binary": {
           "base64": "vLIFoQn+QvWu0lh42tK+9w==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Vegan Sandwich",
@@ -97,6 +115,54 @@
         {
           "key": "Ingredients",
           "value": "Lettuce, Tomato, Cucumber, Avocado"
+        }
+      ]
+    },
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAA==",
+          "subType": "04"
+        }
+      },
+      "name": "Cheeseburger",
+      "description": "A delicious cheeseburger with lettuce, tomato, and cheese",
+      "image_url": "https://example.com/images/cheeseburger.jpg",
+      "price": 5.99,
+      "is_available": true,
+      "category": "Burgers",
+      "additional_info_menu": [
+        {
+          "key": "size",
+          "value": "large"
+        },
+        {
+          "key": "ingredients",
+          "value": "beef, lettuce, tomato, cheese"
+        }
+      ]
+    },
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAA==",
+          "subType": "04"
+        }
+      },
+      "name": "Cheeseburger",
+      "description": "A delicious cheeseburger with lettuce, tomato, and cheese",
+      "image_url": "https://example.com/images/cheeseburger.jpg",
+      "price": 5.99,
+      "is_available": true,
+      "category": "Burgers",
+      "additional_info_menu": [
+        {
+          "key": "size",
+          "value": "large"
+        },
+        {
+          "key": "ingredients",
+          "value": "beef, lettuce, tomato, cheese"
         }
       ]
     }
@@ -115,7 +181,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "I+Ougj5hRTOBroaH8LJUtw==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "CafCom",
@@ -165,13 +231,32 @@
       "minimum": 3
     }
   ],
-  "staff": [],
+  "staff": [
+    {
+      "user_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAQ==",
+          "subType": "04"
+        }
+      },
+      "role": "admin"
+    },
+    {
+      "user_id": {
+        "$binary": {
+          "base64": "Fd8oQvwxQQeZvzy3sLW69Q==",
+          "subType": "04"
+        }
+      },
+      "role": "volunteer"
+    }
+  ],
   "menu_items": [
     {
       "item_id": {
         "$binary": {
           "base64": "V/N3cW/8RuSTMD7A2bruXg==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "House Grilled Cheese",
@@ -202,7 +287,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "71wFSnGORrqSfZYVUkojow==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Café Anthropologie",
@@ -258,7 +343,7 @@
       "item_id": {
         "$binary": {
           "base64": "k6hG8ettQCuEFZUgraOkTw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "House Coffee",
@@ -289,7 +374,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "E+KD/ERuTdGfbFTGuXStew==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Café Beagel",
@@ -345,7 +430,7 @@
       "item_id": {
         "$binary": {
           "base64": "pfXFIjuwQluls4/j6S3eyw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Cheese Bagel",
@@ -376,7 +461,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "FifmWmlgS6qle1VmmwW2dQ==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Café nutri-bar",
@@ -432,7 +517,7 @@
       "item_id": {
         "$binary": {
           "base64": "jxs2R5fwS9OwEHrAWzzMZw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Green Smoothie",
@@ -463,7 +548,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "k8biqgM5Txy2DcQYNofQ6A==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Café-In",
@@ -523,7 +608,7 @@
       "item_id": {
         "$binary": {
           "base64": "JmgPsDfJSD2MGgMjuqb/0Q==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Local Brewed Coffee",
@@ -543,7 +628,7 @@
       "item_id": {
         "$binary": {
           "base64": "TtIStT9SRyu7CL79Xwl0ww==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Thursday Special Pizza",
@@ -574,7 +659,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "nRTV1aCLQQqpKzTYn19pog==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "CaféKine",
@@ -634,7 +719,7 @@
       "item_id": {
         "$binary": {
           "base64": "JdR6hWyhSASPpYo5ouDXrA==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Barres protéinées",
@@ -658,7 +743,7 @@
       "item_id": {
         "$binary": {
           "base64": "NGzoX65QSLuqoPTAwrUE2Q==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Craft Beer",
@@ -693,7 +778,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "GZGB18JNQy6mhuu6ci9EnQ==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Holocène",
@@ -749,7 +834,7 @@
       "item_id": {
         "$binary": {
           "base64": "7g88nHImStK6OFxY3ih1Pw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Vegan Samosas",
@@ -769,7 +854,7 @@
       "item_id": {
         "$binary": {
           "base64": "GTQsbxGUSoqb9nN9VoNcNw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Third Wave Coffee",
@@ -800,7 +885,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "Ff8NPthCSQ2XYQ4Nc7BbZA==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "L’établi",
@@ -860,7 +945,7 @@
       "item_id": {
         "$binary": {
           "base64": "Z3oXQK9zTQSCBO3J+IostA==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Hot Coffee",
@@ -880,7 +965,7 @@
       "item_id": {
         "$binary": {
           "base64": "yKNgooW6TLW09O27tvkExA==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Iced Coffee",
@@ -911,7 +996,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "CiqvoFlnQNazMxr6P72MeQ==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "L’Intermed",
@@ -967,7 +1052,7 @@
       "item_id": {
         "$binary": {
           "base64": "gEZbvEUxSkC9WzAY/5+BGw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Organic Tea",
@@ -987,7 +1072,7 @@
       "item_id": {
         "$binary": {
           "base64": "yfU0bpPUT2e0ZDcl0e7JNQ==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Vegan Cookie",
@@ -1018,7 +1103,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "OrzqzF1gQSOpvxJruoBAqw==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "La Brunante",
@@ -1074,7 +1159,7 @@
       "item_id": {
         "$binary": {
           "base64": "gF2R02SfTIOSnuNOAtfvCA==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Cappuccino",
@@ -1094,7 +1179,7 @@
       "item_id": {
         "$binary": {
           "base64": "MD41i7lTRvi46ZewsdVkuA==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Brunante Sandwich",
@@ -1125,7 +1210,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "KF0XgAcxSfa+EWEXrIbmIQ==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "La Planck",
@@ -1176,7 +1261,7 @@
       "item_id": {
         "$binary": {
           "base64": "nVQIKMonRYaPBgtdt3ZlQg==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Espresso",
@@ -1196,7 +1281,7 @@
       "item_id": {
         "$binary": {
           "base64": "msVKr3MER0qbvNoVjEqTaQ==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Latte",
@@ -1227,7 +1312,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "oKJEqkpgSIqH+HPZxFgv+A==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "La Retenue",
@@ -1283,7 +1368,7 @@
       "item_id": {
         "$binary": {
           "base64": "eLiBz6upQhyKemC9TvIqkQ==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Cappuccino",
@@ -1303,7 +1388,7 @@
       "item_id": {
         "$binary": {
           "base64": "ikhxs1JlTcy2bNtMwx2+3Q==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Muffin",
@@ -1334,7 +1419,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "X6IW/0v5TPG5ly1CHCqOZg==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Le Macrophage",
@@ -1390,7 +1475,7 @@
       "item_id": {
         "$binary": {
           "base64": "MZPU7B0jTIuutrAvC9Jwlg==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Gaming Snack Pack",
@@ -1421,7 +1506,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "sHkcB5gTS+uIpYkAozz03g==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Le Mal-aimé",
@@ -1477,7 +1562,7 @@
       "item_id": {
         "$binary": {
           "base64": "Xe3kvXYRSD6cF60FhUF9bg==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Classic Cappuccino",
@@ -1497,7 +1582,7 @@
       "item_id": {
         "$binary": {
           "base64": "SsIpYdWTQKaueMSZK/ifWw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Biscuit Pair",
@@ -1523,7 +1608,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "/YUD4ZDAT620mKYdT9gyRA==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Le Triton",
@@ -1579,7 +1664,7 @@
       "item_id": {
         "$binary": {
           "base64": "acPqJDJoQlGFf3RpZC945g==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Classic Espresso",
@@ -1599,7 +1684,7 @@
       "item_id": {
         "$binary": {
           "base64": "fschSsCQRHmqXkNhCOKcKw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Croissant",
@@ -1625,7 +1710,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "HzhusdxtTHmtslr9cgyD2Q==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Le Vivarium",
@@ -1681,7 +1766,7 @@
       "item_id": {
         "$binary": {
           "base64": "IsNF6mI+TtaZ80wkGmEWmA==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Organic Coffee",
@@ -1701,7 +1786,7 @@
       "item_id": {
         "$binary": {
           "base64": "O0T04nVJRgOsGoAyns3X0g==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Vegan Sandwich",
@@ -1727,7 +1812,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "+CeeFULZS0OQKkSQCa+jCg==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Pill Pub",
@@ -1783,7 +1868,7 @@
       "item_id": {
         "$binary": {
           "base64": "kgbcVBHnQjSmXwVkGgxlmw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Iced Coffee",
@@ -1803,7 +1888,7 @@
       "item_id": {
         "$binary": {
           "base64": "yaNM2yrXSHidOWc+5iSMWw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Croissant",
@@ -1829,7 +1914,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "yaCJsfyTQ1Kc5VQxpPjLgQ==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Psychic",
@@ -1889,7 +1974,7 @@
       "item_id": {
         "$binary": {
           "base64": "T1e4b3gGS7eBgYdEF67Log==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Cappuccino",
@@ -1909,7 +1994,7 @@
       "item_id": {
         "$binary": {
           "base64": "7Gd+DwPmQ8+ozBDJLO/g0w==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Vegan Muffin",
@@ -1935,7 +2020,7 @@
   "cafe_id": {
     "$binary": {
       "base64": "TdaOL3XcT4myUjBdTOb+/A==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "name": "Tore et fraction",
@@ -1991,7 +2076,7 @@
       "item_id": {
         "$binary": {
           "base64": "q6qCixabSLCon3JRHT37Uw==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Espresso",
@@ -2006,7 +2091,7 @@
       "item_id": {
         "$binary": {
           "base64": "YZk+F+eTRji4WEp4KIuH9g==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "name": "Homemade Cookie",

@@ -25,5 +25,5 @@ class User(Document):
     async def by_email(self, email: str) -> "User":
         return await self.find_one(self.email == email)
     
-    class Collection:
+    class Settings:
         name = "users"

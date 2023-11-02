@@ -5,19 +5,19 @@
   "order_id": {
     "$binary": {
       "base64": "x2GshroMRJir7kEj88UtQQ==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "user_id": {
     "$binary": {
       "base64": "Ej5FZ+ibEtOkVkJmFBdAAA==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "cafe_id": {
     "$binary": {
       "base64": "Ej5FZ+ibEtOkVkJmFBdAAQ==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "items": [
@@ -25,7 +25,7 @@
       "item_id": {
         "$binary": {
           "base64": "Ej5FZ+ibEtOkVkJmFBdAAg==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "quantity": 2,
@@ -46,19 +46,19 @@
   "order_id": {
     "$binary": {
       "base64": "KwWPZg0lQwG7slCuDZTt8A==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "user_id": {
     "$binary": {
       "base64": "Ej5FZ+ibEtOkVkJmFBdAAw==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "cafe_id": {
     "$binary": {
       "base64": "Ej5FZ+ibEtOkVkJmFBdABA==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "items": [
@@ -66,7 +66,7 @@
       "item_id": {
         "$binary": {
           "base64": "Ej5FZ+ibEtOkVkJmFBdABQ==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "quantity": 3,
@@ -87,19 +87,19 @@
   "order_id": {
     "$binary": {
       "base64": "Y0oGNfToQCu6vX49mx4CJw==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "user_id": {
     "$binary": {
       "base64": "Ej5FZ+ibEtOkVkJmFBdABg==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "cafe_id": {
     "$binary": {
       "base64": "Ej5FZ+ibEtOkVkJmFBdABw==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "items": [
@@ -107,7 +107,7 @@
       "item_id": {
         "$binary": {
           "base64": "Ej5FZ+ibEtOkVkJmFBdACA==",
-          "subType": "03"
+          "subType": "04"
         }
       },
       "quantity": 1,
@@ -128,37 +128,242 @@
   "order_id": {
     "$binary": {
       "base64": "ilFvA53mSzCnDZNhPiS6zg==",
-      "subType": "03"
+      "subType": "04"
     }
   },
   "user_id": {
     "$binary": {
-      "base64": "Ej5FZ+ibEtOkVkJmFBdACQ==",
-      "subType": "03"
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAA==",
+      "subType": "04"
     }
   },
   "cafe_id": {
     "$binary": {
-      "base64": "Ej5FZ+ibEtOkVkJmFBdAEA==",
-      "subType": "03"
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAQ==",
+      "subType": "04"
     }
   },
   "items": [
     {
       "item_id": {
         "$binary": {
-          "base64": "Ej5FZ+ibEtOkVkJmFBdAEQ==",
-          "subType": "03"
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAg==",
+          "subType": "04"
         }
       },
-      "quantity": 4,
-      "item_price": 7
+      "quantity": 2,
+      "item_price": 5
     }
   ],
-  "total_price": 28,
-  "status": "cancelled",
+  "total_price": 10,
+  "status": "completed",
   "order_timestamp": {
     "$date": "2023-10-19T17:15:00.000Z"
+  },
+  "completion_time": null
+},
+{
+  "_id": {
+    "$oid": "6537ba1f22cec367005c2489"
+  },
+  "order_id": {
+    "$binary": {
+      "base64": "a/JPMFCpTxyXpOMQhk9cYQ==",
+      "subType": "04"
+    }
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAA==",
+      "subType": "04"
+    }
+  },
+  "cafe_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAQ==",
+      "subType": "04"
+    }
+  },
+  "items": [
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAg==",
+          "subType": "04"
+        }
+      },
+      "quantity": 2,
+      "item_price": 5
+    }
+  ],
+  "total_price": 10,
+  "status": "placed",
+  "order_timestamp": {
+    "$date": "2023-10-19T14:30:00.000Z"
+  },
+  "completion_time": null
+},
+{
+  "_id": {
+    "$oid": "65386e8b60f3dc6a78115883"
+  },
+  "order_id": {
+    "$binary": {
+      "base64": "1OA8t7qkSWq0yeCVr/O6jQ==",
+      "subType": "04"
+    }
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAA==",
+      "subType": "04"
+    }
+  },
+  "cafe_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAQ==",
+      "subType": "04"
+    }
+  },
+  "items": [
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAg==",
+          "subType": "04"
+        }
+      },
+      "quantity": 2,
+      "item_price": 5
+    }
+  ],
+  "total_price": 1222220,
+  "status": "placed",
+  "order_timestamp": {
+    "$date": "2023-10-19T14:30:00.000Z"
+  },
+  "completion_time": null
+},
+{
+  "_id": {
+    "$oid": "65386eee60f3dc6a78115884"
+  },
+  "order_id": {
+    "$binary": {
+      "base64": "PSRnpgYzTJKOSq9U/gMzQA==",
+      "subType": "04"
+    }
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Fd8oQvwxQQeZvzy3sLW69Q==",
+      "subType": "04"
+    }
+  },
+  "cafe_id": {
+    "$binary": {
+      "base64": "I+Ougj5hRTOBroaH8LJUtw==",
+      "subType": "04"
+    }
+  },
+  "items": [
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAg==",
+          "subType": "04"
+        }
+      },
+      "quantity": 2,
+      "item_price": 5
+    }
+  ],
+  "total_price": 10,
+  "status": "placed",
+  "order_timestamp": {
+    "$date": "2023-10-19T14:30:00.000Z"
+  },
+  "completion_time": null
+},
+{
+  "_id": {
+    "$oid": "653f2a2a8acc68e597f48ba5"
+  },
+  "order_id": {
+    "$binary": {
+      "base64": "8Ws7jyeGRG+3EdHr5P9zng==",
+      "subType": "04"
+    }
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAA==",
+      "subType": "04"
+    }
+  },
+  "cafe_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAQ==",
+      "subType": "04"
+    }
+  },
+  "items": [
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAg==",
+          "subType": "04"
+        }
+      },
+      "quantity": 2,
+      "item_price": 5
+    }
+  ],
+  "total_price": 10,
+  "status": "placed",
+  "order_timestamp": {
+    "$date": "2023-10-19T14:30:00.000Z"
+  },
+  "completion_time": null
+},
+{
+  "_id": {
+    "$oid": "653f2c57104462a910cb8594"
+  },
+  "order_id": {
+    "$binary": {
+      "base64": "h5DhjQujTx6sEtrTkgl0+w==",
+      "subType": "04"
+    }
+  },
+  "user_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAA==",
+      "subType": "04"
+    }
+  },
+  "cafe_id": {
+    "$binary": {
+      "base64": "Ej5FZ+ibEtOkVkJmFBdAAQ==",
+      "subType": "04"
+    }
+  },
+  "items": [
+    {
+      "item_id": {
+        "$binary": {
+          "base64": "Ej5FZ+ibEtOkVkJmFBdAAg==",
+          "subType": "04"
+        }
+      },
+      "quantity": 2,
+      "item_price": 5
+    }
+  ],
+  "total_price": 10,
+  "status": "placed",
+  "order_timestamp": {
+    "$date": "2023-10-19T14:30:00.000Z"
   },
   "completion_time": null
 }]

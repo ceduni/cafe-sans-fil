@@ -23,7 +23,7 @@ class UserAuth(BaseModel):
     last_name: str = Field(..., min_length=1, max_length=50, description="last name")
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "email": "john.doe@example.com",
                 "matricule": "M123456",
@@ -43,7 +43,7 @@ class UserUpdate(BaseModel):
     last_name: Optional[str] = Field(None, min_length=1, max_length=50, description="last name")
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "email": "john.doe@example.com",
                 "matricule": "M123456",
@@ -63,7 +63,7 @@ class UserOut(BaseModel):
     last_name: str
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "user_id": "123e4567-e89b-12d3-a456-426614174000",
                 "email": "john.doe@example.com",

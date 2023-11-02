@@ -28,6 +28,14 @@
 
 ## Avancée du développement
 
+#### 2023-11-01
+
+- Ajout recherche de cafés, optimisations de code et améliorations UI
+
+#### 2023-10-27
+
+- Connexion login à l'API, récupération du token et stockage dans le local storage
+
 #### 2023-10-26
 
 - Améliorations UI liste cafés et page café et séparation du code en composants
@@ -92,3 +100,5 @@
 - [Building reusable React components using Tailwind CSS - LogRocket Blog](https://blog.logrocket.com/building-reusable-react-components-using-tailwind-css/)
 - [React Router 6: Authentication](https://www.robinwieruch.de/react-router-authentication/)
 - [Complete guide to authentication with React Router v6 - LogRocket Blog](https://blog.logrocket.com/complete-guide-authentication-with-react-router-v6/)
+- [Handling JWT Access and Refresh Token using Axios in React App](https://blog.theashishmaurya.me/handling-jwt-access-and-refresh-token-using-axios-in-react-app)
+- [useApi React Hook | Andrew Stevens](https://andrewstevens.dev/posts/useApi-react-hook/)

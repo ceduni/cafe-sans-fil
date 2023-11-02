@@ -7,6 +7,7 @@ const useApi = (url) => {
   const [error, setError] = useState(null);
 
   const fetchData = async () => {
+    setIsLoading(true);
     fetch(import.meta.env.VITE_API_ENDPOINT + "/api" + url)
       .then((response) => (response.ok ? response : Promise.reject(response)))
       .then((response) => response.json())
@@ -27,9 +28,9 @@ const useApi = (url) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [url]);
 
-  return { data, isLoading, error };
+  return [data, isLoading, error];
 };
 
 export default useApi;
