@@ -7,15 +7,17 @@
 
 ## Configuration du fichier .env
 
-Pour configurer le fichier .env dans le backend, créez un fichier nommé .env dans `/back/app`. Ajoutez ce qui suit dans le fichier .env :
+Pour configurer le fichier .env dans le backend, créez un fichier nommé `.env` dans `/back/app`. Ajoutez ce qui suit dans le fichier `.env` :
 
 ```
 JWT_SECRET_KEY=<RAMDOM_STRING>
-JWT_REFRESH_SECRET_KEY=<RANDOM_SECTURE_LONG_STRING>
-MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING>
+JWT_REFRESH_SECRET_KEY=<RANDOM_SECURE_LONG_STRING>
+BACKEND_CORS_ORIGINS=<BACKEND_CORS_ORIGINS> # "http://localhost:5173" <-- for local running instances
+MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING> # "mongodb://localhost:27017/" <-- for local running instances
+MONGO_DB_NAME="cafesansfil"
 ```
 
-> **Note importante:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECTURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend.
+> **Note importante:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend.
 
 ## Installation
 
@@ -35,6 +37,16 @@ MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING>
 > Pour quitter l'environnement virtuel, utilisez la commande `exit`.
 
 ## Avancée du développement
+
+
+#### 2023-11-02
+
+- Aperçu du projet sur la branche `preview` avec Render.
+
+#### 2023-10-30
+
+- Migration vers Python 3.11.
+- Migration des imports et des dépendances vers les versions les plus récentes.
 
 #### 2023-10-24
 
