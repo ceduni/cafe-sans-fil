@@ -1,4 +1,6 @@
-<img style="display: block; margin: 12px auto" src="https://cdn.discordapp.com/attachments/1150280747983319092/1150596609965559858/l5_with_shadow.png" height="240">
+<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 12px; padding-top: 12px;">
+  <img style="display: block;" src="https://cdn.discordapp.com/attachments/1150280747983319092/1150596609965559858/l5_with_shadow.png" height="240">
+</div>
 
 # Café sans fil
 
@@ -10,12 +12,12 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
 
 ### Pour le grand public
 
-- [ ] Recherche de café
+- [ ] **Recherche de café**
   - [x] Afficher la liste des cafés
   - [ ] Filtrer la liste des cafés
   - [x] Chercher un café par nom
   - [ ] Chercher un café par item
-- [ ] Café et menu
+- [ ] **Café et menu**
   - [x] Afficher les informations d'un café
   - [x] Accéder au menu d'un café
   - [x] Afficher le détail d'un item du menu
@@ -23,25 +25,25 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
 
 ### Pour les membres de l'UdeM
 
-- [x] Authentification et profil
+- [x] **Authentification et profil**
   - [x] Créer un compte
   - [x] Se connecter
   - [x] Modifier mon profil
-- [ ] Passer une commande (pour ramassage)
+- [ ] **Passer une commande (pour ramassage)**
   - [x] Réserver un item
   - [ ] Voir l'historique de mes commandes
 
 ### Pour les bénévoles et responsables d'un café
 
-- [x] Gestion du café
+- [x] **Gestion du café**
   - [x] Modifier les informations de base d'un café
   - [x] Créer une annonce
-- [x] Gestion du menu
+- [x] **Gestion du menu**
   - [x] Ajouter, modifier ou supprimer un item
   - [x] Créer un spécial
-- [ ] Gestion des bénévoles
+- [ ] **Gestion des bénévoles**
   - [x] Ajouter, modifier ou supprimer un item
-- [ ] Rapports
+- [ ] **Rapports de ventes**
   - [ ] Générer des rapports sur les ventes journalières, hebdomadaires, et mensuelles
   - [ ] Afficher les items les plus vendus et les moins vendus
 
@@ -82,6 +84,14 @@ Elle utilise MongoDB pour une gestion efficace des données, FastAPI pour traite
 - [**Tailwind CSS**](https://tailwindcss.com/): Framework CSS open-source.
 
 # 📘 Documentation
+
+La documentation officielle du projet se trouve dans le [wiki](https://github.com/ceduni/udem-cafe/wiki).  
+Pour faciliter la recherche, voilà quelques **liens rapides**:  
+🔗 [Spécifications du projet](https://github.com/ceduni/udem-cafe/wiki/Exigences)  
+🔗 [Documentation de l'API](https://github.com/ceduni/udem-cafe/wiki/API)  
+🔗 [Documentation de la BD](https://github.com/ceduni/udem-cafe/wiki/Base-de-donn%C3%A9es-(BD)) 
+<!-- 🔗 [Guide d'utilisation](https://github.com/ceduni/udem-cafe/wiki/Base-de-donn%C3%A9es-(BD))  -->
+
 
 # 🗂️ Organisation
 
