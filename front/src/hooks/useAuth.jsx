@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
           last_name: lastName,
           matricule: matricule,
           password: password,
-          username: firstName.toLowerCase() + "." + matricule,
+          username: matricule,
         }),
       });
 
@@ -131,10 +131,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const handleLogout = () => {
-    toast.success("Vous êtes déconnecté");
-    setAccessToken(null);
-    setRefreshToken(null);
-    navigate("/", { replace: true });
+    const toastId = toast.loading("Déconnexion...");
+    setTimeout(() => {
+      toast.dismiss(toastId);
+      toast.success("Vous êtes déconnecté");
+      setAccessToken(null);
+      setRefreshToken(null);
+      navigate("/", { replace: true });
+    }, 1000);
   };
 
   const value = {
