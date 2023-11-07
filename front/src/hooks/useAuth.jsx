@@ -83,6 +83,12 @@ export const AuthProvider = ({ children }) => {
           toast.error(`Le champ ${loc} doit contenir au moins ${minLength} caractères`);
           break;
 
+        case "value_error":
+          if (error.loc[1] === "email") {
+            toast.error("L'adresse email est invalide");
+          }
+          break;
+
         default:
           toast.error(error.msg);
           break;
