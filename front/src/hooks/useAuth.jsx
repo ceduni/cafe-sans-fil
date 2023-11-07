@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
           last_name: lastName,
           matricule: matricule,
           password: password,
-          username: firstName.toLowerCase() + "." + matricule,
+          username: matricule,
         }),
       });
 
@@ -81,6 +81,12 @@ export const AuthProvider = ({ children }) => {
           const minLength = error.ctx.min_length;
           const loc = error.loc[1];
           toast.error(`Le champ ${loc} doit contenir au moins ${minLength} caractères`);
+          break;
+
+        case "value_error":
+          if (error.loc[1] === "email") {
+            toast.error("L'adresse email est invalide");
+          }
           break;
 
         default:
@@ -131,10 +137,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const handleLogout = () => {
-    toast.success("Vous êtes déconnecté");
-    setAccessToken(null);
-    setRefreshToken(null);
-    navigate("/", { replace: true });
+    const toastId = toast.loading("Déconnexion...");
+    setTimeout(() => {
+      toast.dismiss(toastId);
+      toast.success("Vous êtes déconnecté");
+      setAccessToken(null);
+      setRefreshToken(null);
+      navigate("/", { replace: true });
+    }, 1000);
   };
 
   const value = {
