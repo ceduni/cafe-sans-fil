@@ -1,7 +1,7 @@
 import useApi from "@/hooks/useApi";
 import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
-import Filters from "@/components/Filters";
+import Filters from "@/components/Cafe/Filters";
 import { useState, useEffect } from "react";
 
 const CafeList = () => {
