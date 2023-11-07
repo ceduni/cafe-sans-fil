@@ -1,6 +1,6 @@
-import Instagram from "../../assets/icons/logo-instagram.svg";
-import Facebook from "../../assets/icons/logo-facebook.svg";
-import Twitter from "../../assets/icons/logo-twitter.svg";
+import Instagram from "@/assets/icons/logo-instagram.svg";
+import Facebook from "@/assets/icons/logo-facebook.svg";
+import Twitter from "@/assets/icons/logo-twitter.svg";
 import { ComputerDesktopIcon, EnvelopeIcon, LinkIcon, PhoneIcon } from "@heroicons/react/24/solid";
 
 const ContactCafe = ({ contact, socialMedia }) => {

@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import PageWrapper from "./components/PageWrapper";
-import ErrorPage from "./components/ErrorPage";
-import { Home, Login, SignUp, Profile, Cafe, ResetPassword } from "./routes";
-import StaffList from "./components/ui/StaffList";
-import OrderHeader from "./components/ui/OrderHeader";
+import PageWrapper from "@/components/PageWrapper";
+import ErrorPage from "@/components/ErrorPage";
+import { Home, Login, SignUp, Profile, Cafe, ResetPassword } from "@/routes";
+import StaffList from "@/components/Cafe/StaffList";
+import OrderHeader from "@/components/Orders/OrderHeader";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
-import { LoggedInOnly, LoggedOutOnly } from "./helpers/ProtectedRoute";
+import { LoggedInOnly, LoggedOutOnly } from "@/helpers/ProtectedRoute";
 
 const router = createBrowserRouter([
   {

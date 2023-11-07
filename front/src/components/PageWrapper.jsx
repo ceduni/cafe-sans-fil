@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
-import ScrollToTop from "../helpers/ScrollToTop";
-import { AuthProvider } from "../hooks/useAuth";
+import Navbar from "@/components/Navbar";
+import ScrollToTop from "@/helpers/ScrollToTop";
+import { AuthProvider } from "@/hooks/useAuth";
 import { Toaster } from "react-hot-toast";
-import Footer from "./ui/Footer";
+import Footer from "@/components/Footer";
 
 const PageWrapper = () => {
   return (

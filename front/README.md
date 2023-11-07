@@ -23,10 +23,18 @@
 
 - `src` : Dossier contenant le code source
   - `assets` : Dossier contenant les assets (icones, images, etc.)
-  - `components` : Dossier contenant les composants React
-- à compléter
+  - `components` : Dossier contenant les composants React, ceux appartenant à une catégorie sont dans un sous-dossier, les généraux sont à la racine
 
 ## Avancée du développement
+
+#### 2023-11-06
+
+- Début de l'implémentation de la création de compte
+- Diverses optimisations dans le code et la structure de fichiers
+
+#### 2023-11-02
+
+- Ajout d'un Footer
 
 #### 2023-11-01
 

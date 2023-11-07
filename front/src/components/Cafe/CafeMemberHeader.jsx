@@ -1,6 +1,6 @@
 import { BuildingStorefrontIcon, PencilIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Link, useParams } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 const CafeMemberHeader = () => {
   const { id } = useParams();

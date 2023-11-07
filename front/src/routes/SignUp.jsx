@@ -1,5 +1,5 @@
-import Input from "../components/ui/Input";
-import { useAuth } from "../hooks/useAuth";
+import Input from "@/components/Input";
+import { useAuth } from "@/hooks/useAuth";
 import logo from "/logo.png";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";

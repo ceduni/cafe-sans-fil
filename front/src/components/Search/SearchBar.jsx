@@ -1,5 +1,5 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import Container from "./ui/Container";
+import Container from "@/components/Container";
 
 const SearchBar = ({ searchQuery, setSearchQuery }) => {
   return (

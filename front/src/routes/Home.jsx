@@ -1,9 +1,9 @@
-import Container from "../components/ui/Container";
+import Container from "@/components/Container";
 import { Helmet } from "react-helmet-async";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "@/components/Search/SearchBar";
 import { useState } from "react";
-import CafeList from "../components/CafeList";
-import SearchResults from "../components/SearchResults";
+import CafeList from "@/components/CafeList";
+import SearchResults from "@/components/Search/SearchResults";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");

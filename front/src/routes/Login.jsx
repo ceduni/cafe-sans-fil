@@ -1,8 +1,8 @@
 import logo from "/logo.png";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import Input from "../components/ui/Input";
-import { useAuth } from "../hooks/useAuth";
+import Input from "@/components/Input";
+import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 
 const Login = () => {

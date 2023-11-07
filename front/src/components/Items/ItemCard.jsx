@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ProductView from "../ProductView";
+import ProductView from "@/components/Items/ProductView";
 
 const ItemCard = ({ item }) => {
   const [itemPreviewOpen, setItemPreviewOpen] = useState(false);

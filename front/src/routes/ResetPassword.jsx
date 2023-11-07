@@ -1,4 +1,4 @@
-import Input from "../components/ui/Input";
+import Input from "@/components/Input";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import logo from "/logo.png";

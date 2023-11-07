@@ -1,6 +1,6 @@
 import { useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "./useLocalStorage";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import toast from "react-hot-toast";
 const AuthContext = createContext();
 
@@ -104,26 +104,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleRefresh = async () => {
-    try {
-      const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/auth/refresh", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: accessToken,
-      });
-
-      if (response.status !== 200) {
-        throw new Error("Impossible de rafraîchir le token");
-      }
-
-      const token = await response.json();
-      setAccessToken(token.access_token);
-      setRefreshToken(token.refresh_token);
-    } catch (error) {
-      toast.error(error.message);
-    }
+  const getCurrentUser = async () => {
+    // TODO request to /api/auth/test-token while being JWT authenticated
+    // will return the current user's data
   };
 
   const handleSignUp = async (event, userData) => {
