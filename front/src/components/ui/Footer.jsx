@@ -5,9 +5,9 @@ const Footer = () => {
     <footer className="bg-white border-t border-gray-200">
       <div className="w-full max-w-screen-xl mx-auto p-5 md:py-8">
         <div className="flex items-center mb-4 sm:justify-center">
-          <img src="/logo.png" class="h-24" alt="Logo de café sans-fil" />
+          <img src="/logo.png" className="h-24" alt="Logo de café sans-fil" />
         </div>
-        <div class="block text-sm text-gray-500 sm:text-center">
+        <div className="block text-sm text-gray-500 sm:text-center">
           <p className="font-semibold">Café sans-fil</p>
           <p className="mb-3 italic">(Version 0.1.0)</p>
           <p>
