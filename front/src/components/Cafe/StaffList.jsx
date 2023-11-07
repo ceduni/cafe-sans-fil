@@ -1,5 +1,5 @@
-import Avatar from "./Avatar";
-import Container from "./Container";
+import Avatar from "@/components/Avatar";
+import Container from "@/components/Container";
 
 const people = [
   {

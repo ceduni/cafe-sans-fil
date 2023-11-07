@@ -1,8 +1,18 @@
 import { Helmet } from "react-helmet-async";
-import Container from "../components/ui/Container";
-import Input from "../components/ui/Input";
+import Container from "@/components/Container";
+import Input from "@/components/Input";
+import { useState } from "react";
 
 const Profile = () => {
+  const [userData, setUserData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    passwordConfirm: "",
+    matricule: "",
+  });
+
   return (
     <>
       <Helmet>

@@ -2,10 +2,10 @@ import { Fragment, useState } from "react";
 import { Dialog, Popover, Transition, Menu } from "@headlessui/react";
 import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
-import Cart from "./Cart";
-import Container from "./ui/Container";
-import Avatar from "./ui/Avatar";
-import { useAuth } from "../hooks/useAuth";
+import Cart from "@/components/Orders/Cart";
+import Container from "@/components/Container";
+import Avatar from "@/components/Avatar";
+import { useAuth } from "@/hooks/useAuth";
 
 const routes = {
   home: "/",

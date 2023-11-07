@@ -1,17 +1,17 @@
 import { useParams } from "react-router-dom";
-import ItemCard from "../components/ui/ItemCard";
-import Container from "../components/ui/Container";
-import { products } from "../components/Cart";
+import ItemCard from "@/components/Items/ItemCard";
+import Container from "@/components/Container";
+import { products } from "@/components/Orders/Cart";
 import { Link } from "react-router-dom";
-import OpeningHours from "../components/ui/OpeningHours";
-import CafeMemberHeader from "../components/ui/CafeMemberHeader";
-import useApi from "../hooks/useApi";
-import OpenIndicator from "../components/ui/OpenIndicator";
-import EmptyState from "../components/ui/EmptyState";
-import InfoBox from "../components/ui/InfoBox";
+import OpeningHours from "@/components/Cafe/OpeningHours";
+import CafeMemberHeader from "@/components/Cafe/CafeMemberHeader";
+import useApi from "@/hooks/useApi";
+import OpenIndicator from "@/components/Cafe/OpenIndicator";
+import EmptyState from "@/components/EmptyState";
+import InfoBox from "@/components/Cafe/InfoBox";
 import { Helmet } from "react-helmet-async";
-import PaymentMethods from "../components/ui/PaymentMethods";
-import ContactCafe from "../components/ui/ContactCafe";
+import PaymentMethods from "@/components/Cafe/PaymentMethods";
+import ContactCafe from "@/components/Cafe/ContactCafe";
 
 const Cafe = () => {
   const { id } = useParams();

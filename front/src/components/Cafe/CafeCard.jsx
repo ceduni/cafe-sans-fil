@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import OpenIndicator from "./OpenIndicator";
-import Card from "./Card";
+import OpenIndicator from "@/components/Cafe/OpenIndicator";
+import Card from "@/components/Card";
 
 const CafeCard = ({ cafe }) => {
   return (
