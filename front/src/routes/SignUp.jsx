@@ -16,6 +16,10 @@ const SignUp = () => {
     matricule: "",
   });
 
+  const handleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <Helmet>
@@ -33,34 +37,34 @@ const SignUp = () => {
           <form className="space-y-6" action="#" method="POST" onSubmit={(e) => onSignUp(e, userData)}>
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="prenom" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
                   Prénom
                 </label>
                 <div className="mt-2.5">
                   <Input
                     type="text"
-                    name="prenom"
-                    id="prenom"
+                    name="firstName"
+                    id="firstName"
                     autoComplete="given-name"
                     required
                     value={userData.firstName}
-                    onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="nom" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
                   Nom
                 </label>
                 <div className="mt-2.5">
                   <Input
                     type="text"
-                    name="nom"
-                    id="nom"
+                    name="lastName"
+                    id="lastName"
                     autoComplete="family-name"
                     required
                     value={userData.lastName}
-                    onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -78,7 +82,7 @@ const SignUp = () => {
                   autoComplete="email"
                   required
                   value={userData.email}
-                  onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -94,7 +98,7 @@ const SignUp = () => {
                   id="matricule"
                   required
                   value={userData.matricule}
-                  onChange={(e) => setUserData({ ...userData, matricule: e.target.value })}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -113,26 +117,26 @@ const SignUp = () => {
                   autoComplete="current-password"
                   required
                   value={userData.password}
-                  onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+                  onChange={handleChange}
                 />
               </div>
             </div>
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="password-confirm" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="passwordConfirm" className="block text-sm font-medium leading-6 text-gray-900">
                   Confirmez le mot de passe
                 </label>
               </div>
               <div className="mt-2">
                 <Input
-                  id="password-confirm"
-                  name="password-confirm"
+                  id="passwordConfirm"
+                  name="passwordConfirm"
                   type="password"
                   autoComplete="current-password"
                   required
                   value={userData.passwordConfirm}
-                  onChange={(e) => setUserData({ ...userData, passwordConfirm: e.target.value })}
+                  onChange={handleChange}
                 />
               </div>
             </div>
