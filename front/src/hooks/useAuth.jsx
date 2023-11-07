@@ -34,12 +34,113 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const createAccount = async (email, firstName, lastName, matricule, password) => {
+    try {
+      const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          first_name: firstName,
+          last_name: lastName,
+          matricule: matricule,
+          password: password,
+          username: firstName.toLowerCase() + "." + matricule,
+        }),
+      });
+
+      if (response.status !== 200) {
+        switch (response.status) {
+          case 500:
+            throw new Error("Une erreur inconue est survenue (probably CORS)");
+
+          case 422:
+            displayMongoError(response);
+            return null;
+
+          default:
+            throw new Error("Impossible de créer le compte");
+        }
+      }
+
+      const token = await login(email, password);
+      return token;
+    } catch (error) {
+      toast.error(error.message);
+      return null;
+    }
+  };
+
+  const displayMongoError = async (response) => {
+    const responseError = await response.json();
+    for (const error of responseError.detail) {
+      switch (error.type) {
+        case "string_too_short":
+          const minLength = error.ctx.min_length;
+          const loc = error.loc[1];
+          toast.error(`Le champ ${loc} doit contenir au moins ${minLength} caractères`);
+          break;
+
+        default:
+          toast.error(error.msg);
+          break;
+      }
+    }
+  };
+
   const handleLogin = async (event, email, password) => {
     event.preventDefault();
+    const toastId = toast.loading("Connexion...");
     const token = await login(email, password);
+    toast.dismiss(toastId);
 
     if (token) {
       toast.success("Vous êtes connecté");
+      setAccessToken(token.access_token);
+      setRefreshToken(token.refresh_token);
+      navigate("/");
+    }
+  };
+
+  const handleRefresh = async () => {
+    try {
+      const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/auth/refresh", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: accessToken,
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Impossible de rafraîchir le token");
+      }
+
+      const token = await response.json();
+      setAccessToken(token.access_token);
+      setRefreshToken(token.refresh_token);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleSignUp = async (event, userData) => {
+    event.preventDefault();
+    const { email, firstName, lastName, matricule, password, passwordConfirm } = userData;
+
+    if (password !== passwordConfirm) {
+      toast.error("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    const toastId = toast.loading("Création du compte...");
+    const token = await createAccount(email, firstName, lastName, matricule, password);
+    toast.dismiss(toastId);
+
+    if (token) {
+      toast.success("Votre compte a été créé");
       setAccessToken(token.access_token);
       setRefreshToken(token.refresh_token);
       navigate("/");
@@ -55,9 +156,10 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     token: accessToken,
-    onLogin: handleLogin,
-    onLogout: handleLogout,
     isLoggedIn: !!accessToken,
+    onLogin: handleLogin,
+    onSignUp: handleSignUp,
+    onLogout: handleLogout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

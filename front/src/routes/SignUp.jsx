@@ -1,9 +1,21 @@
 import Input from "../components/ui/Input";
+import { useAuth } from "../hooks/useAuth";
 import logo from "/logo.png";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const SignUp = () => {
+  const { onSignUp } = useAuth();
+  const [userData, setUserData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    passwordConfirm: "",
+    matricule: "",
+  });
+
   return (
     <>
       <Helmet>
@@ -18,14 +30,22 @@ const SignUp = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" action="#" method="POST" onSubmit={(e) => onSignUp(e, userData)}>
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="prenom" className="block text-sm font-medium leading-6 text-gray-900">
                   Prénom
                 </label>
                 <div className="mt-2.5">
-                  <Input type="text" name="prenom" id="prenom" autoComplete="given-name" required />
+                  <Input
+                    type="text"
+                    name="prenom"
+                    id="prenom"
+                    autoComplete="given-name"
+                    required
+                    value={userData.firstName}
+                    onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
+                  />
                 </div>
               </div>
               <div>
@@ -33,7 +53,15 @@ const SignUp = () => {
                   Nom
                 </label>
                 <div className="mt-2.5">
-                  <Input type="text" name="nom" id="nom" autoComplete="family-name" required />
+                  <Input
+                    type="text"
+                    name="nom"
+                    id="nom"
+                    autoComplete="family-name"
+                    required
+                    value={userData.lastName}
+                    onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
+                  />
                 </div>
               </div>
             </div>
@@ -43,7 +71,15 @@ const SignUp = () => {
                 Adresse courriel de l'UdeM
               </label>
               <div className="mt-2">
-                <Input type="email" name="email" id="email" autoComplete="email" required />
+                <Input
+                  type="email"
+                  name="email"
+                  id="email"
+                  autoComplete="email"
+                  required
+                  value={userData.email}
+                  onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+                />
               </div>
             </div>
 
@@ -56,11 +92,9 @@ const SignUp = () => {
                   type="text"
                   name="matricule"
                   id="matricule"
-                  pattern="[0-9]{8}"
-                  onInvalid={(e) => {
-                    e.target.setCustomValidity("Veuillez entrer un matricule valide (8 chiffres)");
-                  }}
                   required
+                  value={userData.matricule}
+                  onChange={(e) => setUserData({ ...userData, matricule: e.target.value })}
                 />
               </div>
             </div>
@@ -72,7 +106,15 @@ const SignUp = () => {
                 </label>
               </div>
               <div className="mt-2">
-                <Input id="password" name="password" type="password" autoComplete="current-password" required />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={userData.password}
+                  onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+                />
               </div>
             </div>
 
@@ -89,6 +131,8 @@ const SignUp = () => {
                   type="password"
                   autoComplete="current-password"
                   required
+                  value={userData.passwordConfirm}
+                  onChange={(e) => setUserData({ ...userData, passwordConfirm: e.target.value })}
                 />
               </div>
             </div>
