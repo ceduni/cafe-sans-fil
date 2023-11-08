@@ -4,9 +4,20 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 
 const sortOptions = [
-  { name: "Par pavillon", href: "#", current: false },
-  { name: "De A à Z", href: "#", current: true },
-  { name: "De Z à A", href: "#", current: false },
+  { name: "Tous les pavillons", href: "#", current: true },
+  { name: "3200, Jean-Brillant", href: "#", current: false },
+  { name: "André-Aisenstadt", href: "#", current: false },
+  { name: "Campus MIL", href: "#", current: false },
+  { name: "Campus de Saint-Hyacinthe", href: "#", current: false },
+  { name: "Cepsum", href: "#", current: false },
+  { name: "Faculté de l'Aménagement", href: "#", current: false },
+  { name: "Faculté de Musique", href: "#", current: false },
+  { name: "Jean-Coutu", href: "#", current: false },
+  { name: "Liliane-de-Stewart", href: "#", current: false },
+  { name: "Lionel-Groulx", href: "#", current: false },
+  { name: "Marie-Victorin", href: "#", current: false },
+  { name: "Maximilien-Caron", href: "#", current: false },
+  { name: "Roger-Gaudry", href: "#", current: false },
 ];
 
 const filterTypes = [
@@ -141,10 +152,25 @@ const Filters = ({ filters, setFilters }) => {
             <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Cafés</h1>
 
             <div className="flex items-center">
+              {/* <div className="flex items-center mr-8">
+                <label className="relative inline-flex items-center cursor-pointer" htmlFor={`filter-mobile-open`}>
+                  <input
+                    className="sr-only peer"
+                    id={`filter-mobile-open`}
+                    name={`filter-mobile-open`}
+                    defaultValue="open"
+                    type="checkbox"
+                    defaultChecked={false}
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                  <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-700">Ouvert</span>
+                </label>
+              </div> */}
+
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    Trier
+                    Pavillon
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
@@ -160,7 +186,7 @@ const Filters = ({ filters, setFilters }) => {
                   leave="transition ease-in duration-75"
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95">
-                  <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none max-h-64 overflow-auto">
                     <div className="py-1">
                       {sortOptions.map((option) => (
                         <Menu.Item key={option.name}>
