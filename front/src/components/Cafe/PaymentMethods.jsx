@@ -11,7 +11,7 @@ const PaymentMethods = ({ arrayOfMethods }) => {
   };
 
   return (
-    <div className="mt-2">
+    <div>
       <div className="flex gap-x-3 flex-wrap">
         {arrayOfMethods.map((m, index) => (
           <div key={index} className="flex items-center gap-x-1">
