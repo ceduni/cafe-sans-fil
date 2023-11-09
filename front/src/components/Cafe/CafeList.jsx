@@ -5,36 +5,32 @@ import Filters from "@/components/Cafe/Filters";
 import { useState } from "react";
 
 const CafeList = () => {
-  const [data, isLoading, error] = useApi("/cafes");
-
   const [filters, setFilters] = useState({
     openOnly: false,
-    payment: [],
   });
+
+  const [data, isLoading, error] = useApi("/cafes" + (filters.openOnly ? "?is_open=true" : ""));
 
   if (error) {
     return <EmptyState type="error" error={error} />;
   }
 
-  if (data?.length === 0) {
-    return <EmptyState name="café" />;
-  }
-
-  if (isLoading) {
-    return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6 animate-pulse duration-100">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <CafeCardLoading key={i} />
-        ))}
-      </div>
-    );
-  }
-
   return (
     <>
       <Filters filters={filters} setFilters={setFilters} />
+
+      {data?.length === 0 && !isLoading && <EmptyState name="café" />}
+
+      {isLoading && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6 animate-pulse duration-100">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <CafeCardLoading key={i} />
+          ))}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
-        {data.map((cafe) => (
+        {data?.map((cafe) => (
           <CafeCard cafe={cafe} key={cafe.cafe_id} />
         ))}
       </div>
