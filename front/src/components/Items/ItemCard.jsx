@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ProductView from "@/components/Items/ProductView";
+import Badge from "@/components/Badge";
 
 const ItemCard = ({ item }) => {
   const [itemPreviewOpen, setItemPreviewOpen] = useState(false);
@@ -21,6 +22,11 @@ const ItemCard = ({ item }) => {
         </div>
         <h3 className="mt-4 text-gray-800">{item.name}</h3>
         <p className="mt-1 text-lg font-medium text-gray-900">${item.price}</p>
+        {!item.is_available && (
+          <div className="my-1">
+            <Badge variant="danger">Indisponible</Badge>
+          </div>
+        )}
       </button>
     </>
   );
