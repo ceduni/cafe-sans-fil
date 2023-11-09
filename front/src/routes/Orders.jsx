@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import Container from "@/components/Container";
 import { getCafeFromId, getItemFromId } from "@/helpers/getFromId";
 import EmptyState from "@/components/EmptyState";
+import { useAuth } from "@/hooks/useAuth";
 
 function Orders() {
-  const [user, setUser] = useLocalStorage("user", null);
+  const { user } = useAuth();
 
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [fullOrders, setFullOrders] = useState([]);
-
-  const noOrders = orders.length === 0;
 
   // On récupère les commandes de l'utilisateur
   useEffect(() => {
     const fetchOrders = async () => {
       const response = await authenticatedRequest(`/users/${user.user_id}/orders`);
       setOrders(response.data);
+      if (response.data.length === 0) {
+        setIsLoading(false);
+      }
     };
 
     if (user) {
@@ -28,10 +29,6 @@ function Orders() {
 
   // On formate les données des commandes
   useEffect(() => {
-    if (noOrders) {
-      setIsLoading(false);
-      return;
-    }
     const fullOrders = orders.map(async (order) => {
       // On formate la date
       order.order_timestamp = new Intl.DateTimeFormat("fr-FR", {
@@ -71,7 +68,7 @@ function Orders() {
       <div className="flex flex-col items-center">
         <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Mes commandes</h1>
 
-        {noOrders && <EmptyState name="commande" genre="féminin" />}
+        {!isLoading && orders.length === 0 && <EmptyState name="commande" genre="féminin" />}
 
         {isLoading && (
           <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Popover, Transition, Menu } from "@headlessui/react";
 import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
@@ -6,7 +6,6 @@ import Cart from "@/components/Orders/Cart";
 import Container from "@/components/Container";
 import Avatar from "@/components/Avatar";
 import { useAuth } from "@/hooks/useAuth";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const routes = {
   home: "/",
@@ -29,8 +28,7 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
-  const { isLoggedIn, onLogout } = useAuth();
-  const [user, setUser] = useLocalStorage("user", null);
+  const { isLoggedIn, onLogout, user } = useAuth();
   const userFullName = user ? user.first_name + " " + user.last_name : "";
 
   const [open, setOpen] = useState(false);

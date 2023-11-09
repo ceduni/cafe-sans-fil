@@ -2,10 +2,10 @@ import { Helmet } from "react-helmet-async";
 import Container from "@/components/Container";
 import Input from "@/components/Input";
 import Avatar from "@/components/Avatar";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useAuth } from "@/hooks/useAuth";
 
 const Profile = () => {
-  const [user, setUser] = useLocalStorage("user", null);
+  const { user } = useAuth();
   const userFullName = user ? user.first_name + " " + user.last_name : "";
 
   return (
