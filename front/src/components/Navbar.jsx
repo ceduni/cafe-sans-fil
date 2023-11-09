@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Popover, Transition, Menu } from "@headlessui/react";
 import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
@@ -28,10 +28,23 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
-  const { isLoggedIn, onLogout } = useAuth();
+  const { isLoggedIn, onLogout, getCurrentUser } = useAuth();
+  const [userFullName, setUserFullName] = useState("");
 
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        setUserFullName(user?.first_name + " " + user?.last_name);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, []);
 
   return (
     <>
@@ -157,7 +170,7 @@ const Navbar = () => {
                       <Menu as="div" className="relative ml-3">
                         <div>
                           <Menu.Button>
-                            <Avatar name="John Doe"></Avatar>
+                            <Avatar name={userFullName}></Avatar>
                           </Menu.Button>
                         </div>
                         <Transition

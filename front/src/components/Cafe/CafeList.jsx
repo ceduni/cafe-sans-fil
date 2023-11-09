@@ -2,7 +2,7 @@ import useApi from "@/hooks/useApi";
 import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import Filters from "@/components/Cafe/Filters";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const CafeList = () => {
   const [data, isLoading, error] = useApi("/cafes");
@@ -11,11 +11,6 @@ const CafeList = () => {
     openOnly: false,
     payment: [],
   });
-
-  useEffect(() => {
-    console.log(filters);
-  }),
-    [filters];
 
   if (error) {
     return <EmptyState type="error" error={error} />;
