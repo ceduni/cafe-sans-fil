@@ -15,7 +15,7 @@ const Home = () => {
         <title>Accueil | Café sans-fil</title>
       </Helmet>
       <Container className="py-10 space-y-6">
-        <h1 className="text-2xl text-gray-900 font-secondary">Cafés étudiants de l'UdeM</h1>
+        <h1 className="text-xl md:text-2xl text-gray-900 font-secondary">Cafés étudiants de l'UdeM</h1>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </Container>
       <main>
