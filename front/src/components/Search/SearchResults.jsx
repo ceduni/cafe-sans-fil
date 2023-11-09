@@ -10,10 +10,6 @@ const SearchResults = ({ searchQuery }) => {
     return <EmptyState type="error" error={error} />;
   }
 
-  if (cafes?.length === 0) {
-    return <EmptyState name="café" />;
-  }
-
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6 animate-pulse duration-100">
@@ -22,6 +18,10 @@ const SearchResults = ({ searchQuery }) => {
         ))}
       </div>
     );
+  }
+
+  if (cafes?.length === 0) {
+    return <EmptyState name="café" />;
   }
 
   return (
