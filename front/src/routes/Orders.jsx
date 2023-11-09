@@ -3,6 +3,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import Container from "@/components/Container";
 import { getCafeFromId, getItemFromId } from "@/helpers/getFromId";
+import EmptyState from "@/components/EmptyState";
 
 function Orders() {
   const [user, setUser] = useLocalStorage("user", null);
@@ -10,6 +11,8 @@ function Orders() {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [fullOrders, setFullOrders] = useState([]);
+
+  const noOrders = orders.length === 0;
 
   // On récupère les commandes de l'utilisateur
   useEffect(() => {
@@ -25,6 +28,10 @@ function Orders() {
 
   // On formate les données des commandes
   useEffect(() => {
+    if (noOrders) {
+      setIsLoading(false);
+      return;
+    }
     const fullOrders = orders.map(async (order) => {
       // On formate la date
       order.order_timestamp = new Intl.DateTimeFormat("fr-FR", {
@@ -63,6 +70,8 @@ function Orders() {
     <Container className="py-10">
       <div className="flex flex-col items-center">
         <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Mes commandes</h1>
+
+        {noOrders && <EmptyState name="commande" genre="féminin" />}
 
         {isLoading && (
           <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
