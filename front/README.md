@@ -33,6 +33,8 @@
 - Ajout des catégories et des socials sur la page café
 - Amélioration page vue produit
 - Améliorations page d'accueil
+- Améliorations recherche de cafés
+- Filtre is_open fonctionnel
 
 #### 2023-11-08
 
