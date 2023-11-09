@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import OpenIndicator from "@/components/Cafe/OpenIndicator";
 import Card from "@/components/Card";
+import Badge from "@/components/Badge";
 
 const CafeCard = ({ cafe }) => {
   return (
@@ -12,6 +13,9 @@ const CafeCard = ({ cafe }) => {
           <OpenIndicator isOpen={cafe.is_open} size="xs" />
         </Card.Header>
         <Card.Body>{cafe.description}</Card.Body>
+        <Card.Footer>
+          <Badge variant="info">{cafe.additional_info_cafe[0].value}</Badge>
+        </Card.Footer>
       </Card>
     </Link>
   );
