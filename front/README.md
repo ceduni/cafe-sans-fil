@@ -27,6 +27,21 @@
 
 ## Avancée du développement
 
+#### 2023-11-09
+
+- Améliorations UI suivant la réunion d'équipe
+- Ajout des catégories et des socials sur la page café
+- Amélioration page vue produit
+- Améliorations page d'accueil
+
+#### 2023-11-08
+
+- Création de compte fonctionnelle
+- Début implémentation token JWT dans requêtes API avec Axios
+- Affichage des vraies infos profil utilisateur
+- Ajout liste des commandes
+- Mises à jour UI
+
 #### 2023-11-06
 
 - Début de l'implémentation de la création de compte

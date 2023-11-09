@@ -7,8 +7,11 @@ import { useState } from "react";
 
 const Login = () => {
   const { onLogin } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
   return (
     <>
@@ -24,7 +27,7 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" method="POST" onSubmit={(e) => onLogin(e, email, password)}>
+          <form className="space-y-6" method="POST" onSubmit={(e) => onLogin(e, credentials)}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Adresse courriel de l'UdeM ou matricule
@@ -36,8 +39,8 @@ const Login = () => {
                   type="text"
                   autoComplete="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={credentials.email}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -60,8 +63,8 @@ const Login = () => {
                   type="password"
                   autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={credentials.password}
+                  onChange={handleChange}
                 />
               </div>
             </div>

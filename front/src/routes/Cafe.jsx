@@ -11,7 +11,8 @@ import EmptyState from "@/components/EmptyState";
 import InfoBox from "@/components/Cafe/InfoBox";
 import { Helmet } from "react-helmet-async";
 import PaymentMethods from "@/components/Cafe/PaymentMethods";
-import ContactCafe from "@/components/Cafe/ContactCafe";
+import { ContactCafe, SocialIcons } from "@/components/Cafe/ContactCafe";
+import { MapPinIcon } from "@heroicons/react/24/solid";
 
 const Cafe = () => {
   const { id } = useParams();
@@ -23,6 +24,12 @@ const Cafe = () => {
     }
     return <EmptyState type="error" error={error} />;
   }
+
+  // On récupère les catégories de produits proposées par le café, sans doublons
+  const categories = [...new Set(data?.menu_items.map((product) => product.category))];
+  const getItemByCategory = (category) => {
+    return data?.menu_items.filter((product) => product.category === category);
+  };
 
   return (
     <>
@@ -47,28 +54,52 @@ const Cafe = () => {
         {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
         )}
+
         <OpenIndicator isOpen={data?.is_open} />
-        <p className="mt-2 text-lg leading-8 text-gray-600 max-w-3xl">
-          {data?.description || (
+
+        <div className="pb-3">
+          {(data?.description && (
+            <p className="sm:text-lg leading-8 text-gray-600 max-w-3xl">{data?.description}</p>
+          )) || (
             <>
               <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
               <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
             </>
           )}
-        </p>
+        </div>
+
+        <div className="flex items-center">
+          <MapPinIcon className="inline-block w-5 h-5 text-gray-500" />
+          <span className="ml-1 text-gray-500">{data?.location}</span>
+        </div>
+
+        {!isLoading && <PaymentMethods arrayOfMethods={data?.payment_methods} />}
+
+        {!isLoading && <SocialIcons socialMedia={data?.social_media} />}
+
         {!isLoading && (
-          <>
-            <PaymentMethods arrayOfMethods={data?.payment_methods} />
-            <InfoBox
-              title="Notre valeur ajoutée"
-              message={`${data?.additional_info_cafe[0].key}: ${data?.additional_info_cafe[0].value}`}
-            />
-          </>
+          <InfoBox
+            title="Notre valeur ajoutée"
+            message={`${data?.additional_info_cafe[0].key}: ${data?.additional_info_cafe[0].value}`}
+          />
         )}
+
         <OpeningHours openingHours={data?.opening_hours} />
       </Container>
+
+      {categories.map((category) => (
+        <Container key={category} className="py-10 border-t border-gray-200">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900">{category}</h2>
+          <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
+            {getItemByCategory(category).map((product) => (
+              <ItemCard key={product.item_id} item={product} />
+            ))}
+          </div>
+        </Container>
+      ))}
+
       <Container className="py-10 border-t border-gray-200">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Menu</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Menu complet</h2>
         <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
           {data?.menu_items.map((product) => (
             <ItemCard key={product.item_id} item={product} />

@@ -2,11 +2,13 @@ import { useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import toast from "react-hot-toast";
+import authenticatedRequest from "@/helpers/authenticatedRequest";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
   const [refreshToken, setRefreshToken] = useLocalStorage("refreshToken", null);
+  const [user, setUser] = useLocalStorage("user", null);
   const navigate = useNavigate();
 
   const login = async (email, password) => {
@@ -31,6 +33,24 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       toast.error(error.message);
       return null;
+    }
+  };
+
+  const handleLogin = async (event, credentials) => {
+    event.preventDefault();
+    const { email, password } = credentials;
+
+    const toastId = toast.loading("Connexion...");
+    const token = await login(email, password);
+    toast.dismiss(toastId);
+
+    if (token) {
+      toast.success("Vous êtes connecté");
+      setAccessToken(token.access_token);
+      setRefreshToken(token.refresh_token);
+
+      navigate("/");
+      setUser(await getCurrentUser());
     }
   };
 
@@ -73,6 +93,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const handleSignUp = async (event, userData) => {
+    event.preventDefault();
+    const { email, firstName, lastName, matricule, password, passwordConfirm } = userData;
+
+    if (password !== passwordConfirm) {
+      toast.error("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    const toastId = toast.loading("Création du compte...");
+    const token = await createAccount(email, firstName, lastName, matricule, password);
+    toast.dismiss(toastId);
+
+    if (token) {
+      toast.success("Votre compte a été créé");
+      setAccessToken(token.access_token);
+      setRefreshToken(token.refresh_token);
+
+      navigate("/");
+      setUser(await getCurrentUser());
+    }
+  };
+
   const displayMongoError = async (response) => {
     const responseError = await response.json();
     for (const error of responseError.detail) {
@@ -96,43 +139,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleLogin = async (event, email, password) => {
-    event.preventDefault();
-    const toastId = toast.loading("Connexion...");
-    const token = await login(email, password);
-    toast.dismiss(toastId);
-
-    if (token) {
-      toast.success("Vous êtes connecté");
-      setAccessToken(token.access_token);
-      setRefreshToken(token.refresh_token);
-      navigate("/");
-    }
-  };
-
   const getCurrentUser = async () => {
-    // TODO request to /api/auth/test-token while being JWT authenticated
-    // will return the current user's data
-  };
-
-  const handleSignUp = async (event, userData) => {
-    event.preventDefault();
-    const { email, firstName, lastName, matricule, password, passwordConfirm } = userData;
-
-    if (password !== passwordConfirm) {
-      toast.error("Les mots de passe ne correspondent pas");
-      return;
-    }
-
-    const toastId = toast.loading("Création du compte...");
-    const token = await createAccount(email, firstName, lastName, matricule, password);
-    toast.dismiss(toastId);
-
-    if (token) {
-      toast.success("Votre compte a été créé");
-      setAccessToken(token.access_token);
-      setRefreshToken(token.refresh_token);
-      navigate("/");
+    try {
+      const response = await authenticatedRequest.post("/auth/test-token");
+      return response.data;
+    } catch (error) {
+      toast.error(error.message);
+      return null;
     }
   };
 
@@ -143,16 +156,18 @@ export const AuthProvider = ({ children }) => {
       toast.success("Vous êtes déconnecté");
       setAccessToken(null);
       setRefreshToken(null);
+      setUser(null);
       navigate("/", { replace: true });
     }, 1000);
   };
 
   const value = {
     token: accessToken,
-    isLoggedIn: !!accessToken,
+    isLoggedIn: accessToken && refreshToken && user,
     onLogin: handleLogin,
     onSignUp: handleSignUp,
     onLogout: handleLogout,
+    user: user,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

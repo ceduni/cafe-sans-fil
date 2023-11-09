@@ -1,4 +1,6 @@
-const Avatar = ({ name }) => {
+import classNames from "classnames";
+
+const Avatar = ({ name, size = "md" }) => {
   const words = name.split(" ");
   let initials = "";
 
@@ -10,10 +12,18 @@ const Avatar = ({ name }) => {
     initials = words[0].slice(0, 2);
   }
 
+  initials = initials.toUpperCase();
+
   return (
     <div className="flex">
-      <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500 select-none">
-        <span className="text-sm font-semibold leading-none text-white">{initials}</span>
+      <span
+        className={classNames(
+          "inline-flex items-center justify-center rounded-full bg-gray-500 select-none",
+          size === "lg" ? "h-20 w-20" : "h-8 w-8"
+        )}>
+        <span className={classNames(size === "lg" ? "text-2xl" : "text-xs", "font-semibold leading-none text-white")}>
+          {initials}
+        </span>
       </span>
     </div>
   );

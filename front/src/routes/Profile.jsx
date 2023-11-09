@@ -1,17 +1,12 @@
 import { Helmet } from "react-helmet-async";
 import Container from "@/components/Container";
 import Input from "@/components/Input";
-import { useState } from "react";
+import Avatar from "@/components/Avatar";
+import { useAuth } from "@/hooks/useAuth";
 
 const Profile = () => {
-  const [userData, setUserData] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    passwordConfirm: "",
-    matricule: "",
-  });
+  const { user } = useAuth();
+  const userFullName = user ? user.first_name + " " + user.last_name : "";
 
   return (
     <>
@@ -26,13 +21,23 @@ const Profile = () => {
               Vous ne pouvez pas modifier ces informations. Elles sont liées à votre compte de l'UdeM.
             </p>
 
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3">
+                <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
+                  Photo de profil
+                </label>
+                <div className="mt-2">
+                  <Avatar name={userFullName} size="lg" />
+                </div>
+              </div>
+            </div>
             <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
                   Prénom
                 </label>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">John</p>
+                  <p className="text-sm text-gray-500">{user?.first_name}</p>
                 </div>
               </div>
 
@@ -41,7 +46,7 @@ const Profile = () => {
                   Nom
                 </label>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">Doe</p>
+                  <p className="text-sm text-gray-500">{user?.last_name}</p>
                 </div>
               </div>
 
@@ -50,7 +55,7 @@ const Profile = () => {
                   Adresse courriel de l'UdeM
                 </label>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">john.doe@umontreal.ca</p>
+                  <p className="text-sm text-gray-500">{user?.email}</p>
                 </div>
               </div>
 
@@ -59,7 +64,7 @@ const Profile = () => {
                   Matricule de l'UdeM
                 </label>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">12345678</p>
+                  <p className="text-sm text-gray-500">{user?.matricule}</p>
                 </div>
               </div>
             </div>
@@ -83,7 +88,7 @@ const Profile = () => {
                       name="current-password"
                       type="password"
                       autoComplete="current-password"
-                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -93,7 +98,7 @@ const Profile = () => {
                     Nouveau mot de passe
                   </label>
                   <div className="mt-2">
-                    <Input id="new-password" name="new-password" type="password" autoComplete="new-password" required />
+                    <Input id="new-password" name="new-password" type="password" autoComplete="new-password" disabled />
                   </div>
                 </div>
 
@@ -107,7 +112,7 @@ const Profile = () => {
                       name="confirm-password"
                       type="password"
                       autoComplete="confirm-password"
-                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -115,8 +120,12 @@ const Profile = () => {
             </div>
             <div className="flex items-center justify-end gap-x-6">
               <button
+                disabled
                 type="submit"
-                className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+                className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm \
+                hover:bg-emerald-500 \
+                focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 \
+                disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none">
                 Enregistrer
               </button>
             </div>
@@ -127,7 +136,12 @@ const Profile = () => {
           <h2 className="text-base font-semibold leading-7 text-gray-900">Actions supplémentaires</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">Ces actions sont irréversibles.</p>
 
-          <button className="mt-10 rounded-md bg-red-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+          <button
+            disabled
+            className="mt-10 rounded-md bg-red-800 px-3 py-2 text-sm font-semibold text-white shadow-sm \
+          hover:bg-red-700 \
+          focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 \
+          disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none">
             Supprimer votre compte
           </button>
         </div>

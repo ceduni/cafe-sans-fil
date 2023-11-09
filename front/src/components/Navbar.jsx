@@ -28,7 +28,8 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
-  const { isLoggedIn, onLogout } = useAuth();
+  const { isLoggedIn, onLogout, user } = useAuth();
+  const userFullName = user ? user.first_name + " " + user.last_name : "";
 
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -160,7 +161,7 @@ const Navbar = () => {
                       <Menu as="div" className="relative ml-3">
                         <div>
                           <Menu.Button>
-                            <Avatar name="John Doe"></Avatar>
+                            <Avatar name={userFullName}></Avatar>
                           </Menu.Button>
                         </div>
                         <Transition

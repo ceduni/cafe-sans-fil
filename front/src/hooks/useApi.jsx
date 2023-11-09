@@ -18,11 +18,7 @@ const useApi = (url) => {
       .catch((error) => {
         setError(error);
         setIsLoading(false);
-        toast.error(`${error.statusText || error.message}`, {
-          style: {
-            padding: "16px",
-          },
-        });
+        toast.error(`${error.statusText || error.message}`);
       });
   };
 
