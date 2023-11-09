@@ -12,6 +12,8 @@ const Avatar = ({ name, size = "md" }) => {
     initials = words[0].slice(0, 2);
   }
 
+  initials = initials.toUpperCase();
+
   return (
     <div className="flex">
       <span
