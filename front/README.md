@@ -27,6 +27,14 @@
 
 ## Avancée du développement
 
+#### 2023-11-09
+
+- Création de compte fonctionnelle
+- Début implémentation token JWT dans requêtes API avec Axios
+- Affichage des vraies infos profil utilisateur
+- Ajout liste des commandes
+- Mises à jour UI
+
 #### 2023-11-06
 
 - Début de l'implémentation de la création de compte
