@@ -11,7 +11,7 @@ import EmptyState from "@/components/EmptyState";
 import InfoBox from "@/components/Cafe/InfoBox";
 import { Helmet } from "react-helmet-async";
 import PaymentMethods from "@/components/Cafe/PaymentMethods";
-import ContactCafe from "@/components/Cafe/ContactCafe";
+import { ContactCafe, SocialIcons } from "@/components/Cafe/ContactCafe";
 import { MapPinIcon } from "@heroicons/react/24/solid";
 
 const Cafe = () => {
@@ -68,6 +68,8 @@ const Cafe = () => {
         </div>
 
         {!isLoading && <PaymentMethods arrayOfMethods={data?.payment_methods} />}
+
+        {!isLoading && <SocialIcons socialMedia={data?.social_media} />}
 
         {!isLoading && (
           <InfoBox

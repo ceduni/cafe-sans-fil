@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="bg-white border-t border-gray-200">
+    <footer className="bg-white border-t border-gray-200 py-5">
       <div className="w-full max-w-screen-xl mx-auto p-5 md:py-8">
         <div className="flex gap-3 items-center mb-4 sm:justify-center">
           <img src="/logo_min.png" className="h-12" alt="Logo de café sans-fil" />

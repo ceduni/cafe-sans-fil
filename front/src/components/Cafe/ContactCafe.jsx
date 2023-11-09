@@ -3,20 +3,20 @@ import Facebook from "@/assets/icons/logo-facebook.svg";
 import Twitter from "@/assets/icons/logo-twitter.svg";
 import { ComputerDesktopIcon, EnvelopeIcon, LinkIcon, PhoneIcon } from "@heroicons/react/24/solid";
 
-const ContactCafe = ({ contact, socialMedia }) => {
-  const icon = (platform) => {
-    switch (platform) {
-      case "Facebook":
-        return <img src={Facebook} alt="Facebook logo" className="h-6 w-6" />;
-      case "Instagram":
-        return <img src={Instagram} alt="Instagram logo" className="h-6 w-6" />;
-      case "Twitter":
-        return <img src={Twitter} alt="Twitter logo" className="h-6 w-6" />;
-      default:
-        return <LinkIcon className="h-6 w-6" />;
-    }
-  };
+const icon = (platform) => {
+  switch (platform) {
+    case "Facebook":
+      return <img src={Facebook} alt="Facebook logo" className="h-6 w-6" />;
+    case "Instagram":
+      return <img src={Instagram} alt="Instagram logo" className="h-6 w-6" />;
+    case "Twitter":
+      return <img src={Twitter} alt="Twitter logo" className="h-6 w-6" />;
+    default:
+      return <LinkIcon className="h-6 w-6" />;
+  }
+};
 
+const ContactCafe = ({ contact, socialMedia }) => {
   return (
     <div>
       <div className="mt-4 flex flex-col">
@@ -68,4 +68,16 @@ const ContactCafe = ({ contact, socialMedia }) => {
   );
 };
 
-export default ContactCafe;
+const SocialIcons = ({ socialMedia }) => {
+  return (
+    <div className="flex items-center gap-x-4 py-2">
+      {socialMedia?.map((s, index) => (
+        <a href={s.link} key={index} target="_blank" rel="noreferrer" className="opacity-60 hover:opacity-100">
+          {icon(s.platform_name)}
+        </a>
+      ))}
+    </div>
+  );
+};
+
+export { ContactCafe, SocialIcons };
