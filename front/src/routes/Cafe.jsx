@@ -92,7 +92,7 @@ const Cafe = () => {
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">{category}</h2>
           <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
             {getItemByCategory(category).map((product) => (
-              <ItemCard key={product.item_id} item={product} />
+              <ItemCard key={product.item_id} item={product} cafeId={id} />
             ))}
           </div>
         </Container>
@@ -102,7 +102,7 @@ const Cafe = () => {
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Menu complet</h2>
         <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
           {data?.menu_items.map((product) => (
-            <ItemCard key={product.item_id} item={product} />
+            <ItemCard key={product.item_id} item={product} cafeId={id} />
           ))}
         </div>
       </Container>

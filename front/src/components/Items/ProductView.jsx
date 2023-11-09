@@ -7,7 +7,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const ProductView = ({ item, open, setOpen }) => {
+const ProductView = ({ item, open, setOpen, onSubmit }) => {
   // const [selectedSize, setSelectedSize] = useState(item.sizes[0]);
 
   return (
@@ -72,7 +72,7 @@ const ProductView = ({ item, open, setOpen }) => {
                           Product options
                         </h3>
 
-                        <form>
+                        <form onSubmit={onSubmit}>
                           {/* Sizes */}
                           {/* <div className="mt-10">
                             <h4 className="text-sm font-medium text-gray-900">Size</h4>
@@ -129,7 +129,8 @@ const ProductView = ({ item, open, setOpen }) => {
 
                           <button
                             type="submit"
-                            className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-emerald-600 px-8 py-3 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                            className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-emerald-600 px-8 py-3 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                            disabled={!item.is_available}>
                             Ajouter au panier
                           </button>
                         </form>

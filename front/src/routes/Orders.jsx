@@ -4,6 +4,7 @@ import Container from "@/components/Container";
 import { getCafeFromId, getItemFromId } from "@/helpers/getFromId";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
+import Badge from "@/components/Badge";
 
 function Orders() {
   const { user } = useAuth();
@@ -63,6 +64,32 @@ function Orders() {
     });
   }, [orders]);
 
+  const getBadgeVariant = (status) => {
+    switch (status) {
+      case "placed":
+        return "warning";
+      case "pending":
+        return "warning";
+      case "completed":
+        return "success";
+      case "cancelled":
+        return "danger";
+    }
+  };
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case "placed":
+        return "En attente";
+      case "pending":
+        return "En attente";
+      case "completed":
+        return "Terminée";
+      case "cancelled":
+        return "Annulée";
+    }
+  };
+
   return (
     <Container className="py-10">
       <div className="flex flex-col items-center">
@@ -118,7 +145,8 @@ function Orders() {
                   />
                   <div>
                     <h2 className="text-lg font-semibold text-gray-900">{order.cafe.name}</h2>
-                    <p className="text-sm text-gray-500">{order.order_timestamp}</p>
+                    <p className="text-sm text-gray-500 mb-1">{order.order_timestamp}</p>
+                    <Badge variant={getBadgeVariant(order.status)}>{getStatusText(order.status)}</Badge>
                   </div>
                 </div>
                 <p className="text-lg font-semibold text-gray-900">{order.total_price} $</p>
