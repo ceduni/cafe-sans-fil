@@ -1,13 +1,14 @@
 import { Fragment, useState } from "react";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import Badge from "../Badge";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const ProductView = ({ product, open, setOpen }) => {
-  // const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
+const ProductView = ({ item, open, setOpen }) => {
+  // const [selectedSize, setSelectedSize] = useState(item.sizes[0]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -48,14 +49,22 @@ const ProductView = ({ product, open, setOpen }) => {
                       <img src="https://placehold.co/300x300?text=Item" className="object-cover object-center" />
                     </div>
                     <div className="sm:col-span-8 lg:col-span-7">
-                      <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">{product.name}</h2>
+                      <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">{item.name}</h2>
 
                       <section aria-labelledby="information-heading" className="mt-2">
                         <h3 id="information-heading" className="sr-only">
                           Product information
                         </h3>
 
-                        <p className="text-2xl text-gray-900">{product.price}</p>
+                        <p className="text-gray-600 mb-3">{item.description}</p>
+
+                        {item.is_available ? (
+                          <Badge variant="success">Disponible</Badge>
+                        ) : (
+                          <Badge variant="danger">Indisponible</Badge>
+                        )}
+
+                        <p className="mt-4 text-2xl text-gray-900">{item.price} $</p>
                       </section>
 
                       <section aria-labelledby="options-heading" className="mt-10">
@@ -71,7 +80,7 @@ const ProductView = ({ product, open, setOpen }) => {
                             <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
                               <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                               <div className="grid grid-cols-4 gap-4">
-                                {product.sizes.map((size) => (
+                                {item.sizes.map((size) => (
                                   <RadioGroup.Option
                                     key={size.name}
                                     value={size}
