@@ -110,7 +110,9 @@ export const AuthProvider = ({ children }) => {
       toast.success("Votre compte a été créé");
       setAccessToken(token.access_token);
       setRefreshToken(token.refresh_token);
+
       navigate("/");
+      setUser(await getCurrentUser());
     }
   };
 
