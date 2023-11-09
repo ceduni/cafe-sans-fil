@@ -6,6 +6,7 @@ import Cart from "@/components/Orders/Cart";
 import Container from "@/components/Container";
 import Avatar from "@/components/Avatar";
 import { useAuth } from "@/hooks/useAuth";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const routes = {
   home: "/",
@@ -28,23 +29,12 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
-  const { isLoggedIn, onLogout, getCurrentUser } = useAuth();
-  const [userFullName, setUserFullName] = useState("");
+  const { isLoggedIn, onLogout } = useAuth();
+  const [user, setUser] = useLocalStorage("user", null);
+  const userFullName = user ? user.first_name + " " + user.last_name : "";
 
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const user = await getCurrentUser();
-        setUserFullName(user?.first_name + " " + user?.last_name);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchUser();
-  }, []);
 
   return (
     <>

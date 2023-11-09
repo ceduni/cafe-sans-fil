@@ -8,6 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
   const [refreshToken, setRefreshToken] = useLocalStorage("refreshToken", null);
+  const [user, setUser] = useLocalStorage("user", null);
   const navigate = useNavigate();
 
   const login = async (email, password) => {
@@ -47,7 +48,9 @@ export const AuthProvider = ({ children }) => {
       toast.success("Vous êtes connecté");
       setAccessToken(token.access_token);
       setRefreshToken(token.refresh_token);
+
       navigate("/");
+      setUser(await getCurrentUser());
     }
   };
 
@@ -151,6 +154,7 @@ export const AuthProvider = ({ children }) => {
       toast.success("Vous êtes déconnecté");
       setAccessToken(null);
       setRefreshToken(null);
+      setUser(null);
       navigate("/", { replace: true });
     }, 1000);
   };
@@ -161,7 +165,6 @@ export const AuthProvider = ({ children }) => {
     onLogin: handleLogin,
     onSignUp: handleSignUp,
     onLogout: handleLogout,
-    getCurrentUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

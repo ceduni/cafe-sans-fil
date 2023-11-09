@@ -26,7 +26,7 @@ authenticatedRequest.interceptors.response.use(
     const originalRequest = error.config;
 
     // Le token est expiré ou invalide
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
@@ -39,10 +39,12 @@ authenticatedRequest.interceptors.response.use(
         originalRequest.headers["Authorization"] = `Bearer ${token.access_token}`;
         return axios(originalRequest);
       } catch (error) {
+        console.log(error);
         toast.error("Vous devez vous connecter à nouveau");
-        localStorage.setItem("accessToken", JSON.stringify(null));
-        localStorage.setItem("refreshToken", JSON.stringify(null));
-        window.location.href = "/login";
+        // TODO investiguer pourquoi le refresh token ne fonctionne pas
+        // localStorage.setItem("accessToken", JSON.stringify(null));
+        // localStorage.setItem("refreshToken", JSON.stringify(null));
+        // window.location.href = "/login";
       }
     }
     return Promise.reject(error);

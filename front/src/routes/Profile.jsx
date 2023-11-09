@@ -1,26 +1,12 @@
 import { Helmet } from "react-helmet-async";
 import Container from "@/components/Container";
 import Input from "@/components/Input";
-import { useAuth } from "@/hooks/useAuth";
-import { useEffect, useState } from "react";
 import Avatar from "@/components/Avatar";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const Profile = () => {
-  const { getCurrentUser } = useAuth();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useLocalStorage("user", null);
   const userFullName = user ? user.first_name + " " + user.last_name : "";
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const user = await getCurrentUser();
-        setUser(user);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchUser();
-  }, []);
 
   return (
     <>
