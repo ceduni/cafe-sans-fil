@@ -21,11 +21,11 @@ const sortOptions = [
 ];
 
 const filterTypes = [
-  {
-    id: "facts",
-    name: "Caractéristiques",
-    options: [{ value: "open", label: "Ouvert", checked: false }],
-  },
+  // {
+  //   id: "facts",
+  //   name: "Caractéristiques",
+  //   options: [{ value: "open", label: "Ouvert", checked: false }],
+  // },
   {
     id: "payement",
     name: "Mode de payement",
@@ -127,7 +127,7 @@ const Filters = ({ filters, setFilters }) => {
                                         type="checkbox"
                                         defaultChecked={option.checked}
                                       />
-                                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                                       <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-500">
                                         {option.label}
                                       </span>
@@ -148,11 +148,10 @@ const Filters = ({ filters, setFilters }) => {
         </Transition.Root>
 
         <div>
-          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6">
-            <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Cafés</h1>
-
-            <div className="flex items-center">
-              {/* <div className="flex items-center mr-8">
+          <div className="flex items-baseline justify-end border-b border-gray-200 pb-6">
+            {/* <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Cafés</h1> */}
+            <div className="flex items-center select-none">
+              <div className="flex items-center mr-8">
                 <label className="relative inline-flex items-center cursor-pointer" htmlFor={`filter-mobile-open`}>
                   <input
                     className="sr-only peer"
@@ -162,10 +161,10 @@ const Filters = ({ filters, setFilters }) => {
                     type="checkbox"
                     defaultChecked={false}
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-700">Ouvert</span>
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                  <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-700">Ouverts</span>
                 </label>
-              </div> */}
+              </div>
 
               <Menu as="div" className="relative inline-block text-left">
                 <div>
