@@ -35,6 +35,7 @@
 - Améliorations page d'accueil
 - Améliorations recherche de cafés
 - Filtre is_open fonctionnel
+- Début de l'implémentation du panier
 
 #### 2023-11-08
 
