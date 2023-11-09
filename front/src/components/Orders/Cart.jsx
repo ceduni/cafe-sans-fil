@@ -1,7 +1,9 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-
+import { useCart } from "react-use-cart";
+import { TrashIcon } from "@heroicons/react/20/solid";
+import Badge from "../Badge";
 export const products = [
   {
     id: 1,
@@ -47,6 +49,13 @@ export const products = [
 ];
 
 const Cart = ({ open, setOpen }) => {
+  const { isEmpty, totalUniqueItems, items, updateItemQuantity, removeItem, cartTotal, emptyCart } = useCart();
+
+  // On vérifie si les items du panier sont de cafe.name différents
+  // Si c'est le cas on affiche un message prévenant l'utilisateur
+  const cafeNames = [...new Set(items.map((item) => item.cafe?.name))];
+  const differentCafeNames = cafeNames.length > 1;
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -76,7 +85,9 @@ const Cart = ({ open, setOpen }) => {
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                       <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-lg font-medium text-gray-900">Panier</Dialog.Title>
+                        <Dialog.Title className="text-lg font-medium text-gray-900">
+                          Panier ({totalUniqueItems})
+                        </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"
@@ -91,13 +102,18 @@ const Cart = ({ open, setOpen }) => {
 
                       <div className="mt-8">
                         <div className="flow-root">
+                          {isEmpty && (
+                            <div className="flex justify-center items-center">
+                              <p className="text-gray-500">Votre panier est vide</p>
+                            </div>
+                          )}
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {products.map((product) => (
-                              <li key={product.id} className="flex py-6">
+                            {items.map((item) => (
+                              <li key={item.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={product.imageSrc}
-                                    alt={product.imageAlt}
+                                    src={item.image_url || "https://placehold.co/300x300?text=Item"}
+                                    alt={item.name}
                                     className="h-full w-full object-cover object-center"
                                   />
                                 </div>
@@ -105,18 +121,18 @@ const Cart = ({ open, setOpen }) => {
                                 <div className="ml-4 flex flex-1 flex-col">
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>
-                                        <a href={product.href}>{product.name}</a>
-                                      </h3>
-                                      <p className="ml-4">{product.price}</p>
+                                      <h3>{item.name}</h3>
+                                      <p className="ml-4">{item.price}&nbsp;$</p>
                                     </div>
-                                    <p className="mt-1 text-sm text-gray-500">{product.color}</p>
+                                    <p className="mt-1 text-sm text-gray-500">{item.cafe?.name}</p>
+                                    {/* // TODO ajouter variantes */}
                                   </div>
                                   <div className="flex flex-1 justify-between text-sm items-end">
                                     <select
                                       className="text-gray-900 w-16 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
-                                      defaultValue={product.quantity <= 10 ? product.quantity : 1}>
-                                      {Array.from(Array(10).keys()).map((i) => (
+                                      value={item.quantity}
+                                      onChange={(e) => updateItemQuantity(item.id, parseInt(e.target.value, 10))}>
+                                      {Array.from(Array(9).keys()).map((i) => (
                                         <option key={i} value={i + 1}>
                                           {i + 1}
                                         </option>
@@ -126,7 +142,8 @@ const Cart = ({ open, setOpen }) => {
                                     <div className="flex">
                                       <button
                                         type="button"
-                                        className="font-medium text-emerald-600 hover:text-emerald-500">
+                                        className="font-medium text-emerald-600 hover:text-emerald-500"
+                                        onClick={() => removeItem(item.id)}>
                                         Supprimer
                                       </button>
                                     </div>
@@ -142,17 +159,36 @@ const Cart = ({ open, setOpen }) => {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Total</p>
-                        <p>$5.00</p>
+                        <p>{cartTotal.toFixed(2)} $</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">Taxes incluses</p>
-                      <div className="mt-6">
-                        <a
-                          href="#"
-                          className="flex items-center justify-center rounded-md border border-transparent bg-emerald-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-emerald-700">
-                          Valider la commande
-                        </a>
+
+                      {differentCafeNames && (
+                        <div className="mt-2 flex items-center justify-center w-full">
+                          <Badge variant="warning" className="mt-4">
+                            Vous avez des produits de plusieurs cafés dans votre panier. Vous devrez donc récupérer
+                            plusieurs commandes.
+                          </Badge>
+                        </div>
+                      )}
+
+                      <div className="mt-6 flex justify-center text-center text-sm text-gray-500 gap-2 hover:text-gray-700">
+                        <TrashIcon className="h-5 w-5" aria-hidden="true" />
+                        <button className="disabled:cursor-not-allowed" onClick={() => emptyCart()} disabled={isEmpty}>
+                          Vider le panier
+                        </button>
                       </div>
-                      <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+                      <div className="mt-4">
+                        <button
+                          className="w-full rounded-md \
+                          border border-transparent bg-emerald-600 px-6 py-3 \
+                          text-base font-medium text-white shadow-sm hover:bg-emerald-700 \
+                          disabled:bg-gray-300 disabled:cursor-not-allowed"
+                          disabled={isEmpty}>
+                          Valider la commande
+                        </button>
+                      </div>
+                      <div className="mt-4 flex justify-center text-center text-sm text-gray-500">
                         <p>
                           ou{" "}
                           <button
