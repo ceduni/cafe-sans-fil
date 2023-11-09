@@ -161,7 +161,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     token: accessToken,
-    isLoggedIn: accessToken !== null,
+    isLoggedIn: accessToken && refreshToken && user,
     onLogin: handleLogin,
     onSignUp: handleSignUp,
     onLogout: handleLogout,
