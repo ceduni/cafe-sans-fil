@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import ItemCard from "@/components/Items/ItemCard";
 import Container from "@/components/Container";
-import { products } from "@/components/Orders/Cart";
 import { Link } from "react-router-dom";
 import OpeningHours from "@/components/Cafe/OpeningHours";
 import CafeMemberHeader from "@/components/Cafe/CafeMemberHeader";
@@ -43,7 +42,7 @@ const Cafe = () => {
           {(isLoading && <span className="animate-pulse">Chargement...</span>) || data?.name}
         </div>
 
-        <CafeMemberHeader />
+        <CafeMemberHeader cafe={data} />
 
         <img
           className="mb-6 rounded-lg shadow-xl object-cover h-52 md:h-96"
