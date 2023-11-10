@@ -2,16 +2,27 @@ import { BuildingStorefrontIcon, PencilIcon, UserIcon } from "@heroicons/react/2
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
-const CafeMemberHeader = () => {
+const CafeMemberHeader = ({ cafe }) => {
   const { id } = useParams();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn || !user || !cafe) {
     return null;
   }
 
-  const IS_ADMIN = true;
-  const status = { true: "admin", false: "bénevole" }[IS_ADMIN];
+  const userId = user.user_id;
+  const getRole = (cafe) => {
+    return cafe.staff.find((member) => member.id === userId)?.role;
+  };
+
+  const role = {
+    admin: "admin",
+    volunteer: "bénévole",
+  }[getRole(cafe)];
+
+  if (!role) {
+    return null;
+  }
 
   const actions = [
     { name: "Commandes en cours", href: `/cafes/${id}/order/1`, icon: BuildingStorefrontIcon },
@@ -23,14 +34,14 @@ const CafeMemberHeader = () => {
     { name: "Modifier le café", href: "#", icon: PencilIcon },
   ];
 
-  if (IS_ADMIN) {
+  if (role === "admin") {
     actions.push(...adminActions);
   }
 
   return (
     <div className="mb-10 p-6 rounded-lg bg-emerald-100">
       <div className="min-w-0 flex-1">
-        <h2 className="text-xl font-bold">Vous êtes {status} dans ce café</h2>
+        <h2 className="text-xl font-bold">Vous êtes {role} dans ce café</h2>
       </div>
       <div className="mt-5 flex gap-3 flex-wrap">
         {actions.map((action) => (
