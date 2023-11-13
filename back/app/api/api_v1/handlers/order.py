@@ -34,8 +34,10 @@ async def get_order(order_id: UUID, current_user: User = Depends(get_current_use
 
         return order
     except ValueError as e:
-        raise HTTPException(status_code=403, detail=str(e))
-
+        if str(e) == "Cafe not found":
+            raise HTTPException(status_code=404, detail=str(e))
+        elif str(e) == "Access forbidden":
+            raise HTTPException(status_code=403, detail=str(e))
 
 @order_router.post("/orders", response_model=OrderOut)
 async def create_order(order: OrderCreate, current_user: User = Depends(get_current_user)):
@@ -54,7 +56,10 @@ async def update_order(order_id: UUID, orderUpdate: OrderUpdate, current_user: U
 
         return await OrderService.update_order(order_id, orderUpdate)
     except ValueError as e:
-        raise HTTPException(status_code=403, detail=str(e))
+        if str(e) == "Cafe not found":
+            raise HTTPException(status_code=404, detail=str(e))
+        elif str(e) == "Access forbidden":
+            raise HTTPException(status_code=403, detail=str(e))
 
 @order_router.get("/users/{user_id}/orders", response_model=List[OrderOut])
 async def list_user_orders(user_id: UUID, status: str = Query(None, description="Filter orders by status"), current_user: User = Depends(get_current_user)):
@@ -73,4 +78,7 @@ async def list_cafe_orders(cafe_id: UUID, status: str = Query(None, description=
     
         return await OrderService.list_orders_for_cafe(cafe_id, status)
     except ValueError as e:
-        raise HTTPException(status_code=403, detail=str(e))
+        if str(e) == "Cafe not found":
+            raise HTTPException(status_code=404, detail=str(e))
+        elif str(e) == "Access forbidden":
+            raise HTTPException(status_code=403, detail=str(e))

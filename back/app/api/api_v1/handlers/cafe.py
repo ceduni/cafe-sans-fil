@@ -34,7 +34,18 @@ async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current
 
 @cafe_router.put("/cafes/{cafe_id}", response_model=CafeOut)
 async def update_cafe(cafe_id: UUID, cafe: CafeUpdate, current_user: User = Depends(get_current_user)):
-    await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
+    cafe_exists = await CafeService.retrieve_cafe(cafe_id)
+    if not cafe_exists:
+        raise HTTPException(status_code=404, detail="Café not found")
+
+    try:
+        await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
+    except ValueError as e:
+        if str(e) == "Cafe not found":
+            raise HTTPException(status_code=404, detail=str(e))
+        elif str(e) == "Access forbidden":
+            raise HTTPException(status_code=403, detail=str(e))
+
     return await CafeService.update_cafe(cafe_id, cafe)
 
 # --------------------------------------
@@ -59,24 +70,46 @@ async def get_menu_item(cafe_id: UUID, item_id: UUID):
         raise HTTPException(status_code=404, detail="Menu item not found.")
     return item
 
-@cafe_router.post("/cafes/{cafe_id}/menu",response_model=MenuItemOut)
+@cafe_router.post("/cafes/{cafe_id}/menu", response_model=MenuItemOut)
 async def create_menu_item(cafe_id: UUID, item: MenuItemCreate, current_user: User = Depends(get_current_user)):
-    await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
+    try:
+        await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
+    except ValueError as e:
+        if str(e) == "Cafe not found":
+            raise HTTPException(status_code=404, detail=str(e))
+        elif str(e) == "Access forbidden":
+            raise HTTPException(status_code=403, detail=str(e))
+
     return await CafeService.create_menu_item(cafe_id, item)
 
 @cafe_router.put("/cafes/{cafe_id}/menu/{item_id}", response_model=MenuItemOut)
 async def update_menu_item(cafe_id: UUID, item_id: UUID, item: MenuItemUpdate, current_user: User = Depends(get_current_user)):
-    await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
-    return await CafeService.update_menu_item(cafe_id, item_id, item)
+    try:
+        await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
+        return await CafeService.update_menu_item(cafe_id, item_id, item)
+    except ValueError as e:
+        error_message = str(e)
+        if error_message == "Menu item not found":
+            raise HTTPException(status_code=404, detail=error_message)
+        elif error_message == "Cafe not found":
+            raise HTTPException(status_code=404, detail=error_message)
+        elif error_message == "Access forbidden":
+            raise HTTPException(status_code=403, detail=error_message)
 
 @cafe_router.delete("/cafes/{cafe_id}/menu/{item_id}")
 async def delete_menu_item(cafe_id: UUID, item_id: UUID, current_user: User = Depends(get_current_user)):
-    await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
     try:
-        deleted_item = await CafeService.delete_menu_item(cafe_id, item_id)
+        await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
+        await CafeService.delete_menu_item(cafe_id, item_id)
         return {"message": f"Item has been successfully deleted."}
     except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        error_message = str(e)
+        if error_message == "Menu item not found":
+            raise HTTPException(status_code=404, detail=error_message)
+        elif error_message == "Cafe not found":
+            raise HTTPException(status_code=404, detail=error_message)
+        elif error_message == "Access forbidden":
+            raise HTTPException(status_code=403, detail=error_message)
     
 # --------------------------------------
 #               Search

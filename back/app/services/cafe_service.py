@@ -61,7 +61,7 @@ class CafeService:
                 if (category is None or item.category == category) and (is_available is None or item.is_available == is_available):
                     filtered_menu.append(item)
             return filtered_menu
-        return []
+        return None
 
     @staticmethod
     async def retrieve_menu_item(cafe_id: UUID, item_id: UUID):
@@ -75,12 +75,10 @@ class CafeService:
     @staticmethod
     async def create_menu_item(cafe_id: UUID, item: MenuItemCreate) -> MenuItem:
         cafe = await CafeService.retrieve_cafe(cafe_id)
-        if cafe:
-            new_item = MenuItem(**item.model_dump())
-            cafe.menu_items.append(new_item)
-            await cafe.save()
-            return new_item
-        raise ValueError("Cafe not found")
+        new_item = MenuItem(**item.model_dump())
+        cafe.menu_items.append(new_item)
+        await cafe.save()
+        return new_item
     
     @staticmethod
     async def update_menu_item(cafe_id: UUID, item_id: UUID, item_data: MenuItemUpdate):
