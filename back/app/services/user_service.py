@@ -80,7 +80,7 @@ class UserService:
             first_name=user.first_name,
             last_name=user.last_name,
         )
-        await user_in.save()
+        await user_in.insert()
         return user_in
     
     @staticmethod
