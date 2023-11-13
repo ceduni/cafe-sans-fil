@@ -193,7 +193,6 @@ class CafeService:
 
         cafe = await Cafe.find_one({"cafe_id": cafe_id})
         if not cafe:
-            print(f"Cafe with ID {cafe_id} not found in the database.")
             raise ValueError("Cafe not found")
 
         # Check if part of staff
@@ -206,8 +205,8 @@ class CafeService:
         # Check if appropriate role
         if user_in_staff:
             if user_in_staff.role not in [role.value for role in required_roles]:
-                raise ValueError("Not authorized")
+                raise ValueError("Access forbidden")
         else:
-            raise ValueError("Not authorized")
+            raise ValueError("Access forbidden")
 
         return True
