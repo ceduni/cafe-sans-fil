@@ -5,7 +5,7 @@ from app.models.cafe_model import Cafe, MenuItem
 from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate, Role
 from app.models.user_model import User
 from typing import Optional, Union
-
+from pymongo import MongoClient
 class CafeService:
     """
     Service class that provides methods for CRUD operations and search functionality 
@@ -17,14 +17,24 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_cafes(is_open: Optional[bool] = None, payment_method: Optional[str] = None) -> List[Cafe]:
-        filter_criteria = {}
-        if is_open is not None:
-            filter_criteria["is_open"] = is_open
-        if payment_method:
-            filter_criteria["payment_methods.method"] = payment_method
-        return await Cafe.find(filter_criteria).to_list()
+    async def list_cafes(**filters) -> List[Cafe]:
+        sort = None
+        
+        # Convert string to boolean
+        if 'is_open' in filters:
+            if filters['is_open'].lower() == 'true':
+                filters['is_open'] = True
+            elif filters['is_open'].lower() == 'false':
+                filters['is_open'] = False
 
+        if 'sort' in filters:
+            sort = filters.pop('sort')
+
+        if sort:
+            return await Cafe.find(filters).sort(sort).to_list() 
+        else:
+            return await Cafe.find(filters).to_list()
+        
     @staticmethod
     async def create_cafe(data: CafeCreate) -> Cafe:
         cafe = Cafe(**data.model_dump())
@@ -53,13 +63,22 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_menu_items(cafe_id: UUID, category: Optional[str] = None, is_available: Optional[bool] = None) -> List[MenuItem]:
+    async def list_menu_items(**filters) -> List[MenuItem]:
+        cafe_id = filters.pop('cafe_id', None)
+        sort = filters.pop('sort', None)
+
+        # Convert string to boolean
+        if 'is_available' in filters:
+            if filters['is_available'].lower() == 'true':
+                filters['is_available'] = True
+            elif filters['is_available'].lower() == 'false':
+                filters['is_available'] = False
+
         cafe = await CafeService.retrieve_cafe(cafe_id)
         if cafe and hasattr(cafe, 'menu_items'):
-            filtered_menu = []
-            for item in cafe.menu_items:
-                if (category is None or item.category == category) and (is_available is None or item.is_available == is_available):
-                    filtered_menu.append(item)
+            filtered_menu = [item for item in cafe.menu_items if all(filters.get(key, getattr(item, key)) == getattr(item, key) for key in filters)]
+            if sort:
+                filtered_menu.sort(key=lambda item: getattr(item, sort, None))
             return filtered_menu
         return None
 
@@ -108,76 +127,35 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def search_cafes_and_items(query: str = "", category: str = "", is_available: Optional[bool] = None, is_open: Optional[bool] = None, payment_method: str = None):
+    async def search_cafes_and_items(query: str, **filters):
+        filter_target = filters.pop('filter_target', None)
+        regex_pattern = {"$regex": query, "$options": "i"}
 
-        # --- Filters ---
-        regex_pattern = {"$regex": query, "$options": "i"} if query else {}
-        cafe_filter = {
-            "$or": [
-                {"name": regex_pattern},
-                {"description": regex_pattern},
-                {"faculty": regex_pattern},
-                {"location": regex_pattern}
-            ]
-        } if query else {}
-        
-        item_filter = {
-            "$or": [
-                {"name": regex_pattern},
-                {"description": regex_pattern}
-            ]
-        } if query else {}
+        # Convert string to boolean
+        for key in ['is_open', 'is_available']:
+            if key in filters:
+                if filters[key].lower() == 'true':
+                    filters[key] = True
+                elif filters[key].lower() == 'false':
+                    filters[key] = False
 
-        if category:
-            item_filter["category"] = category
-
-        if is_available is not None:
-            item_filter["is_available"] = is_available
-
-        if is_open is not None:
-            cafe_filter["is_open"] = is_open
-
-        if payment_method:
-            cafe_filter["payment_methods.method"] = payment_method
-
-        # --- Search ---
         matching_cafes = []
         matching_items = []
 
-        # If category or is_available filter is provided, search only menu_items
-        if category or (is_available is not None):
-            cafes_with_matching_items = await Cafe.find({
-                "menu_items": {"$elemMatch": item_filter}
-            }).to_list()
-            for cafe in cafes_with_matching_items:
-                matching_items.extend([item for item in cafe.menu_items if (not query or any([
-                    re.search(query, item.name, re.IGNORECASE),
-                    re.search(query, item.description, re.IGNORECASE)
-                ]))
-                and (not category or item.category == category)
-                and (is_available is None or item.is_available == is_available)])
+        # Search cafes
+        if filter_target == 'cafe' or filter_target is None:
+            cafe_query = {**filters, "$or": [{"name": regex_pattern}, {"description": regex_pattern}, {"faculty": regex_pattern}, {"location": regex_pattern}]}
+            matching_cafes = await Cafe.find(cafe_query).to_list()
 
-        # If is_open or payment_method filter is provided, search only cafes
-        elif is_open is not None or payment_method:
-            matching_cafes = await Cafe.find(cafe_filter).to_list()
+        # Search menu items
+        if filter_target == 'item' or filter_target is None:
+            cafes = await Cafe.find().to_list()
+            for cafe in cafes:
+                filtered_items = [item for item in cafe.menu_items if all(filters.get(k, getattr(item, k)) == getattr(item, k) for k in filters) and any(re.search(query, getattr(item, field), re.IGNORECASE) for field in ['name', 'description'])]
+                matching_items.extend(filtered_items)
 
-        # If no filters, search cafes and menu_items
-        else:
-            matching_cafes = await Cafe.find(cafe_filter).to_list()
-            cafes_with_matching_items = await Cafe.find({
-                "menu_items": {"$elemMatch": item_filter}
-            }).to_list()
-            for cafe in cafes_with_matching_items:
-                matching_items.extend([item for item in cafe.menu_items if not query or any([
-                    re.search(query, item.name, re.IGNORECASE),
-                    re.search(query, item.description, re.IGNORECASE)
-                ])])
+        return {"matching_cafes": matching_cafes, "matching_items": matching_items}
 
-        return {
-            "matching_cafes": matching_cafes,
-            "matching_items": matching_items
-        }
-    
     # --------------------------------------
     #               Authorization
     # --------------------------------------
