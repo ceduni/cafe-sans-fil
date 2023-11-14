@@ -69,11 +69,16 @@ class UserService:
     @staticmethod
     async def list_users(**filters):
         # Prevent filtering on hashed_password
-        if filters.get('hashed_password'):
+        if 'hashed_password' in filters:
             filters['hashed_password'] = None
 
-        return await User.find(filters).to_list()
-    
+        sort = filters.pop('sort', None)
+
+        if sort:
+            return await User.find(filters).sort(sort).to_list()
+        else:
+            return await User.find(filters).to_list()
+        
     @staticmethod
     async def create_user(user: UserAuth):
         user_in = User(

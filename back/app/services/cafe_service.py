@@ -128,6 +128,7 @@ class CafeService:
     @staticmethod
     async def search_cafes_and_items(query: str, **filters):
         filter_target = filters.pop('filter_target', None)
+        sort = filters.pop('sort', None)
         regex_pattern = {"$regex": query, "$options": "i"}
 
         # Convert string to boolean
@@ -141,17 +142,24 @@ class CafeService:
         matching_cafes = []
         matching_items = []
 
-        # Search cafes
+        # Filter cafes
         if filter_target == 'cafe' or filter_target is None:
             cafe_query = {**filters, "$or": [{"name": regex_pattern}, {"description": regex_pattern}, {"faculty": regex_pattern}, {"location": regex_pattern}]}
             matching_cafes = await Cafe.find(cafe_query).to_list()
+            if sort:
+                matching_cafes = await Cafe.find(cafe_query).sort(sort).to_list()
+            else:
+                matching_cafes = await Cafe.find(cafe_query).to_list()
 
-        # Search menu items
+        # Filter menu items
         if filter_target == 'item' or filter_target is None:
-            cafes = await Cafe.find().to_list()
-            for cafe in cafes:
-                filtered_items = [item for item in cafe.menu_items if all(filters.get(k, getattr(item, k)) == getattr(item, k) for k in filters) and any(re.search(query, getattr(item, field), re.IGNORECASE) for field in ['name', 'description'])]
-                matching_items.extend(filtered_items)
+            item_query = {"menu_items": {"$elemMatch": {**filters}}}
+            if query:
+                item_query["menu_items"]["$elemMatch"].update({"$or": [{"name": regex_pattern}, {"description": regex_pattern}]})
+            matching_cafes_temp = await Cafe.find(item_query).to_list()
+            matching_items = [item for cafe in matching_cafes_temp for item in cafe.menu_items]
+            if sort:
+                matching_items.sort(key=lambda item: getattr(item, sort, None))
 
         return {"matching_cafes": matching_cafes, "matching_items": matching_items}
 
