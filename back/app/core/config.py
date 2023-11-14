@@ -1,5 +1,6 @@
 from decouple import config
 from pydantic_settings import BaseSettings
+
 """
 This module defines the application's configuration settings using environment variables and default values.
 """

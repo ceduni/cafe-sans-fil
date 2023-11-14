@@ -7,6 +7,7 @@ from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
 from app.services.cafe_service import CafeService
 from app.schemas.cafe_schema import Role
+
 """
 This module defines the API routes related to the ordering system of the application.
 """
