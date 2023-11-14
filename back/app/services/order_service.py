@@ -13,9 +13,9 @@ class OrderService:
     # --------------------------------------
 
     @staticmethod
-    async def list_orders() -> List[Order]:
-        return await Order.find().to_list()
-
+    async def list_orders(**filters) -> List[Order]:
+        return await Order.find(filters).to_list()
+    
     @staticmethod
     async def create_order(data: OrderCreate) -> Order:
         order = Order(**data.model_dump())
@@ -33,15 +33,11 @@ class OrderService:
         return order
 
     @staticmethod
-    async def list_orders_for_user(user_id: UUID, status: str = None) -> List[Order]:
-        filter_query = {"user_id": user_id}
-        if status:
-            filter_query["status"] = status
-        return await Order.find(filter_query).to_list()
+    async def list_orders_for_user(user_id: UUID, **filters) -> List[Order]:
+        filters["user_id"] = user_id
+        return await Order.find(filters).to_list()
 
     @staticmethod
-    async def list_orders_for_cafe(cafe_id: UUID, status: str = None) -> List[Order]:
-        filter_query = {"cafe_id": cafe_id}
-        if status:
-            filter_query["status"] = status
-        return await Order.find(filter_query).to_list()
+    async def list_orders_for_cafe(cafe_id: UUID, **filters) -> List[Order]:
+        filters["cafe_id"] = cafe_id
+        return await Order.find(filters).to_list()

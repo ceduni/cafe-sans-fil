@@ -4,8 +4,7 @@ from uuid import UUID
 from app.models.cafe_model import Cafe, MenuItem
 from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate, Role
 from app.models.user_model import User
-from typing import Optional, Union
-from pymongo import MongoClient
+from typing import Union
 class CafeService:
     """
     Service class that provides methods for CRUD operations and search functionality 

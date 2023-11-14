@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, HTTPException, status, Request, Depends
 from app.schemas.user_schema import UserOut, UserUpdate, UserAuth
 from app.services.user_service import UserService
 from uuid import UUID
@@ -18,8 +18,9 @@ user_router = APIRouter()
 # --------------------------------------
 
 @user_router.get("/users", response_model=List[UserOut])
-async def list_users(current_user: User = Depends(get_current_user)):
-    return await UserService.list_users()
+async def list_users(request: Request, current_user: User = Depends(get_current_user)):
+    filters = dict(request.query_params)
+    return await UserService.list_users(**filters)
 
 @user_router.get("/users/{user_id}", response_model=UserOut)
 async def get_user(user_id: UUID, current_user: User = Depends(get_current_user)):
