@@ -31,6 +31,8 @@
 
 - Amélioration error handling
 - Optimisations panier et page item
+- Optimisation de code avec fonctions utilitaires
+- Début développement page de confirmation de commande
 
 #### 2023-11-09
 
