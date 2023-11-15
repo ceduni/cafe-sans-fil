@@ -4,6 +4,9 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCart } from "react-use-cart";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import Badge from "../Badge";
+import { useNavigate } from "react-router-dom";
+import { formatPrice, areItemsFromMoreThanOneCafe } from "@/utils/cart";
+
 export const products = [
   {
     id: 1,
@@ -50,11 +53,11 @@ export const products = [
 
 const Cart = ({ open, setOpen }) => {
   const { isEmpty, totalItems, items, updateItemQuantity, removeItem, cartTotal, emptyCart } = useCart();
+  const navigate = useNavigate();
 
   // On vérifie si les items du panier sont de cafe.name différents
   // Si c'est le cas on affiche un message prévenant l'utilisateur
-  const cafeNames = [...new Set(items.map((item) => item.cafe?.name))];
-  const differentCafeNames = cafeNames.length > 1;
+  const moreThanOneCafe = areItemsFromMoreThanOneCafe(items);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -157,11 +160,11 @@ const Cart = ({ open, setOpen }) => {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Total</p>
-                        <p>{cartTotal.toFixed(2)} $</p>
+                        <p>{formatPrice(cartTotal)}&nbsp;$</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">Taxes incluses</p>
 
-                      {differentCafeNames && (
+                      {moreThanOneCafe && (
                         <div className="mt-2 flex items-center justify-center w-full">
                           <Badge variant="warning" className="mt-4">
                             Vous avez des produits de plusieurs cafés dans votre panier. Vous devrez donc récupérer
@@ -182,7 +185,11 @@ const Cart = ({ open, setOpen }) => {
                           border border-transparent bg-emerald-600 px-6 py-3 \
                           text-base font-medium text-white shadow-sm hover:bg-emerald-700 \
                           disabled:bg-gray-300 disabled:cursor-not-allowed"
-                          disabled={isEmpty}>
+                          disabled={isEmpty}
+                          onClick={() => {
+                            setOpen(false);
+                            navigate("/confirm");
+                          }}>
                           Valider la commande
                         </button>
                       </div>
