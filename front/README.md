@@ -30,6 +30,7 @@
 #### 2023-11-14
 
 - Amélioration error handling
+- Optimisations panier et page item
 
 #### 2023-11-09
 
