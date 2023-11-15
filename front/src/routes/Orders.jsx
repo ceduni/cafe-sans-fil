@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import Container from "@/components/Container";
-import { getCafeFromId, getItemFromId } from "@/helpers/getFromId";
+import { getCafeFromId, getItemFromId } from "@/utils/getFromId";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
 import Badge from "@/components/Badge";
