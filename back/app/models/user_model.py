@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID, uuid4
 from beanie import Document, Indexed
 from pydantic import EmailStr, Field
@@ -18,8 +19,10 @@ class User(Document):
     matricule: Indexed(str, unique=True)
     username: Indexed(str, unique=True)
     hashed_password: str
-    first_name: str
-    last_name: str
+    first_name: Indexed(str)
+    last_name: Indexed(str)
+    photo_url: Optional[str] = None
+    is_disabled: Optional[bool] = None
 
     @classmethod
     async def by_email(self, email: str) -> "User":

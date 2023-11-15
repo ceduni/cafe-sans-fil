@@ -13,20 +13,15 @@ from app.models.order_model import Order
 from utils.generate_users import create_users
 from utils.generate_cafes import create_cafes
 from utils.generate_orders import create_orders
-from faker import Faker
 
 async def main():
     # Initialize Beanie
     db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME]
     await init_beanie(database=db_client, document_models=[User, Cafe, Order])
 
-    # Initialize Faker
-    fake = Faker('fr_FR')
-    Faker.seed(0)
-
     # Generate all
-    user_ids = await create_users(250, fake)
-    cafe_menu_items_ids_dict = await create_cafes(user_ids, fake)
+    user_ids = await create_users(40)
+    cafe_menu_items_ids_dict = await create_cafes(user_ids)
     await create_orders(user_ids, cafe_menu_items_ids_dict)
 
 if __name__ == "__main__":

@@ -21,6 +21,7 @@ class UserAuth(BaseModel):
     password: str = Field(..., min_length=5, max_length=50, description="password")
     first_name: str = Field(..., min_length=1, max_length=50, description="first name")
     last_name: str = Field(..., min_length=1, max_length=50, description="last name")
+    photo_url: Optional[str] = Field(None, min_length=1, max_length=755, description="photo url")
 
     class Config:
         json_schema_extra = {
@@ -30,7 +31,8 @@ class UserAuth(BaseModel):
                 "username": "johndoe",
                 "password": "password123",
                 "first_name": "John",
-                "last_name": "Doe"
+                "last_name": "Doe",
+                "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg"
             }
         }
 
@@ -41,6 +43,8 @@ class UserUpdate(BaseModel):
     password: Optional[str] = Field(None, min_length=5, max_length=50, description="password")
     first_name: Optional[str] = Field(None, min_length=1, max_length=50, description="first name")
     last_name: Optional[str] = Field(None, min_length=1, max_length=50, description="last name")
+    photo_url: Optional[str] = Field(None, min_length=1, max_length=755, description="photo url")
+    is_disabled: Optional[bool] = Field(None, description="is disabled")
 
     class Config:
         json_schema_extra = {
@@ -50,7 +54,9 @@ class UserUpdate(BaseModel):
                 "username": "johndoe",
                 "password": "password123",
                 "first_name": "John",
-                "last_name": "Doe"
+                "last_name": "Doe",
+                "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
+                "is_disabled": False
             }
         }
 
@@ -61,7 +67,9 @@ class UserOut(BaseModel):
     username: str
     first_name: str
     last_name: str
-
+    photo_url: Optional[str]
+    is_disabled: Optional[bool]
+    
     class Config:
         json_schema_extra = {
             "example": {
@@ -70,6 +78,8 @@ class UserOut(BaseModel):
                 "matricule": "M123456",
                 "username": "johndoe",
                 "first_name": "John",
-                "last_name": "Doe"
+                "last_name": "Doe",
+                "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
+                "is_disabled": False
             }
         }

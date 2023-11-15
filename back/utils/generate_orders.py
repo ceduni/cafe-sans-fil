@@ -1,40 +1,46 @@
-from app.models.order_model import Order, OrderedItem
-from app.schemas.order_schema import OrderCreate, OrderedItem, OrderStatus
+from app.models.order_model import Order, OrderedItem, OrderStatus, OrderedItemOption
 from datetime import datetime, timedelta
 from tqdm import tqdm
 import random
+random.seed(42)
 
 async def create_orders(user_ids, cafe_menu_items):
     for _ in tqdm(range(len(user_ids)), desc="Creating orders"):
-        # Create multiple orders per user
+        # Radom orders per user
         for _ in range(random.randint(0, 15)): 
             user_id = random.choice(user_ids)
             cafe_id, menu_items = random.choice(list(cafe_menu_items.items()))
-
-            total_price = 0.0
             order_items = []
-            order_timestamp = random_past_date(1, 30)
+            created_at = random_past_date(1, 30)
 
-            # Create multiple items per order
+            # Random items
             for _ in range(random.randint(1, 5)):
                 menu_item = random.choice(menu_items)
                 quantity = random.randint(1, 5)
-
                 item_price = menu_item.price
-                total_price += item_price * quantity
-                order_items.append(OrderedItem(item_id=menu_item.item_id, quantity=quantity, item_price=item_price))
+                item_options = []
 
-            order_data = OrderCreate(
+                # Random options
+                if random.choice([True, False]) and menu_item.options:
+                    num_options = random.randint(1, len(menu_item.options))
+                    selected_options = random.sample(menu_item.options, num_options)
+                    item_options = [OrderedItemOption(type=opt.type, value=opt.value, fee=opt.fee) for opt in selected_options]
+
+                order_items.append(OrderedItem(
+                    item_id=menu_item.item_id, 
+                    quantity=quantity, 
+                    item_price=item_price,
+                    options=item_options
+                ))
+
+            order = Order(
                 user_id=user_id,
                 cafe_id=cafe_id,
                 items=order_items,
-                total_price=total_price,
                 status=random.choice(list(OrderStatus)),
-                order_timestamp = order_timestamp,
-                completion_time = order_timestamp + timedelta(minutes=random.randint(15, 60))
+                created_at = created_at,
+                updated_at = created_at + timedelta(minutes=random.randint(15, 60))
             )
-
-            order = Order(**order_data.model_dump())
             await order.insert()
 
 def random_past_date(start_days_ago, end_days_ago):

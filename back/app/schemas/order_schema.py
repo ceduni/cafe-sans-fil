@@ -12,16 +12,22 @@ and documentation specific to orders.
 Note: These models are for API data interchange related to orders and not direct database models.
 """
 
+class OrderedItemOption(BaseModel):
+    type: str
+    value: str
+    fee: float
+
 class OrderedItem(BaseModel):
     item_id: UUID
     quantity: int
     item_price: float
-
+    options: List[OrderedItemOption]
+    
 class OrderStatus(str, Enum):
-    PLACED = "placed"
-    READY = "ready"
-    COMPLETED = "completed"
-    CANCELLED = "cancelled"
+    PLACED = "Placée"
+    READY = "Prête"
+    COMPLETED = "Complétée"
+    CANCELLED = "Annulée"
 
 # --------------------------------------
 #               Order
@@ -31,53 +37,65 @@ class OrderCreate(BaseModel):
     user_id: UUID
     cafe_id: UUID
     items: List[OrderedItem]
-    total_price: float
-    status: OrderStatus
-    order_timestamp: datetime
-    completion_time: Optional[datetime] = None
 
     class Config:
         json_schema_extra = {
             "example": {
-                "user_id": "123e4567-e89b-12d3-a456-426614174000",
-                "cafe_id": "123e4567-e89b-12d3-a456-426614174001",
+                "user_id": "123e4567-e89b-12d3-a456-426614174001",
+                "cafe_id": "123e4567-e89b-12d3-a456-426614174002",
                 "items": [
                     {
-                        "item_id": "123e4567-e89b-12d3-a456-426614174002",
+                        "item_id": "123e4567-e89b-12d3-a456-426614174003",
                         "quantity": 2,
-                        "item_price": 5.0,
+                        "item_price": 2.99,
+                        "options": [
+                            {"type": "taille", "value": "moyenne", "fee": 0.50},
+                            {"type": "fromage supplémentaire", "value": "oui", "fee": 1.00}
+                        ]
+                    },
+                    {
+                        "item_id": "123e4567-e89b-12d3-a456-426614174004",
+                        "quantity": 1,
+                        "item_price": 4.99,
+                        "options": [
+                            {"type": "taille", "value": "grande", "fee": 1.00},
+                            {"type": "sauce supplémentaire", "value": "non", "fee": 0.00}
+                        ]
                     }
                 ],
-                "total_price": 10.0,
-                "status": "placed",
-                "order_timestamp": "2023-10-19T14:30:00",
             }
         }
 
 class OrderUpdate(BaseModel):
-    user_id: Optional[UUID] = None
     cafe_id: Optional[UUID] = None
     items: Optional[List[OrderedItem]] = None
-    total_price: Optional[float] = None
     status: Optional[OrderStatus] = None
-    order_timestamp: Optional[datetime] = None
-    completion_time: Optional[datetime] = None
 
     class Config:
         json_schema_extra = {
             "example": {
-                "user_id": "123e4567-e89b-12d3-a456-426614174000",
-                "cafe_id": "123e4567-e89b-12d3-a456-426614174001",
+                "cafe_id": "123e4567-e89b-12d3-a456-426614174002",
                 "items": [
                     {
-                        "item_id": "123e4567-e89b-12d3-a456-426614174002",
+                        "item_id": "123e4567-e89b-12d3-a456-426614174003",
                         "quantity": 2,
-                        "item_price": 5.0,
+                        "item_price": 2.99,
+                        "options": [
+                            {"type": "taille", "value": "moyenne", "fee": 0.50},
+                            {"type": "fromage supplémentaire", "value": "oui", "fee": 1.00}
+                        ]
+                    },
+                    {
+                        "item_id": "123e4567-e89b-12d3-a456-426614174004",
+                        "quantity": 1,
+                        "item_price": 4.99,
+                        "options": [
+                            {"type": "taille", "value": "grande", "fee": 1.00},
+                            {"type": "sauce supplémentaire", "value": "non", "fee": 0.00}
+                        ]
                     }
                 ],
-                "total_price": 10.0,
-                "status": "placed",
-                "order_timestamp": "2023-10-19T14:30:00",
+                "status": "Complétée"
             }
         }
 
@@ -88,24 +106,38 @@ class OrderOut(BaseModel):
     items: List[OrderedItem]
     total_price: float
     status: OrderStatus
-    order_timestamp: datetime
-    completion_time: Optional[datetime] = None
-
+    created_at: datetime
+    updated_at: datetime
+    
     class Config:
         json_schema_extra = {
             "example": {
                 "order_id": "123e4567-e89b-12d3-a456-426614174000",
-                "user_id": "123e4567-e89b-12d3-a456-426614174000",
-                "cafe_id": "123e4567-e89b-12d3-a456-426614174001",
+                "user_id": "123e4567-e89b-12d3-a456-426614174001",
+                "cafe_id": "123e4567-e89b-12d3-a456-426614174002",
                 "items": [
                     {
-                        "item_id": "123e4567-e89b-12d3-a456-426614174002",
+                        "item_id": "123e4567-e89b-12d3-a456-426614174003",
                         "quantity": 2,
-                        "item_price": 5.0,
+                        "item_price": 2.99,
+                        "options": [
+                            {"type": "taille", "value": "moyenne", "fee": 0.50},
+                            {"type": "fromage supplémentaire", "value": "oui", "fee": 1.00}
+                        ]
+                    },
+                    {
+                        "item_id": "123e4567-e89b-12d3-a456-426614174004",
+                        "quantity": 1,
+                        "item_price": 4.99,
+                        "options": [
+                            {"type": "taille", "value": "grande", "fee": 1.00},
+                            {"type": "sauce supplémentaire", "value": "non", "fee": 0.00}
+                        ]
                     }
                 ],
-                "total_price": 10.0,
-                "status": "placed",
-                "order_timestamp": "2023-10-19T14:30:00",
+                "total_price": 13.47,
+                "status": "Complétée",
+                "created_at": "2023-10-19T14:30:00",
+                "updated_at": "2023-10-19T15:00:00"
             }
         }

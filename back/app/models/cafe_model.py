@@ -3,6 +3,7 @@ from uuid import UUID, uuid4
 from beanie import Document, Indexed
 from pydantic import BaseModel, EmailStr, Field
 from enum import Enum
+from datetime import datetime
 
 """
 This module defines the Pydantic-based models used in the Café application for cafe management,
@@ -22,52 +23,68 @@ class DayHours(BaseModel):
     day: str
     blocks: List[TimeBlock]
 
+class Location(BaseModel):
+    pavillon: Indexed(str)
+    local: Indexed(str)
+
 class Contact(BaseModel):
     email: Optional[EmailStr] = None 
     phone_number: Optional[str] = None 
     website: Optional[str] = None 
         
 class SocialMedia(BaseModel):
-    platform_name: Optional[str] = None 
-    link: Optional[str] = None 
+    platform_name: str
+    link: str
 
 class PaymentMethod(BaseModel):
     method: str
     minimum: Optional[float] = None
 
+class AdditionalInfo(BaseModel):
+    type: str
+    value: str
+    start: Optional[datetime] = None 
+    end: Optional[datetime] = None 
+
 class Role(str, Enum):
-    VOLUNTEER = "volunteer"
-    ADMIN = "admin"
+    VOLUNTEER = "Bénévole"
+    ADMIN = "Admin"
     
 class StaffMember(BaseModel):
     user_id: UUID
     role: Role
 
+class MenuItemOption(BaseModel):
+    type: str
+    value: str
+    fee: float
+
 class MenuItem(BaseModel):
     item_id: UUID = Field(default_factory=uuid4, unique=True)
-    name: str
-    description: Optional[str] = None 
+    name: Indexed(str, unique=True)
+    tags: List[str]
+    description: Indexed(str) 
     image_url: Optional[str] = None 
-    price: float
+    price: Indexed(float)
     is_available: bool = False
-    category: Optional[str] = None 
-    additional_info_menu: List[dict]  # Example: [{"key": "size", "value": "large"}]
+    category: Indexed(str)
+    options: List[MenuItemOption]
 
 class Cafe(Document):
     cafe_id: UUID = Field(default_factory=uuid4, unique=True)
-    name: Indexed(str)
-    description: Optional[str] = None 
+    name: Indexed(str, unique=True)
+    description: Indexed(str)
     image_url: Optional[str] = None 
-    faculty: str
-    location: Indexed(str)
+    faculty: Indexed(str)
     is_open: bool = False
     opening_hours: List[DayHours]
+    location: Location
     contact: Contact
     social_media: List[SocialMedia]
     payment_methods: List[PaymentMethod]
+    additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
     menu_items: List[MenuItem]
-    additional_info_cafe: List[dict]  # [{"key": "promo", "value": "10% off on Mondays"}]
 
     class Settings:
         name = "cafes"
