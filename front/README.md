@@ -27,6 +27,11 @@
 
 ## Avancée du développement
 
+#### 2023-11-15
+
+- Adaptation du code pour la nouvelle version de l'API et de la base de données
+- Affichage des images et diverses améliorations et fix de bugs
+
 #### 2023-11-14
 
 - Amélioration error handling
