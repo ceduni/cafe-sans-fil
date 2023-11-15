@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import PageWrapper from "@/components/PageWrapper";
 import ErrorPage from "@/components/ErrorPage";
-import { Home, Login, SignUp, Profile, Cafe, ResetPassword, Orders } from "@/routes";
+import { Home, Login, SignUp, Profile, Cafe, ResetPassword, Orders, OrderConfirmation } from "@/routes";
 import StaffList from "@/components/Cafe/StaffList";
 import OrderHeader from "@/components/Orders/OrderHeader";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -59,6 +59,10 @@ const router = createBrowserRouter([
             <Orders />
           </LoggedInOnly>
         ),
+      },
+      {
+        path: "/confirm",
+        element: <OrderConfirmation />,
       },
       {
         path: "/cafes/:id",

@@ -80,6 +80,12 @@ export const AuthProvider = ({ children }) => {
             displayMongoError(response);
             return null;
 
+          case 400:
+            const responseError = await response.json();
+            if (responseError.detail.includes("already exists")) {
+              throw new Error("Un compte avec ces informations existe déjà");
+            }
+
           default:
             throw new Error("Impossible de créer le compte");
         }

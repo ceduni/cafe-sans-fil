@@ -3,7 +3,8 @@ import ProductView from "@/components/Items/ProductView";
 import Badge from "@/components/Badge";
 import { useCart } from "react-use-cart";
 import toast from "react-hot-toast";
-import { getCafeFromId } from "@/helpers/getFromId";
+import { getCafeFromId } from "@/utils/getFromId";
+import { formatPrice } from "@/utils/cart";
 
 const ItemCard = ({ item, cafeId }) => {
   const [itemPreviewOpen, setItemPreviewOpen] = useState(false);
@@ -11,12 +12,13 @@ const ItemCard = ({ item, cafeId }) => {
   // On update le prix pour qu'il soit affiché avec 2 décimales
   item = {
     ...item,
-    price: item.price.toFixed(2),
+    price: formatPrice(item.price),
   };
 
   const { addItem } = useCart();
-  const handleAddToCart = async (e) => {
+  const handleAddToCart = async (e, setIsAddingToCart) => {
     e.preventDefault();
+    setIsAddingToCart(true);
     const cafe = await getCafeFromId(cafeId);
     addItem({
       ...item,
@@ -25,6 +27,7 @@ const ItemCard = ({ item, cafeId }) => {
     });
     setItemPreviewOpen(false);
     toast.success(`${item.name} a été ajouté au panier`);
+    setIsAddingToCart(false);
   };
 
   return (
