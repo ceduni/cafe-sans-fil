@@ -102,7 +102,11 @@ const OrderConfirmation = () => {
                     <div className="flex items-center justify-between py-4 px-4 sm:px-6">
                       <div className="flex items-center">
                         <div className="flex-shrink-0">
-                          <img className="h-10 w-10 rounded-lg" src="https://placehold.co/300x300?text=Item" alt="" />
+                          <img
+                            className="h-10 w-10 rounded-lg"
+                            src={item.image_url || "https://placehold.co/300x300?text=Item"}
+                            alt=""
+                          />
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">{item.name}</div>

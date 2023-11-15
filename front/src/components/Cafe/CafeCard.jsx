@@ -9,13 +9,17 @@ const CafeCard = ({ cafe }) => {
       <Card>
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>
-          <Card.Header.Subtitle>{cafe.location}</Card.Header.Subtitle>
+          <Card.Header.Subtitle>
+            {cafe.location.pavillon}, {cafe.location.local}
+          </Card.Header.Subtitle>
           <OpenIndicator isOpen={cafe.is_open} size="xs" />
         </Card.Header>
         <Card.Body>{cafe.description}</Card.Body>
-        <Card.Footer>
-          <Badge variant="info">{cafe.additional_info_cafe[0].value}</Badge>
-        </Card.Footer>
+        {cafe.additional_info[0]?.value && (
+          <Card.Footer>
+            <Badge variant="info">{cafe.additional_info[0].value}</Badge>
+          </Card.Footer>
+        )}
       </Card>
     </Link>
   );
