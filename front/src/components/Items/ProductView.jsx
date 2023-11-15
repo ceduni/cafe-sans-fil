@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Badge from "../Badge";
@@ -9,6 +9,7 @@ function classNames(...classes) {
 
 const ProductView = ({ item, open, setOpen, onSubmit }) => {
   // const [selectedSize, setSelectedSize] = useState(item.sizes[0]);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -72,7 +73,7 @@ const ProductView = ({ item, open, setOpen, onSubmit }) => {
                           Product options
                         </h3>
 
-                        <form onSubmit={onSubmit}>
+                        <form onSubmit={(e) => onSubmit(e, setIsAddingToCart)}>
                           {/* Sizes */}
                           {/* <div className="mt-10">
                             <h4 className="text-sm font-medium text-gray-900">Size</h4>
@@ -129,9 +130,14 @@ const ProductView = ({ item, open, setOpen, onSubmit }) => {
 
                           <button
                             type="submit"
-                            className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-emerald-600 px-8 py-3 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
-                            disabled={!item.is_available}>
-                            Ajouter au panier
+                            className="mt-6 flex w-full items-center justify-center rounded-md \
+                            border border-transparent bg-emerald-600 px-8 py-3 \
+                            text-base font-medium text-white \
+                            hover:bg-emerald-700 \
+                            focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 \
+                            disabled:opacity-50"
+                            disabled={!item.is_available || isAddingToCart}>
+                            {isAddingToCart ? "Ajout en cours..." : "Ajouter au panier"}
                           </button>
                         </form>
                       </section>

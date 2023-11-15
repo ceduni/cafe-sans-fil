@@ -16,6 +16,8 @@ passlib = "*"
 python-jose = "*"
 python-multipart = "*"
 bcrypt = "*"
+faker = "*"
+tqdm = "*"
 
 [dev-packages]
 

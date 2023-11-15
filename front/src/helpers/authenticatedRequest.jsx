@@ -30,7 +30,7 @@ authenticatedRequest.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = useLocalStorage("refreshToken", null);
+        const refreshToken = JSON.parse(localStorage.getItem("refreshToken"));
         const token = await authenticatedRequest.post("/auth/refresh", refreshToken);
         localStorage.setItem("accessToken", JSON.stringify(token.access_token));
         localStorage.setItem("refreshToken", JSON.stringify(token.refresh_token));
