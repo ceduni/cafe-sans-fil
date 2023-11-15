@@ -27,6 +27,10 @@
 
 ## Avancée du développement
 
+#### 2023-11-14
+
+- Amélioration error handling
+
 #### 2023-11-09
 
 - Améliorations UI suivant la réunion d'équipe
