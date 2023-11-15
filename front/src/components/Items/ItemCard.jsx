@@ -15,8 +15,9 @@ const ItemCard = ({ item, cafeId }) => {
   };
 
   const { addItem } = useCart();
-  const handleAddToCart = async (e) => {
+  const handleAddToCart = async (e, setIsAddingToCart) => {
     e.preventDefault();
+    setIsAddingToCart(true);
     const cafe = await getCafeFromId(cafeId);
     addItem({
       ...item,
@@ -25,6 +26,7 @@ const ItemCard = ({ item, cafeId }) => {
     });
     setItemPreviewOpen(false);
     toast.success(`${item.name} a été ajouté au panier`);
+    setIsAddingToCart(false);
   };
 
   return (
