@@ -38,13 +38,25 @@ function Orders() {
       }).format(new Date(order.order_timestamp));
 
       // On récupère les données du café
-      const cafe = await getCafeFromId(order.cafe_id);
+      let cafe = await getCafeFromId(order.cafe_id);
+      if (!cafe) {
+        cafe = {
+          name: "Café supprimé",
+        };
+      }
 
       // On récupère les données des items
       const items = await Promise.all(
         // Pour chaque item de la commande, on récupère les données de l'item
         order.items.map(async (item) => {
-          const itemData = await getItemFromId(item.item_id, order.cafe_id);
+          let itemData = await getItemFromId(item.item_id, order.cafe_id);
+          if (!itemData) {
+            itemData = {
+              name: "Item supprimé",
+              price: item.item_price,
+              quantity: item.quantity,
+            };
+          }
           return {
             ...item,
             itemData: itemData,
@@ -99,7 +111,7 @@ function Orders() {
 
         {isLoading && (
           <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
-            {Array.from({ length: 2 }).map((_, index) => (
+            {Array.from({ length: 1 }).map((_, index) => (
               <div key={index} className="flex flex-col p-6 border border-gray-200 rounded-lg">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
