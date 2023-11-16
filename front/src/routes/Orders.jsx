@@ -5,6 +5,7 @@ import { getCafeFromId, getItemFromId } from "@/utils/getFromId";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
 import Badge from "@/components/Badge";
+import { formatPrice } from "@/utils/cart";
 
 function Orders() {
   const { user } = useAuth();
@@ -32,10 +33,10 @@ function Orders() {
   useEffect(() => {
     const fullOrders = orders.map(async (order) => {
       // On formate la date
-      order.order_timestamp = new Intl.DateTimeFormat("fr-FR", {
+      order.created_at = new Intl.DateTimeFormat("fr-FR", {
         dateStyle: "medium",
         timeStyle: "short",
-      }).format(new Date(order.order_timestamp));
+      }).format(new Date(order.created_at));
 
       // On récupère les données du café
       let cafe = await getCafeFromId(order.cafe_id);
@@ -63,7 +64,6 @@ function Orders() {
           };
         })
       );
-      setIsLoading(false);
       return {
         ...order,
         cafe: cafe,
@@ -76,29 +76,22 @@ function Orders() {
     });
   }, [orders]);
 
+  useEffect(() => {
+    if (fullOrders.length > 0) {
+      setIsLoading(false);
+    }
+  }, [fullOrders]);
+
   const getBadgeVariant = (status) => {
     switch (status) {
-      case "placed":
+      case "Placée":
         return "warning";
-      case "pending":
-        return "warning";
-      case "completed":
+      case "Prête":
         return "success";
-      case "cancelled":
+      case "Complétée":
+        return "success";
+      case "Annulée":
         return "danger";
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch (status) {
-      case "placed":
-        return "En attente";
-      case "pending":
-        return "En attente";
-      case "completed":
-        return "Terminée";
-      case "cancelled":
-        return "Annulée";
     }
   };
 
@@ -111,7 +104,7 @@ function Orders() {
 
         {isLoading && (
           <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
-            {Array.from({ length: 1 }).map((_, index) => (
+            {Array.from({ length: 2 }).map((_, index) => (
               <div key={index} className="flex flex-col p-6 border border-gray-200 rounded-lg">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
@@ -152,13 +145,13 @@ function Orders() {
                 <div className="flex items-center">
                   <img
                     className="w-12 h-12 mr-4 rounded-full"
-                    src="https://placehold.co/300x300?text=Cafe"
+                    src={order.cafe.image_url || "https://placehold.co/300x300?text=Cafe"}
                     alt={order.cafe.name}
                   />
                   <div>
                     <h2 className="text-lg font-semibold text-gray-900">{order.cafe.name}</h2>
-                    <p className="text-sm text-gray-500 mb-1">{order.order_timestamp}</p>
-                    <Badge variant={getBadgeVariant(order.status)}>{getStatusText(order.status)}</Badge>
+                    <p className="text-sm text-gray-500 mb-1">{order.created_at}</p>
+                    <Badge variant={getBadgeVariant(order.status)}>{order.status}</Badge>
                   </div>
                 </div>
                 <p className="text-lg font-semibold text-gray-900">{order.total_price} $</p>
@@ -172,17 +165,19 @@ function Orders() {
                     <div className="flex items-center">
                       <img
                         className="w-8 h-8 mr-4 rounded-lg"
-                        src="https://placehold.co/300x300?text=Item"
+                        src={item.itemData.image_url || "https://placehold.co/300x300?text=Item"}
                         alt={item.itemData.name}
                       />
                       <div>
                         <h3 className="text-base font-semibold text-gray-900">{item.itemData.name}</h3>
                         <p className="text-sm text-gray-500">
-                          Quantité: {item.quantity} x {item.itemData.price} $
+                          Quantité: {item.quantity} ({item.itemData.price}&nbsp;$ l'unité)
                         </p>
                       </div>
                     </div>
-                    <p className="text-base font-semibold text-gray-900">{item.quantity * item.itemData.price} $</p>
+                    <p className="text-base font-semibold text-gray-900">
+                      {formatPrice(item.itemData.price * item.quantity)}&nbsp;$
+                    </p>
                   </div>
                 ))}
               </div>

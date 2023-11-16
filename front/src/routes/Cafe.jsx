@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet-async";
 import PaymentMethods from "@/components/Cafe/PaymentMethods";
 import { ContactCafe, SocialIcons } from "@/components/Cafe/ContactCafe";
 import { MapPinIcon } from "@heroicons/react/24/solid";
+import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
 
 const Cafe = () => {
   const { id } = useParams();
@@ -45,16 +46,16 @@ const Cafe = () => {
         <CafeMemberHeader cafe={data} />
 
         <img
-          className="mb-6 rounded-lg shadow-xl object-cover h-52 md:h-96"
-          src="https://placehold.co/800x400?text=Photo+du+café"
-          alt=""
+          className="mb-6 rounded-lg shadow-xl object-cover md:h-96 w-full"
+          src={data?.image_url || "https://placehold.co/700x400?text=..."}
+          alt={`Photo du café ${data?.name}`}
         />
 
         {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
         )}
 
-        <OpenIndicator isOpen={data?.is_open} />
+        <OpenIndicator isOpen={data?.is_open} openingHours={data?.opening_hours} />
 
         <div className="pb-3">
           {(data?.description && (
@@ -67,20 +68,20 @@ const Cafe = () => {
           )}
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center mb-1">
           <MapPinIcon className="inline-block w-5 h-5 text-gray-500" />
-          <span className="ml-1 text-gray-500">{data?.location}</span>
+          <span className="ml-1 text-gray-500">{displayCafeLocation(data?.location)}</span>
         </div>
 
         {!isLoading && <PaymentMethods arrayOfMethods={data?.payment_methods} />}
 
         {!isLoading && <SocialIcons socialMedia={data?.social_media} />}
 
-        {!isLoading && (
-          <InfoBox
-            title="Notre valeur ajoutée"
-            message={`${data?.additional_info_cafe[0].key}: ${data?.additional_info_cafe[0].value}`}
-          />
+        {data?.additional_info.map(
+          (info) =>
+            shouldDisplayInfo(info) && (
+              <InfoBox key={info.type} title={info.type} message={info.value} className="mt-6" />
+            )
         )}
 
         <OpeningHours openingHours={data?.opening_hours} />
@@ -89,7 +90,7 @@ const Cafe = () => {
       {categories.map((category) => (
         <Container key={category} className="py-10 border-t border-gray-200">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">{category}</h2>
-          <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
+          <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 items-start">
             {getItemByCategory(category).map((product) => (
               <ItemCard key={product.item_id} item={product} cafeId={id} />
             ))}
@@ -97,14 +98,6 @@ const Cafe = () => {
         </Container>
       ))}
 
-      <Container className="py-10 border-t border-gray-200">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Menu complet</h2>
-        <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
-          {data?.menu_items.map((product) => (
-            <ItemCard key={product.item_id} item={product} cafeId={id} />
-          ))}
-        </div>
-      </Container>
       <Container className="py-10 border-t border-gray-200">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nous contacter</h2>
         <ContactCafe contact={data?.contact} socialMedia={data?.social_media} />

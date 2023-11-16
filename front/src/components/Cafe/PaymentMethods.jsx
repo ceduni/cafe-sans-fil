@@ -3,11 +3,11 @@ import { BanknotesIcon, CreditCardIcon, EllipsisHorizontalCircleIcon } from "@he
 const PaymentMethods = ({ arrayOfMethods }) => {
   const iconClassName = "h-4 w-4 text-gray-500";
 
-  const text = { "Credit Card": "Carte de crédit", Cash: "Argent comptant", "Debit Card": "Carte de débit" };
   const icon = {
-    "Credit Card": <CreditCardIcon className={iconClassName} />,
-    Cash: <BanknotesIcon className={iconClassName} />,
-    "Debit Card": <CreditCardIcon className={iconClassName} />,
+    "Carte de crédit": <CreditCardIcon className={iconClassName} />,
+    Espèces: <BanknotesIcon className={iconClassName} />,
+    Chèque: <BanknotesIcon className={iconClassName} />,
+    "Carte de débit": <CreditCardIcon className={iconClassName} />,
   };
 
   return (
@@ -17,7 +17,7 @@ const PaymentMethods = ({ arrayOfMethods }) => {
           <div key={index} className="flex items-center gap-x-1">
             {icon[m.method] || <EllipsisHorizontalCircleIcon className={iconClassName} />}
             <p className="text-gray-500">
-              {text[m.method] || m.method} (min ${m.minimum})
+              {m.method} <span className="font-semibold">{m.minimum && `(min ${m.minimum} $)`}</span>
             </p>
           </div>
         ))}

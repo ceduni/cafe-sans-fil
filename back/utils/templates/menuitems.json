@@ -1,0 +1,320 @@
+[
+  {
+    "name": "LE MOZZA",
+    "tags": [
+      "Fromage fondu",
+      "Simple"
+    ],
+    "description": "Un grilled-cheese au fromage mozzarella",
+    "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.apartmenttherapy.info%2Fimage%2Ffetch%2Ff_auto%2Cq_auto%3Aeco%2Fhttps%3A%2F%2Fstorage.googleapis.com%2Fgen-atmedia%2F3%2F2018%2F04%2F649c960cb7640b740141678e4095261149e60693.jpeg&f=1&nofb=1&ipt=7cef0ce8e609c288f783b480e2cca2f67eab08617c8474db6eb34882be3db0c8&ipo=images",
+    "price": 2.0,
+    "is_available": true,
+    "category": "Grilled Cheese",
+    "options": [
+      {
+        "type": "extra",
+        "value": "tomate",
+        "fee": 0.25
+      }
+    ]
+  },
+  {
+    "name": "LE MARBRÉ",
+    "tags": [
+      "Fromage riche",
+      "Délicieux"
+    ],
+    "description": "Un grilled-cheese au fromage cheddar marbré",
+    "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pratico-pratiques.com%2Fapp%2Fuploads%2Fsites%2F3%2F2018%2F08%2F20200349%2Fgrilled-cheese-au-fromage-fume-et-poires.jpeg&f=1&nofb=1&ipt=b790e2e1944e960537314a397565b833f2c5f6e393c321946b4177bd12097dd8&ipo=images",
+    "price": 2.0,
+    "is_available": true,
+    "category": "Grilled Cheese",
+    "options": [
+      {
+        "type": "extra",
+        "value": "oignon",
+        "fee": 0.2
+      }
+    ]
+  },
+  {
+    "name": "LE BLANC",
+    "tags": [
+      "Classique",
+      "Savoureux"
+    ],
+    "description": "Un grilled-cheese au fromage cheddar blanc",
+    "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fjournalmetro.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fbouffe_grilled-cheese-cuisine-futecc81e.jpg%3Fw%3D860&f=1&nofb=1&ipt=fd507855439e4fbb3dd6b1703236881db1275a99cb96fa7ed40c3caf80a22f8b&ipo=images",
+    "price": 2.0,
+    "is_available": true,
+    "category": "Grilled Cheese",
+    "options": [
+      {
+        "type": "extra",
+        "value": "bacon",
+        "fee": 0.5
+      }
+    ]
+  },
+  {
+    "name": "LE BRIE",
+    "tags": [
+      "Gourmet",
+      "Raffiné"
+    ],
+    "description": "Un grilled-cheese au fromage brie",
+    "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F05%2F17%2F0e%2F05170ef438052d1a1efcf51e4c20db90.jpg&f=1&nofb=1&ipt=4dc8bcd9dcdb23ade0b398b06279dad6fbd72f18112799e72e68103f43566d49&ipo=images",
+    "price": 2.0,
+    "is_available": true,
+    "category": "Grilled Cheese",
+    "options": [
+      {
+        "type": "extra",
+        "value": "pomme",
+        "fee": 0.3
+      }
+    ]
+  },
+  {
+    "name": "Café régulier",
+    "tags": [
+      "Classique",
+      "Réveil"
+    ],
+    "description": "Verre jetable 0,25$",
+    "image_url": null,
+    "price": 0.75,
+    "is_available": true,
+    "category": "Boissons chaudes",
+    "options": [
+      {
+        "type": "taille",
+        "value": "grand",
+        "fee": 0.2
+      }
+    ]
+  },
+  {
+    "name": "Thé",
+    "tags": [
+      "Apaisant",
+      "Variété"
+    ],
+    "description": "0,75$",
+    "image_url": null,
+    "price": 0.75,
+    "is_available": true,
+    "category": "Boissons chaudes",
+    "options": [
+      {
+        "type": "parfum",
+        "value": "menthe",
+        "fee": 0
+      },
+      {
+        "type": "parfum",
+        "value": "camomille",
+        "fee": 0
+      }
+    ]
+  },
+  {
+    "name": "Espresso",
+    "tags": [
+      "Forte",
+      "Énergisant"
+    ],
+    "description": "1,50$",
+    "image_url": null,
+    "price": 1.5,
+    "is_available": true,
+    "category": "Boissons chaudes",
+    "options": []
+  },
+  {
+    "name": "Espresso Double",
+    "tags": [
+      "Double dose",
+      "Intense"
+    ],
+    "description": "2,00$",
+    "image_url": null,
+    "price": 2.0,
+    "is_available": true,
+    "category": "Boissons chaudes",
+    "options": []
+  },
+  {
+    "name": "Latte ou Cappucino",
+    "tags": [
+      "Onctueux",
+      "Délicat"
+    ],
+    "description": "3,00$",
+    "image_url": null,
+    "price": 3.0,
+    "is_available": true,
+    "category": "Boissons chaudes",
+    "options": [
+      {
+        "type": "sirop",
+        "value": "vanille",
+        "fee": 0.3
+      },
+      {
+        "type": "sirop",
+        "value": "caramel",
+        "fee": 0.3
+      }
+    ]
+  },
+  {
+    "name": "Chocolat chaud",
+    "tags": [
+      "Réconfortant",
+      "Doux"
+    ],
+    "description": "1,00$",
+    "image_url": null,
+    "price": 1.0,
+    "is_available": true,
+    "category": "Boissons chaudes",
+    "options": [
+      {
+        "type": "extra",
+        "value": "crème fouettée",
+        "fee": 0.2
+      }
+    ]
+  },
+  {
+    "name": "Arizona",
+    "tags": [
+      "Rafraîchissant",
+      "Fruité"
+    ],
+    "description": "Verre jetable 0,25$",
+    "image_url": null,
+    "price": 1.0,
+    "is_available": true,
+    "category": "Boissons froides",
+    "options": []
+  },
+  {
+    "name": "Coca-Cola",
+    "tags": [
+      "Classique",
+      "Pétillant"
+    ],
+    "description": "1,25$",
+    "image_url": null,
+    "price": 1.25,
+    "is_available": true,
+    "category": "Boissons froides",
+    "options": []
+  },
+  {
+    "name": "Jus V8",
+    "tags": [
+      "Nutritif",
+      "Naturel"
+    ],
+    "description": "1,25$",
+    "image_url": null,
+    "price": 1.25,
+    "is_available": true,
+    "category": "Boissons froides",
+    "options": []
+  },
+  {
+    "name": "Perrier",
+    "tags": [
+      "Pétillant",
+      "Rafraîchissant"
+    ],
+    "description": "1,50$",
+    "image_url": null,
+    "price": 1.5,
+    "is_available": true,
+    "category": "Boissons froides",
+    "options": []
+  },
+  {
+    "name": "Gomme",
+    "tags": [
+      "Sucré",
+      "Rafraîchissant"
+    ],
+    "description": "1,25$",
+    "image_url": null,
+    "price": 1.25,
+    "is_available": true,
+    "category": "Collations",
+    "options": []
+  },
+  {
+    "name": "Barre Spécial K",
+    "tags": [
+      "Léger",
+      "Nutritif"
+    ],
+    "description": "0,25$",
+    "image_url": null,
+    "price": 0.25,
+    "is_available": true,
+    "category": "Collations",
+    "options": []
+  },
+  {
+    "name": "Brookside",
+    "tags": [
+      "Fruité",
+      "Chocolaté"
+    ],
+    "description": "0,50$",
+    "image_url": null,
+    "price": 0.5,
+    "is_available": true,
+    "category": "Collations",
+    "options": []
+  },
+  {
+    "name": "Barre Val Nature",
+    "tags": [
+      "Naturel",
+      "Énergisant"
+    ],
+    "description": "1,00$",
+    "image_url": null,
+    "price": 1.0,
+    "is_available": true,
+    "category": "Collations",
+    "options": []
+  },
+  {
+    "name": "Barre Kirkland",
+    "tags": [
+      "Croustillant",
+      "Savoureux"
+    ],
+    "description": "0,50$",
+    "image_url": null,
+    "price": 0.5,
+    "is_available": true,
+    "category": "Collations",
+    "options": []
+  },
+  {
+    "name": "Barre de chocolat",
+    "tags": [
+      "Gourmand",
+      "Délice"
+    ],
+    "description": "Chocolat!!!",
+    "image_url": null,
+    "price": 1.5,
+    "is_available": true,
+    "category": "Collations",
+    "options": []
+  }
+]

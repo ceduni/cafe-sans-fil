@@ -1,8 +1,11 @@
 from typing import List, Optional
 from uuid import UUID, uuid4
 from beanie import Document, Indexed
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import field_validator, BaseModel, EmailStr, Field, validator
 from enum import Enum
+from datetime import datetime
+from decimal import Decimal
+from bson.decimal128 import Decimal128
 
 """
 This module defines the Pydantic-based models used in the Café application for cafe management,
@@ -14,6 +17,11 @@ Note: These models are intended for direct database interactions related to cafe
 different from the API data interchange models.
 """
 
+def convert_decimal128(value):
+    if isinstance(value, Decimal128):
+        return Decimal(value.to_decimal())
+    return Decimal(str(value))
+
 class TimeBlock(BaseModel):
     start: str  # HH:mm format
     end: str  # HH:mm format
@@ -22,52 +30,87 @@ class DayHours(BaseModel):
     day: str
     blocks: List[TimeBlock]
 
+class Location(BaseModel):
+    pavillon: Indexed(str)
+    local: Indexed(str)
+
 class Contact(BaseModel):
     email: Optional[EmailStr] = None 
     phone_number: Optional[str] = None 
     website: Optional[str] = None 
         
 class SocialMedia(BaseModel):
-    platform_name: Optional[str] = None 
-    link: Optional[str] = None 
+    platform_name: str
+    link: str
 
 class PaymentMethod(BaseModel):
     method: str
-    minimum: Optional[float] = None
+    minimum: Optional[Decimal] = None
+    
+    @field_validator('minimum', mode="before")
+    @classmethod
+    def format_minimum(cls, v):
+        if v is not None:
+            return convert_decimal128(v).quantize(Decimal('0.00'))
+        return v
+    
+class AdditionalInfo(BaseModel):
+    type: str
+    value: str
+    start: Optional[datetime] = None 
+    end: Optional[datetime] = None 
 
 class Role(str, Enum):
-    VOLUNTEER = "volunteer"
-    ADMIN = "admin"
+    VOLUNTEER = "Bénévole"
+    ADMIN = "Admin"
     
 class StaffMember(BaseModel):
     user_id: UUID
     role: Role
 
-class MenuItem(BaseModel):
-    item_id: UUID = Field(default_factory=uuid4, unique=True)
-    name: str
-    description: Optional[str] = None 
-    image_url: Optional[str] = None 
-    price: float
-    is_available: bool = False
-    category: Optional[str] = None 
-    additional_info_menu: List[dict]  # Example: [{"key": "size", "value": "large"}]
+class MenuItemOption(BaseModel):
+    type: str
+    value: str
+    fee: Decimal
 
-class Cafe(Document):
-    cafe_id: UUID = Field(default_factory=uuid4, unique=True)
-    name: Indexed(str)
-    description: Optional[str] = None 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
+    @validator('fee', pre=True, always=True)
+    def format_fee(cls, v):
+        return convert_decimal128(v).quantize(Decimal('0.00'))
+    
+class MenuItem(BaseModel):
+    item_id: UUID = Field(default_factory=uuid4)
+    name: Indexed(str, unique=True)
+    tags: List[str]
+    description: Indexed(str) 
     image_url: Optional[str] = None 
-    faculty: str
-    location: Indexed(str)
+    price: Decimal
+    is_available: bool = False
+    category: Indexed(str)
+    options: List[MenuItemOption]
+
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
+    @validator('price', pre=True, always=True)
+    def format_item_price(cls, v):
+        return convert_decimal128(v).quantize(Decimal('0.00'))
+    
+class Cafe(Document):
+    cafe_id: UUID = Field(default_factory=uuid4)
+    name: Indexed(str, unique=True)
+    description: Indexed(str)
+    image_url: Optional[str] = None 
+    faculty: Indexed(str)
     is_open: bool = False
     opening_hours: List[DayHours]
+    location: Location
     contact: Contact
     social_media: List[SocialMedia]
     payment_methods: List[PaymentMethod]
+    additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
     menu_items: List[MenuItem]
-    additional_info_cafe: List[dict]  # [{"key": "promo", "value": "10% off on Mondays"}]
-
+    
     class Settings:
         name = "cafes"

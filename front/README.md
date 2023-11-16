@@ -27,6 +27,19 @@
 
 ## Avancée du développement
 
+#### 2023-11-16
+
+- Corrections de bugs et améliorations UI
+- Affichage réel si café ouvert ou fermé en fonction de l'heure + execution filtres sur le front
+
+#### 2023-11-15
+
+- Adaptation du code pour la nouvelle version de l'API et de la base de données
+- Affichage des images et diverses améliorations et fix de bugs
+- Générer les filtres de pavillon en fonction des pavillons existants dans la base de données
+- Améliorations UI
+- Afficher les bannières d'info qui si on est dans leur période d'affichage
+
 #### 2023-11-14
 
 - Amélioration error handling

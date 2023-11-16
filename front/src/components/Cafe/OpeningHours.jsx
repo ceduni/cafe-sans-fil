@@ -1,47 +1,4 @@
-const OpeningHours = ({
-  openingHours = [
-    {
-      day: "lundi",
-      blocks: [
-        { start: "08:00", end: "12:00" },
-        { start: "14:00", end: "18:00" },
-      ],
-    },
-    {
-      day: "mardi",
-      blocks: [
-        { start: "08:00", end: "12:00" },
-        { start: "14:00", end: "18:00" },
-      ],
-    },
-    {
-      day: "mercredi",
-      blocks: [
-        { start: "08:00", end: "12:00" },
-        { start: "14:00", end: "18:00" },
-      ],
-    },
-    {
-      day: "jeudi",
-      blocks: [
-        { start: "08:00", end: "12:00" },
-        { start: "14:00", end: "18:00" },
-      ],
-    },
-    {
-      day: "vendredi",
-      blocks: [{ start: "08:00", end: "18:00" }],
-    },
-    {
-      day: "samedi",
-      blocks: [],
-    },
-    {
-      day: "dimanche",
-      blocks: [],
-    },
-  ],
-} = {}) => {
+const OpeningHours = ({ openingHours = [] } = {}) => {
   // Ce composant prend un objet de type
   // [{ "day": "string", "blocks": [{"start": "string (HH:mm format)", "end": "string (HH:mm format)" }] }]
   // et le transforme en une liste d'éléments HTML avec chaque jour et ses horaires.
@@ -49,7 +6,7 @@ const OpeningHours = ({
   return (
     <div className="mt-10">
       <h2 className="text-2xl font-bold tracking-tight text-gray-900">Horaires d'ouverture</h2>
-      <div className="mt-6 gap-4 md:gap-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-6 gap-4 md:gap-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {openingHours.map((day) => (
           <div key={day.day}>
             <h3 className="text-lg font-semibold text-gray-900 capitalize">{day.day}</h3>

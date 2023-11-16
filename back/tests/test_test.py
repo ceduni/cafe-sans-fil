@@ -1,11 +1,11 @@
 """
-Main application initialization for Café Sans Fil.
-Sets up FastAPI application, CORS middleware, and initializes the database connection.
+Tests
 """
 
 # FastAPI and middleware imports
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.testclient import TestClient
+import pytest
 
 # Database and Beanie initialization
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -28,7 +28,7 @@ async def lifespan(app: FastAPI):
     and the defined models (User, Cafe, Order).
     """
     
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME] 
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME+"test"] 
 
     await init_beanie(
         database=db_client,
@@ -40,19 +40,15 @@ async def lifespan(app: FastAPI):
     )
     yield
     
-app = FastAPI(
-    title=settings.PROJECT_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json",
-    lifespan=lifespan,
-    debug=True  
-)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-    
+app = FastAPI(lifespan=lifespan)    
 app.include_router(router, prefix=settings.API_V1_STR)
+
+
+@pytest.fixture(scope="module")
+def test_client():
+    with TestClient(app) as client:
+        yield client
+
+def test_list_cafes(test_client):
+    response = test_client.get("/api/cafes")
+    assert response.status_code == 200

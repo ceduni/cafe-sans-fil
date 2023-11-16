@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import OpenIndicator from "@/components/Cafe/OpenIndicator";
 import Card from "@/components/Card";
-import Badge from "@/components/Badge";
+import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
 
 const CafeCard = ({ cafe }) => {
   return (
@@ -9,13 +10,22 @@ const CafeCard = ({ cafe }) => {
       <Card>
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>
-          <Card.Header.Subtitle>{cafe.location}</Card.Header.Subtitle>
-          <OpenIndicator isOpen={cafe.is_open} size="xs" />
+          <Card.Header.Subtitle>{displayCafeLocation(cafe.location)}</Card.Header.Subtitle>
+          <OpenIndicator isOpen={cafe.is_open} openingHours={cafe.opening_hours} size="xs" />
         </Card.Header>
         <Card.Body>{cafe.description}</Card.Body>
-        <Card.Footer>
-          <Badge variant="info">{cafe.additional_info_cafe[0].value}</Badge>
-        </Card.Footer>
+        {cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
+          <Card.Footer>
+            <div
+              className="px-4 bg-sky-200 rounded-full flex lg:inline-flex items-center justify-between gap-2 w-fit max-w-full"
+              role="alert">
+              <span className="py-2 leading-none font-semibold text-xs text-gray-700">
+                {cafe.additional_info[0].value}
+              </span>
+              <ChevronRightIcon className="w-4 h-4 flex-shrink-0 opacity-75" />
+            </div>
+          </Card.Footer>
+        )}
       </Card>
     </Link>
   );

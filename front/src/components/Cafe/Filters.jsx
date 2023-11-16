@@ -3,29 +3,7 @@ import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 
-const sortOptions = [
-  { name: "Tous les pavillons", href: "#", current: true },
-  { name: "3200, Jean-Brillant", href: "#", current: false },
-  { name: "André-Aisenstadt", href: "#", current: false },
-  { name: "Campus MIL", href: "#", current: false },
-  { name: "Campus de Saint-Hyacinthe", href: "#", current: false },
-  { name: "Cepsum", href: "#", current: false },
-  { name: "Faculté de l'Aménagement", href: "#", current: false },
-  { name: "Faculté de Musique", href: "#", current: false },
-  { name: "Jean-Coutu", href: "#", current: false },
-  { name: "Liliane-de-Stewart", href: "#", current: false },
-  { name: "Lionel-Groulx", href: "#", current: false },
-  { name: "Marie-Victorin", href: "#", current: false },
-  { name: "Maximilien-Caron", href: "#", current: false },
-  { name: "Roger-Gaudry", href: "#", current: false },
-];
-
 const filterTypes = [
-  // {
-  //   id: "facts",
-  //   name: "Caractéristiques",
-  //   options: [{ value: "open", label: "Ouvert", checked: false }],
-  // },
   {
     id: "payement",
     name: "Mode de payement",
@@ -53,8 +31,31 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Filters = ({ filters, setFilters }) => {
+const Filters = ({ filters, setFilters, cafes }) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  const generatedSortOptions = cafes
+    ? [
+        { name: "Tous les pavillons" },
+        ...cafes
+          .map((cafe) => cafe.location.pavillon)
+          .filter((value, index, self) => self.indexOf(value) === index) // On retire les doublons
+          .sort()
+          .map((pavillon) => ({ name: pavillon })),
+      ]
+    : [];
+
+  const getShortPavillonName = (pavillon) => {
+    // Si le nom commence par Pavillon, on le retire
+    if (pavillon.startsWith("Pavillon ")) {
+      let shortPavillon = pavillon.slice(9);
+      // Si maintenant ça commence par "de la", on le retire aussi
+      if (shortPavillon.toLowerCase().startsWith("de la ")) {
+        return shortPavillon.slice(6);
+      }
+    }
+    return pavillon;
+  };
 
   return (
     <div className="bg-white">
@@ -162,14 +163,14 @@ const Filters = ({ filters, setFilters }) => {
                     onChange={(e) => setFilters({ ...filters, openOnly: e.target.checked })}
                   />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
-                  <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-700">Ouverts</span>
+                  <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-700">Ouvert</span>
                 </label>
               </div>
 
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    Pavillon
+                    {getShortPavillonName(filters.pavillon)}
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
@@ -187,18 +188,18 @@ const Filters = ({ filters, setFilters }) => {
                   leaveTo="transform opacity-0 scale-95">
                   <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none max-h-64 overflow-auto">
                     <div className="py-1">
-                      {sortOptions.map((option) => (
+                      {generatedSortOptions.map((option) => (
                         <Menu.Item key={option.name}>
                           {({ active }) => (
-                            <a
-                              href={option.href}
+                            <button
+                              onClick={() => setFilters({ ...filters, pavillon: option.name })}
                               className={classNames(
-                                option.current ? "font-medium text-gray-900" : "text-gray-500",
+                                filters.pavillon === option.name ? "font-medium text-gray-900" : "text-gray-500",
                                 active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm"
+                                "block px-4 py-2 text-sm w-full text-left"
                               )}>
                               {option.name}
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       ))}

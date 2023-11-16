@@ -28,26 +28,6 @@ class UserService:
         return user
     
     @staticmethod
-    async def authenticateByUsername(username: str, password: str) -> Optional[User]:
-        user = await UserService.get_user_by_username(username=username)
-        if not user:
-            return None
-        if not verify_password(password=password, hashed_pass=user.hashed_password):
-            return None
-        
-        return user
-    
-    @staticmethod
-    async def authenticateByEmail(email: str, password: str) -> Optional[User]:
-        user = await UserService.get_user_by_email(email=email)
-        if not user:
-            return None
-        if not verify_password(password=password, hashed_pass=user.hashed_password):
-            return None
-        
-        return user
-
-    @staticmethod
     async def get_user_by_email(email: str) -> Optional[User]:
         user = await User.find_one(User.email == email)
         return user
@@ -88,6 +68,7 @@ class UserService:
             hashed_password=get_password(user.password),
             first_name=user.first_name,
             last_name=user.last_name,
+            photo_url=user.photo_url
         )
         await user_in.insert()
         return user_in
@@ -99,6 +80,12 @@ class UserService:
     @staticmethod
     async def update_user(user_id: UUID, data: UserUpdate) -> User:
         user = await UserService.retrieve_user(user_id)
-        await user.update({"$set": data.model_dump(exclude_unset=True)})
+        update_data = data.model_dump(exclude_unset=True)
+
+        if 'password' in update_data:
+            update_data['hashed_password'] = get_password(update_data['password'])
+            del update_data['password']
+
+        await user.update({"$set": update_data})
         return user
 

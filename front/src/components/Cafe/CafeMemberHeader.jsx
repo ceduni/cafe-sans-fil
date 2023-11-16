@@ -16,8 +16,8 @@ const CafeMemberHeader = ({ cafe }) => {
   };
 
   const role = {
-    admin: "admin",
-    volunteer: "bénévole",
+    Admin: "admin",
+    Bénévole: "bénévole",
   }[getRole(cafe)];
 
   if (!role) {

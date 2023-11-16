@@ -1,5 +1,5 @@
 from decouple import config
-from pydantic_settings import BaseSettings
+from pydantic_settings import SettingsConfigDict, BaseSettings
 
 """
 This module defines the application's configuration settings using environment variables and default values.
@@ -18,8 +18,5 @@ class Settings(BaseSettings):
     # Database
     MONGO_CONNECTION_STRING: str = config("MONGO_CONNECTION_STRING", cast=str)
     MONGO_DB_NAME: str = config("MONGO_DB_NAME", cast=str)
-
-    class Config:
-        case_sensitive = True
-        
+    model_config = SettingsConfigDict(case_sensitive=True)
 settings = Settings()
