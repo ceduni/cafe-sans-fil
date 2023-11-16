@@ -46,8 +46,8 @@ const Cafe = () => {
         <CafeMemberHeader cafe={data} />
 
         <img
-          className="mb-6 rounded-lg shadow-xl object-cover h-52 md:h-96"
-          src={data?.image_url || "https://placehold.co/700x400?text=Photo+du+café"}
+          className="mb-6 rounded-lg shadow-xl object-cover md:h-96 w-full"
+          src={data?.image_url || "https://placehold.co/700x400?text=..."}
           alt={`Photo du café ${data?.name}`}
         />
 
