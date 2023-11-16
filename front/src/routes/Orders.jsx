@@ -5,6 +5,7 @@ import { getCafeFromId, getItemFromId } from "@/utils/getFromId";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
 import Badge from "@/components/Badge";
+import { formatPrice } from "@/utils/cart";
 
 function Orders() {
   const { user } = useAuth();
@@ -63,7 +64,6 @@ function Orders() {
           };
         })
       );
-      setIsLoading(false);
       return {
         ...order,
         cafe: cafe,
@@ -75,6 +75,12 @@ function Orders() {
       setFullOrders(data);
     });
   }, [orders]);
+
+  useEffect(() => {
+    if (fullOrders.length > 0) {
+      setIsLoading(false);
+    }
+  }, [fullOrders]);
 
   const getBadgeVariant = (status) => {
     switch (status) {
@@ -169,7 +175,9 @@ function Orders() {
                         </p>
                       </div>
                     </div>
-                    <p className="text-base font-semibold text-gray-900">{item.quantity * item.itemData.price} $</p>
+                    <p className="text-base font-semibold text-gray-900">
+                      {formatPrice(item.itemData.price * item.quantity)}&nbsp;$
+                    </p>
                   </div>
                 ))}
               </div>
