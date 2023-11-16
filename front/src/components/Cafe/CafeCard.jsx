@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import OpenIndicator from "@/components/Cafe/OpenIndicator";
 import Card from "@/components/Card";
 import Badge from "@/components/Badge";
+import { displayCafeLocation } from "@/utils/cafe";
 
 const CafeCard = ({ cafe }) => {
   return (
@@ -9,9 +10,7 @@ const CafeCard = ({ cafe }) => {
       <Card>
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>
-          <Card.Header.Subtitle>
-            {cafe.location.pavillon}, {cafe.location.local}
-          </Card.Header.Subtitle>
+          <Card.Header.Subtitle>{displayCafeLocation(cafe.location)}</Card.Header.Subtitle>
           <OpenIndicator isOpen={cafe.is_open} size="xs" />
         </Card.Header>
         <Card.Body>{cafe.description}</Card.Body>

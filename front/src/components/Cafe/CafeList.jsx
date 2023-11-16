@@ -17,7 +17,7 @@ const CafeList = () => {
 
   return (
     <>
-      <Filters filters={filters} setFilters={setFilters} />
+      <Filters filters={filters} setFilters={setFilters} cafes={data} />
 
       {data?.length === 0 && !isLoading && <EmptyState name="café" />}
 

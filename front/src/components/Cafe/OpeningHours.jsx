@@ -1,47 +1,4 @@
-const OpeningHours = ({
-  openingHours = [
-    {
-      day: "lundi",
-      blocks: [
-        { start: "08:00", end: "12:00" },
-        { start: "14:00", end: "18:00" },
-      ],
-    },
-    {
-      day: "mardi",
-      blocks: [
-        { start: "08:00", end: "12:00" },
-        { start: "14:00", end: "18:00" },
-      ],
-    },
-    {
-      day: "mercredi",
-      blocks: [
-        { start: "08:00", end: "12:00" },
-        { start: "14:00", end: "18:00" },
-      ],
-    },
-    {
-      day: "jeudi",
-      blocks: [
-        { start: "08:00", end: "12:00" },
-        { start: "14:00", end: "18:00" },
-      ],
-    },
-    {
-      day: "vendredi",
-      blocks: [{ start: "08:00", end: "18:00" }],
-    },
-    {
-      day: "samedi",
-      blocks: [],
-    },
-    {
-      day: "dimanche",
-      blocks: [],
-    },
-  ],
-} = {}) => {
+const OpeningHours = ({ openingHours = [] } = {}) => {
   // Ce composant prend un objet de type
   // [{ "day": "string", "blocks": [{"start": "string (HH:mm format)", "end": "string (HH:mm format)" }] }]
   // et le transforme en une liste d'éléments HTML avec chaque jour et ses horaires.

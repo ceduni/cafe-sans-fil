@@ -3,29 +3,7 @@ import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 
-const sortOptions = [
-  { name: "Tous les pavillons", href: "#", current: true },
-  { name: "3200, Jean-Brillant", href: "#", current: false },
-  { name: "André-Aisenstadt", href: "#", current: false },
-  { name: "Campus MIL", href: "#", current: false },
-  { name: "Campus de Saint-Hyacinthe", href: "#", current: false },
-  { name: "Cepsum", href: "#", current: false },
-  { name: "Faculté de l'Aménagement", href: "#", current: false },
-  { name: "Faculté de Musique", href: "#", current: false },
-  { name: "Jean-Coutu", href: "#", current: false },
-  { name: "Liliane-de-Stewart", href: "#", current: false },
-  { name: "Lionel-Groulx", href: "#", current: false },
-  { name: "Marie-Victorin", href: "#", current: false },
-  { name: "Maximilien-Caron", href: "#", current: false },
-  { name: "Roger-Gaudry", href: "#", current: false },
-];
-
 const filterTypes = [
-  // {
-  //   id: "facts",
-  //   name: "Caractéristiques",
-  //   options: [{ value: "open", label: "Ouvert", checked: false }],
-  // },
   {
     id: "payement",
     name: "Mode de payement",
@@ -53,8 +31,19 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Filters = ({ filters, setFilters }) => {
+const Filters = ({ filters, setFilters, cafes }) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  const generatedSortOptions = cafes
+    ? [
+        { name: "Tous les pavillons", current: true },
+        ...cafes
+          .map((cafe) => cafe.location.pavillon)
+          .filter((value, index, self) => self.indexOf(value) === index) // On retire les doublons
+          .sort()
+          .map((pavillon) => ({ name: pavillon, current: false })),
+      ]
+    : [];
 
   return (
     <div className="bg-white">
@@ -187,18 +176,17 @@ const Filters = ({ filters, setFilters }) => {
                   leaveTo="transform opacity-0 scale-95">
                   <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none max-h-64 overflow-auto">
                     <div className="py-1">
-                      {sortOptions.map((option) => (
+                      {generatedSortOptions.map((option) => (
                         <Menu.Item key={option.name}>
                           {({ active }) => (
-                            <a
-                              href={option.href}
+                            <button
                               className={classNames(
                                 option.current ? "font-medium text-gray-900" : "text-gray-500",
                                 active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm"
+                                "block px-4 py-2 text-sm w-full text-left"
                               )}>
                               {option.name}
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       ))}
