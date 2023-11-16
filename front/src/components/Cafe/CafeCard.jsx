@@ -11,7 +11,7 @@ const CafeCard = ({ cafe }) => {
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>
           <Card.Header.Subtitle>{displayCafeLocation(cafe.location)}</Card.Header.Subtitle>
-          <OpenIndicator isOpen={cafe.is_open} size="xs" />
+          <OpenIndicator isOpen={cafe.is_open} openingHours={cafe.opening_hours} size="xs" />
         </Card.Header>
         <Card.Body>{cafe.description}</Card.Body>
         {cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (

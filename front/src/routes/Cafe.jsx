@@ -55,7 +55,7 @@ const Cafe = () => {
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
         )}
 
-        <OpenIndicator isOpen={data?.is_open} />
+        <OpenIndicator isOpen={data?.is_open} openingHours={data?.opening_hours} />
 
         <div className="pb-3">
           {(data?.description && (

@@ -1,12 +1,14 @@
+import { isNowWithinOpeningHours } from "@/utils/cafe";
 import classNames from "classnames";
 
-const OpenIndicator = ({ isOpen, size = "sm" }) => {
-  const text = isOpen ? "Ouvert" : "Fermé";
+const OpenIndicator = ({ isOpen, openingHours, size = "sm" }) => {
+  const isActuallyOpen = isOpen && isNowWithinOpeningHours(openingHours);
+  const text = isActuallyOpen ? "Ouvert" : isOpen ? "Fermé" : "Fermé exceptionnellement";
 
   return (
     <div className={classNames("flex items-center gap-x-1.5", size === "sm" ? "py-3" : "mt-2")}>
-      <div className={classNames("flex-none rounded-full p-1", isOpen ? "bg-emerald-500/20" : "")}>
-        <div className={classNames("h-3 w-3 rounded-full", isOpen ? "bg-emerald-500" : "bg-red-500")} />
+      <div className={classNames("flex-none rounded-full p-1", isActuallyOpen ? "bg-emerald-500/20" : "")}>
+        <div className={classNames("h-3 w-3 rounded-full", isActuallyOpen ? "bg-emerald-500" : "bg-red-500")} />
       </div>
       <p
         className={classNames(

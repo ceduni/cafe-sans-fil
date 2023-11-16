@@ -16,3 +16,22 @@ export const shouldDisplayInfo = (object) => {
   const end = new Date(object.end);
   return object.value && start < now && now < end;
 };
+
+export const isNowWithinOpeningHours = (openingHours) => {
+  // Prend un objet de type
+  // [{ "day": "string", "blocks": [{"start": "string (HH:mm format)", "end": "string (HH:mm format)" }] }]
+  // et retourne true si on est dans les horaires d'ouverture.
+  if (!openingHours) return false;
+  const now = new Date();
+  const today = now.toLocaleString("fr-CA", { weekday: "long" });
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const time = hours + ":" + minutes;
+  // On cherche le jour actuel dans les horaires d'ouverture
+  const currentDay = openingHours.find((day) => day.day.toLowerCase() === today.toLowerCase());
+  if (!currentDay) return false;
+  // On cherche le bloc horaire actuel dans les horaires d'ouverture
+  const currentBlock = currentDay.blocks.find((block) => block.start <= time && time <= block.end);
+  // Si on trouve un bloc horaire, on retourne true
+  return currentBlock ? true : false;
+};
