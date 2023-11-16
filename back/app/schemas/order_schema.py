@@ -2,7 +2,8 @@ from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel
 from datetime import datetime
-from enum import Enum
+from decimal import Decimal
+from app.models.order_model import *
 
 """
 This module defines the Pydantic-based schemas for order operations in the Café application. 
@@ -11,23 +12,6 @@ and documentation specific to orders.
 
 Note: These models are for API data interchange related to orders and not direct database models.
 """
-
-class OrderedItemOption(BaseModel):
-    type: str
-    value: str
-    fee: float
-
-class OrderedItem(BaseModel):
-    item_id: UUID
-    quantity: int
-    item_price: float
-    options: List[OrderedItemOption]
-    
-class OrderStatus(str, Enum):
-    PLACED = "Placée"
-    READY = "Prête"
-    COMPLETED = "Complétée"
-    CANCELLED = "Annulée"
 
 # --------------------------------------
 #               Order
@@ -104,7 +88,7 @@ class OrderOut(BaseModel):
     user_id: UUID
     cafe_id: UUID
     items: List[OrderedItem]
-    total_price: float
+    total_price: Decimal
     status: OrderStatus
     created_at: datetime
     updated_at: datetime

@@ -1,8 +1,9 @@
 from typing import List, Optional
 from uuid import UUID
-from pydantic import BaseModel, EmailStr, Field
-from enum import Enum
+from pydantic import BaseModel, Field
 from datetime import datetime, timedelta
+from decimal import Decimal
+from app.models.cafe_model import *
 
 """
 This module defines the Pydantic-based schemas for cafe operations in the Café application. 
@@ -11,50 +12,6 @@ and documentation specific to cafe listings, details, and management.
 
 Note: These models are for API data interchange related to cafes and not direct database models.
 """
-
-class TimeBlock(BaseModel):
-    start: str  # HH:mm format
-    end: str  # HH:mm format
-
-class DayHours(BaseModel):
-    day: str
-    blocks: List[TimeBlock]
-
-class Location(BaseModel):
-    pavillon: str
-    local: str
-
-class Contact(BaseModel):
-    email: Optional[EmailStr] = None 
-    phone_number: Optional[str] = None 
-    website: Optional[str] = None 
-        
-class SocialMedia(BaseModel):
-    platform_name: str
-    link: str
-
-class PaymentMethod(BaseModel):
-    method: str
-    minimum: Optional[float] = None
-
-class AdditionalInfo(BaseModel):
-    type: str
-    value: str
-    start: Optional[datetime] = None 
-    end: Optional[datetime] = None 
-
-class Role(str, Enum):
-    VOLUNTEER = "Bénévole"
-    ADMIN = "Admin"
-    
-class StaffMember(BaseModel):
-    user_id: UUID
-    role: Role
-
-class MenuItemOption(BaseModel):
-    type: str
-    value: str
-    fee: float
 
 # --------------------------------------
 #               Menu
@@ -65,7 +22,7 @@ class MenuItemCreate(BaseModel):
     tags: List[str]
     description: str = Field(..., title='Title', max_length=755, min_length=1)
     image_url: Optional[str] = Field(None, title='Title', max_length=755, min_length=1)
-    price: float = Field(..., title='Title')
+    price: Decimal = Field(..., title='Title')
     is_available: bool
     category: str = Field(None, title='Title', max_length=55, min_length=1)
     options: List[MenuItemOption]
@@ -95,7 +52,7 @@ class MenuItemUpdate(BaseModel):
     tags: Optional[List[str]] = None
     description: Optional[str] = Field(None, title='Title', max_length=755, min_length=1)
     image_url: Optional[str] = Field(None, title='Title', max_length=755, min_length=1)
-    price: Optional[float] = Field(None, title='Title')
+    price: Optional[Decimal] = Field(None, title='Title')
     is_available: Optional[bool] = None
     category: Optional[str] = Field(None, title='Title', max_length=55, min_length=1)
     options: Optional[List[MenuItemOption]] = None
@@ -123,7 +80,7 @@ class MenuItemOut(BaseModel):
     tags: List[str]
     description: str
     image_url: Optional[str] = None
-    price: float
+    price: Decimal
     is_available: bool
     category: str
     options: List[MenuItemOption]

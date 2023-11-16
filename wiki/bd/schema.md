@@ -8,15 +8,15 @@ Ce document présente la structure de notre BD MongoDB.
 
 ```json
 {
-  "user_id": "UUID (unique)",
-  "email": "string (unique, indexed)",
-  "matricule": "string (unique, indexed)",
-  "username": "string (unique, indexed)",
-  "hashed_password": "string",
-  "first_name": "string (indexed)",
-  "last_name": "string (indexed)",
-  "photo_url": "string (optional)",
-  "is_disabled": "boolean (optional)"
+  "user_id": "Binary (UUID unique)",
+  "email": "String (unique, indexed)",
+  "matricule": "String (unique, indexed)",
+  "username": "String (unique, indexed)",
+  "hashed_password": "String",
+  "first_name": "String (indexed)",
+  "last_name": "String (indexed)",
+  "photo_url": "String (optional)",
+  "is_disabled": "Boolean (optional)"
 }
 ```
 
@@ -26,73 +26,73 @@ Ce document présente la structure de notre BD MongoDB.
 
 ```json
 {
-  "cafe_id": "UUID (unique)",
-  "name": "string (unique, indexed)",
-  "description": "string (indexed)",
-  "image_url": "string (optional)",
-  "faculty": "string (indexed)",
-  "is_open": "boolean",
+  "cafe_id": "Binary (UUID unique)",
+  "name": "String (unique, indexed)",
+  "description": "String (indexed)",
+  "image_url": "String (optional)",
+  "faculty": "String (indexed)",
+  "is_open": "Boolean",
   "opening_hours": [
       {
-          "day": "string",
+          "day": "String",
           "blocks": [
               {
-                  "start": "string (HH:mm format)",
-                  "end": "string (HH:mm format)"
+                  "start": "String (HH:mm format)",
+                  "end": "String (HH:mm format)"
               }
           ]
       }
   ],
   "location": {
-      "pavillon": "string (indexed)",
-      "local": "string (indexed)"
+      "pavillon": "String (indexed)",
+      "local": "String (indexed)"
   },
   "contact": {
-      "email": "string (optional, email format)",
-      "phone_number": "string (optional)",
-      "website": "string (optional)"
+      "email": "String (optional, email format)",
+      "phone_number": "String (optional)",
+      "website": "String (optional)"
   },
   "social_media": [
       {
-          "platform_name": "string",
-          "link": "string"
+          "platform_name": "String",
+          "link": "String"
       }
   ],
   "payment_methods": [
       {
-          "method": "string",
-          "minimum": "double (optional)"
+          "method": "String",
+          "minimum": "Decimal128 (optional)"
       }
   ],
   "additional_info": [
       {
-          "type": "string",
-          "value": "string",
+          "type": "String",
+          "value": "String",
           "start": "Date (optional)",
           "end": "Date (optional)"
       }
   ],
   "staff": [
       {
-          "user_id": "UUID",
-          "role": "string (Enum values: 'Bénévole', 'Admin')"
+          "user_id": "Binary (UUID)",
+          "role": "String (Enum values: 'Bénévole', 'Admin')"
       }
   ],
   "menu_items": [
       {
-          "item_id": "UUID (unique)",
-          "name": "string (unique, indexed)",
-          "tags": ["string"],
-          "description": "string (indexed)",
-          "image_url": "string (optional)",
-          "price": "double",
-          "is_available": "boolean",
-          "category": "string (indexed)",
+          "item_id": "Binary (UUID unique)",
+          "name": "String (unique, indexed)",
+          "tags": ["String"],
+          "description": "String (indexed)",
+          "image_url": "String (optional)",
+          "price": "Decimal128",
+          "is_available": "Boolean",
+          "category": "String (indexed)",
           "options": [
               {
-                  "type": "string",
-                  "value": "string",
-                  "fee": "double"
+                  "type": "String",
+                  "value": "String",
+                  "fee": "Decimal128"
               }
           ]
       }
@@ -106,27 +106,27 @@ Ce document présente la structure de notre BD MongoDB.
 
 ```json
 {
-  "order_id": "UUID (unique)",
-  "user_id": "UUID",
-  "cafe_id": "UUID",
+  "order_id": "Binary (UUID unique)",
+  "user_id": "Binary (UUID)",
+  "cafe_id": "Binary (UUID)",
   "items": [
     {
-      "item_id": "UUID",
-      "quantity": "int",
-      "item_price": "double",
+      "item_id": "Binary (UUID)",
+      "quantity": "Int32",
+      "item_price": "Decimal128",
       "options": [
         {
-          "type": "string",
-          "value": "string",
-          "fee": "double"
+          "type": "String",
+          "value": "String",
+          "fee": "Decimal128"
         }
       ]
     }
   ],
-  "total_price": "double",
-  "status": "string (Enum values: 'Placée', 'Prête', 'Complétée', 'Annulée')",
-  "created_at": "datetime",
-  "updated_at": "datetime"
+  "total_price": "Decimal128",
+  "status": "String (Enum values: 'Placée', 'Prête', 'Complétée', 'Annulée')",
+  "created_at": "Date",
+  "updated_at": "Date"
 }
 ```
 

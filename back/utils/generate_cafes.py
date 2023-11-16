@@ -14,7 +14,7 @@ async def create_cafes(user_ids):
     with open("./utils/menuitems.json", "r", encoding="utf-8") as file:
         menu_items_data = json.load(file)
         for item in menu_items_data:
-            item["is_available"] = random.random() < 0.8
+            item["is_available"] = random.random() < 0.80
 
     for cafe_info in tqdm(cafes_data, desc="Creating cafes"):
         cafe = Cafe(

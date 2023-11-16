@@ -27,7 +27,7 @@ class UserAuth(BaseModel):
         json_schema_extra = {
             "example": {
                 "email": "john.doe@example.com",
-                "matricule": "M123456",
+                "matricule": "JD12345",
                 "username": "johndoe",
                 "password": "password123",
                 "first_name": "John",
@@ -50,7 +50,7 @@ class UserUpdate(BaseModel):
         json_schema_extra = {
             "example": {
                 "email": "john.doe@example.com",
-                "matricule": "M123456",
+                "matricule": "JD12345",
                 "username": "johndoe",
                 "password": "password123",
                 "first_name": "John",
@@ -75,7 +75,7 @@ class UserOut(BaseModel):
             "example": {
                 "user_id": "123e4567-e89b-12d3-a456-426614174000",
                 "email": "john.doe@example.com",
-                "matricule": "M123456",
+                "matricule": "JD12345",
                 "username": "johndoe",
                 "first_name": "John",
                 "last_name": "Doe",

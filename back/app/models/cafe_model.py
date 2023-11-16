@@ -1,9 +1,11 @@
 from typing import List, Optional
 from uuid import UUID, uuid4
 from beanie import Document, Indexed
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, validator
 from enum import Enum
 from datetime import datetime
+from decimal import Decimal
+from bson.decimal128 import Decimal128
 
 """
 This module defines the Pydantic-based models used in the Café application for cafe management,
@@ -14,6 +16,11 @@ and constraints of the cafe-related data stored in the database.
 Note: These models are intended for direct database interactions related to cafes and are 
 different from the API data interchange models.
 """
+
+def convert_decimal128(value):
+    if isinstance(value, Decimal128):
+        return Decimal(value.to_decimal())
+    return Decimal(str(value))
 
 class TimeBlock(BaseModel):
     start: str  # HH:mm format
@@ -38,8 +45,14 @@ class SocialMedia(BaseModel):
 
 class PaymentMethod(BaseModel):
     method: str
-    minimum: Optional[float] = None
-
+    minimum: Optional[Decimal] = None
+    
+    @validator('minimum', pre=True, allow_reuse=True)
+    def format_minimum(cls, v):
+        if v is not None:
+            return convert_decimal128(v).quantize(Decimal('0.00'))
+        return v
+    
 class AdditionalInfo(BaseModel):
     type: str
     value: str
@@ -57,19 +70,27 @@ class StaffMember(BaseModel):
 class MenuItemOption(BaseModel):
     type: str
     value: str
-    fee: float
+    fee: Decimal
 
+    @validator('fee', pre=True, always=True)
+    def format_fee(cls, v):
+        return convert_decimal128(v).quantize(Decimal('0.00'))
+    
 class MenuItem(BaseModel):
     item_id: UUID = Field(default_factory=uuid4, unique=True)
     name: Indexed(str, unique=True)
     tags: List[str]
     description: Indexed(str) 
     image_url: Optional[str] = None 
-    price: Indexed(float)
+    price: Decimal
     is_available: bool = False
     category: Indexed(str)
     options: List[MenuItemOption]
 
+    @validator('price', pre=True, always=True)
+    def format_item_price(cls, v):
+        return convert_decimal128(v).quantize(Decimal('0.00'))
+    
 class Cafe(Document):
     cafe_id: UUID = Field(default_factory=uuid4, unique=True)
     name: Indexed(str, unique=True)
@@ -85,6 +106,6 @@ class Cafe(Document):
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
     menu_items: List[MenuItem]
-
+    
     class Settings:
         name = "cafes"
