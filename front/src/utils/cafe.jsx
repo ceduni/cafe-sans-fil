@@ -17,7 +17,7 @@ export const shouldDisplayInfo = (object) => {
   return object.value && start < now && now < end;
 };
 
-export const isNowWithinOpeningHours = (openingHours) => {
+const isNowWithinOpeningHours = (openingHours) => {
   // Prend un objet de type
   // [{ "day": "string", "blocks": [{"start": "string (HH:mm format)", "end": "string (HH:mm format)" }] }]
   // et retourne true si on est dans les horaires d'ouverture.
@@ -34,4 +34,8 @@ export const isNowWithinOpeningHours = (openingHours) => {
   const currentBlock = currentDay.blocks.find((block) => block.start <= time && time <= block.end);
   // Si on trouve un bloc horaire, on retourne true
   return currentBlock ? true : false;
+};
+
+export const isCafeActuallyOpen = (isOpen, openingHours) => {
+  return isOpen && isNowWithinOpeningHours(openingHours);
 };

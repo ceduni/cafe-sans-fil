@@ -3,6 +3,7 @@ import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import Filters from "@/components/Cafe/Filters";
 import { useEffect, useState } from "react";
+import { isCafeActuallyOpen } from "@/utils/cafe";
 
 const CafeList = ({ setStoredCafes }) => {
   const [filters, setFilters] = useState({
@@ -10,7 +11,7 @@ const CafeList = ({ setStoredCafes }) => {
     pavillon: "Tous les pavillons",
   });
 
-  const [data, isLoading, error] = useApi("/cafes" + (filters.openOnly ? "?is_open=true" : ""));
+  const [data, isLoading, error] = useApi("/cafes");
 
   useEffect(() => {
     setStoredCafes(data);
@@ -21,9 +22,13 @@ const CafeList = ({ setStoredCafes }) => {
   }
 
   const filteredData =
-    filters.pavillon === "Tous les pavillons"
-      ? data
-      : data.filter((cafe) => cafe.location.pavillon === filters.pavillon);
+    (data &&
+      data.filter(
+        (cafe) =>
+          (filters.openOnly ? isCafeActuallyOpen(cafe.is_open, cafe.opening_hours) : true) &&
+          (filters.pavillon === "Tous les pavillons" || cafe.location.pavillon === filters.pavillon)
+      )) ||
+    [];
 
   return (
     <>

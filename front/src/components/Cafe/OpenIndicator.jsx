@@ -1,8 +1,8 @@
-import { isNowWithinOpeningHours } from "@/utils/cafe";
+import { isCafeActuallyOpen } from "@/utils/cafe";
 import classNames from "classnames";
 
 const OpenIndicator = ({ isOpen, openingHours, size = "sm" }) => {
-  const isActuallyOpen = isOpen && isNowWithinOpeningHours(openingHours);
+  const isActuallyOpen = isCafeActuallyOpen(isOpen, openingHours);
   const text = isActuallyOpen ? "Ouvert" : isOpen ? "Fermé" : "Fermé exceptionnellement";
 
   return (
