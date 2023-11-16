@@ -8,13 +8,13 @@ random.seed(42)
 async def create_cafes(user_ids):
     cafe_menu_items_ids_dict = {}
 
-    # Load real information about cafes and dummy template menu items
-    with open("./utils/cafes_udem.json", "r", encoding="utf-8") as file:
+    # Load templates
+    with open("./utils/templates/cafes_udem.json", "r", encoding="utf-8") as file:
         cafes_data = json.load(file)
-    with open("./utils/menuitems.json", "r", encoding="utf-8") as file:
+    with open("./utils/templates/menuitems.json", "r", encoding="utf-8") as file:
         menu_items_data = json.load(file)
         for item in menu_items_data:
-            item["is_available"] = random.random() < 0.80
+            item["is_available"] = random.random() < 0.80 # Chance of is_available
 
     for cafe_info in tqdm(cafes_data, desc="Creating cafes"):
         cafe = Cafe(
@@ -22,14 +22,14 @@ async def create_cafes(user_ids):
             description=cafe_info["description"],
             image_url=cafe_info["image_url"],
             faculty=cafe_info["faculty"],
-            is_open=random.random() < 0.8,
-            opening_hours=generate_random_opening_hours(),
+            is_open=random.random() < 0.80, # Chance of is_open
+            opening_hours=random_opening_hours(),
             location=Location(**cafe_info["location"]),
             contact=Contact(**cafe_info["contact"]),
             social_media=[SocialMedia(**media) for media in cafe_info["social_media"]],
-            additional_info=generate_random_additional_info(),
-            payment_methods=generate_random_payment_methods(),
-            staff=generate_staff_members(user_ids),
+            additional_info=random_additional_info(),
+            payment_methods=random_payment_methods(),
+            staff=random_staff_members(user_ids),
             menu_items=[MenuItem(**item) for item in menu_items_data]
         )
         await cafe.insert()
@@ -37,12 +37,12 @@ async def create_cafes(user_ids):
 
     return cafe_menu_items_ids_dict
 
-def generate_random_opening_hours():
+def random_opening_hours():
     days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"]
     opening_hours = []
 
     for day in days:
-        # Randomly choose if 2 blocks or not
+        # Randomly choose 2 blocks or not
         has_break = random.choice([True, False])
         morning_start_hour = random.randint(8, 10)
         morning_start = f"{morning_start_hour:02d}:00"
@@ -64,7 +64,7 @@ def generate_random_opening_hours():
 
     return opening_hours
 
-def generate_random_payment_methods():
+def random_payment_methods():
     methods = ["Carte de débit", "Carte de crédit", "Espèces", "Chèque"]
     # Randomly choose methods
     selected_methods_count = random.randint(1, len(methods))
@@ -76,7 +76,7 @@ def generate_random_payment_methods():
         payment_methods.append(PaymentMethod(method=method, minimum=minimum))
     return payment_methods
 
-def generate_staff_members(user_ids):
+def random_staff_members(user_ids):
     staff_members = []
     # Randomly choose how many
     num_admins = random.randint(1, 6)
@@ -89,7 +89,7 @@ def generate_staff_members(user_ids):
         staff_members.append(StaffMember(user_id=user_id, role=Role.VOLUNTEER))
     return staff_members
 
-def generate_random_additional_info():
+def random_additional_info():
     today = datetime.now()
     info_types = [
         "Événement spécial", "Fermeture temporaire", "Promotion", "Atelier", "Nouveau produit"

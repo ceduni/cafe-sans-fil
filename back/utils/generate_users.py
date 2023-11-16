@@ -14,18 +14,18 @@ async def create_users(num_users):
     for _ in tqdm(range(num_users), desc="Creating users"):
         while True:
             try:
+                email=fake.email()
+                matricule=fake.bothify(text='??#####').lower()
+                username=fake.user_name()
                 first_name = fake.first_name()
                 last_name = fake.last_name()
-                photo_url = None
-                if random.random() <= 0.2:
-                    photo_url = fake.image_url(width=200, height=200)
+                photo_url = fake.image_url(width=200, height=200) if random.random() <= 0.2 else None
 
                 user_data = UserAuth(
-                    email=fake.email(),
-                    matricule=fake.bothify(text='??#####').lower(),
-                    # matricule = fake.bothify(text='########'),
-                    username=fake.user_name(),
-                    password=first_name + last_name, # For testing
+                    email=email,
+                    matricule=matricule,
+                    username=username,
+                    password=first_name + last_name, # Password is first_name+last_name for testing
                     first_name=first_name,
                     last_name=last_name,
                     photo_url=photo_url
@@ -34,11 +34,10 @@ async def create_users(num_users):
                 user = await UserService.create_user(user_data)
                 user_ids.append(user.user_id)
                 break
-
             except pymongo.errors.DuplicateKeyError:
                 continue
     
-    # Update one user to be cafesansfil
+    # Update one User to be cafesansfil
     cafesansfil_user = {
         "email": "keanu@johnwick.com",
         "matricule": "JW12345",

@@ -12,7 +12,7 @@ async def create_orders(user_ids, cafe_menu_items):
             cafe_id, menu_items = random.choice(list(cafe_menu_items.items()))
             items = []
             status = random.choice(list(OrderStatus))
-            created_at, updated_at = get_order_timestamps(status)
+            created_at, updated_at = random_timestamps(status)
 
             # Random items
             for _ in range(random.randint(1, 5)):
@@ -44,7 +44,7 @@ async def create_orders(user_ids, cafe_menu_items):
             )
             await order.insert()
 
-def get_order_timestamps(status):
+def random_timestamps(status):
     if status == OrderStatus.PLACED:
         created_at = random_minutes_ago(0, 20)
         updated_at = created_at
