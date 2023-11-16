@@ -77,7 +77,7 @@ const Cafe = () => {
 
         {!isLoading && <SocialIcons socialMedia={data?.social_media} />}
 
-        {data?.additional_info.map(
+        {data?.additional_info?.map(
           (info) =>
             shouldDisplayInfo(info) && (
               <InfoBox key={info.type} title={info.type} message={info.value} className="mt-6" />
