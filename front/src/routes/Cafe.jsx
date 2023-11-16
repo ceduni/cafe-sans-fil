@@ -99,14 +99,6 @@ const Cafe = () => {
       ))}
 
       <Container className="py-10 border-t border-gray-200">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Menu complet</h2>
-        <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 items-start">
-          {data?.menu_items.map((product) => (
-            <ItemCard key={product.item_id} item={product} cafeId={id} />
-          ))}
-        </div>
-      </Container>
-      <Container className="py-10 border-t border-gray-200">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nous contacter</h2>
         <ContactCafe contact={data?.contact} socialMedia={data?.social_media} />
       </Container>
