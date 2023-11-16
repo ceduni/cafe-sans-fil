@@ -2,15 +2,19 @@ import useApi from "@/hooks/useApi";
 import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import Filters from "@/components/Cafe/Filters";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const CafeList = () => {
+const CafeList = ({ setStoredCafes }) => {
   const [filters, setFilters] = useState({
     openOnly: false,
     pavillon: "Tous les pavillons",
   });
 
   const [data, isLoading, error] = useApi("/cafes" + (filters.openOnly ? "?is_open=true" : ""));
+
+  useEffect(() => {
+    setStoredCafes(data);
+  }, [data]);
 
   if (error) {
     return <EmptyState type="error" error={error} />;
