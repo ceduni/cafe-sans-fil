@@ -36,12 +36,12 @@ const Filters = ({ filters, setFilters, cafes }) => {
 
   const generatedSortOptions = cafes
     ? [
-        { name: "Tous les pavillons", current: true },
+        { name: "Tous les pavillons" },
         ...cafes
           .map((cafe) => cafe.location.pavillon)
           .filter((value, index, self) => self.indexOf(value) === index) // On retire les doublons
           .sort()
-          .map((pavillon) => ({ name: pavillon, current: false })),
+          .map((pavillon) => ({ name: pavillon })),
       ]
     : [];
 
@@ -180,8 +180,9 @@ const Filters = ({ filters, setFilters, cafes }) => {
                         <Menu.Item key={option.name}>
                           {({ active }) => (
                             <button
+                              onClick={() => setFilters({ ...filters, pavillon: option.name })}
                               className={classNames(
-                                option.current ? "font-medium text-gray-900" : "text-gray-500",
+                                filters.pavillon === option.name ? "font-medium text-gray-900" : "text-gray-500",
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm w-full text-left"
                               )}>
