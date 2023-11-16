@@ -12,7 +12,7 @@ import { Helmet } from "react-helmet-async";
 import PaymentMethods from "@/components/Cafe/PaymentMethods";
 import { ContactCafe, SocialIcons } from "@/components/Cafe/ContactCafe";
 import { MapPinIcon } from "@heroicons/react/24/solid";
-import { displayCafeLocation } from "@/utils/cafe";
+import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
 
 const Cafe = () => {
   const { id } = useParams();
@@ -77,8 +77,11 @@ const Cafe = () => {
 
         {!isLoading && <SocialIcons socialMedia={data?.social_media} />}
 
-        {!isLoading && data?.additional_info[0] && (
-          <InfoBox title={data?.additional_info[0].type} message={data?.additional_info[0].value} />
+        {data?.additional_info.map(
+          (info) =>
+            shouldDisplayInfo(info) && (
+              <InfoBox key={info.type} title={info.type} message={info.value} className="mt-6" />
+            )
         )}
 
         <OpeningHours openingHours={data?.opening_hours} />

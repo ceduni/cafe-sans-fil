@@ -138,6 +138,7 @@ const OrderConfirmation = () => {
             <InfoBox
               title="Attention"
               message="Vous aurez une heure pour aller récupérer votre commande. Au delà de ce délai, elle sera annulée."
+              className="mt-4"
             />
           </div>
         </div>
