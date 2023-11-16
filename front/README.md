@@ -30,7 +30,7 @@
 #### 2023-11-16
 
 - Corrections de bugs et améliorations UI
-- Affichage réel si café ouvert ou fermé en fonction de l'heure
+- Affichage réel si café ouvert ou fermé en fonction de l'heure + execution filtres sur le front
 
 #### 2023-11-15
 
