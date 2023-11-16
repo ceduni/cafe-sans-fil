@@ -17,7 +17,7 @@ const PaymentMethods = ({ arrayOfMethods }) => {
           <div key={index} className="flex items-center gap-x-1">
             {icon[m.method] || <EllipsisHorizontalCircleIcon className={iconClassName} />}
             <p className="text-gray-500">
-              {m.method} {m.minimum && `(min ${m.minimum} $)`}
+              {m.method} <span className="font-semibold">{m.minimum && `(min ${m.minimum} $)`}</span>
             </p>
           </div>
         ))}

@@ -68,7 +68,7 @@ const Cafe = () => {
           )}
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center mb-1">
           <MapPinIcon className="inline-block w-5 h-5 text-gray-500" />
           <span className="ml-1 text-gray-500">{displayCafeLocation(data?.location)}</span>
         </div>
