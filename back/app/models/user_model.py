@@ -14,7 +14,7 @@ different from the API data interchange models.
 """
 
 class User(Document):
-    user_id: UUID = Field(default_factory=uuid4, unique=True)
+    user_id: UUID = Field(default_factory=uuid4)
     email: Indexed(EmailStr, unique=True)
     matricule: Indexed(str, unique=True)
     username: Indexed(str, unique=True)

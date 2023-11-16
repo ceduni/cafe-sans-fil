@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request, Query, Depends
+from fastapi import APIRouter, HTTPException, Request, Depends
 from app.schemas.cafe_schema import CafeOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate, Role
 from app.services.cafe_service import CafeService
 from uuid import UUID

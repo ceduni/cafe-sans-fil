@@ -16,11 +16,11 @@ from utils.generate_orders import create_orders
 
 async def main():
     # Initialize Beanie
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME]
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME+"test"]
     await init_beanie(database=db_client, document_models=[User, Cafe, Order])
 
     # Generate all 
-    user_ids = await create_users(30) # Must have minimum 30 Users to always have enough Staff
+    user_ids = await create_users(26) # Must have minimum 26 Users to always have enough Staff
     cafe_menu_items_ids_dict = await create_cafes(user_ids)
     await create_orders(user_ids, cafe_menu_items_ids_dict)
 

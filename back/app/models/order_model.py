@@ -26,6 +26,8 @@ class OrderedItemOption(BaseModel):
     value: str
     fee: Decimal
 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
     @validator('fee', pre=True, always=True)
     def format_fee(cls, v):
         return convert_decimal128(v).quantize(Decimal('0.00'))
@@ -36,6 +38,8 @@ class OrderedItem(BaseModel):
     item_price: Decimal
     options: List[OrderedItemOption]
 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
     @validator('item_price', pre=True, always=True)
     def format_item_price(cls, v):
         return convert_decimal128(v).quantize(Decimal('0.00'))
@@ -47,7 +51,7 @@ class OrderStatus(str, Enum):
     CANCELLED = "Annulée"
 
 class Order(Document):
-    order_id: UUID = Field(default_factory=uuid4, unique=True)
+    order_id: UUID = Field(default_factory=uuid4)
     user_id: UUID
     cafe_id: UUID
     items: List[OrderedItem]
@@ -56,6 +60,8 @@ class Order(Document):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
     @validator('total_price', pre=True, always=True)
     def format_total_price(cls, v):
         return convert_decimal128(v).quantize(Decimal('0.00'))

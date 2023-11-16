@@ -1,7 +1,7 @@
 from typing import List, Optional
 from uuid import UUID, uuid4
 from beanie import Document, Indexed
-from pydantic import BaseModel, EmailStr, Field, validator
+from pydantic import field_validator, BaseModel, EmailStr, Field, validator
 from enum import Enum
 from datetime import datetime
 from decimal import Decimal
@@ -47,7 +47,8 @@ class PaymentMethod(BaseModel):
     method: str
     minimum: Optional[Decimal] = None
     
-    @validator('minimum', pre=True, allow_reuse=True)
+    @field_validator('minimum', mode="before")
+    @classmethod
     def format_minimum(cls, v):
         if v is not None:
             return convert_decimal128(v).quantize(Decimal('0.00'))
@@ -72,12 +73,14 @@ class MenuItemOption(BaseModel):
     value: str
     fee: Decimal
 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
     @validator('fee', pre=True, always=True)
     def format_fee(cls, v):
         return convert_decimal128(v).quantize(Decimal('0.00'))
     
 class MenuItem(BaseModel):
-    item_id: UUID = Field(default_factory=uuid4, unique=True)
+    item_id: UUID = Field(default_factory=uuid4)
     name: Indexed(str, unique=True)
     tags: List[str]
     description: Indexed(str) 
@@ -87,12 +90,14 @@ class MenuItem(BaseModel):
     category: Indexed(str)
     options: List[MenuItemOption]
 
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
     @validator('price', pre=True, always=True)
     def format_item_price(cls, v):
         return convert_decimal128(v).quantize(Decimal('0.00'))
     
 class Cafe(Document):
-    cafe_id: UUID = Field(default_factory=uuid4, unique=True)
+    cafe_id: UUID = Field(default_factory=uuid4)
     name: Indexed(str, unique=True)
     description: Indexed(str)
     image_url: Optional[str] = None 
