@@ -1,5 +1,5 @@
 export const displayCafeLocation = (location) => {
-  if (!location) return "";
+  if (!location || !location.pavillon) return "";
   const fullLocation = location.pavillon + ", " + location.local;
   return fullLocation;
 };

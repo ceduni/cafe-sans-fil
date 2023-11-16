@@ -6,6 +6,7 @@ import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
 import Badge from "@/components/Badge";
 import { formatPrice } from "@/utils/cart";
+import { formatDate } from "@/utils/orders";
 
 function Orders() {
   const { user } = useAuth();
@@ -33,10 +34,7 @@ function Orders() {
   useEffect(() => {
     const fullOrders = orders.map(async (order) => {
       // On formate la date
-      order.created_at = new Intl.DateTimeFormat("fr-FR", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date(order.created_at));
+      order.created_at = formatDate(order.created_at);
 
       // On récupère les données du café
       let cafe = await getCafeFromId(order.cafe_id);
