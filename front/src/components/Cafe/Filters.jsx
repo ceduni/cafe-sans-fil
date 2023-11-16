@@ -45,6 +45,18 @@ const Filters = ({ filters, setFilters, cafes }) => {
       ]
     : [];
 
+  const getShortPavillonName = (pavillon) => {
+    // Si le nom commence par Pavillon, on le retire
+    if (pavillon.startsWith("Pavillon ")) {
+      let shortPavillon = pavillon.slice(9);
+      // Si maintenant ça commence par "de la", on le retire aussi
+      if (shortPavillon.toLowerCase().startsWith("de la ")) {
+        return shortPavillon.slice(6);
+      }
+    }
+    return pavillon;
+  };
+
   return (
     <div className="bg-white">
       <div>
@@ -151,14 +163,14 @@ const Filters = ({ filters, setFilters, cafes }) => {
                     onChange={(e) => setFilters({ ...filters, openOnly: e.target.checked })}
                   />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
-                  <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-700">Ouverts</span>
+                  <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-700">Ouvert</span>
                 </label>
               </div>
 
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    Pavillon
+                    {getShortPavillonName(filters.pavillon)}
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
