@@ -11,10 +11,10 @@ const CafeCard = ({ cafe }) => {
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>
           <Card.Header.Subtitle>{displayCafeLocation(cafe.location)}</Card.Header.Subtitle>
-          <OpenIndicator isOpen={cafe.is_open} size="xs" />
+          <OpenIndicator isOpen={cafe.is_open} openingHours={cafe.opening_hours} size="xs" />
         </Card.Header>
         <Card.Body>{cafe.description}</Card.Body>
-        {cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
+        {cafe.additional_info && cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
           <Card.Footer>
             <div
               className="px-4 bg-sky-200 rounded-full flex lg:inline-flex items-center justify-between gap-2 w-fit max-w-full"

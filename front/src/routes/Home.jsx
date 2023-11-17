@@ -9,6 +9,8 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const isSearching = searchQuery.length > 0;
 
+  const [storedCafes, setStoredCafes] = useState([]);
+
   return (
     <>
       <Helmet>
@@ -19,7 +21,11 @@ const Home = () => {
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </Container>
       <main>
-        <Container>{(!isSearching && <CafeList />) || <SearchResults searchQuery={searchQuery} />}</Container>
+        <Container>
+          {(!isSearching && <CafeList setStoredCafes={setStoredCafes} />) || (
+            <SearchResults searchQuery={searchQuery} storedCafes={storedCafes} />
+          )}
+        </Container>
       </main>
     </>
   );

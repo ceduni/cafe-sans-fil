@@ -5,6 +5,8 @@ import { getCafeFromId, getItemFromId } from "@/utils/getFromId";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
 import Badge from "@/components/Badge";
+import { formatPrice } from "@/utils/cart";
+import { formatDate } from "@/utils/orders";
 
 function Orders() {
   const { user } = useAuth();
@@ -32,10 +34,7 @@ function Orders() {
   useEffect(() => {
     const fullOrders = orders.map(async (order) => {
       // On formate la date
-      order.created_at = new Intl.DateTimeFormat("fr-FR", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date(order.created_at));
+      order.created_at = formatDate(order.created_at);
 
       // On récupère les données du café
       let cafe = await getCafeFromId(order.cafe_id);
@@ -63,7 +62,6 @@ function Orders() {
           };
         })
       );
-      setIsLoading(false);
       return {
         ...order,
         cafe: cafe,
@@ -75,6 +73,12 @@ function Orders() {
       setFullOrders(data);
     });
   }, [orders]);
+
+  useEffect(() => {
+    if (fullOrders.length > 0) {
+      setIsLoading(false);
+    }
+  }, [fullOrders]);
 
   const getBadgeVariant = (status) => {
     switch (status) {
@@ -169,7 +173,9 @@ function Orders() {
                         </p>
                       </div>
                     </div>
-                    <p className="text-base font-semibold text-gray-900">{item.quantity * item.itemData.price} $</p>
+                    <p className="text-base font-semibold text-gray-900">
+                      {formatPrice(item.itemData.price * item.quantity)}&nbsp;$
+                    </p>
                   </div>
                 ))}
               </div>

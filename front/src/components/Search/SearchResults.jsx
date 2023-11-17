@@ -1,24 +1,17 @@
-import useApi from "@/hooks/useApi";
 import EmptyState from "@/components/EmptyState";
-import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
+import { CafeCard } from "@/components/Cafe/CafeCard";
 
-const SearchResults = ({ searchQuery }) => {
-  const [data, isLoading, error] = useApi(`/search?query=${searchQuery}`);
-  const cafes = data?.matching_cafes || [];
+const SearchResults = ({ searchQuery, storedCafes }) => {
+  // Pour l'instant, on fait la recherche dans les cafés déjà chargés au lieu de
+  // faire une requête au serveur.
 
-  if (error) {
-    return <EmptyState type="error" error={error} />;
-  }
+  // const [data, isLoading, error] = useApi(`/search?query=${searchQuery}`);
 
-  if (isLoading) {
-    return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6 animate-pulse duration-100">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <CafeCardLoading key={i} />
-        ))}
-      </div>
-    );
-  }
+  const cafes = storedCafes.filter(
+    (cafe) =>
+      cafe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      cafe.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (cafes?.length === 0) {
     return <EmptyState name="café" />;
