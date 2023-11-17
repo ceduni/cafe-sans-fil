@@ -3,7 +3,7 @@ from uuid import UUID
 from pydantic import ConfigDict, BaseModel, Field
 from datetime import datetime, timedelta
 from decimal import Decimal
-from app.models.cafe_model import DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, Role, StaffMember, MenuItemOption
+from app.models.cafe_model import DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, StaffMember, MenuItemOption
 
 """
 This module defines the Pydantic-based schemas for cafe operations in the Café application. 
@@ -186,6 +186,7 @@ class CafeCreate(BaseModel):
             ]
         }
     })
+    
 class CafeUpdate(BaseModel):
     name: Optional[str] = Field(None, title='Title', max_length=55, min_length=1)
     description: Optional[str] = Field(None, title='Title', max_length=755, min_length=1)

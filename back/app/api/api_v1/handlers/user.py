@@ -26,7 +26,10 @@ async def list_users(request: Request, current_user: User = Depends(get_current_
 async def get_user(user_id: UUID, current_user: User = Depends(get_current_user)):
     user = await UserService.retrieve_user(user_id)
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
     return user
 
 @user_router.post("/users", response_model=UserOut)
@@ -35,20 +38,24 @@ async def create_user(user: UserAuth):
         return await UserService.create_user(user)
     except pymongo.errors.DuplicateKeyError:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_409_CONFLICT,
             detail="User with this email or matricule or username already exists"
         )
 
 @user_router.put("/users/{user_id}", response_model=UserOut)
 async def update_user(user_id: UUID, user_data: UserUpdate, current_user: User = Depends(get_current_user)):
-    try:
-        # Authorization check
-        if user_id != current_user.user_id:
-            raise HTTPException(status_code=403, detail="Access forbidden")
-
-        return await UserService.update_user(user_id, user_data)
-    except pymongo.errors.OperationFailure:
+    user = await UserService.retrieve_user(user_id)
+    if not user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Update operation failed"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
         )
+    
+    # Authorization check
+    if user_id != current_user.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden"
+        )
+
+    return await UserService.update_user(user_id, user_data)

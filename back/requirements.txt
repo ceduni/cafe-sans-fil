@@ -12,3 +12,6 @@ python-multipart
 bcrypt
 faker
 tqdm
+pytest
+httpx
+bump-pydantic

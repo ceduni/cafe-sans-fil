@@ -37,15 +37,15 @@ async def create_users(num_users):
             except pymongo.errors.DuplicateKeyError:
                 continue
     
-    # Update one User to be cafesansfil
+    # Update the first User to be cafesansfil
     cafesansfil_user = {
-        "email": "keanu@johnwick.com",
-        "matricule": "JW12345",
+        "email": "spider@man.com",
+        "matricule": "SM12345",
         "username": "cafesansfil",
         "password": "cafesansfil",
-        "first_name": "Keanu",
-        "last_name": "Reeves",
-        "photo_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.dreshare.com%2Fwp-content%2Fuploads%2F2019%2F11%2FKeanu-Reeves-300x275.jpg&f=1&nofb=1&ipt=7f7c2f67827bd70578e888fbdba4d77fabc59fb2cb489f35b5854d6b74d3c81e&ipo=images"
+        "first_name": "Tom",
+        "last_name": "Holland",
+        "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
     }
     await UserService.update_user(user_ids[0], UserAuth(**cafesansfil_user))
     

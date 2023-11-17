@@ -22,7 +22,7 @@ class User(Document):
     first_name: Indexed(str)
     last_name: Indexed(str)
     photo_url: Optional[str] = None
-    is_disabled: Optional[bool] = None
+    active: bool = True
 
     @classmethod
     async def by_email(self, email: str) -> "User":

@@ -5,11 +5,25 @@ import random
 random.seed(42)
 
 async def create_orders(user_ids, cafe_menu_items):
-    for _ in tqdm(range(len(user_ids)), desc="Creating orders"):
-        # Radom orders per user
-        for _ in range(random.randint(0, 15)): 
-            user_id = random.choice(user_ids)
-            cafe_id, menu_items = random.choice(list(cafe_menu_items.items()))
+    cafe_items_list = list(cafe_menu_items.items())
+
+    for i in tqdm(range(len(user_ids)), desc="Creating orders"):
+        # Minimum 2 Orders for cafesansfil (For Test)
+        minimum = 2 + 1 if i == 0 else 0 
+
+        for index in range(random.randint(minimum, 15)): 
+            user_id = user_ids[i]
+            # First Order is related to first cafe (For Test)
+            if index == 0:
+                cafe_id, menu_items = cafe_items_list[0]
+            # Second Order is not related to cafesansfil in any way (For Test)
+            elif index == 1:
+                user_id = random.choice(user_ids[1:])
+                cafe_id, menu_items = cafe_items_list[-1]
+            # Other Orders are random
+            else:
+                cafe_id, menu_items = random.choice(cafe_items_list)
+
             items = []
             status = random.choice(list(OrderStatus))
             created_at, updated_at = random_timestamps(status)

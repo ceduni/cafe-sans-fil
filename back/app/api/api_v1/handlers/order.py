@@ -1,12 +1,12 @@
-from fastapi import APIRouter, HTTPException, Request, Depends
+from fastapi import APIRouter, HTTPException, status, Request, Depends
 from app.schemas.order_schema import OrderCreate, OrderUpdate, OrderOut
 from app.services.order_service import OrderService
 from uuid import UUID
 from typing import List
 from app.models.user_model import User
+from app.models.cafe_model import Role
 from app.api.deps.user_deps import get_current_user
 from app.services.cafe_service import CafeService
-from app.schemas.cafe_schema import Role
 
 """
 This module defines the API routes related to the ordering system of the application.
@@ -28,18 +28,30 @@ async def get_order(order_id: UUID, current_user: User = Depends(get_current_use
     try:
         order = await OrderService.retrieve_order(order_id)
         if not order:
-            raise HTTPException(status_code=404, detail="Order not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Order not found"
+            )
 
         # Authorization check
         if order.user_id != current_user.user_id and not await CafeService.is_authorized_for_cafe_action(order.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]):
-            raise HTTPException(status_code=403, detail="Access forbidden")
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access forbidden"
+            )
 
         return order
     except ValueError as e:
         if str(e) == "Cafe not found":
-            raise HTTPException(status_code=404, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e)
+            )
         elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=403, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=str(e)
+            )
 
 @order_router.post("/orders", response_model=OrderOut)
 async def create_order(order: OrderCreate, current_user: User = Depends(get_current_user)):
@@ -50,7 +62,10 @@ async def update_order(order_id: UUID, orderUpdate: OrderUpdate, current_user: U
     try:
         order = await OrderService.retrieve_order(order_id)
         if not order:
-            raise HTTPException(status_code=404, detail="Order not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, 
+                detail="Order not found"
+            )
 
         # Authorization check
         if order.user_id != current_user.user_id and not await CafeService.is_authorized_for_cafe_action(order.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]):
@@ -59,15 +74,24 @@ async def update_order(order_id: UUID, orderUpdate: OrderUpdate, current_user: U
         return await OrderService.update_order(order_id, orderUpdate)
     except ValueError as e:
         if str(e) == "Cafe not found":
-            raise HTTPException(status_code=404, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e)
+            )
         elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=403, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=str(e)
+            )
 
 @order_router.get("/users/{user_id}/orders", response_model=List[OrderOut])
 async def list_user_orders(user_id: UUID, request: Request, current_user: User = Depends(get_current_user)):
     # Authorization check
     if user_id != current_user.user_id:
-        raise HTTPException(status_code=403, detail="Access forbidden")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden"
+        )
     filters = dict(request.query_params)
     return await OrderService.list_orders_for_user(user_id, **filters)
 
@@ -76,12 +100,21 @@ async def list_cafe_orders(cafe_id: UUID, request: Request, current_user: User =
     try:
         # Authorization check
         if not await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]):
-            raise HTTPException(status_code=403, detail="Access forbidden")
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access forbidden"
+            )
 
         filters = dict(request.query_params)
         return await OrderService.list_orders_for_cafe(cafe_id, **filters)
     except ValueError as e:
         if str(e) == "Cafe not found":
-            raise HTTPException(status_code=404, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e)
+            )
         elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=403, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=str(e)
+            )

@@ -42,7 +42,7 @@ class UserUpdate(BaseModel):
     first_name: Optional[str] = Field(None, min_length=1, max_length=50, description="first name")
     last_name: Optional[str] = Field(None, min_length=1, max_length=50, description="last name")
     photo_url: Optional[str] = Field(None, min_length=1, max_length=755, description="photo url")
-    is_disabled: Optional[bool] = Field(None, description="is disabled")
+    active: Optional[bool] = Field(None, description="is disabled")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "email": "john.doe@example.com",
@@ -52,7 +52,7 @@ class UserUpdate(BaseModel):
             "first_name": "John",
             "last_name": "Doe",
             "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
-            "is_disabled": False
+            "active": True
         }
     })
 
@@ -64,7 +64,7 @@ class UserOut(BaseModel):
     first_name: str
     last_name: str
     photo_url: Optional[str] = None
-    is_disabled: Optional[bool] = None
+    active: bool
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "user_id": "123e4567-e89b-12d3-a456-426614174000",
@@ -74,6 +74,6 @@ class UserOut(BaseModel):
             "first_name": "John",
             "last_name": "Doe",
             "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
-            "is_disabled": False
+            "active": True
         }
     })

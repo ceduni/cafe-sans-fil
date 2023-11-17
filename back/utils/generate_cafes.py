@@ -16,7 +16,19 @@ async def create_cafes(user_ids):
         for item in menu_items_data:
             item["is_available"] = random.random() < 0.80 # Chance of is_available
 
-    for cafe_info in tqdm(cafes_data, desc="Creating cafes"):
+    for index, cafe_info in enumerate(tqdm(cafes_data, desc="Creating cafes")):
+        # Make cafesansfil Admin in First Cafe (For Test)
+        if index == 0:
+            staff = random_staff_members(user_ids, first_user_admin=True)
+        # Don't make cafesansfil a Staff in second and last Cafe (For Test)
+        elif index == 1:
+            staff = random_staff_members(user_ids, exclude_first_user=True)
+        elif index == len(cafes_data) - 1:
+            staff = random_staff_members(user_ids, exclude_first_user=True)
+        # Randomly choose staff
+        else:
+            staff = random_staff_members(user_ids)
+
         cafe = Cafe(
             name=cafe_info["name"],
             description=cafe_info["description"],
@@ -29,7 +41,7 @@ async def create_cafes(user_ids):
             social_media=[SocialMedia(**media) for media in cafe_info["social_media"]],
             additional_info=random_additional_info(),
             payment_methods=random_payment_methods(),
-            staff=random_staff_members(user_ids),
+            staff=staff,
             menu_items=[MenuItem(**item) for item in menu_items_data]
         )
         await cafe.insert()
@@ -65,7 +77,7 @@ def random_opening_hours():
     return opening_hours
 
 def random_payment_methods():
-    methods = ["Carte de débit", "Carte de crédit", "Espèces", "Chèque"]
+    methods = ["Carte de débit", "Carte de crédit", "Argent comptant"]
     # Randomly choose methods
     selected_methods_count = random.randint(1, len(methods))
     selected_methods = random.sample(methods, selected_methods_count)
@@ -76,12 +88,23 @@ def random_payment_methods():
         payment_methods.append(PaymentMethod(method=method, minimum=minimum))
     return payment_methods
 
-def random_staff_members(user_ids):
+def random_staff_members(user_ids, first_user_admin=False, exclude_first_user=False):
     staff_members = []
+    selected_users = user_ids.copy()
+
+    # Always choose first User cafesansfil as admin (For Test)
+    if first_user_admin:
+        staff_members.append(StaffMember(user_id=user_ids[0], role=Role.ADMIN))
+        selected_users = selected_users[1:]
+
+    # Never choose first User cafesansfil (For Test)
+    if exclude_first_user:
+        selected_users = selected_users[1:]
+
     # Randomly choose how many
-    num_admins = random.randint(1, 6)
+    num_admins = random.randint(1, 6) - len(staff_members)
     num_volunteers = random.randint(12, 20)
-    selected_users = random.sample(user_ids, num_admins + num_volunteers)
+    selected_users = random.sample(selected_users, num_admins + num_volunteers)
 
     for user_id in selected_users[:num_admins]:
         staff_members.append(StaffMember(user_id=user_id, role=Role.ADMIN))

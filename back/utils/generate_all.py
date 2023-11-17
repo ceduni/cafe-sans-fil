@@ -16,7 +16,7 @@ from utils.generate_orders import create_orders
 
 async def main():
     # Initialize Beanie
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME+"test"]
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME + "test"]
     await init_beanie(database=db_client, document_models=[User, Cafe, Order])
 
     # Generate all 

@@ -1,9 +1,8 @@
 from typing import List
 from uuid import UUID
-from app.models.cafe_model import Cafe, MenuItem
-from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate, Role
+from app.models.cafe_model import Cafe, MenuItem, Role
+from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate
 from app.models.user_model import User
-from typing import Union
 
 class CafeService:
     """
@@ -168,12 +167,7 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def is_authorized_for_cafe_action(cafe_id: UUID, current_user: User, required_roles: Union[Role, List[Role]]):
-
-        # If only one role is provided, convert to a list
-        if isinstance(required_roles, Role):
-            required_roles = [required_roles]
-
+    async def is_authorized_for_cafe_action(cafe_id: UUID, current_user: User, required_roles: List[Role]):
         cafe = await Cafe.find_one({"cafe_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
