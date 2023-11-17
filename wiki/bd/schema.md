@@ -16,7 +16,7 @@ Ce document présente la structure de notre BD MongoDB.
   "first_name": "String (indexed)",
   "last_name": "String (indexed)",
   "photo_url": "String (optional)",
-  "active": "Boolean"
+  "is_active": "Boolean"
 }
 ```
 

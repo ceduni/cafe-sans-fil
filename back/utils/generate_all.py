@@ -10,13 +10,17 @@ from app.models.cafe_model import Cafe
 from app.models.order_model import Order
 
 # Utils
-from utils.generate_users import create_users
-from utils.generate_cafes import create_cafes
-from utils.generate_orders import create_orders
+from utils.generate_user import create_users
+from utils.generate_cafe import create_cafes
+from utils.generate_order import create_orders
 
 async def main():
-    # Initialize Beanie
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME + "test"]
+    MONGO_DB_NAME = settings.MONGO_DB_NAME
+    
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
+    db_client.drop_database(MONGO_DB_NAME)
+
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[MONGO_DB_NAME]
     await init_beanie(database=db_client, document_models=[User, Cafe, Order])
 
     # Generate all 

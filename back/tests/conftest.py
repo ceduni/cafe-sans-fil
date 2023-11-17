@@ -19,15 +19,7 @@ Conftest file for pytest.
 @asynccontextmanager
 async def lifespan(app: FastAPI):    
     db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME + "test"] 
-
-    await init_beanie(
-        database=db_client,
-        document_models=[
-            User,
-            Cafe,
-            Order
-        ]
-    )
+    await init_beanie(database=db_client, document_models=[User, Cafe, Order])
     yield
 
 app = FastAPI(lifespan=lifespan)    
@@ -40,7 +32,7 @@ def client():
         yield client
         # db_client.drop_database(settings.MONGO_DB_NAME + "test")
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def auth_login(client):
     login_data = {
         "username": "cafesansfil",
@@ -49,12 +41,12 @@ def auth_login(client):
     response = client.post("/api/auth/login", data=login_data)
     return response.json()
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def list_cafes(client):
     response = client.get("/api/cafes")
     return response.json()
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def list_orders(client, auth_login):
     tokens = auth_login
     headers = {
@@ -63,7 +55,7 @@ def list_orders(client, auth_login):
     response = client.get("/api/orders", headers=headers)
     return response.json()
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def list_users(client, auth_login):
     tokens = auth_login
     headers = {

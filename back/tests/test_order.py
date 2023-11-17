@@ -1,7 +1,7 @@
 import pytest
 import random
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def order_data():
     return {
             "user_id": "123e4567-e89b-12d3-a456-426614174001",
@@ -28,7 +28,7 @@ def order_data():
             ],
     }
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def order_data2():
     return {
             "items": [

@@ -2,7 +2,7 @@ import pytest
 from faker import Faker
 fake = Faker('fr_CA')
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def cafe_data():
     return {
             "name": fake.company(),
@@ -74,7 +74,7 @@ def cafe_data():
             ]
     }
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def cafe_data2():
     return {
             "additional_info": [

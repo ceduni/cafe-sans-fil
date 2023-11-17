@@ -6,6 +6,7 @@ Sets up FastAPI application, CORS middleware, and initializes the database conne
 # FastAPI and middleware imports
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
 # Database and Beanie initialization
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -17,7 +18,6 @@ from app.api.api_v1.router import router
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.models.order_model import Order
-from contextlib import asynccontextmanager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

@@ -2,7 +2,7 @@ import pytest
 from faker import Faker
 fake = Faker('fr_CA')
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def user_data():
     first_name = fake.first_name()
     last_name = fake.last_name()
@@ -17,7 +17,7 @@ def user_data():
             "photo_url": fake.image_url(width=200, height=200)
     }
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def user_data_cafesansfil():
     return {
         "email": "spider@man.com",

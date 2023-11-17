@@ -11,10 +11,10 @@ async def create_cafes(user_ids):
     # Load templates
     with open("./utils/templates/cafes_udem.json", "r", encoding="utf-8") as file:
         cafes_data = json.load(file)
-    with open("./utils/templates/menuitems.json", "r", encoding="utf-8") as file:
+    with open("./utils/templates/menu_items.json", "r", encoding="utf-8") as file:
         menu_items_data = json.load(file)
         for item in menu_items_data:
-            item["is_available"] = random.random() < 0.80 # Chance of is_available
+            item["is_available"] = random.random() < 0.80 # chance of is_available
 
     for index, cafe_info in enumerate(tqdm(cafes_data, desc="Creating cafes")):
         # Make cafesansfil Admin in First Cafe (For Test)
@@ -34,7 +34,7 @@ async def create_cafes(user_ids):
             description=cafe_info["description"],
             image_url=cafe_info["image_url"],
             faculty=cafe_info["faculty"],
-            is_open=random.random() < 0.80, # Chance of is_open
+            is_open=random.random() < 0.80, # chance of is_open
             opening_hours=random_opening_hours(),
             location=Location(**cafe_info["location"]),
             contact=Contact(**cafe_info["contact"]),
