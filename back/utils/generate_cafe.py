@@ -9,7 +9,7 @@ async def create_cafes(user_ids):
     cafe_menu_items_ids_dict = {}
 
     # Load templates
-    with open("./utils/templates/cafes_udem.json", "r", encoding="utf-8") as file:
+    with open("./utils/templates/cafes_updated.json", "r", encoding="utf-8") as file:
         cafes_data = json.load(file)
     with open("./utils/templates/menu_items.json", "r", encoding="utf-8") as file:
         menu_items_data = json.load(file)

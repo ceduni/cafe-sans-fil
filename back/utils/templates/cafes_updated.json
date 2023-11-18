@@ -1,0 +1,441 @@
+[
+    {
+        "name": "Acquis de droit",
+        "description": "Sandwichs maisons pr\u00e9par\u00e9s sur place. Succulents bagels au saumon fum\u00e9. De nombreux choix v\u00e9g\u00e9. Carte de fid\u00e9lit\u00e9 disponible. Baby-foot. Ouvert l'\u00e9t\u00e9.",
+        "image_url": "https://mc2m.coop/wp-content/uploads/2019/08/68792581_342420560044698_4994271053636173824_n.jpg",
+        "faculty": "DROIT",
+        "location": {
+            "pavillon": "Pavillon MAXIMILIEN-CARON",
+            "local": "local A-2470"
+        },
+        "contact": {
+            "email": "jeremy.dinh@droit.coop",
+            "phone_number": "(514)-998-9008",
+            "website": "https://www.droit.coop/fr/nav/Cafe.html"
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/cafe.acquis.de.droit"
+            },
+            {
+                "platform_name": "Instagram",
+                "link": "https://www.instagram.com/cafeacquis/?hl=fr"
+            }
+        ]
+    },
+    {
+        "name": "CafCom",
+        "description": "Caf\u00e9 intime. Grilled cheese maison.",
+        "image_url": "https://images.squarespace-cdn.com/content/v1/555a739fe4b049f671d98f7a/1452120387622-R4MQ35337MN1NOS6Z77O/cafcombanniere.jpg",
+        "faculty": "COMMUNICATION",
+        "location": {
+            "pavillon": "Pavillon MARIE-VICTORIN",
+            "local": "local D-266"
+        },
+        "contact": {
+            "email": "cafcom@aecum.ca",
+            "phone_number": "(514)-123-4567",
+            "website": "http://www.aecum.ca/cafcom"
+        },
+        "social_media": [
+            {
+                "platform_name": "Twitter",
+                "link": "https://twitter.com/cafcom"
+            }
+        ]
+    },
+    {
+        "name": "Caf\u00e9 Anthropologie",
+        "description": "Caf\u00e9 accueillant et chaleureux, prix abordables.",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/308429981_623861805995973_1509617819167451579_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=FBX1yHYMh7sAX_234_e&_nc_ht=scontent.fymq2-1.fna&oh=00_AfDl7pUZ9G14pk-iCpjv7rSnusEXPbm8EO_YOyNuWTP3cA&oe=655D0AAE",
+        "faculty": "ANTHROPOLOGIE",
+        "location": {
+            "pavillon": "Pavillon LIONEL-GROULX",
+            "local": "local C-3029"
+        },
+        "contact": {
+            "email": "cafedanthropo@gmail.com",
+            "phone_number": "(514)-123-5678",
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/search/top?q=caf%C3%A9%20anthropologie"
+            },
+            {
+                "platform_name": "Instagram",
+                "link": "https://www.instagram.com/caf%C3%A9-anthropologie-udm-167230620307/?hl=fr"
+            }
+        ]
+    },
+    {
+        "name": "Caf\u00e9 Beagel",
+        "description": "Caf\u00e9s, bagels et jeux de soci\u00e9t\u00e9",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/299186732_761384488371538_8611822889450470596_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=glmSE9_cleAAX-6LaId&_nc_ht=scontent.fymq2-1.fna&oh=00_AfC2KYiGCCN0cXTZFczZfhYlh3FIUoQfcqbOp7tdzTd8-w&oe=655DAE30",
+        "faculty": "M\u00c9DECINE V\u00c9T\u00c9RINAIRE",
+        "location": {
+            "pavillon": "Campus DE SAINT-HYACINTHE",
+            "local": "local 0140"
+        },
+        "contact": {
+            "email": "cafebeagel@gmail.com",
+            "phone_number": "(514)-814-3535",
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/CafeBeagel/"
+            }
+        ]
+    },
+    {
+        "name": "Caf\u00e9 nutri-bar",
+        "description": "Menu majoritairement sant\u00e9. Seul service alimentaire du Pavillon.",
+        "image_url": "https://scontent-lga3-2.xx.fbcdn.net/v/t1.6435-9/28951256_2091875894376337_2309155756143804416_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=be3454&_nc_ohc=8wxO4qByNgQAX8jh_Rc&_nc_oc=AQkFD1pYX8T_QTrgif8DmmuwcmOov7za7o6l7RoHBUtKhrjm_5cJ4vJNAT-E3Hko4_c&_nc_ht=scontent-lga3-2.xx&oh=00_AfBUrnFKWIwiZRQ4vrClO5BiJ9sHgv7KmV4ryx4FLLDRXA&oe=658050DB",
+        "faculty": "SCIENCES INFIRMI\u00c8RES ET NUTRITION",
+        "location": {
+            "pavillon": "Pavillon LILIANE-DE-STEWART",
+            "local": "local 1125"
+        },
+        "contact": {
+            "email": "nutribarudem@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/nutribar.udem"
+            }
+        ]
+    },
+    {
+        "name": "Caf\u00e9-In",
+        "description": "Avec son caf\u00e9 torr\u00e9fi\u00e9 localement, ses p\u00e2tisseries fra\u00eeches et les fameux jeudis pizza, le Caf\u00e9-In est le catalyseur le plus efficace pour une journ\u00e9e au bilan positif!",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/303508287_595069688990449_6928472640747788169_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=bFxcxXqyZugAX-sZ1gd&_nc_ht=scontent.fymq2-1.fna&oh=00_AfDuaSVg7FwMSFyf3srfU8oiL0lToxiFSLiuOi7nOQFHBA&oe=655DD45A",
+        "faculty": "CHIMIE",
+        "location": {
+            "pavillon": "Campus MIL",
+            "local": "local B-0110.1"
+        },
+        "contact": {
+            "email": "contact@cafein.ca",
+            "phone_number": "(514)-343-6111 poste 30442",
+            "website": "http://www.cafein.ca/"
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/UdeMCafeIn/"
+            },
+            {
+                "platform_name": "Instagram",
+                "link": "https://www.instagram.com/le_cafe_in/?hl=fr"
+            }
+        ]
+    },
+    {
+        "name": "Caf\u00e9Kine",
+        "description": "Barres prot\u00e9in\u00e9es. Permis d\u2019alcool. Diffusion d\u2019\u00e9v\u00e8nements sportifs. Prix concurrentiel de la bi\u00e8re. Ouvert le soir. Seul caf\u00e9 sportif ouvert 7 jours sur 7, m\u00eame l\u2019\u00e9t\u00e9.",
+        "image_url": "https://admission.umontreal.ca/fileadmin/fichiers/objectif-udem/Cafe-Kine.jpg",
+        "faculty": "KIN\u00c9SIOLOGIE ET \u00c9DUCATION PHYSIQUE",
+        "location": {
+            "pavillon": "CEPSUM",
+            "local": "local 3222"
+        },
+        "contact": {
+            "email": "cafekine.udem@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/CafeKine/"
+            },
+            {
+                "platform_name": "Instagram",
+                "link": "https://www.instagram.com/cafekine.cepsum/?hl=en"
+            }
+        ]
+    },
+    {
+        "name": "Holoc\u00e8ne",
+        "description": "Caf\u00e9 100 % v\u00e9g\u00e9. Produits v\u00e9ganes. Prix abordables surtout pour les samosas. Bonne ambiance. Immense collection de jeux de soci\u00e9t\u00e9. Caf\u00e9 third wave \u00e0 prix d\u00e9risoire.",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/241203428_3009559239301556_188994054206443446_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_ohc=gWGVGBTfRPkAX9fTqD9&_nc_ht=scontent.fymq2-1.fna&oh=00_AfCyeh_AHOLvaLaiJkt8O9NHA_EDot6PMwlLOo9Qi1SKOg&oe=655DF818",
+        "faculty": "G\u00c9OGRAPHIE",
+        "location": {
+            "pavillon": "Campus MIL",
+            "local": "local B-0110.4"
+        },
+        "contact": {
+            "email": "assogeoudm@gmail.com",
+            "phone_number": "(438)-503-5913",
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/cafegeoudem/"
+            }
+        ]
+    },
+    {
+        "name": "L\u2019\u00e9tabli",
+        "description": "Pour un caf\u00e9 chaud ou un froid, l'\u00e9quipe de L\u2019\u00c9tabli est l\u00e0 pour vous accueillir.",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/318928260_1807126929653224_5386329985570910308_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=bGOrZWJ8oaMAX_KyTWz&_nc_ht=scontent.fymq2-1.fna&oh=00_AfA4LjPvLqkvUwwB9PML7-Bp3ojzi5jAnBYECfP8PXzX-g&oe=655D4B3D",
+        "faculty": "AM\u00c9NAGEMENT, URBANISME, ARCHITECTURE, DESIGN, PAYSAGE",
+        "location": {
+            "pavillon": "Pavillon DE LA FACULT\u00c9 DE L\u2019AM\u00c9NAGEMENT",
+            "local": "local 1100"
+        },
+        "contact": {
+            "email": "benoit.archambault@amenagement.coop",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/Letabliame/"
+            },
+            {
+                "platform_name": "Instagram",
+                "link": "https://www.instagram.com/cafe.etabli/?hl=fr"
+            }
+        ]
+    },
+    {
+        "name": "L\u2019Intermed",
+        "description": "Caf\u00e9 autog\u00e9r\u00e9 par une vingtaine d\u2019\u00e9tudiantes et d\u2019\u00e9tudiants b\u00e9n\u00e9voles visant \u00e0 promouvoir l\u2019implication sociale.",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/302506927_507546414704340_3301101256788489227_n.png?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5zYCHsAIjpQAX87hWnD&_nc_ht=scontent.fymq2-1.fna&oh=00_AfB0jzu4x73s4u8KBqg_1s-8ff4rUGbCDpsdk3d380z9Xg&oe=655E419F",
+        "faculty": "M\u00c9DECINE",
+        "location": {
+            "pavillon": "Pavillon ROGER-GAUDRY",
+            "local": "local X-031"
+        },
+        "contact": {
+            "email": "intermed@aeemum.org",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/IntermedUdeM"
+            }
+        ]
+    },
+    {
+        "name": "La Brunante",
+        "description": "Le SEUL caf\u00e9-bar sur le Campus de la montagne \u00e0 l\u2019ouest de la tour.",
+        "image_url": "https://labrunante.com/wp-content/uploads/2023/09/Cafe-Bar-La-Brunante-automne-2023-1024x858.png",
+        "faculty": "\u00c9DUCATION PERMANENTE",
+        "location": {
+            "pavillon": "Pavillon 3200",
+            "local": "RUE JEAN-BRILLANT, local B-2326"
+        },
+        "contact": {
+            "email": "gerance@labrunante.com",
+            "phone_number": "(514)-343-6111 poste 1232",
+            "website": "https://labrunante.com/"
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/labrunante"
+            }
+        ]
+    },
+    {
+        "name": "La Planck",
+        "description": "Caf\u00e9 espresso \u00e0 0,25 $ et caf\u00e9 latte \u00e0 1 $.",
+        "image_url": "https://cdn.discordapp.com/attachments/841456989443325973/1175473542847008859/planck_mil.png?ex=656b5c0b&is=6558e70b&hm=60519cbd561227a4b39638259555d428b444bd899b0aa10fe9a836048e2b50db&",
+        "faculty": "PHYSIQUE",
+        "location": {
+            "pavillon": "Campus MIL",
+            "local": "local B-0110.3"
+        },
+        "contact": {
+            "email": "lecafelaplanck@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": []
+    },
+    {
+        "name": "La Retenue",
+        "description": "Terrasse et grande vari\u00e9t\u00e9 de produits.",
+        "image_url": "https://admission.umontreal.ca/fileadmin/fichiers/objectif-udem/Cafe-La-Retenue.jpg",
+        "faculty": "SCIENCES DE L\u2019\u00c9DUCATION",
+        "location": {
+            "pavillon": "Pavillon MARIE-VICTORIN",
+            "local": "local C-219"
+        },
+        "contact": {
+            "email": null,
+            "phone_number": null,
+            "website": "https://horaires.me/0322312/Cafe_La_Retenue"
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/CafeLaRetenue"
+            }
+        ]
+    },
+    {
+        "name": "Le Macrophage",
+        "description": "Espace pour jeux vid\u00e9os.",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/300376382_585194849773688_4693864542901741965_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5aOWF_wWVH0AX9UMSnk&_nc_ht=scontent.fymq2-1.fna&oh=00_AfAcuY-btFEwr2OKlHzkbqdOPFZ-Lc9D9rsRneKtqFInrQ&oe=655CEC3D",
+        "faculty": "BIOCHIMIE ET M\u00c9DECINE MOL\u00c9CULAIRE",
+        "location": {
+            "pavillon": "Pavillon ROGER-GAUDRY",
+            "local": "local E-212"
+        },
+        "contact": {
+            "email": "aebbium@umontreal.ca",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/MacrophageE212"
+            }
+        ]
+    },
+    {
+        "name": "Le Mal-aim\u00e9",
+        "description": "Tout petit caf\u00e9 tr\u00e8s convivial et chaleureux avec bas prix.",
+        "image_url": "https://scontent-lga3-2.xx.fbcdn.net/v/t39.30808-6/300759565_584732730015520_1449815708992610904_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=vISc1YwYZWUAX-6mO6e&_nc_ht=scontent-lga3-2.xx&oh=00_AfBQ8BZHGYNDoNLxxz3KfYoBRp_DOHrOgdx5MdC5Gpn_sg&oe=655CEB97",
+        "faculty": "TRAVAIL SOCIAL",
+        "location": {
+            "pavillon": "Pavillon LIONEL-GROULX",
+            "local": "local C-7143"
+        },
+        "contact": {
+            "email": "aetsum@umontreal.ca",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/cafemalaime"
+            }
+        ]
+    },
+    {
+        "name": "Le Triton",
+        "description": "Petit caf\u00e9 au service simple sans pr\u00e9tention.",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/328251730_688082272997698_5005746187058165741_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=KWPmsKYykYkAX9XGvO_&_nc_ht=scontent.fymq2-1.fna&oh=00_AfDhuCFv5dp3CP1YyW268TgDC5sRgWo4LaHGvYjguj96JA&oe=655E32B1",
+        "faculty": "MUSIQUE",
+        "location": {
+            "pavillon": "Pavillon DE LA FACULT\u00c9 DE MUSIQUE",
+            "local": "local B-261"
+        },
+        "contact": {
+            "email": "benoit.archambault@amenagement.coop",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/cafeletriton"
+            }
+        ]
+    },
+    {
+        "name": "Le Vivarium",
+        "description": "Caf\u00e9 chaleureux et abordable, bonbons en vrac et nourriture v\u00e9gane.",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/302197911_588155869682044_5785195125569811578_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=S0oBh6Uy3doAX9Upa-p&_nc_oc=AQm52tOC_R_3pfQLljibGpAK2Lv-OlZBag6q3gdQQbfiod_txy-D_o6I5jLOpBq0zGjC7ifyq46qcb-qEWEOsU4T&_nc_ht=scontent.fymq2-1.fna&oh=00_AfCEW9MDJgw-q2TDWas7LLS8KKbowqYZwlhgBNk-Ufyy4g&oe=655D987D",
+        "faculty": "BIOLOGIE",
+        "location": {
+            "pavillon": "Campus MIL",
+            "local": "local B-0110.2"
+        },
+        "contact": {
+            "email": "cafe.bio.udem@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/cafebiolevivarium"
+            }
+        ]
+    },
+    {
+        "name": "Pill Pub",
+        "description": "Caf\u00e9 pas cher, situ\u00e9 dans un local tr\u00e8s lumineux.",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/302146236_583970106847822_6293400436902319347_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3thzfY1CtDgAX_bjOOP&_nc_ht=scontent.fymq2-1.fna&oh=00_AfD3kASDZtFY8TzwPDgeExza0K9OmLyWrpMOMEyQiNIZDw&oe=655D76ED",
+        "faculty": "PHARMACIE",
+        "location": {
+            "pavillon": "Pavillon JEAN-COUTU",
+            "local": "local S1-184"
+        },
+        "contact": {
+            "email": "pillpub.aepum@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/PillPub"
+            }
+        ]
+    },
+    {
+        "name": "Psychic",
+        "description": "Caf\u00e9 r\u00e9nov\u00e9.",
+        "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/325601077_568457504828035_8958859885937755350_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=O3rVykKZrkQAX9kRVqB&_nc_ht=scontent.fymq2-1.fna&oh=00_AfA9mQWi3M4aX3RUbp5tMKFv32BlB_Y_QtaLZ0FwDOY2tw&oe=655CEDC8",
+        "faculty": "PSYCHOLOGIE",
+        "location": {
+            "pavillon": "Pavillon MARIE-VICTORIN",
+            "local": "local D-428"
+        },
+        "contact": {
+            "email": "cafelepsychic@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/LePsychic"
+            },
+            {
+                "platform_name": "Instagram",
+                "link": "https://www.instagram.com/cafe_lepsychic/?hl=fr"
+            }
+        ]
+    },
+    {
+        "name": "Tore et fraction",
+        "description": "Caf\u00e9 100% b\u00e9n\u00e9voles, vue du coucher de soleil magnifique, on remplit votre tasse pour 0,50$.",
+        "image_url": "https://scontent-lga3-2.xx.fbcdn.net/v/t39.30808-6/305050135_480090740798371_6658920642226296238_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=Hkm-4jqxl2IAX_LQvqw&_nc_oc=AQlylgPMbFWekewJ3M6qI6YRt9OPMLSwBk04_lKFWIwXGpVPfgPS8ov-aQeEC34eMyc&_nc_ht=scontent-lga3-2.xx&oh=00_AfAj3JmE4WXztfrgTQVE0X1b9KfMpIulZYNEhVJExUAyMA&oe=655E0B27",
+        "faculty": "INFORMATIQUE ET RECHERCHE OP\u00c9RATIONNELLE, MATH\u00c9MATIQUES ET STATISTIQUES",
+        "location": {
+            "pavillon": "Pavillon ANDR\u00c9-AISENSTADT",
+            "local": "local AA-1221"
+        },
+        "contact": {
+            "email": "toreetfraction@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": [
+            {
+                "platform_name": "Facebook",
+                "link": "https://www.facebook.com/CafeToreetFraction"
+            }
+        ]
+    }
+]
