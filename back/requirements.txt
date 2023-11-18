@@ -14,4 +14,3 @@ faker
 tqdm
 pytest
 httpx
-bump-pydantic

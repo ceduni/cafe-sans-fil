@@ -15,22 +15,21 @@ from app.models.order_model import Order
 """
 Conftest file for pytest.
 """
+MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):    
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME + "test"] 
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[MONGO_DB_NAME] 
     await init_beanie(database=db_client, document_models=[User, Cafe, Order])
     yield
-
+    
 app = FastAPI(lifespan=lifespan)    
 app.include_router(router, prefix=settings.API_V1_STR)
 
 @pytest.fixture(scope="module")
 def client():
     with TestClient(app) as client:
-        db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
         yield client
-        # db_client.drop_database(settings.MONGO_DB_NAME + "test")
 
 @pytest.fixture(scope="module")
 def auth_login(client):

@@ -21,7 +21,7 @@ def user_data():
 def user_data_cafesansfil():
     return {
         "email": "spider@man.com",
-        "matricule": "SM12345",
+        "matricule": "sm12345",
         "username": "cafesansfil",
         "password": "cafesansfil",
         "first_name": "Tom",

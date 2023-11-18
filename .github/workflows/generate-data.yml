@@ -1,0 +1,31 @@
+name: Generate Data
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-data:
+    name: Generate data
+    runs-on: ubuntu-latest
+    env:
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+      JWT_REFRESH_SECRET_KEY: ${{ secrets.JWT_REFRESH_SECRET_KEY }}
+      BACKEND_CORS_ORIGINS: ${{ secrets.BACKEND_CORS_ORIGINS }}
+      MONGO_CONNECTION_STRING: ${{ secrets.MONGO_CONNECTION_STRING }}
+      MONGO_DB_NAME: ${{ secrets.MONGO_DB_NAME }}
+      
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          cd back
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Bulk generate data
+        run: |
+          cd back
+          python -m utils.generate_all

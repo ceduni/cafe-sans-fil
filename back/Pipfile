@@ -20,7 +20,6 @@ faker = "*"
 tqdm = "*"
 pytest = "*"
 httpx = "*"
-bump-pydantic = "*"
 
 [dev-packages]
 

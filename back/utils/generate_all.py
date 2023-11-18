@@ -14,9 +14,13 @@ from utils.generate_user import create_users
 from utils.generate_cafe import create_cafes
 from utils.generate_order import create_orders
 
+"""
+Script to generate data for the Test DB.
+It can also be used to generate data for other DB.
+"""
+MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"
+
 async def main():
-    MONGO_DB_NAME = settings.MONGO_DB_NAME
-    
     db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
     db_client.drop_database(MONGO_DB_NAME)
 
