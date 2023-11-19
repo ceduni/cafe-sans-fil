@@ -58,7 +58,6 @@ def random_open_status_message():
     ]
     is_open = random.random() < 0.7 # chance of is_open
     status_message = random.choice(messages) if not is_open else None
-    print(is_open, status_message)
     return is_open, status_message
 
 def random_opening_hours():
