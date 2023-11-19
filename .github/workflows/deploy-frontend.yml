@@ -1,24 +1,18 @@
 name: Deploy Front-end
 
 on:
-  # workflow_run:
-  #   workflows: ["Run Tests"]
-  #   types:
-  #     - completed
-  #   branches:
-  #     - preview
-
-  push:
+  workflow_run:
+    workflows: ["Run Tests"]
+    types:
+      - completed
     branches:
       - preview
-
-  workflow_dispatch:
 
 jobs:
   deploy-front:
     name: Deploy Front-end
     runs-on: ubuntu-latest
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps: 
       - name: Deploy Front-end to Render
