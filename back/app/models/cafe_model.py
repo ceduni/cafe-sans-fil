@@ -77,6 +77,7 @@ class Cafe(Document):
     image_url: Optional[str] = None 
     faculty: Indexed(str)
     is_open: bool = False
+    status_message: Optional[str] = None
     opening_hours: List[DayHours]
     location: Location
     contact: Contact

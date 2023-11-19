@@ -29,12 +29,15 @@ async def create_cafes(user_ids):
         else:
             staff = random_staff_members(user_ids)
 
+        is_open, status_message = random_open_status_message()
+
         cafe = Cafe(
             name=cafe_info["name"],
             description=cafe_info["description"],
             image_url=cafe_info["image_url"],
             faculty=cafe_info["faculty"],
-            is_open=random.random() < 0.80, # chance of is_open
+            is_open=is_open,
+            status_message=status_message,
             opening_hours=random_opening_hours(),
             location=Location(**cafe_info["location"]),
             contact=Contact(**cafe_info["contact"]),
@@ -48,6 +51,15 @@ async def create_cafes(user_ids):
         cafe_menu_items_ids_dict[cafe.cafe_id] = cafe.menu_items
 
     return cafe_menu_items_ids_dict
+
+def random_open_status_message():
+    messages = [
+        "Fermé pour la journée", "Fermé pour la semaine", "De retour dans 1 heure", "Temporairement fermé", "Fermé pour MIDIRO"
+    ]
+    is_open = random.random() < 0.7 # chance of is_open
+    status_message = random.choice(messages) if not is_open else None
+    print(is_open, status_message)
+    return is_open, status_message
 
 def random_opening_hours():
     days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"]

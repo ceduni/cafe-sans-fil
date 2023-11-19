@@ -107,6 +107,7 @@ class CafeCreate(BaseModel):
     image_url: Optional[str] = Field(None, title='Title', max_length=755, min_length=1)
     faculty: str = Field(..., title='Title', max_length=55, min_length=1)
     is_open: bool
+    status_message = Optional[str] = Field(None, title='Title', max_length=50, min_length=1)
     opening_hours: List[DayHours]
     location: Location
     contact: Contact
@@ -193,6 +194,7 @@ class CafeUpdate(BaseModel):
     image_url: Optional[str] = Field(None, title='Title', max_length=755, min_length=1)
     faculty: Optional[str] = Field(None, title='Title', max_length=55, min_length=1)
     is_open: Optional[bool] = None
+    status_message = Optional[str] = Field(None, title='Title', max_length=50, min_length=1)
     opening_hours: Optional[List[DayHours]] = None
     location: Optional[Location] = None
     contact: Optional[Contact] = None
@@ -280,6 +282,7 @@ class CafeOut(BaseModel):
     image_url: Optional[str] = None
     faculty: str
     is_open: bool
+    status_message = Optional[str] = None
     opening_hours: List[DayHours]
     location: Location
     contact: Contact
