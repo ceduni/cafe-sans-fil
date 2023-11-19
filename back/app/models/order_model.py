@@ -16,15 +16,15 @@ different from the API data interchange models.
 """
 
 class OrderedItemOption(BaseModel):
-    type: str
-    value: str
-    fee: DecimalAnnotation
+    type: str = Field(..., description="Type of the option.")
+    value: str = Field(..., description="Value of the option.")
+    fee: DecimalAnnotation = Field(..., description="Additional fee for this option.")
 
 class OrderedItem(BaseModel):
-    item_id: UUID
-    quantity: int
-    item_price: DecimalAnnotation
-    options: List[OrderedItemOption]
+    item_id: UUID = Field(..., description="Unique identifier for the item.")
+    quantity: int = Field(..., description="Quantity of the item ordered.")
+    item_price: DecimalAnnotation = Field(..., description="Price per unit of the item.")
+    options: List[OrderedItemOption] = Field(..., description="List of options selected for this item.")
 
 class OrderStatus(str, Enum):
     PLACED = "Placée"

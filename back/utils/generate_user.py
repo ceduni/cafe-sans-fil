@@ -4,6 +4,7 @@ import json
 from tqdm import tqdm
 import pymongo
 from faker import Faker
+import unicodedata
 import random
 random.seed(42)
 Faker.seed(42)
@@ -33,7 +34,7 @@ async def create_users(num_users):
                     email=email,
                     matricule=matricule,
                     username=username,
-                    password=first_name + last_name,  # password is first_name+last_name for testing
+                    password=normalize_string(first_name) + normalize_string(last_name) + "1",  # password is first_name+last_name+"1" (For Test)
                     first_name=first_name,
                     last_name=last_name,
                     photo_url=photo_url
@@ -49,8 +50,8 @@ async def create_users(num_users):
     cafesansfil_user = {
         "email": "spider@man.com",
         "matricule": "sm12345",
-        "username": "cafesansfil",
-        "password": "cafesansfil",
+        "username": "CafeSansfil1",
+        "password": "CafeSansfil1",
         "first_name": "Tom",
         "last_name": "Holland",
         "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
@@ -58,3 +59,10 @@ async def create_users(num_users):
     await UserService.update_user(user_ids[0], UserAuth(**cafesansfil_user))
 
     return user_ids
+
+# This function is used to normalize the first_name and last_name to be used as a password
+# Example: "Éric" -> "Eric"
+def normalize_string(input_str: str) -> str:
+    normalized_str = unicodedata.normalize('NFKD', input_str)
+    ascii_str = normalized_str.encode('ascii', 'ignore')
+    return ascii_str.decode('ascii')
