@@ -1,6 +1,6 @@
 from typing import List, Optional
 from uuid import UUID
-from pydantic import ConfigDict, BaseModel, Field
+from pydantic import field_validator, ConfigDict, BaseModel, Field
 from datetime import datetime, timedelta
 from decimal import Decimal
 from app.models.cafe_model import DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, StaffMember, MenuItemOption
@@ -45,6 +45,13 @@ class MenuItemCreate(BaseModel):
         }
     })
 
+    @field_validator('price')
+    @classmethod
+    def validate_price(cls, price):
+        if price < 0:
+            raise ValueError("Price must be a non-negative value.")
+        return price
+    
 class MenuItemUpdate(BaseModel):
     name: Optional[str] = Field(None, max_length=50, description="Updated name of the menu item.")
     tags: Optional[List[str]] = Field(None, description="Updated tags for the menu item.")
@@ -70,6 +77,13 @@ class MenuItemUpdate(BaseModel):
         }
     })
 
+    @field_validator('price')
+    @classmethod
+    def validate_price(cls, price):
+        if price < 0:
+            raise ValueError("Price must be a non-negative value.")
+        return price
+    
 class MenuItemOut(BaseModel):
     item_id: UUID = Field(..., description="Unique identifier of the menu item.")
     name: str = Field(..., description="Name of the menu item.")
@@ -96,7 +110,7 @@ class MenuItemOut(BaseModel):
             ]
         }
     })
-
+    
 # --------------------------------------
 #               Cafe
 # --------------------------------------

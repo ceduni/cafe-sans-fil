@@ -88,4 +88,19 @@ class UserService:
 
         await user.update({"$set": update_data})
         return user
-
+    
+    @staticmethod
+    async def check_existing_user_attributes(email: str, matricule: str, username: str) -> Optional[str]:
+        if await User.find_one({"email": email}):
+            return "email"
+        if await User.find_one({"matricule": matricule}):
+            return "matricule"
+        if await User.find_one({"username": username}):
+            return "username"
+        return None
+    
+    @staticmethod
+    async def reset_password(user: User, new_password: str):
+        hashed_password = get_password(new_password)
+        await user.update({"$set": {"hashed_password": hashed_password}})
+        return user

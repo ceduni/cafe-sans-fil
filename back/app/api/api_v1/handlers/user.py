@@ -1,11 +1,13 @@
 from fastapi import APIRouter, HTTPException, status, Request, Depends
-from app.schemas.user_schema import UserOut, UserUpdate, UserAuth
+from app.schemas.user_schema import UserOut, UserUpdate, UserAuth, PasswordResetRequest, PasswordReset
 from app.services.user_service import UserService
 from uuid import UUID
 from typing import List
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
-import pymongo
+from app.core.mail import send_registration_mail, send_reset_password_mail
+from app.core.security import create_access_token
+from app.core.config import settings
 
 """
 This module defines the API routes related to user management in the application.
@@ -34,13 +36,21 @@ async def get_user(user_id: UUID, current_user: User = Depends(get_current_user)
 
 @user_router.post("/users", response_model=UserOut)
 async def create_user(user: UserAuth):
-    try:
-        return await UserService.create_user(user)
-    except pymongo.errors.DuplicateKeyError:
+    existing_attribute = await UserService.check_existing_user_attributes(user.email, user.matricule, user.username)
+    if existing_attribute:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="User with this email or matricule or username already exists"
+            detail=f"User with this {existing_attribute} already exists"
         )
+
+    created_user = await UserService.create_user(user)
+    email_context = {
+        "title": "Bienvenue à Café Sans-fil",
+        "name": f"{user.first_name + ' ' + user.last_name}",
+    }
+    await send_registration_mail("Bienvenue à Café Sans-fil", user.email, email_context)
+
+    return created_user
 
 @user_router.put("/users/{user_id}", response_model=UserOut)
 async def update_user(user_id: UUID, user_data: UserUpdate, current_user: User = Depends(get_current_user)):
@@ -59,3 +69,43 @@ async def update_user(user_id: UUID, user_data: UserUpdate, current_user: User =
         )
 
     return await UserService.update_user(user_id, user_data)
+
+# --------------------------------------
+#               Reset Password
+# --------------------------------------
+
+@user_router.post("/request-reset-password/", response_description="Password reset request")
+async def request_reset_password(user_email: PasswordResetRequest):
+    user = await UserService.get_user_by_email(user_email.email)
+
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found with the provided email address."
+        )
+
+    token = create_access_token(user.user_id)
+    base_url = settings.BASE_URL
+    reset_link = f"{base_url}/reset?token={token}"
+
+    await send_reset_password_mail("Réinitialisation du mot de passe", user.email,
+        {
+            "title": "Réinitialisation du mot de passe",
+            "name": user.first_name + " " + user.last_name,
+            "reset_link": reset_link
+        }
+    )
+    return {"msg": "Email has been sent with instructions to reset your password."}
+
+
+@user_router.put("/reset-password/", response_description="Password reset")
+async def reset_password(token: str, new_password: PasswordReset):
+    user = await get_current_user(token)
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found."
+        )
+
+    await UserService.reset_password(user, new_password.password)
+    return {"msg": "Password has been reset successfully."}

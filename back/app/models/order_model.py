@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID, uuid4
 from beanie import Document, DecimalAnnotation, before_event, Replace, Insert
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 from enum import Enum
 
@@ -20,12 +20,33 @@ class OrderedItemOption(BaseModel):
     value: str = Field(..., description="Value of the option.")
     fee: DecimalAnnotation = Field(..., description="Additional fee for this option.")
 
+    @field_validator('fee')
+    @classmethod
+    def validate_fee(cls, fee):
+        if fee < 0:
+            raise ValueError("Fee must be a non-negative value.")
+        return fee
+    
 class OrderedItem(BaseModel):
     item_id: UUID = Field(..., description="Unique identifier for the item.")
     quantity: int = Field(..., description="Quantity of the item ordered.")
     item_price: DecimalAnnotation = Field(..., description="Price per unit of the item.")
     options: List[OrderedItemOption] = Field(..., description="List of options selected for this item.")
 
+    @field_validator('quantity')
+    @classmethod
+    def validate_quantity(cls, quantity):
+        if quantity <= 0:
+            raise ValueError("Quantity must be a positive integer.")
+        return quantity
+    
+    @field_validator('item_price')
+    @classmethod
+    def validate_item_price(cls, item_price):
+        if item_price < 0:
+            raise ValueError("Item price must be a non-negative value.")
+        return item_price
+    
 class OrderStatus(str, Enum):
     PLACED = "Placée"
     READY = "Prête"
@@ -48,6 +69,8 @@ class Order(Document):
             DecimalAnnotation(item.quantity) * (item.item_price + sum(DecimalAnnotation(option.fee) for option in item.options))
             for item in self.items
         )
+        if total < 0:
+            raise ValueError("Total price must be a non-negative value.")
         self.total_price = total.quantize(DecimalAnnotation('0.00'))
 
     @before_event([Replace, Insert])

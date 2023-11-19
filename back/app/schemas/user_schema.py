@@ -94,3 +94,21 @@ class UserOut(BaseModel):
             "is_active": True
         }
     })
+
+# --------------------------------------
+#              Reset Password
+# --------------------------------------
+
+class PasswordResetRequest(BaseModel):
+    email: EmailStr = Field(..., description="User's email address, used for password reset.")
+
+class PasswordReset(BaseModel):
+    password: str = Field(..., min_length=8, max_length=30, description="New password for the user's account, used for account security.")
+
+    @field_validator('password')
+    @classmethod
+    def validate_password(cls, v):
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
+        if not re.match(pattern, v):
+            raise ValueError('Password must contain upper and lower case letters and digits.')
+        return v

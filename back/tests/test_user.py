@@ -8,7 +8,7 @@ def user_data():
     last_name = fake.last_name()
     password= "Password1"
     return {
-            "email": fake.email(),
+            "email": "sonofgocou@hotmail.com",
             "matricule": fake.bothify(text='??#####').lower(),
             "username": fake.user_name(),
             "password": password,
