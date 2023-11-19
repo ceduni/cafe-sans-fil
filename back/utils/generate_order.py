@@ -4,14 +4,14 @@ from tqdm import tqdm
 import random
 random.seed(42)
 
-async def create_orders(user_ids, cafe_menu_items):
+async def create_orders(user_ids, cafe_menu_items, is_test=False):
     cafe_items_list = list(cafe_menu_items.items())
 
     for i in tqdm(range(len(user_ids)), desc="Creating orders"):
         # Minimum 2 Orders for cafesansfil (For Test)
-        minimum = 2 + 1 if i == 0 else 0 
-
-        for index in range(random.randint(minimum, 15)): 
+        minimum = 2 + 1 if i == 0 else 0
+        maximum = 4 if is_test else 15
+        for index in range(random.randint(minimum, maximum)): 
             user_id = user_ids[i]
             # First Order is related to first cafe (For Test)
             if index == 0:

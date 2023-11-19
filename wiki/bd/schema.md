@@ -87,7 +87,7 @@ Ce document présente la structure de notre BD MongoDB.
           "description": "String (indexed)",
           "image_url": "String (optional)",
           "price": "Decimal128",
-          "is_available": "Boolean",
+          "in_stock": "Boolean",
           "category": "String (indexed)",
           "options": [
               {

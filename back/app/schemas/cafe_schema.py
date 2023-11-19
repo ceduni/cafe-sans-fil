@@ -23,7 +23,7 @@ class MenuItemCreate(BaseModel):
     description: str = Field(..., title='Title', max_length=755, min_length=1)
     image_url: Optional[str] = Field(None, title='Title', max_length=755, min_length=1)
     price: Decimal = Field(..., title='Title')
-    is_available: bool
+    in_stock: bool
     category: str = Field(None, title='Title', max_length=55, min_length=1)
     options: List[MenuItemOption]
     model_config = ConfigDict(json_schema_extra={
@@ -33,7 +33,7 @@ class MenuItemCreate(BaseModel):
             "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
             "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
             "price": 5.99,
-            "is_available": True,
+            "in_stock": True,
             "category": "Burgers",
             "options": [
                 {"type": "taille", "value": "grand", "fee": 0.5},
@@ -51,7 +51,7 @@ class MenuItemUpdate(BaseModel):
     description: Optional[str] = Field(None, title='Title', max_length=755, min_length=1)
     image_url: Optional[str] = Field(None, title='Title', max_length=755, min_length=1)
     price: Optional[Decimal] = Field(None, title='Title')
-    is_available: Optional[bool] = None
+    in_stock: Optional[bool] = None
     category: Optional[str] = Field(None, title='Title', max_length=55, min_length=1)
     options: Optional[List[MenuItemOption]] = None
     model_config = ConfigDict(json_schema_extra={
@@ -61,7 +61,7 @@ class MenuItemUpdate(BaseModel):
             "description": "Cheeseburger gourmet avec bacon et sauce spéciale",
             "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
             "price": 7.99,
-            "is_available": False,
+            "in_stock": False,
             "category": "Burgers Spéciaux",
             "options": [
                 {"type": "épice", "value": "piquant", "fee": 0.75},
@@ -77,7 +77,7 @@ class MenuItemOut(BaseModel):
     description: str
     image_url: Optional[str] = None
     price: Decimal
-    is_available: bool
+    in_stock: bool
     category: str
     options: List[MenuItemOption]
     model_config = ConfigDict(json_schema_extra={
@@ -88,7 +88,7 @@ class MenuItemOut(BaseModel):
             "description": "Un cheeseburger classique avec une tranche de fromage fondant",
             "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
             "price": 5.99,
-            "is_available": True,
+            "in_stock": True,
             "category": "Burgers",
             "options": [
                 {"type": "taille", "value": "moyen", "fee": 0.0},
@@ -156,7 +156,7 @@ class CafeCreate(BaseModel):
                     "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
                     "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
                     "price": 5.99,
-                    "is_available": True,
+                    "in_stock": True,
                     "category": "Burgers",
                     "options": [
                         {"type": "taille", "value": "grand", "fee": 0.5},
@@ -172,7 +172,7 @@ class CafeCreate(BaseModel):
                     "description": "Une salade César avec du poulet grillé, de la laitue romaine et de la vinaigrette César",
                     "image_url": None,
                     "price": 7.99,
-                    "is_available": False,
+                    "in_stock": False,
                     "category": "Salads",
                     "options": []
                 }
@@ -243,7 +243,7 @@ class CafeUpdate(BaseModel):
                     "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
                     "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
                     "price": 5.99,
-                    "is_available": True,
+                    "in_stock": True,
                     "category": "Burgers",
                     "options": [
                         {"type": "taille", "value": "grand", "fee": 0.5},
@@ -259,7 +259,7 @@ class CafeUpdate(BaseModel):
                     "description": "Une salade César avec du poulet grillé, de la laitue romaine et de la vinaigrette César",
                     "image_url": None,
                     "price": 7.99,
-                    "is_available": False,
+                    "in_stock": False,
                     "category": "Salads",
                     "options": []
                 }
@@ -333,7 +333,7 @@ class CafeOut(BaseModel):
                     "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
                     "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
                     "price": 5.99,
-                    "is_available": True,
+                    "in_stock": True,
                     "category": "Burgers",
                     "options": [
                         {"type": "taille", "value": "grand", "fee": 0.5},
@@ -350,7 +350,7 @@ class CafeOut(BaseModel):
                     "description": "Une salade César avec du poulet grillé, de la laitue romaine et de la vinaigrette César",
                     "image_url": None,
                     "price": 7.99,
-                    "is_available": False,
+                    "in_stock": False,
                     "category": "Salads",
                     "options": []
                 }

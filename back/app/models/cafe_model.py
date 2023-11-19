@@ -66,7 +66,7 @@ class MenuItem(BaseModel):
     description: Indexed(str) 
     image_url: Optional[str] = None 
     price: DecimalAnnotation
-    is_available: bool = False
+    in_stock: bool = False
     category: Indexed(str)
     options: List[MenuItemOption]
     

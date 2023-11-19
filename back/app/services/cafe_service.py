@@ -66,11 +66,11 @@ class CafeService:
         sort = filters.pop('sort', None)
 
         # Convert string to boolean
-        if 'is_available' in filters:
-            if filters['is_available'].lower() == 'true':
-                filters['is_available'] = True
-            elif filters['is_available'].lower() == 'false':
-                filters['is_available'] = False
+        if 'in_stock' in filters:
+            if filters['in_stock'].lower() == 'true':
+                filters['in_stock'] = True
+            elif filters['in_stock'].lower() == 'false':
+                filters['in_stock'] = False
 
         cafe = await CafeService.retrieve_cafe(cafe_id)
         if cafe and hasattr(cafe, 'menu_items'):
@@ -131,7 +131,7 @@ class CafeService:
         regex_pattern = {"$regex": query, "$options": "i"}
 
         # Convert string to boolean
-        for key in ['is_open', 'is_available']:
+        for key in ['is_open', 'in_stock']:
             if key in filters:
                 if filters[key].lower() == 'true':
                     filters[key] = True

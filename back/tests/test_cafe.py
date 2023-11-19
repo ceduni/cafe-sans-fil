@@ -43,7 +43,7 @@ def cafe_data():
                     "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
                     "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
                     "price": 5.99,
-                    "is_available": True,
+                    "in_stock": True,
                     "category": "Burgers",
                     "options": [
                         {"type": "taille", "value": "grand", "fee": 0.5},
@@ -59,7 +59,7 @@ def cafe_data():
                     "description": "Une salade César avec du poulet grillé, de la laitue romaine et de la vinaigrette César",
                     "image_url": None,
                     "price": 7.99,
-                    "is_available": False,
+                    "in_stock": False,
                     "category": "Salads",
                     "options": []
                 }

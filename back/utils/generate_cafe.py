@@ -14,7 +14,7 @@ async def create_cafes(user_ids):
     with open("./utils/templates/menu_items.json", "r", encoding="utf-8") as file:
         menu_items_data = json.load(file)
         for item in menu_items_data:
-            item["is_available"] = random.random() < 0.80 # chance of is_available
+            item["in_stock"] = random.random() < 0.80 # chance of in_stock
 
     for index, cafe_info in enumerate(tqdm(cafes_data, desc="Creating cafes")):
         # Make cafesansfil Admin in First Cafe (For Test)
