@@ -32,6 +32,7 @@ Ce document présente la structure de notre BD MongoDB.
   "image_url": "String (optional)",
   "faculty": "String (indexed)",
   "is_open": "Boolean",
+  "status_message": "String (optional)",
   "opening_hours": [
       {
           "day": "String",
