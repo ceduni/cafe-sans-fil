@@ -30,7 +30,7 @@ const Login = () => {
           <form className="space-y-6" method="POST" onSubmit={(e) => onLogin(e, credentials)}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Adresse courriel de l'UdeM ou matricule
+                Adresse courriel de l'UdeM
               </label>
               <div className="mt-2">
                 <Input
