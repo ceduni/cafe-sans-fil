@@ -10,6 +10,7 @@ function classNames(...classes) {
 const ProductView = ({ item, open, setOpen, onSubmit }) => {
   // const [selectedSize, setSelectedSize] = useState(item.sizes[0]);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("Normal");
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -63,9 +64,9 @@ const ProductView = ({ item, open, setOpen, onSubmit }) => {
                         <p className="text-gray-600 mb-3">{item.description}</p>
 
                         {item.in_stock ? (
-                          <Badge variant="success">Disponible</Badge>
+                          <Badge variant="success">En stock</Badge>
                         ) : (
-                          <Badge variant="danger">Indisponible</Badge>
+                          <Badge variant="danger">Épuisé</Badge>
                         )}
 
                         <p className="mt-4 text-2xl text-gray-900">{item.price} $</p>
@@ -77,52 +78,61 @@ const ProductView = ({ item, open, setOpen, onSubmit }) => {
                         </h3>
 
                         <form onSubmit={(e) => onSubmit(e, setIsAddingToCart)}>
-                          {/* Sizes */}
+                          {/* Options */}
                           {/* <div className="mt-10">
-                            <h4 className="text-sm font-medium text-gray-900">Size</h4>
+                            <h4 className="text-sm font-medium text-gray-900">Options</h4>
 
-                            <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
-                              <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
+                            <RadioGroup value={selectedOption} onChange={setSelectedOption} className="mt-4">
+                              <RadioGroup.Label className="sr-only">Choisir une option</RadioGroup.Label>
                               <div className="grid grid-cols-4 gap-4">
-                                {item.sizes.map((size) => (
+                                <RadioGroup.Option
+                                  value="Normal"
+                                  className={({ active, checked }) =>
+                                    classNames(
+                                      active ? "ring-2 ring-emerald-500" : "",
+                                      checked
+                                        ? "bg-emerald-50 border-transparent ring-2 ring-offset-2 ring-emerald-500"
+                                        : "bg-white border-gray-200",
+                                      "cursor-pointer h-12 rounded-md flex items-center justify-center border py-3 px-4 text-sm font-medium capitalize hover:bg-gray-50 focus:outline-none sm:flex-1"
+                                    )
+                                  }>
+                                  {({ active, checked }) => (
+                                    <>
+                                      <RadioGroup.Label as="span">Normal</RadioGroup.Label>
+                                      <span
+                                        className={classNames(
+                                          active ? "border" : "border-2",
+                                          checked ? "border-emerald-500" : "border-transparent",
+                                          "pointer-events-none absolute -inset-px rounded-md"
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                    </>
+                                  )}
+                                </RadioGroup.Option>
+                                {item.options.map((option) => (
                                   <RadioGroup.Option
-                                    key={size.name}
-                                    value={size}
-                                    disabled={!size.inStock}
+                                    key={option.value}
+                                    value={option.value}
                                     className={({ active }) =>
                                       classNames(
-                                        size.inStock
-                                          ? "cursor-pointer bg-white text-gray-900 shadow-sm"
-                                          : "cursor-not-allowed bg-gray-50 text-gray-200",
                                         active ? "ring-2 ring-emerald-500" : "",
-                                        "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1"
+                                        "cursor-pointer bg-white text-gray-900 shadow-sm group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium capitalize hover:bg-gray-50 focus:outline-none sm:flex-1"
                                       )
                                     }>
                                     {({ active, checked }) => (
                                       <>
-                                        <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
-                                        {size.inStock ? (
-                                          <span
-                                            className={classNames(
-                                              active ? "border" : "border-2",
-                                              checked ? "border-emerald-500" : "border-transparent",
-                                              "pointer-events-none absolute -inset-px rounded-md"
-                                            )}
-                                            aria-hidden="true"
-                                          />
-                                        ) : (
-                                          <span
-                                            aria-hidden="true"
-                                            className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200">
-                                            <svg
-                                              className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
-                                              viewBox="0 0 100 100"
-                                              preserveAspectRatio="none"
-                                              stroke="currentColor">
-                                              <line x1={0} y1={100} x2={100} y2={0} vectorEffect="non-scaling-stroke" />
-                                            </svg>
-                                          </span>
-                                        )}
+                                        <RadioGroup.Label as="span">
+                                          {option.value} (+{option.fee}&nbsp;$)
+                                        </RadioGroup.Label>
+                                        <span
+                                          className={classNames(
+                                            active ? "border" : "border-2",
+                                            checked ? "border-emerald-500" : "border-transparent",
+                                            "pointer-events-none absolute -inset-px rounded-md"
+                                          )}
+                                          aria-hidden="true"
+                                        />
                                       </>
                                     )}
                                   </RadioGroup.Option>
