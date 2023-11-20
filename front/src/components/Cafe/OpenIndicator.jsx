@@ -1,9 +1,24 @@
 import { isCafeActuallyOpen } from "@/utils/cafe";
 import classNames from "classnames";
 
-const OpenIndicator = ({ isOpen, openingHours, size = "sm" }) => {
+const OpenIndicator = ({ isOpen, openingHours, statusMessage, size = "sm" }) => {
   const isActuallyOpen = isCafeActuallyOpen(isOpen, openingHours);
-  const text = isActuallyOpen ? "Ouvert" : isOpen ? "Fermé" : "Fermé exceptionnellement";
+
+  const getText = () => {
+    if (!isOpen) {
+      if (statusMessage) {
+        return statusMessage;
+      } else {
+        return "Fermé exceptionnellement";
+      }
+    } else {
+      if (isActuallyOpen) {
+        return "Ouvert";
+      } else {
+        return "Fermé";
+      }
+    }
+  };
 
   return (
     <div className={classNames("flex items-center gap-x-1.5", size === "sm" ? "py-3" : "mt-2")}>
@@ -15,7 +30,7 @@ const OpenIndicator = ({ isOpen, openingHours, size = "sm" }) => {
           "text-gray-500",
           size === "sm" ? "text-sm leading-5 font-semibold" : "text-xs leading-4 font-medium"
         )}>
-        {text}
+        {getText()}
       </p>
     </div>
   );
