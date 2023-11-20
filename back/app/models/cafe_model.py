@@ -1,11 +1,11 @@
 from typing import List, Optional
 from uuid import UUID, uuid4
-from beanie import Document, Indexed
-from pydantic import field_validator, BaseModel, EmailStr, Field, validator
+from beanie import Document, DecimalAnnotation, Indexed
+from pydantic import field_validator, BaseModel, EmailStr, Field
 from enum import Enum
 from datetime import datetime
-from decimal import Decimal
-from bson.decimal128 import Decimal128
+import re
+import unicodedata
 
 """
 This module defines the Pydantic-based models used in the Café application for cafe management,
@@ -17,92 +17,107 @@ Note: These models are intended for direct database interactions related to cafe
 different from the API data interchange models.
 """
 
-def convert_decimal128(value):
-    if isinstance(value, Decimal128):
-        return Decimal(value.to_decimal())
-    return Decimal(str(value))
-
 class TimeBlock(BaseModel):
-    start: str  # HH:mm format
-    end: str  # HH:mm format
+    start: str = Field(..., description="Start time in HH:mm format.")
+    end: str = Field(..., description="End time in HH:mm format.")
+
+    @field_validator('start', 'end')
+    @classmethod
+    def validate_time_format(cls, time_value):
+        try:
+            datetime.strptime(time_value, '%H:%M')
+        except ValueError:
+            raise ValueError("Time must be in HH:mm format.")
+        return time_value
+    
+class Days(str, Enum):
+    MONDAY = "Lundi"
+    TUESDAY = "Mardi"
+    WEDNESDAY = "Mercredi"
+    THURSDAY = "Jeudi"
+    FRIDAY = "Vendredi"
+    SATURDAY = "Samedi"
+    SUNDAY = "Dimanche"
 
 class DayHours(BaseModel):
-    day: str
-    blocks: List[TimeBlock]
+    day: Days = Field(..., description="Day of the week.")
+    blocks: List[TimeBlock] = Field(..., description="List of time blocks for the day.")
 
 class Location(BaseModel):
-    pavillon: Indexed(str)
-    local: Indexed(str)
+    pavillon: Indexed(str) = Field(..., description="Name or identifier of the pavilion.")
+    local: Indexed(str) = Field(..., description="Local identifier within the pavilion.")
 
 class Contact(BaseModel):
-    email: Optional[EmailStr] = None 
-    phone_number: Optional[str] = None 
-    website: Optional[str] = None 
-        
+    email: Optional[EmailStr] = Field(None, description="Contact email address.")
+    phone_number: Optional[str] = Field(None, description="Contact phone number.")
+    website: Optional[str] = Field(None, description="Website URL.")
+
 class SocialMedia(BaseModel):
-    platform_name: str
-    link: str
+    platform_name: str = Field(..., description="Name of the social media platform.")
+    link: str = Field(..., description="Link to the social media profile.")
 
 class PaymentMethod(BaseModel):
-    method: str
-    minimum: Optional[Decimal] = None
-    
-    @field_validator('minimum', mode="before")
-    @classmethod
-    def format_minimum(cls, v):
-        if v is not None:
-            return convert_decimal128(v).quantize(Decimal('0.00'))
-        return v
+    method: str = Field(..., description="Payment method used in the cafe.")
+    minimum: Optional[DecimalAnnotation] = Field(None, description="Minimum amount required for this payment method, if any.")
     
 class AdditionalInfo(BaseModel):
-    type: str
-    value: str
-    start: Optional[datetime] = None 
-    end: Optional[datetime] = None 
+    type: str = Field(..., description="Type of additional information, e.g., 'promo', 'event'.")
+    value: str = Field(..., description="Description or value of the additional information.")
+    start: Optional[datetime] = Field(None, description="Start time or date of the additional information.")
+    end: Optional[datetime] = Field(None, description="End time or date of the additional information.")
 
 class Role(str, Enum):
     VOLUNTEER = "Bénévole"
     ADMIN = "Admin"
     
 class StaffMember(BaseModel):
-    user_id: UUID
-    role: Role
+    username: str = Field(..., description="Username of the staff member.")
+    role: Role = Field(..., description="Role of the staff member, e.g., 'Bénévole', 'Admin'.")
 
 class MenuItemOption(BaseModel):
-    type: str
-    value: str
-    fee: Decimal
+    type: str = Field(..., description="Type of the menu item option.")
+    value: str = Field(..., description="Value or description of the option.")
+    fee: DecimalAnnotation = Field(..., description="Additional fee for this option, if applicable.")
 
-    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator('fee', pre=True, always=True)
-    def format_fee(cls, v):
-        return convert_decimal128(v).quantize(Decimal('0.00'))
-    
+    @field_validator('fee')
+    @classmethod
+    def validate_fee(cls, fee):
+        if fee < 0:
+            raise ValueError("Fee must be a non-negative value.")
+        return fee
+
 class MenuItem(BaseModel):
-    item_id: UUID = Field(default_factory=uuid4)
-    name: Indexed(str, unique=True)
-    tags: List[str]
-    description: Indexed(str) 
-    image_url: Optional[str] = None 
-    price: Decimal
-    is_available: bool = False
-    category: Indexed(str)
-    options: List[MenuItemOption]
+    item_id: UUID = Field(default_factory=uuid4, description="Unique identifier of the menu item.")
+    name: Indexed(str, unique=True) = Field(..., description="Name of the menu item.")
+    slug: Indexed(str, unique=True) = Field(None, description="URL-friendly slug for the menu item.")
+    tags: List[str] = Field(..., description="List of tags associated with the menu item.")
+    description: Indexed(str) = Field(..., description="Description of the menu item.")
+    image_url: Optional[str] = Field(None, description="Image URL of the menu item.")
+    price: DecimalAnnotation = Field(..., description="Price of the menu item.")
+    in_stock: bool = Field(False, description="Availability status of the menu item.")
+    category: Indexed(str) = Field(..., description="Category of the menu item.")
+    options: List[MenuItemOption] = Field(..., description="List of options available for the menu item.")
 
-    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator('price', pre=True, always=True)
-    def format_item_price(cls, v):
-        return convert_decimal128(v).quantize(Decimal('0.00'))
+    def __init__(self, **data):
+        super().__init__(**data)
+        self.slug = slugify(self.name)
+
+    @field_validator('price')
+    @classmethod
+    def validate_price(cls, price):
+        if price < 0:
+            raise ValueError("Price must be a non-negative value.")
+        return price
     
 class Cafe(Document):
     cafe_id: UUID = Field(default_factory=uuid4)
     name: Indexed(str, unique=True)
+    slug: Indexed(str, unique=True) = None
     description: Indexed(str)
     image_url: Optional[str] = None 
     faculty: Indexed(str)
     is_open: bool = False
+    status_message: Optional[str] = None
     opening_hours: List[DayHours]
     location: Location
     contact: Contact
@@ -112,5 +127,17 @@ class Cafe(Document):
     staff: List[StaffMember]
     menu_items: List[MenuItem]
     
+    def __init__(self, **data):
+        super().__init__(**data)
+        self.slug = slugify(self.name)
+
     class Settings:
         name = "cafes"
+
+def slugify(text):
+    text = unicodedata.normalize('NFKD', text)
+    text = text.encode('ascii', 'ignore').decode('ascii')
+    text = text.lower()
+    slug = re.sub(r'\W+', '-', text)
+    slug = slug.strip('-')
+    return slug

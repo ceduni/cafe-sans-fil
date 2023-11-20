@@ -48,16 +48,22 @@ class UserService:
 
     @staticmethod
     async def list_users(**filters):
+        # Don't show inactive users
+        filters["is_active"] = True
+
         # Prevent filtering on hashed_password
         if 'hashed_password' in filters:
             filters['hashed_password'] = None
 
         sort = filters.pop('sort', None)
+        limit = int(filters.pop('limit', 20))
+        page = int(filters.pop('page', 1))
+        skip = (page - 1) * limit
 
         if sort:
-            return await User.find(filters).sort(sort).to_list()
+            return await User.find(filters).skip(skip).limit(limit).sort(sort).to_list()
         else:
-            return await User.find(filters).to_list()
+            return await User.find(filters).skip(skip).limit(limit).to_list()
         
     @staticmethod
     async def create_user(user: UserAuth):
@@ -74,12 +80,13 @@ class UserService:
         return user_in
     
     @staticmethod
-    async def retrieve_user(user_id: UUID):
-        return await User.find_one(User.user_id == user_id)
+    async def retrieve_user(username: str):
+        # Don't show inactive users
+        return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
-    async def update_user(user_id: UUID, data: UserUpdate) -> User:
-        user = await UserService.retrieve_user(user_id)
+    async def update_user(username: str, data: UserUpdate) -> User:
+        user = await UserService.retrieve_user(username)
         update_data = data.model_dump(exclude_unset=True)
 
         if 'password' in update_data:
@@ -88,4 +95,19 @@ class UserService:
 
         await user.update({"$set": update_data})
         return user
-
+    
+    @staticmethod
+    async def check_existing_user_attributes(email: str, matricule: str, username: str) -> Optional[str]:
+        if await User.find_one({"email": email}):
+            return "email"
+        if await User.find_one({"matricule": matricule}):
+            return "matricule"
+        if await User.find_one({"username": username}):
+            return "username"
+        return None
+    
+    @staticmethod
+    async def reset_password(user: User, new_password: str):
+        hashed_password = get_password(new_password)
+        await user.update({"$set": {"hashed_password": hashed_password}})
+        return user

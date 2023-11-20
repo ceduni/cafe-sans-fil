@@ -16,7 +16,7 @@ Ce document présente la structure de notre BD MongoDB.
   "first_name": "String (indexed)",
   "last_name": "String (indexed)",
   "photo_url": "String (optional)",
-  "is_disabled": "Boolean (optional)"
+  "is_active": "Boolean"
 }
 ```
 
@@ -32,6 +32,7 @@ Ce document présente la structure de notre BD MongoDB.
   "image_url": "String (optional)",
   "faculty": "String (indexed)",
   "is_open": "Boolean",
+  "status_message": "String (optional)",
   "opening_hours": [
       {
           "day": "String",
@@ -86,7 +87,7 @@ Ce document présente la structure de notre BD MongoDB.
           "description": "String (indexed)",
           "image_url": "String (optional)",
           "price": "Decimal128",
-          "is_available": "Boolean",
+          "in_stock": "Boolean",
           "category": "String (indexed)",
           "options": [
               {

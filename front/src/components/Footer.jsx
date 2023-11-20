@@ -16,7 +16,10 @@ const Footer = () => {
               GitHub
             </a>
           </p>
-          <p>Développé par Axel ZAREB et Southidej OUDANONH</p>
+          <p className="mb-2">Développé par Axel ZAREB et Southidej OUDANONH</p>
+          <a className="underline" href="https://github.com/ceduni/udem-cafe/issues/new" target="_blank">
+            Signalez une erreur ou faites une suggestion
+          </a>
           <p className="mt-3 font-semibold">&copy; 2023 Café sans-fil</p>
         </div>
       </div>

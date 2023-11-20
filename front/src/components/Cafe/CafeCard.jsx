@@ -6,12 +6,17 @@ import { ChevronRightIcon } from "@heroicons/react/24/solid";
 
 const CafeCard = ({ cafe }) => {
   return (
-    <Link to={`/cafes/${cafe.cafe_id}`} className="contents" onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
+    <Link to={`/cafes/${cafe.slug}`} className="contents" onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
       <Card>
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>
           <Card.Header.Subtitle>{displayCafeLocation(cafe.location)}</Card.Header.Subtitle>
-          <OpenIndicator isOpen={cafe.is_open} openingHours={cafe.opening_hours} size="xs" />
+          <OpenIndicator
+            isOpen={cafe.is_open}
+            openingHours={cafe.opening_hours}
+            statusMessage={cafe.status_message}
+            size="xs"
+          />
         </Card.Header>
         <Card.Body>{cafe.description}</Card.Body>
         {cafe.additional_info && cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (

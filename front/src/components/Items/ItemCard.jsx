@@ -42,9 +42,9 @@ const ItemCard = ({ item, cafeId }) => {
         </div>
         <h3 className="mt-4 text-gray-800">{item.name}</h3>
         <p className="mt-1 text-lg font-medium text-gray-900">${item.price}</p>
-        {!item.is_available && (
+        {!item.in_stock && (
           <div className="my-1">
-            <Badge variant="danger">Indisponible</Badge>
+            <Badge variant="danger">Épuisé</Badge>
           </div>
         )}
       </button>

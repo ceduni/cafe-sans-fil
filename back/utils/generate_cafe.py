@@ -5,37 +5,60 @@ from tqdm import tqdm
 import random
 random.seed(42)
 
-async def create_cafes(user_ids):
-    cafe_menu_items_ids_dict = {}
+async def create_cafes(usernames):
+    cafe_menu_items_slug_dict = {}
 
     # Load templates
-    with open("./utils/templates/cafes_udem.json", "r", encoding="utf-8") as file:
+    with open("./utils/templates/cafes_updated.json", "r", encoding="utf-8") as file:
         cafes_data = json.load(file)
-    with open("./utils/templates/menuitems.json", "r", encoding="utf-8") as file:
+    with open("./utils/templates/menu_items.json", "r", encoding="utf-8") as file:
         menu_items_data = json.load(file)
         for item in menu_items_data:
-            item["is_available"] = random.random() < 0.80 # Chance of is_available
+            item["in_stock"] = random.random() < 0.80 # chance of in_stock
 
-    for cafe_info in tqdm(cafes_data, desc="Creating cafes"):
+    for index, cafe_info in enumerate(tqdm(cafes_data, desc="Creating cafes")):
+        # Make cafesansfil Admin in First Cafe (For Test)
+        if index == 0:
+            staff = random_staff_members(usernames, first_user_admin=True)
+        # Don't make cafesansfil a Staff in second and last Cafe (For Test)
+        elif index == 1:
+            staff = random_staff_members(usernames, exclude_first_user=True)
+        elif index == len(cafes_data) - 1:
+            staff = random_staff_members(usernames, exclude_first_user=True)
+        # Randomly choose staff
+        else:
+            staff = random_staff_members(usernames)
+
+        is_open, status_message = random_open_status_message()
+
         cafe = Cafe(
             name=cafe_info["name"],
             description=cafe_info["description"],
             image_url=cafe_info["image_url"],
             faculty=cafe_info["faculty"],
-            is_open=random.random() < 0.80, # Chance of is_open
+            is_open=is_open,
+            status_message=status_message,
             opening_hours=random_opening_hours(),
             location=Location(**cafe_info["location"]),
             contact=Contact(**cafe_info["contact"]),
             social_media=[SocialMedia(**media) for media in cafe_info["social_media"]],
             additional_info=random_additional_info(),
             payment_methods=random_payment_methods(),
-            staff=random_staff_members(user_ids),
+            staff=staff,
             menu_items=[MenuItem(**item) for item in menu_items_data]
         )
         await cafe.insert()
-        cafe_menu_items_ids_dict[cafe.cafe_id] = cafe.menu_items
+        cafe_menu_items_slug_dict[cafe.slug] = cafe.menu_items
 
-    return cafe_menu_items_ids_dict
+    return cafe_menu_items_slug_dict
+
+def random_open_status_message():
+    messages = [
+        "Fermé pour la journée", "Fermé pour la semaine", "De retour dans 1 heure", "Temporairement fermé", "Fermé pour MIDIRO"
+    ]
+    is_open = random.random() < 0.7 # chance of is_open
+    status_message = random.choice(messages) if not is_open else None
+    return is_open, status_message
 
 def random_opening_hours():
     days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"]
@@ -65,7 +88,7 @@ def random_opening_hours():
     return opening_hours
 
 def random_payment_methods():
-    methods = ["Carte de débit", "Carte de crédit", "Espèces", "Chèque"]
+    methods = ["Carte de débit", "Carte de crédit", "Argent comptant"]
     # Randomly choose methods
     selected_methods_count = random.randint(1, len(methods))
     selected_methods = random.sample(methods, selected_methods_count)
@@ -76,17 +99,28 @@ def random_payment_methods():
         payment_methods.append(PaymentMethod(method=method, minimum=minimum))
     return payment_methods
 
-def random_staff_members(user_ids):
+def random_staff_members(usernames, first_user_admin=False, exclude_first_user=False):
     staff_members = []
-    # Randomly choose how many
-    num_admins = random.randint(1, 6)
-    num_volunteers = random.randint(12, 20)
-    selected_users = random.sample(user_ids, num_admins + num_volunteers)
+    selected_users = usernames.copy()
 
-    for user_id in selected_users[:num_admins]:
-        staff_members.append(StaffMember(user_id=user_id, role=Role.ADMIN))
-    for user_id in selected_users[num_admins:]:
-        staff_members.append(StaffMember(user_id=user_id, role=Role.VOLUNTEER))
+    # Always choose first User cafesansfil as admin (For Test)
+    if first_user_admin:
+        staff_members.append(StaffMember(username=usernames[0], role=Role.ADMIN))
+        selected_users = selected_users[1:]
+
+    # Never choose first User cafesansfil (For Test)
+    if exclude_first_user:
+        selected_users = selected_users[1:]
+
+    # Randomly choose how many
+    num_admins = random.randint(1, 6) - len(staff_members)
+    num_volunteers = random.randint(12, 20)
+    selected_users = random.sample(selected_users, num_admins + num_volunteers)
+
+    for username in selected_users[:num_admins]:
+        staff_members.append(StaffMember(username=username, role=Role.ADMIN))
+    for username in selected_users[num_admins:]:
+        staff_members.append(StaffMember(username=username, role=Role.VOLUNTEER))
     return staff_members
 
 def random_additional_info():

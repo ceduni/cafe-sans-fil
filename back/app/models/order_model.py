@@ -1,11 +1,10 @@
 from typing import List
 from uuid import UUID, uuid4
-from beanie import Document, before_event, Replace, Insert
-from pydantic import BaseModel, Field, validator
+from beanie import Document, DecimalAnnotation, before_event, Replace, Insert
+from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 from enum import Enum
-from decimal import Decimal
-from bson.decimal128 import Decimal128
+
 """
 This module defines the Pydantic-based models used in the Café application for order management, 
 which are specifically designed for database interaction via the Beanie ODM 
@@ -16,34 +15,38 @@ Note: These models are intended for direct database interactions related to orde
 different from the API data interchange models.
 """
 
-def convert_decimal128(value):
-    if isinstance(value, Decimal128):
-        return Decimal(value.to_decimal())
-    return Decimal(str(value))
-
 class OrderedItemOption(BaseModel):
-    type: str
-    value: str
-    fee: Decimal
+    type: str = Field(..., description="Type of the option.")
+    value: str = Field(..., description="Value of the option.")
+    fee: DecimalAnnotation = Field(..., description="Additional fee for this option.")
 
-    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator('fee', pre=True, always=True)
-    def format_fee(cls, v):
-        return convert_decimal128(v).quantize(Decimal('0.00'))
-
+    @field_validator('fee')
+    @classmethod
+    def validate_fee(cls, fee):
+        if fee < 0:
+            raise ValueError("Fee must be a non-negative value.")
+        return fee
+    
 class OrderedItem(BaseModel):
-    item_id: UUID
-    quantity: int
-    item_price: Decimal
-    options: List[OrderedItemOption]
+    item_slug: str = Field(..., description="Slug of the item ordered.")
+    quantity: int = Field(..., description="Quantity of the item ordered.")
+    item_price: DecimalAnnotation = Field(..., description="Price per unit of the item.")
+    options: List[OrderedItemOption] = Field(..., description="List of options selected for this item.")
 
-    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator('item_price', pre=True, always=True)
-    def format_item_price(cls, v):
-        return convert_decimal128(v).quantize(Decimal('0.00'))
-
+    @field_validator('quantity')
+    @classmethod
+    def validate_quantity(cls, quantity):
+        if quantity <= 0:
+            raise ValueError("Quantity must be a positive integer.")
+        return quantity
+    
+    @field_validator('item_price')
+    @classmethod
+    def validate_item_price(cls, item_price):
+        if item_price < 0:
+            raise ValueError("Item price must be a non-negative value.")
+        return item_price
+    
 class OrderStatus(str, Enum):
     PLACED = "Placée"
     READY = "Prête"
@@ -52,27 +55,23 @@ class OrderStatus(str, Enum):
 
 class Order(Document):
     order_id: UUID = Field(default_factory=uuid4)
-    user_id: UUID
-    cafe_id: UUID
+    cafe_slug: str
+    user_username: str
     items: List[OrderedItem]
-    total_price: Decimal = Decimal(0.0)
+    total_price: DecimalAnnotation = DecimalAnnotation(0.0)
     status: OrderStatus = Field(default=OrderStatus.PLACED)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
-
-    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator('total_price', pre=True, always=True)
-    def format_total_price(cls, v):
-        return convert_decimal128(v).quantize(Decimal('0.00'))
     
     @before_event([Replace, Insert])
     def calculate_total_price(self):
         total = sum(
-            Decimal(item.quantity) * (item.item_price + sum(Decimal(option.fee) for option in item.options))
+            DecimalAnnotation(item.quantity) * (item.item_price + sum(DecimalAnnotation(option.fee) for option in item.options))
             for item in self.items
         )
-        self.total_price = total.quantize(Decimal('0.00'))
+        if total < 0:
+            raise ValueError("Total price must be a non-negative value.")
+        self.total_price = total.quantize(DecimalAnnotation('0.00'))
 
     @before_event([Replace, Insert])
     def update_update_at(self):

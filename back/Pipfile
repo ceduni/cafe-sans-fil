@@ -20,7 +20,7 @@ faker = "*"
 tqdm = "*"
 pytest = "*"
 httpx = "*"
-bump-pydantic = "*"
+fastapi-mail = "*"
 
 [dev-packages]
 

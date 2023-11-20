@@ -21,7 +21,7 @@ const SearchResults = ({ searchQuery, storedCafes }) => {
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
         {cafes.map((cafe) => (
-          <CafeCard cafe={cafe} key={cafe.cafe_id} />
+          <CafeCard cafe={cafe} key={cafe.slug} />
         ))}
       </div>
     </>

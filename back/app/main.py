@@ -1,11 +1,7 @@
-"""
-Main application initialization for Café Sans Fil.
-Sets up FastAPI application, CORS middleware, and initializes the database connection.
-"""
-
 # FastAPI and middleware imports
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
 # Database and Beanie initialization
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -17,21 +13,17 @@ from app.api.api_v1.router import router
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.models.order_model import Order
-from contextlib import asynccontextmanager
+
+"""
+Main application initialization for Café Sans Fil.
+Sets up FastAPI application, CORS middleware, and initializes the database connection.
+"""
+db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """
-    Initialize crucial application services including database connection and Beanie ORM.
-    
-    Establishes a connection to MongoDB, initializes Beanie with the database 
-    and the defined models (User, Cafe, Order).
-    """
-    
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[settings.MONGO_DB_NAME] 
-
     await init_beanie(
-        database=db_client,
+        database=db_client[settings.MONGO_DB_NAME],
         document_models=[
             User,
             Cafe,
@@ -54,5 +46,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-    
+
 app.include_router(router, prefix=settings.API_V1_STR)
+
+@app.get("/api/health", tags=["health"])
+async def health_check():
+    try:
+        result = await db_client.admin.command("serverStatus")
+        if result['ok'] == 1.0:
+            return {"status": "available"}
+        else:
+            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                                detail="MongoDB serverStatus not ok")
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                            detail=str(e))

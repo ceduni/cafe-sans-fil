@@ -1,0 +1,320 @@
+[
+    {
+        "name": "LE MOZZA",
+        "tags": [
+            "Fromage fondu",
+            "Simple"
+        ],
+        "description": "Un grilled-cheese au fromage mozzarella",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.apartmenttherapy.info%2Fimage%2Ffetch%2Ff_auto%2Cq_auto%3Aeco%2Fhttps%3A%2F%2Fstorage.googleapis.com%2Fgen-atmedia%2F3%2F2018%2F04%2F649c960cb7640b740141678e4095261149e60693.jpeg&f=1&nofb=1&ipt=7cef0ce8e609c288f783b480e2cca2f67eab08617c8474db6eb34882be3db0c8&ipo=images",
+        "price": 2.0,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "tomate",
+                "fee": 0.25
+            }
+        ]
+    },
+    {
+        "name": "LE MARBR\u00c9",
+        "tags": [
+            "Fromage riche",
+            "D\u00e9licieux"
+        ],
+        "description": "Un grilled-cheese au fromage cheddar marbr\u00e9",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pratico-pratiques.com%2Fapp%2Fuploads%2Fsites%2F3%2F2018%2F08%2F20200349%2Fgrilled-cheese-au-fromage-fume-et-poires.jpeg&f=1&nofb=1&ipt=b790e2e1944e960537314a397565b833f2c5f6e393c321946b4177bd12097dd8&ipo=images",
+        "price": 2.0,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "oignon",
+                "fee": 0.2
+            }
+        ]
+    },
+    {
+        "name": "LE BLANC",
+        "tags": [
+            "Classique",
+            "Savoureux"
+        ],
+        "description": "Un grilled-cheese au fromage cheddar blanc",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fjournalmetro.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fbouffe_grilled-cheese-cuisine-futecc81e.jpg%3Fw%3D860&f=1&nofb=1&ipt=fd507855439e4fbb3dd6b1703236881db1275a99cb96fa7ed40c3caf80a22f8b&ipo=images",
+        "price": 2.0,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "bacon",
+                "fee": 0.5
+            }
+        ]
+    },
+    {
+        "name": "LE BRIE",
+        "tags": [
+            "Gourmet",
+            "Raffin\u00e9"
+        ],
+        "description": "Un grilled-cheese au fromage brie",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F05%2F17%2F0e%2F05170ef438052d1a1efcf51e4c20db90.jpg&f=1&nofb=1&ipt=4dc8bcd9dcdb23ade0b398b06279dad6fbd72f18112799e72e68103f43566d49&ipo=images",
+        "price": 2.0,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "pomme",
+                "fee": 0.3
+            }
+        ]
+    },
+    {
+        "name": "Caf\u00e9 r\u00e9gulier",
+        "tags": [
+            "Classique",
+            "R\u00e9veil"
+        ],
+        "description": "Verre jetable 0,25$",
+        "image_url": "https://tse2.mm.bing.net/th?id=OIP.BHaoa6Q2t6RbOeLiNP7i7QHaNU&pid=Api&f=1&ipt=8f963dd2d23137b18d54719fc57166d35f325a303668e591283b1c4e1cea6765&ipo=images",
+        "price": 0.75,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": [
+            {
+                "type": "taille",
+                "value": "grand",
+                "fee": 0.2
+            }
+        ]
+    },
+    {
+        "name": "Th\u00e9",
+        "tags": [
+            "Apaisant",
+            "Vari\u00e9t\u00e9"
+        ],
+        "description": "0,75$",
+        "image_url": "https://tse3.mm.bing.net/th?id=OIP.EORjadr_mHbDO74cJGpyxQHaGY&pid=Api&f=1&ipt=81631235ac47c221873746e5cd823b0417a5de2bc30417e66a4495eb0070ad96&ipo=images",
+        "price": 0.75,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": [
+            {
+                "type": "parfum",
+                "value": "menthe",
+                "fee": 0
+            },
+            {
+                "type": "parfum",
+                "value": "camomille",
+                "fee": 0
+            }
+        ]
+    },
+    {
+        "name": "Espresso",
+        "tags": [
+            "Forte",
+            "\u00c9nergisant"
+        ],
+        "description": "1,50$",
+        "image_url": "https://tse2.mm.bing.net/th?id=OIP.1SIag3CMcvW9ZZTrbqM_CQHaJX&pid=Api&f=1&ipt=db457dd83fd0bc3a431d7b1a89447e6e6c52a9f5f2d7974d054c1f21b4864050&ipo=images",
+        "price": 1.5,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": []
+    },
+    {
+        "name": "Espresso Double",
+        "tags": [
+            "Double dose",
+            "Intense"
+        ],
+        "description": "2,00$",
+        "image_url": "https://tse1.mm.bing.net/th?id=OIP.NvnAWJSzDDskz9RaHd_wQAHaLL&pid=Api&f=1&ipt=bc997256adb8f728b488b2c9c4d184ed8661c1070fd3196ad311d6108e4009cd&ipo=images",
+        "price": 2.0,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": []
+    },
+    {
+        "name": "Latte ou Cappucino",
+        "tags": [
+            "Onctueux",
+            "D\u00e9licat"
+        ],
+        "description": "3,00$",
+        "image_url": "https://tse3.mm.bing.net/th?id=OIP.lXOas6GH-dGvwBW-GHvSuQHaFj&pid=Api&f=1&ipt=449b48a3ad8149f2758ee105ac0ec70c54dbe0d092ae33e471797497dad902bb&ipo=images",
+        "price": 3.0,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": [
+            {
+                "type": "sirop",
+                "value": "vanille",
+                "fee": 0.3
+            },
+            {
+                "type": "sirop",
+                "value": "caramel",
+                "fee": 0.3
+            }
+        ]
+    },
+    {
+        "name": "Chocolat chaud",
+        "tags": [
+            "R\u00e9confortant",
+            "Doux"
+        ],
+        "description": "1,00$",
+        "image_url": "https://tse3.mm.bing.net/th?id=OIP.IxtNts8XeP8eF-sOhPSZpQHaE7&pid=Api&f=1&ipt=f1086cacc18e9859d57f17bdb80d79c782b3d9a238faccbe41db7514307bbebd&ipo=images",
+        "price": 1.0,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": [
+            {
+                "type": "extra",
+                "value": "cr\u00e8me fouett\u00e9e",
+                "fee": 0.2
+            }
+        ]
+    },
+    {
+        "name": "Arizona",
+        "tags": [
+            "Rafra\u00eechissant",
+            "Fruit\u00e9"
+        ],
+        "description": "Verre jetable 0,25$",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Ffr.freshfoodvillage.com%2Ffiles%2Fpages%2Foriginal%2F2016%2F03%2F11%2Fazcowboy1-2774.5l.jpg&f=1&nofb=1&ipt=bf78aafbe48578ae9189ff44e3eeef9668ae2feced1d680daf36bebbfaa8316c&ipo=images",
+        "price": 1.0,
+        "in_stock": true,
+        "category": "Boissons froides",
+        "options": []
+    },
+    {
+        "name": "Coca-Cola",
+        "tags": [
+            "Classique",
+            "P\u00e9tillant"
+        ],
+        "description": "1,25$",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fnuestrofuturocomun.com%2Fwp-content%2Fuploads%2F2017%2F06%2FCoca-Cola.jpg&f=1&nofb=1&ipt=4ed70a2dd6aa6e1548bf1d3a78043197180388dee7560fb6e0a7f4646d6fa63c&ipo=images",
+        "price": 1.25,
+        "in_stock": true,
+        "category": "Boissons froides",
+        "options": []
+    },
+    {
+        "name": "Jus V8",
+        "tags": [
+            "Nutritif",
+            "Naturel"
+        ],
+        "description": "1,25$",
+        "image_url": "https://tse2.mm.bing.net/th?id=OIP.Oxe3w13vQXtRFOA1TEE7KAHaHa&pid=Api&f=1&ipt=d5bc663cf4734b068cb8d9d8ac91477f0b92eb7c79fddeff44f349766863f970&ipo=images",
+        "price": 1.25,
+        "in_stock": true,
+        "category": "Boissons froides",
+        "options": []
+    },
+    {
+        "name": "Perrier",
+        "tags": [
+            "P\u00e9tillant",
+            "Rafra\u00eechissant"
+        ],
+        "description": "1,50$",
+        "image_url": "https://tse4.mm.bing.net/th?id=OIP.YIvMGRIvQgXP0S0C207geQHaHa&pid=Api&f=1&ipt=85c78b70d87d293de30a27319abef8d6e6fd2e860b818b653577b6c4f1e58e94&ipo=images",
+        "price": 1.5,
+        "in_stock": true,
+        "category": "Boissons froides",
+        "options": []
+    },
+    {
+        "name": "Gomme",
+        "tags": [
+            "Sucr\u00e9",
+            "Rafra\u00eechissant"
+        ],
+        "description": "1,25$",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foviandes.ca%2Fboutique%2Fimage%2Fcatalog%2Fhubba3.jpg&f=1&nofb=1&ipt=eaee119d3736e2847b33dd9c2eeb24a8541e7541c6c1d02bcfb3420771be4ba4&ipo=images",
+        "price": 1.25,
+        "in_stock": true,
+        "category": "Collations",
+        "options": []
+    },
+    {
+        "name": "Barre Sp\u00e9cial K",
+        "tags": [
+            "L\u00e9ger",
+            "Nutritif"
+        ],
+        "description": "0,25$",
+        "image_url": "https://tse4.mm.bing.net/th?id=OIP.oB9tKBBb8Pzcc8NMlItPggHaHa&pid=Api&f=1&ipt=219c948d9b8332112bb788d27a4e1da7397d9cfe07bfc951b95fd18a30992ec4&ipo=images",
+        "price": 0.25,
+        "in_stock": true,
+        "category": "Collations",
+        "options": []
+    },
+    {
+        "name": "Brookside",
+        "tags": [
+            "Fruit\u00e9",
+            "Chocolat\u00e9"
+        ],
+        "description": "0,50$",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F2.bp.blogspot.com%2F-5ZNIP_nyiqs%2FWHTEFSxnxKI%2FAAAAAAAAMFw%2F7x8YwHzXu1suCZ2uly-aeb4Pcq0Lk1CTwCLcB%2Fs1600%2Fbrookside.png&f=1&nofb=1&ipt=9aad810b3d0c55db402a5f9441ce3b6665ac99bfb69fcad77437200e26e81b00&ipo=images",
+        "price": 0.5,
+        "in_stock": true,
+        "category": "Collations",
+        "options": []
+    },
+    {
+        "name": "Barre Val Nature",
+        "tags": [
+            "Naturel",
+            "\u00c9nergisant"
+        ],
+        "description": "1,00$",
+        "image_url": "https://tse1.mm.bing.net/th?id=OIP.UtqwVDwYPOUHSy2c951oKwHaHa&pid=Api&f=1&ipt=39e7833dc801a22f9901907534594294bbf11d1ffb406a001e15e50194e45862&ipo=images",
+        "price": 1.0,
+        "in_stock": true,
+        "category": "Collations",
+        "options": []
+    },
+    {
+        "name": "Barre Kirkland",
+        "tags": [
+            "Croustillant",
+            "Savoureux"
+        ],
+        "description": "0,50$",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.deliver-grocery.ca%2F3543-thickbox_default%2Fkirkland-signature-barres-tendres-granola-64-24-g.jpg&f=1&nofb=1&ipt=b780fcdd08ad56ce0081e72c1d25b2d8b244dbe80f0a7288bc9713c145181f25&ipo=images",
+        "price": 0.5,
+        "in_stock": true,
+        "category": "Collations",
+        "options": []
+    },
+    {
+        "name": "Barre de chocolat",
+        "tags": [
+            "Gourmand",
+            "D\u00e9lice"
+        ],
+        "description": "Chocolat!!!",
+        "image_url": "https://tse1.mm.bing.net/th?id=OIP.9lxtNeX56JCCLca0HkfBAgHaHa&pid=Api&f=1&ipt=35da3f0d16fbaa41f7886e38dfa7bd6e350d2f8e3b11ffc18a8b0028492a97f5&ipo=images",
+        "price": 1.5,
+        "in_stock": true,
+        "category": "Collations",
+        "options": []
+    }
+]
