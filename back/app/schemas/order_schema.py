@@ -18,12 +18,10 @@ Note: These models are for API data interchange related to orders and not direct
 # --------------------------------------
 
 class OrderCreate(BaseModel):
-    user_id: UUID = Field(..., description="Unique identifier of the user placing the order.")
     cafe_id: UUID = Field(..., description="Unique identifier of the cafe associated with the order.")
     items: List[OrderedItem] = Field(..., description="List of ordered items including details like item ID, quantity, and price.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "user_id": "123e4567-e89b-12d3-a456-426614174001",
             "cafe_id": "123e4567-e89b-12d3-a456-426614174002",
             "items": [
                 {

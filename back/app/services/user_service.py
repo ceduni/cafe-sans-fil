@@ -53,11 +53,14 @@ class UserService:
             filters['hashed_password'] = None
 
         sort = filters.pop('sort', None)
+        limit = int(filters.pop('limit', 20))
+        page = int(filters.pop('page', 1))
+        skip = (page - 1) * limit
 
         if sort:
-            return await User.find(filters).sort(sort).to_list()
+            return await User.find(filters).skip(skip).limit(limit).sort(sort).to_list()
         else:
-            return await User.find(filters).to_list()
+            return await User.find(filters).skip(skip).limit(limit).to_list()
         
     @staticmethod
     async def create_user(user: UserAuth):

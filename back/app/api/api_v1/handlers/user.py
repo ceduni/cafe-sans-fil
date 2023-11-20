@@ -5,7 +5,7 @@ from uuid import UUID
 from typing import List
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
-from app.core.mail import send_registration_mail, send_reset_password_mail
+from app.core.mail import send_registration_mail, send_reset_password_mail, is_test_email
 from app.core.security import create_access_token
 from app.core.config import settings
 
@@ -44,6 +44,11 @@ async def create_user(user: UserAuth):
         )
 
     created_user = await UserService.create_user(user)
+
+    # Don't send email to test domains
+    if await is_test_email(user.email):
+        return created_user
+    
     email_context = {
         "title": "Bienvenue à Café Sans-fil",
         "name": f"{user.first_name + ' ' + user.last_name}",

@@ -15,14 +15,20 @@ class OrderService:
     @staticmethod
     async def list_orders(**filters) -> List[Order]:
         sort = filters.pop('sort', None)
+        limit = int(filters.pop('limit', 20))
+        page = int(filters.pop('page', 1))
+        skip = (page - 1) * limit
+
         if sort:
-            return await Order.find(filters).sort(sort).to_list()
+            return await Order.find(filters).skip(skip).limit(limit).sort(sort).to_list()
         else:
-            return await Order.find(filters).to_list()
+            return await Order.find(filters).skip(skip).limit(limit).to_list()
         
     @staticmethod
-    async def create_order(data: OrderCreate) -> Order:
-        order = Order(**data.model_dump())
+    async def create_order(data: OrderCreate, user_id: UUID) -> Order:
+        order_data = data.model_dump()
+        order_data['user_id'] = user_id
+        order = Order(**order_data)
         await order.insert()
         return order
 
@@ -40,16 +46,24 @@ class OrderService:
     async def list_orders_for_user(user_id: UUID, **filters) -> List[Order]:
         filters["user_id"] = user_id
         sort = filters.pop('sort', None)
+        limit = int(filters.pop('limit', 20))
+        page = int(filters.pop('page', 1))
+        skip = (page - 1) * limit
+
         if sort:
-            return await Order.find(filters).sort(sort).to_list()
+            return await Order.find(filters).skip(skip).limit(limit).sort(sort).to_list()
         else:
-            return await Order.find(filters).to_list()
+            return await Order.find(filters).skip(skip).limit(limit).to_list()
 
     @staticmethod
     async def list_orders_for_cafe(cafe_id: UUID, **filters) -> List[Order]:
         filters["cafe_id"] = cafe_id
         sort = filters.pop('sort', None)
+        limit = int(filters.pop('limit', 20))
+        page = int(filters.pop('page', 1))
+        skip = (page - 1) * limit
+
         if sort:
-            return await Order.find(filters).sort(sort).to_list()
+            return await Order.find(filters).skip(skip).limit(limit).sort(sort).to_list()
         else:
-            return await Order.find(filters).to_list()
+            return await Order.find(filters).skip(skip).limit(limit).to_list()

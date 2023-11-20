@@ -55,7 +55,7 @@ async def get_order(order_id: UUID, current_user: User = Depends(get_current_use
 
 @order_router.post("/orders", response_model=OrderOut)
 async def create_order(order: OrderCreate, current_user: User = Depends(get_current_user)):
-    return await OrderService.create_order(order)
+    return await OrderService.create_order(order, current_user.user_id)
 
 @order_router.put("/orders/{order_id}", response_model=OrderOut)
 async def update_order(order_id: UUID, orderUpdate: OrderUpdate, current_user: User = Depends(get_current_user)):

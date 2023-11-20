@@ -29,7 +29,7 @@ async def main():
     await init_beanie(database=db_client, document_models=[User, Cafe, Order])
 
     # Generate all 
-    user_ids = await create_users(26) # Must have minimum 26 Users to always have enough Staff
+    user_ids = await create_users(270) # Must have minimum 26 Users to always have enough Staff, max 270
     cafe_menu_items_ids_dict = await create_cafes(user_ids)
     await create_orders(user_ids, cafe_menu_items_ids_dict, MONGO_DB_NAME.endswith("test"))
 

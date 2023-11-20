@@ -35,6 +35,12 @@ async def get_cafe(cafe_id: UUID):
 
 @cafe_router.post("/cafes", response_model=CafeOut)
 async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current_user)):
+    # Authorization check
+    if "CafeSansfil1" != current_user.username:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden"
+        )
     return await CafeService.create_cafe(cafe)
 
 @cafe_router.put("/cafes/{cafe_id}", response_model=CafeOut)

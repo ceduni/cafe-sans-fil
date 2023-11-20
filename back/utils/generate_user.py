@@ -28,13 +28,14 @@ async def create_users(num_users):
                 username = fake.user_name()
                 first_name = fake.first_name()
                 last_name = fake.last_name()
+                password = normalize_string(first_name).replace(" ", "") + normalize_string(last_name).replace(" ", "") + "1" # password is first_name+last_name+"1" (For Test)
                 photo_url = photo_urls[i] if random.random() <= 1.00 else None # chance of having a photo
 
                 user_data = UserAuth(
                     email=email,
                     matricule=matricule,
                     username=username,
-                    password=normalize_string(first_name) + normalize_string(last_name) + "1",  # password is first_name+last_name+"1" (For Test)
+                    password=password,
                     first_name=first_name,
                     last_name=last_name,
                     photo_url=photo_url
@@ -48,7 +49,7 @@ async def create_users(num_users):
 
     # Update the first User to be cafesansfil
     cafesansfil_user = {
-        "email": "spider@man.com",
+        "email": "spiderman@example.com",
         "matricule": "sm12345",
         "username": "CafeSansfil1",
         "password": "CafeSansfil1",

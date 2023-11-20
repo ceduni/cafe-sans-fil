@@ -46,6 +46,10 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     else:
         user = await UserService.get_user_by_username(username=form_data.username)
 
+    # Check if inactive account
+    if user and not user.is_active:
+        raise HTTPException(status_code=403, detail="Account is inactive.")
+    
     # Check if user is currently locked out
     if user and user.lockout_until and user.lockout_until > datetime.utcnow():
         raise HTTPException(

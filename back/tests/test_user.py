@@ -8,7 +8,7 @@ def user_data():
     last_name = fake.last_name()
     password= "Password1"
     return {
-            "email": "sonofgocou@hotmail.com",
+            "email": fake.email(),
             "matricule": fake.bothify(text='??#####').lower(),
             "username": fake.user_name(),
             "password": password,
@@ -20,7 +20,7 @@ def user_data():
 @pytest.fixture(scope="module")
 def user_data_cafesansfil():
     return {
-        "email": "spider@man.com",
+        "email": "spiderman@example.com",
         "matricule": "sm12345",
         "username": "CafeSansfil1",
         "password": "CafeSansfil1",
@@ -44,7 +44,7 @@ def test_list_users_success(client, auth_login):
 def test_list_users_unauthorized(client):
     response = client.get("/api/users?sort=name")
     assert response.status_code == 401
-
+    
 def test_create_user_success(client, user_data):
     response = client.post("/api/users", json=user_data)
     assert response.status_code == 200

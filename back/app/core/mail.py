@@ -37,3 +37,8 @@ async def send_reset_password_mail(subject: str, email_to: str, body: dict):
     await fm.send_message(message, template_name='reset_password_mail.html')
 
 
+async def is_test_email(email: str) -> bool:
+    # To not send emails to test domains in Unit Tests
+    test_domains = {"example.org", "example.com", "test.com", "example.net"}
+    domain = email.split('@')[-1]
+    return domain in test_domains
