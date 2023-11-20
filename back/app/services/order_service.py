@@ -25,9 +25,9 @@ class OrderService:
             return await Order.find(filters).skip(skip).limit(limit).to_list()
         
     @staticmethod
-    async def create_order(data: OrderCreate, user_id: UUID) -> Order:
+    async def create_order(data: OrderCreate, username: str) -> Order:
         order_data = data.model_dump()
-        order_data['user_id'] = user_id
+        order_data['user_username'] = username
         order = Order(**order_data)
         await order.insert()
         return order
@@ -43,8 +43,8 @@ class OrderService:
         return order
 
     @staticmethod
-    async def list_orders_for_user(user_id: UUID, **filters) -> List[Order]:
-        filters["user_id"] = user_id
+    async def list_orders_for_user(username: str, **filters) -> List[Order]:
+        filters["username"] = username
         sort = filters.pop('sort', None)
         limit = int(filters.pop('limit', 20))
         page = int(filters.pop('page', 1))
@@ -56,8 +56,8 @@ class OrderService:
             return await Order.find(filters).skip(skip).limit(limit).to_list()
 
     @staticmethod
-    async def list_orders_for_cafe(cafe_id: UUID, **filters) -> List[Order]:
-        filters["cafe_id"] = cafe_id
+    async def list_orders_for_cafe(cafe_slug: str, **filters) -> List[Order]:
+        filters["slug"] = cafe_slug
         sort = filters.pop('sort', None)
         limit = int(filters.pop('limit', 20))
         page = int(filters.pop('page', 1))

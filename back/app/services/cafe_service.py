@@ -169,7 +169,7 @@ class CafeService:
         # Check if part of staff
         user_in_staff = None
         for user in cafe.staff:
-            if user.user_id == current_user.user_id:
+            if user.username == current_user.username:
                 user_in_staff = user
                 break
 
@@ -191,7 +191,7 @@ class CafeService:
         # Check if part of staff
         user_in_staff = None
         for user in cafe.staff:
-            if user.user_id == current_user.user_id:
+            if user.username == current_user.username:
                 user_in_staff = user
                 break
 

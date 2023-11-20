@@ -24,9 +24,9 @@ async def list_users(request: Request, current_user: User = Depends(get_current_
     filters = dict(request.query_params)
     return await UserService.list_users(**filters)
 
-@user_router.get("/users/{user_id}", response_model=UserOut, summary="Get User", description="Retrieve detailed information about a specific user.")
-async def get_user(user_id: UUID = Path(..., description="The unique identifier of the user"), current_user: User = Depends(get_current_user)):
-    user = await UserService.retrieve_user(user_id)
+@user_router.get("/users/{username}", response_model=UserOut, summary="Get User", description="Retrieve detailed information about a specific user.")
+async def get_user(username: str = Path(..., description="The username of the user"), current_user: User = Depends(get_current_user)):
+    user = await UserService.get_user_by_username(username)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -57,9 +57,9 @@ async def create_user(user: UserAuth):
 
     return created_user
 
-@user_router.put("/users/{user_id}", response_model=UserOut, summary="Update User", description="Update the details of an existing user.")
-async def update_user(user_data: UserUpdate, user_id: UUID = Path(..., description="The unique identifier of the user to update"), current_user: User = Depends(get_current_user)):
-    user = await UserService.retrieve_user(user_id)
+@user_router.put("/users/{username}", response_model=UserOut, summary="Update User", description="Update the details of an existing user.")
+async def update_user(user_data: UserUpdate, username: str = Path(..., description="The username of the user to update"), current_user: User = Depends(get_current_user)):
+    user = await UserService.get_user_by_username(username)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -67,13 +67,13 @@ async def update_user(user_data: UserUpdate, user_id: UUID = Path(..., descripti
         )
     
     # Authorization check
-    if user_id != current_user.user_id:
+    if username != current_user.username:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Access forbidden"
         )
 
-    return await UserService.update_user(user_id, user_data)
+    return await UserService.update_user(username, user_data)
 
 # --------------------------------------
 #               Reset Password

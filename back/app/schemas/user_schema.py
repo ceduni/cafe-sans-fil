@@ -105,7 +105,6 @@ class UserOut(BaseModel):
     first_name: str = Field(..., description="First name of the user.")
     last_name: str = Field(..., description="Last name of the user.")
     photo_url: Optional[str] = Field(None, description="URL of the user's profile photo.")
-    is_active: bool = Field(..., description="Indicates whether the user's account is active.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "user_id": "123e4567-e89b-12d3-a456-426614174000",
@@ -115,7 +114,6 @@ class UserOut(BaseModel):
             "first_name": "John",
             "last_name": "Doe",
             "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
-            "is_active": True
         }
     })
 

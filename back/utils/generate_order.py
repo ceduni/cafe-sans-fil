@@ -4,25 +4,25 @@ from tqdm import tqdm
 import random
 random.seed(42)
 
-async def create_orders(user_ids, cafe_menu_items, is_test=False):
+async def create_orders(user_usernames, cafe_menu_items, is_test=False):
     cafe_items_list = list(cafe_menu_items.items())
 
-    for i in tqdm(range(len(user_ids)), desc="Creating orders"):
+    for i in tqdm(range(len(user_usernames)), desc="Creating orders"):
         # Minimum 2 Orders for cafesansfil (For Test)
         minimum = 2 + 1 if i == 0 else 0
         maximum = 4 if is_test else 15
         for index in range(random.randint(minimum, maximum)): 
-            user_id = user_ids[i]
+            user_username = user_usernames[i]
             # First Order is related to first cafe (For Test)
             if index == 0:
-                cafe_id, menu_items = cafe_items_list[0]
+                cafe_slug, menu_items = cafe_items_list[0]
             # Second Order is not related to cafesansfil in any way (For Test)
             elif index == 1:
-                user_id = random.choice(user_ids[1:])
-                cafe_id, menu_items = cafe_items_list[-1]
+                user_username = random.choice(user_usernames[1:])
+                cafe_slug, menu_items = cafe_items_list[-1]
             # Other Orders are random
             else:
-                cafe_id, menu_items = random.choice(cafe_items_list)
+                cafe_slug, menu_items = random.choice(cafe_items_list)
 
             items = []
             status = random.choice(list(OrderStatus))
@@ -42,15 +42,15 @@ async def create_orders(user_ids, cafe_menu_items, is_test=False):
                     options = [OrderedItemOption(type=opt.type, value=opt.value, fee=opt.fee) for opt in selected_options]
 
                 items.append(OrderedItem(
-                    item_id=menu_item.item_id, 
+                    item_slug=menu_item.slug, 
                     quantity=quantity, 
                     item_price=item_price,
                     options=options
                 ))
 
             order = Order(
-                user_id=user_id,
-                cafe_id=cafe_id,
+                user_username=user_username,
+                cafe_slug=cafe_slug,
                 items=items,
                 status=status,
                 created_at = created_at,

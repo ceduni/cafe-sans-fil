@@ -28,7 +28,7 @@ class OrderedItemOption(BaseModel):
         return fee
     
 class OrderedItem(BaseModel):
-    item_id: UUID = Field(..., description="Unique identifier for the item.")
+    item_slug: str = Field(..., description="Slug of the item ordered.")
     quantity: int = Field(..., description="Quantity of the item ordered.")
     item_price: DecimalAnnotation = Field(..., description="Price per unit of the item.")
     options: List[OrderedItemOption] = Field(..., description="List of options selected for this item.")
@@ -55,8 +55,8 @@ class OrderStatus(str, Enum):
 
 class Order(Document):
     order_id: UUID = Field(default_factory=uuid4)
-    user_id: UUID
-    cafe_id: UUID
+    cafe_slug: str
+    user_username: str
     items: List[OrderedItem]
     total_price: DecimalAnnotation = DecimalAnnotation(0.0)
     status: OrderStatus = Field(default=OrderStatus.PLACED)

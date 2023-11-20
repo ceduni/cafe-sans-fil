@@ -22,8 +22,8 @@ def user_data_cafesansfil():
     return {
         "email": "spiderman@example.com",
         "matricule": "sm12345",
-        "username": "CafeSansfil1",
-        "password": "CafeSansfil1",
+        "username": "cafesansfil",
+        "password": "Cafesansfil1",
         "first_name": "Tom",
         "last_name": "Holland",
         "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
@@ -54,7 +54,7 @@ def test_create_user_conflict(client, user_data_cafesansfil):
     assert response.status_code == 409
 
 # --------------------------------------
-#       /api/users/{user_id}
+#       /api/users/{username}
 # --------------------------------------
 
 def test_get_user_success(client, list_users, auth_login):
@@ -62,13 +62,13 @@ def test_get_user_success(client, list_users, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    user_id = list_users[0]["user_id"]
-    response = client.get(f"/api/users/{user_id}", headers=headers)
+    username = list_users[0]["username"]
+    response = client.get(f"/api/users/{username}", headers=headers)
     assert response.status_code == 200
 
 def test_get_user_unauthorized(client, list_users):
-    user_id = list_users[0]["user_id"]
-    response = client.get(f"/api/users/{user_id}")
+    username = list_users[0]["username"]
+    response = client.get(f"/api/users/{username}")
     assert response.status_code == 401
 
 def test_get_user_not_found(client, auth_login):
@@ -76,8 +76,8 @@ def test_get_user_not_found(client, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    user_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    response = client.get(f"/api/users/{user_id}", headers=headers)
+    username = "dont exist" # Non-existant username
+    response = client.get(f"/api/users/{username}", headers=headers)
     assert response.status_code == 404
 
 def test_update_user_success(client, list_users, user_data_cafesansfil, auth_login):
@@ -85,13 +85,13 @@ def test_update_user_success(client, list_users, user_data_cafesansfil, auth_log
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    user_id = list_users[0]["user_id"]
-    response = client.put(f"/api/users/{user_id}", json=user_data_cafesansfil, headers=headers)
+    username = list_users[0]["username"]
+    response = client.put(f"/api/users/{username}", json=user_data_cafesansfil, headers=headers)
     assert response.status_code == 200
 
 def test_update_user_unauthorized(client, list_users, user_data_cafesansfil):
-    user_id = list_users[0]["user_id"]
-    response = client.put(f"/api/users/{user_id}", json=user_data_cafesansfil)
+    username = list_users[0]["username"]
+    response = client.put(f"/api/users/{username}", json=user_data_cafesansfil)
     assert response.status_code == 401
 
 def test_update_user_forbidden(client, list_users, user_data_cafesansfil, auth_login):
@@ -99,8 +99,8 @@ def test_update_user_forbidden(client, list_users, user_data_cafesansfil, auth_l
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    user_id = list_users[1]["user_id"]
-    response = client.put(f"/api/users/{user_id}", json=user_data_cafesansfil, headers=headers)
+    username = list_users[1]["username"]
+    response = client.put(f"/api/users/{username}", json=user_data_cafesansfil, headers=headers)
     assert response.status_code == 403
 
 def test_update_user_not_found(client, user_data_cafesansfil, auth_login):
@@ -108,6 +108,6 @@ def test_update_user_not_found(client, user_data_cafesansfil, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    user_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    response = client.put(f"/api/users/{user_id}", json=user_data_cafesansfil, headers=headers)
+    username = "dont exist" # Non-existant username
+    response = client.put(f"/api/users/{username}", json=user_data_cafesansfil, headers=headers)
     assert response.status_code == 404

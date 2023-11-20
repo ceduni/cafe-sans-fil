@@ -23,6 +23,8 @@ class User(Document):
     first_name: Indexed(str)
     last_name: Indexed(str)
     photo_url: Optional[str] = None
+
+    # Hidden from out
     failed_login_attempts: int = Field(default=0)
     last_failed_login_attempt:Optional[datetime] = Field(default=None)
     lockout_until: Optional[datetime] = Field(default=None)

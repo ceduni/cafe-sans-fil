@@ -15,7 +15,7 @@ from app.models.order_model import Order
 """
 Conftest file for pytest.
 """
-MONGO_DB_NAME = settings.MONGO_DB_NAME
+MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):    
@@ -34,8 +34,8 @@ def client():
 @pytest.fixture(scope="module")
 def auth_login(client):
     login_data = {
-        "username": "CafeSansfil1",
-        "password": "CafeSansfil1",
+        "username": "cafesansfil",
+        "password": "Cafesansfil1",
     }
     response = client.post("/api/auth/login", data=login_data)
     return response.json()

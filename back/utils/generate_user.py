@@ -11,7 +11,7 @@ Faker.seed(42)
 fake = Faker('fr_FR')
 
 async def create_users(num_users):
-    user_ids = []
+    user_usernames = []
 
     # Read URLs from JSON file
     with open("./utils/templates/photo_urls.json", "r", encoding="utf-8") as file:
@@ -42,7 +42,7 @@ async def create_users(num_users):
                 )
 
                 user = await UserService.create_user(user_data)
-                user_ids.append(user.user_id)
+                user_usernames.append(user.username)
                 break
             except pymongo.errors.DuplicateKeyError:
                 continue
@@ -51,15 +51,15 @@ async def create_users(num_users):
     cafesansfil_user = {
         "email": "spiderman@example.com",
         "matricule": "sm12345",
-        "username": "CafeSansfil1",
-        "password": "CafeSansfil1",
+        "username": "cafesansfil",
+        "password": "Cafesansfil1",
         "first_name": "Tom",
         "last_name": "Holland",
         "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
     }
-    await UserService.update_user(user_ids[0], UserAuth(**cafesansfil_user))
-
-    return user_ids
+    await UserService.update_user(user_usernames[0], UserAuth(**cafesansfil_user))
+    user_usernames[0] = "cafesansfil"
+    return user_usernames
 
 # This function is used to normalize the first_name and last_name to be used as a password
 # Example: "Éric" -> "Eric"

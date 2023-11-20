@@ -36,7 +36,7 @@ async def get_cafe(cafe_slug: str = Path(..., description="The slug of the cafe"
 @cafe_router.post("/cafes", response_model=CafeOut, summary="Create Cafe", description="Create a new cafe with the provided information.")
 async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current_user)):
     # Authorization check
-    if "CafeSansfil1" != current_user.username:
+    if "cafesansfil" != current_user.username:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Access forbidden"

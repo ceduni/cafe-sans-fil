@@ -1,6 +1,10 @@
 from app.core.config import settings
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 
+"""
+This module is used to send emails to users.
+"""
+
 conf = ConnectionConfig(
         MAIL_USERNAME=settings.MAIL_USERNAME,
         MAIL_PASSWORD=settings.MAIL_PASSWORD,

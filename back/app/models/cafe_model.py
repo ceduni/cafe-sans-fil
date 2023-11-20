@@ -18,8 +18,8 @@ different from the API data interchange models.
 """
 
 class TimeBlock(BaseModel):
-    start: str = Field(..., description="Start time in HH:mm format.")  # HH:mm format
-    end: str = Field(..., description="End time in HH:mm format.")  # HH:mm format
+    start: str = Field(..., description="Start time in HH:mm format.")
+    end: str = Field(..., description="End time in HH:mm format.")
 
     @field_validator('start', 'end')
     @classmethod
@@ -71,7 +71,7 @@ class Role(str, Enum):
     ADMIN = "Admin"
     
 class StaffMember(BaseModel):
-    user_id: UUID = Field(..., description="Unique identifier of the staff member.")
+    username: str = Field(..., description="Username of the staff member.")
     role: Role = Field(..., description="Role of the staff member, e.g., 'Bénévole', 'Admin'.")
 
 class MenuItemOption(BaseModel):

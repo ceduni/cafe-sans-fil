@@ -48,6 +48,9 @@ class UserService:
 
     @staticmethod
     async def list_users(**filters):
+        # Don't show inactive users
+        filters["is_active"] = True
+
         # Prevent filtering on hashed_password
         if 'hashed_password' in filters:
             filters['hashed_password'] = None
@@ -77,12 +80,13 @@ class UserService:
         return user_in
     
     @staticmethod
-    async def retrieve_user(user_id: UUID):
-        return await User.find_one(User.user_id == user_id)
+    async def retrieve_user(username: str):
+        # Don't show inactive users
+        return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
-    async def update_user(user_id: UUID, data: UserUpdate) -> User:
-        user = await UserService.retrieve_user(user_id)
+    async def update_user(username: str, data: UserUpdate) -> User:
+        user = await UserService.retrieve_user(username)
         update_data = data.model_dump(exclude_unset=True)
 
         if 'password' in update_data:

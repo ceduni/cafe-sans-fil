@@ -4,10 +4,10 @@ import random
 @pytest.fixture(scope="module")
 def order_data():
     return {
-            "cafe_id": "123e4567-e89b-12d3-a456-426614174002",
+            "cafe_slug": "tore-et-fraction",
             "items": [
                 {
-                    "item_id": "123e4567-e89b-12d3-a456-426614174003",
+                    "item_slug": "croissant",
                     "quantity": 2 + random.randint(0, 3),
                     "item_price": 2.99,
                     "options": [
@@ -16,7 +16,7 @@ def order_data():
                     ]
                 },
                 {
-                    "item_id": "123e4567-e89b-12d3-a456-426614174004",
+                    "item_slug": "baguette",
                     "quantity": 1,
                     "item_price": 4.99,
                     "options": [
@@ -24,7 +24,7 @@ def order_data():
                         {"type": "sauce supplémentaire", "value": "non", "fee": 0.00}
                     ]
                 }
-            ],
+            ]
     }
 
 @pytest.fixture(scope="module")
@@ -32,7 +32,7 @@ def order_data2():
     return {
             "items": [
                 {
-                    "item_id": "123e4567-e89b-12d3-a456-426614174003",
+                    "item_slug": "croissant",
                     "quantity": 2 + random.randint(0, 3),
                     "item_price": 2.99,
                     "options": [
@@ -41,7 +41,7 @@ def order_data2():
                     ]
                 },
                 {
-                    "item_id": "123e4567-e89b-12d3-a456-426614174004",
+                    "item_slug": "baguette",
                     "quantity": 1,
                     "item_price": 4.99,
                     "options": [
@@ -49,7 +49,7 @@ def order_data2():
                         {"type": "sauce supplémentaire", "value": "non", "fee": 0.00}
                     ]
                 }
-            ],
+            ]
     }
 
 # --------------------------------------
@@ -66,15 +66,23 @@ def test_list_orders_unauthorized(client):
     response = client.get("/api/orders")
     assert response.status_code == 401
 
-def test_create_order_success(client, auth_login, order_data):
+def test_create_order_success(client, list_cafes, auth_login, order_data):
     tokens = auth_login
     headers = {"Authorization": f"Bearer {tokens['access_token']}"}
+    order_data["cafe_slug"] = list_cafes[0]["slug"]
     response = client.post("/api/orders", json=order_data, headers=headers)
     assert response.status_code == 200
 
 def test_create_order_unauthorized(client, order_data):
     response = client.post("/api/orders", json=order_data)
     assert response.status_code == 401
+
+def test_create_order_not_found(client, auth_login, order_data):
+    tokens = auth_login
+    headers = {"Authorization": f"Bearer {tokens['access_token']}"}
+    order_data["cafe_slug"] = "Non existent Cafe"
+    response = client.post("/api/orders", json=order_data, headers=headers)
+    assert response.status_code == 404
 
 # --------------------------------------
 #       /api/orders{order_id}
@@ -133,47 +141,47 @@ def test_update_order_not_found(client, order_data2, auth_login):
     assert response.status_code == 404
 
 # --------------------------------------
-#       /api/orders{user_id}/orders
+#       /api/orders{username}/orders
 # --------------------------------------
 
 def test_list_user_orders_success(client, list_users, auth_login):
     tokens = auth_login
     headers = {"Authorization": f"Bearer {tokens['access_token']}"}
-    user_id = list_users[0]["user_id"]
-    response = client.get(f"/api/users/{user_id}/orders", headers=headers)
+    username = list_users[0]["username"]
+    response = client.get(f"/api/users/{username}/orders", headers=headers)
     assert response.status_code == 200
 
 def test_list_user_orders_unauthorized(client, list_users):
-    user_id = list_users[0]["user_id"]
-    response = client.get(f"/api/users/{user_id}/orders")
+    username = list_users[0]["username"]
+    response = client.get(f"/api/users/{username}/orders")
     assert response.status_code == 401
 
 def test_list_user_orders_forbidden(client, list_users, auth_login):
     tokens = auth_login
     headers = {"Authorization": f"Bearer {tokens['access_token']}"}
-    user_id = list_users[1]["user_id"]
-    response = client.get(f"/api/users/{user_id}/orders", headers=headers)
+    username = list_users[1]["username"]
+    response = client.get(f"/api/users/{username}/orders", headers=headers)
     assert response.status_code == 403
 
 # --------------------------------------
-#       /api/orders{cafe_id}/orders
+#       /api/orders{cafe_slug}/orders
 # --------------------------------------
 
 def test_list_cafe_orders_success(client, list_cafes, auth_login):
     tokens = auth_login
     headers = {"Authorization": f"Bearer {tokens['access_token']}"}
-    cafe_id = list_cafes[0]["cafe_id"]
-    response = client.get(f"/api/cafes/{cafe_id}/orders", headers=headers)
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/orders", headers=headers)
     assert response.status_code == 200
 
 def test_list_cafe_orders_unauthorized(client, list_cafes):
-    cafe_id = list_cafes[0]["cafe_id"]
-    response = client.get(f"/api/cafes/{cafe_id}/orders")
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/orders")
     assert response.status_code == 401
 
 def test_list_cafe_orders_success(client, list_cafes, auth_login):
     tokens = auth_login
     headers = {"Authorization": f"Bearer {tokens['access_token']}"}
-    cafe_id = list_cafes[1]["cafe_id"]
-    response = client.get(f"/api/cafes/{cafe_id}/orders", headers=headers)
+    cafe_slug = list_cafes[1]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/orders", headers=headers)
     assert response.status_code == 403

@@ -99,6 +99,7 @@ class MenuItemOut(BaseModel):
         "example": {
             "item_id": "123e4567-e89b-12d3-a456-426614174000",
             "name": "Cheeseburger",
+            "slug": "cheeseburger",
             "tags": ["Classique", "Fromage"],
             "description": "Un cheeseburger classique avec une tranche de fromage fondant",
             "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
@@ -311,6 +312,7 @@ class CafeOut(BaseModel):
         "example": {
             "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
             "name": "Café Central",
+            "slug": "cafe-central",
             "description": "Un café populaire près de la bibliothèque principale.",
             "image_url": "https://media.architecturaldigest.com/photos/5b083c4675a4f940de3da8f1/master/pass/case-study-coffee.jpg",
             "faculty": "Science",
@@ -345,6 +347,7 @@ class CafeOut(BaseModel):
                 {
                     "item_id": "123e4567-e89b-12d3-a456-426614174001",
                     "name": "Cheeseburger",
+                    "slug": "cheeseburger",
                     "tags": ["Rapide", "Savoureux"],
                     "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
                     "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
@@ -362,6 +365,7 @@ class CafeOut(BaseModel):
                 {
                     "item_id": "123e4567-e89b-12d3-a456-426614174002",
                     "name": "Chicken Caesar Salad",
+                    "slug": "chicken-caesar-salad",
                     "tags": ["Léger", "Fraîcheur"],
                     "description": "Une salade César avec du poulet grillé, de la laitue romaine et de la vinaigrette César",
                     "image_url": None,

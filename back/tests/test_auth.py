@@ -4,8 +4,8 @@
 
 def test_login_success(client):
     login_data = {
-        "username": "CafeSansfil1",
-        "password": "CafeSansfil1",
+        "username": "cafesansfil",
+        "password": "Cafesansfil1",
     }
     response = client.post("/api/auth/login", data=login_data)
     assert response.status_code == 200
