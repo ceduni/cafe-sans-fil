@@ -87,6 +87,7 @@ class MenuItemUpdate(BaseModel):
 class MenuItemOut(BaseModel):
     item_id: UUID = Field(..., description="Unique identifier of the menu item.")
     name: str = Field(..., description="Name of the menu item.")
+    slug: str = Field(..., description="Slug of the menu item.")
     tags: List[str] = Field(..., description="Tags associated with the menu item.")
     description: str = Field(..., description="Description of the menu item.")
     image_url: Optional[str] = Field(None, description="Image URL of the menu item.")
@@ -292,6 +293,7 @@ class CafeUpdate(BaseModel):
 class CafeOut(BaseModel):
     cafe_id: UUID = Field(..., description="Unique identifier of the cafe.")
     name: str = Field(..., description="Name of the cafe.")
+    slug: str = Field(..., description="Slug of the cafe.")
     description: str = Field(..., description="Description of the cafe.")
     image_url: Optional[str] = Field(None, description="Image URL of the cafe.")
     faculty: str = Field(..., description="Faculty associated with the cafe.")

@@ -6,7 +6,7 @@ import { ChevronRightIcon } from "@heroicons/react/24/solid";
 
 const CafeCard = ({ cafe }) => {
   return (
-    <Link to={`/cafes/${cafe.cafe_id}`} className="contents" onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
+    <Link to={`/cafes/${cafe.slug}`} className="contents" onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
       <Card>
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>

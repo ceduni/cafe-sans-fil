@@ -15,7 +15,7 @@ from app.models.order_model import Order
 """
 Conftest file for pytest.
 """
-MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"
+MONGO_DB_NAME = settings.MONGO_DB_NAME
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):    

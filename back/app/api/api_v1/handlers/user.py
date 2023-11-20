@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status, Request, Depends
+from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
 from app.schemas.user_schema import UserOut, UserUpdate, UserAuth, PasswordResetRequest, PasswordReset
 from app.services.user_service import UserService
 from uuid import UUID
@@ -19,13 +19,13 @@ user_router = APIRouter()
 #               User
 # --------------------------------------
 
-@user_router.get("/users", response_model=List[UserOut])
+@user_router.get("/users", response_model=List[UserOut], summary="List Users", description="Retrieve a list of all users.")
 async def list_users(request: Request, current_user: User = Depends(get_current_user)):
     filters = dict(request.query_params)
     return await UserService.list_users(**filters)
 
-@user_router.get("/users/{user_id}", response_model=UserOut)
-async def get_user(user_id: UUID, current_user: User = Depends(get_current_user)):
+@user_router.get("/users/{user_id}", response_model=UserOut, summary="Get User", description="Retrieve detailed information about a specific user.")
+async def get_user(user_id: UUID = Path(..., description="The unique identifier of the user"), current_user: User = Depends(get_current_user)):
     user = await UserService.retrieve_user(user_id)
     if not user:
         raise HTTPException(
@@ -34,7 +34,7 @@ async def get_user(user_id: UUID, current_user: User = Depends(get_current_user)
         )
     return user
 
-@user_router.post("/users", response_model=UserOut)
+@user_router.post("/users", response_model=UserOut, summary="Create User", description="Create a new user with the provided information.")
 async def create_user(user: UserAuth):
     existing_attribute = await UserService.check_existing_user_attributes(user.email, user.matricule, user.username)
     if existing_attribute:
@@ -57,8 +57,8 @@ async def create_user(user: UserAuth):
 
     return created_user
 
-@user_router.put("/users/{user_id}", response_model=UserOut)
-async def update_user(user_id: UUID, user_data: UserUpdate, current_user: User = Depends(get_current_user)):
+@user_router.put("/users/{user_id}", response_model=UserOut, summary="Update User", description="Update the details of an existing user.")
+async def update_user(user_data: UserUpdate, user_id: UUID = Path(..., description="The unique identifier of the user to update"), current_user: User = Depends(get_current_user)):
     user = await UserService.retrieve_user(user_id)
     if not user:
         raise HTTPException(
@@ -79,7 +79,7 @@ async def update_user(user_id: UUID, user_data: UserUpdate, current_user: User =
 #               Reset Password
 # --------------------------------------
 
-@user_router.post("/request-reset-password/", response_description="Password reset request")
+@user_router.post("/request-reset-password", response_description="Password reset request", summary="Request Reset Password", description="Request a password reset for a user via their email address.")
 async def request_reset_password(user_email: PasswordResetRequest):
     user = await UserService.get_user_by_email(user_email.email)
 
@@ -91,7 +91,7 @@ async def request_reset_password(user_email: PasswordResetRequest):
 
     token = create_access_token(user.user_id)
     base_url = settings.BASE_URL
-    reset_link = f"{base_url}/reset?token={token}"
+    reset_link = f"{base_url}/reset-password?token={token}"
 
     await send_reset_password_mail("Réinitialisation du mot de passe", user.email,
         {
@@ -103,8 +103,8 @@ async def request_reset_password(user_email: PasswordResetRequest):
     return {"msg": "Email has been sent with instructions to reset your password."}
 
 
-@user_router.put("/reset-password/", response_description="Password reset")
-async def reset_password(token: str, new_password: PasswordReset):
+@user_router.put("/reset-password", response_description="Password reset", summary="Reset Password", description="Reset the password for a user using the provided token.")
+async def reset_password(new_password: PasswordReset, token: str = Query(..., description="The token received for password reset")):
     user = await get_current_user(token)
     if user is None:
         raise HTTPException(

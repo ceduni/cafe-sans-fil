@@ -40,21 +40,15 @@ class CafeService:
         return cafe
 
     @staticmethod
-    async def retrieve_cafe(cafe_id: UUID):
-        return await Cafe.find_one(Cafe.cafe_id == cafe_id)
-
+    async def retrieve_cafe(cafe_slug: str):
+        return await Cafe.find_one(Cafe.slug == cafe_slug)
+    
     @staticmethod
-    async def update_cafe(cafe_id: UUID, data: CafeUpdate):
-        cafe = await CafeService.retrieve_cafe(cafe_id)
+    async def update_cafe(cafe_slug: str, data: CafeUpdate):
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
         await cafe.update({"$set": data.model_dump(exclude_unset=True)})
         await cafe.save()
         return cafe
-
-    @staticmethod
-    async def delete_cafe(cafe_id: UUID) -> None:
-        cafe = await CafeService.retrieve_cafe(cafe_id)
-        if cafe:
-            await cafe.delete()
 
     # --------------------------------------
     #               Menu
@@ -62,7 +56,7 @@ class CafeService:
 
     @staticmethod
     async def list_menu_items(**filters) -> List[MenuItem]:
-        cafe_id = filters.pop('cafe_id', None)
+        cafe_slug = filters.pop('slug', None)
         sort = filters.pop('sort', None)
 
         # Convert string to boolean
@@ -72,7 +66,7 @@ class CafeService:
             elif filters['in_stock'].lower() == 'false':
                 filters['in_stock'] = False
 
-        cafe = await CafeService.retrieve_cafe(cafe_id)
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
         if cafe and hasattr(cafe, 'menu_items'):
             filtered_menu = [item for item in cafe.menu_items if all(filters.get(key, getattr(item, key)) == getattr(item, key) for key in filters)]
             if sort:
@@ -81,28 +75,28 @@ class CafeService:
         return None
 
     @staticmethod
-    async def retrieve_menu_item(cafe_id: UUID, item_id: UUID):
-        cafe = await CafeService.retrieve_cafe(cafe_id)
+    async def retrieve_menu_item(cafe_slug: str, item_slug: str):
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
         if cafe and hasattr(cafe, 'menu_items'):
             for item in cafe.menu_items:
-                if item.item_id == item_id:
+                if item.slug == item_slug:
                     return item
         return None
 
     @staticmethod
-    async def create_menu_item(cafe_id: UUID, item: MenuItemCreate) -> MenuItem:
-        cafe = await CafeService.retrieve_cafe(cafe_id)
+    async def create_menu_item(cafe_slug: str, item: MenuItemCreate) -> MenuItem:
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
         new_item = MenuItem(**item.model_dump())
         cafe.menu_items.append(new_item)
         await cafe.save()
         return new_item
     
     @staticmethod
-    async def update_menu_item(cafe_id: UUID, item_id: UUID, item_data: MenuItemUpdate):
-        cafe = await CafeService.retrieve_cafe(cafe_id)
+    async def update_menu_item(cafe_slug: str, item_slug: str, item_data: MenuItemUpdate):
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
         if cafe:
             for index, item in enumerate(cafe.menu_items):
-                if item.item_id == item_id:
+                if item.slug == item_slug:
                     for key, value in item_data.model_dump(exclude_unset=True).items():
                         setattr(cafe.menu_items[index], key, value)
                     await cafe.save()
@@ -110,11 +104,11 @@ class CafeService:
         raise ValueError("Menu item not found")
 
     @staticmethod
-    async def delete_menu_item(cafe_id: UUID, item_id: UUID) -> None:
-        cafe = await CafeService.retrieve_cafe(cafe_id)
+    async def delete_menu_item(cafe_slug: str, item_slug: str) -> None:
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
         if cafe and hasattr(cafe, 'menu_items'):
             for index, item in enumerate(cafe.menu_items):
-                if item.item_id == item_id:
+                if item.slug == item_slug:
                     del cafe.menu_items[index]
                     await cafe.save()
                     return
@@ -167,8 +161,30 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def is_authorized_for_cafe_action(cafe_id: UUID, current_user: User, required_roles: List[Role]):
+    async def is_authorized_for_cafe_action_by_id(cafe_id: UUID, current_user: User, required_roles: List[Role]):
         cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        if not cafe:
+            raise ValueError("Cafe not found")
+
+        # Check if part of staff
+        user_in_staff = None
+        for user in cafe.staff:
+            if user.user_id == current_user.user_id:
+                user_in_staff = user
+                break
+
+        # Check if appropriate role
+        if user_in_staff:
+            if user_in_staff.role not in [role.value for role in required_roles]:
+                raise ValueError("Access forbidden")
+        else:
+            raise ValueError("Access forbidden")
+
+        return True
+
+    @staticmethod
+    async def is_authorized_for_cafe_action_by_slug(cafe_slug: str, current_user: User, required_roles: List[Role]):
+        cafe = await Cafe.find_one({"slug": cafe_slug})
         if not cafe:
             raise ValueError("Cafe not found")
 

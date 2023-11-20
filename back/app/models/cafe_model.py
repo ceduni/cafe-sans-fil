@@ -4,6 +4,8 @@ from beanie import Document, DecimalAnnotation, Indexed
 from pydantic import field_validator, BaseModel, EmailStr, Field
 from enum import Enum
 from datetime import datetime
+import re
+import unicodedata
 
 """
 This module defines the Pydantic-based models used in the Café application for cafe management,
@@ -87,6 +89,7 @@ class MenuItemOption(BaseModel):
 class MenuItem(BaseModel):
     item_id: UUID = Field(default_factory=uuid4, description="Unique identifier of the menu item.")
     name: Indexed(str, unique=True) = Field(..., description="Name of the menu item.")
+    slug: Indexed(str, unique=True) = Field(None, description="URL-friendly slug for the menu item.")
     tags: List[str] = Field(..., description="List of tags associated with the menu item.")
     description: Indexed(str) = Field(..., description="Description of the menu item.")
     image_url: Optional[str] = Field(None, description="Image URL of the menu item.")
@@ -94,6 +97,10 @@ class MenuItem(BaseModel):
     in_stock: bool = Field(False, description="Availability status of the menu item.")
     category: Indexed(str) = Field(..., description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="List of options available for the menu item.")
+
+    def __init__(self, **data):
+        super().__init__(**data)
+        self.slug = slugify(self.name)
 
     @field_validator('price')
     @classmethod
@@ -105,6 +112,7 @@ class MenuItem(BaseModel):
 class Cafe(Document):
     cafe_id: UUID = Field(default_factory=uuid4)
     name: Indexed(str, unique=True)
+    slug: Indexed(str, unique=True) = None
     description: Indexed(str)
     image_url: Optional[str] = None 
     faculty: Indexed(str)
@@ -119,5 +127,17 @@ class Cafe(Document):
     staff: List[StaffMember]
     menu_items: List[MenuItem]
     
+    def __init__(self, **data):
+        super().__init__(**data)
+        self.slug = slugify(self.name)
+
     class Settings:
         name = "cafes"
+
+def slugify(text):
+    text = unicodedata.normalize('NFKD', text)
+    text = text.encode('ascii', 'ignore').decode('ascii')
+    text = text.lower()
+    slug = re.sub(r'\W+', '-', text)
+    slug = slug.strip('-')
+    return slug

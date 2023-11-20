@@ -34,7 +34,7 @@ async def get_order(order_id: UUID, current_user: User = Depends(get_current_use
             )
 
         # Authorization check
-        if order.user_id != current_user.user_id and not await CafeService.is_authorized_for_cafe_action(order.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]):
+        if order.user_id != current_user.user_id and not await CafeService.is_authorized_for_cafe_action_by_id(order.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Access forbidden"
@@ -68,7 +68,7 @@ async def update_order(order_id: UUID, orderUpdate: OrderUpdate, current_user: U
             )
 
         # Authorization check
-        if order.user_id != current_user.user_id and not await CafeService.is_authorized_for_cafe_action(order.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]):
+        if order.user_id != current_user.user_id and not await CafeService.is_authorized_for_cafe_action_by_id(order.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]):
             raise HTTPException(status_code=403, detail="Access forbidden")
 
         return await OrderService.update_order(order_id, orderUpdate)
@@ -99,7 +99,7 @@ async def list_user_orders(user_id: UUID, request: Request, current_user: User =
 async def list_cafe_orders(cafe_id: UUID, request: Request, current_user: User = Depends(get_current_user)):
     try:
         # Authorization check
-        if not await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]):
+        if not await CafeService.is_authorized_for_cafe_action_by_id(cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Access forbidden"

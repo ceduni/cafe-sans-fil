@@ -35,6 +35,18 @@ class UserAuth(BaseModel):
         }
     })
 
+    @field_validator('username')
+    @classmethod
+    def validate_username(cls, v):
+        if v.startswith('-') or v.endswith('-'):
+            raise ValueError('Username cannot begin or end with a hyphen')
+        if '--' in v:
+            raise ValueError('Username cannot contain consecutive hyphens')
+        if not re.match(r'^[A-Za-z\d-]+$', v):
+            raise ValueError('Username may only contain alphanumeric characters or single hyphens')
+
+        return v
+    
     @field_validator('password')
     @classmethod
     def validate_password(cls, v):
@@ -65,6 +77,18 @@ class UserUpdate(BaseModel):
         }
     })
 
+    @field_validator('username')
+    @classmethod
+    def validate_username(cls, v):
+        if v.startswith('-') or v.endswith('-'):
+            raise ValueError('Username cannot begin or end with a hyphen')
+        if '--' in v:
+            raise ValueError('Username cannot contain consecutive hyphens')
+        if not re.match(r'^[A-Za-z\d-]+$', v):
+            raise ValueError('Username may only contain alphanumeric characters or single hyphens')
+
+        return v
+    
     @field_validator('password')
     @classmethod
     def validate_password(cls, v):

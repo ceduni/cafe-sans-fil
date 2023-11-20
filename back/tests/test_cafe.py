@@ -108,17 +108,17 @@ def test_create_cafe_unauthorized(client, cafe_data):
     assert response.status_code == 401
 
 # --------------------------------------
-#       /api/cafes/{cafe_id}
+#       /api/cafes/{cafe_slug}
 # --------------------------------------
 
 def test_get_cafe_success(client, list_cafes):
-    cafe_id = list_cafes[0]["cafe_id"]
-    response = client.get(f"/api/cafes/{cafe_id}")
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}")
     assert response.status_code == 200
 
 def test_get_cafe_not_found(client):
-    cafe_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    response = client.get(f"/api/cafes/{cafe_id}")
+    cafe_slug = "dont exist" # Non-existant slug
+    response = client.get(f"/api/cafes/{cafe_slug}")
     assert response.status_code == 404  
 
 def test_update_cafe_success(client, list_cafes, cafe_data2, auth_login):
@@ -126,13 +126,13 @@ def test_update_cafe_success(client, list_cafes, cafe_data2, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[0]["cafe_id"]
-    response = client.put(f"/api/cafes/{cafe_id}", json=cafe_data2, headers=headers)
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.put(f"/api/cafes/{cafe_slug}", json=cafe_data2, headers=headers)
     assert response.status_code == 200
 
 def test_update_cafe_unauthorized(client, list_cafes, cafe_data2):
-    cafe_id = list_cafes[0]["cafe_id"]
-    response = client.put(f"/api/cafes/{cafe_id}", json=cafe_data2)
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.put(f"/api/cafes/{cafe_slug}", json=cafe_data2)
     assert response.status_code == 401
 
 def test_update_cafe_forbidden(client, list_cafes, cafe_data2, auth_login):
@@ -140,8 +140,8 @@ def test_update_cafe_forbidden(client, list_cafes, cafe_data2, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[1]["cafe_id"]
-    response = client.put(f"/api/cafes/{cafe_id}", json=cafe_data2, headers=headers)
+    cafe_slug = list_cafes[1]["slug"]
+    response = client.put(f"/api/cafes/{cafe_slug}", json=cafe_data2, headers=headers)
     assert response.status_code == 403
 
 def test_update_cafe_not_found(client, cafe_data2, auth_login):
@@ -149,22 +149,22 @@ def test_update_cafe_not_found(client, cafe_data2, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    response = client.put(f"/api/cafes/{cafe_id}", json=cafe_data2, headers=headers)
+    cafe_slug = "dont exist" # Non-existant slug
+    response = client.put(f"/api/cafes/{cafe_slug}", json=cafe_data2, headers=headers)
     assert response.status_code == 404
 
 # --------------------------------------
-#       /api/cafes/{cafe_id}/menu
+#       /api/cafes/{cafe_slug}/menu
 # --------------------------------------
 
 def test_list_menu_items_success(client, list_cafes):
-    cafe_id = list_cafes[0]["cafe_id"]
-    response = client.get(f"/api/cafes/{cafe_id}/menu")
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/menu")
     assert response.status_code == 200
 
 def test_list_menu_items_not_found(client):
-    cafe_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    response = client.get(f"/api/cafes/{cafe_id}/menu")
+    cafe_slug = "dont exist" # Non-existant slug
+    response = client.get(f"/api/cafes/{cafe_slug}/menu")
     assert response.status_code == 404
 
 def test_create_menu_item_success(client, list_cafes, cafe_data, auth_login):
@@ -173,13 +173,13 @@ def test_create_menu_item_success(client, list_cafes, cafe_data, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[0]["cafe_id"]
-    response = client.post(f"/api/cafes/{cafe_id}/menu", json=menu_item_data, headers=headers)
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.post(f"/api/cafes/{cafe_slug}/menu", json=menu_item_data, headers=headers)
     assert response.status_code == 200
 
 def test_create_menu_item_unauthorized(client, list_cafes, cafe_data):
-    cafe_id = list_cafes[0]["cafe_id"]
-    response = client.post(f"/api/cafes/{cafe_id}/menu", json=cafe_data)
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.post(f"/api/cafes/{cafe_slug}/menu", json=cafe_data)
     assert response.status_code == 401
 
 def test_create_menu_item_forbidden(client, list_cafes, cafe_data, auth_login):
@@ -188,8 +188,8 @@ def test_create_menu_item_forbidden(client, list_cafes, cafe_data, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[1]["cafe_id"]
-    response = client.post(f"/api/cafes/{cafe_id}/menu", json=menu_item_data, headers=headers)
+    cafe_slug = list_cafes[1]["slug"]
+    response = client.post(f"/api/cafes/{cafe_slug}/menu", json=menu_item_data, headers=headers)
     assert response.status_code == 403
 
 def test_create_menu_item_not_found(client, cafe_data, auth_login):
@@ -198,30 +198,30 @@ def test_create_menu_item_not_found(client, cafe_data, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    response = client.post(f"/api/cafes/{cafe_id}/menu", json=menu_item_data, headers=headers)
+    cafe_slug = "dont exist" # Non-existant slug
+    response = client.post(f"/api/cafes/{cafe_slug}/menu", json=menu_item_data, headers=headers)
     assert response.status_code == 404
 
 # ------------------------------------------
-#       /api/cafes/{cafe_id}/menu/{item_id}
+#       /api/cafes/{cafe_slug}/menu/{item_slug}
 # ------------------------------------------
 
 def test_get_menu_item_success(client, list_cafes):
-    cafe_id = list_cafes[0]["cafe_id"]
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
-    response = client.get(f"/api/cafes/{cafe_id}/menu/{item_id}")
+    cafe_slug = list_cafes[0]["slug"]
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/menu/{item_slug}")
     assert response.status_code == 200
 
 def test_get_menu_item_not_found1(client, list_cafes):
-    cafe_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
-    response = client.get(f"/api/cafes/{cafe_id}/menu/{item_id}")
+    cafe_slug = "dont exist" # Non-existant slug
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/menu/{item_slug}")
     assert response.status_code == 404
 
 def test_get_menu_item_not_found2(client, list_cafes):
-    cafe_id = list_cafes[0]["cafe_id"]
-    item_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    response = client.get(f"/api/cafes/{cafe_id}/menu/{item_id}")
+    cafe_slug = list_cafes[0]["slug"]
+    item_slug = "dont exist" # Non-existant slug
+    response = client.get(f"/api/cafes/{cafe_slug}/menu/{item_slug}")
     assert response.status_code == 404
 
 def test_update_menu_item_success(client, list_cafes, cafe_data, auth_login):
@@ -229,17 +229,17 @@ def test_update_menu_item_success(client, list_cafes, cafe_data, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[0]["cafe_id"]
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
+    cafe_slug = list_cafes[0]["slug"]
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
     menu_item_data = cafe_data["menu_items"][0]
-    response = client.put(f"/api/cafes/{cafe_id}/menu/{item_id}", json=menu_item_data, headers=headers)
+    response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data, headers=headers)
     assert response.status_code == 200
 
 def test_update_menu_item_unauthorized(client, list_cafes, cafe_data):
-    cafe_id = list_cafes[0]["cafe_id"]
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
+    cafe_slug = list_cafes[0]["slug"]
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
     menu_item_data = cafe_data["menu_items"][0]
-    response = client.put(f"/api/cafes/{cafe_id}/menu/{item_id}", json=menu_item_data)
+    response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data)
     assert response.status_code == 401
 
 def test_update_menu_item_forbidden(client, list_cafes, cafe_data, auth_login):
@@ -247,10 +247,10 @@ def test_update_menu_item_forbidden(client, list_cafes, cafe_data, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[1]["cafe_id"]
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
+    cafe_slug = list_cafes[1]["slug"]
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
     menu_item_data = cafe_data["menu_items"][0]
-    response = client.put(f"/api/cafes/{cafe_id}/menu/{item_id}", json=menu_item_data, headers=headers)
+    response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data, headers=headers)
     assert response.status_code == 403
 
 def test_update_menu_item_not_found1(client, list_cafes, cafe_data, auth_login):
@@ -258,10 +258,10 @@ def test_update_menu_item_not_found1(client, list_cafes, cafe_data, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
+    cafe_slug = "dont exist" # Non-existant slug
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
     menu_item_data = cafe_data["menu_items"][0]
-    response = client.put(f"/api/cafes/{cafe_id}/menu/{item_id}", json=menu_item_data, headers=headers)
+    response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data, headers=headers)
     assert response.status_code == 404
 
 def test_update_menu_item_not_found2(client, list_cafes, cafe_data, auth_login):
@@ -269,10 +269,10 @@ def test_update_menu_item_not_found2(client, list_cafes, cafe_data, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[0]["cafe_id"]
-    item_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
+    cafe_slug = list_cafes[0]["slug"]
+    item_slug = "dont exist" # Non-existant slug
     menu_item_data = cafe_data["menu_items"][0]
-    response = client.put(f"/api/cafes/{cafe_id}/menu/{item_id}", json=menu_item_data, headers=headers)
+    response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data, headers=headers)
     assert response.status_code == 404
 
 def test_delete_menu_item_success(client, list_cafes, auth_login):
@@ -280,15 +280,15 @@ def test_delete_menu_item_success(client, list_cafes, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[0]["cafe_id"]
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
-    response = client.delete(f"/api/cafes/{cafe_id}/menu/{item_id}", headers=headers)
+    cafe_slug = list_cafes[0]["slug"]
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
+    response = client.delete(f"/api/cafes/{cafe_slug}/menu/{item_slug}", headers=headers)
     assert response.status_code == 200
 
 def test_delete_menu_item_unauthorized(client, list_cafes):
-    cafe_id = list_cafes[0]["cafe_id"]
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
-    response = client.delete(f"/api/cafes/{cafe_id}/menu/{item_id}")
+    cafe_slug = list_cafes[0]["slug"]
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
+    response = client.delete(f"/api/cafes/{cafe_slug}/menu/{item_slug}")
     assert response.status_code == 401
 
 def test_delete_menu_item_forbidden(client, list_cafes, auth_login):
@@ -296,9 +296,9 @@ def test_delete_menu_item_forbidden(client, list_cafes, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[1]["cafe_id"]
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
-    response = client.delete(f"/api/cafes/{cafe_id}/menu/{item_id}", headers=headers)
+    cafe_slug = list_cafes[1]["slug"]
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
+    response = client.delete(f"/api/cafes/{cafe_slug}/menu/{item_slug}", headers=headers)
     assert response.status_code == 403
 
 def test_delete_menu_item_not_found1(client, list_cafes, auth_login):
@@ -306,9 +306,9 @@ def test_delete_menu_item_not_found1(client, list_cafes, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    item_id = list_cafes[0]["menu_items"][0]["item_id"]
-    response = client.delete(f"/api/cafes/{cafe_id}/menu/{item_id}", headers=headers)
+    cafe_slug = "dont exist" # Non-existant slug
+    item_slug = list_cafes[0]["menu_items"][0]["slug"]
+    response = client.delete(f"/api/cafes/{cafe_slug}/menu/{item_slug}", headers=headers)
     assert response.status_code == 404
 
 def test_delete_menu_item_not_found2(client, list_cafes, auth_login):
@@ -316,9 +316,9 @@ def test_delete_menu_item_not_found2(client, list_cafes, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    cafe_id = list_cafes[0]["cafe_id"]
-    item_id = "123e4567-e89b-12d3-a456-426614173999"  # Non-existent ID
-    response = client.delete(f"/api/cafes/{cafe_id}/menu/{item_id}", headers=headers)
+    cafe_slug = list_cafes[0]["slug"]
+    item_slug = "dont exist" # Non-existant slug
+    response = client.delete(f"/api/cafes/{cafe_slug}/menu/{item_slug}", headers=headers)
     assert response.status_code == 404
 
 # -----------------------------
