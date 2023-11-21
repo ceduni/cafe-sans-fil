@@ -5,8 +5,7 @@ const PaymentMethods = ({ arrayOfMethods }) => {
 
   const icon = {
     "Carte de crédit": <CreditCardIcon className={iconClassName} />,
-    Espèces: <BanknotesIcon className={iconClassName} />,
-    Chèque: <BanknotesIcon className={iconClassName} />,
+    "Argent comptant": <BanknotesIcon className={iconClassName} />,
     "Carte de débit": <CreditCardIcon className={iconClassName} />,
   };
 
