@@ -24,7 +24,7 @@ const CafeCard = ({ cafe }) => {
             <div
               className="px-4 bg-sky-200 rounded-full flex lg:inline-flex items-center justify-between gap-2 w-fit max-w-full"
               role="alert">
-              <span className="py-2 leading-none font-semibold text-xs text-gray-700">
+              <span className="py-2 leading-none font-semibold text-xs text-gray-700" style={{ textWrap: "balance" }}>
                 {cafe.additional_info[0].value}
               </span>
               <ChevronRightIcon className="w-4 h-4 flex-shrink-0 opacity-75" />
