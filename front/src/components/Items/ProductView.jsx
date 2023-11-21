@@ -4,6 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import Badge from "../Badge";
 import { DEFAULT_OPTION_NAME, arrayToOptionsByType, formatPrice } from "@/utils/cart";
 import classNames from "classnames";
+import { IN_STOCK_TEXT, OUT_OF_STOCK_TEXT } from "@/utils/items";
 
 const ProductView = ({
   item,
@@ -88,16 +89,16 @@ const ProductView = ({
                         <p className="text-gray-600 mb-3">{item.description}</p>
 
                         {item.in_stock ? (
-                          <Badge variant="success">En stock</Badge>
+                          <Badge variant="success">{IN_STOCK_TEXT}</Badge>
                         ) : (
-                          <Badge variant="danger">Épuisé</Badge>
+                          <Badge variant="danger">{OUT_OF_STOCK_TEXT}</Badge>
                         )}
 
                         <p className="mt-4 text-2xl text-gray-900">{item.price}&nbsp;$</p>
                       </section>
 
                       {/* Options (affichées seulement si l'item en a et qu'il est en stock) */}
-                      {item.options.length > 0 && item.in_stock && (
+                      {item.options.length > 0 && (
                         <section className="mt-5 select-none">
                           {/* On affiche chaque type d'option (ex: sirop, taille, etc.) */}
                           {Object.keys(optionsByType).map((type) => (
@@ -157,7 +158,11 @@ const ProductView = ({
                             focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 \
                             disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
                           disabled={!item.in_stock || isAddingToCart}>
-                          {isAddingToCart ? "Ajout en cours..." : `Ajouter au panier (${itemFinalPrice} $)`}
+                          {isAddingToCart
+                            ? "Ajout en cours..."
+                            : item.in_stock
+                            ? `Ajouter au panier (${itemFinalPrice} $)`
+                            : OUT_OF_STOCK_TEXT}
                         </button>
                       </form>
                     </div>
