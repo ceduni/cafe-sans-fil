@@ -158,12 +158,12 @@ class CafeCreate(BaseModel):
             "social_media": [{"platform_name": "Facebook", "link": "http://fb.com/centralcafe"}],
             "payment_methods": [{"method": "Carte de Crédit", "minimum": 4.0}],
             "staff": [
-                {"user_id": "15df2842-fc31-4107-99bf-3cb7b0b5baf5", "role": "Admin"},
-                {"user_id": "3c0cda2b-26f3-4cc8-8e84-0c81bf84e8f9", "role": "Admin"},
-                {"user_id": "a1e63c28-7e5b-4d12-8cf2-8c7875191d2b", "role": "Bénévole"},
-                {"user_id": "5a0e7b25-1722-41aa-8eeb-25dfedc2c1ae", "role": "Bénévole"},
-                {"user_id": "9c42c791-4b0a-4170-bb8a-2c1f4462cf33", "role": "Bénévole"},
-                {"user_id": "e8c5de06-7d98-4d66-89a3-8c37e3b16bd5", "role": "Bénévole"}
+                {"username": "johndoe", "role": "Admin"},
+                {"username": "janedoe", "role": "Admin"},
+                {"username": "johndoe2", "role": "Bénévole"},
+                {"username": "janedoe2", "role": "Bénévole"},
+                {"username": "johndoe3", "role": "Bénévole"},
+                {"username": "janedoe3", "role": "Bénévole"}
             ],
             "menu_items": [
                 {
@@ -245,12 +245,12 @@ class CafeUpdate(BaseModel):
             "social_media": [{"platform_name": "Facebook", "link": "http://fb.com/centralcafe"}],
             "payment_methods": [{"method": "Carte de Crédit", "minimum": 4.0}],
             "staff": [
-                {"user_id": "15df2842-fc31-4107-99bf-3cb7b0b5baf5", "role": "Admin"},
-                {"user_id": "3c0cda2b-26f3-4cc8-8e84-0c81bf84e8f9", "role": "Admin"},
-                {"user_id": "a1e63c28-7e5b-4d12-8cf2-8c7875191d2b", "role": "Bénévole"},
-                {"user_id": "5a0e7b25-1722-41aa-8eeb-25dfedc2c1ae", "role": "Bénévole"},
-                {"user_id": "9c42c791-4b0a-4170-bb8a-2c1f4462cf33", "role": "Bénévole"},
-                {"user_id": "e8c5de06-7d98-4d66-89a3-8c37e3b16bd5", "role": "Bénévole"}
+                {"username": "johndoe", "role": "Admin"},
+                {"username": "janedoe", "role": "Admin"},
+                {"username": "johndoe2", "role": "Bénévole"},
+                {"username": "janedoe2", "role": "Bénévole"},
+                {"username": "johndoe3", "role": "Bénévole"},
+                {"username": "janedoe3", "role": "Bénévole"}
             ],
             "menu_items": [
                 {
@@ -336,12 +336,12 @@ class CafeOut(BaseModel):
             "social_media": [{"platform_name": "Facebook", "link": "http://fb.com/centralcafe"}],
             "payment_methods": [{"method": "Carte de Crédit", "minimum": 4.0}],
             "staff": [
-                {"user_id": "15df2842-fc31-4107-99bf-3cb7b0b5baf5", "role": "Admin"},
-                {"user_id": "3c0cda2b-26f3-4cc8-8e84-0c81bf84e8f9", "role": "Admin"},
-                {"user_id": "a1e63c28-7e5b-4d12-8cf2-8c7875191d2b", "role": "Bénévole"},
-                {"user_id": "5a0e7b25-1722-41aa-8eeb-25dfedc2c1ae", "role": "Bénévole"},
-                {"user_id": "9c42c791-4b0a-4170-bb8a-2c1f4462cf33", "role": "Bénévole"},
-                {"user_id": "e8c5de06-7d98-4d66-89a3-8c37e3b16bd5", "role": "Bénévole"}
+                {"username": "johndoe", "role": "Admin"},
+                {"username": "janedoe", "role": "Admin"},
+                {"username": "johndoe2", "role": "Bénévole"},
+                {"username": "janedoe2", "role": "Bénévole"},
+                {"username": "johndoe3", "role": "Bénévole"},
+                {"username": "janedoe3", "role": "Bénévole"}
             ],
             "menu_items": [
                 {

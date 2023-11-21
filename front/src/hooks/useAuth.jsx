@@ -54,50 +54,50 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const createAccount = async (email, firstName, lastName, matricule, password) => {
-    try {
-      const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          first_name: firstName,
-          last_name: lastName,
-          matricule: matricule,
-          password: password,
-          username: matricule,
-        }),
-      });
+    const createAccount = async (email, firstName, lastName, matricule, password) => {
+      try {
+        const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            first_name: firstName,
+            last_name: lastName,
+            matricule: matricule,
+            password: password,
+            username: matricule,
+          }),
+        });
 
-      if (response.status !== 200) {
-        switch (response.status) {
-          case 500:
-            throw new Error("Une erreur inconue est survenue (probably CORS)");
+        if (response.status !== 200) {
+          switch (response.status) {
+            case 500:
+              throw new Error("Une erreur inconue est survenue (probably CORS)");
 
-          case 422:
-            displayMongoError(response);
-            return null;
+            case 422:
+              displayMongoError(response);
+              return null;
 
-          case 409:
-            const responseError = await response.json();
-            if (responseError.detail.includes("already exists")) {
-              throw new Error("Un compte avec ces informations existe déjà");
-            }
+            case 409:
+              const responseError = await response.json();
+              if (responseError.detail.includes("already exists")) {
+                throw new Error("Un compte avec ces informations existe déjà");
+              }
 
-          default:
-            throw new Error("Impossible de créer le compte");
+            default:
+              throw new Error("Impossible de créer le compte");
+          }
         }
-      }
 
-      const token = await login(email, password);
-      return token;
-    } catch (error) {
-      toast.error(error.message);
-      return null;
-    }
-  };
+        const token = await login(email, password);
+        return token;
+      } catch (error) {
+        toast.error(error.message);
+        return null;
+      }
+    };
 
   const handleSignUp = async (event, userData) => {
     event.preventDefault();

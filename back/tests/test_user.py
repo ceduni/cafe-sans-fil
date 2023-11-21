@@ -20,8 +20,8 @@ def user_data():
 @pytest.fixture(scope="module")
 def user_data_cafesansfil():
     return {
-        "email": "spiderman@example.com",
-        "matricule": "sm12345",
+        "email": "cafesansfil@example.com",
+        "matricule": "cs12345",
         "username": "cafesansfil",
         "password": "Cafesansfil1",
         "first_name": "Tom",

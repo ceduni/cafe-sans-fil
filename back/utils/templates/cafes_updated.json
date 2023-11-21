@@ -5,7 +5,7 @@
         "image_url": "https://mc2m.coop/wp-content/uploads/2019/08/68792581_342420560044698_4994271053636173824_n.jpg",
         "faculty": "DROIT",
         "location": {
-            "pavillon": "Pavillon MAXIMILIEN-CARON",
+            "pavillon": "Pavillon Maximilien-Caron",
             "local": "local A-2470"
         },
         "contact": {
@@ -30,7 +30,7 @@
         "image_url": "https://images.squarespace-cdn.com/content/v1/555a739fe4b049f671d98f7a/1452120387622-R4MQ35337MN1NOS6Z77O/cafcombanniere.jpg",
         "faculty": "COMMUNICATION",
         "location": {
-            "pavillon": "Pavillon MARIE-VICTORIN",
+            "pavillon": "Pavillon Marie-Victorin",
             "local": "local D-266"
         },
         "contact": {
@@ -51,7 +51,7 @@
         "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/308429981_623861805995973_1509617819167451579_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=FBX1yHYMh7sAX_234_e&_nc_ht=scontent.fymq2-1.fna&oh=00_AfDl7pUZ9G14pk-iCpjv7rSnusEXPbm8EO_YOyNuWTP3cA&oe=655D0AAE",
         "faculty": "ANTHROPOLOGIE",
         "location": {
-            "pavillon": "Pavillon LIONEL-GROULX",
+            "pavillon": "Pavillon Lionel-Groulx",
             "local": "local C-3029"
         },
         "contact": {
@@ -76,7 +76,7 @@
         "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/299186732_761384488371538_8611822889450470596_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=glmSE9_cleAAX-6LaId&_nc_ht=scontent.fymq2-1.fna&oh=00_AfC2KYiGCCN0cXTZFczZfhYlh3FIUoQfcqbOp7tdzTd8-w&oe=655DAE30",
         "faculty": "M\u00c9DECINE V\u00c9T\u00c9RINAIRE",
         "location": {
-            "pavillon": "Campus DE SAINT-HYACINTHE",
+            "pavillon": "Campus de Saint-Hyacinthe",
             "local": "local 0140"
         },
         "contact": {
@@ -97,7 +97,7 @@
         "image_url": "https://scontent-lga3-2.xx.fbcdn.net/v/t31.18172-8/10830704_1583587928538472_8017134039460549524_o.jpg?_nc_cat=109&ccb=1-7&_nc_sid=300f58&_nc_ohc=9CHEd8nbg1oAX-Swky-&_nc_ht=scontent-lga3-2.xx&oh=00_AfDm7hX351861-_EKhKafKPx_awcgGO0g5-ATeC280P-bg&oe=6580D9A4",
         "faculty": "SCIENCES INFIRMI\u00c8RES ET NUTRITION",
         "location": {
-            "pavillon": "Pavillon LILIANE-DE-STEWART",
+            "pavillon": "Pavillon Liliane-De-Stewart",
             "local": "local 1125"
         },
         "contact": {
@@ -143,7 +143,7 @@
         "image_url": "https://admission.umontreal.ca/fileadmin/fichiers/objectif-udem/Cafe-Kine.jpg",
         "faculty": "KIN\u00c9SIOLOGIE ET \u00c9DUCATION PHYSIQUE",
         "location": {
-            "pavillon": "CEPSUM",
+            "pavillon": "Cepsum",
             "local": "local 3222"
         },
         "contact": {
@@ -189,7 +189,7 @@
         "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/318928260_1807126929653224_5386329985570910308_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=bGOrZWJ8oaMAX_KyTWz&_nc_ht=scontent.fymq2-1.fna&oh=00_AfA4LjPvLqkvUwwB9PML7-Bp3ojzi5jAnBYECfP8PXzX-g&oe=655D4B3D",
         "faculty": "AM\u00c9NAGEMENT, URBANISME, ARCHITECTURE, DESIGN, PAYSAGE",
         "location": {
-            "pavillon": "Pavillon DE LA FACULT\u00c9 DE L\u2019AM\u00c9NAGEMENT",
+            "pavillon": "Pavillon de la Facult\u00e9 de l\u2019Am\u00e9nagement",
             "local": "local 1100"
         },
         "contact": {
@@ -214,7 +214,7 @@
         "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/302506927_507546414704340_3301101256788489227_n.png?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5zYCHsAIjpQAX87hWnD&_nc_ht=scontent.fymq2-1.fna&oh=00_AfB0jzu4x73s4u8KBqg_1s-8ff4rUGbCDpsdk3d380z9Xg&oe=655E419F",
         "faculty": "M\u00c9DECINE",
         "location": {
-            "pavillon": "Pavillon ROGER-GAUDRY",
+            "pavillon": "Pavillon Roger-Gaudry",
             "local": "local X-031"
         },
         "contact": {
@@ -235,8 +235,8 @@
         "image_url": "https://labrunante.com/wp-content/uploads/2023/09/Cafe-Bar-La-Brunante-automne-2023-1024x858.png",
         "faculty": "\u00c9DUCATION PERMANENTE",
         "location": {
-            "pavillon": "Pavillon 3200",
-            "local": "RUE JEAN-BRILLANT, local B-2326"
+            "pavillon": "3200, rue Jean-Brillant",
+            "local": "local B-2326"
         },
         "contact": {
             "email": "gerance@labrunante.com",
@@ -272,7 +272,7 @@
         "image_url": "https://admission.umontreal.ca/fileadmin/fichiers/objectif-udem/Cafe-La-Retenue.jpg",
         "faculty": "SCIENCES DE L\u2019\u00c9DUCATION",
         "location": {
-            "pavillon": "Pavillon MARIE-VICTORIN",
+            "pavillon": "Pavillon Marie-Victorin",
             "local": "local C-219"
         },
         "contact": {
@@ -293,7 +293,7 @@
         "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/300376382_585194849773688_4693864542901741965_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5aOWF_wWVH0AX9UMSnk&_nc_ht=scontent.fymq2-1.fna&oh=00_AfAcuY-btFEwr2OKlHzkbqdOPFZ-Lc9D9rsRneKtqFInrQ&oe=655CEC3D",
         "faculty": "BIOCHIMIE ET M\u00c9DECINE MOL\u00c9CULAIRE",
         "location": {
-            "pavillon": "Pavillon ROGER-GAUDRY",
+            "pavillon": "Pavillon Roger-Gaudry",
             "local": "local E-212"
         },
         "contact": {
@@ -314,7 +314,7 @@
         "image_url": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/300448042_584732733348853_724224692281632002_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=nupfzfXSVOQAX_tKcxw&_nc_ht=scontent-lga3-1.xx&oh=00_AfCWCZSA5FjWHgoV7HEbH0Q3kvsXX1yGW2u-BfwE6Ky1Ow&oe=655DA036",
         "faculty": "TRAVAIL SOCIAL",
         "location": {
-            "pavillon": "Pavillon LIONEL-GROULX",
+            "pavillon": "Pavillon Lionel-Groulx",
             "local": "local C-7143"
         },
         "contact": {
@@ -335,7 +335,7 @@
         "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/328251730_688082272997698_5005746187058165741_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=KWPmsKYykYkAX9XGvO_&_nc_ht=scontent.fymq2-1.fna&oh=00_AfDhuCFv5dp3CP1YyW268TgDC5sRgWo4LaHGvYjguj96JA&oe=655E32B1",
         "faculty": "MUSIQUE",
         "location": {
-            "pavillon": "Pavillon DE LA FACULT\u00c9 DE MUSIQUE",
+            "pavillon": "Pavillon de la Facult\u00e9 de Musique",
             "local": "local B-261"
         },
         "contact": {
@@ -377,7 +377,7 @@
         "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/302146236_583970106847822_6293400436902319347_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3thzfY1CtDgAX_bjOOP&_nc_ht=scontent.fymq2-1.fna&oh=00_AfD3kASDZtFY8TzwPDgeExza0K9OmLyWrpMOMEyQiNIZDw&oe=655D76ED",
         "faculty": "PHARMACIE",
         "location": {
-            "pavillon": "Pavillon JEAN-COUTU",
+            "pavillon": "Pavillon Jean-Coutu",
             "local": "local S1-184"
         },
         "contact": {
@@ -398,7 +398,7 @@
         "image_url": "https://scontent.fymq2-1.fna.fbcdn.net/v/t39.30808-6/325601077_568457504828035_8958859885937755350_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=O3rVykKZrkQAX9kRVqB&_nc_ht=scontent.fymq2-1.fna&oh=00_AfA9mQWi3M4aX3RUbp5tMKFv32BlB_Y_QtaLZ0FwDOY2tw&oe=655CEDC8",
         "faculty": "PSYCHOLOGIE",
         "location": {
-            "pavillon": "Pavillon MARIE-VICTORIN",
+            "pavillon": "Pavillon Marie-Victorin",
             "local": "local D-428"
         },
         "contact": {
@@ -423,7 +423,7 @@
         "image_url": "https://scontent-lga3-2.xx.fbcdn.net/v/t31.18172-8/21273686_1449220025155274_1063699110113115230_o.jpg?_nc_cat=100&ccb=1-7&_nc_sid=7f8c78&_nc_ohc=Xe4zyAYKwFwAX8TTWyD&_nc_ht=scontent-lga3-2.xx&oh=00_AfCWTFiwLXSt9MTBKsSYFsvnDX-6uP54Mrl2RnmLY5G-bg&oe=65805C39",
         "faculty": "INFORMATIQUE ET RECHERCHE OP\u00c9RATIONNELLE, MATH\u00c9MATIQUES ET STATISTIQUES",
         "location": {
-            "pavillon": "Pavillon ANDR\u00c9-AISENSTADT",
+            "pavillon": "Pavillon Andr\u00e9-Aisenstadt",
             "local": "local AA-1221"
         },
         "contact": {
