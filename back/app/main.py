@@ -39,9 +39,13 @@ app = FastAPI(
     debug=True  
 )
 
+origins = [
+    "https://cafesansfil.onrender.com",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
