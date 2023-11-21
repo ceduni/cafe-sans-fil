@@ -1,3 +1,4 @@
+from typing import List
 from decouple import config
 from pydantic_settings import SettingsConfigDict, BaseSettings
 
@@ -13,7 +14,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7   # 7 days
-    BACKEND_CORS_ORIGINS: str = config("BACKEND_CORS_ORIGINS", cast=str)
+    BACKEND_CORS_ORIGINS: List[str] = config("BACKEND_CORS_ORIGINS", cast=lambda v: v.split(","))
     BASE_URL: str = config("BASE_URL", cast=str)
     PROJECT_NAME: str = "Café Sans Fil"
     
