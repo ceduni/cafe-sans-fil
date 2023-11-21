@@ -46,15 +46,16 @@ const Filters = ({ filters, setFilters, cafes }) => {
     : [];
 
   const getShortPavillonName = (pavillon) => {
+    let shortPavillon = pavillon;
     // Si le nom commence par Pavillon, on le retire
     if (pavillon.startsWith("Pavillon ")) {
-      let shortPavillon = pavillon.slice(9);
+      shortPavillon = pavillon.slice(9);
       // Si maintenant ça commence par "de la", on le retire aussi
       if (shortPavillon.toLowerCase().startsWith("de la ")) {
-        return shortPavillon.slice(6);
+        shortPavillon = shortPavillon.slice(6);
       }
     }
-    return pavillon;
+    return shortPavillon;
   };
 
   return (
