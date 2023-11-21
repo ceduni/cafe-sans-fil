@@ -23,11 +23,11 @@ async def create_users(num_users):
     for i in tqdm(range(num_users), desc="Creating users"):
         while True:
             try:
-                email = fake.email()
                 matricule = fake.bothify(text='??#####').lower()
                 username = fake.user_name()
                 first_name = fake.first_name()
                 last_name = fake.last_name()
+                email = normalize_string(first_name).replace(" ", "").lower() + "." + normalize_string(last_name).replace(" ", "").lower() + "@umontreal.ca"
                 password = normalize_string(first_name).replace(" ", "") + normalize_string(last_name).replace(" ", "") + "1" # password is first_name+last_name+"1" (For Test)
                 photo_url = photo_urls[i] if random.random() <= 1.00 else None # chance of having a photo
 
@@ -49,7 +49,7 @@ async def create_users(num_users):
 
     # Update the first User to be cafesansfil
     cafesansfil_user = {
-        "email": "cafesansfil@example.com",
+        "email": "cafesansfil@umontreal.ca",
         "matricule": "cs12345",
         "username": "cafesansfil",
         "password": "Cafesansfil1",
