@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { getCafeFromId } from "@/utils/getFromId";
 import { formatPrice, getIdFromSelectedOptions } from "@/utils/cart";
 import classNames from "classnames";
+import { OUT_OF_STOCK_TEXT } from "@/utils/items";
 
 const ItemCard = ({ item, cafeId }) => {
   const [itemPreviewOpen, setItemPreviewOpen] = useState(false);
@@ -63,7 +64,7 @@ const ItemCard = ({ item, cafeId }) => {
         <p className="mt-1 text-lg font-medium text-gray-900">${item.price}</p>
         {!item.in_stock && (
           <div className="my-1">
-            <Badge variant="danger">Épuisé</Badge>
+            <Badge variant="danger">{OUT_OF_STOCK_TEXT}</Badge>
           </div>
         )}
       </button>
