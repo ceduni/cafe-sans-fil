@@ -1,12 +1,16 @@
 // Helper function to convert a date to Montreal time zone
 const toMontrealTime = (date) => {
   const options = {
-    timeZone: 'America/Montreal',
-    year: 'numeric', month: 'numeric', day: 'numeric',
-    hour: 'numeric', minute: 'numeric', second: 'numeric',
-    hour12: false
+    timeZone: "America/Montreal",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
   };
-  const formatter = new Intl.DateTimeFormat('en-CA', options);
+  const formatter = new Intl.DateTimeFormat("en-CA", options);
   return new Date(formatter.format(date));
 };
 
@@ -35,10 +39,10 @@ const isNowWithinOpeningHours = (openingHours) => {
   // et retourne true si on est dans les horaires d'ouverture.
   if (!openingHours) return false;
   const now = toMontrealTime(new Date());
-  const today = now.toLocaleString("fr-CA", { timeZone: 'America/Montreal', weekday: "long" });
+  const today = now.toLocaleString("fr-CA", { timeZone: "America/Montreal", weekday: "long" });
   const hours = now.getHours();
   const minutes = now.getMinutes();
-  const time = hours + ":" + (minutes < 10 ? '0' + minutes : minutes);
+  const time = hours + ":" + (minutes < 10 ? "0" + minutes : minutes);
   // On cherche le jour actuel dans les horaires d'ouverture
   const currentDay = openingHours.find((day) => day.day.toLowerCase() === today.toLowerCase());
   if (!currentDay) return false;
