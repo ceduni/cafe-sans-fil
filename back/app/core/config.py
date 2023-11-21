@@ -23,11 +23,12 @@ class Settings(BaseSettings):
     MONGO_DB_NAME: str = config("MONGO_DB_NAME", cast=str)
 
     # Mail
-    MAIL_USERNAME: str = config("MAIL_USERNAME", cast=str)
-    MAIL_PASSWORD: str = config("MAIL_PASSWORD", cast=str)
-    MAIL_FROM: str = config("MAIL_FROM", cast=str)
-    MAIL_PORT: int = config("MAIL_PORT", cast=int)
-    MAIL_SERVER: str = config("MAIL_SERVER", cast=str)
-    MAIL_FROM_NAME: str = config("MAIL_FROM_NAME", cast=str)
+    # Disable email sending because of Render blocking SMTP requests
+    # MAIL_USERNAME: str = config("MAIL_USERNAME", cast=str)
+    # MAIL_PASSWORD: str = config("MAIL_PASSWORD", cast=str)
+    # MAIL_FROM: str = config("MAIL_FROM", cast=str)
+    # MAIL_PORT: int = config("MAIL_PORT", cast=int)
+    # MAIL_SERVER: str = config("MAIL_SERVER", cast=str)
+    # MAIL_FROM_NAME: str = config("MAIL_FROM_NAME", cast=str)
 
 settings = Settings()

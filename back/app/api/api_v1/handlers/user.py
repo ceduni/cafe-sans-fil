@@ -5,7 +5,7 @@ from uuid import UUID
 from typing import List
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
-from app.core.mail import send_registration_mail, send_reset_password_mail, is_test_email
+# from app.core.mail import send_registration_mail, send_reset_password_mail, is_test_email
 from app.core.security import create_access_token
 from app.core.config import settings
 
@@ -45,15 +45,16 @@ async def create_user(user: UserAuth):
 
     created_user = await UserService.create_user(user)
 
-    # Don't send email to test domains
-    if await is_test_email(user.email):
-        return created_user
+    # Disable email sending because of Render blocking SMTP requests
+    # # Don't send email to test domains
+    # if await is_test_email(user.email):
+    #     return created_user
     
-    email_context = {
-        "title": "Bienvenue à Café Sans-fil",
-        "name": f"{user.first_name + ' ' + user.last_name}",
-    }
-    await send_registration_mail("Bienvenue à Café Sans-fil", user.email, email_context)
+    # email_context = {
+    #     "title": "Bienvenue à Café Sans-fil",
+    #     "name": f"{user.first_name + ' ' + user.last_name}",
+    # }
+    # await send_registration_mail("Bienvenue à Café Sans-fil", user.email, email_context)
 
     return created_user
 
@@ -93,14 +94,15 @@ async def request_reset_password(user_email: PasswordResetRequest):
     base_url = settings.BASE_URL
     reset_link = f"{base_url}/reset-password?token={token}"
 
-    await send_reset_password_mail("Réinitialisation du mot de passe", user.email,
-        {
-            "title": "Réinitialisation du mot de passe",
-            "name": user.first_name + " " + user.last_name,
-            "reset_link": reset_link
-        }
-    )
-    return {"msg": "Email has been sent with instructions to reset your password."}
+    # Disable email sending because of Render blocking SMTP requests
+    # await send_reset_password_mail("Réinitialisation du mot de passe", user.email,
+    #     {
+    #         "title": "Réinitialisation du mot de passe",
+    #         "name": user.first_name + " " + user.last_name,
+    #         "reset_link": reset_link
+    #     }
+    # )
+    return {"msg": "Email has been sent with instructions to reset your password. (Mail disabled for now)", "reset_link": reset_link}
 
 
 @user_router.put("/reset-password", response_description="Password reset", summary="Reset Password", description="Reset the password for a user using the provided token.")
