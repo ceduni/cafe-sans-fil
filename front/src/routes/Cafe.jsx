@@ -87,8 +87,12 @@ const Cafe = () => {
         <OpeningHours openingHours={data?.opening_hours} />
       </Container>
 
+      <Container className="pt-10 border-t border-gray-200">
+        <h2 className="text-2xl text-center font-bold tracking-tight text-gray-900">Menu de {data?.name}</h2>
+      </Container>
+
       {categories.map((category) => (
-        <Container key={category} className="py-10 border-t border-gray-200">
+        <Container key={category} className="py-10">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">{category}</h2>
           <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 items-start">
             {getItemByCategory(category).map((product) => (
