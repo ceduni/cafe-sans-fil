@@ -69,7 +69,6 @@ export const AuthProvider = ({ children }) => {
             password: password,
             username: matricule,
           }),
-          credentials: 'include'
         });
 
         if (response.status !== 200) {

@@ -28,5 +28,6 @@ class Settings(BaseSettings):
     MAIL_FROM: str = config("MAIL_FROM", cast=str)
     MAIL_PORT: int = config("MAIL_PORT", cast=int)
     MAIL_SERVER: str = config("MAIL_SERVER", cast=str)
+    MAIL_FROM_NAME: str = config("MAIL_FROM_NAME", cast=str)
 
 settings = Settings()
