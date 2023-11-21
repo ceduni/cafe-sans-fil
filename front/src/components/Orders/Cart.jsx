@@ -5,51 +5,7 @@ import { useCart } from "react-use-cart";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import Badge from "../Badge";
 import { useNavigate } from "react-router-dom";
-import { formatPrice, areItemsFromMoreThanOneCafe } from "@/utils/cart";
-
-export const products = [
-  {
-    id: 1,
-    name: "Café latte",
-    href: "#",
-    color: "Taille unique",
-    price: "$2.00",
-    quantity: 7,
-    imageSrc:
-      "https://media.carrefour.fr/medias/370b7c262e583c43bae0e4ac1276d223/p_1500x1500/05711953145483-h1n1-s02.jpg",
-    imageAlt: "Café latte",
-    sizes: [
-      { name: "XXS", inStock: true },
-      { name: "XS", inStock: true },
-      { name: "S", inStock: true },
-      { name: "M", inStock: true },
-      { name: "L", inStock: true },
-      { name: "XL", inStock: true },
-      { name: "XXL", inStock: true },
-      { name: "XXXL", inStock: false },
-    ],
-  },
-  {
-    id: 2,
-    name: "Sandwich au thon",
-    href: "#",
-    color: "Taille unique",
-    price: "$3.00",
-    quantity: 1,
-    imageSrc: "https://img.circulaire-en-ligne.ca/wp-content/uploads/Tuna-Mayo-Sub-Roll.jpg",
-    imageAlt: "Sandwich au thon",
-    sizes: [
-      { name: "XXS", inStock: true },
-      { name: "XS", inStock: true },
-      { name: "S", inStock: true },
-      { name: "M", inStock: true },
-      { name: "L", inStock: true },
-      { name: "XL", inStock: true },
-      { name: "XXL", inStock: true },
-      { name: "XXXL", inStock: false },
-    ],
-  },
-];
+import { formatPrice, areItemsFromMoreThanOneCafe, displayOptions } from "@/utils/cart";
 
 const Cart = ({ open, setOpen }) => {
   const { isEmpty, totalItems, items, updateItemQuantity, removeItem, cartTotal, emptyCart } = useCart();
@@ -120,7 +76,7 @@ const Cart = ({ open, setOpen }) => {
                           )}
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
                             {items.map((item) => (
-                              <li key={item.id} className="flex py-6">
+                              <li key={item.id} className="flex py-6 items-center">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
                                     src={item.image_url || "https://placehold.co/300x300?text=Item"}
@@ -129,14 +85,14 @@ const Cart = ({ open, setOpen }) => {
                                   />
                                 </div>
 
-                                <div className="ml-4 flex flex-1 flex-col">
+                                <div className="ml-4 flex flex-1 flex-col gap-1">
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                       <h3>{item.name}</h3>
                                       <p className="ml-4">{item.price}&nbsp;$</p>
                                     </div>
-                                    <p className="mt-1 text-sm text-gray-500">{item.cafe?.name}</p>
-                                    {/* // TODO ajouter variantes */}
+                                    <p className="text-sm text-gray-500">{item.cafe?.name}</p>
+                                    <p className="text-sm text-gray-500">{displayOptions(item.selectedOptions)}</p>
                                   </div>
                                   <div className="flex flex-1 justify-between text-sm items-end">
                                     <select

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import { useAuth } from "@/hooks/useAuth";
 import Container from "@/components/Container";
-import { areItemsFromMoreThanOneCafe, displayCafeNames, formatPrice } from "@/utils/cart";
+import { areItemsFromMoreThanOneCafe, displayCafeNames, formatPrice, displayOptions } from "@/utils/cart";
 import InfoBox from "@/components/Cafe/InfoBox";
 import Badge from "@/components/Badge";
 
@@ -109,12 +109,13 @@ const OrderConfirmation = () => {
                           />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{item.name}</div>
-                          <div className="text-sm text-gray-500">Quantité: {item.quantity}</div>
+                          <p className="text-sm font-medium text-gray-900">{item.name}</p>
+                          <p className="text-sm text-gray-500">Quantité: {item.quantity}</p>
+                          <p className="text-sm text-gray-500">Options: {displayOptions(item.selectedOptions)}</p>
                         </div>
                       </div>
                       <div className="flex items-center">
-                        <div className="text-sm text-gray-500">{formatPrice(item.price)}&nbsp;$</div>
+                        <p className="text-sm text-gray-500">{formatPrice(item.price)}&nbsp;$</p>
                       </div>
                     </div>
                   </li>
