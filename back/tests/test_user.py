@@ -1,14 +1,23 @@
 import pytest
 from faker import Faker
+import unicodedata
 fake = Faker('fr_CA')
 
 @pytest.fixture(scope="module")
 def user_data():
+    # This function is used to normalize the first_name and last_name to be used as a password
+    # Example: "Éric" -> "Eric"
+    def normalize_string(input_str: str) -> str:
+        normalized_str = unicodedata.normalize('NFKD', input_str)
+        ascii_str = normalized_str.encode('ascii', 'ignore')
+        return ascii_str.decode('ascii')
+
     first_name = fake.first_name()
     last_name = fake.last_name()
-    password= "Password1"
+    password = "Password1"
+    email = normalize_string(first_name).replace(" ", "").lower() + "." + normalize_string(last_name).replace(" ", "").lower() + "@umontreal.ca"
     return {
-            "email": fake.email(),
+            "email": email,
             "matricule": fake.bothify(text='??#####').lower(),
             "username": fake.user_name(),
             "password": password,
@@ -20,7 +29,7 @@ def user_data():
 @pytest.fixture(scope="module")
 def user_data_cafesansfil():
     return {
-        "email": "cafesansfil@example.com",
+        "email": "cafesansfil@umontreal.ca",
         "matricule": "cs12345",
         "username": "cafesansfil",
         "password": "Cafesansfil1",
@@ -28,6 +37,7 @@ def user_data_cafesansfil():
         "last_name": "Holland",
         "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
     }
+
 
 # --------------------------------------
 #       /api/users
