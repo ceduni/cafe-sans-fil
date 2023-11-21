@@ -157,6 +157,15 @@ const Cart = ({ open, setOpen }) => {
                       </div>
                     </div>
 
+                    {!isEmpty && (
+                      <div className="py-3 flex justify-center text-sm text-gray-500 hover:text-gray-700">
+                        <button className="flex gap-2 disabled:cursor-not-allowed" onClick={() => emptyCart()}>
+                          <TrashIcon className="h-5 w-5" aria-hidden="true" />
+                          Vider le panier
+                        </button>
+                      </div>
+                    )}
+
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Total</p>
@@ -173,13 +182,7 @@ const Cart = ({ open, setOpen }) => {
                         </div>
                       )}
 
-                      <div className="mt-6 flex justify-center text-center text-sm text-gray-500 gap-2 hover:text-gray-700">
-                        <TrashIcon className="h-5 w-5" aria-hidden="true" />
-                        <button className="disabled:cursor-not-allowed" onClick={() => emptyCart()} disabled={isEmpty}>
-                          Vider le panier
-                        </button>
-                      </div>
-                      <div className="mt-4">
+                      <div className="mt-6">
                         <button
                           className="w-full rounded-md \
                           border border-transparent bg-emerald-600 px-6 py-3 \
