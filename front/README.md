@@ -27,6 +27,11 @@
 
 ## Avancée du développement
 
+#### 2023-11-21
+
+- Corrections de bugs et améliorations UI
+- Ajout du support des options de produits (ex: taille, sirop, etc.)
+
 #### 2023-11-16
 
 - Corrections de bugs et améliorations UI

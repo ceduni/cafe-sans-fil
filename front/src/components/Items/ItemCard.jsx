@@ -4,11 +4,14 @@ import Badge from "@/components/Badge";
 import { useCart } from "react-use-cart";
 import toast from "react-hot-toast";
 import { getCafeFromId } from "@/utils/getFromId";
-import { formatPrice } from "@/utils/cart";
+import { formatPrice, getIdFromSelectedOptions } from "@/utils/cart";
 import classNames from "classnames";
 
 const ItemCard = ({ item, cafeId }) => {
   const [itemPreviewOpen, setItemPreviewOpen] = useState(false);
+
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [itemFinalPrice, setItemFinalPrice] = useState(item.price);
 
   // On update le prix pour qu'il soit affiché avec 2 décimales
   item = {
@@ -23,8 +26,11 @@ const ItemCard = ({ item, cafeId }) => {
     const cafe = await getCafeFromId(cafeId);
     addItem({
       ...item,
-      id: item.item_id, // Il est obligatoire de passer un id unique à chaque item
+      // Il est obligatoire de passer un id unique à chaque item
+      id: item.item_id + getIdFromSelectedOptions(selectedOptions),
       cafe: cafe, // On ajout l'info du café pour pouvoir l'afficher dans le panier
+      price: itemFinalPrice,
+      selectedOptions: selectedOptions,
     });
     setItemPreviewOpen(false);
     toast.success(`${item.name} a été ajouté au panier`);
@@ -33,7 +39,16 @@ const ItemCard = ({ item, cafeId }) => {
 
   return (
     <>
-      <ProductView item={item} open={itemPreviewOpen} setOpen={setItemPreviewOpen} onSubmit={handleAddToCart} />
+      <ProductView
+        item={item}
+        open={itemPreviewOpen}
+        setOpen={setItemPreviewOpen}
+        onSubmit={handleAddToCart}
+        selectedOptions={selectedOptions}
+        setSelectedOptions={setSelectedOptions}
+        itemFinalPrice={itemFinalPrice}
+        setItemFinalPrice={setItemFinalPrice}
+      />
       <button key={item.item_id} className="group text-left" onClick={() => setItemPreviewOpen(true)}>
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
           <img

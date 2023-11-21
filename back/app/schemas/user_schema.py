@@ -25,7 +25,7 @@ class UserAuth(BaseModel):
     photo_url: Optional[str] = Field(None, min_length=10, max_length=255, description="URL of the user's profile photo.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "email": "john.doe@example.com",
+            "email": "john.doe@umontreal.ca",
             "matricule": "jd12345",
             "username": "johndoe",
             "password": "Password123",
@@ -66,7 +66,7 @@ class UserUpdate(BaseModel):
     is_active: Optional[bool] = Field(None, description="Flag to indicate whether the user's account is active or not.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "email": "john.doe@example.com",
+            "email": "john.doe@umontreal.ca",
             "matricule": "jd12345",
             "username": "johndoe",
             "password": "Password123",
@@ -108,7 +108,7 @@ class UserOut(BaseModel):
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "user_id": "123e4567-e89b-12d3-a456-426614174000",
-            "email": "john.doe@example.com",
+            "email": "john.doe@umontreal.ca",
             "matricule": "jd12345",
             "username": "johndoe",
             "first_name": "John",

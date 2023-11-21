@@ -44,6 +44,6 @@
 
 # async def is_test_email(email: str) -> bool:
 #     # To not send emails to test domains in Unit Tests
-#     test_domains = {"example.org", "example.com", "test.com", "example.net"}
+#     test_domains = {"example.org", "example.com", "test.com", "example.net", "umontreal.ca"}
 #     domain = email.split('@')[-1]
 #     return domain in test_domains
