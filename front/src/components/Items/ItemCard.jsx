@@ -5,6 +5,7 @@ import { useCart } from "react-use-cart";
 import toast from "react-hot-toast";
 import { getCafeFromId } from "@/utils/getFromId";
 import { formatPrice } from "@/utils/cart";
+import classNames from "classnames";
 
 const ItemCard = ({ item, cafeId }) => {
   const [itemPreviewOpen, setItemPreviewOpen] = useState(false);
@@ -37,7 +38,10 @@ const ItemCard = ({ item, cafeId }) => {
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
           <img
             src={item.image_url || "https://placehold.co/300x300?text=Item"}
-            className="h-full w-full object-cover object-center group-hover:opacity-75"
+            className={classNames("h-full w-full object-cover object-center", {
+              "group-hover:opacity-60 hover:transition-all duration-300": item.in_stock,
+              "opacity-50": !item.in_stock,
+            })}
           />
         </div>
         <h3 className="mt-4 text-gray-800">{item.name}</h3>

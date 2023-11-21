@@ -49,8 +49,8 @@ async def create_users(num_users):
 
     # Update the first User to be cafesansfil
     cafesansfil_user = {
-        "email": "spiderman@example.com",
-        "matricule": "sm12345",
+        "email": "cafesansfil@example.com",
+        "matricule": "cs12345",
         "username": "cafesansfil",
         "password": "Cafesansfil1",
         "first_name": "Tom",
