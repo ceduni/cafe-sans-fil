@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleLogin = async (event, credentials) => {
+  const handleLogin = async (event, credentials, setCredentials) => {
     event.preventDefault();
     const { email, password } = credentials;
 
@@ -60,6 +60,8 @@ export const AuthProvider = ({ children }) => {
 
       navigate("/");
       setUser(await getCurrentUser());
+    } else {
+      setCredentials({ ...credentials, password: "" });
     }
   };
 
