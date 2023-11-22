@@ -29,7 +29,8 @@
 
 #### 2023-11-22
 
-- Fix et améliorations UI
+- Fix, améliorations UI et de code
+- Ajout filtre commandes par statut
 
 #### 2023-11-21
 
