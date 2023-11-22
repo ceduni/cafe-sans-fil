@@ -22,7 +22,7 @@ const Avatar = ({ name, size = "md", image }) => {
       {image && !isImageError ? (
         <img
           className={classNames(
-            "inline-flex items-center justify-center rounded-full select-none",
+            "inline-flex items-center justify-center rounded-full select-none object-cover",
             size === "lg" ? "h-20 w-20" : "h-8 w-8"
           )}
           src={image}
