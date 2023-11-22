@@ -4,7 +4,8 @@ const Card = ({ className, children }) => {
   return (
     <div
       className={classNames(
-        "overflow-hidden bg-white rounded-lg shadow-sm border flex flex-col hover:shadow-lg transition-shadow duration-300 ease-in-out",
+        "overflow-hidden bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col \
+        sm:hover:shadow-lg sm:transition-shadow sm:duration-300 sm:ease-in-out",
         className
       )}
       tabIndex="0">
