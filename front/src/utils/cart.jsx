@@ -52,6 +52,14 @@ export const getIdFromSelectedOptions = (selectedOptions) => {
   );
 };
 
+export const getAdditionalPriceFromOptions = (options) => {
+  let additionalPrice = 0;
+  options.forEach((option) => {
+    additionalPrice += parseFloat(option.fee);
+  });
+  return additionalPrice;
+};
+
 export const arrayToOptionsByType = (options) => {
   // On prend un tableau d'options de l'API et on le transforme en objet d'options par type
   // ex input: [{type: "sirop", value: "vanille", fee: "0.50"}, {type: "sirop", value: "caramel", fee: "0.50"}]
