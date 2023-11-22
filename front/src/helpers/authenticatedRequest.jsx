@@ -30,13 +30,18 @@ authenticatedRequest.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
+        console.log("Refreshing token...");
         const refreshToken = JSON.parse(localStorage.getItem("refreshToken"));
-        const token = await authenticatedRequest.post("/auth/refresh", refreshToken);
+        console.log("Using refresh token: ", refreshToken);
+        const response = await authenticatedRequest.post("/auth/refresh", refreshToken);
+        if (!response.data) throw new Error("No token received");
+        const token = response.data;
         localStorage.setItem("accessToken", JSON.stringify(token.access_token));
         localStorage.setItem("refreshToken", JSON.stringify(token.refresh_token));
 
         // On réessaie la requête avec le nouveau token
         originalRequest.headers["Authorization"] = `Bearer ${token.access_token}`;
+        console.log("Retrying original request with new token...");
         return axios(originalRequest);
       } catch (error) {
         console.log(error);
@@ -45,6 +50,8 @@ authenticatedRequest.interceptors.response.use(
         // localStorage.setItem("accessToken", JSON.stringify(null));
         // localStorage.setItem("refreshToken", JSON.stringify(null));
         // window.location.href = "/login";
+      } finally {
+        console.log("Token refresh finished!");
       }
     }
     return Promise.reject(error);
