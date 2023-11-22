@@ -3,10 +3,30 @@ import Container from "@/components/Container";
 import Input from "@/components/Input";
 import Avatar from "@/components/Avatar";
 import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
+import authenticatedRequest from "@/helpers/authenticatedRequest";
+import toast from "react-hot-toast";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const userFullName = user ? user.first_name + " " + user.last_name : "";
+
+  const [userDetails, setUserDetails] = useState({
+    photo_url: user?.photo_url,
+  });
+
+  const handleSubmit = async (e) => {
+    const response = await authenticatedRequest.put(`/users/${user.username}`, userDetails);
+    if (response.status === 200) {
+      toast.success("Votre profil a été mis à jour");
+      setUser({
+        ...user,
+        photo_url: response.data.photo_url,
+      });
+    } else {
+      toast.error("Une erreur est survenue");
+    }
+  };
 
   return (
     <>
@@ -17,21 +37,48 @@ const Profile = () => {
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">Informations personnelles</h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">
-              Vous ne pouvez pas modifier ces informations. Elles sont liées à votre compte de l'UdeM.
-            </p>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
                   Photo de profil
                 </label>
                 <div className="mt-2">
-                  <Avatar name={userFullName} size="lg" />
+                  <Avatar name={userFullName} size="lg" image={user?.photo_url} key={user?.photo_url} />
                 </div>
               </div>
             </div>
-            <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+            <div className="sm:col-span-3 w-1/2 mt-5">
+              <label htmlFor="profile-picture" className="block text-sm font-medium leading-6 text-gray-900">
+                URL de la photo de profil
+              </label>
+              <div className="mt-2">
+                <Input
+                  id="profile-picture"
+                  name="profile-picture"
+                  type="text"
+                  value={userDetails.photo_url}
+                  onChange={(e) => setUserDetails({ ...userDetails, photo_url: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <button
+              onClick={handleSubmit}
+              disabled={userDetails.photo_url === user?.photo_url}
+              className="mt-4 rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm \
+            hover:bg-emerald-500 \
+            focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 \
+            disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none">
+              Enregistrer
+            </button>
+
+            <p className="mt-10 text-sm leading-6 text-gray-600">
+              Vous ne pouvez pas modifier ces informations. Elles sont liées à votre compte de l'UdeM.
+            </p>
+
+            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
                   Prénom

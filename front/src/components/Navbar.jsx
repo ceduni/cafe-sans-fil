@@ -161,7 +161,7 @@ const Navbar = () => {
                       <Menu as="div" className="relative ml-3">
                         <div>
                           <Menu.Button>
-                            <Avatar name={userFullName}></Avatar>
+                            <Avatar name={userFullName} image={user?.photo_url} key={user?.photo_url} />
                           </Menu.Button>
                         </div>
                         <Transition
