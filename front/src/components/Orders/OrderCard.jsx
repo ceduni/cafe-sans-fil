@@ -21,7 +21,7 @@ const OrderCard = ({ order }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <img
-              className="w-12 h-12 mr-4 rounded-full"
+              className="w-12 h-12 mr-4 rounded-full object-cover"
               src={order.cafe?.image_url || "https://placehold.co/300x300?text=..."}
               alt={order.cafe?.name}
               onError={(e) => {

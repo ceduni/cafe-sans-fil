@@ -118,7 +118,7 @@ function Orders() {
           </div>
         )}
 
-        <div className="w-full max-w-md px-2 py-16 sm:px-0">
+        <div className="w-full max-w-md px-2 py-10 sm:px-0">
           <Tab.Group>
             <Tab.List className="flex space-x-1 rounded-xl bg-emerald-900/20 p-1">
               {tabCategories.map((category) => (
@@ -139,7 +139,7 @@ function Orders() {
           </Tab.Group>
         </div>
 
-        <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
+        <div className="flex flex-col mt-4 gap-4 w-full max-w-2xl">
           {displayedOrders.map((order) => (
             <OrderCard order={order} key={order.order_id} />
           ))}
