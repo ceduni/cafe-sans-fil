@@ -128,8 +128,7 @@ const Navbar = () => {
                   {/* Logo */}
                   <div className="ml-4 flex lg:ml-0">
                     <Link to={routes.home} className="flex items-center gap-2 md:gap-4">
-                      <img className="h-8 w-auto ml-2" src="/logo_min.png" alt="Café sans-fil" />
-                      <span className="text-xl font-bold text-gray-900 font-secondary">café sans-fil</span>
+                      <img className="h-9 w-auto ml-2" src="/logo_text.png" alt="Café sans-fil" />
                     </Link>
                   </div>
 
