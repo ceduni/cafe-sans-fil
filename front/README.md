@@ -31,6 +31,8 @@
 
 - Fix, améliorations UI et de code
 - Ajout filtre commandes par statut
+- Ajout options à liste commandes
+- Affichage liste staff
 
 #### 2023-11-21
 

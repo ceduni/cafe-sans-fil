@@ -35,7 +35,7 @@ const OrderCard = ({ order }) => {
               <Badge variant={getBadgeVariant(order.status)}>{order.status}</Badge>
             </div>
           </div>
-          <p className="text-lg font-semibold text-gray-900">{order.total_price} $</p>
+          <p className="text-lg font-semibold text-gray-900">{order.total_price}&nbsp;$</p>
         </div>
 
         <hr className="my-6 border-gray-200" />
