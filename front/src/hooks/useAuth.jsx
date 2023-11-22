@@ -25,7 +25,16 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response.status !== 200) {
-        throw new Error("Identifiant ou mot de passe incorrect");
+        switch (response.status) {
+          case 403:
+            const responseText = await response.text();
+            if (responseText.includes("temporarily")) {
+              throw new Error("Trop de tentatives de connexion, réessayez plus tard");
+            }
+
+          default:
+            throw new Error("Identifiant ou mot de passe incorrect");
+        }
       }
 
       const token = await response.json();
@@ -36,7 +45,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleLogin = async (event, credentials) => {
+  const handleLogin = async (event, credentials, setCredentials) => {
     event.preventDefault();
     const { email, password } = credentials;
 
@@ -51,6 +60,8 @@ export const AuthProvider = ({ children }) => {
 
       navigate("/");
       setUser(await getCurrentUser());
+    } else {
+      setCredentials({ ...credentials, password: "" });
     }
   };
 
@@ -135,6 +146,9 @@ export const AuthProvider = ({ children }) => {
         case "value_error":
           if (error.loc[1] === "email") {
             toast.error("L'adresse email est invalide");
+          }
+          if (error.loc[1] === "password") {
+            toast.error(error.msg);
           }
           break;
 
