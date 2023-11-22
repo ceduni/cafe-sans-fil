@@ -31,6 +31,7 @@
 
 - Corrections de bugs et améliorations UI
 - Ajout du support des options de produits (ex: taille, sirop, etc.)
+- Début support photos de profil user
 
 #### 2023-11-16
 
