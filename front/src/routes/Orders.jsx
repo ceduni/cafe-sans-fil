@@ -82,12 +82,15 @@ function Orders() {
     }
   }, [fullOrders]);
 
-  const isPendingOrder = (status) => {
-    return status === "Placée" || status === "Prête";
+  const isOldOrder = (status) => {
+    return status === "Annulée" || status === "Complétée";
   };
+  const oldOrdersCount = fullOrders.filter((order) => isOldOrder(order.status)).length;
+  const pendingOrdersCount = fullOrders.length - oldOrdersCount;
 
-  const displayedOrders = showOldOrders ? fullOrders.filter((order) => !isPendingOrder(order.status)) : fullOrders;
-  console.log(displayedOrders);
+  const displayedOrders = showOldOrders
+    ? fullOrders.filter((order) => isOldOrder(order.status))
+    : fullOrders.filter((order) => !isOldOrder(order.status));
 
   const tabCategories = [
     {
@@ -129,7 +132,7 @@ function Orders() {
                     )
                   }
                   onClick={category.onClick}>
-                  {category.name}
+                  {category.name} ({category.name === "En cours" ? pendingOrdersCount : oldOrdersCount})
                 </Tab>
               ))}
             </Tab.List>
