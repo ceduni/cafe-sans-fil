@@ -47,11 +47,12 @@ authenticatedRequest.interceptors.response.use(
         console.log(error);
         toast.error("Vous devez vous connecter à nouveau");
         // TODO investiguer pourquoi le refresh token ne fonctionne pas
-        // localStorage.setItem("accessToken", JSON.stringify(null));
-        // localStorage.setItem("refreshToken", JSON.stringify(null));
-        // window.location.href = "/login";
+        localStorage.setItem("accessToken", JSON.stringify(null));
+        localStorage.setItem("refreshToken", JSON.stringify(null));
+        window.location.href = "/login";
       } finally {
-        console.log("Token refresh finished!");
+        // si pas d'erreur, on affiche un message
+        console.log("Token refresh done!");
       }
     }
     return Promise.reject(error);
