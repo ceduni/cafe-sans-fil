@@ -87,6 +87,7 @@ function Orders() {
   };
 
   const displayedOrders = showOldOrders ? fullOrders.filter((order) => !isPendingOrder(order.status)) : fullOrders;
+  console.log(displayedOrders);
 
   const tabCategories = [
     {
