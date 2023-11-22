@@ -6,7 +6,7 @@ const Footer = () => {
           <img src="/logo_text.png" className="h-10" alt="Logo de café sans-fil" />
           <div className="flex flex-col">
             <span className="text-xl font-bold text-gray-900 font-secondary"></span>
-            <span className="text-xs font-semibold text-gray-500">(Preview, version 0.1.0)</span>
+            <span className="text-xs font-semibold text-gray-500 mt-7">(Preview, version 0.1.0)</span>
           </div>
         </div>
         <div className="text-sm text-gray-500 sm:text-center">
