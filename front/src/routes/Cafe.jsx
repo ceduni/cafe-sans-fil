@@ -49,6 +49,10 @@ const Cafe = () => {
           className="mb-6 rounded-lg shadow-xl object-cover md:h-96 w-full"
           src={data?.image_url || "https://placehold.co/700x400?text=..."}
           alt={`Photo du café ${data?.name}`}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "https://placehold.co/700x400?text=:/";
+          }}
         />
 
         {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (

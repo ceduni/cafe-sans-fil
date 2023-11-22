@@ -18,7 +18,7 @@ function Orders() {
   // On récupère les commandes de l'utilisateur
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await authenticatedRequest(`/users/${user.user_id}/orders`);
+      const response = await authenticatedRequest(`/users/${user.username}/orders`);
       setOrders(response.data);
       if (response.data.length === 0) {
         setIsLoading(false);
@@ -37,7 +37,7 @@ function Orders() {
       order.created_at = formatDate(order.created_at);
 
       // On récupère les données du café
-      let cafe = await getCafeFromId(order.cafe_id);
+      let cafe = await getCafeFromId(order.cafe_slug);
       if (!cafe) {
         cafe = {
           name: "Café supprimé",
@@ -48,7 +48,7 @@ function Orders() {
       const items = await Promise.all(
         // Pour chaque item de la commande, on récupère les données de l'item
         order.items.map(async (item) => {
-          let itemData = await getItemFromId(item.item_id, order.cafe_id);
+          let itemData = await getItemFromId(item.item_slug, order.cafe_slug);
           if (!itemData) {
             itemData = {
               name: "Item supprimé",
@@ -143,8 +143,12 @@ function Orders() {
                 <div className="flex items-center">
                   <img
                     className="w-12 h-12 mr-4 rounded-full"
-                    src={order.cafe.image_url || "https://placehold.co/300x300?text=Cafe"}
+                    src={order.cafe.image_url || "https://placehold.co/300x300?text=..."}
                     alt={order.cafe.name}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://placehold.co/300x300?text=:/";
+                    }}
                   />
                   <div>
                     <h2 className="text-lg font-semibold text-gray-900">{order.cafe.name}</h2>
