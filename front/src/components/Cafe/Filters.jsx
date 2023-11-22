@@ -37,7 +37,8 @@ const Filters = ({ filters, setFilters, cafes }) => {
         ...cafes
           .map((cafe) => cafe.location.pavillon)
           .filter((value, index, self) => self.indexOf(value) === index) // On retire les doublons
-          .sort()
+          .sort() // On trie par ordre alphabétique
+          .sort((a, b) => (a === filters.pavillon ? -1 : b === filters.pavillon ? 1 : 0)) // On met le pavillon sélectionné en premier
           .map((pavillon) => ({ name: pavillon })),
       ]
     : [];
