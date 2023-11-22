@@ -145,6 +145,9 @@ export const AuthProvider = ({ children }) => {
           if (error.loc[1] === "email") {
             toast.error("L'adresse email est invalide");
           }
+          if (error.loc[1] === "password") {
+            toast.error(error.msg);
+          }
           break;
 
         default:
