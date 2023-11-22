@@ -51,7 +51,6 @@ authenticatedRequest.interceptors.response.use(
         localStorage.setItem("refreshToken", JSON.stringify(null));
         window.location.href = "/login";
       } finally {
-        // si pas d'erreur, on affiche un message
         console.log("Token refresh done!");
       }
     }
