@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
+import classNames from "classnames";
 
 const filterTypes = [
   {
@@ -26,10 +27,6 @@ const filterTypes = [
     ],
   },
 ];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 const Filters = ({ filters, setFilters, cafes }) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -153,7 +150,7 @@ const Filters = ({ filters, setFilters, cafes }) => {
           <div className="flex items-baseline justify-end border-b border-gray-200 pb-6">
             {/* <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Cafés</h1> */}
             <div className="flex items-center select-none">
-              <div className="flex items-center mr-8">
+              <div className="flex items-center sm:mr-8 mr-4">
                 <label className="relative inline-flex items-center cursor-pointer" htmlFor={`filter-mobile-open`}>
                   <input
                     className="sr-only peer"
@@ -170,8 +167,10 @@ const Filters = ({ filters, setFilters, cafes }) => {
 
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    {getShortPavillonName(filters.pavillon)}
+                  <Menu.Button className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                    <span className="max-w-[7rem] sm:max-w-none truncate">
+                      {getShortPavillonName(filters.pavillon)}
+                    </span>
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
@@ -194,11 +193,12 @@ const Filters = ({ filters, setFilters, cafes }) => {
                           {({ active }) => (
                             <button
                               onClick={() => setFilters({ ...filters, pavillon: option.name })}
-                              className={classNames(
-                                filters.pavillon === option.name ? "font-medium text-gray-900" : "text-gray-500",
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm w-full text-left"
-                              )}>
+                              className={classNames({
+                                "font-medium text-gray-900": filters.pavillon === option.name,
+                                "text-gray-500": filters.pavillon !== option.name,
+                                "bg-gray-100": active,
+                                "block px-4 py-2 text-sm w-full text-left": true,
+                              })}>
                               {option.name}
                             </button>
                           )}
