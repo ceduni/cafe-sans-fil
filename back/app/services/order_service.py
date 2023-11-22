@@ -44,7 +44,7 @@ class OrderService:
 
     @staticmethod
     async def list_orders_for_user(username: str, **filters) -> List[Order]:
-        filters["username"] = username
+        filters["user_username"] = username
         sort = filters.pop('sort', None)
         limit = int(filters.pop('limit', 20))
         page = int(filters.pop('page', 1))
@@ -57,7 +57,7 @@ class OrderService:
 
     @staticmethod
     async def list_orders_for_cafe(cafe_slug: str, **filters) -> List[Order]:
-        filters["slug"] = cafe_slug
+        filters["cafe_slug"] = cafe_slug
         sort = filters.pop('sort', None)
         limit = int(filters.pop('limit', 20))
         page = int(filters.pop('page', 1))
