@@ -13,8 +13,6 @@ async def create_cafes(usernames):
         cafes_data = json.load(file)
     with open("./utils/templates/menu_items.json", "r", encoding="utf-8") as file:
         menu_items_data = json.load(file)
-        for item in menu_items_data:
-            item["in_stock"] = random.random() < 0.80 # chance of in_stock
 
     for index, cafe_info in enumerate(tqdm(cafes_data, desc="Creating cafes")):
         # Make cafesansfil Admin in First Cafe (For Test)
@@ -31,6 +29,13 @@ async def create_cafes(usernames):
 
         is_open, status_message = random_open_status_message()
 
+        # Randomly set in_stock for each menu item
+        randomized_menu_items = []
+        for item in menu_items_data:
+            item_copy = item.copy()
+            item_copy["in_stock"] = random.random() < 0.80
+            randomized_menu_items.append(MenuItem(**item_copy))
+            
         cafe = Cafe(
             name=cafe_info["name"],
             description=cafe_info["description"],
@@ -45,7 +50,7 @@ async def create_cafes(usernames):
             additional_info=random_additional_info(),
             payment_methods=random_payment_methods(),
             staff=staff,
-            menu_items=[MenuItem(**item) for item in menu_items_data]
+            menu_items=randomized_menu_items
         )
         await cafe.insert()
         cafe_menu_items_slug_dict[cafe.slug] = cafe.menu_items

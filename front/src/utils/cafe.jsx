@@ -42,7 +42,10 @@ const isNowWithinOpeningHours = (openingHours) => {
   const today = now.toLocaleString("fr-CA", { timeZone: "America/Montreal", weekday: "long" });
   const hours = now.getHours();
   const minutes = now.getMinutes();
-  const time = hours + ":" + (minutes < 10 ? "0" + minutes : minutes);
+  const formattedHours = hours < 10 ? "0" + hours : hours;
+  const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+  const time = formattedHours + ":" + formattedMinutes;
+
   // On cherche le jour actuel dans les horaires d'ouverture
   const currentDay = openingHours.find((day) => day.day.toLowerCase() === today.toLowerCase());
   if (!currentDay) return false;

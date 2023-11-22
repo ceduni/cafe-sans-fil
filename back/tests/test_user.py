@@ -14,7 +14,7 @@ def user_data():
 
     first_name = fake.first_name()
     last_name = fake.last_name()
-    password = "Password1"
+    password = "Cafepass1"
     email = normalize_string(first_name).replace(" ", "").lower() + "." + normalize_string(last_name).replace(" ", "").lower() + "@umontreal.ca"
     return {
             "email": email,
@@ -32,7 +32,7 @@ def user_data_cafesansfil():
         "email": "cafesansfil@umontreal.ca",
         "matricule": "cs12345",
         "username": "cafesansfil",
-        "password": "Cafesansfil1",
+        "password": "Cafepass1",
         "first_name": "Tom",
         "last_name": "Holland",
         "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
