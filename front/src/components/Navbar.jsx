@@ -129,8 +129,8 @@ const Navbar = () => {
                   <div className="ml-0 flex">
                     <Link to={routes.home} className="flex items-center gap-2 md:gap-4">
                       <img className="h-9 w-auto ml-2" src="/logo_text.png" alt="Café sans-fil" />
-                      <span className="text-xl font-bold text-gray-900 font-secondary">
-                      <span className="text-xs font-sans font-semibold text-gray-500">preview</span>
+                      <span className="text-xl font-bold text-gray-900 font-secondary mt-2">
+                      <span className="text-xs font-sans font-bold text-gray-500">preview</span>
                       </span>
                     </Link>
                   </div>
