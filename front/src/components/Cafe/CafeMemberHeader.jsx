@@ -10,9 +10,9 @@ const CafeMemberHeader = ({ cafe }) => {
     return null;
   }
 
-  const userId = user.user_id;
+  const userName = user.username;
   const getRole = (cafe) => {
-    return cafe.staff.find((member) => member.id === userId)?.role;
+    return cafe.staff.find((member) => member.username === userName)?.role;
   };
 
   const role = {
