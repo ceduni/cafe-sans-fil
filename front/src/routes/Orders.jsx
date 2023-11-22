@@ -4,9 +4,10 @@ import Container from "@/components/Container";
 import { getCafeFromId, getItemFromId } from "@/utils/getFromId";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
-import Badge from "@/components/Badge";
-import { formatPrice } from "@/utils/cart";
 import { formatDate } from "@/utils/orders";
+import { Tab } from "@headlessui/react";
+import classNames from "classnames";
+import { LoadingOrderCard, OrderCard } from "@/components/Orders/OrderCard";
 
 function Orders() {
   const { user } = useAuth();
@@ -59,7 +60,7 @@ function Orders() {
           }
           return {
             ...item,
-            itemData: itemData,
+            itemData: itemData, // On ajoute les données de l'item
           };
         })
       );
@@ -81,23 +82,22 @@ function Orders() {
     }
   }, [fullOrders]);
 
-  const getBadgeVariant = (status) => {
-    switch (status) {
-      case "Placée":
-        return "warning";
-      case "Prête":
-        return "success";
-      case "Complétée":
-        return "neutral";
-      case "Annulée":
-        return "danger";
-    }
-  };
-
   const isPendingOrder = (status) => {
     return status === "Placée" || status === "Prête";
   };
-  const pendingOrders = orders.filter((order) => isPendingOrder(order.status));
+
+  const displayedOrders = showOldOrders ? fullOrders.filter((order) => !isPendingOrder(order.status)) : fullOrders;
+
+  const tabCategories = [
+    {
+      name: "En cours",
+      onClick: () => setShowOldOrders(false),
+    },
+    {
+      name: "Terminées",
+      onClick: () => setShowOldOrders(true),
+    },
+  ];
 
   return (
     <Container className="py-10">
@@ -109,87 +109,35 @@ function Orders() {
         {isLoading && (
           <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
             {Array.from({ length: 2 }).map((_, index) => (
-              <div key={index} className="flex flex-col p-6 border border-gray-200 rounded-lg">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 mr-4 rounded-full bg-gray-200 animate-pulse"></div>
-                    <div>
-                      <div className="w-32 h-4 mb-2 rounded-full bg-gray-200 animate-pulse"></div>
-                      <div className="w-16 h-3 rounded-full bg-gray-200 animate-pulse"></div>
-                    </div>
-                  </div>
-                  <div className="w-16 h-3 rounded-full bg-gray-200 animate-pulse"></div>
-                </div>
-
-                <hr className="my-6 border-gray-200" />
-
-                <div>
-                  {Array.from({ length: 3 }).map((_, index) => (
-                    <div key={index} className="flex items-center justify-between mb-6 last:mb-0">
-                      <div className="flex items-center">
-                        <div className="w-8 h-8 mr-4 rounded-lg bg-gray-200 animate-pulse"></div>
-                        <div>
-                          <div className="w-32 h-4 mb-2 rounded-full bg-gray-200 animate-pulse"></div>
-                          <div className="w-16 h-3 rounded-full bg-gray-200 animate-pulse"></div>
-                        </div>
-                      </div>
-                      <div className="w-16 h-3 rounded-full bg-gray-200 animate-pulse"></div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <LoadingOrderCard key={index} />
             ))}
           </div>
         )}
 
+        <div className="w-full max-w-md px-2 py-16 sm:px-0">
+          <Tab.Group>
+            <Tab.List className="flex space-x-1 rounded-xl bg-emerald-900/20 p-1">
+              {tabCategories.map((category) => (
+                <Tab
+                  key={category.name}
+                  className={({ selected }) =>
+                    classNames(
+                      selected ? "bg-white text-emerald-700 shadow" : "text-gray-600 hover:bg-white/[0.12]",
+                      "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
+                      "ring-white/60 ring-offset-2 ring-offset-gray-400 focus:outline-none focus:ring-2"
+                    )
+                  }
+                  onClick={category.onClick}>
+                  {category.name}
+                </Tab>
+              ))}
+            </Tab.List>
+          </Tab.Group>
+        </div>
+
         <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
-          {fullOrders.map((order) => (
-            <div key={order.order_id} className="flex flex-col p-6 border border-gray-200 rounded-lg">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <img
-                    className="w-12 h-12 mr-4 rounded-full"
-                    src={order.cafe.image_url || "https://placehold.co/300x300?text=..."}
-                    alt={order.cafe.name}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://placehold.co/300x300?text=:/";
-                    }}
-                  />
-                  <div>
-                    <h2 className="text-lg font-semibold text-gray-900">{order.cafe.name}</h2>
-                    <p className="text-sm text-gray-500 mb-1">{order.created_at}</p>
-                    <Badge variant={getBadgeVariant(order.status)}>{order.status}</Badge>
-                  </div>
-                </div>
-                <p className="text-lg font-semibold text-gray-900">{order.total_price} $</p>
-              </div>
-
-              <hr className="my-6 border-gray-200" />
-
-              <div>
-                {order.items.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between mb-6 last:mb-0">
-                    <div className="flex items-center">
-                      <img
-                        className="w-8 h-8 mr-4 rounded-lg"
-                        src={item.itemData.image_url || "https://placehold.co/300x300?text=Item"}
-                        alt={item.itemData.name}
-                      />
-                      <div>
-                        <h3 className="text-base font-semibold text-gray-900">{item.itemData.name}</h3>
-                        <p className="text-sm text-gray-500">
-                          Quantité: {item.quantity} ({item.itemData.price}&nbsp;$ l'unité)
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-base font-semibold text-gray-900">
-                      {formatPrice(item.itemData.price * item.quantity)}&nbsp;$
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {displayedOrders.map((order) => (
+            <OrderCard order={order} key={order.order_id} />
           ))}
         </div>
       </div>

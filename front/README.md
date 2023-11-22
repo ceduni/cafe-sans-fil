@@ -27,6 +27,11 @@
 
 ## Avancée du développement
 
+#### 2023-11-22
+
+- Fix, améliorations UI et de code
+- Ajout filtre commandes par statut
+
 #### 2023-11-21
 
 - Corrections de bugs et améliorations UI

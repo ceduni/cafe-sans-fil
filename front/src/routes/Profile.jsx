@@ -36,20 +36,16 @@ const Profile = () => {
       <Container className="py-10">
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Informations personnelles</h2>
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Photo de profil</h2>
+            <p className="mt-1 text-sm leading-6 text-gray-600">
+              Votre photo de profil est visible par les cafés où vous passez une commande.
+            </p>
 
-            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3">
-                <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
-                  Photo de profil
-                </label>
-                <div className="mt-2">
-                  <Avatar name={userFullName} size="lg" image={user?.photo_url} key={user?.photo_url} />
-                </div>
-              </div>
+            <div className="mt-6">
+              <Avatar name={userFullName} size="lg" image={user?.photo_url} key={user?.photo_url} />
             </div>
 
-            <div className="sm:col-span-3 w-1/2 mt-5">
+            <div className="sm:col-span-3 sm:w-1/2 mt-6">
               <label htmlFor="profile-picture" className="block text-sm font-medium leading-6 text-gray-900">
                 URL de la photo de profil
               </label>
@@ -67,14 +63,17 @@ const Profile = () => {
             <button
               onClick={handleSubmit}
               disabled={userDetails.photo_url === user?.photo_url}
-              className="mt-4 rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm \
+              className="mt-6 rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm \
             hover:bg-emerald-500 \
             focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 \
             disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none">
               Enregistrer
             </button>
+          </div>
+          <div className="border-b border-gray-900/10 pb-12">
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Informations personnelles</h2>
 
-            <p className="mt-10 text-sm leading-6 text-gray-600">
+            <p className="mt-1 text-sm leading-6 text-gray-600">
               Vous ne pouvez pas modifier ces informations. Elles sont liées à votre compte de l'UdeM.
             </p>
 

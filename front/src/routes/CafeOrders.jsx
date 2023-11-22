@@ -1,5 +1,5 @@
 import Container from "@/components/Container";
-import OrderCard from "@/components/Orders/OrderCard";
+import CafeOrderCard from "@/components/Orders/CafeOrderCard";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -35,7 +35,7 @@ const CafeOrders = () => {
     <Container className="py-10">
       {isLoading && <p>Chargement...</p>}
       {orders.length === 0 && !isLoading && <p>Aucune commande pour le moment.</p>}
-      {orders.length > 0 && orders.map((order) => <OrderCard order={order} key={order.order_id} />)}
+      {orders.length > 0 && orders.map((order) => <CafeOrderCard order={order} key={order.order_id} />)}
     </Container>
   );
 };
