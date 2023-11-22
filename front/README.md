@@ -27,6 +27,10 @@
 
 ## Avancée du développement
 
+#### 2023-11-22
+
+- Fix et améliorations UI
+
 #### 2023-11-21
 
 - Corrections de bugs et améliorations UI
