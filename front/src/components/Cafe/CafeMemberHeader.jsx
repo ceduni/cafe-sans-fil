@@ -39,7 +39,7 @@ const CafeMemberHeader = ({ cafe }) => {
   }
 
   return (
-    <div className="mb-10 p-6 rounded-lg bg-emerald-100">
+    <div className="mb-6 p-6 rounded-lg bg-emerald-100">
       <div className="min-w-0 flex-1">
         <h2 className="text-xl font-bold">Vous êtes {role} dans ce café</h2>
       </div>
