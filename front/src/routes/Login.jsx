@@ -27,7 +27,7 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" method="POST" onSubmit={(e) => onLogin(e, credentials)}>
+          <form className="space-y-6" method="POST" onSubmit={(e) => onLogin(e, credentials, setCredentials)}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Adresse courriel de l'UdeM

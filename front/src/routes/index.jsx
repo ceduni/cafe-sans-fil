@@ -6,5 +6,6 @@ import Cafe from "./Cafe";
 import ResetPassword from "./ResetPassword";
 import Orders from "./Orders";
 import OrderConfirmation from "./OrderConfirmation";
+import CafeOrders from "./CafeOrders";
 
-export { Home, Login, SignUp, Profile, Cafe, ResetPassword, Orders, OrderConfirmation };
+export { Home, Login, SignUp, Profile, Cafe, ResetPassword, Orders, OrderConfirmation, CafeOrders };

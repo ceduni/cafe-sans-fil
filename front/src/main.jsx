@@ -2,9 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import PageWrapper from "@/components/PageWrapper";
 import ErrorPage from "@/components/ErrorPage";
-import { Home, Login, SignUp, Profile, Cafe, ResetPassword, Orders, OrderConfirmation } from "@/routes";
+import { Home, Login, SignUp, Profile, Cafe, ResetPassword, Orders, OrderConfirmation, CafeOrders } from "@/routes";
 import StaffList from "@/components/Cafe/StaffList";
-import OrderHeader from "@/components/Orders/OrderHeader";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
@@ -73,8 +72,8 @@ const router = createBrowserRouter([
         element: <StaffList />,
       },
       {
-        path: "/cafes/:id/order/:orderId",
-        element: <OrderHeader />,
+        path: "/cafes/:id/orders",
+        element: <CafeOrders />,
       },
     ],
   },
