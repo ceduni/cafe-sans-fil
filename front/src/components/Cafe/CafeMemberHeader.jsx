@@ -25,7 +25,7 @@ const CafeMemberHeader = ({ cafe }) => {
   }
 
   const actions = [
-    { name: "Commandes en cours", href: `/cafes/${id}/order/1`, icon: BuildingStorefrontIcon },
+    { name: "Commandes en cours", href: `/cafes/${id}/orders`, icon: BuildingStorefrontIcon },
     { name: "Modifier le menu", href: "#", icon: PencilIcon },
   ];
 

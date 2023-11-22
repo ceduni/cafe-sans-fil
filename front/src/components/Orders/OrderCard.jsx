@@ -1,40 +1,39 @@
 import { Fragment } from "react";
 import { CheckIcon, ChevronDownIcon, MapPinIcon } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
-import { useParams } from "react-router-dom";
-import Container from "@/components/Container";
 import { BellAlertIcon, ClockIcon, InformationCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
+import { formatDate } from "@/utils/orders";
+import classNames from "classnames";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+const actions = [
+  { name: "Edit", href: "#" },
+  { name: "View", href: "#" },
+];
 
-const OrderHeader = () => {
-  const { id, orderId } = useParams();
-
+const OrderCard = ({ order }) => {
   return (
-    <Container className="py-10">
-      <div className="lg:flex lg:items-center lg:justify-between">
+    <>
+      <div className="lg:flex lg:items-center lg:justify-between py-10 border-b border-gray-200 last:border-b-0">
         <div className="min-w-0 flex-1">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Commande #{orderId}
+            Commande #{order.order_id}
           </h2>
           <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <MapPinIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-              Café {id}
+              Café {order.cafe_slug}
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <InformationCircleIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-              En préparation
+              {order.status}
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <ClockIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-              Il y a 2 minutes
+              {formatDate(order.created_at)}
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
-              <BellAlertIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-              58 minutes pour la récupérer
+              <BellAlertIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />? minutes pour
+              la récupérer
             </div>
           </div>
         </div>
@@ -60,7 +59,7 @@ const OrderHeader = () => {
           {/* Dropdown */}
           <Menu as="div" className="relative ml-3 sm:hidden">
             <Menu.Button className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400">
-              More
+              Plus
               <ChevronDownIcon className="-mr-1 ml-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
             </Menu.Button>
 
@@ -73,31 +72,27 @@ const OrderHeader = () => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95">
               <Menu.Items className="absolute right-0 z-10 -mr-1 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
-                      Edit
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
-                      View
-                    </a>
-                  )}
-                </Menu.Item>
+                {actions.map((action) => (
+                  <Menu.Item key={action.name}>
+                    {({ active }) => (
+                      <a
+                        href={action.href}
+                        className={classNames({
+                          "bg-gray-100": active,
+                          "block px-4 py-2 text-sm text-gray-700": true,
+                        })}>
+                        {action.name}
+                      </a>
+                    )}
+                  </Menu.Item>
+                ))}
               </Menu.Items>
             </Transition>
           </Menu>
         </div>
       </div>
-    </Container>
+    </>
   );
 };
 
-export default OrderHeader;
+export default OrderCard;
