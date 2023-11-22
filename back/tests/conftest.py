@@ -35,7 +35,7 @@ def client():
 def auth_login(client):
     login_data = {
         "username": "cafesansfil",
-        "password": "Cafesansfil1",
+        "password": "Cafepass1",
     }
     response = client.post("/api/auth/login", data=login_data)
     return response.json()

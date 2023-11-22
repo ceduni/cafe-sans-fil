@@ -73,9 +73,10 @@ class Order(Document):
             raise ValueError("Total price must be a non-negative value.")
         self.total_price = total.quantize(DecimalAnnotation('0.00'))
 
-    @before_event([Replace, Insert])
-    def update_update_at(self):
-        self.updated_at = datetime.utcnow()
+    # Interferes with the generation of data
+    # @before_event([Replace, Insert])
+    # def update_update_at(self):
+    #     self.updated_at = datetime.utcnow()
         
     class Settings:
         name = "orders"

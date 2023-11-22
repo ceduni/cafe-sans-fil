@@ -28,7 +28,7 @@ async def create_users(num_users):
                 first_name = fake.first_name()
                 last_name = fake.last_name()
                 email = normalize_string(first_name).replace(" ", "").lower() + "." + normalize_string(last_name).replace(" ", "").lower() + "@umontreal.ca"
-                password = normalize_string(first_name).replace(" ", "") + normalize_string(last_name).replace(" ", "") + "1" # password is first_name+last_name+"1" (For Test)
+                password = "Cafepass1"
                 photo_url = photo_urls[i] if random.random() <= 1.00 else None # chance of having a photo
 
                 user_data = UserAuth(
@@ -52,7 +52,7 @@ async def create_users(num_users):
         "email": "cafesansfil@umontreal.ca",
         "matricule": "cs12345",
         "username": "cafesansfil",
-        "password": "Cafesansfil1",
+        "password": "Cafepass1",
         "first_name": "Tom",
         "last_name": "Holland",
         "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
