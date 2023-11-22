@@ -25,7 +25,16 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response.status !== 200) {
-        throw new Error("Identifiant ou mot de passe incorrect");
+        switch (response.status) {
+          case 403:
+            const responseText = await response.text();
+            if (responseText.includes("temporarily")) {
+              throw new Error("Trop de tentatives de connexion, réessayez plus tard");
+            }
+
+          default:
+            throw new Error("Identifiant ou mot de passe incorrect");
+        }
       }
 
       const token = await response.json();
