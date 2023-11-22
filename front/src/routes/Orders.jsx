@@ -14,6 +14,7 @@ function Orders() {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [fullOrders, setFullOrders] = useState([]);
+  const [showOldOrders, setShowOldOrders] = useState(false);
 
   // On récupère les commandes de l'utilisateur
   useEffect(() => {
@@ -87,11 +88,16 @@ function Orders() {
       case "Prête":
         return "success";
       case "Complétée":
-        return "success";
+        return "neutral";
       case "Annulée":
         return "danger";
     }
   };
+
+  const isPendingOrder = (status) => {
+    return status === "Placée" || status === "Prête";
+  };
+  const pendingOrders = orders.filter((order) => isPendingOrder(order.status));
 
   return (
     <Container className="py-10">
