@@ -1,5 +1,5 @@
 <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 12px; padding-top: 12px;">
-  <img style="display: block;" src="https://cdn.discordapp.com/attachments/1150280747983319092/1150596609965559858/l5_with_shadow.png" height="240">
+  <img style="display: block;" src="/front/public/logo.png" height="240">
 </div>
 
 # Café sans fil
