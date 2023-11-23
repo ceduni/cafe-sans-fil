@@ -108,8 +108,6 @@ function Orders() {
       <div className="flex flex-col items-center">
         <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Mes commandes</h1>
 
-        {!isLoading && orders.length === 0 && <EmptyState name="commande" genre="féminin" />}
-
         {isLoading && (
           <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
             {Array.from({ length: 2 }).map((_, index) => (
@@ -138,6 +136,8 @@ function Orders() {
             </Tab.List>
           </Tab.Group>
         </div>
+
+        {!isLoading && orders.length === 0 && <EmptyState name="commande" genre="féminin" />}
 
         <div className="flex flex-col mt-4 gap-4 w-full max-w-2xl">
           {displayedOrders.map((order) => (
