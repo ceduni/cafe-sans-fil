@@ -136,7 +136,7 @@ def random_additional_info():
     additional_infos = []
     
     # Lower chance of additional info
-    if random.random() < 0.5:
+    if random.random() <= 0.20:
         return additional_infos
 
     # Randomly choose how many
