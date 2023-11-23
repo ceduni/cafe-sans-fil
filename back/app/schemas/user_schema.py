@@ -17,7 +17,7 @@ Note: These models are for API data interchange related to users and not direct 
 
 class UserAuth(BaseModel):
     email: EmailStr = Field(..., description="User's email address, used for login and communication.")
-    matricule: str = Field(..., pattern="^[a-z]{2}\d{5}$", min_length=7, max_length=7, description="Unique matricule identifier, consisting of two lowercase letters followed by five digits.")
+    matricule: str = Field(..., pattern="^\d{6,8}$", min_length=6, max_length=8, description="Unique matricule identifier")
     username: str = Field(..., min_length=3, max_length=20, description="Username for the user's account, used for identification within the system.")
     password: str = Field(..., min_length=8, max_length=30, description="Password for the user's account, used for account security.")
     first_name: str = Field(..., min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="User's first name, allowing letters, spaces, hyphens, and apostrophes.")
@@ -26,7 +26,7 @@ class UserAuth(BaseModel):
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "email": "john.doe@umontreal.ca",
-            "matricule": "jd12345",
+            "matricule": "20303216",
             "username": "johndoe",
             "password": "Password123",
             "first_name": "John",
@@ -57,7 +57,7 @@ class UserAuth(BaseModel):
     
 class UserUpdate(BaseModel):
     email: Optional[EmailStr] = Field(None, description="New email address to update.")
-    matricule: Optional[str] = Field(None, pattern="^[a-z]{2}\d{5}$", min_length=7, max_length=7, description="New matricule to update.")
+    matricule: Optional[str] = Field(None, pattern="^\d{6,8}$", min_length=6, max_length=8, description="New matricule to update.")
     username: Optional[str] = Field(None, min_length=3, max_length=20, description="New username to update.")
     password: Optional[str] = Field(None, min_length=8, max_length=30, description="New password to update.")
     first_name: Optional[str] = Field(None, min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="New first name to update.")
@@ -67,7 +67,7 @@ class UserUpdate(BaseModel):
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "email": "john.doe@umontreal.ca",
-            "matricule": "jd12345",
+            "matricule": "20303216",
             "username": "johndoe",
             "password": "Password123",
             "first_name": "John",
@@ -109,7 +109,7 @@ class UserOut(BaseModel):
         "example": {
             "user_id": "123e4567-e89b-12d3-a456-426614174000",
             "email": "john.doe@umontreal.ca",
-            "matricule": "jd12345",
+            "matricule": "20303216",
             "username": "johndoe",
             "first_name": "John",
             "last_name": "Doe",

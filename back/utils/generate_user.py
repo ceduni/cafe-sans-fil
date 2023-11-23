@@ -23,7 +23,7 @@ async def create_users(num_users):
     for i in tqdm(range(num_users), desc="Creating users"):
         while True:
             try:
-                matricule = fake.bothify(text='??#####').lower()
+                matricule = generate_matricule()
                 username = fake.user_name()
                 first_name = fake.first_name()
                 last_name = fake.last_name()
@@ -50,7 +50,7 @@ async def create_users(num_users):
     # Update the first User to be cafesansfil
     cafesansfil_user = {
         "email": "cafesansfil@umontreal.ca",
-        "matricule": "cs12345",
+        "matricule": "20303214",
         "username": "cafesansfil",
         "password": "Cafepass1",
         "first_name": "Tom",
@@ -67,3 +67,14 @@ def normalize_string(input_str: str) -> str:
     normalized_str = unicodedata.normalize('NFKD', input_str)
     ascii_str = normalized_str.encode('ascii', 'ignore')
     return ascii_str.decode('ascii')
+
+def generate_matricule():
+    if random.random() < 0.95:
+        # 8 digit
+        matricule_num = random.randint(20000000, 20299999)
+    else:
+        # Other digits
+        length = random.choice([6, 7])
+        matricule_num = random.randint(10**(length-1), (10**length)-1)
+    
+    return str(matricule_num)
