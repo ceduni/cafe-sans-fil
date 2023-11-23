@@ -136,22 +136,23 @@ def random_additional_info():
     additional_infos = []
     
     # Lower chance of additional info
-    if random.random() <= 0.20:
+    if random.random() < 0.50:
         return additional_infos
 
     # Randomly choose how many
     num_infos = random.randint(0, 2)
     for _ in range(num_infos):
         event_type = random.choice(info_types)
-        # Random start date within 1 day before or after today, event lasts for 1 day
-        start_date = today + timedelta(days=random.randint(-1, 1)) 
-        end_date = start_date + timedelta(days=1)
+        # Random start date
+        start = today + timedelta(days=random.randint(-3, 0))
+        end = None # Always show for Test and Preview
 
+        date_message = today + timedelta(days=random.randint(-1, 7)) 
         additional_info = AdditionalInfo(
             type=event_type,
-            value=f"{event_type} à {start_date.strftime('%d/%m/%Y')}",
-            start=start_date,
-            end=end_date
+            value=f"{event_type} à {date_message.strftime('%d/%m/%Y')}" if random.random() > 0.25 else f"{event_type}",
+            start=start,
+            end=end
         )
         additional_infos.append(additional_info.model_dump())
 
