@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { Dialog, Popover, Transition, Menu } from "@headlessui/react";
+import { Dialog, Transition, Menu } from "@headlessui/react";
 import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
 import Cart from "@/components/Orders/Cart";
@@ -7,26 +7,20 @@ import Container from "@/components/Container";
 import Avatar from "@/components/Avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "react-use-cart";
+import classNames from "classnames";
 
 const routes = {
   home: "/",
   login: "/login",
   signup: "/signup",
   profile: "/me",
+  orders: "/me/orders",
 };
-
-const navigation = [
-  // { name: "Accueil", href: routes.home }
-];
 
 const avatarNavigation = [
   { name: "Mon profil", href: routes.profile },
-  { name: "Mes commandes", href: "/me/orders" },
+  { name: "Mes commandes", href: routes.orders },
 ];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 const Navbar = () => {
   const { isLoggedIn, onLogout, user } = useAuth();
@@ -43,7 +37,7 @@ const Navbar = () => {
       <Cart open={cartOpen} setOpen={setCartOpen} />
 
       {/* Navbar */}
-      <div className="bg-white">
+      <div className="bg-white sticky top-0 z-30">
         {/* Mobile menu */}
         <Transition.Root show={open} as={Fragment}>
           <Dialog as="div" className="relative z-40 md:hidden" onClose={setOpen}>
@@ -80,21 +74,7 @@ const Navbar = () => {
                   </div>
 
                   <section>
-                    {/* Links */}
                     <div className="space-y-6 px-5 py-6">
-                      {navigation.map((page) => (
-                        <div key={page.name} className="flow-root">
-                          <Link
-                            to={page.href}
-                            className="-m-2 p-2 block font-medium text-gray-900"
-                            onClick={() => setOpen(false)}>
-                            {page.name}
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="space-y-6 border-t border-gray-200 px-5 py-6">
                       <div className="flow-root">
                         <Link
                           to={routes.login}
@@ -116,52 +96,32 @@ const Navbar = () => {
             <div className="border-b border-gray-200">
               <Container>
                 <div className="flex h-16 items-center">
-                  <button
-                    type="button"
-                    className="relative rounded-md bg-white p-2 text-gray-400 md:hidden"
-                    onClick={() => setOpen(true)}>
-                    <span className="absolute -inset-0.5" />
-                    <span className="sr-only">Open menu</span>
-                    <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                  </button>
+                  {/* Mobile menu button */}
+                  {!isLoggedIn && (
+                    <button
+                      type="button"
+                      className="relative rounded-md bg-white p-2 text-gray-400 md:hidden"
+                      onClick={() => setOpen(true)}>
+                      <span className="absolute -inset-0.5" />
+                      <span className="sr-only">Open menu</span>
+                      <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  )}
 
                   {/* Logo */}
-                  <div className="ml-0 flex">
+                  <div className="flex">
                     <Link to={routes.home} className="flex items-center gap-2 md:gap-4">
                       <img className="h-9 w-auto ml-2" src="/logo_text.png" alt="Café sans-fil" />
                       <span className="text-xl font-bold text-gray-900 font-secondary mt-2">
-                      <span className="text-xs font-sans font-bold text-gray-500">preview</span>
+                        <span className="text-xs font-sans font-bold text-gray-500">preview</span>
                       </span>
                     </Link>
                   </div>
 
-                  {/* Flyout menus */}
-                  <Popover.Group className="hidden md:ml-8 md:block md:self-stretch">
-                    <div className="flex h-full space-x-8">
-                      {navigation.map((page) => (
-                        <NavLink
-                          key={page.name}
-                          to={page.href}
-                          // active: "border-emerald-500 text-gray-900"
-                          // inactive: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                          // always: "inline-flex items-center py-5 px-1 border-b-2 text-sm font-medium"
-                          className={({ isActive }) =>
-                            classNames(
-                              isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-700",
-                              "inline-flex items-center py-5 px-1 text-sm font-medium"
-                            )
-                          }
-                          end>
-                          {page.name}
-                        </NavLink>
-                      ))}
-                    </div>
-                  </Popover.Group>
-
                   <div className="ml-auto flex items-center">
                     {isLoggedIn ? (
                       <Menu as="div" className="relative ml-3">
-                        <div>
+                        <div className="flex items-center justify-center">
                           <Menu.Button>
                             <Avatar name={userFullName} image={user?.photo_url} key={user?.photo_url} />
                           </Menu.Button>
@@ -180,10 +140,10 @@ const Navbar = () => {
                                 {({ active }) => (
                                   <Link
                                     to={item.href}
-                                    className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
-                                    )}>
+                                    className={classNames({
+                                      "bg-gray-100": active,
+                                      "block px-4 py-2 text-sm text-gray-700": true,
+                                    })}>
                                     {item.name}
                                   </Link>
                                 )}
@@ -191,24 +151,12 @@ const Navbar = () => {
                             ))}
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href="#"
-                                  className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700"
-                                  )}>
-                                  Gestion cafés
-                                </a>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {({ active }) => (
                                 <button
                                   onClick={onLogout}
-                                  className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700 w-full text-left"
-                                  )}>
+                                  className={classNames({
+                                    "bg-gray-100": active,
+                                    "block px-4 py-2 text-sm text-gray-700 w-full text-left": true,
+                                  })}>
                                   Déconnexion
                                 </button>
                               )}
@@ -221,10 +169,11 @@ const Navbar = () => {
                         <NavLink
                           to={routes.login}
                           className={({ isActive }) =>
-                            classNames(
-                              isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-700",
-                              "text-sm font-medium"
-                            )
+                            classNames({
+                              "text-gray-900": isActive,
+                              "text-gray-500 hover:text-gray-700": !isActive,
+                              "text-sm font-medium": true,
+                            })
                           }>
                           Se connecter
                         </NavLink>

@@ -169,7 +169,7 @@ const Filters = ({ filters, setFilters, cafes }) => {
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    <span className="max-w-[7rem] sm:max-w-none truncate">
+                    <span className="max-w-[8rem] sm:max-w-none truncate">
                       {getShortPavillonName(filters.pavillon)}
                     </span>
                     <ChevronDownIcon
