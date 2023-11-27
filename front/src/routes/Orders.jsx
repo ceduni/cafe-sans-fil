@@ -91,6 +91,7 @@ function Orders() {
   const displayedOrders = showOldOrders
     ? fullOrders.filter((order) => isOldOrder(order.status))
     : fullOrders.filter((order) => !isOldOrder(order.status));
+  displayedOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // On trie les commandes par date
 
   const tabCategories = [
     {
