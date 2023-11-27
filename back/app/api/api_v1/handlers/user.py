@@ -76,6 +76,23 @@ async def update_user(user_data: UserUpdate, username: str = Path(..., descripti
 
     return await UserService.update_user(username, user_data)
 
+@user_router.delete("/users/{username}", response_description="Delete User", summary="Delete User", description="Delete a user with the specified username.")
+async def delete_user(username: str = Path(..., description="The username of the user to delete"), current_user: User = Depends(get_current_user)):
+    # Authorization check
+    if current_user.username != username:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden"
+        )
+
+    user = await UserService.delete_user(username)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    return {"msg": f"User {username} has been deleted."}
+
 # --------------------------------------
 #               Reset Password
 # --------------------------------------

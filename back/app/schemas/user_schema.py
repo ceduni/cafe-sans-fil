@@ -63,7 +63,6 @@ class UserUpdate(BaseModel):
     first_name: Optional[str] = Field(None, min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="New first name to update.")
     last_name: Optional[str] = Field(None, min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="New last name to update.")
     photo_url: Optional[str] = Field(None, min_length=10, max_length=255, description="New URL for the user's profile photo.")
-    is_active: Optional[bool] = Field(None, description="Flag to indicate whether the user's account is active or not.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "email": "john.doe@umontreal.ca",
@@ -72,8 +71,7 @@ class UserUpdate(BaseModel):
             "password": "Password123",
             "first_name": "John",
             "last_name": "Doe",
-            "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
-            "is_active": True
+            "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg"
         }
     })
 
