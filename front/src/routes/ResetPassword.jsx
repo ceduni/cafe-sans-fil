@@ -1,4 +1,5 @@
 import Input from "@/components/Input";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import logo from "/logo.png";
@@ -23,7 +24,9 @@ const ResetPassword = () => {
       </Helmet>
       <div className="flex min-h-[80vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-24 lg:h-32 w-auto" src={logo} alt="Café sans-fil logo" />
+          <Link to="/">
+            <img className="mx-auto h-36 lg:h-48 w-auto" src={logo} alt="Café sans-fil logo" />
+          </Link>
           <h2 className="mt-6 text-center text-xl lg:text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Réinitialiser votre mot de passe
           </h2>

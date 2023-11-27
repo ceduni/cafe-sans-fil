@@ -30,8 +30,8 @@ async def main():
 
     # Generate all 
     user_usernames = await create_users(27) # Must have minimum 26 Users to always have enough Staff, max 270
-    cafe_menu_items_slugs_dict = await create_cafes(user_usernames)
-    await create_orders(user_usernames, cafe_menu_items_slugs_dict, MONGO_DB_NAME.endswith("test"))
+    cafe_menu_items_slugs_dict, cafes_data = await create_cafes(user_usernames)
+    await create_orders(user_usernames, cafe_menu_items_slugs_dict, cafes_data, MONGO_DB_NAME.endswith("test"))
 
 if __name__ == "__main__":
     asyncio.run(main())

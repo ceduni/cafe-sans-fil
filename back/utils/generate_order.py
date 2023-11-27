@@ -1,3 +1,5 @@
+import re
+import unicodedata
 from app.models.order_model import OrderedItem, OrderStatus, OrderedItemOption
 from app.schemas.order_schema import OrderCreate
 from app.services.order_service import OrderService
@@ -6,8 +8,9 @@ from tqdm import tqdm
 import random
 random.seed(42)
 
-async def create_orders(user_usernames, cafe_menu_items, is_test=False):
+async def create_orders(user_usernames, cafe_menu_items, cafes_data, is_test=False):
     cafe_items_list = list(cafe_menu_items.items())
+    cafes_dict = {slugify(cafe["name"]): cafe for cafe in cafes_data}
 
     for i in tqdm(range(len(user_usernames)), desc="Creating orders"):
         # Minimum 2 Orders for cafesansfil (For Test)
@@ -25,6 +28,10 @@ async def create_orders(user_usernames, cafe_menu_items, is_test=False):
             # Other Orders are random
             else:
                 cafe_slug, menu_items = random.choice(cafe_items_list)
+
+            cafe_data = cafes_dict.get(cafe_slug)
+            cafe_name = cafe_data["name"]
+            cafe_image_url = cafe_data["image_url"]
 
             items = []
             status = random.choice(list(OrderStatus))
@@ -44,14 +51,18 @@ async def create_orders(user_usernames, cafe_menu_items, is_test=False):
                     options = [OrderedItemOption(type=opt.type, value=opt.value, fee=opt.fee) for opt in selected_options]
 
                 items.append(OrderedItem(
+                    item_name=menu_item.name,
                     item_slug=menu_item.slug, 
+                    item_image_url=menu_item.image_url,
                     quantity=quantity, 
                     item_price=item_price,
                     options=options
                 ))
 
             order = OrderCreate(
+                cafe_name=cafe_name,
                 cafe_slug=cafe_slug,
+                cafe_image_url=cafe_image_url,
                 items=items
             )
 
@@ -86,3 +97,11 @@ def random_minutes_ago(min_minutes, max_minutes):
 def random_days_ago(start_days_ago, end_days_ago):
     days_ago = random.randint(start_days_ago, end_days_ago)
     return datetime.now() - timedelta(days=days_ago)
+
+def slugify(text):
+    text = unicodedata.normalize('NFKD', text)
+    text = text.encode('ascii', 'ignore').decode('ascii')
+    text = text.lower()
+    slug = re.sub(r'\W+', '-', text)
+    slug = slug.strip('-')
+    return slug

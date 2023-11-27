@@ -27,6 +27,10 @@
 
 ## Avancée du développement
 
+#### 2023-11-23
+
+- Améliorations Navbar et hover sur les ItemCard
+
 #### 2023-11-22
 
 - Fix, améliorations UI et de code

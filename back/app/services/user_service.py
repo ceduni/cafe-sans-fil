@@ -1,9 +1,9 @@
 from typing import Optional
 from uuid import UUID
 from app.models.user_model import User
+from app.models.cafe_model import Cafe
 from app.schemas.user_schema import UserAuth, UserUpdate
 from app.core.security import get_password, verify_password
-
 class UserService:
     """
     Service class that provides methods for CRUD operations related to Auth and Users.
@@ -112,6 +112,16 @@ class UserService:
         await user.update({"$set": update_data})
         return user
     
+    @staticmethod
+    async def delete_user(username: str):
+        user = await UserService.retrieve_user(username)
+
+        if user:
+            await Cafe.find({"staff.username": username}).update({"$pull": {"staff": {"username": username}}})
+            await user.update({"$set": {"is_active": False}})
+                
+        return user
+
     @staticmethod
     async def check_existing_user_attributes(email: str, matricule: str, username: str) -> Optional[str]:
         if await User.find_one({"email": email}):

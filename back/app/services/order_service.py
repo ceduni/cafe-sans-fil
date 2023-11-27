@@ -1,6 +1,6 @@
-import datetime
+from datetime import datetime
 from uuid import UUID
-from typing import List
+from typing import List, Optional
 from app.models.order_model import Order
 from app.schemas.order_schema import OrderCreate, OrderUpdate
 
@@ -142,3 +142,59 @@ class OrderService:
             return (highest_order[0]["order_number"]) + 1
         else:
             return 1
+        
+    @staticmethod
+    async def generate_sales_report_data(cafe_slug: str, start_date: Optional[datetime], end_date: Optional[datetime]):
+        def decimal128_to_float(value):
+            return float(str(value)) if value is not None else 0.0
+
+        query = {"cafe_slug": cafe_slug, "status": "Complétée"}
+        if start_date:
+            query["created_at"] = query.get("created_at", {})
+            query["created_at"]["$gte"] = start_date
+        if end_date:
+            query["created_at"] = query.get("created_at", {})
+            query["created_at"]["$lte"] = end_date
+
+        total_revenue = await Order.find(query).sum("total_price")
+        total_revenue = decimal128_to_float(total_revenue)
+
+        total_orders = await Order.find(query).count()
+
+        item_sales_aggregation = [
+            {"$match": query},
+            {"$unwind": "$items"},
+            {"$group": {
+                "_id": "$items.item_name",
+                "item_quantity_sold": {"$sum": "$items.quantity"},
+                "item_revenue": {"$sum": {"$multiply": ["$items.quantity", "$items.item_price"]}}
+            }},
+            {"$sort": {"item_quantity_sold": -1}}
+        ]
+        item_sales_details = await Order.aggregate(item_sales_aggregation).to_list()
+
+        sales_trends_aggregation = [
+            {"$match": query},
+            {"$group": {
+                "_id": {"$dateToString": {"format": "%Y-%m-%d", "date": "$created_at"}},
+                "order_count": {"$sum": 1}
+            }},
+            {"$sort": {"_id": 1}}
+        ]
+        sales_trends = await Order.aggregate(sales_trends_aggregation).to_list()
+
+        item_sales_details = [
+            {
+                "item_name": data["_id"],
+                "item_quantity_sold": data["item_quantity_sold"],
+                "item_revenue": decimal128_to_float(data["item_revenue"])
+            }
+            for data in item_sales_details
+        ]
+
+        return {
+            "total_revenue": total_revenue,
+            "total_orders": total_orders,
+            "item_sales_details": item_sales_details,
+            "sales_trends": sales_trends,
+        }

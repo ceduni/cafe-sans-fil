@@ -18,9 +18,11 @@ const Login = () => {
       <Helmet>
         <title>Se connecter | Café sans-fil</title>
       </Helmet>
-      <div className="flex min-h-[80vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-[80vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8 mt-20">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-24 lg:h-32 w-auto" src={logo} alt="Café sans-fil logo" />
+          <Link to="/">
+            <img className="mx-auto h-36 lg:h-48 w-auto" src={logo} alt="Café sans-fil logo" />
+          </Link>
           <h2 className="mt-6 text-center text-xl lg:text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Connectez-vous à votre compte
           </h2>
@@ -51,7 +53,7 @@ const Login = () => {
                   Mot de passe
                 </label>
                 <div className="text-sm">
-                  <Link to="/reset" className="font-semibold text-emerald-600 hover:text-emerald-500">
+                  <Link to="/reset" className="font-semibold text-sky-600 hover:text-sky-500">
                     Mot de passe oublié?
                   </Link>
                 </div>
@@ -78,7 +80,7 @@ const Login = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Pas encore de compte?{" "}
-            <Link to="/signup" className="font-semibold leading-6 text-emerald-600 hover:text-emerald-500">
+            <Link to="/signup" className="font-semibold leading-6 text-sky-600 hover:text-sky-500">
               Créez le maintenant
             </Link>
           </p>
