@@ -16,7 +16,7 @@ const CafeOrderCard = ({ order }) => {
       <div className="lg:flex lg:items-center lg:justify-between py-10 border-b border-gray-200 last:border-b-0">
         <div className="min-w-0 flex-1">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Commande #{order.order_id}
+            Commande #{order.order_number}
           </h2>
           <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
             <div className="mt-2 flex items-center text-sm text-gray-500">
