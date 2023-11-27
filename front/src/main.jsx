@@ -8,39 +8,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
 import { LoggedInOnly, LoggedOutOnly } from "@/helpers/ProtectedRoute";
-import { AuthProvider } from "@/hooks/useAuth";
 
 const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: (
-      <AuthProvider>
-        <LoggedOutOnly>
-          <Login />
-        </LoggedOutOnly>
-      </AuthProvider>
-    ),
-  },
-  {
-    path: "/signup",
-    element: (
-      <AuthProvider>
-        <LoggedOutOnly>
-          <SignUp />
-        </LoggedOutOnly>
-      </AuthProvider>
-    ),
-  },
-  {
-    path: "/reset",
-    element: (
-      <AuthProvider>
-        <LoggedOutOnly>
-          <ResetPassword />
-        </LoggedOutOnly>
-      </AuthProvider>
-    ),
-  },
   {
     path: "/",
     element: <PageWrapper />,
@@ -49,6 +18,30 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/login",
+        element: (
+          <LoggedOutOnly>
+            <Login />
+          </LoggedOutOnly>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <LoggedOutOnly>
+            <SignUp />
+          </LoggedOutOnly>
+        ),
+      },
+      {
+        path: "/reset",
+        element: (
+          <LoggedOutOnly>
+            <ResetPassword />
+          </LoggedOutOnly>
+        ),
       },
       {
         path: "/me",
