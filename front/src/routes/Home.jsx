@@ -22,11 +22,12 @@ const Home = () => {
       </Container>
       <main>
         <Container>
-          {(!isSearching && <CafeList setStoredCafes={setStoredCafes} />) || (
+          {(!isSearching && <CafeList setStoredCafes={setStoredCafes} storedCafes={storedCafes} />) || (
             <SearchResults searchQuery={searchQuery} storedCafes={storedCafes} />
           )}
         </Container>
       </main>
+
     </>
   );
 };

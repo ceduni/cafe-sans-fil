@@ -123,7 +123,7 @@ const ProductView = ({
                                       key={option.value}
                                       value={option.value}
                                       className={classNames({
-                                        "border-emerald-600 bg-emerald-50":
+                                        "border-sky-600 bg-sky-50":
                                           selectedOptions[type]?.value === option.value,
                                         "hover:bg-gray-50": selectedOptions[type]?.value !== option.value,
                                         "cursor-pointer shadow-sm group relative flex items-center justify-center rounded-md border py-3 px-4 focus:outline-none sm:flex-1": true,

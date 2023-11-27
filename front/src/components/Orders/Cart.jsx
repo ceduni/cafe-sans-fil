@@ -20,10 +20,10 @@ const Cart = ({ open, setOpen }) => {
       <Dialog as="div" className="relative z-40" onClose={setOpen}>
         <Transition.Child
           as={Fragment}
-          enter="ease-in-out duration-500"
+          enter="ease-in-out duration-200"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="ease-in-out duration-500"
+          leave="ease-in-out duration-200"
           leaveFrom="opacity-100"
           leaveTo="opacity-0">
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -34,10 +34,10 @@ const Cart = ({ open, setOpen }) => {
             <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
               <Transition.Child
                 as={Fragment}
-                enter="transform transition ease-in-out duration-500 sm:duration-700"
+                enter="transform transition ease-in-out duration-200 sm:duration-200"
                 enterFrom="translate-x-full"
                 enterTo="translate-x-0"
-                leave="transform transition ease-in-out duration-500 sm:duration-700"
+                leave="transform transition ease-in-out duration-200 sm:duration-200"
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full">
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
@@ -109,7 +109,7 @@ const Cart = ({ open, setOpen }) => {
                                     <div className="flex">
                                       <button
                                         type="button"
-                                        className="font-medium text-emerald-600 hover:text-emerald-500"
+                                        className="font-semibold text-red-600 hover:text-red-400"
                                         onClick={() => removeItem(item.id)}>
                                         Supprimer
                                       </button>
@@ -158,7 +158,7 @@ const Cart = ({ open, setOpen }) => {
                           ou{" "}
                           <button
                             type="button"
-                            className="font-medium text-emerald-600 hover:text-emerald-500"
+                            className="font-bold text-sky-600 hover:text-sky-500"
                             onClick={() => setOpen(false)}>
                             Continuer vos achats
                             <span aria-hidden="true"> &rarr;</span>
