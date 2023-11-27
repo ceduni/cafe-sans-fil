@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import toast from "react-hot-toast";
+import useApi from "@/hooks/useApi";
 
 const Profile = () => {
   const { user, setUser } = useAuth();
@@ -26,6 +27,20 @@ const Profile = () => {
     } else {
       toast.error("Une erreur est survenue");
     }
+  };
+
+  const [data] = useApi(`/cafes`);
+
+  const getMemberCafes = () => {
+    const memberCafes = [];
+    data?.map((cafe) => {
+      cafe.staff.map((staff) => {
+        if (staff.username === user.username) {
+          memberCafes.push({ ...cafe, role: staff.role });
+        }
+      });
+    });
+    return memberCafes;
   };
 
   return (
@@ -114,6 +129,33 @@ const Profile = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="border-b border-gray-900/10 pb-12">
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Cafés</h2>
+            <p className="mt-1 text-sm leading-6 text-gray-600">
+              Ici s'affichent les cafés où vous êtes bénévole ou administrateur.
+            </p>
+
+            {getMemberCafes().map((cafe) => (
+              <div className="mt-6" key={cafe.id}>
+                <div className="flex items-center">
+                  <img
+                    className="h-12 w-12 rounded-full object-cover"
+                    src={cafe.image_url}
+                    alt={`Photo du café ${cafe.name}`}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://placehold.co/700x400?text=:/";
+                    }}
+                  />
+                  <div className="ml-4">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">{cafe.name}</h3>
+                    <p className="text-sm leading-5 text-gray-500">{cafe.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
           <form>
