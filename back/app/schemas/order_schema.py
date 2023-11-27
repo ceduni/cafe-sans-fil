@@ -18,7 +18,9 @@ Note: These models are for API data interchange related to orders and not direct
 # --------------------------------------
 
 class OrderCreate(BaseModel):
+    cafe_name: str = Field(..., description="Name of the cafe associated with the order.")
     cafe_slug: str = Field(..., description="Slug of the cafe associated with the order.")
+    cafe_image_url: str = Field(..., description="Image URL of the cafe associated with the order.")
     items: List[OrderedItem] = Field(..., description="List of ordered items including details like item slug, quantity, price, and options")
     model_config = ConfigDict(json_schema_extra={
         "example": {
@@ -54,42 +56,12 @@ class OrderCreate(BaseModel):
         return v
     
 class OrderUpdate(BaseModel):
-    cafe_slug: Optional[str] = Field(None, description="Slug of the cafe, if updating the cafe for the order.")
-    items: Optional[List[OrderedItem]] = Field(None, description="List of items to update in the order.")
     status: Optional[OrderStatus] = Field(None, description="Current status of the order, e.g., 'Placée', 'Complétée'.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "cafe_slug": "tore-et-fraction",
-            "items": [
-                {
-                    "item_slug": "croissant",
-                    "quantity": 2,
-                    "item_price": 2.99,
-                    "options": [
-                        {"type": "taille", "value": "moyenne", "fee": 0.50},
-                        {"type": "fromage supplémentaire", "value": "oui", "fee": 1.00}
-                    ]
-                },
-                {
-                    "item_slug": "baguette",
-                    "quantity": 1,
-                    "item_price": 4.99,
-                    "options": [
-                        {"type": "taille", "value": "grande", "fee": 1.00},
-                        {"type": "sauce supplémentaire", "value": "non", "fee": 0.00}
-                    ]
-                }
-            ],
             "status": "Complétée"
         }
     })
-
-    @field_validator('items')
-    @classmethod
-    def validate_items(cls, v):
-        if v and len(v) == 0:
-            raise ValueError("Items list cannot be empty if provided.")
-        return v
     
 class OrderOut(BaseModel):
     order_id: UUID = Field(..., description="Unique identifier of the order.")

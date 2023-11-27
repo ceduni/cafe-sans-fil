@@ -4,9 +4,12 @@ import random
 @pytest.fixture(scope="module")
 def order_data():
     return {
+            "cafe_name": "Tore et fraction",
             "cafe_slug": "tore-et-fraction",
+            "cafe_image_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/b108d192-c9ea-4827-18a0-ccb528642f00/public",
             "items": [
                 {
+                    "item_name": "Croissant",
                     "item_slug": "croissant",
                     "quantity": 2 + random.randint(0, 3),
                     "item_price": 2.99,
@@ -15,7 +18,8 @@ def order_data():
                         {"type": "fromage supplémentaire", "value": "oui", "fee": 1.00}
                     ]
                 },
-                {
+                {   
+                    "item_name": "Baguette",
                     "item_slug": "baguette",
                     "quantity": 1,
                     "item_price": 4.99,
@@ -30,26 +34,7 @@ def order_data():
 @pytest.fixture(scope="module")
 def order_data2():
     return {
-            "items": [
-                {
-                    "item_slug": "croissant",
-                    "quantity": 2 + random.randint(0, 3),
-                    "item_price": 2.99,
-                    "options": [
-                        {"type": "taille", "value": "moyenne", "fee": 0.50},
-                        {"type": "fromage supplémentaire", "value": "oui", "fee": 1.00}
-                    ]
-                },
-                {
-                    "item_slug": "baguette",
-                    "quantity": 1,
-                    "item_price": 4.99,
-                    "options": [
-                        {"type": "taille", "value": "grande", "fee": 1.00},
-                        {"type": "sauce supplémentaire", "value": "non", "fee": 0.00}
-                    ]
-                }
-            ]
+            "status": "Complétée"
     }
 
 # --------------------------------------

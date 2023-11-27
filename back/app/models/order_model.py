@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from uuid import UUID, uuid4
 from beanie import Document, DecimalAnnotation, Indexed, before_event, Replace, Insert
 from pydantic import BaseModel, Field, field_validator
@@ -28,7 +28,9 @@ class OrderedItemOption(BaseModel):
         return fee
     
 class OrderedItem(BaseModel):
+    item_name: str = Field(..., description="Name of the item ordered.")
     item_slug: str = Field(..., description="Slug of the item ordered.")
+    item_image_url: Optional[str] = Field(None, description="Image URL of the item ordered.")
     quantity: int = Field(..., description="Quantity of the item ordered.")
     item_price: DecimalAnnotation = Field(..., description="Price per unit of the item.")
     options: List[OrderedItemOption] = Field(..., description="List of options selected for this item.")
@@ -56,7 +58,9 @@ class OrderStatus(str, Enum):
 class Order(Document):
     order_id: UUID = Field(default_factory=uuid4)
     order_number: Indexed(int, unique=True)
+    cafe_name: str
     cafe_slug: str
+    cafe_image_url: Optional[str] = None
     user_username: str
     items: List[OrderedItem]
     total_price: DecimalAnnotation = DecimalAnnotation(0.0)

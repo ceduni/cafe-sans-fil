@@ -53,9 +53,10 @@ async def create_cafes(usernames):
             menu_items=randomized_menu_items
         )
         await cafe.insert()
+
         cafe_menu_items_slug_dict[cafe.slug] = cafe.menu_items
 
-    return cafe_menu_items_slug_dict
+    return cafe_menu_items_slug_dict, cafes_data
 
 def random_open_status_message():
     messages = [
