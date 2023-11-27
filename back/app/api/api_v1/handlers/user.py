@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
 from app.schemas.user_schema import UserOut, UserUpdate, UserAuth, PasswordResetRequest, PasswordReset
 from app.services.user_service import UserService
-from uuid import UUID
 from typing import List
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user

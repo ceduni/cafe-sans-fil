@@ -1,9 +1,10 @@
+from datetime import datetime
 from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
 from app.models.cafe_model import Role
 from app.schemas.cafe_schema import CafeOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate
 from app.services.cafe_service import CafeService
-from uuid import UUID
-from typing import List
+from app.services.order_service import OrderService
+from typing import List, Optional
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
 
@@ -159,6 +160,35 @@ async def delete_menu_item(cafe_slug: str = Path(..., description="The slug of t
                 detail=error_message
             )
     
+# --------------------------------------
+#               Sales Report
+# --------------------------------------
+
+@cafe_router.get("/cafes/{cafe_slug}/sales-report", summary="Get Sales Report", description="Retrieve a sales report for a specific cafe. If no date range is provided, the entire available data range is considered.")
+async def get_sales_report(
+    cafe_slug: str = Path(..., description="The slug of the cafe for which to generate the report."),
+    start_date: Optional[datetime] = Query(None, description="The start date of the reporting period."),
+    end_date: Optional[datetime] = Query(None, description="The end date of the reporting period."),
+    current_user: User = Depends(get_current_user)
+):
+    try:
+        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
+    except ValueError as e:
+        if str(e) == "Cafe not found":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e)
+            )
+        elif str(e) == "Access forbidden":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=str(e)
+            )
+        
+    report_data = await OrderService.generate_sales_report_data(cafe_slug, start_date, end_date)
+    
+    return report_data
+
 # --------------------------------------
 #               Search
 # --------------------------------------

@@ -321,6 +321,42 @@ def test_delete_menu_item_not_found2(client, list_cafes, auth_login):
     response = client.delete(f"/api/cafes/{cafe_slug}/menu/{item_slug}", headers=headers)
     assert response.status_code == 404
 
+# --------------------------------------
+#       /api/cafes/{cafe_slug}/sales-report
+# --------------------------------------
+
+def test_get_sales_report_success(client, list_cafes, auth_login):
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/sales-report", headers=headers)
+    assert response.status_code == 200
+
+def test_get_sales_report_unauthorized(client, list_cafes):
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/sales-report")
+    assert response.status_code == 401
+
+def test_get_sales_report_forbidden(client, list_cafes, auth_login):
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    cafe_slug = list_cafes[1]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/sales-report", headers=headers)
+    assert response.status_code == 403
+
+def test_get_sales_report_not_found(client, auth_login):
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    cafe_slug = "dont-exist"  # Non-existent slug
+    response = client.get(f"/api/cafes/{cafe_slug}/sales-report", headers=headers)
+    assert response.status_code == 404
+
 # -----------------------------
 #       /api/search
 # -----------------------------
