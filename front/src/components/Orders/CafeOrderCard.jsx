@@ -31,10 +31,12 @@ const CafeOrderCard = ({ order }) => {
               <ClockIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
               {formatDate(order.created_at)}
             </div>
-            <div className="mt-2 flex items-center text-sm text-gray-500">
-              <BellAlertIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />? minutes pour
-              la récupérer
-            </div>
+            {false && (
+              <div className="mt-2 flex items-center text-sm text-gray-500">
+                <BellAlertIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />? minutes
+                pour la récupérer
+              </div>
+            )}
           </div>
         </div>
         <div className="mt-5 flex lg:ml-4 lg:mt-0">
@@ -89,6 +91,17 @@ const CafeOrderCard = ({ order }) => {
               </Menu.Items>
             </Transition>
           </Menu>
+        </div>
+        <div className="mt-5">
+          {order.items.map((item, index) => (
+            // on affiche toutes les infos de l'item
+            <div className="flex flex-col sm:flex-row sm:space-x-6" key={index}>
+              <div className="mt-2 flex items-center text-sm text-gray-500">
+                <span className="mr-1.5">{item.quantity}</span>
+                <span>{item.item_name}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>

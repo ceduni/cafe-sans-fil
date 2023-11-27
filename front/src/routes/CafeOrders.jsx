@@ -1,6 +1,7 @@
 import Container from "@/components/Container";
 import CafeOrderCard from "@/components/Orders/CafeOrderCard";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
+import { isPendingOrder } from "@/utils/orders";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -15,8 +16,9 @@ const CafeOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       const response = await authenticatedRequest(`/cafes/${cafeSlug}/orders`);
-      setOrders(response.data);
-      if (response.data.length === 0) {
+      const orders = response.data.filter((order) => isPendingOrder(order.status));
+      setOrders(orders);
+      if (orders.length === 0) {
         setIsLoading(false);
       }
     };
@@ -25,7 +27,6 @@ const CafeOrders = () => {
   }, []);
 
   useEffect(() => {
-    console.log(orders);
     if (orders.length > 0) {
       setIsLoading(false);
     }

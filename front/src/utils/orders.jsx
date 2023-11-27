@@ -9,3 +9,11 @@ export const formatDate = (date) => {
     timeStyle: "short",
   }).format(new Date(date));
 };
+
+export const isOldOrder = (status) => {
+  return status === "Annulée" || status === "Complétée";
+};
+
+export const isPendingOrder = (status) => {
+  return status === "Placée";
+};
