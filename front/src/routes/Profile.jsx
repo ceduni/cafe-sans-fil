@@ -138,10 +138,10 @@ const Profile = () => {
             </p>
 
             {getMemberCafes().map((cafe) => (
-              <div className="mt-6" key={cafe.id}>
-                <div className="flex items-center">
+              <div className="mt-6" key={cafe.slug}>
+                <div className="flex items-center gap-3">
                   <img
-                    className="h-12 w-12 rounded-full object-cover"
+                    className="h-10 w-10 rounded-full object-cover"
                     src={cafe.image_url}
                     alt={`Photo du café ${cafe.name}`}
                     onError={(e) => {
@@ -149,9 +149,9 @@ const Profile = () => {
                       e.target.src = "https://placehold.co/700x400?text=:/";
                     }}
                   />
-                  <div className="ml-4">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">{cafe.name}</h3>
-                    <p className="text-sm leading-5 text-gray-500">{cafe.role}</p>
+                  <div className="text-sm leading-5">
+                    <p className="font-medium text-gray-900">{cafe.name}</p>
+                    <p className="text-gray-500">{cafe.role}</p>
                   </div>
                 </div>
               </div>
