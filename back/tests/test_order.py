@@ -59,7 +59,7 @@ def order_data2():
 def test_list_orders_success(client, auth_login):
     tokens = auth_login
     headers = {"Authorization": f"Bearer {tokens['access_token']}"}
-    response = client.get("/api/orders", headers=headers)
+    response = client.get("/api/orders?sort_by=-order_number&page=1&limit=10", headers=headers)
     assert response.status_code == 200
 
 def test_list_orders_unauthorized(client):

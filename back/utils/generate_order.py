@@ -1,4 +1,6 @@
-from app.models.order_model import Order, OrderedItem, OrderStatus, OrderedItemOption
+from app.models.order_model import OrderedItem, OrderStatus, OrderedItemOption
+from app.schemas.order_schema import OrderCreate
+from app.services.order_service import OrderService
 from datetime import datetime, timedelta
 from tqdm import tqdm
 import random
@@ -48,15 +50,12 @@ async def create_orders(user_usernames, cafe_menu_items, is_test=False):
                     options=options
                 ))
 
-            order = Order(
-                user_username=user_username,
+            order = OrderCreate(
                 cafe_slug=cafe_slug,
-                items=items,
-                status=status,
-                created_at = created_at,
-                updated_at = updated_at
+                items=items
             )
-            await order.insert()
+
+            await OrderService.create_order_test(order, user_username, created_at, updated_at, status)
 
 def random_timestamps(status):
     if status == OrderStatus.PLACED:

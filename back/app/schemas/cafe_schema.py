@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 from pydantic import field_validator, ConfigDict, BaseModel, Field
 from datetime import datetime, timedelta
-from decimal import Decimal
+from beanie import DecimalAnnotation
 from app.models.cafe_model import DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, StaffMember, MenuItemOption
 
 """
@@ -22,7 +22,7 @@ class MenuItemCreate(BaseModel):
     tags: List[str] = Field(..., description="List of tags for the menu item.")
     description: str = Field(..., max_length=255, description="Description of the menu item.")
     image_url: Optional[str] = Field(None, max_length=255, description="Image URL of the menu item.")
-    price: Decimal = Field(..., description="Price of the menu item.")
+    price: DecimalAnnotation = Field(..., description="Price of the menu item.")
     in_stock: bool = Field(..., description="Availability status of the menu item.")
     category: str = Field(..., max_length=50, description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
@@ -57,7 +57,7 @@ class MenuItemUpdate(BaseModel):
     tags: Optional[List[str]] = Field(None, description="Updated tags for the menu item.")
     description: Optional[str] = Field(None, max_length=255, description="Updated description of the menu item.")
     image_url: Optional[str] = Field(None, max_length=255, description="Updated image URL of the menu item.")
-    price: Optional[Decimal] = Field(None, description="Updated price of the menu item.")
+    price: Optional[DecimalAnnotation] = Field(None, description="Updated price of the menu item.")
     in_stock: Optional[bool] = Field(None, description="Updated availability status of the menu item.")
     category: Optional[str] = Field(None, max_length=50, description="Updated category of the menu item.")
     options: Optional[List[MenuItemOption]] = Field(None, description="Updated options for the menu item.")
@@ -91,7 +91,7 @@ class MenuItemOut(BaseModel):
     tags: List[str] = Field(..., description="Tags associated with the menu item.")
     description: str = Field(..., description="Description of the menu item.")
     image_url: Optional[str] = Field(None, description="Image URL of the menu item.")
-    price: Decimal = Field(..., description="Price of the menu item.")
+    price: DecimalAnnotation = Field(..., description="Price of the menu item.")
     in_stock: bool = Field(..., description="Availability status of the menu item.")
     category: str = Field(..., description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")

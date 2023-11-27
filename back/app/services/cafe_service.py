@@ -16,23 +16,33 @@ class CafeService:
 
     @staticmethod
     async def list_cafes(**filters) -> List[Cafe]:
-        sort = None
-        
-        # Convert string to boolean
+        # Example: http://cafesansfil-api.onrender.com/api/cafes?is_open=true&sort_by=-name&page=1&limit=10
+        query_filters = {}
+        page = int(filters.pop('page', 1))
+        limit = int(filters.pop('limit', 40))
+
+        # Convert 'is_open' string to boolean
         if 'is_open' in filters:
             if filters['is_open'].lower() == 'true':
-                filters['is_open'] = True
+                query_filters['is_open'] = True
             elif filters['is_open'].lower() == 'false':
-                filters['is_open'] = False
+                query_filters['is_open'] = False
 
-        if 'sort' in filters:
-            sort = filters.pop('sort')
 
-        if sort:
-            return await Cafe.find(filters).sort(sort).to_list() 
-        else:
-            return await Cafe.find(filters).to_list()
-        
+        sort_by = filters.pop('sort_by', 'name')  # Default sort field
+        sort_order = -1 if sort_by.startswith('-') else 1
+        sort_field = sort_by[1:] if sort_order == -1 else sort_by
+        sort_params = [(sort_field, sort_order)]
+
+        cafes_cursor = Cafe.aggregate([
+            {"$match": query_filters},
+            {"$sort": dict(sort_params)},
+            {"$skip": (page - 1) * limit},
+            {"$limit": limit}
+        ])
+
+        return await cafes_cursor.to_list(None)
+    
     @staticmethod
     async def create_cafe(data: CafeCreate) -> Cafe:
         cafe = Cafe(**data.model_dump())
@@ -56,6 +66,7 @@ class CafeService:
 
     @staticmethod
     async def list_menu_items(**filters) -> List[MenuItem]:
+        # Currently not used
         cafe_slug = filters.pop('slug', None)
         sort = filters.pop('sort', None)
 
@@ -120,6 +131,9 @@ class CafeService:
 
     @staticmethod
     async def search_cafes_and_items(query: str, **filters):
+        # Currently not used, filter in frontend instead
+        # TODO: Text search and autocomplete with MongoDB
+
         filter_target = filters.pop('filter_target', None)
         sort = filters.pop('sort', None)
         regex_pattern = {"$regex": query, "$options": "i"}

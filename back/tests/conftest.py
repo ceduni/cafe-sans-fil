@@ -42,7 +42,7 @@ def auth_login(client):
 
 @pytest.fixture(scope="module")
 def list_cafes(client):
-    response = client.get("/api/cafes")
+    response = client.get("/api/cafes?sort_by=_id")
     return response.json()
 
 @pytest.fixture(scope="module")
@@ -51,7 +51,7 @@ def list_orders(client, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    response = client.get("/api/orders", headers=headers)
+    response = client.get("/api/orders?sort_by=_id", headers=headers)
     return response.json()
 
 @pytest.fixture(scope="module")
@@ -60,5 +60,5 @@ def list_users(client, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    response = client.get("/api/users", headers=headers)
+    response = client.get("/api/users?sort_by=_id", headers=headers)
     return response.json()

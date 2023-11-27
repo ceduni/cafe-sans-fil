@@ -82,7 +82,7 @@ class MenuItemOption(BaseModel):
     @field_validator('fee')
     @classmethod
     def validate_fee(cls, fee):
-        if fee < 0:
+        if fee < DecimalAnnotation(0.0):
             raise ValueError("Fee must be a non-negative value.")
         return fee
 
@@ -105,7 +105,7 @@ class MenuItem(BaseModel):
     @field_validator('price')
     @classmethod
     def validate_price(cls, price):
-        if price < 0:
+        if price < DecimalAnnotation(0.0):
             raise ValueError("Price must be a non-negative value.")
         return price
     

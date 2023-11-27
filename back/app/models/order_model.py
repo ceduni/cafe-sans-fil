@@ -1,6 +1,6 @@
 from typing import List
 from uuid import UUID, uuid4
-from beanie import Document, DecimalAnnotation, before_event, Replace, Insert
+from beanie import Document, DecimalAnnotation, Indexed, before_event, Replace, Insert
 from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 from enum import Enum
@@ -23,7 +23,7 @@ class OrderedItemOption(BaseModel):
     @field_validator('fee')
     @classmethod
     def validate_fee(cls, fee):
-        if fee < 0:
+        if fee < DecimalAnnotation(0.0):
             raise ValueError("Fee must be a non-negative value.")
         return fee
     
@@ -43,7 +43,7 @@ class OrderedItem(BaseModel):
     @field_validator('item_price')
     @classmethod
     def validate_item_price(cls, item_price):
-        if item_price < 0:
+        if item_price < DecimalAnnotation(0.0):
             raise ValueError("Item price must be a non-negative value.")
         return item_price
     
@@ -55,6 +55,7 @@ class OrderStatus(str, Enum):
 
 class Order(Document):
     order_id: UUID = Field(default_factory=uuid4)
+    order_number: Indexed(int, unique=True)
     cafe_slug: str
     user_username: str
     items: List[OrderedItem]
@@ -62,7 +63,7 @@ class Order(Document):
     status: OrderStatus = Field(default=OrderStatus.PLACED)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
-    
+
     @before_event([Replace, Insert])
     def calculate_total_price(self):
         total = sum(
@@ -73,7 +74,7 @@ class Order(Document):
             raise ValueError("Total price must be a non-negative value.")
         self.total_price = total.quantize(DecimalAnnotation('0.00'))
 
-    # Interferes with the generation of data
+    # Disable when generating orders for testing to allow for custom timestamps
     # @before_event([Replace, Insert])
     # def update_update_at(self):
     #     self.updated_at = datetime.utcnow()
