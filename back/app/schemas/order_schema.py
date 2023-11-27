@@ -2,7 +2,7 @@ from typing import List, Optional
 from uuid import UUID
 from pydantic import field_validator, ConfigDict, BaseModel, Field
 from datetime import datetime
-from decimal import Decimal
+from beanie import DecimalAnnotation
 from app.models.order_model import OrderedItem, OrderStatus
 
 """
@@ -93,16 +93,18 @@ class OrderUpdate(BaseModel):
     
 class OrderOut(BaseModel):
     order_id: UUID = Field(..., description="Unique identifier of the order.")
+    order_number: int = Field(..., description="Order number of the order.")
     user_username: str = Field(..., description="Username of the user who placed the order.")
     cafe_slug: str = Field(..., description="Slug of the cafe associated with the order.")
     items: List[OrderedItem] = Field(..., description="Detailed list of items included in the order.")
-    total_price: Decimal = Field(..., description="Total price of the order.")
+    total_price: DecimalAnnotation = Field(..., description="Total price of the order.")
     status: OrderStatus = Field(..., description="Status of the order, e.g., 'Placée', 'Complétée'.")
     created_at: datetime = Field(..., description="Timestamp when the order was created.")
     updated_at: datetime = Field(..., description="Timestamp when the order was last updated.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "order_id": "123e4567-e89b-12d3-a456-426614174000",
+            "order_number": 1234,
             "user_username": "johndoe",
             "cafe_slug": "tore-et-fraction",
             "items": [

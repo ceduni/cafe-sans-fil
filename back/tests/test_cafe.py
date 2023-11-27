@@ -92,7 +92,7 @@ def cafe_data2():
 # -----------------------------
 
 def test_list_cafes_success(client):
-    response = client.get("/api/cafes")
+    response = client.get("/api/cafes?is_open=true&sort_by=-name&page=1&limit=10")
     assert response.status_code == 200
 
 def test_create_cafe_success(client, cafe_data, auth_login):

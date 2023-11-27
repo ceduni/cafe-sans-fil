@@ -47,13 +47,13 @@ class UserAuth(BaseModel):
 
         return v
     
-    @field_validator('password')
-    @classmethod
-    def validate_password(cls, v):
-        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
-        if not re.match(pattern, v):
-            raise ValueError('Password must contain upper and lower case letters and digits.')
-        return v
+    # @field_validator('password')
+    # @classmethod
+    # def validate_password(cls, v):
+    #     pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
+    #     if not re.match(pattern, v):
+    #         raise ValueError('Password must contain upper and lower case letters and digits.')
+    #     return v
     
 class UserUpdate(BaseModel):
     email: Optional[EmailStr] = Field(None, description="New email address to update.")
@@ -89,13 +89,13 @@ class UserUpdate(BaseModel):
 
         return v
     
-    @field_validator('password')
-    @classmethod
-    def validate_password(cls, v):
-        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
-        if not re.match(pattern, v):
-            raise ValueError('Password must contain upper and lower case letters and digits.')
-        return v
+    # @field_validator('password')
+    # @classmethod
+    # def validate_password(cls, v):
+    #     pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
+    #     if not re.match(pattern, v):
+    #         raise ValueError('Password must contain upper and lower case letters and digits.')
+    #     return v
 
 class UserOut(BaseModel):
     user_id: UUID = Field(..., description="Unique identifier of the user.")
@@ -127,10 +127,10 @@ class PasswordResetRequest(BaseModel):
 class PasswordReset(BaseModel):
     password: str = Field(..., min_length=8, max_length=30, description="New password for the user's account, used for account security.")
 
-    @field_validator('password')
-    @classmethod
-    def validate_password(cls, v):
-        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
-        if not re.match(pattern, v):
-            raise ValueError('Password must contain upper and lower case letters and digits.')
-        return v
+    # @field_validator('password')
+    # @classmethod
+    # def validate_password(cls, v):
+    #     pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
+    #     if not re.match(pattern, v):
+    #         raise ValueError('Password must contain upper and lower case letters and digits.')
+    #     return v

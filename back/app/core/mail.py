@@ -2,7 +2,7 @@
 # from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 
 # """
-# This module is used to send emails to users.
+# This module is used to send emails to users. (Disable email sending because of Render blocking SMTP requests)
 # """
 
 # conf = ConnectionConfig(

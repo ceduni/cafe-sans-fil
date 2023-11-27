@@ -18,7 +18,7 @@ def user_data():
     email = normalize_string(first_name).replace(" ", "").lower() + "." + normalize_string(last_name).replace(" ", "").lower() + "@umontreal.ca"
     return {
             "email": email,
-            "matricule": "20303215",
+            "matricule": fake.numerify(text="2#41###"),
             "username": fake.user_name(),
             "password": password,
             "first_name": first_name,
@@ -48,11 +48,11 @@ def test_list_users_success(client, auth_login):
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
-    response = client.get("/api/users?sort=name", headers=headers)
+    response = client.get("/api/users?sort_by=-last_name", headers=headers)
     assert response.status_code == 200
 
 def test_list_users_unauthorized(client):
-    response = client.get("/api/users?sort=name")
+    response = client.get("/api/users")
     assert response.status_code == 401
     
 def test_create_user_success(client, user_data):
