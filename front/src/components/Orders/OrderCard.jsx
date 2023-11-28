@@ -6,7 +6,7 @@ const OrderCard = ({ order, cafe }) => {
   return (
     <>
       <div key={order.order_id} className="flex flex-col p-6 border border-gray-200 rounded-lg">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           <div className="flex items-center">
             {(cafe.image_url && (
               <img
