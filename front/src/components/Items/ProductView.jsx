@@ -38,7 +38,7 @@ const ProductView = ({
     Object.keys(selectedOptions).forEach((type) => {
       finalPrice = parseFloat(finalPrice) + parseFloat(selectedOptions[type].fee);
     });
-    setItemFinalPrice(formatPrice(finalPrice));
+    setItemFinalPrice(finalPrice);
   }, [selectedOptions]);
 
   return (
@@ -94,7 +94,7 @@ const ProductView = ({
                           <Badge variant="danger">{OUT_OF_STOCK_TEXT}</Badge>
                         )}
 
-                        <p className="mt-4 text-2xl text-gray-900">{item.price}&nbsp;$</p>
+                        <p className="mt-4 text-2xl text-gray-900">{formatPrice(item.price)}</p>
                       </section>
 
                       {/* Options (affichées seulement si l'item en a et qu'il est en stock) */}
@@ -123,8 +123,7 @@ const ProductView = ({
                                       key={option.value}
                                       value={option.value}
                                       className={classNames({
-                                        "border-sky-600 bg-sky-50":
-                                          selectedOptions[type]?.value === option.value,
+                                        "border-sky-600 bg-sky-50": selectedOptions[type]?.value === option.value,
                                         "hover:bg-gray-50": selectedOptions[type]?.value !== option.value,
                                         "cursor-pointer shadow-sm group relative flex items-center justify-center rounded-md border py-3 px-4 focus:outline-none sm:flex-1": true,
                                       })}>
@@ -134,9 +133,7 @@ const ProductView = ({
                                         </span>
                                         {/* On affiche le prix de l'option si celui-ci est supérieur à 0 */}
                                         {parseFloat(option.fee) > 0 && (
-                                          <span className="text-gray-500 text-xs">
-                                            +{formatPrice(option.fee)}&nbsp;$
-                                          </span>
+                                          <span className="text-gray-500 text-xs">+{formatPrice(option.fee)}</span>
                                         )}
                                       </RadioGroup.Label>
                                     </RadioGroup.Option>
@@ -161,7 +158,7 @@ const ProductView = ({
                           {isAddingToCart
                             ? "Ajout en cours..."
                             : item.in_stock
-                            ? `Ajouter au panier (${itemFinalPrice} $)`
+                            ? `Ajouter au panier (${formatPrice(itemFinalPrice)})`
                             : OUT_OF_STOCK_TEXT}
                         </button>
                       </form>

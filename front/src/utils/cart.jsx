@@ -1,5 +1,8 @@
 export const formatPrice = (price) => {
-  return parseFloat(price).toFixed(2);
+  return new Intl.NumberFormat("fr-CA", {
+    style: "currency",
+    currency: "CAD",
+  }).format(price);
 };
 
 export const areItemsFromMoreThanOneCafe = (items) => {

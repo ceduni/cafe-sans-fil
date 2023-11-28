@@ -1,5 +1,6 @@
 import { LoadingOrderItemCard, OrderItemCard } from "./OrderItemCard";
 import Badge from "@/components/Badge";
+import { formatPrice } from "@/utils/cart";
 import { getBadgeVariant } from "@/utils/orders";
 
 const OrderCard = ({ order, cafe }) => {
@@ -27,7 +28,7 @@ const OrderCard = ({ order, cafe }) => {
               <Badge variant={getBadgeVariant(order.status)}>{order.status}</Badge>
             </div>
           </div>
-          <p className="text-lg font-semibold text-gray-900">{order.total_price}&nbsp;$</p>
+          <p className="text-lg font-semibold text-gray-900">{formatPrice(order.total_price)}</p>
         </div>
 
         <hr className="my-6 border-gray-200" />
