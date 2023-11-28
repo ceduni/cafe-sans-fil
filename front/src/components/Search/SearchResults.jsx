@@ -6,12 +6,13 @@ const SearchResults = ({ searchQuery, storedCafes }) => {
   // faire une requête au serveur.
 
   // const [data, isLoading, error] = useApi(`/search?query=${searchQuery}`);
+  const normalizedQuery = searchQuery.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-  const cafes = storedCafes.filter(
-    (cafe) =>
-      cafe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      cafe.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const cafes = storedCafes.filter(cafe => {
+    const nameNormalized = cafe.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const descriptionNormalized = cafe.description.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    return nameNormalized.includes(normalizedQuery) || descriptionNormalized.includes(normalizedQuery);
+  });
 
   if (cafes?.length === 0) {
     return <EmptyState name="café" />;

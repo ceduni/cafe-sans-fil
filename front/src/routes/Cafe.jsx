@@ -7,7 +7,6 @@ import CafeMemberHeader from "@/components/Cafe/CafeMemberHeader";
 import useApi from "@/hooks/useApi";
 import OpenIndicator from "@/components/Cafe/OpenIndicator";
 import EmptyState from "@/components/EmptyState";
-import InfoBox from "@/components/Cafe/InfoBox";
 import { Helmet } from "react-helmet-async";
 import PaymentMethods from "@/components/Cafe/PaymentMethods";
 import { ContactCafe, SocialIcons } from "@/components/Cafe/ContactCafe";
@@ -83,7 +82,15 @@ const Cafe = () => {
 
         {data?.additional_info?.map(
           (info, index) =>
-            shouldDisplayInfo(info) && <InfoBox key={index} title={info.type} message={info.value} className="mt-6" />
+            shouldDisplayInfo(info) && (
+              <div
+                className="bg-white border border-l-8 border-l-sky-300 p-6 pl-8 mt-4 rounded-lg"
+                role="alert"
+                key={index}>
+                <h3 className="mb-1 text-lg font-semibold text-gray-900">{info.type}</h3>
+                <p className="text-sm">{info.value}</p>
+              </div>
+            )
         )}
 
         <OpeningHours openingHours={data?.opening_hours} />
