@@ -158,7 +158,7 @@ const Cart = ({ open, setOpen }) => {
                           ou{" "}
                           <button
                             type="button"
-                            className="font-bold text-sky-600 hover:text-sky-500"
+                            className="font-semibold text-sky-600 hover:text-sky-500"
                             onClick={() => setOpen(false)}>
                             Continuer vos achats
                             <span aria-hidden="true"> &rarr;</span>

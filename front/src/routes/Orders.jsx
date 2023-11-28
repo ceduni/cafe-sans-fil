@@ -4,7 +4,7 @@ import Container from "@/components/Container";
 import { getCafeFromId, getItemFromId } from "@/utils/getFromId";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
-import { formatDate } from "@/utils/orders";
+import { formatDate, isOldOrder } from "@/utils/orders";
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import { LoadingOrderCard, OrderCard } from "@/components/Orders/OrderCard";
@@ -82,15 +82,13 @@ function Orders() {
     }
   }, [fullOrders]);
 
-  const isOldOrder = (status) => {
-    return status === "Annulée" || status === "Complétée";
-  };
   const oldOrdersCount = fullOrders.filter((order) => isOldOrder(order.status)).length;
   const pendingOrdersCount = fullOrders.length - oldOrdersCount;
 
   const displayedOrders = showOldOrders
     ? fullOrders.filter((order) => isOldOrder(order.status))
     : fullOrders.filter((order) => !isOldOrder(order.status));
+  displayedOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // On trie les commandes par date
 
   const tabCategories = [
     {

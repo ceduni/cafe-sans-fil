@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import { useAuth } from "@/hooks/useAuth";
 import Container from "@/components/Container";
 import { areItemsFromMoreThanOneCafe, displayCafeNames, formatPrice, displayOptions } from "@/utils/cart";
-import InfoBox from "@/components/Cafe/InfoBox";
 import Badge from "@/components/Badge";
+import authenticatedRequest from "@/helpers/authenticatedRequest";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const ErrorState = ({ title, message, linkText, linkTo }) => {
   return (
@@ -24,7 +26,9 @@ const ErrorState = ({ title, message, linkText, linkTo }) => {
 
 const OrderConfirmation = () => {
   const { isLoggedIn } = useAuth();
-  const { isEmpty, totalItems, items, cartTotal } = useCart();
+  const { isEmpty, totalItems, items, cartTotal, emptyCart } = useCart();
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const navigate = useNavigate();
 
   if (isEmpty) {
     return (
@@ -68,6 +72,45 @@ const OrderConfirmation = () => {
 
   const moreThanOneCafe = areItemsFromMoreThanOneCafe(items);
 
+  const submitOrder = async (payload) => {
+    console.log("Sent order", payload);
+    const response = await authenticatedRequest.post("/orders", payload);
+    if (response.status === 200) {
+      toast.success("Votre commande a bien été passée");
+    } else {
+      toast.error("Une erreur est survenue lors de l'envoi de votre commande");
+    }
+  };
+
+  const placeOrder = async () => {
+    setIsPlacingOrder(true);
+    await Promise.all(
+      orders.map((order) => {
+        const payload = {
+          cafe_slug: order.cafe.slug,
+          cafe_name: order.cafe.name,
+          cafe_image_url: order.cafe.image_url,
+          items: order.items.map((item) => ({
+            item_name: item.name,
+            item_price: item.price,
+            item_slug: item.slug,
+            options: item.options.map((option) => ({
+              fee: option.fee,
+              type: option.type,
+              value: option.value,
+            })),
+            quantity: item.quantity,
+          })),
+        };
+        return submitOrder(payload);
+      })
+    ).then(() => {
+      setIsPlacingOrder(false);
+      emptyCart();
+      navigate("/me/orders");
+    });
+  };
+
   return (
     <Container className="py-10">
       <div className="max-w-2xl mx-auto">
@@ -98,7 +141,7 @@ const OrderConfirmation = () => {
               </div>
               <ul className="divide-y divide-gray-200">
                 {order.items.map((item) => (
-                  <li key={item.item_id}>
+                  <li key={item.id}>
                     <div className="flex items-center justify-between py-4 px-4 sm:px-6">
                       <div className="flex items-center">
                         <div className="flex-shrink-0">
@@ -136,19 +179,20 @@ const OrderConfirmation = () => {
               Vous vous apprêtez à réserver {totalItems} {totalItems > 1 ? "items" : "item"} pour un total de{" "}
               {formatPrice(cartTotal)}&nbsp;$ à {displayCafeNames(items)}.
             </p>
-            <InfoBox
-              title="Attention"
-              message="Vous aurez une heure pour aller récupérer votre commande. Au delà de ce délai, elle sera annulée."
-              className="mt-4"
-            />
+            <div
+              className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 mt-4 rounded-lg"
+              role="alert">
+              <p className="font-bold">Attention</p>
+              <p>Vous aurez une heure pour récupérer votre commande. Au delà de ce délai, elle sera annulée.</p>
+            </div>
           </div>
         </div>
         <div className="mt-4 flex justify-end">
-          <Link
-            to=""
+          <button
+            onClick={placeOrder}
             className="inline-flex text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-            Valider la commande
-          </Link>
+            {isPlacingOrder ? "En cours..." : "Valider la commande"}
+          </button>
         </div>
       </div>
     </Container>

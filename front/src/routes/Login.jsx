@@ -4,10 +4,12 @@ import { Helmet } from "react-helmet-async";
 import Input from "@/components/Input";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 const Login = () => {
   const { onLogin } = useAuth();
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -18,7 +20,7 @@ const Login = () => {
       <Helmet>
         <title>Se connecter | Café sans-fil</title>
       </Helmet>
-      <div className="flex min-h-[80vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8 mt-20">
+      <div className="flex min-h-[80vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Link to="/">
             <img className="mx-auto h-36 lg:h-48 w-auto" src={logo} alt="Café sans-fil logo" />
@@ -58,16 +60,27 @@ const Login = () => {
                   </Link>
                 </div>
               </div>
-              <div className="mt-2">
+              <div className="mt-2 w-full flex items-center gap-1">
                 <Input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
                   value={credentials.password}
                   onChange={handleChange}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="inline-flex items-center rounded-md bg-white px-3 py-2 \
+                  text-gray-400 hover:text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400">
+                  {showPassword ? (
+                    <EyeSlashIcon className="h-5 w-5" aria-hidden="true" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5" aria-hidden="true" />
+                  )}
+                </button>
               </div>
             </div>
 

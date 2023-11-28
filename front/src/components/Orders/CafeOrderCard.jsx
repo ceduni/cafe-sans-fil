@@ -16,7 +16,7 @@ const CafeOrderCard = ({ order }) => {
       <div className="lg:flex lg:items-center lg:justify-between py-10 border-b border-gray-200 last:border-b-0">
         <div className="min-w-0 flex-1">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Commande #{order.order_id}
+            Commande #{order.order_number}
           </h2>
           <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
             <div className="mt-2 flex items-center text-sm text-gray-500">
@@ -31,10 +31,12 @@ const CafeOrderCard = ({ order }) => {
               <ClockIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
               {formatDate(order.created_at)}
             </div>
-            <div className="mt-2 flex items-center text-sm text-gray-500">
-              <BellAlertIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />? minutes pour
-              la récupérer
-            </div>
+            {false && (
+              <div className="mt-2 flex items-center text-sm text-gray-500">
+                <BellAlertIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />? minutes
+                pour la récupérer
+              </div>
+            )}
           </div>
         </div>
         <div className="mt-5 flex lg:ml-4 lg:mt-0">
@@ -89,6 +91,17 @@ const CafeOrderCard = ({ order }) => {
               </Menu.Items>
             </Transition>
           </Menu>
+        </div>
+        <div className="mt-5">
+          {order.items.map((item, index) => (
+            // on affiche toutes les infos de l'item
+            <div className="flex flex-col sm:flex-row sm:space-x-6" key={index}>
+              <div className="mt-2 flex items-center text-sm text-gray-500">
+                <span className="mr-1.5">{item.quantity}</span>
+                <span>{item.item_name}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>
