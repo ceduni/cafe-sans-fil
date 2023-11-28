@@ -1,20 +1,8 @@
 import { LoadingOrderItemCard, OrderItemCard } from "./OrderItemCard";
 import Badge from "@/components/Badge";
+import { getBadgeVariant } from "@/utils/orders";
 
 const OrderCard = ({ order }) => {
-  const getBadgeVariant = (status) => {
-    switch (status) {
-      case "Placée":
-        return "warning";
-      case "Prête":
-        return "success";
-      case "Complétée":
-        return "neutral";
-      case "Annulée":
-        return "danger";
-    }
-  };
-
   return (
     <>
       <div key={order.order_id} className="flex flex-col p-6 border border-gray-200 rounded-lg">
