@@ -10,8 +10,7 @@ import useApi from "@/hooks/useApi";
 import { Helmet } from "react-helmet-async";
 
 const CafeOrders = () => {
-  const { id } = useParams();
-  const cafeSlug = id;
+  const { id: cafeSlug } = useParams();
 
   const [orders, setOrders] = useState([]);
   const [areOrdersLoading, setAreOrdersLoading] = useState(true);
