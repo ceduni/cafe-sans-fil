@@ -27,6 +27,10 @@
 
 ## Avancée du développement
 
+#### 2023-11-28
+
+- Améliorations UI, design, et fix de bugs
+
 #### 2023-11-27
 
 - POST des commandes fonctionnel

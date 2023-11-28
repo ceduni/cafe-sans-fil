@@ -163,7 +163,7 @@ const OrderConfirmation = () => {
               <div
                 className="bg-orange-100 border-l-4 border-orange-500 text-orange-800 p-4 mt-4 rounded-lg"
                 role="alert">
-                <p className="font-bold">Attention</p>
+                <h3 className="font-bold">Attention</h3>
                 {moreThanOneCafe && (
                   <p className="my-3 text-sm">
                     Votre panier contient des produits de plusieurs cafés. Vous devrez récupérer plusieurs commandes,
