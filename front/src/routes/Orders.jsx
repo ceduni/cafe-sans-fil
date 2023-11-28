@@ -67,9 +67,9 @@ function Orders() {
   ];
 
   return (
-    <Container className="py-10">
+    <Container className="py-12 md:py-14">
       <div className="flex flex-col items-center">
-        <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Mes commandes</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-stone-950 text-opacity-80 font-secondary">Mes commandes</h1>
 
         {areOrdersLoading && (
           <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">

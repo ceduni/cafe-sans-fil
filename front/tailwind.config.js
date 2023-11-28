@@ -8,7 +8,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
-        secondary: ["Young Serif", "serif"],
+        secondary: ["Rowdies", "sans-serif"],
       },
     },
   },
