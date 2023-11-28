@@ -9,15 +9,6 @@ export const getCafeFromId = async (cafeSlug) => {
   return cafe;
 };
 
-export const getItemFromId = async (itemSlug, cafeSlug) => {
-  const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/cafes/${cafeSlug}/menu/${itemSlug}`);
-  if (response.status !== 200) {
-    return null;
-  }
-  const item = await response.json();
-  return item;
-};
-
 export const getUserFromUsername = async (username) => {
   const response = await authenticatedRequest.get(`/users/${username}`);
   if (response.status !== 200) {

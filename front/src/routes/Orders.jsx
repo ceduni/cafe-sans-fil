@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import Container from "@/components/Container";
-import { getCafeFromId, getItemFromId } from "@/utils/getFromId";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
 import { formatDate, isOldOrder } from "@/utils/orders";
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import { LoadingOrderCard, OrderCard } from "@/components/Orders/OrderCard";
+import useApi from "@/hooks/useApi";
 
 function Orders() {
   const { user } = useAuth();
 
   const [orders, setOrders] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [fullOrders, setFullOrders] = useState([]);
+  const [areOrdersLoading, setIsLoading] = useState(true);
   const [showOldOrders, setShowOldOrders] = useState(false);
 
   // On récupère les commandes de l'utilisateur
@@ -32,62 +31,28 @@ function Orders() {
     }
   }, [user]);
 
+  // On récupère les cafés pour afficher les images et les noms
+  const [data, isLoading] = useApi(`/cafes`);
+  const cafes = data || [];
+  const getCafeFromSlug = (slug) => {
+    if (isLoading) return {};
+    return cafes.find((cafe) => cafe.slug === slug);
+  };
+
   // On formate les données des commandes
+  const formatedOrders = orders.map((order) => ({ ...order, created_at: formatDate(order.created_at) }));
   useEffect(() => {
-    const fullOrders = orders.map(async (order) => {
-      // On formate la date
-      order.created_at = formatDate(order.created_at);
-
-      // On récupère les données du café
-      let cafe = await getCafeFromId(order.cafe_slug);
-      if (!cafe) {
-        cafe = {
-          name: "Café supprimé",
-        };
-      }
-
-      // On récupère les données des items
-      const items = await Promise.all(
-        // Pour chaque item de la commande, on récupère les données de l'item
-        order.items.map(async (item) => {
-          let itemData = await getItemFromId(item.item_slug, order.cafe_slug);
-          if (!itemData) {
-            itemData = {
-              name: "Item supprimé",
-              price: item.item_price,
-              quantity: item.quantity,
-            };
-          }
-          return {
-            ...item,
-            itemData: itemData, // On ajoute les données de l'item
-          };
-        })
-      );
-      return {
-        ...order,
-        cafe: cafe,
-        items: items,
-      };
-    });
-
-    Promise.all(fullOrders).then((data) => {
-      setFullOrders(data);
-    });
-  }, [orders]);
-
-  useEffect(() => {
-    if (fullOrders.length > 0) {
+    if (formatedOrders.length > 0) {
       setIsLoading(false);
     }
-  }, [fullOrders]);
+  }, [formatedOrders]);
 
-  const oldOrdersCount = fullOrders.filter((order) => isOldOrder(order.status)).length;
-  const pendingOrdersCount = fullOrders.length - oldOrdersCount;
+  const oldOrdersCount = formatedOrders.filter((order) => isOldOrder(order.status)).length;
+  const pendingOrdersCount = formatedOrders.length - oldOrdersCount;
 
   const displayedOrders = showOldOrders
-    ? fullOrders.filter((order) => isOldOrder(order.status))
-    : fullOrders.filter((order) => !isOldOrder(order.status));
+    ? formatedOrders.filter((order) => isOldOrder(order.status))
+    : formatedOrders.filter((order) => !isOldOrder(order.status));
   displayedOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // On trie les commandes par date
 
   const tabCategories = [
@@ -106,7 +71,7 @@ function Orders() {
       <div className="flex flex-col items-center">
         <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Mes commandes</h1>
 
-        {isLoading && (
+        {areOrdersLoading && (
           <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
             {Array.from({ length: 2 }).map((_, index) => (
               <LoadingOrderCard key={index} />
@@ -135,11 +100,11 @@ function Orders() {
           </Tab.Group>
         </div>
 
-        {!isLoading && orders.length === 0 && <EmptyState name="commande" genre="féminin" />}
+        {!areOrdersLoading && orders.length === 0 && <EmptyState name="commande" genre="féminin" />}
 
         <div className="flex flex-col mt-4 gap-4 w-full max-w-2xl">
           {displayedOrders.map((order) => (
-            <OrderCard order={order} key={order.order_id} />
+            <OrderCard order={order} cafe={getCafeFromSlug(order.cafe_slug)} key={order.order_id} />
           ))}
         </div>
       </div>

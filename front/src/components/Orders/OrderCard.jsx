@@ -2,23 +2,27 @@ import { LoadingOrderItemCard, OrderItemCard } from "./OrderItemCard";
 import Badge from "@/components/Badge";
 import { getBadgeVariant } from "@/utils/orders";
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, cafe }) => {
   return (
     <>
       <div key={order.order_id} className="flex flex-col p-6 border border-gray-200 rounded-lg">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <img
-              className="w-12 h-12 mr-4 rounded-full object-cover"
-              src={order.cafe?.image_url || "https://placehold.co/300x300?text=..."}
-              alt={order.cafe?.name}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "https://placehold.co/300x300?text=:/";
-              }}
-            />
+            {(cafe.image_url && (
+              <img
+                className="w-12 h-12 mr-4 rounded-full object-cover"
+                src={cafe.image_url}
+                alt={cafe.name}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://placehold.co/300x300?text=:/";
+                }}
+              />
+            )) || <div className="w-12 h-12 mr-4 rounded-full bg-gray-200 animate-pulse"></div>}
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">{order.cafe?.name}</h2>
+              {(cafe.name && <h2 className="text-lg font-semibold text-gray-900">{cafe.name}</h2>) || (
+                <div className="w-32 h-4 mb-2 rounded-full bg-gray-200 animate-pulse"></div>
+              )}
               <p className="text-sm text-gray-500 mb-1">{order.created_at}</p>
               <Badge variant={getBadgeVariant(order.status)}>{order.status}</Badge>
             </div>

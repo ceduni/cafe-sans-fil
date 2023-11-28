@@ -7,19 +7,17 @@ const OrderItemCard = ({ item }) => {
         <div className="flex items-center">
           <img
             className="w-8 h-8 mr-4 rounded-lg object-cover"
-            src={item.itemData?.image_url || "https://placehold.co/300x300?text=Item"}
-            alt={item.itemData?.name}
+            src={item.item_image_url || "https://placehold.co/300x300?text=Item"}
+            alt={item.item_name}
           />
           <div>
-            <h3 className="text-base font-semibold text-gray-900">{item.itemData?.name}</h3>
+            <h3 className="text-base font-semibold text-gray-900">{item.item_name}</h3>
             <p className="text-sm text-gray-500">
-              Quantité: {item.quantity} <span className="text-xs">({item.itemData?.price}&nbsp;$ l'unité)</span>
+              Quantité: {item.quantity} <span className="text-xs">({item.item_price}&nbsp;$ l'unité)</span>
             </p>
           </div>
         </div>
-        <p className="text-base font-semibold text-gray-900">
-          {formatPrice(item.itemData?.price * item.quantity)}&nbsp;$
-        </p>
+        <p className="text-base font-semibold text-gray-900">{formatPrice(item.item_price * item.quantity)}&nbsp;$</p>
       </div>
       {item.options.length > 0 && (
         <div className="flex items-center justify-between mt-3">
