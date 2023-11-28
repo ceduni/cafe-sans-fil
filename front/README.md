@@ -27,6 +27,13 @@
 
 ## Avancée du développement
 
+#### 2023-11-27
+
+- POST des commandes fonctionnel
+- Affichage des cafés dont on est staff sur le profil
+- Possibilité de show le password sur la page de connexion
+- Commencé à proprement afficher les commandes en cours d'un café
+
 #### 2023-11-23
 
 - Améliorations Navbar et hover sur les ItemCard

@@ -1,3 +1,5 @@
+import authenticatedRequest from "@/helpers/authenticatedRequest";
+
 export const getCafeFromId = async (cafeSlug) => {
   const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/cafes/${cafeSlug}`);
   if (response.status !== 200) {
@@ -14,4 +16,13 @@ export const getItemFromId = async (itemSlug, cafeSlug) => {
   }
   const item = await response.json();
   return item;
+};
+
+export const getUserFromUsername = async (username) => {
+  const response = await authenticatedRequest.get(`/users/${username}`);
+  if (response.status !== 200) {
+    return null;
+  }
+  const user = response.data;
+  return user;
 };

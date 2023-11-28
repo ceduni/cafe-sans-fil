@@ -7,6 +7,7 @@ import { useState } from "react";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import toast from "react-hot-toast";
 import useApi from "@/hooks/useApi";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { user, setUser } = useAuth();
@@ -139,21 +140,23 @@ const Profile = () => {
 
             {getMemberCafes().map((cafe) => (
               <div className="mt-6" key={cafe.slug}>
-                <div className="flex items-center gap-3">
-                  <img
-                    className="h-10 w-10 rounded-full object-cover"
-                    src={cafe.image_url}
-                    alt={`Photo du café ${cafe.name}`}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://placehold.co/700x400?text=:/";
-                    }}
-                  />
-                  <div className="text-sm leading-5">
-                    <p className="font-medium text-gray-900">{cafe.name}</p>
-                    <p className="text-gray-500">{cafe.role}</p>
+                <Link to={`/cafes/${cafe.slug}`} className="contents">
+                  <div className="flex items-center gap-3 w-fit">
+                    <img
+                      className="h-10 w-10 rounded-full object-cover"
+                      src={cafe.image_url}
+                      alt={`Photo du café ${cafe.name}`}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://placehold.co/700x400?text=:/";
+                      }}
+                    />
+                    <div className="text-sm leading-5">
+                      <p className="font-medium text-gray-900">{cafe.name}</p>
+                      <p className="text-gray-500">{cafe.role}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
             ))}
           </div>
