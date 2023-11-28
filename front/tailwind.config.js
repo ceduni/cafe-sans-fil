@@ -11,7 +11,7 @@ export default {
         secondary: ["Rowdies", "sans-serif"],
       },
       animation: {
-        "animated-text": "slideUpDown 2.1s ease-in-out infinite",
+        text: "slideUpDown 2.1s ease-in-out infinite",
         "fade-in": "fadeIn 0.2s ease-out",
       },
       keyframes: {
