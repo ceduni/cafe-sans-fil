@@ -19,16 +19,15 @@ export const formatDate = (dateString) => {
   const offset = isDST(date) ? -4 : -5;
   date.setHours(date.getHours() + offset);
 
-  const formattedDate = date.toLocaleDateString('fr-CA', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  const formattedDate = date.toLocaleDateString("fr-CA", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 
-  const formattedTime = date.toLocaleTimeString('en-CA', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
+  const formattedTime = date.toLocaleTimeString("fr-FR", {
+    hour: "2-digit",
+    minute: "2-digit",
   });
 
   return `${formattedDate}, ${formattedTime}`;

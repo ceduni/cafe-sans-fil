@@ -16,8 +16,8 @@ const Home = () => {
       <Helmet>
         <title>Accueil | Café sans-fil</title>
       </Helmet>
-      <Container className="py-10 space-y-6">
-        <h1 className="text-xl md:text-2xl text-gray-900 font-secondary">Cafés étudiants de l'UdeM</h1>
+      <Container className="py-11 md:py-12 space-y-6">
+        <h1 className="text-2xl sm:text-3xl text-opacity-80 font-secondary text-zinc-800">Cafés étudiants de l'UdeM</h1>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </Container>
       <main>
@@ -27,7 +27,6 @@ const Home = () => {
           )}
         </Container>
       </main>
-
     </>
   );
 };

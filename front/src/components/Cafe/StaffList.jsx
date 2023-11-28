@@ -1,7 +1,7 @@
 import Avatar from "@/components/Avatar";
 import Container from "@/components/Container";
 import useApi from "@/hooks/useApi";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getUserFromUsername } from "@/utils/getFromId";
 
@@ -45,6 +45,22 @@ const StaffList = () => {
       </div>
 
       <ul role="list" className="divide-y divide-gray-100">
+        {staffDetails.length === 0 &&
+          Array.from({ length: 5 }).map((_, i) => (
+            <li key={i} className="flex justify-between gap-x-6 py-6">
+              <div className="flex min-w-0 gap-x-4">
+                <div className="animate-pulse bg-gray-200 rounded-full h-8 w-8" />
+                <div className="min-w-0 flex-auto">
+                  <div className="animate-pulse bg-gray-200 rounded-full h-4 w-24" />
+                  <div className="animate-pulse bg-gray-200 rounded-full h-3 w-36 mt-3" />
+                </div>
+              </div>
+              <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                <div className="animate-pulse bg-gray-200 rounded-full h-4 w-24" />
+              </div>
+            </li>
+          ))}
+
         {staffDetails.map((user) => (
           <li key={user.username} className="flex justify-between gap-x-6 py-5">
             <div className="flex min-w-0 gap-x-4">

@@ -8,6 +8,7 @@ import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import { LoadingOrderCard, OrderCard } from "@/components/Orders/OrderCard";
 import useApi from "@/hooks/useApi";
+import { Helmet } from "react-helmet-async";
 
 function Orders() {
   const { user } = useAuth();
@@ -67,48 +68,53 @@ function Orders() {
   ];
 
   return (
-    <Container className="py-10">
-      <div className="flex flex-col items-center">
-        <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Mes commandes</h1>
+    <>
+      <Helmet>
+        <title>Mes commandes | Café sans-fil</title>
+      </Helmet>
+      <Container className="py-12 md:py-14">
+        <div className="flex flex-col items-center">
+          <h1 className="text-3xl tracking-tight text-opacity-80 font-secondary text-zinc-800">Mes commandes</h1>
 
-        {areOrdersLoading && (
-          <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
-            {Array.from({ length: 2 }).map((_, index) => (
-              <LoadingOrderCard key={index} />
+          {areOrdersLoading && (
+            <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
+              {Array.from({ length: 2 }).map((_, index) => (
+                <LoadingOrderCard key={index} />
+              ))}
+            </div>
+          )}
+
+          <div className="w-full max-w-md px-2 py-10 sm:px-0">
+            <Tab.Group>
+              <Tab.List className="flex space-x-1 rounded-xl bg-emerald-900/20 p-1">
+                {tabCategories.map((category) => (
+                  <Tab
+                    key={category.name}
+                    className={({ selected }) =>
+                      classNames(
+                        selected ? "bg-white text-emerald-700 shadow" : "text-gray-600 hover:bg-white/[0.12]",
+                        "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
+                        "ring-white/60 ring-offset-2 ring-offset-gray-400 focus:outline-none focus:ring-2"
+                      )
+                    }
+                    onClick={category.onClick}>
+                    {category.name} ({category.name === "En cours" ? pendingOrdersCount : oldOrdersCount})
+                  </Tab>
+                ))}
+              </Tab.List>
+            </Tab.Group>
+          </div>
+
+          {!areOrdersLoading && orders.length === 0 && <EmptyState name="commande" genre="féminin" />}
+
+          <div className="flex flex-col mt-4 gap-4 w-full max-w-2xl">
+            {displayedOrders.map((order) => (
+              <OrderCard order={order} cafe={getCafeFromSlug(order.cafe_slug)} key={order.order_id} />
             ))}
           </div>
-        )}
-
-        <div className="w-full max-w-md px-2 py-10 sm:px-0">
-          <Tab.Group>
-            <Tab.List className="flex space-x-1 rounded-xl bg-emerald-900/20 p-1">
-              {tabCategories.map((category) => (
-                <Tab
-                  key={category.name}
-                  className={({ selected }) =>
-                    classNames(
-                      selected ? "bg-white text-emerald-700 shadow" : "text-gray-600 hover:bg-white/[0.12]",
-                      "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
-                      "ring-white/60 ring-offset-2 ring-offset-gray-400 focus:outline-none focus:ring-2"
-                    )
-                  }
-                  onClick={category.onClick}>
-                  {category.name} ({category.name === "En cours" ? pendingOrdersCount : oldOrdersCount})
-                </Tab>
-              ))}
-            </Tab.List>
-          </Tab.Group>
         </div>
-
-        {!areOrdersLoading && orders.length === 0 && <EmptyState name="commande" genre="féminin" />}
-
-        <div className="flex flex-col mt-4 gap-4 w-full max-w-2xl">
-          {displayedOrders.map((order) => (
-            <OrderCard order={order} cafe={getCafeFromSlug(order.cafe_slug)} key={order.order_id} />
-          ))}
-        </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 }
 
