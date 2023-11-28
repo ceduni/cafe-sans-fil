@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
 const CafeMemberHeader = ({ cafe }) => {
-  const { id } = useParams();
+  const { id: cafeSlug } = useParams();
   const { isLoggedIn, user } = useAuth();
 
   if (!isLoggedIn || !user || !cafe) {
@@ -25,12 +25,12 @@ const CafeMemberHeader = ({ cafe }) => {
   }
 
   const actions = [
-    { name: "Commandes en cours", href: `/cafes/${id}/orders`, icon: BuildingStorefrontIcon },
+    { name: "Commandes en cours", href: `/cafes/${cafeSlug}/orders`, icon: BuildingStorefrontIcon },
     { name: "Modifier le menu", href: "#", icon: PencilIcon },
   ];
 
   const adminActions = [
-    { name: "Gérer le staff", href: `/cafes/${id}/staff`, icon: UserIcon },
+    { name: "Gérer le staff", href: `/cafes/${cafeSlug}/staff`, icon: UserIcon },
     { name: "Modifier le café", href: "#", icon: PencilIcon },
   ];
 
