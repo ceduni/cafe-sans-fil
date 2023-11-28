@@ -94,6 +94,7 @@ const OrderConfirmation = () => {
             item_name: item.name,
             item_price: item.price,
             item_slug: item.slug,
+            item_image_url: item.image_url,
             options: item.options.map((option) => ({
               fee: option.fee,
               type: option.type,
