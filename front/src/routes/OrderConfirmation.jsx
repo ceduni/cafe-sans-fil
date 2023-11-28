@@ -110,14 +110,6 @@ const OrderConfirmation = () => {
                 Vérifiez que tout est correct avant de valider votre commande.
               </p>
             </div>
-            {moreThanOneCafe && (
-              <div className="mb-6 mx-auto px-4 sm:px-6">
-                <Badge variant="warning">
-                  Vous vous apprêtez à commander des produits de plusieurs cafés. Vous devrez donc récupérer plusieurs
-                  commandes, une par café. Vous aurez une heure pour aller récupérer vos commandes.
-                </Badge>
-              </div>
-            )}
             {orders.map((order, index) => (
               <div key={order.cafe.cafe_id}>
                 <div className="border-t border-gray-200">
@@ -169,10 +161,16 @@ const OrderConfirmation = () => {
                 {formatPrice(cartTotal)}&nbsp;$ à {displayCafeNames(items)}.
               </p>
               <div
-                className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 mt-4 rounded-lg"
+                className="bg-orange-100 border-l-4 border-orange-500 text-orange-800 p-4 mt-4 rounded-lg"
                 role="alert">
                 <p className="font-bold">Attention</p>
-                <p>Vous aurez une heure pour récupérer votre commande. Au delà de ce délai, elle sera annulée.</p>
+                {moreThanOneCafe && (
+                  <p className="my-3 text-sm">
+                    Votre panier contient des produits de plusieurs cafés. Vous devrez récupérer plusieurs commandes,
+                    une par café.
+                  </p>
+                )}
+                <p className="text-sm">Vous aurez une heure pour récupérer votre commande. Après, elle sera annulée.</p>
               </div>
             </div>
           </div>
