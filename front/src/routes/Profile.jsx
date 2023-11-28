@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 const Profile = () => {
-  const { user, setUser, onAccountDelete } = useAuth();
+  const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
   const userFullName = user ? user.first_name + " " + user.last_name : "";
 
   const [userDetails, setUserDetails] = useState({
@@ -45,6 +45,44 @@ const Profile = () => {
     return memberCafes;
   };
 
+  // Change password
+  const [passwordDetails, setPasswordDetails] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    if (passwordDetails.newPassword !== passwordDetails.confirmPassword) {
+      toast.error("Les mots de passe ne correspondent pas");
+      setIsSubmitting(false);
+      return;
+    }
+  
+    const isCurrentPasswordCorrect = await verifyPassword(passwordDetails.currentPassword);
+    if (!isCurrentPasswordCorrect) {
+      toast.error("Le mot de passe actuel est incorrect");
+      setIsSubmitting(false);
+      return;
+    }
+  
+    const response = await authenticatedRequest.put(`/users/${user.username}`, {
+      password: passwordDetails.newPassword
+    });
+  
+    if (response.status === 200) {
+      toast.success("Votre mot de passe a été mis à jour");
+    } else {
+      toast.error("Une erreur est survenue lors de la mise à jour du mot de passe");
+    }
+    setIsSubmitting(false);
+  };
+
+  // Delete account
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   const handleDeleteClick = () => {
@@ -179,11 +217,11 @@ const Profile = () => {
             ))}
           </div>
 
-          <form>
+          <form onSubmit={handleChangePassword}>
             <div className="pb-12">
               <h2 className="text-base font-semibold leading-7 text-gray-900">Mot de passe</h2>
               <p className="mt-1 text-sm leading-6 text-gray-600">
-                Pour des raisons de sécurité, veuillez choisir un mot de passe unique et complexe.
+                Créer un nouveau mot de passe pour votre compte de 8 caractères minimum.
               </p>
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -192,13 +230,14 @@ const Profile = () => {
                     Mot de passe actuel
                   </label>
                   <div className="mt-2">
-                    <Input
-                      id="current-password"
-                      name="current-password"
-                      type="password"
-                      autoComplete="current-password"
-                      disabled
-                    />
+                  <Input
+                    id="current-password"
+                    name="current-password"
+                    type="password"
+                    autoComplete="current-password"
+                    value={passwordDetails.currentPassword}
+                    onChange={(e) => setPasswordDetails({ ...passwordDetails, currentPassword: e.target.value })}
+                  />
                   </div>
                 </div>
 
@@ -207,7 +246,14 @@ const Profile = () => {
                     Nouveau mot de passe
                   </label>
                   <div className="mt-2">
-                    <Input id="new-password" name="new-password" type="password" autoComplete="new-password" disabled />
+                    <Input
+                      id="new-password"
+                      name="new-password"
+                      type="password"
+                      autoComplete="new-password"
+                      value={passwordDetails.newPassword}
+                      onChange={(e) => setPasswordDetails({ ...passwordDetails, newPassword: e.target.value })}
+                    />
                   </div>
                 </div>
 
@@ -221,7 +267,8 @@ const Profile = () => {
                       name="confirm-password"
                       type="password"
                       autoComplete="confirm-password"
-                      disabled
+                      value={passwordDetails.confirmPassword}
+                      onChange={(e) => setPasswordDetails({ ...passwordDetails, confirmPassword: e.target.value })}
                     />
                   </div>
                 </div>
@@ -229,8 +276,12 @@ const Profile = () => {
             </div>
             <div className="flex items-center justify-end gap-x-6">
               <button
-                disabled
                 type="submit"
+                disabled={isSubmitting ||
+                  !passwordDetails.currentPassword ||
+                  !passwordDetails.newPassword ||
+                  !passwordDetails.confirmPassword ||
+                  passwordDetails.newPassword.length < 8}
                 className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm \
                 hover:bg-emerald-500 \
                 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 \

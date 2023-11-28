@@ -181,6 +181,30 @@ export const AuthProvider = ({ children }) => {
     }, 1000);
   };
 
+  const verifyPassword = async (password) => {
+    try {
+      const currentUser = await getCurrentUser();
+      if (!currentUser) {
+        return false;
+      }
+  
+      const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          username: currentUser.username,
+          password,
+        }),
+      });
+  
+      return response.status === 200;
+    } catch (error) {
+      return false;
+    }
+  };
+  
   const handleDeleteAccount = async () => {
     try {
       const user = await getCurrentUser();
@@ -206,6 +230,7 @@ export const AuthProvider = ({ children }) => {
     onSignUp: handleSignUp,
     onLogout: handleLogout,
     onAccountDelete: handleDeleteAccount,
+    verifyPassword: verifyPassword,
     user: user,
     setUser: setUser,
   };
