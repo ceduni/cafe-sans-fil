@@ -41,7 +41,7 @@ const Body = ({ className, children }) => {
 };
 
 const Footer = ({ className, children }) => {
-  return <div className={classNames("px-4 sm:px-6 py-5 border-t border-gray-200", className)}>{children}</div>;
+  return <div className={classNames("px-4 sm:px-6 pb-5", className)}>{children}</div>;
 };
 
 Card.Header = Header;

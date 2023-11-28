@@ -14,12 +14,6 @@ const ItemCard = ({ item, cafeId }) => {
   const [selectedOptions, setSelectedOptions] = useState({});
   const [itemFinalPrice, setItemFinalPrice] = useState(item.price);
 
-  // On update le prix pour qu'il soit affiché avec 2 décimales
-  item = {
-    ...item,
-    price: formatPrice(item.price),
-  };
-
   const { addItem } = useCart();
   const handleAddToCart = async (e, setIsAddingToCart) => {
     e.preventDefault();
@@ -61,7 +55,7 @@ const ItemCard = ({ item, cafeId }) => {
           />
         </div>
         <h3 className="mt-4 text-gray-800">{item.name}</h3>
-        <p className="mt-1 text-lg font-medium text-gray-900">${item.price}</p>
+        <p className="mt-1 text-lg font-medium text-gray-900">{formatPrice(item.price)}</p>
         {!item.in_stock && (
           <div className="my-1">
             <Badge variant="danger">{OUT_OF_STOCK_TEXT}</Badge>

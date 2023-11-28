@@ -139,7 +139,7 @@ const OrderConfirmation = () => {
                           </div>
                         </div>
                         <div className="flex items-center">
-                          <p className="text-sm text-gray-500">{formatPrice(item.price)}&nbsp;$</p>
+                          <p className="text-sm text-gray-500">{formatPrice(item.price)}</p>
                         </div>
                       </div>
                     </li>
@@ -148,9 +148,7 @@ const OrderConfirmation = () => {
                 <dl>
                   <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">Total de la commande</dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {formatPrice(order.total)}&nbsp;$
-                    </dd>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{formatPrice(order.total)}</dd>
                   </div>
                 </dl>
               </div>
@@ -158,7 +156,7 @@ const OrderConfirmation = () => {
             <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
               <p className="text-gray-700 font-semibold">
                 Vous vous apprêtez à réserver {totalItems} {totalItems > 1 ? "items" : "item"} pour un total de{" "}
-                {formatPrice(cartTotal)}&nbsp;$ à {displayCafeNames(items)}.
+                {formatPrice(cartTotal)} à {displayCafeNames(items)}.
               </p>
               <div
                 className="bg-orange-100 border-l-4 border-orange-500 text-orange-800 p-4 mt-4 rounded-lg"

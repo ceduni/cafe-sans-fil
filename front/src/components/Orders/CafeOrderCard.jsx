@@ -4,7 +4,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { BellAlertIcon, ClockIcon, InformationCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import { formatDate } from "@/utils/orders";
 import classNames from "classnames";
-import { displayOptions } from "@/utils/cart";
+import { displayOptions, formatPrice } from "@/utils/cart";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 import { getUserFromUsername } from "@/utils/getFromId";
 
@@ -46,7 +46,7 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
           <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
             <div className="mt-2 flex items-center text-sm text-gray-500 font-bold">
               <CurrencyDollarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-              {order.total_price}&nbsp;$
+              {formatPrice(order.total_price)}
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <InformationCircleIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
