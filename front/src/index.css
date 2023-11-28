@@ -12,31 +12,3 @@
 body {
   min-height: 100vh;
 }
-
-@keyframes slideUpDown {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(1.1px);
-  }
-}
-
-.animated-text {
-  animation: slideUpDown 2.1s ease-in-out infinite;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: fadeIn 0.2s ease-out;
-}
