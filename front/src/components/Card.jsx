@@ -4,7 +4,7 @@ const Card = ({ className, children }) => {
   return (
     <div
       className={classNames(
-        "overflow-hidden bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col \
+        "overflow-hidden bg-stone-100 bg-opacity-30 rounded-lg shadow-sm border border-gray-200 flex flex-col \
         sm:hover:shadow-lg sm:transition-shadow sm:duration-300 sm:ease-in-out",
         className
       )}
@@ -15,7 +15,7 @@ const Card = ({ className, children }) => {
 };
 
 const Header = ({ className, children }) => {
-  return <div className={classNames("px-4 sm:px-6 py-5 border-b border-gray-200", className)}>{children}</div>;
+  return <div className={classNames("px-4 bg-white sm:px-6 py-5 border-b border-gray-200", className)}>{children}</div>;
 };
 
 const HeaderTitle = ({ className, as = "h3", children }) => {
