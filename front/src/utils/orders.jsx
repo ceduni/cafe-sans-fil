@@ -5,16 +5,37 @@ export const ORDER_STATUS = {
   CANCELED: "Annulée",
 };
 
-const isValidTimestamp = (timestamp) => {
-  return new Date(timestamp).getTime() > 0;
+export const formatDate = (dateString) => {
+  if (!isValidTimestamp(dateString)) return "";
+
+  const date = new Date(dateString);
+
+  const isDST = (date) => {
+    const jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
+    const jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
+    return Math.max(jan, jul) !== date.getTimezoneOffset();
+  };
+
+  const offset = isDST(date) ? -4 : -5;
+  date.setHours(date.getHours() + offset);
+
+  const formattedDate = date.toLocaleDateString('fr-CA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  const formattedTime = date.toLocaleTimeString('en-CA', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
+
+  return `${formattedDate}, ${formattedTime}`;
 };
 
-export const formatDate = (date) => {
-  if (!isValidTimestamp(date)) return "";
-  return new Intl.DateTimeFormat("fr-FR", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(new Date(date));
+const isValidTimestamp = (timestamp) => {
+  return new Date(timestamp).getTime() > 0;
 };
 
 export const isOldOrder = (status) => {
