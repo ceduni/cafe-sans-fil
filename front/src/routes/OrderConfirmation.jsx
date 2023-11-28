@@ -105,11 +105,16 @@ const OrderConfirmation = () => {
         };
         return submitOrder(payload);
       })
-    ).then(() => {
-      setIsPlacingOrder(false);
-      emptyCart();
-      navigate("/me/orders");
-    });
+    )
+      .then(() => {
+        setIsPlacingOrder(false);
+        emptyCart();
+        navigate("/me/orders");
+      })
+      .catch(() => {
+        setIsPlacingOrder(false);
+        toast.error("Une erreur est survenue lors de l'envoi de votre commande");
+      });
   };
 
   return (
