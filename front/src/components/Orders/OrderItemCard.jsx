@@ -13,18 +13,18 @@ const OrderItemCard = ({ item }) => {
           <div>
             <h3 className="text-base font-semibold text-gray-900">{item.item_name}</h3>
             <p className="text-sm text-gray-500">
-              Quantité: {item.quantity} <span className="text-xs">({item.item_price}&nbsp;$ l'unité)</span>
+              Quantité: {item.quantity} <span className="text-xs">({formatPrice(item.item_price)} l'unité)</span>
             </p>
           </div>
         </div>
-        <p className="text-base font-semibold text-gray-900">{formatPrice(item.item_price * item.quantity)}&nbsp;$</p>
+        <p className="text-base font-semibold text-gray-900">{formatPrice(item.item_price * item.quantity)}</p>
       </div>
       {item.options.length > 0 && (
         <div className="flex items-center justify-between mt-3">
           <p className="text-sm text-gray-500">
             Options: <span className="font-semibold">{displayOptions(item.options)}</span>
           </p>
-          <p>+{formatPrice(getAdditionalPriceFromOptions(item.options) * item.quantity)}&nbsp;$</p>
+          <p>+{formatPrice(getAdditionalPriceFromOptions(item.options) * item.quantity)}</p>
         </div>
       )}
     </div>

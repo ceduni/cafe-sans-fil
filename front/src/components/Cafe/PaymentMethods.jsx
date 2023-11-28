@@ -1,3 +1,4 @@
+import { formatPrice } from "@/utils/cart";
 import { BanknotesIcon, CreditCardIcon, EllipsisHorizontalCircleIcon } from "@heroicons/react/24/solid";
 
 const PaymentMethods = ({ arrayOfMethods }) => {
@@ -16,7 +17,7 @@ const PaymentMethods = ({ arrayOfMethods }) => {
           <div key={index} className="flex items-center gap-x-1">
             {icon[m.method] || <EllipsisHorizontalCircleIcon className={iconClassName} />}
             <p className="text-gray-500">
-              {m.method} <span className="font-semibold">{m.minimum && `(min ${m.minimum} $)`}</span>
+              {m.method} <span className="font-semibold">{m.minimum && `(min ${formatPrice(m.minimum)})`}</span>
             </p>
           </div>
         ))}
