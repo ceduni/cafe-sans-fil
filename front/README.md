@@ -33,6 +33,7 @@
 - Affichage des cafés dont on est staff sur le profil
 - Possibilité de show le password sur la page de connexion
 - Commencé à proprement afficher les commandes en cours d'un café
+- Fix requetes API inutiles et amélioration temps chargement Orders
 
 #### 2023-11-23
 
