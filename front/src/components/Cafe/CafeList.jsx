@@ -28,7 +28,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
       (filters.openOnly ? isCafeActuallyOpen(cafe.is_open, cafe.opening_hours) : true) &&
       (filters.pavillon === "Tous les pavillons" || cafe.location.pavillon === filters.pavillon)
   );
-  
+
   if (isLoading && storedCafes.length === 0) {
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6 animate-pulse duration-100">
@@ -41,12 +41,11 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
 
   return (
     <>
-    
       <Filters filters={filters} setFilters={setFilters} cafes={storedCafes} />
 
       {filteredData?.length === 0 && <EmptyState name="café" />}
 
-      <div className="grid fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
+      <div className="grid animate-fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
         {filteredData.map((cafe) => (
           <CafeCard cafe={cafe} key={cafe.slug} />
         ))}
