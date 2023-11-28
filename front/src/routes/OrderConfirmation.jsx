@@ -74,18 +74,13 @@ const OrderConfirmation = () => {
 
   const submitOrder = async (payload) => {
     console.log("Sent order", payload);
-    const response = await authenticatedRequest.post("/orders", payload);
-    if (response.status === 200) {
-      toast.success("Votre commande a bien été passée");
-    } else {
-      toast.error("Une erreur est survenue lors de l'envoi de votre commande");
-    }
+    await authenticatedRequest.post("/orders", payload);
   };
 
   const placeOrder = async () => {
     setIsPlacingOrder(true);
-    await Promise.all(
-      orders.map((order) => {
+    try {
+      for (const order of orders) {
         const payload = {
           cafe_slug: order.cafe.slug,
           cafe_name: order.cafe.name,
@@ -103,19 +98,18 @@ const OrderConfirmation = () => {
             quantity: item.quantity,
           })),
         };
-        return submitOrder(payload);
-      })
-    )
-      .then(() => {
-        setIsPlacingOrder(false);
-        emptyCart();
-        navigate("/me/orders");
-      })
-      .catch(() => {
-        setIsPlacingOrder(false);
-        toast.error("Une erreur est survenue lors de l'envoi de votre commande");
-      });
+        await submitOrder(payload);
+      }
+      toast.success("Votre commande a bien été passée");
+      emptyCart();
+      navigate("/me/orders");
+    } catch (error) {
+      toast.error("Une erreur est survenue lors de l'envoi de votre commande");
+    } finally {
+      setIsPlacingOrder(false);
+    }
   };
+  
 
   return (
     <Container className="py-10">
