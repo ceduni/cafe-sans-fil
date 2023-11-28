@@ -181,12 +181,56 @@ export const AuthProvider = ({ children }) => {
     }, 1000);
   };
 
+  const verifyPassword = async (password) => {
+    try {
+      const currentUser = await getCurrentUser();
+      if (!currentUser) {
+        return false;
+      }
+  
+      const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          username: currentUser.username,
+          password,
+        }),
+      });
+  
+      return response.status === 200;
+    } catch (error) {
+      return false;
+    }
+  };
+  
+  const handleDeleteAccount = async () => {
+    try {
+      const user = await getCurrentUser();
+      const response = await authenticatedRequest.delete(`/users/${user.username}`);
+      if (response.status === 200) {
+        setAccessToken(null);
+        setRefreshToken(null);
+        setUser(null);
+        navigate("/", { replace: true });
+        toast.success("Votre compte a été supprimé");
+      } else {
+        toast.error("Une erreur est survenue lors de la suppression de votre compte");
+      }
+    } catch (error) {
+      toast.error("Une erreur est survenue lors de la suppression de votre compte");
+    }
+  };
+
   const value = {
     token: accessToken,
     isLoggedIn: accessToken && refreshToken && user,
     onLogin: handleLogin,
     onSignUp: handleSignUp,
     onLogout: handleLogout,
+    onAccountDelete: handleDeleteAccount,
+    verifyPassword: verifyPassword,
     user: user,
     setUser: setUser,
   };
