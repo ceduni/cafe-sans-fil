@@ -25,7 +25,7 @@ const CafeCard = ({ cafe }) => {
         {cafe.additional_info && cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
           <Card.Footer>
             <div
-              className="px-4 bg-sky-200 rounded-full flex lg:inline-flex items-center justify-between gap-2 w-fit max-w-full"
+              className="px-4 bg-sky-200 rounded-full animated-text flex lg:inline-flex items-center justify-between gap-2 w-fit max-w-full"
               role="alert">
               <span className="py-2 leading-none font-semibold text-xs text-gray-700" style={{ textWrap: "balance" }}>
                 {cafe.additional_info[0].value}
