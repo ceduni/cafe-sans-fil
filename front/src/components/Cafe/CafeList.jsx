@@ -46,7 +46,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
 
       {filteredData?.length === 0 && <EmptyState name="café" />}
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
+      <div className="grid fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
         {filteredData.map((cafe) => (
           <CafeCard cafe={cafe} key={cafe.slug} />
         ))}

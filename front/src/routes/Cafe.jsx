@@ -84,7 +84,7 @@ const Cafe = () => {
           (info, index) =>
             shouldDisplayInfo(info) && (
               <div
-                className="bg-white border border-l-8 border-l-sky-300 p-6 pl-8 mt-4 rounded-lg"
+                className="bg-sky-50 border border-s-2 border-l-sky-300 p-6 pl-8 mt-4 rounded-lg"
                 role="alert"
                 key={index}>
                 <h3 className="mb-1 text-lg font-semibold text-gray-900">{info.type}</h3>
