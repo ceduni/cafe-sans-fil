@@ -8,9 +8,10 @@ import authenticatedRequest from "@/helpers/authenticatedRequest";
 import toast from "react-hot-toast";
 import useApi from "@/hooks/useApi";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Profile = () => {
-  const { user, setUser } = useAuth();
+  const { user, setUser, onAccountDelete } = useAuth();
   const userFullName = user ? user.first_name + " " + user.last_name : "";
 
   const [userDetails, setUserDetails] = useState({
@@ -44,6 +45,23 @@ const Profile = () => {
     return memberCafes;
   };
 
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+
+  const handleDeleteClick = () => {
+    if (isConfirmingDelete) {
+      onAccountDelete();
+    } else {
+      setIsConfirmingDelete(true); 
+    }
+  };
+  
+  useEffect(() => {
+    if (isConfirmingDelete) {
+      const timer = setTimeout(() => setIsConfirmingDelete(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isConfirmingDelete]);
+  
   return (
     <>
       <Helmet>
@@ -227,14 +245,14 @@ const Profile = () => {
           <h2 className="text-base font-semibold leading-7 text-gray-900">Actions supplémentaires</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">Ces actions sont irréversibles.</p>
 
-          <button
-            disabled
-            className="mt-10 rounded-md bg-red-800 px-3 py-2 text-sm font-semibold text-white shadow-sm \
-          hover:bg-red-700 \
-          focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 \
-          disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none">
-            Supprimer votre compte
-          </button>
+        <button
+          onClick={handleDeleteClick}
+          className={`mt-10 w-52 rounded-md px-3 py-2 text-sm font-semibold shadow-sm ${
+            isConfirmingDelete ? "bg-red-600 hover:bg-red-500 text-white" : "bg-red-600 hover:bg-red-500 text-white"
+          } focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600`}>
+          {isConfirmingDelete ? "Confirmez la suppression" : "Supprimer votre compte"}
+        </button>
+
         </div>
       </Container>
     </>
