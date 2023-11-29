@@ -21,9 +21,9 @@ const Home = () => {
           <h1 className="text-3xl sm:text-4xl text-opacity-90 font-secondary text-zinc-800 leading-7">
             Cafés étudiants de l'UdeM
           </h1>
-          <a href="https://www.umontreal.ca/" target="_blank" rel="noopener noreferrer" className="my-auto sm:my-0">
+          {/* <a href="https://www.umontreal.ca/" target="_blank" rel="noopener noreferrer" className="my-auto sm:my-0">
             <img src="/udem_logo.png" alt="UdeM Logo" className="h-9 object-contain" />
-          </a>
+          </a> */}
         </div>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </Container>
