@@ -14,11 +14,11 @@ import { MapPinIcon } from "@heroicons/react/24/solid";
 import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
 
 const Cafe = () => {
-  const { id } = useParams();
-  const [data, isLoading, error] = useApi(`/cafes/${id}`);
+  const { id: cafeSlug } = useParams();
+  const [data, isLoading, error] = useApi(`/cafes/${cafeSlug}`);
 
   if (error) {
-    if (error.status === 422) {
+    if (error.status === 404) {
       throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
     }
     return <EmptyState type="error" error={error} />;
@@ -105,7 +105,7 @@ const Cafe = () => {
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">{category}</h2>
           <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 items-start">
             {getItemByCategory(category).map((product) => (
-              <ItemCard key={product.item_id} item={product} cafeId={id} />
+              <ItemCard key={product.item_id} item={product} cafeId={cafeSlug} />
             ))}
           </div>
         </Container>

@@ -8,10 +8,10 @@ import toast from "react-hot-toast";
 import ErrorState from "@/components/ErrorState";
 import useApi from "@/hooks/useApi";
 import { Helmet } from "react-helmet-async";
+import EmptyState from "@/components/EmptyState";
 
 const CafeOrders = () => {
-  const { id } = useParams();
-  const cafeSlug = id;
+  const { id: cafeSlug } = useParams();
 
   const [orders, setOrders] = useState([]);
   const [areOrdersLoading, setAreOrdersLoading] = useState(true);
@@ -99,7 +99,7 @@ const CafeOrders = () => {
           <div role="status" className="flex justify-center items-center h-48 w-full text-gray-500 font-semibold">
             <svg
               aria-hidden="true"
-              class="w-8 h-8 text-gray-200 animate-spin fill-emerald-600"
+              className="w-8 h-8 text-gray-200 animate-spin fill-emerald-600"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg">
@@ -112,7 +112,7 @@ const CafeOrders = () => {
                 fill="currentFill"
               />
             </svg>
-            <span class="sr-only">Loading...</span>
+            <span className="sr-only">Loading...</span>
           </div>
         )}
         {orders.length === 0 && !areOrdersLoading && <EmptyState name="commande" genre="féminin" />}

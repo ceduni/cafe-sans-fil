@@ -322,6 +322,171 @@ def test_delete_menu_item_not_found2(client, list_cafes, auth_login):
     assert response.status_code == 404
 
 # --------------------------------------
+#       /api/cafes/{cafe_slug}/staff
+# --------------------------------------
+
+def test_list_staff_success(client, list_cafes):
+    cafe_slug = list_cafes[0]["slug"]
+    response = client.get(f"/api/cafes/{cafe_slug}/staff")
+    assert response.status_code == 200
+
+def test_create_staff_member_success(client, list_cafes, auth_login):
+    cafe_slug = list_cafes[0]["slug"]
+    staff_data = {
+        "username": "TestStaff",
+        "role": "Bénévole"
+    }
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.post(f"/api/cafes/{cafe_slug}/staff", json=staff_data, headers=headers)
+    assert response.status_code == 200
+
+def test_create_staff_member_unauthorized(client, list_cafes):
+    cafe_slug = list_cafes[0]["slug"]
+    staff_data = {
+        "username": "TestStaff",
+        "role": "Bénévole"
+    }
+    response = client.post(f"/api/cafes/{cafe_slug}/staff", json=staff_data)
+    assert response.status_code == 401
+
+def test_create_staff_member_forbidden(client, list_cafes):
+    cafe_slug = list_cafes[1]["slug"]
+    staff_data = {
+        "username": "TestStaff",
+        "role": "Bénévole"
+    }
+    response = client.post(f"/api/cafes/{cafe_slug}/staff", json=staff_data)
+    assert response.status_code == 401
+
+def test_create_staff_member_conflict(client, list_cafes, auth_login):
+    cafe_slug = list_cafes[0]["slug"]
+    staff_data = {
+        "username": "TestStaff",
+        "role": "Bénévole"
+    }
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.post(f"/api/cafes/{cafe_slug}/staff", json=staff_data, headers=headers)
+    assert response.status_code == 409
+
+# --------------------------------------
+#       /api/cafes/{cafe_slug}/staff{username}
+# --------------------------------------
+
+def test_update_staff_member_success(client, list_cafes, auth_login):
+    cafe_slug = list_cafes[0]["slug"]
+    username = "TestStaff"
+    staff_data = {
+        "role": "Admin"
+    }
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.put(f"/api/cafes/{cafe_slug}/staff/{username}", json=staff_data, headers=headers)
+    assert response.status_code == 200
+
+def test_update_staff_member_unauthorized(client, list_cafes):
+    cafe_slug = list_cafes[0]["slug"]
+    username = "TestStaff"
+    staff_data = {
+        "role": "Admin"
+    }
+
+    response = client.put(f"/api/cafes/{cafe_slug}/staff/{username}", json=staff_data)
+    assert response.status_code == 401
+
+def test_update_staff_member_forbidden(client, list_cafes, auth_login):
+    cafe_slug = list_cafes[1]["slug"]
+    username = "TestStaff"
+    staff_data = {
+        "role": "Admin"
+    }
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.put(f"/api/cafes/{cafe_slug}/staff/{username}", json=staff_data, headers=headers)
+    assert response.status_code == 403
+
+def test_update_staff_member_not_found1(client, list_cafes, auth_login):
+    cafe_slug = "dont exist"
+    username = "TestStaff"
+    staff_data = {
+        "role": "Admin"
+    }
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.put(f"/api/cafes/{cafe_slug}/staff/{username}", json=staff_data, headers=headers)
+    assert response.status_code == 404
+
+def test_update_staff_member_not_found2(client, list_cafes, auth_login):
+    cafe_slug = list_cafes[0]["slug"]
+    username = "dont exist"
+    staff_data = {
+        "role": "Admin"
+    }
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.put(f"/api/cafes/{cafe_slug}/staff/{username}", json=staff_data, headers=headers)
+    assert response.status_code == 404
+
+def test_delete_staff_member_success(client, list_cafes, auth_login):
+    cafe_slug = list_cafes[0]["slug"]
+    username = "TestStaff"
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.delete(f"/api/cafes/{cafe_slug}/staff/{username}", headers=headers)
+    assert response.status_code == 200
+
+def test_delete_staff_member_unauthorized(client, list_cafes):
+    cafe_slug = list_cafes[0]["slug"]
+    username = "TestStaff"
+    response = client.delete(f"/api/cafes/{cafe_slug}/staff/{username}")
+    assert response.status_code == 401
+
+def test_delete_staff_member_forbidden(client, list_cafes, auth_login):
+    cafe_slug = list_cafes[1]["slug"]
+    username = "TestStaff"
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.delete(f"/api/cafes/{cafe_slug}/staff/{username}", headers=headers)
+    assert response.status_code == 403
+
+def test_delete_staff_member_not_found1(client, list_cafes, auth_login):
+    cafe_slug = "dont exist" # Non-existant slug
+    username = "TestStaff"
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.delete(f"/api/cafes/{cafe_slug}/staff/{username}", headers=headers)
+    assert response.status_code == 404
+
+def test_delete_staff_member_not_found2(client, list_cafes, auth_login):
+    cafe_slug = list_cafes[0]["slug"]
+    username = "dont exist" # Non-existant slug
+    tokens = auth_login
+    headers = {
+        "Authorization": f"Bearer {tokens['access_token']}"
+    }
+    response = client.delete(f"/api/cafes/{cafe_slug}/staff/{username}", headers=headers)
+    assert response.status_code == 404
+
+# --------------------------------------
 #       /api/cafes/{cafe_slug}/sales-report
 # --------------------------------------
 

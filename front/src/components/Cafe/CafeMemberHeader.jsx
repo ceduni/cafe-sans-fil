@@ -1,9 +1,9 @@
-import { BuildingStorefrontIcon, PencilIcon, UserIcon } from "@heroicons/react/24/outline";
+import { BuildingStorefrontIcon, ChartBarIcon, PencilIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
 const CafeMemberHeader = ({ cafe }) => {
-  const { id } = useParams();
+  const { id: cafeSlug } = useParams();
   const { isLoggedIn, user } = useAuth();
 
   if (!isLoggedIn || !user || !cafe) {
@@ -25,13 +25,14 @@ const CafeMemberHeader = ({ cafe }) => {
   }
 
   const actions = [
-    { name: "Commandes en cours", href: `/cafes/${id}/orders`, icon: BuildingStorefrontIcon },
+    { name: "Commandes en cours", href: `/cafes/${cafeSlug}/orders`, icon: BuildingStorefrontIcon },
     { name: "Modifier le menu", href: "#", icon: PencilIcon },
   ];
 
   const adminActions = [
-    { name: "Gérer le staff", href: `/cafes/${id}/staff`, icon: UserIcon },
-    { name: "Modifier le café", href: "#", icon: PencilIcon },
+    { name: "Gérer le staff", href: `/cafes/${cafeSlug}/staff`, icon: UserIcon },
+    { name: "Modifier le café", href: `/cafes/${cafeSlug}/edit`, icon: PencilIcon },
+    { name: "Rapports de ventes", href: "#", icon: ChartBarIcon },
   ];
 
   if (role === "admin") {

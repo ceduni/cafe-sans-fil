@@ -6,8 +6,7 @@ import { useParams, Link } from "react-router-dom";
 import { getUserFromUsername } from "@/utils/getFromId";
 
 const StaffList = () => {
-  const { id } = useParams();
-  const cafeSlug = id;
+  const { id: cafeSlug } = useParams();
   const [data, isLoading, error] = useApi(`/cafes/${cafeSlug}`);
   const [staffDetails, setStaffDetails] = useState([]);
 

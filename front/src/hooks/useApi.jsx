@@ -26,7 +26,7 @@ const useApi = (url) => {
     fetchData();
   }, [url]);
 
-  return [data, isLoading, error];
+  return [data, isLoading, error, setData];
 };
 
 export default useApi;

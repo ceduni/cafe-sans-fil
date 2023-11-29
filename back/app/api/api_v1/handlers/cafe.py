@@ -1,7 +1,7 @@
 from datetime import datetime
 from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
 from app.models.cafe_model import Role
-from app.schemas.cafe_schema import CafeOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate
+from app.schemas.cafe_schema import CafeOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate, StaffCreate, StaffUpdate, StaffOut
 from app.services.cafe_service import CafeService
 from app.services.order_service import OrderService
 from typing import List, Optional
@@ -116,7 +116,7 @@ async def create_menu_item(item: MenuItemCreate, cafe_slug: str = Path(..., desc
 @cafe_router.put("/cafes/{cafe_slug}/menu/{item_slug}", response_model=MenuItemOut, summary="Update Menu Item", description="Update the details of an existing menu item.")
 async def update_menu_item(item: MenuItemUpdate, cafe_slug: str = Path(..., description="The slug of the cafe"), item_slug: str = Path(..., description="The slug of the menu item"), current_user: User = Depends(get_current_user)):
     try:
-        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
+        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER])
         return await CafeService.update_menu_item(cafe_slug, item_slug, item)
     except ValueError as e:
         error_message = str(e)
@@ -141,7 +141,7 @@ async def delete_menu_item(cafe_slug: str = Path(..., description="The slug of t
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
         await CafeService.delete_menu_item(cafe_slug, item_slug)
-        return {"message": f"Item has been successfully deleted."}
+        return {"message": f"Item {item_slug} has been successfully deleted."}
     except ValueError as e:
         error_message = str(e)
         if error_message == "Menu item not found":
@@ -159,7 +159,87 @@ async def delete_menu_item(cafe_slug: str = Path(..., description="The slug of t
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=error_message
             )
+        
+# --------------------------------------
+#               Staff
+# --------------------------------------
+
+@cafe_router.get("/cafes/{cafe_slug}/staff", response_model=List[StaffOut], summary="List Staff", description="Retrieve a list of all staff members for a specific cafe.")
+async def list_staff(cafe_slug: str = Path(..., description="The slug of the cafe")):
+    return await CafeService.list_staff_members(cafe_slug)
+
+@cafe_router.post("/cafes/{cafe_slug}/staff", response_model=StaffOut, summary="Create Staff Member", description="Add a new staff member to a specific cafe.")
+async def create_staff_member(cafe_slug: str, staff: StaffCreate, current_user: User = Depends(get_current_user)):
+    user = await CafeService.retrieve_staff_member(cafe_slug, staff.username)
+    if user:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Staff member already exists."
+        )
     
+    try:
+        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
+    except ValueError as e:
+        if str(e) == "Cafe not found":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e)
+            )
+        elif str(e) == "Access forbidden":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=str(e)
+            )
+        
+    return await CafeService.create_staff_member(cafe_slug, staff)
+
+@cafe_router.put("/cafes/{cafe_slug}/staff/{username}", response_model=StaffOut, summary="Update Staff Member", description="Update details of an existing staff member.")
+async def update_staff_member(cafe_slug: str, username: str, staff: StaffUpdate, current_user: User = Depends(get_current_user)):
+    try:
+        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
+        return await CafeService.update_staff_member(cafe_slug, username, staff)
+    except ValueError as e:
+        if str(e) == "Cafe not found":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e)
+            )
+        elif str(e) == "Access forbidden":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=str(e)
+            )
+        elif str(e) == "Staff member not found":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e)
+            )
+    
+
+@cafe_router.delete("/cafes/{cafe_slug}/staff/{username}", summary="Delete Staff Member", description="Remove a staff member from a cafe.")
+async def delete_staff_member(cafe_slug: str, username: str, current_user: User = Depends(get_current_user)):    
+    try:
+        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
+        await CafeService.delete_staff_member(cafe_slug, username)
+    except ValueError as e:
+        if str(e) == "Cafe not found":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e)
+            )
+        elif str(e) == "Access forbidden":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=str(e)
+            )
+        elif str(e) == "Staff member not found":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e)
+            )
+    
+    return {"message": f"Staff member {username} has been successfully deleted."}
+
 # --------------------------------------
 #               Sales Report
 # --------------------------------------
@@ -169,6 +249,7 @@ async def get_sales_report(
     cafe_slug: str = Path(..., description="The slug of the cafe for which to generate the report."),
     start_date: Optional[datetime] = Query(None, description="The start date of the reporting period."),
     end_date: Optional[datetime] = Query(None, description="The end date of the reporting period."),
+    report_type: str = Query("daily", description="The type of report to generate. Can be 'daily', 'weekly', or 'monthly'."),
     current_user: User = Depends(get_current_user)
 ):
     try:
@@ -185,7 +266,7 @@ async def get_sales_report(
                 detail=str(e)
             )
         
-    report_data = await OrderService.generate_sales_report_data(cafe_slug, start_date, end_date)
+    report_data = await OrderService.generate_sales_report_data(cafe_slug, start_date, end_date, report_type)
     
     return report_data
 

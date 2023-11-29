@@ -3,27 +3,16 @@ import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
+import Switch from "@/components/CustomSwitch";
 
 const filterTypes = [
   {
     id: "payement",
     name: "Mode de payement",
     options: [
-      { value: "cash", label: "Comptant", checked: false },
-      { value: "debit", label: "Débit", checked: false },
-      { value: "credit", label: "Crédit", checked: false },
-    ],
-  },
-  {
-    id: "products",
-    name: "Types de produits",
-    options: [
-      { value: "coffee", label: "Café", checked: false },
-      { value: "tea", label: "Thé", checked: false },
-      { value: "sandwich", label: "Sandwich", checked: false },
-      { value: "salad", label: "Salade", checked: false },
-      { value: "dessert", label: "Dessert", checked: false },
-      { value: "snack", label: "Collation", checked: false },
+      { value: "takesCash", label: "Argent comptant" },
+      { value: "takesCreditCard", label: "Carte de crédit" },
+      { value: "takesDebitCard", label: "Carte de débit" },
     ],
   },
 ];
@@ -114,24 +103,13 @@ const Filters = ({ filters, setFilters, cafes }) => {
                             </h3>
                             <Disclosure.Panel className="pt-6">
                               <div className="space-y-6">
-                                {section.options.map((option, optionIdx) => (
+                                {section.options.map((option) => (
                                   <div key={option.value} className="flex items-center">
-                                    <label
-                                      className="relative inline-flex items-center cursor-pointer"
-                                      htmlFor={`filter-mobile-${section.id}-${optionIdx}`}>
-                                      <input
-                                        className="sr-only peer"
-                                        id={`filter-mobile-${section.id}-${optionIdx}`}
-                                        name={`${section.id}[]`}
-                                        defaultValue={option.value}
-                                        type="checkbox"
-                                        defaultChecked={option.checked}
-                                      />
-                                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
-                                      <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-500">
-                                        {option.label}
-                                      </span>
-                                    </label>
+                                    <Switch
+                                      checked={filters[option.value]}
+                                      onChange={(e) => setFilters({ ...filters, [option.value]: e })}
+                                      label={option.label}
+                                    />
                                   </div>
                                 ))}
                               </div>
@@ -149,21 +127,13 @@ const Filters = ({ filters, setFilters, cafes }) => {
 
         <div>
           <div className="flex items-baseline justify-end border-b border-gray-200 pb-6">
-            {/* <h1 className="text-3xl font-semibold tracking-tight text-gray-900 font-secondary">Cafés</h1> */}
             <div className="flex items-center select-none">
               <div className="flex items-center sm:mr-8 mr-4">
-                <label className="relative inline-flex items-center cursor-pointer" htmlFor={`filter-mobile-open`}>
-                  <input
-                    className="sr-only peer"
-                    id={`filter-mobile-open`}
-                    name={`filter-mobile-open`}
-                    value={filters.openOnly}
-                    type="checkbox"
-                    onChange={(e) => setFilters({ ...filters, openOnly: e.target.checked })}
-                  />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
-                  <span className="ml-3 min-w-0 flex-1 text-sm font-medium text-gray-700">Ouvert</span>
-                </label>
+                <Switch
+                  checked={filters.openOnly}
+                  onChange={(e) => setFilters({ ...filters, openOnly: e })}
+                  label="Ouvert"
+                />
               </div>
 
               <Menu as="div" className="relative inline-block text-left">

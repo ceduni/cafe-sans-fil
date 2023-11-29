@@ -71,7 +71,7 @@ class Role(str, Enum):
     ADMIN = "Admin"
     
 class StaffMember(BaseModel):
-    username: str = Field(..., description="Username of the staff member.")
+    username: Indexed(str, unique=True) = Field(..., description="Username of the staff member.")
     role: Role = Field(..., description="Role of the staff member, e.g., 'Bénévole', 'Admin'.")
 
 class MenuItemOption(BaseModel):
