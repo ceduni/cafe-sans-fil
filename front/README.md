@@ -31,6 +31,7 @@
 
 - Améliorations UI, design, et fix de bugs
 - Début de la page d'édition de café
+- Filtres par méthode de paiement fonctionnels
 
 #### 2023-11-27
 

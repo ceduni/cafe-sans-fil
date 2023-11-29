@@ -3,7 +3,7 @@ import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import Filters from "@/components/Cafe/Filters";
 import { useEffect, useState } from "react";
-import { isCafeActuallyOpen } from "@/utils/cafe";
+import { PAYMENT_METHODS, isCafeActuallyOpen } from "@/utils/cafe";
 
 const CafeList = ({ setStoredCafes, storedCafes }) => {
   const [filters, setFilters] = useState({
@@ -29,7 +29,14 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
   const filteredData = storedCafes.filter(
     (cafe) =>
       (filters.openOnly ? isCafeActuallyOpen(cafe.is_open, cafe.opening_hours) : true) &&
-      (filters.pavillon === "Tous les pavillons" || cafe.location.pavillon === filters.pavillon)
+      (filters.pavillon === "Tous les pavillons" || cafe.location.pavillon === filters.pavillon) &&
+      (filters.takesCash ? cafe.payment_methods.some((method) => method.method === PAYMENT_METHODS.CASH) : true) &&
+      (filters.takesCreditCard
+        ? cafe.payment_methods.some((method) => method.method === PAYMENT_METHODS.CREDIT_CARD)
+        : true) &&
+      (filters.takesDebitCard
+        ? cafe.payment_methods.some((method) => method.method === PAYMENT_METHODS.DEBIT_CARD)
+        : true)
   );
 
   if (isLoading && storedCafes.length === 0) {
