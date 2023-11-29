@@ -1,7 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from uuid import UUID
 from typing import List, Optional
-from app.models.order_model import Order
+from app.models.order_model import Order, OrderStatus
 from app.schemas.order_schema import OrderCreate, OrderUpdate
 
 class OrderService:
@@ -74,6 +74,16 @@ class OrderService:
         return order
 
     @staticmethod
+    async def check_and_update_order_status(orders):
+        now = datetime.utcnow()
+        for order_dict in orders:
+            order = Order(**order_dict)
+            if order.status in [OrderStatus.PLACED, OrderStatus.READY] and order.created_at + timedelta(hours=1) < now:
+                order.status = OrderStatus.CANCELLED
+                order.updated_at = order.created_at + timedelta(hours=1)
+                await order.save()
+
+    @staticmethod
     async def list_orders_for_user(username: str, **filters) -> List[Order]:
         query_filters = {}
         query_filters["user_username"] = username
@@ -100,7 +110,9 @@ class OrderService:
             {"$limit": limit}
         ])
 
-        return await orders_cursor.to_list(None)
+        orders = await orders_cursor.to_list(None)
+        await OrderService.check_and_update_order_status(orders)
+        return orders
 
     @staticmethod
     async def list_orders_for_cafe(cafe_slug: str, **filters) -> List[Order]:
@@ -129,9 +141,10 @@ class OrderService:
             {"$limit": limit}
         ])
 
-        return await orders_cursor.to_list(None)
-
-        
+        orders = await orders_cursor.to_list(None)
+        await OrderService.check_and_update_order_status(orders)
+        return orders
+            
     @staticmethod
     async def get_next_order_number():
         highest_order = await Order.aggregate([
@@ -142,7 +155,11 @@ class OrderService:
             return (highest_order[0]["order_number"]) + 1
         else:
             return 1
-        
+    
+    # --------------------------------------
+    #              Sales Report
+    # --------------------------------------
+
     @staticmethod
     async def generate_sales_report_data(cafe_slug: str, start_date: Optional[datetime], end_date: Optional[datetime]):
         def decimal128_to_float(value):

@@ -61,3 +61,27 @@ async def health_check():
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                             detail=str(e))
+
+# --------------------------------------
+#           Scheduler
+# --------------------------------------
+
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from datetime import datetime, timedelta
+from app.models.order_model import Order, OrderStatus
+import asyncio
+
+async def cancel_old_orders():
+    now = datetime.utcnow()
+    async for order in Order.find({"$or": [{"status": OrderStatus.PLACED}, {"status": OrderStatus.READY}], "created_at": {"$lt": now - timedelta(hours=1)}}):
+        order.status = OrderStatus.CANCELLED
+        order.updated_at = order.created_at + timedelta(hours=1)
+        await order.save()
+
+scheduler = AsyncIOScheduler()
+scheduler.add_job(cancel_old_orders, 'interval', seconds=30)
+scheduler.start()
+
+loop = asyncio.get_event_loop()
+if not loop.is_running():
+    loop.run_forever()
