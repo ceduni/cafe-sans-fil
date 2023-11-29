@@ -1,6 +1,7 @@
 import { BuildingStorefrontIcon, ChartBarIcon, PencilIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { getUserRole, isAdmin } from "@/utils/admin";
 
 const CafeMemberHeader = ({ cafe }) => {
   const { id: cafeSlug } = useParams();
@@ -10,15 +11,7 @@ const CafeMemberHeader = ({ cafe }) => {
     return null;
   }
 
-  const userName = user.username;
-  const getRole = (cafe) => {
-    return cafe.staff.find((member) => member.username === userName)?.role;
-  };
-
-  const role = {
-    Admin: "admin",
-    Bénévole: "bénévole",
-  }[getRole(cafe)];
+  const role = getUserRole(cafe, user.username);
 
   if (!role) {
     return null;
@@ -35,14 +28,16 @@ const CafeMemberHeader = ({ cafe }) => {
     { name: "Rapports de ventes", href: "#", icon: ChartBarIcon },
   ];
 
-  if (role === "admin") {
+  if (isAdmin(cafe, user.username)) {
     actions.push(...adminActions);
   }
 
   return (
     <div className="mb-6 p-6 rounded-3xl bg-sky-100 border-sky-400 border-l-4">
       <div className="min-w-0 flex-1">
-        <h2 className="text-xl font-bold">Vous êtes {role} dans ce café</h2>
+        <h2 className="text-xl font-bold">
+          Vous êtes <span className="lowercase">{role}</span> dans ce café
+        </h2>
       </div>
       <div className="mt-5 flex gap-3 flex-wrap">
         {actions.map((action) => (

@@ -27,6 +27,11 @@
 
 ## Avancée du développement
 
+#### 2023-11-29
+
+- Front pour changer le role des membres en tant qu'admin
+- Continue dev page édition de café
+
 #### 2023-11-28
 
 - Améliorations UI, design, et fix de bugs

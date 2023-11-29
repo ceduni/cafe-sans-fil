@@ -4,11 +4,16 @@ import useApi from "@/hooks/useApi";
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getUserFromUsername } from "@/utils/getFromId";
+import { ROLES, isAdmin } from "@/utils/admin";
+import { useAuth } from "@/hooks/useAuth";
 
 const StaffList = () => {
   const { id: cafeSlug } = useParams();
   const [data, isLoading, error] = useApi(`/cafes/${cafeSlug}`);
   const [staffDetails, setStaffDetails] = useState([]);
+
+  const { user: loggedInUser } = useAuth();
+  const isLoggedUserAdmin = isAdmin(data, loggedInUser.username);
 
   useEffect(() => {
     const fetchStaffDetails = async () => {
@@ -70,7 +75,19 @@ const StaffList = () => {
               </div>
             </div>
             <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm leading-6 text-gray-900">{user.role}</p>
+              {isLoggedUserAdmin ? (
+                <select
+                  id="role"
+                  name="role"
+                  defaultValue={user.role}
+                  className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <option disabled={ROLES.ADMIN !== user.role}>{ROLES.ADMIN}</option>
+                  <option disabled={ROLES.MEMBER !== user.role}>{ROLES.MEMBER}</option>
+                  <option disabled>Supprimer du café</option>
+                </select>
+              ) : (
+                <p className="text-sm leading-6 text-gray-900">{user.role}</p>
+              )}
             </div>
           </li>
         ))}
