@@ -50,15 +50,9 @@ const EditCafe = () => {
 
   const newChanges = JSON.stringify(cafeData) !== JSON.stringify(data);
 
-  useEffect(() => {
-    if (cafeData?.status_message?.length > 0 && cafeData?.is_open) {
-      setCafeData({ ...cafeData, status_message: null });
-    }
-  }, [cafeData?.status_message, cafeData?.is_open]);
-
   return (
     <>
-      <Helmet>{data?.name && <title>Édition {data.name} | Café sans-fil</title>}</Helmet>
+      <Helmet>{data && <title>Édition {data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
         <div className="mb-6 text-gray-500 font-semibold">
           <Link to={`/cafes/${cafeSlug}`} className="underline underline-offset-2 hover:no-underline">
@@ -154,7 +148,9 @@ const EditCafe = () => {
             <div className="flex items-center">
               <Switch
                 checked={!cafeData?.is_open}
-                onChange={(e) => setCafeData({ ...cafeData, is_open: !e })}
+                onChange={(e) => {
+                  setCafeData({ ...cafeData, is_open: !e, status_message: null });
+                }}
                 label="Forcer la fermeture"
               />
             </div>
