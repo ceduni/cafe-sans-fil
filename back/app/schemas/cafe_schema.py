@@ -112,7 +112,39 @@ class MenuItemOut(BaseModel):
             ]
         }
     })
-    
+
+# --------------------------------------
+#               Staff
+# --------------------------------------
+
+class StaffCreate(BaseModel):
+    username: str = Field(..., description="The username of the staff member.")
+    role: str = Field(..., description="The role of the staff member within the cafe.")
+    model_config = ConfigDict(json_schema_extra={
+        "example": {
+            "username": "janedoe",
+            "role": "Bénévole",
+        }
+    })
+
+class StaffUpdate(BaseModel):
+    role: Optional[str] = Field(None, description="Updated role of the staff member.")
+    model_config = ConfigDict(json_schema_extra={
+        "example": {
+            "role": "Admin",
+        }
+    })
+
+class StaffOut(BaseModel):
+    username: str = Field(..., description="The username of the staff member.")
+    role: str = Field(..., description="The role of the staff member within the cafe.")
+    model_config = ConfigDict(json_schema_extra={
+        "example": {
+            "username": "janedoe",
+            "role": "Bénévole",
+        }
+    })
+
 # --------------------------------------
 #               Cafe
 # --------------------------------------
@@ -217,8 +249,6 @@ class CafeUpdate(BaseModel):
     social_media: Optional[List[SocialMedia]] = Field(None, description="Updated social media profiles of the cafe.")
     payment_methods: Optional[List[PaymentMethod]] = Field(None, description="Updated payment methods accepted at the cafe.")
     additional_info: Optional[List[AdditionalInfo]] = Field(None, description="Updated additional information about the cafe.")
-    staff: Optional[List[StaffMember]] = Field(None, description="Updated list of staff members of the cafe.")
-    menu_items: Optional[List[MenuItemUpdate]] = Field(None, description="Updated list of menu items offered by the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "name": "Café Central",
@@ -244,42 +274,6 @@ class CafeUpdate(BaseModel):
             },
             "social_media": [{"platform_name": "Facebook", "link": "http://fb.com/centralcafe"}],
             "payment_methods": [{"method": "Carte de Crédit", "minimum": 4.0}],
-            "staff": [
-                {"username": "johndoe", "role": "Admin"},
-                {"username": "janedoe", "role": "Admin"},
-                {"username": "johndoe2", "role": "Bénévole"},
-                {"username": "janedoe2", "role": "Bénévole"},
-                {"username": "johndoe3", "role": "Bénévole"},
-                {"username": "janedoe3", "role": "Bénévole"}
-            ],
-            "menu_items": [
-                {
-                    "name": "Cheeseburger",
-                    "tags": ["Rapide", "Savoureux"],
-                    "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
-                    "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
-                    "price": 5.99,
-                    "in_stock": True,
-                    "category": "Burgers",
-                    "options": [
-                        {"type": "taille", "value": "grand", "fee": 0.5},
-                        {"type": "ingrédients", "value": "bœuf", "fee": 0},
-                        {"type": "ingrédients", "value": "laitue", "fee": 0},
-                        {"type": "ingrédients", "value": "tomate", "fee": 0},
-                        {"type": "ingrédients", "value": "fromage", "fee": 0}
-                    ]
-                },
-                {
-                    "name": "Chicken Caesar Salad",
-                    "tags": ["Léger", "Fraîcheur"],
-                    "description": "Une salade César avec du poulet grillé, de la laitue romaine et de la vinaigrette César",
-                    "image_url": None,
-                    "price": 7.99,
-                    "in_stock": False,
-                    "category": "Salads",
-                    "options": []
-                }
-            ],
             "additional_info": [
                 {
                     "type": "promo",

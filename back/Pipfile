@@ -21,6 +21,7 @@ tqdm = "*"
 pytest = "*"
 httpx = "*"
 fastapi-mail = "*"
+apscheduler = "*"
 
 [dev-packages]
 
