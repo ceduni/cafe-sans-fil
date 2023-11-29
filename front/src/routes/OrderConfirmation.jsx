@@ -159,7 +159,7 @@ const OrderConfirmation = () => {
                 {formatPrice(cartTotal)} à {displayCafeNames(items)}.
               </p>
               <div
-                className="bg-orange-100 border-l-4 border-orange-500 text-orange-800 p-4 mt-4 rounded-lg"
+                className="bg-yellow-100 border-l-4 border-yellow-400 text-orange-800 p-4 mt-4 rounded-2xl"
                 role="alert">
                 <h3 className="font-bold">Attention</h3>
                 {moreThanOneCafe && (
@@ -175,7 +175,7 @@ const OrderConfirmation = () => {
           <div className="mt-4 flex justify-end">
             <button
               onClick={placeOrder}
-              className="inline-flex text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+              className="inline-flex text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-3xl text-sm px-5 py-2.5 text-center">
               {isPlacingOrder ? "En cours..." : "Valider la commande"}
             </button>
           </div>

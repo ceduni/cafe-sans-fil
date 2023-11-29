@@ -78,10 +78,10 @@ class Order(Document):
             raise ValueError("Total price must be a non-negative value.")
         self.total_price = total.quantize(DecimalAnnotation('0.00'))
 
-    # Disable when generating orders for testing to allow generated updated_at
-    # @before_event([Replace, Insert])
-    # def update_update_at(self):
-    #     self.updated_at = datetime.utcnow()
+    # Comment this function if using generate_data.py to allow randomized updated_at
+    @before_event([Replace, Insert])
+    def update_update_at(self):
+        self.updated_at = datetime.utcnow()
         
     class Settings:
         name = "orders"

@@ -11,6 +11,7 @@ const CafeCard = ({ cafe }) => {
       className="contents select-none"
       onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
       <Card>
+        <Card.Image src={cafe.image_url} alt={cafe.name} />
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>
           <Card.Header.Subtitle>{displayCafeLocation(cafe.location)}</Card.Header.Subtitle>

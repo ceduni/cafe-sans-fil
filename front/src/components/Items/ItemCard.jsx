@@ -45,7 +45,7 @@ const ItemCard = ({ item, cafeId }) => {
         setItemFinalPrice={setItemFinalPrice}
       />
       <button key={item.item_id} className="group text-left" onClick={() => setItemPreviewOpen(true)}>
-        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 relative">
+        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 relative">
           <img
             src={item.image_url || "https://placehold.co/300x300?text=Item"}
             className={classNames("h-full w-full object-cover object-center", {
@@ -53,13 +53,13 @@ const ItemCard = ({ item, cafeId }) => {
             })}
           />
           {!item.in_stock && (
-            <div className="absolute inset-0 p-4 bg-gradient-to-t from-gray-700 to-transparent font-semibold text-white flex items-end justify-center">
+            <div className="absolute inset-0 p-4 bg-gradient-to-t from-gray-500 to-transparent font-bold text-white flex items-end justify-center">
               {OUT_OF_STOCK_TEXT}
             </div>
           )}
         </div>
-        <h3 className={classNames("mt-4 text-gray-800", { "opacity-50": !item.in_stock })}>{item.name}</h3>
-        <p className={classNames("mt-1 text-lg font-medium text-gray-900", { "opacity-50": !item.in_stock })}>
+        <h3 className={classNames("mt-4 font-bold text-center tracking-tight text-gray-800", { "opacity-60": !item.in_stock })}>{item.name}</h3>
+        <p className={classNames("mt-1 text-lg text-center font-medium text-gray-900", { "opacity-60": !item.in_stock })}>
           {formatPrice(item.price)}
         </p>
       </button>

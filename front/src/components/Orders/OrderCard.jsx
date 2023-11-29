@@ -21,7 +21,7 @@ const OrderCard = ({ order, cafe }) => {
               />
             )) || <div className="w-12 h-12 mr-4 rounded-full bg-gray-200 animate-pulse"></div>}
             <div>
-              {(cafe.name && <h2 className="text-lg font-semibold text-gray-900">{cafe.name}</h2>) || (
+              {(cafe.name && <h2 className="text-lg tracking-tight font-semibold text-gray-900">{cafe.name}</h2>) || (
                 <div className="w-32 h-4 mb-2 rounded-full bg-gray-200 animate-pulse"></div>
               )}
               <p className="text-sm text-gray-500 mb-1">{order.created_at}</p>

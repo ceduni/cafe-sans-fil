@@ -16,8 +16,13 @@ const Home = () => {
       <Helmet>
         <title>Accueil | Café sans-fil</title>
       </Helmet>
-      <Container className="py-11 md:py-12 space-y-6">
-        <h1 className="text-2xl sm:text-3xl text-opacity-80 font-secondary text-zinc-800">Cafés étudiants de l'UdeM</h1>
+      <Container className="pt-9 pb-14 sm:py-14 space-y-6">
+        <div className="flex items-center relative top-3">
+            <h1 className="text-3xl sm:text-4xl text-opacity-90 font-secondary text-zinc-800">Cafés étudiants de l'UdeM</h1>
+            <a href="https://www.umontreal.ca/" target="_blank" rel="noopener noreferrer">
+                <img src="/udem_logo.png" alt="UdeM Logo" className="h-12 sm:h-16 w-auto ml-6 relative bottom-1 sm:bottom-3" />
+            </a>
+        </div>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </Container>
       <main>

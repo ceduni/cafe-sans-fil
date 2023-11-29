@@ -34,7 +34,9 @@ async def create_orders(user_usernames, cafe_menu_items, cafes_data, is_test=Fal
             cafe_image_url = cafe_data["image_url"]
 
             items = []
-            status = random.choice(list(OrderStatus))
+            # Probabilities for [<OrderStatus.PLACED: 'Placée'>, <OrderStatus.READY: 'Prête'>, <OrderStatus.COMPLETED: 'Complétée'>, <OrderStatus.CANCELLED: 'Annulée'>]
+            weights = [0.075 , 0.075, 0.80, 0.05]  
+            status = random.choices(list(OrderStatus), weights, k=1)[0]
             created_at, updated_at = random_timestamps(status)
 
             # Random items

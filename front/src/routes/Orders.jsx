@@ -74,7 +74,7 @@ function Orders() {
       </Helmet>
       <Container className="py-12 md:py-14">
         <div className="flex flex-col items-center">
-          <h1 className="text-3xl tracking-tight text-opacity-80 font-secondary text-zinc-800">Mes commandes</h1>
+          <h1 className="text-3xl sm:text-4xl tracking-tight text-opacity-90 font-secondary text-zinc-800">Mes commandes</h1>
 
           {areOrdersLoading && (
             <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
@@ -84,7 +84,7 @@ function Orders() {
             </div>
           )}
 
-          <div className="w-full max-w-md px-2 py-10 sm:px-0">
+          <div className="w-full max-w-md px-2 pt-6 pb-4 sm:pt-8 sm:pb-6 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex space-x-1 rounded-xl bg-emerald-900/20 p-1">
                 {tabCategories.map((category) => (
