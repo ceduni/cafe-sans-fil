@@ -9,6 +9,9 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
   const [filters, setFilters] = useState({
     openOnly: false,
     pavillon: "Tous les pavillons",
+    takesCash: false,
+    takesCreditCard: false,
+    takesDebitCard: false,
   });
 
   const [data, isLoading, error] = useApi("/cafes");
