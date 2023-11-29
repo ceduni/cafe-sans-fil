@@ -2,7 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import PageWrapper from "@/components/PageWrapper";
 import ErrorPage from "@/components/ErrorPage";
-import { Home, Login, SignUp, Profile, Cafe, ResetPassword, Orders, OrderConfirmation, CafeOrders } from "@/routes";
+import {
+  Home,
+  Login,
+  SignUp,
+  Profile,
+  Cafe,
+  ResetPassword,
+  Orders,
+  OrderConfirmation,
+  CafeOrders,
+  EditCafe,
+} from "@/routes";
 import StaffList from "@/components/Cafe/StaffList";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
@@ -74,6 +85,10 @@ const router = createBrowserRouter([
       {
         path: "/cafes/:id/orders",
         element: <CafeOrders />,
+      },
+      {
+        path: "/cafes/:id/edit",
+        element: <EditCafe />,
       },
     ],
   },

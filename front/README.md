@@ -30,6 +30,7 @@
 #### 2023-11-28
 
 - Améliorations UI, design, et fix de bugs
+- Début de la page d'édition de café
 
 #### 2023-11-27
 
