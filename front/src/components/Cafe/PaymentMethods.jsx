@@ -1,3 +1,4 @@
+import { PAYMENT_METHODS } from "@/utils/cafe";
 import { formatPrice } from "@/utils/cart";
 import { BanknotesIcon, CreditCardIcon, EllipsisHorizontalCircleIcon } from "@heroicons/react/24/solid";
 
@@ -5,9 +6,9 @@ const PaymentMethods = ({ arrayOfMethods }) => {
   const iconClassName = "h-4 w-4 text-gray-500";
 
   const icon = {
-    "Carte de crédit": <CreditCardIcon className={iconClassName} />,
-    "Argent comptant": <BanknotesIcon className={iconClassName} />,
-    "Carte de débit": <CreditCardIcon className={iconClassName} />,
+    [PAYMENT_METHODS.CREDIT_CARD]: <CreditCardIcon className={iconClassName} />,
+    [PAYMENT_METHODS.CASH]: <BanknotesIcon className={iconClassName} />,
+    [PAYMENT_METHODS.DEBIT_CARD]: <CreditCardIcon className={iconClassName} />,
   };
 
   return (

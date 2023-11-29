@@ -4,15 +4,16 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
 import Switch from "@/components/CustomSwitch";
+import { PAYMENT_METHODS } from "@/utils/cafe";
 
 const filterTypes = [
   {
     id: "payement",
     name: "Mode de payement",
     options: [
-      { value: "takesCash", label: "Argent comptant" },
-      { value: "takesCreditCard", label: "Carte de crédit" },
-      { value: "takesDebitCard", label: "Carte de débit" },
+      { value: "takesCash", label: PAYMENT_METHODS.CASH },
+      { value: "takesCreditCard", label: PAYMENT_METHODS.CREDIT_CARD },
+      { value: "takesDebitCard", label: PAYMENT_METHODS.DEBIT_CARD },
     ],
   },
 ];
