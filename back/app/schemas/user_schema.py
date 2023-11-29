@@ -22,7 +22,7 @@ class UserAuth(BaseModel):
     password: str = Field(..., min_length=8, max_length=30, description="Password for the user's account, used for account security.")
     first_name: str = Field(..., min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="User's first name, allowing letters, spaces, hyphens, and apostrophes.")
     last_name: str = Field(..., min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="User's last name, allowing letters, spaces, hyphens, and apostrophes.")
-    photo_url: Optional[str] = Field(None, min_length=10, max_length=255, description="URL of the user's profile photo.")
+    photo_url: Optional[str] = Field(None, min_length=10, max_length=755, description="URL of the user's profile photo.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "email": "john.doe@umontreal.ca",
@@ -62,7 +62,7 @@ class UserUpdate(BaseModel):
     password: Optional[str] = Field(None, min_length=8, max_length=30, description="New password to update.")
     first_name: Optional[str] = Field(None, min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="New first name to update.")
     last_name: Optional[str] = Field(None, min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="New last name to update.")
-    photo_url: Optional[str] = Field(None, min_length=10, max_length=255, description="New URL for the user's profile photo.")
+    photo_url: Optional[str] = Field(None, min_length=10, max_length=755, description="New URL for the user's profile photo.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "email": "john.doe@umontreal.ca",

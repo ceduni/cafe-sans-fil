@@ -13,7 +13,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
         <input
           type="search"
           id="default-search"
-          className="block w-full p-4 pl-14 md:text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-sky-600 focus:border-sky-300"
+          className="block w-full p-4 pl-14 text-sm text-gray-900 border border-gray-300  rounded-2xl bg-gray-50 focus:ring-sky-600 focus:border-sky-300"
           placeholder="Rechercher un café"
           autoComplete="off"
           autoCorrect="off"

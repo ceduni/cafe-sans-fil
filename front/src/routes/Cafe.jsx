@@ -39,13 +39,14 @@ const Cafe = () => {
             Liste des cafés
           </Link>
           <span className="px-3">&gt;</span>
-          {(isLoading && <span className="animate-pulse">Chargement...</span>) || data?.name}
+          {(isLoading && <span className="animate-pulse">Chargement...</span>) || 
+          (data?.name && <span className="text-gray-600 font-bold">{data.name}</span>)}
         </div>
 
         <CafeMemberHeader cafe={data} />
 
         <img
-          className="mb-6 rounded-lg shadow-xl object-cover md:h-96 w-full"
+          className="mb-6 rounded-3xl shadow-xl object-cover md:h-96 w-full"
           src={data?.image_url || "https://placehold.co/700x400?text=..."}
           alt={`Photo du café ${data?.name}`}
           onError={(e) => {
@@ -84,7 +85,7 @@ const Cafe = () => {
           (info, index) =>
             shouldDisplayInfo(info) && (
               <div
-                className="bg-sky-50 border border-s-2 border-l-sky-300 p-6 pl-8 mt-4 rounded-lg"
+                className="bg-sky-50 border border-l-4 border-l-sky-300 p-6 pl-8 mt-4 rounded-2xl"
                 role="alert"
                 key={index}>
                 <h3 className="mb-1 text-lg font-semibold text-gray-900">{info.type}</h3>
@@ -96,8 +97,8 @@ const Cafe = () => {
         <OpeningHours openingHours={data?.opening_hours} />
       </Container>
 
-      <Container className="pt-10 border-t border-gray-200">
-        <h2 className="text-3xl uppercase text-center font-normal text-gray-900 tracking-wide">Menu</h2>
+      <Container className="pt-12 border-t border-gray-200">
+        <h2 className="text-3xl text-center font-bold text-gray-900 tracking-wide">Menu</h2>
       </Container>
 
       {categories.map((category) => (
@@ -111,7 +112,7 @@ const Cafe = () => {
         </Container>
       ))}
 
-      <Container className="py-10 border-t border-gray-200">
+      <Container className="py-12 border-t border-gray-200">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nous contacter</h2>
         <ContactCafe contact={data?.contact} socialMedia={data?.social_media} />
       </Container>

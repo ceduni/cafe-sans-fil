@@ -77,7 +77,7 @@ const Cart = ({ open, setOpen }) => {
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
                             {items.map((item) => (
                               <li key={item.id} className="flex py-6 items-center">
-                                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl border border-gray-200">
                                   <img
                                     src={item.image_url || "https://placehold.co/300x300?text=Item"}
                                     alt={item.name}
@@ -96,7 +96,7 @@ const Cart = ({ open, setOpen }) => {
                                   </div>
                                   <div className="flex flex-1 justify-between text-sm items-end">
                                     <select
-                                      className="text-gray-900 w-16 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+                                      className="text-gray-900 w-16 border border-gray-300 rounded-xl shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
                                       value={item.quantity}
                                       onChange={(e) => updateItemQuantity(item.id, parseInt(e.target.value, 10))}>
                                       {Array.from(Array(9).keys()).map((i) => (
@@ -141,7 +141,7 @@ const Cart = ({ open, setOpen }) => {
 
                       <div className="mt-6">
                         <button
-                          className="w-full rounded-md \
+                          className="w-full rounded-3xl \
                           border border-transparent bg-emerald-600 px-6 py-3 \
                           text-base font-medium text-white shadow-sm hover:bg-emerald-700 \
                           disabled:bg-gray-300 disabled:cursor-not-allowed"

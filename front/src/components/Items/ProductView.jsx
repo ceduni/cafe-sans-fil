@@ -66,7 +66,7 @@ const ProductView = ({
               leaveFrom="opacity-100 translate-y-0 md:scale-100"
               leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95">
               <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
-                <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8 rounded-lg">
+                <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8 rounded-3xl">
                   <button
                     type="button"
                     className="absolute right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8"
@@ -76,7 +76,7 @@ const ProductView = ({
                   </button>
 
                   <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
-                    <div className="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
+                    <div className="aspect-h-3 aspect-w-2 overflow-hidden rounded-2xl bg-gray-100 sm:col-span-4 lg:col-span-5">
                       <img
                         src={item.image_url || "https://placehold.co/300x300?text=Item"}
                         className="object-cover object-center"
@@ -123,9 +123,9 @@ const ProductView = ({
                                       key={option.value}
                                       value={option.value}
                                       className={classNames({
-                                        "border-sky-600 bg-sky-50": selectedOptions[type]?.value === option.value,
+                                        "border-sky-500 bg-sky-50": selectedOptions[type]?.value === option.value,
                                         "hover:bg-gray-50": selectedOptions[type]?.value !== option.value,
-                                        "cursor-pointer shadow-sm group relative flex items-center justify-center rounded-md border py-3 px-4 focus:outline-none sm:flex-1": true,
+                                        "cursor-pointer shadow-sm group relative flex items-center justify-center rounded-3xl border py-3 px-4 focus:outline-none sm:flex-1": true,
                                       })}>
                                       <RadioGroup.Label as="div" className="flex flex-col items-start">
                                         <span className="text-gray-900 text-sm font-medium capitalize">
@@ -148,7 +148,7 @@ const ProductView = ({
                       <form onSubmit={(e) => onSubmit(e, setIsAddingToCart)}>
                         <button
                           type="submit"
-                          className="mt-6 flex w-full items-center justify-center rounded-md \
+                          className="mt-6 flex w-full items-center justify-center rounded-3xl \
                             border border-transparent bg-emerald-600 px-8 py-3 \
                             text-base font-medium text-white \
                             hover:bg-emerald-700 \
