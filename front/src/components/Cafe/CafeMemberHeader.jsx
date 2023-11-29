@@ -1,4 +1,4 @@
-import { BuildingStorefrontIcon, PencilIcon, UserIcon } from "@heroicons/react/24/outline";
+import { BuildingStorefrontIcon, ChartBarIcon, PencilIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -31,7 +31,8 @@ const CafeMemberHeader = ({ cafe }) => {
 
   const adminActions = [
     { name: "Gérer le staff", href: `/cafes/${cafeSlug}/staff`, icon: UserIcon },
-    { name: "Modifier le café", href: "#", icon: PencilIcon },
+    { name: "Modifier le café", href: `/cafes/${cafeSlug}/edit`, icon: PencilIcon },
+    { name: "Rapports de ventes", href: "#", icon: ChartBarIcon },
   ];
 
   if (role === "admin") {
