@@ -46,7 +46,7 @@ const ProductView = ({
       <Dialog as="div" className="relative z-40" onClose={setOpen}>
         <Transition.Child
           as={Fragment}
-          enter="ease-out duration-300"
+          enter="ease-out duration-200"
           enterFrom="opacity-0"
           enterTo="opacity-100"
           leave="ease-in duration-200"
@@ -59,7 +59,7 @@ const ProductView = ({
           <div className="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-300"
+              enter="ease-out duration-200"
               enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
               enterTo="opacity-100 translate-y-0 md:scale-100"
               leave="ease-in duration-200"
