@@ -58,8 +58,10 @@ const ItemCard = ({ item, cafeId }) => {
             </div>
           )}
         </div>
-        <h3 className={classNames("mt-4 font-bold text-center tracking-tight text-gray-800", { "opacity-60": !item.in_stock })}>{item.name}</h3>
-        <p className={classNames("mt-1 text-lg text-center font-medium text-gray-900", { "opacity-60": !item.in_stock })}>
+        <h3 className={classNames("mt-4 font-semibold tracking-tight text-gray-800", { "opacity-60": !item.in_stock })}>
+          {item.name}
+        </h3>
+        <p className={classNames("mt-1 text-lg font-medium text-gray-900", { "opacity-60": !item.in_stock })}>
           {formatPrice(item.price)}
         </p>
       </button>
