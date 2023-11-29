@@ -116,7 +116,7 @@ async def create_menu_item(item: MenuItemCreate, cafe_slug: str = Path(..., desc
 @cafe_router.put("/cafes/{cafe_slug}/menu/{item_slug}", response_model=MenuItemOut, summary="Update Menu Item", description="Update the details of an existing menu item.")
 async def update_menu_item(item: MenuItemUpdate, cafe_slug: str = Path(..., description="The slug of the cafe"), item_slug: str = Path(..., description="The slug of the menu item"), current_user: User = Depends(get_current_user)):
     try:
-        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
+        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER])
         return await CafeService.update_menu_item(cafe_slug, item_slug, item)
     except ValueError as e:
         error_message = str(e)
@@ -249,6 +249,7 @@ async def get_sales_report(
     cafe_slug: str = Path(..., description="The slug of the cafe for which to generate the report."),
     start_date: Optional[datetime] = Query(None, description="The start date of the reporting period."),
     end_date: Optional[datetime] = Query(None, description="The end date of the reporting period."),
+    report_type: str = Query("daily", description="The type of report to generate. Can be 'daily', 'weekly', or 'monthly'."),
     current_user: User = Depends(get_current_user)
 ):
     try:
@@ -265,7 +266,7 @@ async def get_sales_report(
                 detail=str(e)
             )
         
-    report_data = await OrderService.generate_sales_report_data(cafe_slug, start_date, end_date)
+    report_data = await OrderService.generate_sales_report_data(cafe_slug, start_date, end_date, report_type)
     
     return report_data
 

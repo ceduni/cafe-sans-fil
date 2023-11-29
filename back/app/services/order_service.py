@@ -3,6 +3,7 @@ from uuid import UUID
 from typing import List, Optional
 from app.models.order_model import Order, OrderStatus
 from app.schemas.order_schema import OrderCreate, OrderUpdate
+from bson import SON
 
 class OrderService:
     """
@@ -161,7 +162,7 @@ class OrderService:
     # --------------------------------------
 
     @staticmethod
-    async def generate_sales_report_data(cafe_slug: str, start_date: Optional[datetime], end_date: Optional[datetime]):
+    async def generate_sales_report_data(cafe_slug: str, start_date: Optional[datetime], end_date: Optional[datetime], report_type: str = "daily"):
         def decimal128_to_float(value):
             return float(str(value)) if value is not None else 0.0
 
@@ -190,13 +191,20 @@ class OrderService:
         ]
         item_sales_details = await Order.aggregate(item_sales_aggregation).to_list()
 
+        date_group_format = "%Y-%m-%d"
+        if report_type == "weekly":
+            date_group_format = "%Y-%U"
+        elif report_type == "monthly":
+            date_group_format = "%Y-%m"
+
         sales_trends_aggregation = [
             {"$match": query},
             {"$group": {
-                "_id": {"$dateToString": {"format": "%Y-%m-%d", "date": "$created_at"}},
+                "_id": {"$dateToString": {"format": date_group_format, "date": "$created_at"}},
                 "order_count": {"$sum": 1}
             }},
-            {"$sort": {"_id": 1}}
+            {"$sort": SON([("_id", 1)])},
+            {"$project": {"time_period": "$_id", "_id": 0, "order_count": 1}}
         ]
         sales_trends = await Order.aggregate(sales_trends_aggregation).to_list()
 
