@@ -18,7 +18,7 @@ const Cafe = () => {
   const [data, isLoading, error] = useApi(`/cafes/${cafeSlug}`);
 
   if (error) {
-    if (error.status === 422) {
+    if (error.status === 404) {
       throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
     }
     return <EmptyState type="error" error={error} />;
