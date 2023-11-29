@@ -1,0 +1,13 @@
+export const getUserRole = (cafe, username) => {
+  if (!cafe) return null;
+  return cafe.staff.find((member) => member.username === username)?.role;
+};
+
+export const ROLES = {
+  ADMIN: "Admin",
+  MEMBER: "Bénévole",
+};
+
+export const isAdmin = (cafe, username) => {
+  return getUserRole(cafe, username) === ROLES.ADMIN;
+};

@@ -11,10 +11,14 @@ import { useEffect, useState } from "react";
 import Switch from "@/components/CustomSwitch";
 import { Link } from "react-router-dom";
 import { CheckIcon } from "@heroicons/react/24/solid";
+import { isAdmin } from "@/utils/admin";
+import { useAuth } from "@/hooks/useAuth";
+import ErrorState from "@/components/ErrorState";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
   const [data, isLoading, error, setData] = useApi(`/cafes/${cafeSlug}`);
+  const { user: loggedInUser } = useAuth();
 
   if (error) {
     if (error.status === 404) {
@@ -28,6 +32,17 @@ const EditCafe = () => {
   useEffect(() => {
     setCafeData(data);
   }, [data]);
+
+  if (data && !isAdmin(data, loggedInUser.username)) {
+    return (
+      <ErrorState
+        title="Accès refusé"
+        message="Vous n'avez pas accès à cette page"
+        linkText={`Retour à ${data.name}`}
+        linkTo={`/cafes/${cafeSlug}`}
+      />
+    );
+  }
 
   const updateCafe = async (payload) => {
     const toastId = toast.loading("Mise à jour du café...");
