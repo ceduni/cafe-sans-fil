@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
-from app.models.cafe_model import Cafe, MenuItem, Role
-from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate
+from app.models.cafe_model import Cafe, MenuItem, Role, StaffMember
+from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate, StaffCreate, StaffUpdate
 from app.models.user_model import User
 
 class CafeService:
@@ -125,6 +125,64 @@ class CafeService:
                     return
         raise ValueError("Menu item not found")
 
+    # --------------------------------------
+    #               Staff
+    # --------------------------------------
+
+    @staticmethod
+    async def list_staff_members(cafe_slug: str):
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
+        if cafe and hasattr(cafe, 'staff'):
+            return cafe.staff
+        raise ValueError("Cafe not found")
+
+    @staticmethod
+    async def retrieve_staff_member(cafe_slug: str, username: str):
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
+        if cafe and hasattr(cafe, 'staff'):
+            for member in cafe.staff:
+                if member.username == username:
+                    return member
+        else:
+            raise ValueError(f"Cafe not found")
+
+    @staticmethod
+    async def create_staff_member(cafe_slug: str, staff_data: StaffCreate):
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
+        if cafe:
+            new_staff_member = StaffMember(**staff_data.dict())
+            cafe.staff.append(new_staff_member)
+            await cafe.save()
+            return new_staff_member
+        raise ValueError("Cafe not found")
+
+    @staticmethod
+    async def update_staff_member(cafe_slug: str, username: str, staff_data: StaffUpdate):
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
+        if cafe and hasattr(cafe, 'staff'):
+            for member in cafe.staff:
+                if member.username == username:
+                    for key, value in staff_data.dict(exclude_unset=True).items():
+                        setattr(member, key, value)
+                    await cafe.save()
+                    return member
+            raise ValueError("Staff member not found")
+        raise ValueError("Cafe not found")
+
+    @staticmethod
+    async def delete_staff_member(cafe_slug: str, username: str):
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
+        if cafe and hasattr(cafe, 'staff'):
+            # Check if the staff member exists in the cafe
+            if any(member.username == username for member in cafe.staff):
+                # Remove the staff member
+                cafe.staff = [member for member in cafe.staff if member.username != username]
+                await cafe.save()
+            else:
+                raise ValueError("Staff member not found")
+        else:
+            raise ValueError(f"Cafe not found")
+        
     # --------------------------------------
     #               Search
     # --------------------------------------
