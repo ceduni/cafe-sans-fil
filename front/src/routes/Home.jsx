@@ -17,11 +17,13 @@ const Home = () => {
         <title>Accueil | Café sans-fil</title>
       </Helmet>
       <Container className="pt-9 pb-14 sm:py-14 space-y-6">
-        <div className="flex items-center relative top-3">
-            <h1 className="text-3xl sm:text-4xl text-opacity-90 font-secondary text-zinc-800">Cafés étudiants de l'UdeM</h1>
-            <a href="https://www.umontreal.ca/" target="_blank" rel="noopener noreferrer">
-                <img src="/udem_logo.png" alt="UdeM Logo" className="h-12 sm:h-16 w-auto ml-6 relative bottom-1 sm:bottom-3" />
-            </a>
+        <div className="flex gap-2">
+          <h1 className="text-3xl sm:text-4xl text-opacity-90 font-secondary text-zinc-800 leading-7">
+            Cafés étudiants de l'UdeM
+          </h1>
+          <a href="https://www.umontreal.ca/" target="_blank" rel="noopener noreferrer" className="my-auto sm:my-0">
+            <img src="/udem_logo.png" alt="UdeM Logo" className="h-9 object-contain" />
+          </a>
         </div>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </Container>
