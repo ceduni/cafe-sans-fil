@@ -331,6 +331,15 @@ def test_list_staff_success(client, list_cafes):
     assert response.status_code == 200
 
 def test_create_staff_member_success(client, list_cafes, auth_login):
+    user_data = {
+        "username": "TestStaff",
+        "password": "TestPassword",
+        "matricule": "12345678",
+        "first_name": "Test",
+        "last_name": "Staff",
+        "email": "test@umontreal.ca"
+    }
+    client.post("/api/users", json=user_data)
     cafe_slug = list_cafes[0]["slug"]
     staff_data = {
         "username": "TestStaff",
