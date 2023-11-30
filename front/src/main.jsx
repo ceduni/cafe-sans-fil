@@ -88,7 +88,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/cafes/:id/edit",
-        element: <EditCafe />,
+        element: (
+          <LoggedInOnly>
+            <EditCafe />
+          </LoggedInOnly>
+        ),
       },
     ],
   },
