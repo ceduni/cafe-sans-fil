@@ -13,7 +13,7 @@ const StaffList = () => {
   const [staffDetails, setStaffDetails] = useState([]);
 
   const { user: loggedInUser } = useAuth();
-  const isLoggedUserAdmin = isAdmin(data, loggedInUser.username);
+  const isLoggedUserAdmin = isAdmin(data, loggedInUser?.username);
 
   useEffect(() => {
     const fetchStaffDetails = async () => {

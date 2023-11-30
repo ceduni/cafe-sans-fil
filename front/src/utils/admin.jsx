@@ -9,5 +9,6 @@ export const ROLES = {
 };
 
 export const isAdmin = (cafe, username) => {
+  if (!cafe || !username) return false;
   return getUserRole(cafe, username) === ROLES.ADMIN;
 };
