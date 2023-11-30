@@ -2,8 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import { useAuth } from "@/hooks/useAuth";
 import Container from "@/components/Container";
-import { areItemsFromMoreThanOneCafe, displayCafeNames, formatPrice, displayOptions } from "@/utils/cart";
-import Badge from "@/components/Badge";
+import {
+  areItemsFromMoreThanOneCafe,
+  displayCafeNames,
+  formatPrice,
+  displayOptions,
+  optionsByTypeToArray,
+} from "@/utils/cart";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import toast from "react-hot-toast";
 import { useState } from "react";
@@ -76,11 +81,7 @@ const OrderConfirmation = () => {
             item_price: item.price,
             item_slug: item.slug,
             item_image_url: item.image_url,
-            options: item.options.map((option) => ({
-              fee: option.fee,
-              type: option.type,
-              value: option.value,
-            })),
+            options: optionsByTypeToArray(item.selectedOptions),
             quantity: item.quantity,
           })),
         };

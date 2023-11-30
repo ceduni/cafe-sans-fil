@@ -11,20 +11,21 @@ const OrderItemCard = ({ item }) => {
             alt={item.item_name}
           />
           <div>
-            <h3 className="text-base font-semibold text-gray-900">{item.item_name}</h3>
-            <p className="text-sm text-gray-500">
-              Quantité: {item.quantity} <span className="text-xs">({formatPrice(item.item_price)} l'unité)</span>
-            </p>
+            <div className="flex items-center gap-1">
+              <span className="text-gray-800 text-sm bg-gray-200 rounded px-2">{item.quantity}</span>
+              <h3 className="text-base font-semibold text-gray-900">{item.item_name}</h3>
+            </div>
+            {item.quantity > 1 && <p className="text-sm text-gray-500">{formatPrice(item.item_price)} l'unité</p>}
           </div>
         </div>
         <p className="text-base font-semibold text-gray-900">{formatPrice(item.item_price * item.quantity)}</p>
       </div>
       {item.options.length > 0 && (
         <div className="flex items-center justify-between mt-3">
-          <p className="text-sm text-gray-500">
-            Options: <span className="font-semibold">{displayOptions(item.options)}</span>
-          </p>
-          <p>+{formatPrice(getAdditionalPriceFromOptions(item.options) * item.quantity)}</p>
+          <p className="text-sm text-gray-500">+&nbsp;{displayOptions(item.options)}</p>
+          {(getAdditionalPriceFromOptions(item.options) > 0 && (
+            <p>+{formatPrice(getAdditionalPriceFromOptions(item.options) * item.quantity)}</p>
+          )) || <p className="text-gray-500">Gratuit</p>}
         </div>
       )}
     </div>

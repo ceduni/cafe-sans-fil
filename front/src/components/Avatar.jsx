@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useState } from "react";
 
-const Avatar = ({ name, size = "md", image }) => {
+const Avatar = ({ name, size = "sm", image }) => {
   const [isImageError, setIsImageError] = useState(false);
 
   const words = name.split(" ");
@@ -17,13 +17,25 @@ const Avatar = ({ name, size = "md", image }) => {
 
   initials = initials.toUpperCase();
 
+  const sizeClasses = {
+    sm: "h-8 w-8",
+    md: "h-12 w-12",
+    lg: "h-20 w-20",
+  };
+
+  const textClasses = {
+    sm: "text-xs",
+    md: "text-sm",
+    lg: "text-2xl",
+  };
+
   return (
     <div className="flex">
       {image && !isImageError ? (
         <img
           className={classNames(
             "inline-flex items-center justify-center rounded-full select-none object-cover",
-            size === "lg" ? "h-20 w-20" : "h-8 w-8"
+            sizeClasses[size]
           )}
           src={image}
           alt={name}
@@ -33,11 +45,9 @@ const Avatar = ({ name, size = "md", image }) => {
         <span
           className={classNames(
             "inline-flex items-center justify-center rounded-full bg-gray-500 select-none",
-            size === "lg" ? "h-20 w-20" : "h-8 w-8"
+            sizeClasses[size]
           )}>
-          <span className={classNames(size === "lg" ? "text-2xl" : "text-xs", "font-semibold leading-none text-white")}>
-            {initials}
-          </span>
+          <span className={classNames(textClasses[size], "font-semibold leading-none text-white")}>{initials}</span>
         </span>
       )}
     </div>

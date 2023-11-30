@@ -95,7 +95,11 @@ export const optionsByTypeToArray = (optionsByType) => {
   Object.entries(optionsByType).forEach(([type, obj]) => {
     const { value } = obj;
     if (value === DEFAULT_OPTION_NAME) return;
-    options.push(obj);
+    options.push({
+      fee: obj.fee,
+      type: type,
+      value: value,
+    });
   });
   return options;
 };

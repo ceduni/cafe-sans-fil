@@ -3,7 +3,7 @@ import authenticatedRequest from "@/helpers/authenticatedRequest";
 import Container from "@/components/Container";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
-import { formatDate, isOldOrder } from "@/utils/orders";
+import { isOldOrder } from "@/utils/orders";
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import { LoadingOrderCard, OrderCard } from "@/components/Orders/OrderCard";
@@ -20,11 +20,10 @@ function Orders() {
   // On récupère les commandes de l'utilisateur
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await authenticatedRequest(`/users/${user.username}/orders`);
-      setOrders(response.data);
-      if (response.data.length === 0) {
+      authenticatedRequest.get(`/users/${user.username}/orders`).then((response) => {
+        setOrders(response.data);
         setIsLoading(false);
-      }
+      });
     };
 
     if (user) {
@@ -40,20 +39,12 @@ function Orders() {
     return cafes.find((cafe) => cafe.slug === slug);
   };
 
-  // On formate les données des commandes
-  const formatedOrders = orders.map((order) => ({ ...order, created_at: formatDate(order.created_at) }));
-  useEffect(() => {
-    if (formatedOrders.length > 0) {
-      setIsLoading(false);
-    }
-  }, [formatedOrders]);
-
-  const oldOrdersCount = formatedOrders.filter((order) => isOldOrder(order.status)).length;
-  const pendingOrdersCount = formatedOrders.length - oldOrdersCount;
+  const oldOrdersCount = orders.filter((order) => isOldOrder(order.status)).length;
+  const pendingOrdersCount = orders.length - oldOrdersCount;
 
   const displayedOrders = showOldOrders
-    ? formatedOrders.filter((order) => isOldOrder(order.status))
-    : formatedOrders.filter((order) => !isOldOrder(order.status));
+    ? orders.filter((order) => isOldOrder(order.status))
+    : orders.filter((order) => !isOldOrder(order.status));
   displayedOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // On trie les commandes par date
 
   const tabCategories = [
@@ -74,7 +65,9 @@ function Orders() {
       </Helmet>
       <Container className="py-12 md:py-14">
         <div className="flex flex-col items-center">
-          <h1 className="text-3xl sm:text-4xl tracking-tight text-opacity-90 font-secondary text-zinc-800">Mes commandes</h1>
+          <h1 className="text-3xl sm:text-4xl tracking-tight text-opacity-90 font-secondary text-zinc-800">
+            Mes commandes
+          </h1>
 
           {areOrdersLoading && (
             <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
@@ -105,7 +98,7 @@ function Orders() {
             </Tab.Group>
           </div>
 
-          {!areOrdersLoading && orders.length === 0 && <EmptyState name="commande" genre="féminin" />}
+          {!areOrdersLoading && displayedOrders.length === 0 && <EmptyState name="commande" genre="féminin" />}
 
           <div className="flex flex-col mt-4 gap-4 w-full max-w-2xl">
             {displayedOrders.map((order) => (
