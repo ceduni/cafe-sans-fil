@@ -33,7 +33,7 @@ const CafeOrders = () => {
           }
         })
         .catch((error) => {
-          if (error.response.status === 403 || error.response.status === 401) {
+          if (error.response.status === 403) {
             setIsUnauthorized(true);
             return;
           }

@@ -80,11 +80,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/cafes/:id/staff",
-        element: <StaffList />,
+        element: (
+          <LoggedInOnly>
+            <StaffList />
+          </LoggedInOnly>
+        ),
       },
       {
         path: "/cafes/:id/orders",
-        element: <CafeOrders />,
+        element: (
+          <LoggedInOnly>
+            <CafeOrders />
+          </LoggedInOnly>
+        ),
       },
       {
         path: "/cafes/:id/edit",
