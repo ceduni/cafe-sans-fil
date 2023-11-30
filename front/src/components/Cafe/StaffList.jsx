@@ -201,14 +201,14 @@ const StaffList = () => {
 
         {isLoggedUserAdmin && (
           <div className="pb-12 mt-6">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Ajouter un Staff</h2>
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Ajouter un staff</h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">
               Intégrez un nouveau membre.
             </p>
 
             <div className="space-y-2 mt-6 sm:w-1/2">
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Username du nouveau Staff
+                Username du nouveau staff
               </label>
               <Input
                 id="new staff"
