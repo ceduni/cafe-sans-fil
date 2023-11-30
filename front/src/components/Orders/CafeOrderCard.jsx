@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { displayOptions, formatPrice } from "@/utils/cart";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 import { getUserFromUsername } from "@/utils/getFromId";
+import Avatar from "@/components/Avatar";
 
 const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
   const [orderUser, setOrderUser] = useState(null);
@@ -26,7 +27,7 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
           </h2>
           {(orderUser && (
             <div className="my-6 flex gap-3">
-              <img className="w-12 h-12 rounded-full object-cover" src={orderUser.photo_url} alt={orderUser.name} />
+              <Avatar name={`${orderUser.first_name} ${orderUser.last_name}`} size="md" image={orderUser.photo_url} />
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
                   {orderUser.first_name} {orderUser.last_name}

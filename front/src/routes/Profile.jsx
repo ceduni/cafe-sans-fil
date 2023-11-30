@@ -47,11 +47,11 @@ const Profile = () => {
 
   // Change password
   const [passwordDetails, setPasswordDetails] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChangePassword = async (e) => {
@@ -62,18 +62,18 @@ const Profile = () => {
       setIsSubmitting(false);
       return;
     }
-  
+
     const isCurrentPasswordCorrect = await verifyPassword(passwordDetails.currentPassword);
     if (!isCurrentPasswordCorrect) {
       toast.error("Le mot de passe actuel est incorrect");
       setIsSubmitting(false);
       return;
     }
-  
+
     const response = await authenticatedRequest.put(`/users/${user.username}`, {
-      password: passwordDetails.newPassword
+      password: passwordDetails.newPassword,
     });
-  
+
     if (response.status === 200) {
       toast.success("Votre mot de passe a été mis à jour");
     } else {
@@ -89,17 +89,17 @@ const Profile = () => {
     if (isConfirmingDelete) {
       onAccountDelete();
     } else {
-      setIsConfirmingDelete(true); 
+      setIsConfirmingDelete(true);
     }
   };
-  
+
   useEffect(() => {
     if (isConfirmingDelete) {
       const timer = setTimeout(() => setIsConfirmingDelete(false), 5000);
       return () => clearTimeout(timer);
     }
   }, [isConfirmingDelete]);
-  
+
   return (
     <>
       <Helmet>
@@ -126,7 +126,7 @@ const Profile = () => {
                   id="profile-picture"
                   name="profile-picture"
                   type="text"
-                  value={userDetails.photo_url}
+                  value={userDetails.photo_url || ""}
                   onChange={(e) => setUserDetails({ ...userDetails, photo_url: e.target.value })}
                 />
               </div>
@@ -230,14 +230,14 @@ const Profile = () => {
                     Mot de passe actuel
                   </label>
                   <div className="mt-2">
-                  <Input
-                    id="current-password"
-                    name="current-password"
-                    type="password"
-                    autoComplete="current-password"
-                    value={passwordDetails.currentPassword}
-                    onChange={(e) => setPasswordDetails({ ...passwordDetails, currentPassword: e.target.value })}
-                  />
+                    <Input
+                      id="current-password"
+                      name="current-password"
+                      type="password"
+                      autoComplete="current-password"
+                      value={passwordDetails.currentPassword}
+                      onChange={(e) => setPasswordDetails({ ...passwordDetails, currentPassword: e.target.value })}
+                    />
                   </div>
                 </div>
 
@@ -277,11 +277,13 @@ const Profile = () => {
             <div className="flex items-center justify-end gap-x-6">
               <button
                 type="submit"
-                disabled={isSubmitting ||
+                disabled={
+                  isSubmitting ||
                   !passwordDetails.currentPassword ||
                   !passwordDetails.newPassword ||
                   !passwordDetails.confirmPassword ||
-                  passwordDetails.newPassword.length < 8}
+                  passwordDetails.newPassword.length < 8
+                }
                 className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm \
                 hover:bg-emerald-500 \
                 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 \
@@ -296,14 +298,13 @@ const Profile = () => {
           <h2 className="text-base font-semibold leading-7 text-gray-900">Actions supplémentaires</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">Ces actions sont irréversibles.</p>
 
-        <button
-          onClick={handleDeleteClick}
-          className={`mt-10 w-52 rounded-md px-3 py-2 text-sm font-semibold shadow-sm ${
-            isConfirmingDelete ? "bg-red-600 hover:bg-red-500 text-white" : "bg-red-600 hover:bg-red-500 text-white"
-          } focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600`}>
-          {isConfirmingDelete ? "Confirmez la suppression" : "Supprimer votre compte"}
-        </button>
-
+          <button
+            onClick={handleDeleteClick}
+            className={`mt-10 w-52 rounded-md px-3 py-2 text-sm font-semibold shadow-sm ${
+              isConfirmingDelete ? "bg-red-600 hover:bg-red-500 text-white" : "bg-red-600 hover:bg-red-500 text-white"
+            } focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600`}>
+            {isConfirmingDelete ? "Confirmez la suppression" : "Supprimer votre compte"}
+          </button>
         </div>
       </Container>
     </>
