@@ -13,10 +13,6 @@ const mapDayEnglishToFrench = (englishDayName) => {
   return dayMap[englishDayName.toLowerCase()] || "";
 };
 
-export const toMontrealTime = (date) => {
-  return moment(date).tz("America/Montreal").format("YYYY-MM-DDTHH:mm:ss");
-};
-
 export const displayCafeLocation = (location) => {
   if (!location || !location.pavillon) return "";
   return `${location.pavillon}, ${location.local}`;

@@ -32,7 +32,7 @@ export const displayOptions = (selectedOptions) => {
     if (value === DEFAULT_OPTION_NAME) return;
     options.push(`${capitalizeFirstLetter(value)}`);
   });
-  return options.length === 0 ? DEFAULT_OPTION_NAME : options.join(", ");
+  return options.length === 0 ? "" : options.join(", ");
 };
 const isAdditionalOptionSelected = (selectedOptions) => {
   return Object.entries(selectedOptions).some(([type, obj]) => {
@@ -95,7 +95,11 @@ export const optionsByTypeToArray = (optionsByType) => {
   Object.entries(optionsByType).forEach(([type, obj]) => {
     const { value } = obj;
     if (value === DEFAULT_OPTION_NAME) return;
-    options.push(obj);
+    options.push({
+      fee: obj.fee,
+      type: type,
+      value: value,
+    });
   });
   return options;
 };
