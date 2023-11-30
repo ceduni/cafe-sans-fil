@@ -37,18 +37,18 @@ const StaffList = () => {
   const [hasChanges, setHasChanges] = useState(false);
   const [updatedRoles, setUpdatedRoles] = useState({});
   const [newStaff, setNewStaff] = useState("");
-  
+
   const handleRoleChange = (username, newRole) => {
     const newUpdatedRoles = { ...updatedRoles, [username]: newRole };
-  
+
     const anyChange = Object.keys(newUpdatedRoles).some(
       (key) => newUpdatedRoles[key] !== (data?.staff.find((staff) => staff.username === key)?.role)
     );
-  
+
     setUpdatedRoles(newUpdatedRoles);
     setHasChanges(anyChange);
   };
-  
+
   const handleConfirmChanges = async () => {
     let success = true;
     for (const [username, role] of Object.entries(updatedRoles)) {
@@ -72,11 +72,11 @@ const StaffList = () => {
     }
     setUpdatedRoles({});
     setHasChanges(false);
-  };  
+  };
 
   const handleAddStaff = async () => {
     if (!newStaff.trim()) return;
-  
+
     try {
       const response = await authenticatedRequest.post(`cafes/${cafeSlug}/staff`, {
         username: newStaff,
@@ -95,8 +95,8 @@ const StaffList = () => {
         toast.error('Erreur lors de l\'ajout d\'un staff');
       }
     }
-  };  
-  
+  };
+
   if (error) {
     if (error.status === 422) {
       throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
@@ -114,10 +114,10 @@ const StaffList = () => {
         <span>Staff</span>
       </div>
 
-      <div className="border-b border-gray-900/10 pb-12">
-        <h2 className="text-base font-semibold leading-7 text-gray-900">Liste de Staff</h2>
+      <div className={`${isLoggedUserAdmin && ("border-b border-gray-900/10")}  pb-12`}>
+        <h2 className="text-base font-semibold leading-7 text-gray-900">Liste de staff</h2>
         <p className="mt-1 text-sm leading-6 text-gray-600">
-          Consultez les membres du personnel actuels de votre café.
+          {`${isLoggedUserAdmin?("Gérez"):("Consulter")}`} les membres du personnel actuels de votre café.
         </p>
 
         <ul role="list" className="divide-y divide-gray-100 mt-6">
@@ -173,56 +173,58 @@ const StaffList = () => {
           ))}
         </ul>
 
-        <div className="mt-3 flex items-center justify-end gap-x-4 text-sm font-semibold sm:justify-end relative sm:right-24">
-          <Link to={`/cafes/${cafeSlug}`}>
-            <button type="button" className="leading-6 text-gray-900 px-3 py-2">
-              Annuler
+        {isLoggedUserAdmin && (
+          <div className="mt-3 flex items-center justify-end gap-x-4 text-sm font-semibold sm:justify-end relative sm:right-24">
+            <Link to={`/cafes/${cafeSlug}`}>
+              <button type="button" className="leading-6 text-gray-900 px-3 py-2">
+                Annuler
+              </button>
+            </Link>
+            <button
+              className="flex items-center gap-2 \
+          rounded-md bg-emerald-600 px-3 py-2 text-white shadow-sm hover:bg-emerald-500 \
+          focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 \
+          disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
+              onClick={handleConfirmChanges}
+              disabled={!hasChanges}
+            >
+              <CheckIcon className="w-5 h-5" />
+              <span>Enregistrer</span>
             </button>
-          </Link>
+          </div>
+        )}
+      </div>
+
+      {isLoggedUserAdmin && (
+        <div className="pb-12 mt-6">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">Ajouter un Staff</h2>
+          <p className="mt-1 text-sm leading-6 text-gray-600">
+            Intégrez un nouveau membre.
+          </p>
+
+          <div className="space-y-2 mt-6 sm:w-1/2">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              Username du nouveau Staff
+            </label>
+            <Input
+              id="new staff"
+              type="text"
+              onChange={(e) => setNewStaff(e.target.value)}
+            />
+          </div>
+
           <button
-            className="flex items-center gap-2 \
-            rounded-md bg-emerald-600 px-3 py-2 text-white shadow-sm hover:bg-emerald-500 \
-            focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 \
-            disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
-            onClick={handleConfirmChanges} 
-            disabled={!hasChanges}
+            className="mt-6 rounded-md bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm \
+        hover:bg-emerald-500 \
+        focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 \
+        disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
+            onClick={() => handleAddStaff()}
+            disabled={!newStaff.trim()}
           >
-            <CheckIcon className="w-5 h-5" />
             <span>Enregistrer</span>
           </button>
         </div>
-
-      </div>
-
-      <div className="pb-12 mt-6">
-        <h2 className="text-base font-semibold leading-7 text-gray-900">Ajouter un Staff</h2>
-        <p className="mt-1 text-sm leading-6 text-gray-600">
-          Intégrez un nouveau membre.
-        </p>
-
-        <div className="space-y-2 mt-6 sm:w-1/2">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-            Username du nouveau Staff
-          </label>
-          <Input
-            id="new staff"
-            type="text"
-            onChange={(e) => setNewStaff(e.target.value)}
-          />
-        </div>
-
-        <button
-          className="mt-6 rounded-md bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm \
-          hover:bg-emerald-500 \
-          focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 \
-          disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
-          onClick={() => handleAddStaff()}
-          disabled={!newStaff.trim()}
-        >
-          <span>Enregistrer</span>
-        </button>
-
-      </div>
+      )}
 
     </Container>
   );
