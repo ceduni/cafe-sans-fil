@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { getCafeCategories, getItemByCategory } from "@/utils/items";
 import AdminOnly from "@/helpers/AdminOnly";
+import ItemCard from "@/components/items/ItemCard";
 
 const EditMenu = () => {
   const { id: cafeSlug } = useParams();
@@ -25,7 +26,7 @@ const EditMenu = () => {
           <span className="text-gray-600 font-bold">Modifier le menu</span>
         </div>
 
-        <div className="pb-12">
+        <div className="pb-12 border-b mb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">Catégories de produits</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             Ici apparaissent les catégories de produits qui apparaîtront sur la page de votre café.
@@ -33,13 +34,11 @@ const EditMenu = () => {
         </div>
 
         {categories.map((category) => (
-          <div key={category} className="mb-12">
-            <h3 className="text-lg font-semibold">{category}</h3>
-            <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 items-start">
+          <div key={category} className="mb-12 border-b pb-12 last:border-b-0 last:pb-0">
+            <h3 className="font-medium">{category}</h3>
+            <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:grid-cols-5 lg:gap-x-8 items-start">
               {getItemByCategory(menuItems, category).map((product) => (
-                <p key={product.item_id} className="text-gray-900">
-                  {product.name}
-                </p>
+                <ItemCard key={product.item_id} item={product} cafeId={cafeSlug} edit />
               ))}
             </div>
           </div>
