@@ -1,12 +1,20 @@
 import { LoadingOrderItemCard, OrderItemCard } from "./OrderItemCard";
 import Badge from "@/components/Badge";
+import useCountdown from "@/hooks/useCountdown";
 import { formatPrice } from "@/utils/cart";
-import { getBadgeVariant } from "@/utils/orders";
+import { ORDER_STATUS, formatDate, getBadgeVariant } from "@/utils/orders";
 
 const OrderCard = ({ order, cafe }) => {
+  const minutesBeforeCancel = useCountdown(order.created_at);
+
   return (
     <>
       <div key={order.order_id} className="flex flex-col p-6 border border-gray-200 rounded-lg">
+        <div className="flex items-center gap-2 mb-6">
+          <h3 className="text-lg text-gray-700">Commande #{order.order_number}</h3>
+          <Badge variant={getBadgeVariant(order.status)}>{order.status}</Badge>
+        </div>
+
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center">
             {(cafe.image_url && (
@@ -24,8 +32,11 @@ const OrderCard = ({ order, cafe }) => {
               {(cafe.name && <h2 className="text-lg tracking-tight font-semibold text-gray-900">{cafe.name}</h2>) || (
                 <div className="w-32 h-4 mb-2 rounded-full bg-gray-200 animate-pulse"></div>
               )}
-              <p className="text-sm text-gray-500 mb-1">{order.created_at}</p>
-              <Badge variant={getBadgeVariant(order.status)}>{order.status}</Badge>
+              {(minutesBeforeCancel > 0 && order.status === ORDER_STATUS.PLACED && (
+                <p className="text-sm text-gray-500" title={formatDate(order.created_at)}>
+                  {minutesBeforeCancel} minutes avant annulation
+                </p>
+              )) || <p className="text-sm text-gray-500">{formatDate(order.created_at)}</p>}
             </div>
           </div>
           <p className="text-lg font-semibold text-gray-900">{formatPrice(order.total_price)}</p>

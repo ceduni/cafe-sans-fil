@@ -2,12 +2,14 @@ import { Fragment, useState, useEffect } from "react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
 import { BellAlertIcon, ClockIcon, InformationCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
-import { formatDate } from "@/utils/orders";
+import { formatDate, getBadgeVariant } from "@/utils/orders";
 import classNames from "classnames";
 import { displayOptions, formatPrice } from "@/utils/cart";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 import { getUserFromUsername } from "@/utils/getFromId";
 import Avatar from "@/components/Avatar";
+import useCountdown from "@/hooks/useCountdown";
+import Badge from "@/components/Badge";
 
 const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
   const [orderUser, setOrderUser] = useState(null);
@@ -17,6 +19,8 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
       setOrderUser(user);
     });
   }, []);
+
+  const minutes = useCountdown(order.created_at);
 
   return (
     <div className="py-10 border-b border-gray-200 last:border-b-0">
@@ -51,22 +55,27 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <InformationCircleIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-              {order.status}
+              <Badge variant={getBadgeVariant(order.status)}>{order.status}</Badge>
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <ClockIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
               {formatDate(order.created_at)}
             </div>
-            {false && (
-              <div className="mt-2 flex items-center text-sm text-gray-500">
-                <BellAlertIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />? minutes
-                pour la récupérer
-              </div>
-            )}
+            <div className="mt-2 flex items-center text-sm text-gray-500">
+              <BellAlertIcon
+                className={classNames("mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400", {
+                  "text-red-500": minutes < 0,
+                })}
+                aria-hidden="true"
+              />
+              {(minutes < 0 && <span className="text-red-500 font-semibold">La commande va expirer</span>) || (
+                <span>Expire dans {minutes} minutes</span>
+              )}
+            </div>
           </div>
         </div>
         <div className="mt-5 flex lg:ml-4 lg:mt-0">
-          <span className="ml-3 hidden sm:block">
+          <span className="hidden sm:block">
             <button
               type="button"
               onClick={() => setOrderCanceled(order.order_id)}
