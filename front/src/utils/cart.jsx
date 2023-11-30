@@ -32,7 +32,7 @@ export const displayOptions = (selectedOptions) => {
     if (value === DEFAULT_OPTION_NAME) return;
     options.push(`${capitalizeFirstLetter(value)}`);
   });
-  return options.length === 0 ? DEFAULT_OPTION_NAME : options.join(", ");
+  return options.length === 0 ? "" : options.join(", ");
 };
 const isAdditionalOptionSelected = (selectedOptions) => {
   return Object.entries(selectedOptions).some(([type, obj]) => {

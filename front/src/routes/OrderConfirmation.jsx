@@ -136,7 +136,7 @@ const OrderConfirmation = () => {
                           <div className="ml-4">
                             <p className="text-sm font-medium text-gray-900">{item.name}</p>
                             <p className="text-sm text-gray-500">Quantité: {item.quantity}</p>
-                            <p className="text-sm text-gray-500">Options: {displayOptions(item.selectedOptions)}</p>
+                            <p className="text-sm text-gray-500">{displayOptions(item.selectedOptions)}</p>
                           </div>
                         </div>
                         <div className="flex items-center">

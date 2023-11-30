@@ -11,7 +11,7 @@ const OrderItemCard = ({ item }) => {
             alt={item.item_name}
           />
           <div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <span className="text-gray-800 text-sm bg-gray-200 rounded px-2">{item.quantity}</span>
               <h3 className="text-base font-semibold text-gray-900">{item.item_name}</h3>
             </div>
@@ -21,11 +21,11 @@ const OrderItemCard = ({ item }) => {
         <p className="text-base font-semibold text-gray-900">{formatPrice(item.item_price * item.quantity)}</p>
       </div>
       {item.options.length > 0 && (
-        <div className="flex items-center justify-between mt-3">
-          <p className="text-sm text-gray-500">+&nbsp;{displayOptions(item.options)}</p>
+        <div className="flex items-center justify-between mt-3 text-sm text-gray-600">
+          <p>&nbsp;{displayOptions(item.options)}</p>
           {(getAdditionalPriceFromOptions(item.options) > 0 && (
             <p>+{formatPrice(getAdditionalPriceFromOptions(item.options) * item.quantity)}</p>
-          )) || <p className="text-gray-500">Gratuit</p>}
+          )) || <p>Gratuit</p>}
         </div>
       )}
     </div>
