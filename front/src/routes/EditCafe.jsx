@@ -33,7 +33,7 @@ const EditCafe = () => {
     setCafeData(data);
   }, [data]);
 
-  if (data && !isAdmin(data, loggedInUser.username)) {
+  if (data && !isAdmin(data, loggedInUser?.username)) {
     return (
       <ErrorState
         title="Accès refusé"
