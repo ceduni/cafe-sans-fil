@@ -1,44 +1,20 @@
 import { useParams } from "react-router-dom";
 import Container from "@/components/Container";
 import useApi from "@/hooks/useApi";
-import EmptyState from "@/components/EmptyState";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { isAdmin } from "@/utils/admin";
-import { useAuth } from "@/hooks/useAuth";
-import ErrorState from "@/components/ErrorState";
+import { getCafeCategories, getItemByCategory } from "@/utils/items";
+import AdminOnly from "@/helpers/AdminOnly";
 
 const EditMenu = () => {
   const { id: cafeSlug } = useParams();
   const [data, isLoading, error] = useApi(`/cafes/${cafeSlug}`);
-  const { user: loggedInUser } = useAuth();
 
-  if (error) {
-    if (error.status === 404) {
-      throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
-    }
-    return <EmptyState type="error" error={error} />;
-  }
-
-  if (data && !isAdmin(data, loggedInUser?.username)) {
-    return (
-      <ErrorState
-        title="Accès refusé"
-        message="Vous n'avez pas accès à cette page"
-        linkText={`Retour à ${data.name}`}
-        linkTo={`/cafes/${cafeSlug}`}
-      />
-    );
-  }
-
-  // On récupère les catégories de produits proposées par le café, sans doublons
-  const categories = [...new Set(data?.menu_items.map((product) => product.category))];
-  const getItemByCategory = (category) => {
-    return data?.menu_items.filter((product) => product.category === category);
-  };
+  const menuItems = data?.menu_items;
+  const categories = getCafeCategories(menuItems);
 
   return (
-    <>
+    <AdminOnly cafe={data} error={error}>
       <Helmet>{data && <title>Édition du menu de {data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
         <div className="mb-6 text-gray-500 font-semibold">
@@ -60,7 +36,7 @@ const EditMenu = () => {
           <div key={category} className="mb-12">
             <h3 className="text-lg font-semibold">{category}</h3>
             <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 items-start">
-              {getItemByCategory(category).map((product) => (
+              {getItemByCategory(menuItems, category).map((product) => (
                 <p key={product.item_id} className="text-gray-900">
                   {product.name}
                 </p>
@@ -69,7 +45,7 @@ const EditMenu = () => {
           </div>
         ))}
       </Container>
-    </>
+    </AdminOnly>
   );
 };
 

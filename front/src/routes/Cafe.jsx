@@ -12,6 +12,7 @@ import PaymentMethods from "@/components/Cafe/PaymentMethods";
 import { ContactCafe, SocialIcons } from "@/components/Cafe/ContactCafe";
 import { MapPinIcon } from "@heroicons/react/24/solid";
 import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
+import { getCafeCategories, getItemByCategory } from "@/utils/items";
 
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
@@ -24,11 +25,8 @@ const Cafe = () => {
     return <EmptyState type="error" error={error} />;
   }
 
-  // On récupère les catégories de produits proposées par le café, sans doublons
-  const categories = [...new Set(data?.menu_items.map((product) => product.category))];
-  const getItemByCategory = (category) => {
-    return data?.menu_items.filter((product) => product.category === category);
-  };
+  const menuItems = data?.menu_items;
+  const categories = getCafeCategories(menuItems);
 
   return (
     <>
@@ -39,8 +37,8 @@ const Cafe = () => {
             Liste des cafés
           </Link>
           <span className="px-3">&gt;</span>
-          {(isLoading && <span className="animate-pulse">Chargement...</span>) || 
-          (data?.name && <span className="text-gray-600 font-bold">{data.name}</span>)}
+          {(isLoading && <span className="animate-pulse">Chargement...</span>) ||
+            (data?.name && <span className="text-gray-600 font-bold">{data.name}</span>)}
         </div>
 
         <CafeMemberHeader cafe={data} />
@@ -105,7 +103,7 @@ const Cafe = () => {
         <Container key={category} className="py-10">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">{category}</h2>
           <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 items-start">
-            {getItemByCategory(category).map((product) => (
+            {getItemByCategory(menuItems, category).map((product) => (
               <ItemCard key={product.item_id} item={product} cafeId={cafeSlug} />
             ))}
           </div>

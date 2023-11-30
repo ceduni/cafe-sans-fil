@@ -39,6 +39,13 @@ const StaffList = () => {
   const [updatedRoles, setUpdatedRoles] = useState({});
   const [newStaff, setNewStaff] = useState("");
 
+  if (error) {
+    if (error.status === 404) {
+      throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
+    }
+    return <EmptyState type="error" error={error} />;
+  }
+
   const handleRoleChange = (username, newRole) => {
     const newUpdatedRoles = { ...updatedRoles, [username]: newRole };
 
@@ -97,13 +104,6 @@ const StaffList = () => {
       }
     }
   };
-
-  if (error) {
-    if (error.status === 422) {
-      throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
-    }
-    return <EmptyState type="error" error={error} />;
-  }
 
   return (
     <>

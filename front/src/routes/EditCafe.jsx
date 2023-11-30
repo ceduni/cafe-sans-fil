@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import Container from "@/components/Container";
 import useApi from "@/hooks/useApi";
 import OpenIndicator from "@/components/Cafe/OpenIndicator";
-import EmptyState from "@/components/EmptyState";
 import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
@@ -11,41 +10,24 @@ import { useEffect, useRef, useState } from "react";
 import Switch from "@/components/CustomSwitch";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckIcon } from "@heroicons/react/24/solid";
-import { isAdmin } from "@/utils/admin";
-import { useAuth } from "@/hooks/useAuth";
-import ErrorState from "@/components/ErrorState";
 import { useIsVisible } from "@/hooks/useIsVisible";
+import AdminOnly from "@/helpers/AdminOnly";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
   const [data, isLoading, error, setData] = useApi(`/cafes/${cafeSlug}`);
-  const { user: loggedInUser } = useAuth();
 
-  if (error) {
-    if (error.status === 404) {
-      throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
-    }
-    return <EmptyState type="error" error={error} />;
-  }
-
+  // On utilise un état local pour sauegarder les changements et l'état précédent
   const [cafeData, setCafeData] = useState(data);
-
   useEffect(() => {
     setCafeData(data);
   }, [data]);
-
-  if (data && !isAdmin(data, loggedInUser?.username)) {
-    return (
-      <ErrorState
-        title="Accès refusé"
-        message="Vous n'avez pas accès à cette page"
-        linkText={`Retour à ${data.name}`}
-        linkTo={`/cafes/${cafeSlug}`}
-      />
-    );
-  }
+  const newChanges = JSON.stringify(cafeData) !== JSON.stringify(data);
 
   const navigate = useNavigate();
+
+  const saveButtonRef = useRef();
+  const isSaveButtonVisible = useIsVisible(saveButtonRef);
 
   const updateCafe = async (payload) => {
     const toastId = toast.loading("Mise à jour du café...");
@@ -68,12 +50,8 @@ const EditCafe = () => {
       });
   };
 
-  const newChanges = JSON.stringify(cafeData) !== JSON.stringify(data);
-  const saveButtonRef = useRef();
-  const isSaveButtonVisible = useIsVisible(saveButtonRef);
-
   return (
-    <>
+    <AdminOnly cafe={data} error={error}>
       <Helmet>{data && <title>Édition {data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
         <div className="mb-6 text-gray-500 font-semibold">
@@ -237,7 +215,7 @@ const EditCafe = () => {
           </div>
         </div>
       )}
-    </>
+    </AdminOnly>
   );
 };
 
