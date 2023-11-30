@@ -8,5 +8,22 @@ import Orders from "./Orders";
 import OrderConfirmation from "./OrderConfirmation";
 import CafeOrders from "./CafeOrders";
 import EditCafe from "./EditCafe";
+import StaffList from "./StaffList";
+import SalesReport from "./SalesReport";
+import EditMenu from "./EditMenu";
 
-export { Home, Login, SignUp, Profile, Cafe, ResetPassword, Orders, OrderConfirmation, CafeOrders, EditCafe };
+export {
+  Home,
+  Login,
+  SignUp,
+  Profile,
+  Cafe,
+  ResetPassword,
+  Orders,
+  OrderConfirmation,
+  CafeOrders,
+  EditCafe,
+  StaffList,
+  SalesReport,
+  EditMenu,
+};

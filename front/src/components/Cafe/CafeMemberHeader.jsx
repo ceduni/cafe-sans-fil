@@ -22,17 +22,17 @@ const CafeMemberHeader = ({ cafe }) => {
     { name: "Liste de staff", href: `/cafes/${cafeSlug}/staff`, icon: UserIcon },
     { name: "Modifier le menu", href: "#", icon: PencilIcon },
   ];
-  
+
   const adminActions = [
     { name: "Commandes en cours", href: `/cafes/${cafeSlug}/orders`, icon: BuildingStorefrontIcon },
     { name: "Gérer le staff", href: `/cafes/${cafeSlug}/staff`, icon: UserIcon },
-    { name: "Modifier le menu", href: "#", icon: PencilIcon },
+    { name: "Modifier le menu", href: `/cafes/${cafeSlug}/edit/menu`, icon: PencilIcon },
     { name: "Modifier le café", href: `/cafes/${cafeSlug}/edit`, icon: PencilIcon },
     { name: "Rapports de ventes", href: `/cafes/${cafeSlug}/sales-report`, icon: ChartBarIcon },
   ];
 
   let actions = isAdmin(cafe, user.username) ? adminActions : memberActions;
-  
+
   return (
     <div className="mb-6 p-6 rounded-3xl bg-sky-100 border-sky-400 border-l-4">
       <div className="min-w-0 flex-1">
