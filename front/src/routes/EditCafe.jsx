@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { useIsVisible } from "@/hooks/useIsVisible";
 import AdminOnly from "@/helpers/AdminOnly";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
@@ -54,13 +55,13 @@ const EditCafe = () => {
     <AdminOnly cafe={data} error={error}>
       <Helmet>{data && <title>Édition {data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
-        <div className="mb-6 text-gray-500 font-semibold">
-          <Link to={`/cafes/${cafeSlug}`} className="underline underline-offset-2 hover:no-underline">
-            {(isLoading && <span className="animate-pulse">Chargement...</span>) || data?.name}
-          </Link>
-          <span className="px-3">&gt;</span>
-          <span className="text-gray-600 font-bold">Modifier</span>
-        </div>
+        <Breadcrumbs>
+          <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
+          <Breadcrumbs.Item link={`/cafes/${cafeSlug}`}>
+            {isLoading ? <span className="animate-pulse">Chargement...</span> : data?.name}
+          </Breadcrumbs.Item>
+          <Breadcrumbs.Item>Modifier</Breadcrumbs.Item>
+        </Breadcrumbs>
 
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">Informations générales</h2>
