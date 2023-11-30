@@ -12,7 +12,7 @@ const SalesReport = () => {
   const [data, isLoading] = useApi(`/cafes/${cafeSlug}`);
   const [salesReport, setSalesReport] = useState(null);
 
-  const fetchSalesReport = async (reportType = 'daily', startDate = '', endDate = '') => {
+  const fetchSalesReport = async (reportType = "daily", startDate = "", endDate = "") => {
     try {
       let url = `/cafes/${cafeSlug}/sales-report?report_type=${reportType}`;
       if (startDate) url += `&start_date=${startDate}`;
@@ -25,11 +25,10 @@ const SalesReport = () => {
     }
   };
 
+  const today = new Date().toISOString().split("T")[0];
+  const oneMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split("T")[0];
 
-  const today = new Date().toISOString().split('T')[0];
-  const oneMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0];
-
-  const [reportType, setReportType] = useState('daily');
+  const [reportType, setReportType] = useState("daily");
   const [startDate, setStartDate] = useState(oneMonthAgo);
   const [endDate, setEndDate] = useState(today);
 
@@ -42,30 +41,31 @@ const SalesReport = () => {
     fetchSalesReport(newType, startDate, endDate);
   };
 
-
   if (!salesReport) {
-    return <div role="status" className="flex justify-center items-center h-48 w-full text-gray-500 font-semibold">
-      <svg
-        aria-hidden="true"
-        className="w-8 h-8 text-gray-200 animate-spin fill-emerald-600"
-        viewBox="0 0 100 101"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-          fill="currentColor"
-        />
-        <path
-          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-          fill="currentFill"
-        />
-      </svg>
-      <span className="sr-only">Loading...</span>
-    </div>
+    return (
+      <div role="status" className="flex justify-center items-center h-48 w-full text-gray-500 font-semibold">
+        <svg
+          aria-hidden="true"
+          className="w-8 h-8 text-gray-200 animate-spin fill-emerald-600"
+          viewBox="0 0 100 101"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+            fill="currentColor"
+          />
+          <path
+            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+            fill="currentFill"
+          />
+        </svg>
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
   }
 
   const findImageURL = (itemName) => {
-    const menuItem = data.menu_items.find(item => item.name === itemName);
+    const menuItem = data.menu_items.find((item) => item.name === itemName);
     return menuItem ? menuItem.image_url : null;
   };
 
@@ -85,21 +85,44 @@ const SalesReport = () => {
         <div className={"border-b border-gray-900/10  pb-12"}>
           <h2 className="text-base font-semibold leading-7 text-gray-900">Tendance des ventes</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
-            Visualisez l'évolution des commandes de votre café au fil du temps. Cette section offre un aperçu graphique des tendances de vente.
+            Visualisez l'évolution des commandes de votre café au fil du temps. Cette section offre un aperçu graphique
+            des tendances de vente.
           </p>
 
           <div className="mt-9 mb-2 flex justify-center">
             <div>
-              <input className="rounded-full" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+              <input
+                className="rounded-full"
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
               <span className="px-2">à</span>
-              <input className="rounded-full" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+              <input
+                className="rounded-full"
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
             </div>
           </div>
 
           <div className="gap-2 flex justify-center">
-            <button className="flex rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600" onClick={() => handleReportTypeChange('daily')}>Quotidien</button>
-            <button className="flex rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600" onClick={() => handleReportTypeChange('weekly')}>Hebdomadaire</button>
-            <button className="flex rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600" onClick={() => handleReportTypeChange('monthly')}>Mensuel</button>
+            <button
+              className="flex rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              onClick={() => handleReportTypeChange("daily")}>
+              Quotidien
+            </button>
+            <button
+              className="flex rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              onClick={() => handleReportTypeChange("weekly")}>
+              Hebdomadaire
+            </button>
+            <button
+              className="flex rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              onClick={() => handleReportTypeChange("monthly")}>
+              Mensuel
+            </button>
           </div>
 
           <div className="md:mx-16 mt-14 mb-8">
@@ -107,22 +130,29 @@ const SalesReport = () => {
           </div>
 
           <div className="ml-24 text-zinc-700">
-            <div>Total des revenus: <span className="font-semibold">{formatPrice(salesReport.total_revenue)}</span></div>
-            <div>Total des commandes:  <span className="font-semibold">{salesReport.total_orders}</span></div>
+            <div>
+              Total des revenus: <span className="font-semibold">{formatPrice(salesReport.total_revenue)}</span>
+            </div>
+            <div>
+              Total des commandes: <span className="font-semibold">{salesReport.total_orders}</span>
+            </div>
           </div>
         </div>
 
         <div className="pb-12 mt-6">
           <h2 className="text-base font-semibold leading-7 text-gray-900">Détails des ventes d'articles</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
-            Découvrez les performances détaillées de chaque article vendu dans votre café. Cette section fournit des informations sur le nombre d'articles vendus et les revenus générés.
+            Découvrez les performances détaillées de chaque article vendu dans votre café. Cette section fournit des
+            informations sur le nombre d'articles vendus et les revenus générés.
           </p>
           <ul className="divide-y divide-gray-100 mt-6">
             {salesReport.item_sales_details.map((item, index) => (
-              <li key={index} className="px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5">
+              <li
+                key={index}
+                className="px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5">
                 <div className="flex min-w-0 gap-x-4">
                   <img
-                    src={findImageURL(item.item_name) || 'default-placeholder-url.jpg'}
+                    src={findImageURL(item.item_name) || "default-placeholder-url.jpg"}
                     alt={item.item_name}
                     className="w-12 h-12 rounded-full object-cover"
                   />
@@ -139,10 +169,7 @@ const SalesReport = () => {
               </li>
             ))}
           </ul>
-
         </div>
-
-
       </Container>
     </>
   );
@@ -153,7 +180,7 @@ export default SalesReport;
 const SalesReportChart = ({ salesTrends }) => {
   const svgRef = useRef();
   const [svgWidth, setSvgWidth] = useState(0);
-  const maxValue = Math.max(...salesTrends.map(item => item.order_count));
+  const maxValue = Math.max(...salesTrends.map((item) => item.order_count));
   const svgHeight = 400;
   const barPadding = 1;
   const roundedCorner = 10;
@@ -193,27 +220,27 @@ const SalesReportChart = ({ salesTrends }) => {
         <line x1={leftMargin} y1={svgHeight - 40} x2={svgWidth + leftMargin} y2={svgHeight - 40} stroke="black" />
 
         {/* Ticks and Labels for X-axis */}
-        {salesTrends.filter((_, index) => index % interval === 0 || index === salesTrends.length - 1).map((item, index) => (
-          <g key={index}>
-            <line
-              x1={leftMargin + (index * interval * (svgWidth - leftMargin) / salesTrends.length)}
-              y1={svgHeight - 40}
-              x2={leftMargin + (index * interval * (svgWidth - leftMargin) / salesTrends.length)}
-              y2={svgHeight - 35}
-              stroke="black"
-            />
-            <text
-              className="font-semibold"
-              x={leftMargin + (index * interval * (svgWidth - leftMargin) / salesTrends.length)}
-              y={svgHeight - 20}
-              textAnchor="middle"
-              fontSize="14px"
-
-            >
-              {item.time_period}
-            </text>
-          </g>
-        ))}
+        {salesTrends
+          .filter((_, index) => index % interval === 0 || index === salesTrends.length - 1)
+          .map((item, index) => (
+            <g key={index}>
+              <line
+                x1={leftMargin + (index * interval * (svgWidth - leftMargin)) / salesTrends.length}
+                y1={svgHeight - 40}
+                x2={leftMargin + (index * interval * (svgWidth - leftMargin)) / salesTrends.length}
+                y2={svgHeight - 35}
+                stroke="black"
+              />
+              <text
+                className="font-semibold"
+                x={leftMargin + (index * interval * (svgWidth - leftMargin)) / salesTrends.length}
+                y={svgHeight - 20}
+                textAnchor="middle"
+                fontSize="14px">
+                {item.time_period}
+              </text>
+            </g>
+          ))}
 
         {/* Ticks for Y-axis */}
         {[...Array(11)].map((_, i) => (
@@ -221,16 +248,15 @@ const SalesReportChart = ({ salesTrends }) => {
             <text
               className="font-semibold"
               x={leftMargin - 25}
-              y={svgHeight - 40 - (i * (svgHeight - 80) / 10)}
-              fontSize="14px"
-            >
-              {Math.round(maxValue * i / 10)}
+              y={svgHeight - 40 - (i * (svgHeight - 80)) / 10}
+              fontSize="14px">
+              {Math.round((maxValue * i) / 10)}
             </text>
             <line
               x1={leftMargin - 5}
-              y1={svgHeight - 40 - (i * (svgHeight - 80) / 10)}
+              y1={svgHeight - 40 - (i * (svgHeight - 80)) / 10}
               x2={leftMargin}
-              y2={svgHeight - 40 - (i * (svgHeight - 80) / 10)}
+              y2={svgHeight - 40 - (i * (svgHeight - 80)) / 10}
               stroke="black"
             />
           </g>
@@ -260,7 +286,6 @@ const SalesReportChart = ({ salesTrends }) => {
       <div
         id="tooltip"
         className="hidden absolute rounded-xl shadow-md bg-white text-gray-950 text-xs h-8 font-semibold w-20 text-center"
-
       />
     </div>
   );

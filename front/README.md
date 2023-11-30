@@ -27,6 +27,11 @@
 
 ## Avancée du développement
 
+#### 2023-11-30
+
+- Amélioration de code et design
+- Début développement page édition de menu
+
 #### 2023-11-29
 
 - Front pour changer le role des membres en tant qu'admin

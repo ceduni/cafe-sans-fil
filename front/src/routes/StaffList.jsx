@@ -39,11 +39,18 @@ const StaffList = () => {
   const [updatedRoles, setUpdatedRoles] = useState({});
   const [newStaff, setNewStaff] = useState("");
 
+  if (error) {
+    if (error.status === 404) {
+      throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
+    }
+    return <EmptyState type="error" error={error} />;
+  }
+
   const handleRoleChange = (username, newRole) => {
     const newUpdatedRoles = { ...updatedRoles, [username]: newRole };
 
     const anyChange = Object.keys(newUpdatedRoles).some(
-      (key) => newUpdatedRoles[key] !== (data?.staff.find((staff) => staff.username === key)?.role)
+      (key) => newUpdatedRoles[key] !== data?.staff.find((staff) => staff.username === key)?.role
     );
 
     setUpdatedRoles(newUpdatedRoles);
@@ -54,22 +61,22 @@ const StaffList = () => {
     let success = true;
     for (const [username, role] of Object.entries(updatedRoles)) {
       try {
-        if (role !== 'remove') {
+        if (role !== "remove") {
           await authenticatedRequest.put(`/cafes/${cafeSlug}/staff/${username}`, { role });
         } else {
           await authenticatedRequest.delete(`/cafes/${cafeSlug}/staff/${username}`);
-          setStaffDetails(staffDetails.filter(user => user.username !== username));
+          setStaffDetails(staffDetails.filter((user) => user.username !== username));
         }
       } catch (error) {
         success = false;
-        toast.error(`Erreur: ${error.message || 'Erreur inconnue'}`);
+        toast.error(`Erreur: ${error.message || "Erreur inconnue"}`);
       }
     }
     if (success) {
-      toast.success('Modifications enregistrées avec succès');
+      toast.success("Modifications enregistrées avec succès");
       window.location.reload();
     } else {
-      toast.error('Des erreurs sont survenues lors de l\'enregistrement');
+      toast.error("Des erreurs sont survenues lors de l'enregistrement");
     }
     setUpdatedRoles({});
     setHasChanges(false);
@@ -81,29 +88,22 @@ const StaffList = () => {
     try {
       const response = await authenticatedRequest.post(`cafes/${cafeSlug}/staff`, {
         username: newStaff,
-        role: 'Bénévole'
+        role: "Bénévole",
       });
       setStaffDetails([...staffDetails, response.data]);
-      setNewStaff('');
-      toast.success('Staff ajouté avec succès');
+      setNewStaff("");
+      toast.success("Staff ajouté avec succès");
       window.location.reload();
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        toast.error('Compte non trouvé');
+        toast.error("Compte non trouvé");
       } else if (error.response && error.response.status === 409) {
-        toast.error('Compte déjà membre du staff');
+        toast.error("Compte déjà membre du staff");
       } else {
-        toast.error('Erreur lors de l\'ajout d\'un staff');
+        toast.error("Erreur lors de l'ajout d'un staff");
       }
     }
   };
-
-  if (error) {
-    if (error.status === 422) {
-      throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
-    }
-    return <EmptyState type="error" error={error} />;
-  }
 
   return (
     <>
@@ -118,16 +118,18 @@ const StaffList = () => {
           <span className="text-gray-600 font-bold">Staff</span>
         </div>
 
-        <div className={`${isLoggedUserAdmin && ("border-b border-gray-900/10")}  pb-12`}>
+        <div className={`${isLoggedUserAdmin && "border-b border-gray-900/10"}  pb-12`}>
           <h2 className="text-base font-semibold leading-7 text-gray-900">Liste de staff</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
-            {`${isLoggedUserAdmin ? ("Gérer") : ("Consulter")}`} les membres du personnel actuels de votre café.
+            {`${isLoggedUserAdmin ? "Gérer" : "Consulter"}`} les membres du personnel actuels de votre café.
           </p>
 
           <ul role="list" className="divide-y divide-gray-100 mt-6">
             {staffDetails.length === 0 &&
               Array.from({ length: 5 }).map((_, i) => (
-                <li key={i} className="px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5">
+                <li
+                  key={i}
+                  className="px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5">
                   <div className="flex min-w-0 gap-x-4">
                     <div className="animate-pulse bg-gray-200 rounded-full h-12 w-12" />
                     <div className="min-w-0 flex-auto">
@@ -143,8 +145,14 @@ const StaffList = () => {
               ))}
 
             {staffDetails.map((user) => (
-              <li key={user.username} className={`px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5  ${updatedRoles[user.username] === "remove" ? "bg-red-100 " :
-                updatedRoles[user.username] && updatedRoles[user.username] !== user.role ? "bg-sky-50" : ""
+              <li
+                key={user.username}
+                className={`px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5  ${
+                  updatedRoles[user.username] === "remove"
+                    ? "bg-red-100 "
+                    : updatedRoles[user.username] && updatedRoles[user.username] !== user.role
+                    ? "bg-sky-50"
+                    : ""
                 }`}>
                 <div className="flex min-w-0 gap-x-4">
                   <img className="w-12 h-12 rounded-full object-cover" src={user.photo_url} alt={user.username} />
@@ -160,14 +168,25 @@ const StaffList = () => {
                       id="role"
                       name="role"
                       defaultValue={user.role}
-                      className={" w-32 sm:w-full py-2 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 text-sm"}
-                      onChange={(e) => handleRoleChange(user.username, e.target.value)}
-                    >
-                      <option value={ROLES.ADMIN} disabled={user.role === ROLES.ADMIN && loggedInUser.username !== user.username}>
+                      className={
+                        " w-32 sm:w-full py-2 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 text-sm"
+                      }
+                      onChange={(e) => handleRoleChange(user.username, e.target.value)}>
+                      <option
+                        value={ROLES.ADMIN}
+                        disabled={user.role === ROLES.ADMIN && loggedInUser.username !== user.username}>
                         {ROLES.ADMIN}
                       </option>
-                      <option value={ROLES.MEMBER} disabled={user.role === ROLES.ADMIN && loggedInUser.username !== user.username}>{ROLES.MEMBER}</option>
-                      <option value="remove" disabled={user.role === ROLES.ADMIN && loggedInUser.username !== user.username}>Supprimer</option>
+                      <option
+                        value={ROLES.MEMBER}
+                        disabled={user.role === ROLES.ADMIN && loggedInUser.username !== user.username}>
+                        {ROLES.MEMBER}
+                      </option>
+                      <option
+                        value="remove"
+                        disabled={user.role === ROLES.ADMIN && loggedInUser.username !== user.username}>
+                        Supprimer
+                      </option>
                     </select>
                   ) : (
                     <p className="text-sm leading-6 text-gray-900">{user.role}</p>
@@ -190,8 +209,7 @@ const StaffList = () => {
           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 \
           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
                 onClick={handleConfirmChanges}
-                disabled={!hasChanges}
-              >
+                disabled={!hasChanges}>
                 <CheckIcon className="w-5 h-5" />
                 <span>Enregistrer</span>
               </button>
@@ -202,19 +220,13 @@ const StaffList = () => {
         {isLoggedUserAdmin && (
           <div className="pb-12 mt-6">
             <h2 className="text-base font-semibold leading-7 text-gray-900">Ajouter un staff</h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">
-              Intégrez un nouveau membre.
-            </p>
+            <p className="mt-1 text-sm leading-6 text-gray-600">Intégrez un nouveau membre.</p>
 
             <div className="space-y-2 mt-6 sm:w-1/2">
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Username du nouveau staff
               </label>
-              <Input
-                id="new staff"
-                type="text"
-                onChange={(e) => setNewStaff(e.target.value)}
-              />
+              <Input id="new staff" type="text" onChange={(e) => setNewStaff(e.target.value)} />
             </div>
 
             <button
@@ -223,13 +235,11 @@ const StaffList = () => {
         focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 \
         disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
               onClick={() => handleAddStaff()}
-              disabled={!newStaff.trim()}
-            >
+              disabled={!newStaff.trim()}>
               <span>Enregistrer</span>
             </button>
           </div>
         )}
-
       </Container>
     </>
   );
