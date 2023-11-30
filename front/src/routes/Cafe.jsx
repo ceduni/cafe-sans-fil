@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import ItemCard from "@/components/Items/ItemCard";
 import Container from "@/components/Container";
-import { Link } from "react-router-dom";
 import OpeningHours from "@/components/Cafe/OpeningHours";
 import CafeMemberHeader from "@/components/Cafe/CafeMemberHeader";
 import useApi from "@/hooks/useApi";
@@ -13,6 +12,7 @@ import { ContactCafe, SocialIcons } from "@/components/Cafe/ContactCafe";
 import { MapPinIcon } from "@heroicons/react/24/solid";
 import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
 import { getCafeCategories, getItemByCategory } from "@/utils/items";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
@@ -32,14 +32,12 @@ const Cafe = () => {
     <>
       <Helmet>{data?.name && <title>{data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
-        <div className="mb-5 text-gray-500 font-semibold">
-          <Link to="/" className="underline underline-offset-2 hover:no-underline">
-            Liste des cafés
-          </Link>
-          <span className="px-3">&gt;</span>
-          {(isLoading && <span className="animate-pulse">Chargement...</span>) ||
-            (data?.name && <span className="text-gray-600 font-bold">{data.name}</span>)}
-        </div>
+        <Breadcrumbs>
+          <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
+          <Breadcrumbs.Item>
+            {isLoading ? <span className="animate-pulse">Chargement...</span> : data?.name}
+          </Breadcrumbs.Item>
+        </Breadcrumbs>
 
         <CafeMemberHeader cafe={data} />
 

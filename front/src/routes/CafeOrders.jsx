@@ -3,12 +3,13 @@ import CafeOrderCard from "@/components/Orders/CafeOrderCard";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import { ORDER_STATUS, isPendingOrder } from "@/utils/orders";
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import ErrorState from "@/components/ErrorState";
 import useApi from "@/hooks/useApi";
 import { Helmet } from "react-helmet-async";
 import EmptyState from "@/components/EmptyState";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const CafeOrders = () => {
   const { id: cafeSlug } = useParams();
@@ -88,13 +89,12 @@ const CafeOrders = () => {
         <title>Commandes de {cafeName} | Café sans-fil</title>
       </Helmet>
       <Container className="py-10">
-        <div className="mb-5 text-gray-500 font-semibold">
-          <Link to={`/cafes/${cafeSlug}`} className="underline underline-offset-2 hover:no-underline">
-            <span>{cafeName}</span>
-          </Link>
-          <span className="px-3">&gt;</span>
-          <span className="text-gray-600 font-bold">Commandes</span>
-        </div>
+        <Breadcrumbs>
+          <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
+          <Breadcrumbs.Item link={`/cafes/${cafeSlug}`}>{cafeName}</Breadcrumbs.Item>
+          <Breadcrumbs.Item>Commandes</Breadcrumbs.Item>
+        </Breadcrumbs>
+
         {areOrdersLoading && (
           <div role="status" className="flex justify-center items-center h-48 w-full text-gray-500 font-semibold">
             <svg
