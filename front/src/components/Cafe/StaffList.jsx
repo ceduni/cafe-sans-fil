@@ -115,7 +115,7 @@ const StaffList = () => {
             {(isLoading && <span className="animate-pulse">Chargement...</span>) || data?.name}
           </Link>
           <span className="px-3">&gt;</span>
-          <span>Staff</span>
+          <span className="text-gray-600 font-bold">Staff</span>
         </div>
 
         <div className={`${isLoggedUserAdmin && ("border-b border-gray-900/10")}  pb-12`}>
