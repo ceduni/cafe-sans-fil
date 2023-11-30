@@ -117,7 +117,7 @@ const StaffList = () => {
       <div className={`${isLoggedUserAdmin && ("border-b border-gray-900/10")}  pb-12`}>
         <h2 className="text-base font-semibold leading-7 text-gray-900">Liste de staff</h2>
         <p className="mt-1 text-sm leading-6 text-gray-600">
-          {`${isLoggedUserAdmin?("Gérez"):("Consulter")}`} les membres du personnel actuels de votre café.
+          {`${isLoggedUserAdmin?("Gérer"):("Consulter")}`} les membres du personnel actuels de votre café.
         </p>
 
         <ul role="list" className="divide-y divide-gray-100 mt-6">
