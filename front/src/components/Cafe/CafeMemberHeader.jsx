@@ -28,7 +28,7 @@ const CafeMemberHeader = ({ cafe }) => {
     { name: "Gérer le staff", href: `/cafes/${cafeSlug}/staff`, icon: UserIcon },
     { name: "Modifier le menu", href: "#", icon: PencilIcon },
     { name: "Modifier le café", href: `/cafes/${cafeSlug}/edit`, icon: PencilIcon },
-    { name: "Rapports de ventes", href: "#", icon: ChartBarIcon },
+    { name: "Rapports de ventes", href: `/cafes/${cafeSlug}/sales-report`, icon: ChartBarIcon },
   ];
 
   let actions = isAdmin(cafe, user.username) ? adminActions : memberActions;

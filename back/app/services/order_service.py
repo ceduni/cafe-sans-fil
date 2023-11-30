@@ -162,9 +162,12 @@ class OrderService:
     # --------------------------------------
 
     @staticmethod
-    async def generate_sales_report_data(cafe_slug: str, start_date: Optional[datetime], end_date: Optional[datetime], report_type: str = "daily"):
+    async def generate_sales_report_data(cafe_slug: str, start_date_str: Optional[str], end_date_str: Optional[str], report_type: str = "daily"):
         def decimal128_to_float(value):
             return float(str(value)) if value is not None else 0.0
+
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d") if start_date_str else None
+        end_date = datetime.strptime(end_date_str, "%Y-%m-%d") if end_date_str else None
 
         query = {"cafe_slug": cafe_slug, "status": "Complétée"}
         if start_date:
