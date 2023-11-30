@@ -8,7 +8,7 @@ import { formatPrice, getIdFromSelectedOptions } from "@/utils/cart";
 import classNames from "classnames";
 import { OUT_OF_STOCK_TEXT } from "@/utils/items";
 
-const ItemCard = ({ item, cafeId }) => {
+const ItemCard = ({ item, cafeId, edit }) => {
   const [itemPreviewOpen, setItemPreviewOpen] = useState(false);
 
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -34,16 +34,18 @@ const ItemCard = ({ item, cafeId }) => {
 
   return (
     <>
-      <ProductView
-        item={item}
-        open={itemPreviewOpen}
-        setOpen={setItemPreviewOpen}
-        onSubmit={handleAddToCart}
-        selectedOptions={selectedOptions}
-        setSelectedOptions={setSelectedOptions}
-        itemFinalPrice={itemFinalPrice}
-        setItemFinalPrice={setItemFinalPrice}
-      />
+      {!edit && (
+        <ProductView
+          item={item}
+          open={itemPreviewOpen}
+          setOpen={setItemPreviewOpen}
+          onSubmit={handleAddToCart}
+          selectedOptions={selectedOptions}
+          setSelectedOptions={setSelectedOptions}
+          itemFinalPrice={itemFinalPrice}
+          setItemFinalPrice={setItemFinalPrice}
+        />
+      )}
       <button key={item.item_id} className="group text-left" onClick={() => setItemPreviewOpen(true)}>
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 relative">
           <img
