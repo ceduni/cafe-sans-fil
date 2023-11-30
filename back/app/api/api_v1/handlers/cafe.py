@@ -4,6 +4,7 @@ from app.models.cafe_model import Role
 from app.schemas.cafe_schema import CafeOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate, StaffCreate, StaffUpdate, StaffOut
 from app.services.cafe_service import CafeService
 from app.services.order_service import OrderService
+from app.services.user_service import UserService
 from typing import List, Optional
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
@@ -174,9 +175,16 @@ async def create_staff_member(cafe_slug: str, staff: StaffCreate, current_user: 
     if user:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="Staff member already exists."
+            detail="Staff member already exists"
         )
     
+    user = await UserService.retrieve_user(staff.username)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
     except ValueError as e:
@@ -247,8 +255,8 @@ async def delete_staff_member(cafe_slug: str, username: str, current_user: User 
 @cafe_router.get("/cafes/{cafe_slug}/sales-report", summary="Get Sales Report", description="Retrieve a sales report for a specific cafe. If no date range is provided, the entire available data range is considered.")
 async def get_sales_report(
     cafe_slug: str = Path(..., description="The slug of the cafe for which to generate the report."),
-    start_date: Optional[datetime] = Query(None, description="The start date of the reporting period."),
-    end_date: Optional[datetime] = Query(None, description="The end date of the reporting period."),
+    start_date: Optional[str] = Query(None, description="The start date of the reporting period in YYYY-MM-DD format."),
+    end_date: Optional[str] = Query(None, description="The end date of the reporting period in YYYY-MM-DD format."),
     report_type: str = Query("daily", description="The type of report to generate. Can be 'daily', 'weekly', or 'monthly'."),
     current_user: User = Depends(get_current_user)
 ):

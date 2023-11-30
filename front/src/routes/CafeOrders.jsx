@@ -93,7 +93,7 @@ const CafeOrders = () => {
             <span>{cafeName}</span>
           </Link>
           <span className="px-3">&gt;</span>
-          <span>Commandes</span>
+          <span className="text-gray-600 font-bold">Commandes</span>
         </div>
         {areOrdersLoading && (
           <div role="status" className="flex justify-center items-center h-48 w-full text-gray-500 font-semibold">

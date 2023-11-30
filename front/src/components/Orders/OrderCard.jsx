@@ -2,7 +2,8 @@ import { LoadingOrderItemCard, OrderItemCard } from "./OrderItemCard";
 import Badge from "@/components/Badge";
 import useCountdown from "@/hooks/useCountdown";
 import { formatPrice } from "@/utils/cart";
-import { ORDER_STATUS, formatDate, getBadgeVariant } from "@/utils/orders";
+import { ORDER_STATUS, getBadgeVariant } from "@/utils/orders";
+import { formatDate } from "@/utils/dates";
 
 const OrderCard = ({ order, cafe }) => {
   const minutesBeforeCancel = useCountdown(order.created_at);

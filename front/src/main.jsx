@@ -15,6 +15,7 @@ import {
   EditCafe,
 } from "@/routes";
 import StaffList from "@/components/Cafe/StaffList";
+import SalesReport from "@/components/Cafe/SalesReport";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
@@ -99,6 +100,14 @@ const router = createBrowserRouter([
         element: (
           <LoggedInOnly>
             <EditCafe />
+          </LoggedInOnly>
+        ),
+      },
+      {
+        path: "/cafes/:id/sales-report",
+        element: (
+          <LoggedInOnly>
+            <SalesReport />
           </LoggedInOnly>
         ),
       },

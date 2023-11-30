@@ -14,7 +14,7 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
 
 - [ ] **Recherche de café**
   - [x] Afficher la liste des cafés
-  - [ ] Filtrer la liste des cafés
+  - [x] Filtrer la liste des cafés
   - [x] Chercher un café par nom
   - [ ] Chercher un café par item
 - [ ] **Café et menu**
@@ -29,9 +29,9 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
   - [x] Créer un compte
   - [x] Se connecter
   - [x] Modifier mon profil
-- [ ] **Passer une commande (pour ramassage)**
+- [x] **Passer une commande (pour ramassage)**
   - [x] Réserver un item
-  - [ ] Voir l'historique de mes commandes
+  - [x] Voir l'historique de mes commandes
 
 ### Pour les bénévoles et responsables d'un café
 
@@ -41,11 +41,11 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
 - [x] **Gestion du menu**
   - [x] Ajouter, modifier ou supprimer un item
   - [x] Créer un spécial
-- [ ] **Gestion des bénévoles**
-  - [x] Ajouter, modifier ou supprimer un item
-- [ ] **Rapports de ventes**
-  - [ ] Générer des rapports sur les ventes journalières, hebdomadaires, et mensuelles
-  - [ ] Afficher les items les plus vendus et les moins vendus
+- [x] **Gestion des bénévoles**
+  - [x] Ajouter, modifier ou supprimer un staff
+- [x] **Rapports de ventes**
+  - [x] Générer des rapports sur les ventes journalières, hebdomadaires, et mensuelles
+  - [x] Afficher les items les plus vendus et les moins vendus
 
 <!-- ## 👥 Roles
 

@@ -7,13 +7,14 @@ import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import Input from "@/components/Input";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Switch from "@/components/CustomSwitch";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { isAdmin } from "@/utils/admin";
 import { useAuth } from "@/hooks/useAuth";
 import ErrorState from "@/components/ErrorState";
+import { useIsVisible } from "@/hooks/useIsVisible";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
@@ -44,6 +45,8 @@ const EditCafe = () => {
     );
   }
 
+  const navigate = useNavigate();
+
   const updateCafe = async (payload) => {
     const toastId = toast.loading("Mise à jour du café...");
     authenticatedRequest
@@ -52,10 +55,12 @@ const EditCafe = () => {
         toast.success("Café mis à jour !");
         setData(response.data);
         if (response.data.slug !== data.slug) {
-          window.history.pushState({}, "", `/cafes/${response.data.slug}/edit`);
+          // Redirection vers la nouvelle page en écrasant l'ancienne dans l'historique
+          navigate(`/cafes/${response.data.slug}/edit`, { replace: true });
         }
       })
       .catch((error) => {
+        console.error(error);
         toast.error("Erreur lors de la mise à jour du café");
       })
       .finally(() => {
@@ -64,6 +69,8 @@ const EditCafe = () => {
   };
 
   const newChanges = JSON.stringify(cafeData) !== JSON.stringify(data);
+  const saveButtonRef = useRef();
+  const isSaveButtonVisible = useIsVisible(saveButtonRef);
 
   return (
     <>
@@ -74,7 +81,7 @@ const EditCafe = () => {
             {(isLoading && <span className="animate-pulse">Chargement...</span>) || data?.name}
           </Link>
           <span className="px-3">&gt;</span>
-          <span>Modifier</span>
+          <span className="text-gray-600 font-bold">Modifier</span>
         </div>
 
         <div className="border-b border-gray-900/10 pb-12">
@@ -84,15 +91,20 @@ const EditCafe = () => {
           </p>
 
           <div className="space-y-2 mt-6">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="cafeName" className="block text-sm font-medium text-gray-700">
               Nom du café
             </label>
             <Input
-              id="name"
+              id="cafeName"
               type="text"
               value={cafeData?.name || ""}
               onChange={(e) => setCafeData({ ...cafeData, name: e.target.value })}
             />
+            {cafeData?.name !== data?.name && (
+              <p className="text-sm text-red-500">
+                Cela changera l'URL du café et vous serez redirigé vers la nouvelle page.
+              </p>
+            )}
           </div>
 
           <div className="space-y-2 mt-6">
@@ -202,14 +214,15 @@ const EditCafe = () => {
             focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 \
             disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-600"
             onClick={() => updateCafe(cafeData)}
-            disabled={!newChanges}>
+            disabled={!newChanges}
+            ref={saveButtonRef}>
             <CheckIcon className="w-5 h-5" />
             <span>Enregistrer</span>
           </button>
         </div>
       </Container>
 
-      {newChanges && (
+      {newChanges && !isSaveButtonVisible && (
         <div className="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-sky-50">
           <div className="flex items-center mx-auto gap-4">
             <p className="flex items-center text-sm font-semibold text-gray-600">
