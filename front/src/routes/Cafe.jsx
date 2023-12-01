@@ -94,7 +94,7 @@ const Cafe = () => {
       </Container>
 
       <Container className="pt-12 border-t border-gray-200">
-        <h2 className="text-3xl text-center font-bold text-gray-900 tracking-wide">Menu</h2>
+        <h2 className=" text-4xl text-center font-bold text-gray-900 tracking-wide">Menu</h2>
       </Container>
 
       {categories.map((category) => (

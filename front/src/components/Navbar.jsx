@@ -110,7 +110,7 @@ const Navbar = () => {
                               "text-sm font-medium": true,
                             })
                           }>
-                          Se connecter
+                          Connexion
                         </NavLink>
                       </div>
                     )}
