@@ -4,7 +4,7 @@ import useApi from "@/hooks/useApi";
 import { Helmet } from "react-helmet-async";
 import { getCafeCategories, getItemByCategory } from "@/utils/items";
 import AdminOnly from "@/helpers/AdminOnly";
-import ItemCard from "@/components/items/ItemCard";
+import ItemCard from "@/components/Items/ItemCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 const EditMenu = () => {
