@@ -44,7 +44,7 @@ const Navbar = () => {
               <Container>
                 <div className="flex h-16 items-center">
                   {/* Logo */}
-                  <div className="flex">
+                  <div className="flex hover:animate-scale">
                     <Link to={routes.home} className="flex items-center gap-2 md:gap-4">
                       <img className="h-9 w-auto ml-2" src="/logo_text.png" alt="Café sans-fil" />
                       <span className="text-xl font-bold text-gray-900 font-secondary mt-2">
