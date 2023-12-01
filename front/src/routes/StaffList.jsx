@@ -12,6 +12,7 @@ import authenticatedRequest from "@/helpers/authenticatedRequest";
 import { Helmet } from "react-helmet-async";
 import EmptyState from "@/components/EmptyState";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import Avatar from "@/components/Avatar";
 
 const StaffList = () => {
   const { id: cafeSlug } = useParams();
@@ -153,11 +154,11 @@ const StaffList = () => {
                   updatedRoles[user.username] === "remove"
                     ? "bg-red-100 "
                     : updatedRoles[user.username] && updatedRoles[user.username] !== user.role
-                    ? "bg-sky-50"
-                    : ""
-                }`}>
+                      ? "bg-sky-50"
+                      : ""
+                  }`}>
                 <div className="flex min-w-0 gap-x-4">
-                  <img className="w-12 h-12 rounded-full object-cover" src={user.photo_url} alt={user.username} />
+                  <Avatar name={`${user.first_name} ${user.last_name}`} size="md" image={user?.photo_url} key={user?.user_id} />
                   <div className="min-w-0 flex-auto">
                     <p className="text-sm font-semibold leading-6 text-gray-900">{`${user.first_name} ${user.last_name}`}</p>
                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">{user.email}</p>
