@@ -226,7 +226,7 @@ const StaffList = () => {
 
             <div className="space-y-2 mt-6 sm:w-1/2">
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Username du nouveau staff
+                Username ou matricule du nouveau staff
               </label>
               <Input id="new staff" type="text" onChange={(e) => setNewStaff(e.target.value)} />
             </div>

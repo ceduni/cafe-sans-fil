@@ -20,12 +20,12 @@ const Login = () => {
       <Helmet>
         <title>Se connecter | Café sans-fil</title>
       </Helmet>
-      <div className="flex min-h-[93vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-[93vh] flex-1 flex-col justify-center px-6 py-14 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Link to="/">
-            <img className="mx-auto h-36 lg:h-48 w-auto" src={logo} alt="Café sans-fil logo" />
+            <img className="mx-auto h-40 sm:h-48 w-auto" src={logo} alt="Café sans-fil logo" />
           </Link>
-          <h2 className="mt-6 text-center text-xl lg:text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <h2 className="mt-4 sm:mt-6 text-center text-xl lg:text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Connectez-vous à votre compte
           </h2>
         </div>
