@@ -12,8 +12,10 @@ export default {
       },
       animation: {
         text: "slideUpDown 2.1s ease-in-out infinite",
-        "fade-in": "fadeIn 0.2s ease-out",
+        "fade-in": "fadeIn 0.1s ease-out",
+        scale: "scaleUp 0.2s forwards",
       },
+
       keyframes: {
         slideUpDown: {
           "0%, 100%": { transform: "translateY(0)" },
@@ -22,6 +24,10 @@ export default {
         fadeIn: {
           "0%": { opacity: "0", transform: "translateY(-20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        scaleUp: {
+          "0%": { transform: "scale(1)" },
+          "100%": { transform: "scale(1.01)" },
         },
       },
     },

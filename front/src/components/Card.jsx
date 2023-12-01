@@ -5,7 +5,7 @@ const Card = ({ className, children }) => {
     <div
       className={classNames(
         "overflow-hidden bg-stone-100 bg-opacity-30 rounded-2xl shadow-sm border border-gray-200 flex flex-col \
-        sm:hover:shadow-lg sm:transition-shadow sm:duration-300 sm:ease-in-out",
+        sm:hover:shadow-lg sm:transition-shadow sm:duration-300 sm:ease-in-out hover:animate-scale",
         className
       )}
       tabIndex="0">
