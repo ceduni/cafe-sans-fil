@@ -7,7 +7,7 @@
 </p>
 <br/>
 
-# Café sans fil
+# Café sans-fil
 
 Ce projet pilote vise à améliorer le service des cafés étudiants de l'UdeM. Il consiste à développer une application web complète (backend + frontend) facilitant la recherche de cafés et produits, la prise de commandes et la gestion du menu et de l'inventaire.
 
