@@ -46,7 +46,7 @@ const ItemCard = ({ item, cafeId, edit }) => {
         />
       )}
       <button key={item.item_id} className="group text-left" onClick={() => setItemPreviewOpen(true)}>
-        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 relative">
+        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-3xl bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 relative">
           <img
             src={item.image_url || "https://placehold.co/300x300?text=Item"}
             className={classNames("h-full w-full object-cover object-center", {
