@@ -1,6 +1,5 @@
 import { useState } from "react";
 import ProductView from "@/components/Items/ProductView";
-import Badge from "@/components/Badge";
 import { useCart } from "react-use-cart";
 import toast from "react-hot-toast";
 import { getCafeFromId } from "@/utils/getFromId";
