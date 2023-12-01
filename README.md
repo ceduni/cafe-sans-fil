@@ -2,7 +2,7 @@
 <br/>
 <p align="center">
   <a href="https://cafesansfil.onrender.com/">
-    <img src="/front/public/logo.png" width="360">
+    <img src="/front/public/logo.png" width="300">
   </a>
 </p>
 <br/>
