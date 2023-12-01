@@ -2,7 +2,7 @@
 <br/>
 <p align="center">
   <a href="https://cafesansfil.onrender.com/">
-    <img src="https://cdn.discordapp.com/attachments/1150280747983319092/1150596609965559858/l5_with_shadow.png" width="300">
+    <img src="/front/public/logo.png" width="360">
   </a>
 </p>
 <br/>
