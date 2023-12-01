@@ -50,7 +50,7 @@ const ItemCard = ({ item, cafeId, edit }) => {
           <img
             src={item.image_url || "https://placehold.co/300x300?text=Item"}
             className={classNames("h-full w-full object-cover object-center", {
-              "group-hover:opacity-90 group-hover:scale-105 hover:transition-all duration-300": item.in_stock,
+              "group-hover:opacity-90 group-hover:scale-105 hover:transition-all duration-200": item.in_stock,
             })}
           />
           {!item.in_stock && (
