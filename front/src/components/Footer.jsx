@@ -3,7 +3,7 @@ const Footer = () => {
     <footer className="bg-white border-t border-gray-200 py-5">
       <div className="w-full max-w-screen-xl mx-auto p-5 md:py-8">
         <div className="flex gap-3 items-center mb-4 justify-center">
-          <img src="/logo_text.png" className="h-10" alt="Logo de café sans-fil" />
+          <img src="/logo_text.png" className="h-[2.6rem]" alt="Logo de café sans-fil" />
         </div>
         <div className="text-sm text-gray-500 text-center space-y-3">
           <span className="font-semibold">Preview, version {APP_VERSION}</span>
