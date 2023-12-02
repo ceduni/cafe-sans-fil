@@ -16,7 +16,8 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7   # 7 days
     BACKEND_CORS_ORIGINS: List[str] = config("BACKEND_CORS_ORIGINS", cast=lambda v: v.split(","))
     BASE_URL: str = config("BASE_URL", cast=str)
-    PROJECT_NAME: str = "Café Sans Fil"
+    PROJECT_NAME: str = "Café sans-fil"
+    VERSION: str = "0.1.1"
     
     # Database
     MONGO_CONNECTION_STRING: str = config("MONGO_CONNECTION_STRING", cast=str)

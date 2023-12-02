@@ -1,4 +1,3 @@
-from datetime import datetime
 from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
 from app.models.cafe_model import Role
 from app.schemas.cafe_schema import CafeOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate, StaffCreate, StaffUpdate, StaffOut
