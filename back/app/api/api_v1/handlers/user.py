@@ -50,10 +50,10 @@ async def create_user(user: UserAuth):
     #     return created_user
     
     # email_context = {
-    #     "title": "Bienvenue à Café Sans-fil",
+    #     "title": "Bienvenue à Café sans-fil",
     #     "name": f"{user.first_name + ' ' + user.last_name}",
     # }
-    # await send_registration_mail("Bienvenue à Café Sans-fil", user.email, email_context)
+    # await send_registration_mail("Bienvenue à Café sans-fil", user.email, email_context)
 
     return created_user
 

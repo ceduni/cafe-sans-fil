@@ -166,6 +166,7 @@ class OrderService:
         def decimal128_to_float(value):
             return float(str(value)) if value is not None else 0.0
 
+        # Convert date strings to datetime objects
         start_date = datetime.strptime(start_date_str, "%Y-%m-%d") if start_date_str else None
         end_date = datetime.strptime(end_date_str, "%Y-%m-%d") if end_date_str else None
 

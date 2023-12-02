@@ -18,6 +18,21 @@ from app.models.order_model import Order
 Main application initialization for Café Sans Fil.
 Sets up FastAPI application, CORS middleware, and initializes the database connection.
 """
+
+description = """
+This project is in development and is hosted on [Render](https://cafesansfil.onrender.com) using a free MongoDB Atlas cluster for the database. You can find the source code on [GitHub](https://github.com/ceduni/udem-cafe)
+
+\nYou can use the [**Swagger UI**](https://cafesansfil-api.onrender.com/docs) to explore the API and test the endpoints.  
+You can also use the [**ReDoc**](https://cafesansfil-api.onrender.com/redoc) interface to explore the API.
+
+To test protected endpoints, you can use the following credentials:
+- Username: `cafesansfil`
+- Password: `Cafepass1`
+
+Alternatively, you can create your own user or you can use any users with different roles using the `/api/users` endpoint.  
+All pre-generated users have the same password: `Cafepass1`.
+"""
+
 db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 
 @asynccontextmanager
@@ -34,9 +49,11 @@ async def lifespan(app: FastAPI):
     
 app = FastAPI(
     title=settings.PROJECT_NAME,
+    summary="Café sans-fil API for managing cafes, users, and orders.", 
+    description=description,
+    version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
-    lifespan=lifespan,
-    debug=True  
+    lifespan=lifespan
 )
 
 app.add_middleware(
