@@ -1,6 +1,6 @@
 # Risques
 
-Ce document présente les différents risques que l'on peut rencontrer en réalisant le projet Café sans fil.
+Ce document présente les différents risques que l'on peut rencontrer en réalisant le projet Café sans-fil.
 
 ## Application
 

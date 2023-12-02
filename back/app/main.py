@@ -15,7 +15,7 @@ from app.models.cafe_model import Cafe
 from app.models.order_model import Order
 
 """
-Main application initialization for Café Sans Fil.
+Main application initialization for Café sans-fil.
 Sets up FastAPI application, CORS middleware, and initializes the database connection.
 """
 
