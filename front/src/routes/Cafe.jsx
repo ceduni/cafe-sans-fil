@@ -34,9 +34,7 @@ const Cafe = () => {
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
-          <Breadcrumbs.Item>
-            {isLoading ? <span className="animate-pulse">Chargement...</span> : data?.name}
-          </Breadcrumbs.Item>
+          <Breadcrumbs.Item isLoading={isLoading}>{data?.name}</Breadcrumbs.Item>
         </Breadcrumbs>
 
         <CafeMemberHeader cafe={data} />

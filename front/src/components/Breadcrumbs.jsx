@@ -28,7 +28,10 @@ const Breadcrumbs = ({ children }) => {
   );
 };
 
-const Item = ({ link, children }) => {
+const Item = ({ link, isLoading, children }) => {
+  if (isLoading) {
+    return <span className="animate-pulse">Chargement...</span>;
+  }
   return link ? (
     <Link to={link} className="underline underline-offset-2 hover:no-underline">
       {children}

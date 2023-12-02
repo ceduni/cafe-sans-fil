@@ -19,7 +19,7 @@ const CafeOrders = () => {
   const [isUnothorized, setIsUnauthorized] = useState(false);
 
   const [data, isLoading] = useApi(`/cafes/${cafeSlug}`);
-  const cafeName = isLoading ? "Chargement..." : data.name;
+  const cafeName = data?.name;
 
   // On récupère les commandes du café
   useEffect(() => {
@@ -85,13 +85,13 @@ const CafeOrders = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Commandes de {cafeName} | Café sans-fil</title>
-      </Helmet>
+      <Helmet>{cafeName && <title>Commandes de {cafeName} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
-          <Breadcrumbs.Item link={`/cafes/${cafeSlug}`}>{cafeName}</Breadcrumbs.Item>
+          <Breadcrumbs.Item link={`/cafes/${cafeSlug}`} isLoading={isLoading}>
+            {cafeName}
+          </Breadcrumbs.Item>
           <Breadcrumbs.Item>Commandes</Breadcrumbs.Item>
         </Breadcrumbs>
 
