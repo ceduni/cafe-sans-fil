@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet-async";
 import EmptyState from "@/components/EmptyState";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Avatar from "@/components/Avatar";
+import classNames from "classnames";
 
 const StaffList = () => {
   const { id: cafeSlug } = useParams();
@@ -115,13 +116,13 @@ const StaffList = () => {
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
-          <Breadcrumbs.Item link={`/cafes/${cafeSlug}`}>
-            {isLoading ? <span className="animate-pulse">Chargement...</span> : data?.name}
+          <Breadcrumbs.Item link={`/cafes/${cafeSlug}`} isLoading={isLoading}>
+            {data?.name}
           </Breadcrumbs.Item>
           <Breadcrumbs.Item>Staff</Breadcrumbs.Item>
         </Breadcrumbs>
 
-        <div className={`${isLoggedUserAdmin && "border-b border-gray-900/10"}  pb-12`}>
+        <div className={classNames("pb-12 w-full", { "border-b border-gray-900/10": isLoggedUserAdmin })}>
           <h2 className="text-base font-semibold leading-7 text-gray-900">Liste de staff</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             {`${isLoggedUserAdmin ? "Gérer" : "Consulter"}`} les membres du personnel actuels de votre café.
@@ -130,9 +131,7 @@ const StaffList = () => {
           <ul role="list" className="divide-y divide-gray-100 mt-6">
             {staffDetails.length === 0 &&
               Array.from({ length: 5 }).map((_, i) => (
-                <li
-                  key={i}
-                  className="px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5">
+                <li key={i} className="px-2 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5">
                   <div className="flex min-w-0 gap-x-4">
                     <div className="animate-pulse bg-gray-200 rounded-full h-12 w-12" />
                     <div className="min-w-0 flex-auto">
@@ -150,7 +149,7 @@ const StaffList = () => {
             {staffDetails.map((user) => (
               <li
                 key={user.username}
-                className={`px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5  ${
+                className={`px-2 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5  ${
                   updatedRoles[user.username] === "remove"
                     ? "bg-red-100 "
                     : updatedRoles[user.username] && updatedRoles[user.username] !== user.role
@@ -158,7 +157,12 @@ const StaffList = () => {
                     : ""
                 }`}>
                 <div className="flex min-w-0 gap-x-4">
-                  <Avatar name={`${user.first_name} ${user.last_name}`} size="md" image={user?.photo_url} key={user?.user_id} />
+                  <Avatar
+                    name={`${user.first_name} ${user.last_name}`}
+                    size="md"
+                    image={user?.photo_url}
+                    key={user?.user_id}
+                  />
                   <div className="min-w-0 flex-auto">
                     <p className="text-sm font-semibold leading-6 text-gray-900">{`${user.first_name} ${user.last_name}`}</p>
                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">{user.email}</p>
@@ -172,7 +176,7 @@ const StaffList = () => {
                       name="role"
                       defaultValue={user.role}
                       className={
-                        " w-32 sm:w-full py-2 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 text-sm"
+                        "w-32 sm:w-full py-2 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 text-sm border-gray-300"
                       }
                       onChange={(e) => handleRoleChange(user.username, e.target.value)}>
                       <option

@@ -20,8 +20,8 @@ const EditMenu = () => {
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
-          <Breadcrumbs.Item link={`/cafes/${cafeSlug}`}>
-            {isLoading ? <span className="animate-pulse">Chargement...</span> : data?.name}
+          <Breadcrumbs.Item link={`/cafes/${cafeSlug}`} isLoading={isLoading}>
+            {data?.name}
           </Breadcrumbs.Item>
           <Breadcrumbs.Item>Modifier le menu</Breadcrumbs.Item>
         </Breadcrumbs>
