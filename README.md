@@ -1,8 +1,13 @@
-<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 12px; padding-top: 12px;">
-  <img style="display: block;" src="/front/public/logo.png" height="240">
-</div>
+<br/>
+<br/>
+<p align="center">
+  <a href="https://cafesansfil.onrender.com/">
+    <img src="/front/public/logo.png" width="300">
+  </a>
+</p>
+<br/>
 
-# Café sans fil
+# Café sans-fil
 
 Ce projet pilote vise à améliorer le service des cafés étudiants de l'UdeM. Il consiste à développer une application web complète (backend + frontend) facilitant la recherche de cafés et produits, la prise de commandes et la gestion du menu et de l'inventaire.
 
@@ -12,16 +17,14 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
 
 ### Pour le grand public
 
-- [ ] **Recherche de café**
+- [x] **Recherche de café**
   - [x] Afficher la liste des cafés
   - [x] Filtrer la liste des cafés
   - [x] Chercher un café par nom
-  - [ ] Chercher un café par item
-- [ ] **Café et menu**
+- [x] **Café et menu**
   - [x] Afficher les informations d'un café
   - [x] Accéder au menu d'un café
   - [x] Afficher le détail d'un item du menu
-  - [ ] Chercher un item dans le menu
 
 ### Pour les membres de l'UdeM
 
@@ -40,7 +43,6 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
   - [x] Créer une annonce
 - [x] **Gestion du menu**
   - [x] Ajouter, modifier ou supprimer un item
-  - [x] Créer un spécial
 - [x] **Gestion des bénévoles**
   - [x] Ajouter, modifier ou supprimer un staff
 - [x] **Rapports de ventes**
