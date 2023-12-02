@@ -20,7 +20,7 @@ Sets up FastAPI application, CORS middleware, and initializes the database conne
 """
 
 description = """
-This project is in development and is hosted on [Render](https://cafesansfil.onrender.com) using a free MongoDB Atlas cluster for the database. You can find the source code on [GitHub](https://github.com/ceduni/udem-cafe)
+This project is in development and is hosted on [Render](https://cafesansfil.onrender.com) using a free MongoDB Atlas cluster for the database. You can find the source code on [GitHub](https://github.com/ceduni/udem-cafe).
 
 \nYou can use the [**Swagger UI**](https://cafesansfil-api.onrender.com/docs) to explore the API and test the endpoints.  
 You can also use the [**ReDoc**](https://cafesansfil-api.onrender.com/redoc) interface to explore the API.
