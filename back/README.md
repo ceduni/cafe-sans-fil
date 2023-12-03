@@ -14,7 +14,7 @@ Notre documentation de l'API back-end est disponible via Swagger UI et ReDoc aux
 - Si vous n'avez pas `pipenv`, installez-le avec `pip install pipenv`.
 - Assurez-vous que MongoDB est installé sur votre système.
 
-## Configuration du fichier .env
+### Configuration du fichier .env
 
 Pour configurer le fichier .env dans le backend, créez un fichier nommé `.env` dans `/back/app`. Ajoutez ce qui suit dans le fichier `.env` :
 
