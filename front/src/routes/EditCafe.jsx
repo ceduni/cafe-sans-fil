@@ -13,16 +13,16 @@ import { CheckIcon } from "@heroicons/react/24/solid";
 import { useIsVisible } from "@/hooks/useIsVisible";
 import AdminOnly from "@/helpers/AdminOnly";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import moment from "moment-timezone";
+import EditAdditionalInfo from "@/components/Cafe/EditAdditionalInfo";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
   const [data, isLoading, error, setData] = useApi(`/cafes/${cafeSlug}`);
 
   // On utilise un état local pour sauegarder les changements et l'état précédent
-  const [cafeData, setCafeData] = useState(data);
+  const [cafeData, setCafeData] = useState(JSON.parse(JSON.stringify(data)));
   useEffect(() => {
-    setCafeData(data);
+    setCafeData(JSON.parse(JSON.stringify(data)));
   }, [data]);
   const newChanges = JSON.stringify(cafeData) !== JSON.stringify(data);
 
@@ -50,11 +50,6 @@ const EditCafe = () => {
       .finally(() => {
         toast.dismiss(toastId);
       });
-  };
-
-  const formatDatetimeForInput = (datetime) => {
-    if (!datetime) return "";
-    return moment(datetime).tz("America/Montreal").format("YYYY-MM-DDTHH:mm:ss");
   };
 
   return (
@@ -206,6 +201,7 @@ const EditCafe = () => {
             Vous pouvez ajouter des messages additionnels courts qui seront affichés sur la page du café et dans la
             liste des cafés. Il peut s'agir de messages temporaires ou permanents.
           </p>
+          <EditAdditionalInfo cafeData={cafeData} setCafeData={setCafeData} />
         </div>
 
         <div className="mt-6 pb-12">
