@@ -12,15 +12,7 @@ Notre documentation de l'API back-end est disponible via Swagger UI et ReDoc aux
 
 - Assurez-vous d'avoir installé Python 3.11. (Ou sinon [Creating a Pipfile for multiple versions of Python](https://dev.to/tomoyukiaota/creating-a-pipfile-for-multiple-versions-of-python-9f2))
 - Si vous n'avez pas `pipenv`, installez-le avec `pip install pipenv`.
-
-## Configuration de MongoDB
-
-Pour configurer MongoDB :
-
-1. Assurez-vous que MongoDB est installé sur votre système.
-2. Démarrez le serveur MongoDB.
-3. Créez une nouvelle base de données nommée `"cafesansfil"` (ou le nom que vous avez défini après dans `MONGO_DB_NAME`).
-4. (Facultatif) Utilisez un outil comme MongoDB Compass pour gérer et visualiser vos données plus facilement.
+- Assurez-vous que MongoDB est installé sur votre système.
 
 ## Configuration du fichier .env
 
