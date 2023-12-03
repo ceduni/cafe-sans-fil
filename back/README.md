@@ -1,6 +1,4 @@
 # Back-end de Café sans-fil
-
-Notre application back-end est actuellement hébergée sur [Render](https://render.com), une plateforme d'hébergement gratuite et idéale pour les projets en phase de développement et de test.  
   
 Pour la gestion de nos données, nous utilisons MongoDB Atlas, la base de données cloud de MongoDB. Nous avons opté pour ce service en raison de son offre gratuite qui est parfaitement adaptée à nos besoins.  
   
@@ -86,7 +84,8 @@ Pour exécuter les tests du back-end, il est nécessaire d'avoir des données g�
 
 # Hosting sur Render
 
-Render est utilisé pour héberger à la fois le service web (API back-end) et le site statique (front-end) de notre application "Café sans-fil". Voici comment nous avons configuré chaque partie :
+Notre application back-end est actuellement hébergée sur [Render](https://render.com), une plateforme d'hébergement gratuite et idéale pour les projets en phase de développement et de test.
+Render est utilisé pour héberger à la fois le service web (API back-end) et le site statique (front-end). Voici comment nous avons configuré chaque partie :
 
 ## Web Service pour l'API (Back-end)
 
