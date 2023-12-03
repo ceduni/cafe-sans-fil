@@ -54,11 +54,6 @@ MONGO_DB_NAME="cafesansfil"
 2. Installez les dépendances nécessaires avec `pipenv install -r requirements.txt`. Cette étape n'est nécessaire que lors de la première installation ou lorsque de nouvelles dépendances sont ajoutées.
 3. Lancez le serveur avec `uvicorn app.main:app --reload`.
 
-> **Note:** La commande `uvicorn app.main:app` réfère à: 
-> - `app.main`: le fichier `main.py` dans le dossier `app` (le module Python).
-> - `app`: l'objet créé dans `main.py` avec la ligne `app = FastAPI()`.
-> - `--reload` fait redémarrer le serveur à chaque changement dans le code, à utiliser en développement seulement!
-
 - L'api sera disponible à [http://127.0.0.1:8000](http://127.0.0.1:8000).
 - Une documentation automatique de l'API est disponible à [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) ou [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc).
 
