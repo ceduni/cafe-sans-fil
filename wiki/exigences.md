@@ -7,6 +7,7 @@ Ce document présente la liste des exigences du projet.
 
 ## Exigences fonctionnelles
 > **Niveau d'accès**:  
+> Chaque niveau d'accès supérieur inclut les fonctionnalités des niveaux inférieurs. 🟠 < 🔵 < 🟢 < 🔴  
 > 🟠 Pour le grand public  
 > 🔵 Pour les membres de l'UdeM    
 > 🟢 Pour les bénévoles  
@@ -36,7 +37,7 @@ Ce document présente la liste des exigences du projet.
   - Réserver un item pour ramassage (délai de 1 heure)
   - Voir l'historique des commandes
 
-### Fonctionnalités Administratives 🔴🟢
+### Fonctionnalités de Staff 🟢
 
 - [x]  Traitement des commandes
   - Afficher les commandes à traiter
