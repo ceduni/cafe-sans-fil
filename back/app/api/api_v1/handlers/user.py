@@ -18,12 +18,18 @@ user_router = APIRouter()
 #               User
 # --------------------------------------
 
-@user_router.get("/users", response_model=List[UserOut], summary="List Users", description="Retrieve a list of all users.")
-async def list_users(request: Request, current_user: User = Depends(get_current_user)):
+@user_router.get("/users", response_model=List[UserOut], summary="🔵 List Users", description="Retrieve a list of all users.")
+async def list_users(
+    request: Request,
+    sort_by: str = Query("last_name", description="The field to sort the results by."),
+    page: int = Query(1, description="The page number to retrieve."),
+    limit: int = Query(20, description="The number of users to retrieve per page."),
+    current_user: User = Depends(get_current_user)
+):
     filters = dict(request.query_params)
     return await UserService.list_users(**filters)
 
-@user_router.get("/users/{username}", response_model=UserOut, summary="Get User", description="Retrieve detailed information about a specific user.")
+@user_router.get("/users/{username}", response_model=UserOut, summary="🔵 Get User", description="Retrieve detailed information about a specific user.")
 async def get_user(username: str = Path(..., description="The username of the user"), current_user: User = Depends(get_current_user)):
     user = await UserService.get_user_by_username(username)
     if not user:
@@ -57,7 +63,7 @@ async def create_user(user: UserAuth):
 
     return created_user
 
-@user_router.put("/users/{username}", response_model=UserOut, summary="Update User", description="Update the details of an existing user.")
+@user_router.put("/users/{username}", response_model=UserOut, summary="🔵 Update User", description="Update the details of an existing user.")
 async def update_user(user_data: UserUpdate, username: str = Path(..., description="The username of the user to update"), current_user: User = Depends(get_current_user)):
     user = await UserService.get_user_by_username(username)
     if not user:
@@ -75,7 +81,7 @@ async def update_user(user_data: UserUpdate, username: str = Path(..., descripti
 
     return await UserService.update_user(username, user_data)
 
-@user_router.delete("/users/{username}", response_description="Delete User", summary="Delete User", description="Delete a user with the specified username.")
+@user_router.delete("/users/{username}", response_description="Delete User", summary="🔵 Delete User", description="Delete a user with the specified username.")
 async def delete_user(username: str = Path(..., description="The username of the user to delete"), current_user: User = Depends(get_current_user)):
     # Authorization check
     if current_user.username != username:
