@@ -2,10 +2,10 @@
   
 Pour la gestion de nos données, nous utilisons MongoDB Atlas, la base de données cloud de MongoDB. Nous avons opté pour ce service en raison de son offre gratuite qui est parfaitement adaptée à nos besoins.  
   
-Notre documentation de l'API back-end est disponible via Swagger UI et ReDoc aux URL suivantes :  
-  
-- Swagger UI : [cafesansfil-api.onrender.com/docs](https://cafesansfil-api.onrender.com/docs)  
-- ReDoc : [cafesansfil-api.onrender.com/redoc](https://cafesansfil-api.onrender.com/redoc)  
+> Notre documentation de l'API back-end est disponible via Swagger UI et ReDoc aux URL suivantes :  
+>   
+> - Swagger UI : [cafesansfil-api.onrender.com/docs](https://cafesansfil-api.onrender.com/docs)  
+> - ReDoc : [cafesansfil-api.onrender.com/redoc](https://cafesansfil-api.onrender.com/redoc)  
   
 
 ## Prérequis
