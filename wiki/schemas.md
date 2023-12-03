@@ -1,8 +1,9 @@
-# 🗃️ Schemas
-> Pour plus de détails sur les routes et les fonctionnalités de notre API, vous pouvez consulter notre documentation disponible via Swagger UI et ReDoc aux adresses suivantes :  
-> 
+> Notre documentation de l'API back-end est disponible via Swagger UI et ReDoc aux URL suivantes :  
+>   
 > - Swagger UI : [cafesansfil-api.onrender.com/docs](https://cafesansfil-api.onrender.com/docs)  
-> - ReDoc : [cafesansfil-api.onrender.com/redoc](https://cafesansfil-api.onrender.com/redoc)  
+> - ReDoc : [cafesansfil-api.onrender.com/redoc](https://cafesansfil-api.onrender.com/redoc) 
+
+# 🗃️ Schemas
 
 Ce document présente la structure de notre BD MongoDB.
 
