@@ -14,13 +14,14 @@ import { useIsVisible } from "@/hooks/useIsVisible";
 import AdminOnly from "@/helpers/AdminOnly";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import EditAdditionalInfo from "@/components/Cafe/EditAdditionalInfo";
+import EditPaymentMethods from "@/components/Cafe/EditPaymentMehods";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
   const [data, isLoading, error, setData] = useApi(`/cafes/${cafeSlug}`);
 
   // On utilise un état local pour sauegarder les changements et l'état précédent
-  const [cafeData, setCafeData] = useState(JSON.parse(JSON.stringify(data)));
+  const [cafeData, setCafeData] = useState(null);
   useEffect(() => {
     setCafeData(JSON.parse(JSON.stringify(data)));
   }, [data]);
@@ -202,6 +203,15 @@ const EditCafe = () => {
             liste des cafés. Il peut s'agir de messages temporaires ou permanents.
           </p>
           <EditAdditionalInfo cafeData={cafeData} setCafeData={setCafeData} />
+        </div>
+
+        <div className="border-b border-gray-900/10 pb-12 mt-6">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">Methodes de paiement</h2>
+          <p className="mt-1 text-sm leading-6 text-gray-600 mb-3">
+            Vous pouvez définir quelles méthodes de paiement sont acceptées dans ce café. Cela sera affiché sur la page
+            du café.
+          </p>
+          <EditPaymentMethods cafeData={cafeData} setCafeData={setCafeData} />
         </div>
 
         <div className="mt-6 pb-12">
