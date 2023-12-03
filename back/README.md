@@ -1,9 +1,28 @@
 # Back-end de Café sans-fil
 
+Notre application back-end est actuellement hébergée sur [Render](https://render.com), une plateforme d'hébergement gratuite et idéale pour les projets en phase de développement et de test.  
+  
+Pour la gestion de nos données, nous utilisons MongoDB Atlas, la base de données cloud de MongoDB. Nous avons opté pour ce service en raison de son offre gratuite qui est parfaitement adaptée à nos besoins.  
+  
+Notre documentation de l'API back-end est disponible via Swagger UI et ReDoc aux URL suivantes :  
+  
+- Swagger UI : [cafesansfil-api.onrender.com/docs](https://cafesansfil-api.onrender.com/docs)  
+- ReDoc : [cafesansfil-api.onrender.com/redoc](https://cafesansfil-api.onrender.com/redoc)  
+  
+
 ## Prérequis
 
-- Assurez-vous d'avoir installé Python 3.11.
+- Assurez-vous d'avoir installé Python 3.11. (Ou sinon [Creating a Pipfile for multiple versions of Python](https://dev.to/tomoyukiaota/creating-a-pipfile-for-multiple-versions-of-python-9f2))
 - Si vous n'avez pas `pipenv`, installez-le avec `pip install pipenv`.
+
+## Configuration de MongoDB
+
+Pour configurer MongoDB :
+
+1. Assurez-vous que MongoDB est installé sur votre système.
+2. Démarrez le serveur MongoDB.
+3. Créez une nouvelle base de données nommée `"cafesansfil"` (ou le nom que vous avez défini après dans `MONGO_DB_NAME`).
+4. (Facultatif) Utilisez un outil comme MongoDB Compass pour gérer et visualiser vos données plus facilement.
 
 ## Configuration du fichier .env
 
@@ -13,18 +32,29 @@ Pour configurer le fichier .env dans le backend, créez un fichier nommé `.env`
 JWT_SECRET_KEY=<RAMDOM_STRING>
 JWT_REFRESH_SECRET_KEY=<RANDOM_SECURE_LONG_STRING>
 BACKEND_CORS_ORIGINS=<BACKEND_CORS_ORIGINS> # "http://localhost:5173" <-- for local running instances
+BASE_URL=<BASE_URL> # "http://localhost:8000" <-- for local running instances
 MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING> # "mongodb://localhost:27017/" <-- for local running instances
 MONGO_DB_NAME="cafesansfil"
 ```
 
 > **Note importante:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend.
 
-## Installation
+**JWT_SECRET_KEY** et **JWT_REFRESH_SECRET_KEY** : Ces clés sont utilisées pour encoder et décoder les tokens JWT. Sur les systèmes Unix, vous pouvez générer des chaînes aléatoires sécurisées pour ces clés en utilisant `openssl rand -hex 32` pour `JWT_SECRET_KEY` et `openssl rand -hex 64` pour `JWT_REFRESH_SECRET_KEY` dans votre terminal. Sur Windows, vous pouvez utiliser d'autres méthodes pour générer des chaînes sécurisées.
 
-- On utilise `pipenv` pour gérer les dépendances et l'environnement virtuel du projet.
-- Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
-- Installez les dépendances nécessaires avec `pipenv install -r requirements.txt`.
-- Lancez le serveur avec `uvicorn app.main:app --reload`.
+**BACKEND_CORS_ORIGINS** : Définit les origines autorisées pour les requêtes cross-origin. Pour le développement local, vous pouvez utiliser `"http://localhost:5173"`.
+
+**BASE_URL** : URL de base pour les requêtes au backend. Pour le développement local, utilisez `"http://localhost:8000"`.
+
+**MONGO_CONNECTION_STRING** : C'est la chaîne de connexion pour votre instance MongoDB. Pour le développement local, utilisez `"mongodb://localhost:27017/"`.
+
+**MONGO_DB_NAME** : Le nom de votre base de données MongoDB, par exemple, `"cafesansfil"`.
+
+
+## Démarrage du server
+
+1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
+2. Installez les dépendances nécessaires avec `pipenv install -r requirements.txt`. Cette étape n'est nécessaire que lors de la première installation ou lorsque de nouvelles dépendances sont ajoutées.
+3. Lancez le serveur avec `uvicorn app.main:app --reload`.
 
 > **Note:** La commande `uvicorn app.main:app` réfère à: 
 > - `app.main`: le fichier `main.py` dans le dossier `app` (le module Python).
@@ -32,68 +62,95 @@ MONGO_DB_NAME="cafesansfil"
 > - `--reload` fait redémarrer le serveur à chaque changement dans le code, à utiliser en développement seulement!
 
 - L'api sera disponible à [http://127.0.0.1:8000](http://127.0.0.1:8000).
-- Une documentation automatique de l'API est disponible à [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+- Une documentation automatique de l'API est disponible à [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) ou [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc).
 
 > Pour quitter l'environnement virtuel, utilisez la commande `exit`.
 
-## Avancée du développement
+## Génération de Données avec `generate_all.py` dans `utils`
 
+Pour générer des données pour la base de données :
 
-#### 2023-11-02
+1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
+2. Exécutez le script avec `py -m utils.generate_all`.
 
-- Aperçu du projet sur la branche `preview` avec Render.
+Vous pouvez ajuster le nombre d'utilisateurs créés en modifiant cette ligne dans le script : `user_usernames = await create_users(27)`.
 
-#### 2023-10-30
+Par défaut, les données seront générées dans `MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"`, mais vous pouvez les diriger vers votre base de données principale en modifiant le script `MONGO_DB_NAME = settings.MONGO_DB_NAME`.
 
-- Migration vers Python 3.11.
-- Migration des imports et des dépendances vers les versions les plus récentes.
+## Run Tests
 
-#### 2023-10-24
+Pour exécuter les tests du back-end, il est nécessaire d'avoir des données générées par `generate_all.py` :
 
-- Mise à jour des schémas pour la validation des requêtes et des réponses.
-- Ajout des routes d'authentification (login, test-token, refresh).
-- Ajout de vérifications d'autorisation pour les rôles.
+1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
+2. Exécutez les tests avec `pytest`.
 
-#### 2023-10-21
+# Hosting sur Render
 
-- Mise à jour de la recherche: Inclusion des descriptions, facultés, localisations et filtres.
-- Ajout de la récupération des commandes pour l'utilisateur/le café avec filtrage de statut.
-- Ajout de paramètres de filtrage supplémentaires.
+Render est utilisé pour héberger à la fois le service web (API back-end) et le site statique (front-end) de notre application "Café sans-fil". Voici comment nous avons configuré chaque partie :
 
-#### 2023-10-20
+### Web Service pour l'API (Back-end)
 
-- Refactorisation de la structure Backend et API.
-- Mise à jour majeure de l'API: Ajout des fonctionnalités CRUD pour les cafés et les éléments de menu, ainsi que leurs modèles, schémas et services associés.
-- Connexion à la base de données cloud Atlas et population avec des données initiales.
-- Ajout d'une fonctionnalité de recherche unifiée pour les cafés et les éléments de menu.
-- Ajout de docstrings aux modules backend.
+1. **Déploiement de l'API** :
+   - Sélectionnez 'Web Service' sur Render et choisissez le répertoire `/back`.
+   - Utilisez la branche `preview` pour le déploiement.
 
-#### 2023-10-04
+2. **Commandes de Construction et de Lancement** :
+   - Build Command : `pip install --upgrade pip && pip install -r requirements.txt`.
+   - Start Command : `uvicorn app.main:app --host 0.0.0.0 --port 10000`.
 
-- On a créé un fichier `models.py` qui contient des premiers modèles de données
-- On a crée des premières routes test, testables avec Postman
+3. **Configuration des Variables d'Environnement** :
+   - Définissez les variables suivantes dans les paramètres de votre service Render :
+     ```
+     JWT_SECRET_KEY=<RANDOM_STRING>
+     JWT_REFRESH_SECRET_KEY=<RANDOM_SECURE_LONG_STRING>
+     BACKEND_CORS_ORIGINS=<BACKEND_CORS_ORIGINS>
+     BASE_URL=<BASE_URL>
+     MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING>
+     MONGO_DB_NAME="cafesansfil"
+     ```
 
-#### 2023-09-29
+### Static Site pour le Front-end
 
-- On a initialisé le projet avec FastAPI, et créé un environnement virtuel pour la gestion des dépendances, en suivant la documentation
-- On ajoute chaque dépendance et leur version dans le fichier `requirements.txt` au fur et à mesure
-- On a installé un serveur de production (Uvicorn, recommandé par la doc de FastAPI)
-- On a créé un fichier `main.py` qui contient le code de l'API (pour tester pour l'instant)
+1. **Déploiement du Front-end** :
+   - Sélectionnez 'Static Site' sur Render et choisissez le répertoire `/front`.
+   - Utilisez également la branche `preview` pour le déploiement.
 
-## Ressources utilisées
+2. **Commande de Construction** :
+   - Build Command : `npm install; npm run build`.
+   - Publish directory : `dist`.
 
-- [FastAPI](https://fastapi.tiangolo.com/#requirements)
-- [First steps FastAPI](https://fastapi.tiangolo.com/tutorial/first-steps/)
-- [Getting started MongoDB FastAPI](https://www.mongodb.com/developer/languages/python/python-quickstart-fastapi/)
-- [How to use FastAPI with MongoDB](https://plainenglish.io/blog/how-to-use-fastapi-with-mongodb-75b43c8e541d)
-- [Using FastAPI to Build Python Web APIs – Real Python](https://realpython.com/fastapi-python-web-apis/)
-- [FARM Stack Course - FastAPI, React, MongoDB](https://www.youtube.com/watch?v=OzUzrs8uJl8&list=PLAt-l74BsucNBwFANkqwisPMSLE62rKG_&index=2&t=2912s&ab_channel=freeCodeCamp.org)
-- [The ultimate FARM stack Todo app with JWT PART I - FastAPI + MongoDB | abdadeel](https://www.youtube.com/watch?v=G8MsHbCzyZ4&ab_channel=ABDLogs)
-- [How to build a FastAPI app with PostgreSQL](https://www.youtube.com/watch?v=398DuQbQJq0)
-- [How to create an API in Python](https://anderfernandez.com/en/blog/how-to-create-api-python/)
+3. **Configuration des Redirections** :
+   - Ajoutez une règle de réécriture :
+     - Source : `/*`
+     - Destination : `/index.html`
+     - Action : `Rewrite`
 
-## Difficulités rencontrées
+4. **Variable d'Environnement pour le Front-end** :
+   - Ajoutez cette variable dans `.env` : `VITE_API_ENDPOINT=https://cafesansfil-api.onrender.com` (Example).
 
-- Il a fallu spécifiquement installer pydantic 1.9 au lieu de la dernère version, car la v2 a causé des erreurs avec MongoDB et les BaseModel utilisant des ObjectId. De plus, la documentation officielle de MongoDB n'utilise pas la v2. (voir [ici](https://www.mongodb.com/community/forums/t/pydantic-v2-and-objectid-fields/241965)).  
+Ces configurations permettent de déployer et de gérer efficacement l'API et le front-end de "Café sans-fil" sur Render, en utilisant la branche `preview` pour des mises à jour continues et des tests avant la mise en produ
 
-- Un problème rencontré sur MacBook était l'erreur "command not found" après avoir installé pipenv. La solution a été trouvée dans cette [vidéo](https://www.youtube.com/watch?v=Bzn_MZ0tNXU&ab_channel=SpecialCoder).
+## Gestion du Spin-Down avec un Cron Job
+
+Pour éviter le comportement de "spin-down" des instances gratuites sur Render, où le serveur passe en mode veille après une période d'inactivité, nous avons mis en place un mécanisme externe :
+
+- Nous utilisons un service de cron job externe pour envoyer une requête à notre API toutes les 10 minutes. Ce service ping [https://cafesansfil-api.onrender.com/api/health](https://cafesansfil-api.onrender.com/api/health) pour garder l'instance active.
+- Vous pouvez consulter l'état de notre cron job à [https://v4szkwlx.status.cron-job.org](https://v4szkwlx.status.cron-job.org).
+- Cette méthode nous permet de bénéficier des 750 heures gratuites par mois offertes par Render, ce qui est suffisant pour permettre à notre API de fonctionner en continu sans interruption.
+
+Cette stratégie assure que notre API reste accessible et réactive pour les utilisateurs, tout en maximisant les avantages des ressources gratuites fournies par Render.
+
+# Ressources
+
+- [Documentation | FastAPI](https://fastapi.tiangolo.com/learn/)
+- [Documentation | Pydantic](https://docs.pydantic.dev/dev/blog/pydantic-v2-final/)
+- [Documentation | Beanie](https://beanie-odm.dev/api-documentation/query/)
+- [YouTube | FARM Stack Course - FastAPI, React, MongoDB](https://www.youtube.com/watch?v=OzUzrs8uJl8&list=PLAt-l74BsucNBwFANkqwisPMSLE62rKG_&index=2&t=2912s&ab_channel=freeCodeCamp.org)
+- [YouTube | The ultimate FARM stack Todo app with JWT PART I - FastAPI + MongoDB | abdadeel](https://www.youtube.com/watch?v=G8MsHbCzyZ4&ab_channel=ABDLogs)
+- [YouTube | Python API Development With FastAPI - Comprehensive Course for Beginners P-5 Password reset](https://www.youtube.com/watch?v=Y7FCJF48Obk&list=PLU7aW4OZeUzxL1wZVOS31LfbB1VNL3MeX&index=7&ab_channel=CodeWithPrince)
+- [YouTube (For Mac) | command not found: pipenv Resolved](https://www.youtube.com/watch?v=Bzn_MZ0tNXU&ab_channel=SpecialCoder).
+- [Article | Creating a Pipfile for multiple versions of Python](https://dev.to/tomoyukiaota/creating-a-pipfile-for-multiple-versions-of-python-9f2)
+- [Render | Redirects and Rewrites](https://render.com/docs/redirects-rewrites)
+- [Render | Spin-down behavior of free instance types](https://community.render.com/t/requests-to-back-end-take-long/10059)
+- [Render | Cron Job fix for Spin-down](https://stackoverflow.com/questions/75340700/prevent-render-server-from-sleeping)
+- [Render | Mail server on render.com doesn't permit SMTP](https://community.render.com/t/mail-server-on-render-com/10529)
