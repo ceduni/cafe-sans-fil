@@ -127,7 +127,7 @@ Render est utilisé pour héberger à la fois le service web (API back-end) et l
 4. **Variable d'Environnement pour le Front-end** :
    - Ajoutez cette variable dans `.env` : `VITE_API_ENDPOINT=https://cafesansfil-api.onrender.com` (Example).
 
-Ces configurations permettent de déployer et de gérer efficacement l'API et le front-end de "Café sans-fil" sur Render, en utilisant la branche `preview` pour des mises à jour continues et des tests avant la mise en produ
+Ces configurations permettent de déployer et de gérer efficacement l'API et le front-end de "Café sans-fil" sur Render, en utilisant la branche `preview` pour des mises à jour continues et des tests avant la mise en production.
 
 ## Gestion du Spin-Down avec un Cron Job
 
