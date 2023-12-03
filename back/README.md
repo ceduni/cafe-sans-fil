@@ -126,7 +126,7 @@ Cette stratégie assure que notre API reste accessible et réactive pour les uti
 - [YouTube | FARM Stack Course - FastAPI, React, MongoDB](https://www.youtube.com/watch?v=OzUzrs8uJl8&list=PLAt-l74BsucNBwFANkqwisPMSLE62rKG_&index=2&t=2912s&ab_channel=freeCodeCamp.org)
 - [YouTube | The ultimate FARM stack Todo app with JWT PART I - FastAPI + MongoDB | abdadeel](https://www.youtube.com/watch?v=G8MsHbCzyZ4&ab_channel=ABDLogs)
 - [YouTube | Python API Development With FastAPI - Comprehensive Course for Beginners P-5 Password reset](https://www.youtube.com/watch?v=Y7FCJF48Obk&list=PLU7aW4OZeUzxL1wZVOS31LfbB1VNL3MeX&index=7&ab_channel=CodeWithPrince)
-- [YouTube (For Mac) | command not found: pipenv Resolved](https://www.youtube.com/watch?v=Bzn_MZ0tNXU&ab_channel=SpecialCoder).
+- [YouTube (For Mac) | command not found: pipenv Resolved](https://www.youtube.com/watch?v=Bzn_MZ0tNXU&ab_channel=SpecialCoder)
 - [Article | Creating a Pipfile for multiple versions of Python](https://dev.to/tomoyukiaota/creating-a-pipfile-for-multiple-versions-of-python-9f2)
 - [Render | Redirects and Rewrites](https://render.com/docs/redirects-rewrites)
 - [Render | Spin-down behavior of free instance types](https://community.render.com/t/requests-to-back-end-take-long/10059)
