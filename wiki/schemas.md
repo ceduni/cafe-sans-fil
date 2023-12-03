@@ -144,7 +144,7 @@ Pour plus de détails sur les routes et les fonctionnalités de notre API, vous 
 ```
 
 
-### 📝 Notes sur les Statuts de Commande
+### Notes sur les Statuts de Commande
 
 Chaque commande traverse différents statuts qui indiquent sa progression :
 
@@ -162,5 +162,3 @@ Chaque commande traverse différents statuts qui indiquent sa progression :
   - **Détails** : 
     - Peut se produire automatiquement si la commande n'est pas traitée ou récupérée dans le délai d'une heure.
     - Peut également être annulée manuellement par le client ou le café pour diverses raisons, telles que l'indisponibilité d'un article ou un autre problème opérationnel.
-
-
