@@ -1,7 +1,7 @@
 # Glossaires
 
 > Livrable: Exigences  
-> Dernière modification: 2023-10-05
+> Dernière modification: 2023-12-03
 >
 
 ## Général:
@@ -12,8 +12,8 @@
 ## Rôles:
 
 - 🟠 **Public**: Tous les utilisateurs, y compris ceux qui ne sont pas connectés ou enregistrés.
-- 🔵 **Membre (ou Client)**: Rôle de base dans l'application qui permet à un utilisateur d'accéder au menu et de passer des commandes.
-- 🟢 **Staff (ou Bénévole)**: Personnes travaillant au café. Ils peuvent traiter des commandes, modifier le menu, et gérer l'inventaire.
+- 🔵 **Membre / Client**: Rôle de base dans l'application qui permet à un utilisateur d'accéder au menu et de passer des commandes.
+- 🟢 **Bénévole / Staff**: Personnes travaillant au café. Ils peuvent traiter des commandes, modifier le menu, et gérer l'inventaire.
 - 🔴 **Admin**: Superviseur ou manager du café. Il est en charge de la gestion globale du café, y compris la supervision des bénévoles, la gestion du menu et l'inventaire, et assurant le bon déroulement des opérations quotidiennes.
 
 ## Application:
