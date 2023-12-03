@@ -82,10 +82,9 @@ Pour exécuter les tests du back-end, il est nécessaire d'avoir des données g�
 1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
 2. Exécutez les tests avec `pytest`.
 
-# Hosting sur Render
+# Hosting `preview` branch sur Render
 
-Notre application back-end est actuellement hébergée sur [Render](https://render.com), une plateforme d'hébergement gratuite et idéale pour les projets en phase de développement et de test.
-Render est utilisé pour héberger à la fois le service web (API back-end) et le site statique (front-end). Voici comment nous avons configuré chaque partie :
+Notre application back-end est actuellement hébergée sur [Render](https://render.com), une plateforme d'hébergement gratuite et idéale pour les projets en phase de développement et de test. Sur Render, nous hébergeons spécifiquement la branche `preview`, ce qui nous permet de tester les nouvelles fonctionnalités et mises à jour avant leur déploiement en production. Render est utilisé pour héberger à la fois le service web (API back-end) et le site statique (front-end). Voici comment nous avons configuré chaque partie :
 
 ## Web Service pour l'API (Back-end)
 
