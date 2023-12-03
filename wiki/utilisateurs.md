@@ -1,7 +1,7 @@
 # 👥 Utilisateurs
 
 > Livrable: Exigences  
-> Dernière modification: 2023-10-05
+> Dernière modification: 2023-12-03
 
 Ce document présente les différents utilisateurs de l'application.
 
