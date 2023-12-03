@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Path, status, Request, Depends
+from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
 from app.schemas.order_schema import OrderCreate, OrderUpdate, OrderOut
 from app.services.order_service import OrderService
 from uuid import UUID
@@ -18,12 +18,18 @@ order_router = APIRouter()
 #               Order
 # --------------------------------------
 
-@order_router.get("/orders", response_model=List[OrderOut], summary="List Orders", description="Retrieve a list of all orders.")
-async def list_orders(request: Request, current_user: User = Depends(get_current_user)):
+@order_router.get("/orders", response_model=List[OrderOut], summary="🔵 List Orders", description="Retrieve a list of all orders.")
+async def list_orders(
+    request: Request,
+    sort_by: str = Query("-order_number", description="The field to sort the results by."),
+    page: int = Query(1, description="The page number to retrieve."),
+    limit: int = Query(20, description="The number of orders to retrieve per page."),
+    current_user: User = Depends(get_current_user)
+):
     filters = dict(request.query_params)
     return await OrderService.list_orders(**filters)
 
-@order_router.get("/orders/{order_id}", response_model=OrderOut, summary="Get Order", description="Retrieve detailed information about a specific order.")
+@order_router.get("/orders/{order_id}", response_model=OrderOut, summary="🔵 Get Order", description="Retrieve detailed information about a specific order.")
 async def get_order(order_id: UUID = Path(..., description="The unique identifier of the order"), current_user: User = Depends(get_current_user)):
     try:
         order = await OrderService.retrieve_order(order_id)
@@ -53,7 +59,7 @@ async def get_order(order_id: UUID = Path(..., description="The unique identifie
                 detail=str(e)
             )
 
-@order_router.post("/orders", response_model=OrderOut, summary="Create Order", description="Create a new order with the provided details.")
+@order_router.post("/orders", response_model=OrderOut, summary="🔵 Create Order", description="Create a new order with the provided details.")
 async def create_order(order: OrderCreate, current_user: User = Depends(get_current_user)):
     cafe = await CafeService.retrieve_cafe(order.cafe_slug)
     if not cafe:
@@ -63,7 +69,7 @@ async def create_order(order: OrderCreate, current_user: User = Depends(get_curr
         )
     return await OrderService.create_order(order, current_user.username)
 
-@order_router.put("/orders/{order_id}", response_model=OrderOut, summary="Update Order", description="Update the details of an existing order.")
+@order_router.put("/orders/{order_id}", response_model=OrderOut, summary="🔵 Update Order", description="Update the details of an existing order.")
 async def update_order(orderUpdate: OrderUpdate, order_id: UUID = Path(..., description="The unique identifier of the order to update"), current_user: User = Depends(get_current_user)):
     try:
         order = await OrderService.retrieve_order(order_id)
@@ -90,8 +96,15 @@ async def update_order(orderUpdate: OrderUpdate, order_id: UUID = Path(..., desc
                 detail=str(e)
             )
 
-@order_router.get("/users/{username}/orders", response_model=List[OrderOut], summary="List User Orders", description="Retrieve a list of orders for a specific user.")
-async def list_user_orders(request: Request, username: str = Path(..., description="The username of the user"), current_user: User = Depends(get_current_user)):
+@order_router.get("/users/{username}/orders", response_model=List[OrderOut], summary="🔵 List User Orders", description="Retrieve a list of orders for a specific user.")
+async def list_user_orders(
+    request: Request,
+    username: str = Path(..., description="The username of the user"), 
+    sort_by: str = Query("-order_number", description="The field to sort the results by."),
+    page: int = Query(1, description="The page number to retrieve."),
+    limit: int = Query(20, description="The number of orders to retrieve per page."),
+    current_user: User = Depends(get_current_user)
+):
     # Authorization check
     if username != current_user.username:
         raise HTTPException(
@@ -101,8 +114,15 @@ async def list_user_orders(request: Request, username: str = Path(..., descripti
     filters = dict(request.query_params)
     return await OrderService.list_orders_for_user(username, **filters)
 
-@order_router.get("/cafes/{cafe_slug}/orders", response_model=List[OrderOut], summary="List Cafe Orders", description="Retrieve a list of orders for a specific cafe.")
-async def list_cafe_orders(request: Request, cafe_slug: str = Path(..., description="The slug of the cafe"), current_user: User = Depends(get_current_user)):
+@order_router.get("/cafes/{cafe_slug}/orders", response_model=List[OrderOut], summary="🟢 List Cafe Orders", description="Retrieve a list of orders for a specific cafe.")
+async def list_cafe_orders(
+    request: Request,
+    cafe_slug: str = Path(..., description="The slug of the cafe"),
+    sort_by: str = Query(None, description="The field to sort the results by. Default: -order_number"),
+    page: int = Query(1, description="The page number to retrieve."),
+    limit: int = Query(20, description="The number of orders to retrieve per page."),
+    current_user: User = Depends(get_current_user)
+):
     try:
         # Authorization check
         if not await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER]):

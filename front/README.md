@@ -27,6 +27,10 @@
 
 ## Avancée du développement
 
+#### 2023-12-03
+
+- Possibilité de modifier plus de champs en tant qu'admin d'un café (notamment ajouter des messages d'info)
+
 #### 2023-11-30
 
 - Amélioration de code et design

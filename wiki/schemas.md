@@ -1,4 +1,4 @@
-# 🗃️ Schemas (Base de Données)
+# 🗃️ Schemas
 
 Ce document présente la structure de notre BD MongoDB.
 
@@ -8,26 +8,28 @@ Ce document présente la structure de notre BD MongoDB.
 
 ```json
 {
-  "user_id": "Binary (UUID unique)",
-  "email": "String (unique, indexed)",
+  "user_id": "UUID",
+  "email": "String (unique, indexed, email format)",
   "matricule": "String (unique, indexed)",
   "username": "String (unique, indexed)",
   "hashed_password": "String",
   "first_name": "String (indexed)",
   "last_name": "String (indexed)",
   "photo_url": "String (optional)",
+  "failed_login_attempts": "Int32",
+  "last_failed_login_attempt": "DateTime (optional)",
+  "lockout_until": "DateTime (optional)",
   "is_active": "Boolean"
 }
 ```
-
-<br>
 
 ### Cafe
 
 ```json
 {
-  "cafe_id": "Binary (UUID unique)",
+  "cafe_id": "UUID",
   "name": "String (unique, indexed)",
+  "slug": "String (unique, indexed)",
   "description": "String (indexed)",
   "image_url": "String (optional)",
   "faculty": "String (indexed)",
@@ -35,7 +37,7 @@ Ce document présente la structure de notre BD MongoDB.
   "status_message": "String (optional)",
   "opening_hours": [
       {
-          "day": "String",
+          "day": "Enum (Days of week)",
           "blocks": [
               {
                   "start": "String (HH:mm format)",
@@ -69,20 +71,21 @@ Ce document présente la structure de notre BD MongoDB.
       {
           "type": "String",
           "value": "String",
-          "start": "Date (optional)",
-          "end": "Date (optional)"
+          "start": "DateTime (optional)",
+          "end": "DateTime (optional)"
       }
   ],
   "staff": [
       {
-          "user_id": "Binary (UUID)",
-          "role": "String (Enum values: 'Bénévole', 'Admin')"
+          "username": "String (unique, indexed)",
+          "role": "Enum ('Bénévole', 'Admin')"
       }
   ],
   "menu_items": [
       {
-          "item_id": "Binary (UUID unique)",
+          "item_id": "UUID",
           "name": "String (unique, indexed)",
+          "slug": "String (optional, unique, indexed)",
           "tags": ["String"],
           "description": "String (indexed)",
           "image_url": "String (optional)",
@@ -99,20 +102,24 @@ Ce document présente la structure de notre BD MongoDB.
       }
   ]
 }
+
 ```
-.  
-<br>
 
 ### Order
 
 ```json
 {
-  "order_id": "Binary (UUID unique)",
-  "user_id": "Binary (UUID)",
-  "cafe_id": "Binary (UUID)",
+  "order_id": "UUID",
+  "order_number": "Int32 (unique, indexed)",
+  "cafe_name": "String",
+  "cafe_slug": "String",
+  "cafe_image_url": "String (optional)",
+  "user_username": "String",
   "items": [
     {
-      "item_id": "Binary (UUID)",
+      "item_name": "String",
+      "item_slug": "String",
+      "item_image_url": "String (optional)",
       "quantity": "Int32",
       "item_price": "Decimal128",
       "options": [
@@ -125,9 +132,9 @@ Ce document présente la structure de notre BD MongoDB.
     }
   ],
   "total_price": "Decimal128",
-  "status": "String (Enum values: 'Placée', 'Prête', 'Complétée', 'Annulée')",
-  "created_at": "Date",
-  "updated_at": "Date"
+  "status": "Enum ('Placée', 'Prête', 'Complétée', 'Annulée')",
+  "created_at": "DateTime",
+  "updated_at": "DateTime"
 }
 ```
 

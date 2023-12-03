@@ -13,15 +13,17 @@ import { CheckIcon } from "@heroicons/react/24/solid";
 import { useIsVisible } from "@/hooks/useIsVisible";
 import AdminOnly from "@/helpers/AdminOnly";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import EditAdditionalInfo from "@/components/Cafe/EditAdditionalInfo";
+import EditPaymentMethods from "@/components/Cafe/EditPaymentMehods";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
   const [data, isLoading, error, setData] = useApi(`/cafes/${cafeSlug}`);
 
   // On utilise un état local pour sauegarder les changements et l'état précédent
-  const [cafeData, setCafeData] = useState(data);
+  const [cafeData, setCafeData] = useState(null);
   useEffect(() => {
-    setCafeData(data);
+    setCafeData(JSON.parse(JSON.stringify(data)));
   }, [data]);
   const newChanges = JSON.stringify(cafeData) !== JSON.stringify(data);
 
@@ -134,9 +136,22 @@ const EditCafe = () => {
               </div>
             </div>
           </div>
+
+          <div className="space-y-2 mt-6">
+            <label htmlFor="image_url" className="block text-sm font-medium text-gray-700">
+              Image de bannière
+            </label>
+            <Input
+              type="text"
+              name="image_url"
+              id="image_url"
+              value={cafeData?.image_url || ""}
+              onChange={(e) => setCafeData({ ...cafeData, image_url: e.target.value })}
+            />
+          </div>
         </div>
 
-        <div className="pb-12 mt-6">
+        <div className="border-b border-gray-900/10 pb-12 mt-6">
           <h2 className="text-base font-semibold leading-7 text-gray-900">Ouverture</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600 mb-3">
             {cafeData?.status_message !== data?.status_message || cafeData?.is_open !== data?.is_open
@@ -179,6 +194,70 @@ const EditCafe = () => {
               </div>
             </div>
           )}
+        </div>
+
+        <div className="border-b border-gray-900/10 pb-12 mt-6">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">Messages additionnels</h2>
+          <p className="mt-1 text-sm leading-6 text-gray-600 mb-3">
+            Vous pouvez ajouter des messages additionnels courts qui seront affichés sur la page du café et dans la
+            liste des cafés. Il peut s'agir de messages temporaires ou permanents.
+          </p>
+          <EditAdditionalInfo cafeData={cafeData} setCafeData={setCafeData} />
+        </div>
+
+        <div className="border-b border-gray-900/10 pb-12 mt-6">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">Methodes de paiement</h2>
+          <p className="mt-1 text-sm leading-6 text-gray-600 mb-3">
+            Vous pouvez définir quelles méthodes de paiement sont acceptées dans ce café. Cela sera affiché sur la page
+            du café.
+          </p>
+          <EditPaymentMethods cafeData={cafeData} setCafeData={setCafeData} />
+        </div>
+
+        <div className="mt-6 pb-12">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">Informations de contact</h2>
+          <p className="mt-1 text-sm leading-6 text-gray-600">Ces informations sont affichées sur la page du café</p>
+
+          <div className="space-y-2 mt-6">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Adresse courriel
+            </label>
+            <Input
+              type="email"
+              name="email"
+              id="email"
+              value={cafeData?.contact.email || ""}
+              onChange={(e) => setCafeData({ ...cafeData, contact: { ...cafeData.contact, email: e.target.value } })}
+            />
+          </div>
+
+          <div className="space-y-2 mt-6">
+            <label htmlFor="website" className="block text-sm font-medium text-gray-700">
+              Site web
+            </label>
+            <Input
+              type="text"
+              name="website"
+              id="website"
+              value={cafeData?.contact.website || ""}
+              onChange={(e) => setCafeData({ ...cafeData, contact: { ...cafeData.contact, website: e.target.value } })}
+            />
+          </div>
+
+          <div className="space-y-2 mt-6">
+            <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">
+              Numéro de téléphone
+            </label>
+            <Input
+              type="text"
+              name="phone_number"
+              id="phone_number"
+              value={cafeData?.contact.phone_number || ""}
+              onChange={(e) =>
+                setCafeData({ ...cafeData, contact: { ...cafeData.contact, phone_number: e.target.value } })
+              }
+            />
+          </div>
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-4 text-sm font-semibold">

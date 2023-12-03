@@ -19,7 +19,13 @@ cafe_router = APIRouter()
 # --------------------------------------
 
 @cafe_router.get("/cafes", response_model=List[CafeOut], summary="List Cafes", description="Retrieve a list of all cafes.")
-async def list_cafes(request: Request):
+async def list_cafes(
+    request: Request,
+    is_open: Optional[bool] = Query(None, description="Filter cafes by open status (true/false)."),
+    sort_by: Optional[str] = Query("name", description="Sort cafes by a specific field. Prefix with '-' for descending order (e.g., '-name')."),
+    page: Optional[int] = Query(1, description="Specify the page number for pagination."),
+    limit: Optional[int] = Query(40, description="Set the number of cafes to return per page.")
+):
     query_params = dict(request.query_params)
     return await CafeService.list_cafes(**query_params)
 
@@ -34,7 +40,7 @@ async def get_cafe(cafe_slug: str = Path(..., description="The slug of the cafe"
     
     return cafe
 
-@cafe_router.post("/cafes", response_model=CafeOut, summary="Create Cafe", description="Create a new cafe with the provided information.")
+@cafe_router.post("/cafes", response_model=CafeOut, summary="🔴* Create Cafe", description="Create a new cafe with the provided information. \n\nAuthorization: Only cafesansfil can create cafe.")
 async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current_user)):
     # Authorization check
     if "cafesansfil" != current_user.username:
@@ -44,7 +50,7 @@ async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current
         )
     return await CafeService.create_cafe(cafe)
 
-@cafe_router.put("/cafes/{cafe_slug}", response_model=CafeOut, summary="Update Cafe", description="Update the details of an existing cafe.")
+@cafe_router.put("/cafes/{cafe_slug}", response_model=CafeOut, summary="🔴 Update Cafe", description="Update the details of an existing cafe.")
 async def update_cafe(cafe: CafeUpdate, cafe_slug: str = Path(..., description="The slug of the cafe to update"),  current_user: User = Depends(get_current_user)):
     cafe_exists = await CafeService.retrieve_cafe(cafe_slug)
     if not cafe_exists:
@@ -74,7 +80,12 @@ async def update_cafe(cafe: CafeUpdate, cafe_slug: str = Path(..., description="
 # --------------------------------------
 
 @cafe_router.get("/cafes/{cafe_slug}/menu", response_model=List[MenuItemOut], summary="List Menu Items", description="Retrieve the menu items of a specific café.")
-async def list_menu_items(request: Request, cafe_slug: str = Path(..., description="The slug of the cafe")):
+async def list_menu_items(
+    request: Request, 
+    cafe_slug: str = Path(..., description="The slug of the cafe"),
+    in_stock: Optional[bool] = Query(None, description="Filter menu items by stock availability (true/false)."),
+    sort: Optional[str] = Query(None, description="Sort menus by a specific field.")
+):
     query_params = dict(request.query_params)
     query_params['slug'] = cafe_slug
     menu = await CafeService.list_menu_items(**query_params)
@@ -95,7 +106,7 @@ async def get_menu_item(cafe_slug: str = Path(..., description="The slug of the 
         )
     return item
 
-@cafe_router.post("/cafes/{cafe_slug}/menu", response_model=MenuItemOut, summary="Create Menu Item", description="Create a new menu item for the specified café.")
+@cafe_router.post("/cafes/{cafe_slug}/menu", response_model=MenuItemOut, summary="🔴 Create Menu Item", description="Create a new menu item for the specified café.")
 async def create_menu_item(item: MenuItemCreate, cafe_slug: str = Path(..., description="The slug of the cafe"), current_user: User = Depends(get_current_user)):
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
@@ -113,7 +124,7 @@ async def create_menu_item(item: MenuItemCreate, cafe_slug: str = Path(..., desc
 
     return await CafeService.create_menu_item(cafe_slug, item)
 
-@cafe_router.put("/cafes/{cafe_slug}/menu/{item_slug}", response_model=MenuItemOut, summary="Update Menu Item", description="Update the details of an existing menu item.")
+@cafe_router.put("/cafes/{cafe_slug}/menu/{item_slug}", response_model=MenuItemOut, summary="🟢 Update Menu Item", description="Update the details of an existing menu item.")
 async def update_menu_item(item: MenuItemUpdate, cafe_slug: str = Path(..., description="The slug of the cafe"), item_slug: str = Path(..., description="The slug of the menu item"), current_user: User = Depends(get_current_user)):
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER])
@@ -136,7 +147,7 @@ async def update_menu_item(item: MenuItemUpdate, cafe_slug: str = Path(..., desc
                 detail=error_message
             )
 
-@cafe_router.delete("/cafes/{cafe_slug}/menu/{item_slug}", summary="Delete Menu Item", description="Delete a specific menu item from the café's menu.")
+@cafe_router.delete("/cafes/{cafe_slug}/menu/{item_slug}", summary="🔴 Delete Menu Item", description="Delete a specific menu item from the café's menu.")
 async def delete_menu_item(cafe_slug: str = Path(..., description="The slug of the cafe"), item_slug: str = Path(..., description="The slug of the menu item"), current_user: User = Depends(get_current_user)):
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
@@ -168,7 +179,7 @@ async def delete_menu_item(cafe_slug: str = Path(..., description="The slug of t
 async def list_staff(cafe_slug: str = Path(..., description="The slug of the cafe")):
     return await CafeService.list_staff_members(cafe_slug)
 
-@cafe_router.post("/cafes/{cafe_slug}/staff", response_model=StaffOut, summary="Create Staff Member", description="Add a new staff member to a specific cafe.")
+@cafe_router.post("/cafes/{cafe_slug}/staff", response_model=StaffOut, summary="🔴 Create Staff Member", description="Add a new staff member to a specific cafe.")
 async def create_staff_member(cafe_slug: str, staff: StaffCreate, current_user: User = Depends(get_current_user)):
     user = await CafeService.retrieve_staff_member(cafe_slug, staff.username)
     if user:
@@ -200,7 +211,7 @@ async def create_staff_member(cafe_slug: str, staff: StaffCreate, current_user: 
         
     return await CafeService.create_staff_member(cafe_slug, staff)
 
-@cafe_router.put("/cafes/{cafe_slug}/staff/{username}", response_model=StaffOut, summary="Update Staff Member", description="Update details of an existing staff member.")
+@cafe_router.put("/cafes/{cafe_slug}/staff/{username}", response_model=StaffOut, summary="🔴 Update Staff Member", description="Update details of an existing staff member.")
 async def update_staff_member(cafe_slug: str, username: str, staff: StaffUpdate, current_user: User = Depends(get_current_user)):
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
@@ -223,7 +234,7 @@ async def update_staff_member(cafe_slug: str, username: str, staff: StaffUpdate,
             )
     
 
-@cafe_router.delete("/cafes/{cafe_slug}/staff/{username}", summary="Delete Staff Member", description="Remove a staff member from a cafe.")
+@cafe_router.delete("/cafes/{cafe_slug}/staff/{username}", summary="🔴 Delete Staff Member", description="Remove a staff member from a cafe.")
 async def delete_staff_member(cafe_slug: str, username: str, current_user: User = Depends(get_current_user)):    
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
@@ -251,7 +262,7 @@ async def delete_staff_member(cafe_slug: str, username: str, current_user: User 
 #               Sales Report
 # --------------------------------------
 
-@cafe_router.get("/cafes/{cafe_slug}/sales-report", summary="Get Sales Report", description="Retrieve a sales report for a specific cafe. If no date range is provided, the entire available data range is considered.")
+@cafe_router.get("/cafes/{cafe_slug}/sales-report", summary="🔴 Get Sales Report", description="Retrieve a sales report for a specific cafe. If no date range is provided, the entire available data range is considered.")
 async def get_sales_report(
     cafe_slug: str = Path(..., description="The slug of the cafe for which to generate the report."),
     start_date: Optional[str] = Query(None, description="The start date of the reporting period in YYYY-MM-DD format."),
@@ -282,7 +293,10 @@ async def get_sales_report(
 # --------------------------------------
 
 @cafe_router.get("/search", summary="Search for Cafes and Menu Items", description="Search across cafes and their menu items with a given query.")
-async def search(request: Request, query: str = Query(..., description="Search query for cafes or menu items")):
+async def search(
+    request: Request,
+    query: str = Query(..., description="Search query for cafes or menu items"),
+):
     filters = dict(request.query_params)
     filters.pop('query', None)
     return await CafeService.search_cafes_and_items(query, **filters)

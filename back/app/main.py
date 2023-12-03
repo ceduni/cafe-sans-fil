@@ -20,17 +20,25 @@ Sets up FastAPI application, CORS middleware, and initializes the database conne
 """
 
 description = """
-This project is in development and is hosted on [Render](https://cafesansfil.onrender.com) using a free MongoDB Atlas cluster for the database. You can find the source code on [GitHub](https://github.com/ceduni/udem-cafe).
+# API Documentation
 
-\nYou can use the [**Swagger UI**](https://cafesansfil-api.onrender.com/docs) to explore the API and test the endpoints.  
-You can also use the [**ReDoc**](https://cafesansfil-api.onrender.com/redoc) interface to explore the API.
+This project is currently in development and is hosted on [Render](https://cafesansfil.onrender.com), utilizing a free MongoDB Atlas cluster for its database. The source code is available on [GitHub](https://github.com/ceduni/udem-cafe).
 
-To test protected endpoints, you can use the following credentials:
+- Explore and test the API endpoints using the [**Swagger UI**](https://cafesansfil-api.onrender.com/docs).
+- Use the [**ReDoc**](https://cafesansfil-api.onrender.com/redoc) interface for an alternative view of the API documentation.
+
+## Testing Protected Endpoints
+To test protected endpoints, you can use the following default credentials:
 - Username: `cafesansfil`
 - Password: `Cafepass1`
 
-Alternatively, you can create your own user or you can use any users with different roles using the `/api/users` endpoint.  
-All pre-generated users have the same password: `Cafepass1`.
+You can also create your own user or utilize any pre-generated users with different roles via the `/api/users` endpoint. All pre-generated users share the same password: `Cafepass1`.
+
+## Role in Endpoint Summaries
+In the endpoint summaries, different roles are indicated using color codes for easy identification and include the permissions of the roles below them:
+- 🔴 **Administrators** < Café Managers/Admins includes all features.
+- 🟢 **Volunteers** < Includes features accessible to UdeM Members.
+- 🔵 **Members** < Basic user access features.
 """
 
 db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
@@ -49,7 +57,7 @@ async def lifespan(app: FastAPI):
     
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    summary="Café sans-fil API for managing cafes, users, and orders.", 
+    summary="The project is a web application designed to improve café services and ordering processes for UdeM members.", 
     description=description,
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
