@@ -35,18 +35,7 @@ MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING> # "mongodb://localhost:2701
 MONGO_DB_NAME="cafesansfil"
 ```
 
-> **Note:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend.  
-  
-**JWT_SECRET_KEY** et **JWT_REFRESH_SECRET_KEY** : Ces clés sont utilisées pour encoder et décoder les tokens JWT. Sur les systèmes Unix, vous pouvez générer des chaînes aléatoires sécurisées pour ces clés en utilisant `openssl rand -hex 32` pour `JWT_SECRET_KEY` et `openssl rand -hex 64` pour `JWT_REFRESH_SECRET_KEY` dans votre terminal. Sur Windows, vous pouvez utiliser d'autres méthodes pour générer des chaînes sécurisées.
-
-**BACKEND_CORS_ORIGINS** : Définit les origines autorisées pour les requêtes cross-origin. Pour le développement local, vous pouvez utiliser `"http://localhost:5173"`.
-
-**BASE_URL** : URL de base pour les requêtes au backend. Pour le développement local, utilisez `"http://localhost:8000"`.
-
-**MONGO_CONNECTION_STRING** : C'est la chaîne de connexion pour votre instance MongoDB. Pour le développement local, utilisez `"mongodb://localhost:27017/"`.
-
-**MONGO_DB_NAME** : Le nom de votre base de données MongoDB, par exemple, `"cafesansfil"`.
-
+> **Note:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend. Sur les systèmes Unix, vous pouvez générer des chaînes aléatoires sécurisées pour ces clés en utilisant `openssl rand -hex 32` pour `JWT_SECRET_KEY` et `openssl rand -hex 64` pour `JWT_REFRESH_SECRET_KEY` dans votre terminal. Sur Windows, vous pouvez utiliser d'autres méthodes pour générer des chaînes sécurisées.
 
 ## Démarrage du server
 
