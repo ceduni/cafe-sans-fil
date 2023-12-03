@@ -35,8 +35,8 @@ MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING> # "mongodb://localhost:2701
 MONGO_DB_NAME="cafesansfil"
 ```
 
-> **Note importante:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend.
-
+> **Note:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend.  
+  
 **JWT_SECRET_KEY** et **JWT_REFRESH_SECRET_KEY** : Ces clés sont utilisées pour encoder et décoder les tokens JWT. Sur les systèmes Unix, vous pouvez générer des chaînes aléatoires sécurisées pour ces clés en utilisant `openssl rand -hex 32` pour `JWT_SECRET_KEY` et `openssl rand -hex 64` pour `JWT_REFRESH_SECRET_KEY` dans votre terminal. Sur Windows, vous pouvez utiliser d'autres méthodes pour générer des chaînes sécurisées.
 
 **BACKEND_CORS_ORIGINS** : Définit les origines autorisées pour les requêtes cross-origin. Pour le développement local, vous pouvez utiliser `"http://localhost:5173"`.
@@ -71,7 +71,7 @@ Pour générer des données pour la base de données :
 1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
 2. Exécutez le script avec `py -m utils.generate_all`.
 
-Vous pouvez ajuster le nombre d'utilisateurs créés en modifiant cette ligne dans le script : `user_usernames = await create_users(27)`.
+> Vous pouvez ajuster le nombre d'utilisateurs créés en modifiant cette ligne dans le script : `user_usernames = await create_users(27)`.
 
 Par défaut, les données seront générées dans `MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"`, mais vous pouvez les diriger vers votre base de données principale en modifiant le script `MONGO_DB_NAME = settings.MONGO_DB_NAME`.
 
