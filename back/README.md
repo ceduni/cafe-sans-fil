@@ -88,7 +88,7 @@ Pour exécuter les tests du back-end, il est nécessaire d'avoir des données g�
 
 Render est utilisé pour héberger à la fois le service web (API back-end) et le site statique (front-end) de notre application "Café sans-fil". Voici comment nous avons configuré chaque partie :
 
-### Web Service pour l'API (Back-end)
+## Web Service pour l'API (Back-end)
 
 1. **Déploiement de l'API** :
    - Sélectionnez 'Web Service' sur Render et choisissez le répertoire `/back`.
@@ -109,7 +109,7 @@ Render est utilisé pour héberger à la fois le service web (API back-end) et l
      MONGO_DB_NAME="cafesansfil"
      ```
 
-### Static Site pour le Front-end
+## Static Site pour le Front-end
 
 1. **Déploiement du Front-end** :
    - Sélectionnez 'Static Site' sur Render et choisissez le répertoire `/front`.
