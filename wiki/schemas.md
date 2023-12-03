@@ -23,8 +23,6 @@ Ce document présente la structure de notre BD MongoDB.
 }
 ```
 
-<br>
-
 ### Cafe
 
 ```json
@@ -106,8 +104,6 @@ Ce document présente la structure de notre BD MongoDB.
 }
 
 ```
-
-<br>
 
 ### Order
 
