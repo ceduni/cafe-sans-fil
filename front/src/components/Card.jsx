@@ -4,7 +4,7 @@ const Card = ({ className, children }) => {
   return (
     <div
       className={classNames(
-        "overflow-hidden focus:outline-none rounded-3xl sm:rounded-[1.25rem] shadow-sm border border-gray-200 flex flex-col group\
+        "overflow-hidden focus:outline-none bg-[#fcfcfc] rounded-3xl sm:rounded-[1.25rem] shadow-sm border border-gray-200 flex flex-col group\
         sm:hover:shadow-lg sm:transition-shadow sm:duration-300 sm:ease-in-out hover:animate-scale",
         className
       )}
@@ -19,7 +19,7 @@ const Image = ({ className, src, alt }) => {
 };
 
 const Header = ({ className, children }) => {
-  return <div className={classNames("px-4 bg-white sm:px-6 py-5", className)}>{children}</div>;
+  return <div className={classNames("px-4 sm:px-6 py-5", className)}>{children}</div>;
 };
 
 const HeaderTitle = ({ className, as = "h3", children }) => {
