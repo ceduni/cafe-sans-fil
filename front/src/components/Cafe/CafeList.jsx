@@ -42,7 +42,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
   if (isLoading && storedCafes.length === 0) {
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6 animate-pulse duration-100">
-        {Array.from({ length: 16 }).map((_, i) => (
+        {Array.from({ length: 20 }).map((_, i) => (
           <CafeCardLoading key={i} />
         ))}
       </div>
