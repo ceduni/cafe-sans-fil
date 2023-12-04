@@ -4,7 +4,7 @@ const Card = ({ className, children }) => {
   return (
     <div
       className={classNames(
-        "overflow-hidden rounded-2xl shadow-sm border border-gray-200 flex flex-col group \
+        "overflow-hidden focus:outline-none rounded-3xl sm:rounded-2xl shadow-sm border border-gray-200 flex flex-col group\
         sm:hover:shadow-lg sm:transition-shadow sm:duration-300 sm:ease-in-out hover:animate-scale",
         className
       )}
@@ -15,7 +15,7 @@ const Card = ({ className, children }) => {
 };
 
 const Image = ({ className, src, alt }) => {
-  return <img className={classNames("w-full h-36 object-cover rounded-lg group-hover:rounded-none group-hover:scale-[1.02] duration-200", className)} src={src} alt={alt} />;
+  return <img className={classNames("w-full h-48 sm:h-40 object-cover rounded-2xl sm:rounded-lg group-hover:rounded-none group-hover:scale-[1.02] duration-200", className)} src={src} alt={alt} />;
 };
 
 const Header = ({ className, children }) => {

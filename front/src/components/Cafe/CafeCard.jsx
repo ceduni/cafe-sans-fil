@@ -42,15 +42,16 @@ const CafeCardLoading = () => {
     <Card>
       <Card.Header>
         <Card.Header.Title as="div">
-          <div className="h-3 bg-gray-200 rounded-full w-36 mb-4"></div>
+          <div className="h-14 sm:h-16 bg-white rounded-full mb-2.5"></div>
         </Card.Header.Title>
         <Card.Header.Subtitle as="div">
-          <div className="h-2.5 bg-gray-200 rounded-full w-48 mb-4"></div>
+
         </Card.Header.Subtitle>
       </Card.Header>
       <Card.Body>
-        <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
-        <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
+        <div className="h-2.5 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
+        <div className="h-2.5 bg-gray-200 rounded-full mb-2.5"></div>
+        <div className="h-2.5 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
       </Card.Body>
     </Card>
   );
