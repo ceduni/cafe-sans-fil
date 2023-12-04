@@ -50,6 +50,62 @@ export const isNowWithinOpeningHours = (openingHours) => {
   });
 };
 
+export const getClosingTimeToday = (openingHours) => {
+  if (!openingHours) return { closingTime: "", isBreak: false };
+
+  const now = moment().tz("America/Montreal");
+  const todayEnglish = now.format("dddd").toLowerCase();
+  const todayFrench = mapDayEnglishToFrench(todayEnglish);
+
+  const currentDay = openingHours.find((day) => day.day.toLowerCase() === todayFrench);
+  if (!currentDay || !currentDay.blocks || currentDay.blocks.length === 0) return { closingTime: "", isBreak: false };
+
+  for (let i = 0; i < currentDay.blocks.length; i++) {
+    const block = currentDay.blocks[i];
+    const startTime = moment(block.start, "HH:mm");
+    const endTime = moment(block.end, "HH:mm");
+
+    if (now.isBetween(startTime, endTime) || now.isSameOrBefore(startTime)) {
+      const isBreak = i < currentDay.blocks.length - 1;
+      return { closingTime: block.end, isBreak };
+    }
+  }
+
+  return { closingTime: "", isBreak: false };
+};
+
+export const getNextOpeningTime = (openingHours) => {
+  if (!openingHours || openingHours.length === 0) return "Indisponible";
+
+  const now = moment().tz("America/Montreal");
+  const weekDays = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+
+  const todayIndex = weekDays.indexOf(mapDayEnglishToFrench(now.format("dddd").toLowerCase()));
+  const daysInWeek = weekDays.length;
+
+  for (let i = 0; i < daysInWeek; i++) {
+    const dayIndex = (todayIndex + i) % daysInWeek;
+    const dayName = weekDays[dayIndex];
+
+    const daySchedule = openingHours.find((d) => d.day.toLowerCase() === dayName);
+    if (daySchedule && daySchedule.blocks && daySchedule.blocks.length > 0) {
+      for (const block of daySchedule.blocks) {
+        const startTime = moment(block.start, "HH:mm").day(dayIndex);
+
+        if (dayIndex !== todayIndex || now.isBefore(startTime)) {
+          return `Ouvre à ${block.start} ${dayName.slice(0, 3)}.`;
+        }
+      }
+    }
+  }
+
+  return "Indisponible";
+};
+
+
+
+
+
 export const isCafeActuallyOpen = (isOpen, openingHours) => {
   return isOpen && isNowWithinOpeningHours(openingHours);
 };
