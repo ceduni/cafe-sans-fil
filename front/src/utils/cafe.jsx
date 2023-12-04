@@ -83,28 +83,29 @@ export const getNextOpeningTime = (openingHours) => {
   const todayIndex = weekDays.indexOf(mapDayEnglishToFrench(now.format("dddd").toLowerCase()));
   const daysInWeek = weekDays.length;
 
-  for (let i = 0; i < daysInWeek; i++) {
+  const todaySchedule = openingHours.find(d => d.day.toLowerCase() === weekDays[todayIndex]);
+  if (todaySchedule && todaySchedule.blocks && todaySchedule.blocks.length > 0) {
+    for (const block of todaySchedule.blocks) {
+      const startTime = moment(block.start, "HH:mm");
+      if (now.isBefore(startTime)) {
+        return `Ouvre à ${block.start} ${weekDays[todayIndex].slice(0, 3)}.`;
+      }
+    }
+  }
+
+  for (let i = 1; i <= daysInWeek; i++) {
     const dayIndex = (todayIndex + i) % daysInWeek;
     const dayName = weekDays[dayIndex];
 
-    const daySchedule = openingHours.find((d) => d.day.toLowerCase() === dayName);
+    const daySchedule = openingHours.find(d => d.day.toLowerCase() === dayName);
     if (daySchedule && daySchedule.blocks && daySchedule.blocks.length > 0) {
-      for (const block of daySchedule.blocks) {
-        const startTime = moment(block.start, "HH:mm").day(dayIndex);
-
-        if (dayIndex !== todayIndex || now.isBefore(startTime)) {
-          return `Ouvre à ${block.start} ${dayName.slice(0, 3)}.`;
-        }
-      }
+      const firstBlock = daySchedule.blocks[0];
+      return `Ouvre à ${firstBlock.start} ${dayName.slice(0, 3)}.`;
     }
   }
 
   return "Indisponible";
 };
-
-
-
-
 
 export const isCafeActuallyOpen = (isOpen, openingHours) => {
   return isOpen && isNowWithinOpeningHours(openingHours);
