@@ -4,7 +4,7 @@ const Card = ({ className, children }) => {
   return (
     <div
       className={classNames(
-        "overflow-hidden bg-stone-100 bg-opacity-30 rounded-2xl shadow-sm border border-gray-200 flex flex-col group \
+        "overflow-hidden rounded-2xl shadow-sm border border-gray-200 flex flex-col group \
         sm:hover:shadow-lg sm:transition-shadow sm:duration-300 sm:ease-in-out hover:animate-scale",
         className
       )}
@@ -15,17 +15,17 @@ const Card = ({ className, children }) => {
 };
 
 const Image = ({ className, src, alt }) => {
-  return <img className={classNames("w-full h-36 object-cover group-hover:scale-[1.02] duration-200", className)} src={src} alt={alt} />;
+  return <img className={classNames("w-full h-36 object-cover rounded-lg group-hover:rounded-none group-hover:scale-[1.02] duration-200", className)} src={src} alt={alt} />;
 };
 
 const Header = ({ className, children }) => {
-  return <div className={classNames("px-4 bg-white sm:px-6 py-5 border-b border-gray-200", className)}>{children}</div>;
+  return <div className={classNames("px-4 bg-white sm:px-6 py-5", className)}>{children}</div>;
 };
 
 const HeaderTitle = ({ className, as = "h3", children }) => {
   const Tag = as;
 
-  return <Tag className={classNames("text-lg font-semibold tracking-tight leading-6 text-zinc-700 text-opacity-95", className)}>{children}</Tag>;
+  return <Tag className={classNames("text-lg font-semibold tracking-tight leading-6 ", className)}>{children}</Tag>;
 };
 
 const HeaderSubtitle = ({ className, as = "p", children }) => {
