@@ -15,7 +15,8 @@ const SearchResults = ({ searchQuery, storedCafes }) => {
   });
 
   if (cafes?.length === 0) {
-    return <EmptyState name="café" />;
+    
+    return <div className="mt-20 mb-36"><EmptyState name="café" /></div>;
   }
 
   return (
