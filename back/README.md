@@ -2,27 +2,13 @@
   
 Pour la gestion de nos données, nous utilisons MongoDB Atlas, la base de données cloud de MongoDB. Nous avons opté pour ce service en raison de son offre gratuite qui est parfaitement adaptée à nos besoins.  
   
-Notre documentation de l'API back-end est disponible via Swagger UI et ReDoc aux URL suivantes :  
-  
-- Swagger UI : [cafesansfil-api.onrender.com/docs](https://cafesansfil-api.onrender.com/docs)  
-- ReDoc : [cafesansfil-api.onrender.com/redoc](https://cafesansfil-api.onrender.com/redoc)  
-  
-
 ## Prérequis
 
 - Assurez-vous d'avoir installé Python 3.11. (Ou sinon [Creating a Pipfile for multiple versions of Python](https://dev.to/tomoyukiaota/creating-a-pipfile-for-multiple-versions-of-python-9f2))
 - Si vous n'avez pas `pipenv`, installez-le avec `pip install pipenv`.
+- Assurez-vous que MongoDB est installé sur votre système.
 
-## Configuration de MongoDB
-
-Pour configurer MongoDB :
-
-1. Assurez-vous que MongoDB est installé sur votre système.
-2. Démarrez le serveur MongoDB.
-3. Créez une nouvelle base de données nommée `"cafesansfil"` (ou le nom que vous avez défini après dans `MONGO_DB_NAME`).
-4. (Facultatif) Utilisez un outil comme MongoDB Compass pour gérer et visualiser vos données plus facilement.
-
-## Configuration du fichier .env
+### Configuration du fichier .env
 
 Pour configurer le fichier .env dans le backend, créez un fichier nommé `.env` dans `/back/app`. Ajoutez ce qui suit dans le fichier `.env` :
 
@@ -35,18 +21,7 @@ MONGO_CONNECTION_STRING=<MONGO_DB_CONNECTION_STRING> # "mongodb://localhost:2701
 MONGO_DB_NAME="cafesansfil"
 ```
 
-> **Note:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend.  
-  
-**JWT_SECRET_KEY** et **JWT_REFRESH_SECRET_KEY** : Ces clés sont utilisées pour encoder et décoder les tokens JWT. Sur les systèmes Unix, vous pouvez générer des chaînes aléatoires sécurisées pour ces clés en utilisant `openssl rand -hex 32` pour `JWT_SECRET_KEY` et `openssl rand -hex 64` pour `JWT_REFRESH_SECRET_KEY` dans votre terminal. Sur Windows, vous pouvez utiliser d'autres méthodes pour générer des chaînes sécurisées.
-
-**BACKEND_CORS_ORIGINS** : Définit les origines autorisées pour les requêtes cross-origin. Pour le développement local, vous pouvez utiliser `"http://localhost:5173"`.
-
-**BASE_URL** : URL de base pour les requêtes au backend. Pour le développement local, utilisez `"http://localhost:8000"`.
-
-**MONGO_CONNECTION_STRING** : C'est la chaîne de connexion pour votre instance MongoDB. Pour le développement local, utilisez `"mongodb://localhost:27017/"`.
-
-**MONGO_DB_NAME** : Le nom de votre base de données MongoDB, par exemple, `"cafesansfil"`.
-
+> **Note:** Les valeurs `<RAMDOM_STRING>`, `<RANDOM_SECURE_LONG_STRING>` et `<MONGO_DB_CONNECTION_STRING>` sont des espaces réservés. Vous devez les remplacer par vos propres valeurs avant de déployer ou d'exécuter le backend. Sur les systèmes Unix, vous pouvez générer des chaînes aléatoires sécurisées pour ces clés en utilisant `openssl rand -hex 32` pour `JWT_SECRET_KEY` et `openssl rand -hex 64` pour `JWT_REFRESH_SECRET_KEY` dans votre terminal. Sur Windows, vous pouvez utiliser d'autres méthodes pour générer des chaînes sécurisées.
 
 ## Démarrage du server
 
@@ -145,7 +120,7 @@ Cette stratégie assure que notre API reste accessible et réactive pour les uti
 - [YouTube | FARM Stack Course - FastAPI, React, MongoDB](https://www.youtube.com/watch?v=OzUzrs8uJl8&list=PLAt-l74BsucNBwFANkqwisPMSLE62rKG_&index=2&t=2912s&ab_channel=freeCodeCamp.org)
 - [YouTube | The ultimate FARM stack Todo app with JWT PART I - FastAPI + MongoDB | abdadeel](https://www.youtube.com/watch?v=G8MsHbCzyZ4&ab_channel=ABDLogs)
 - [YouTube | Python API Development With FastAPI - Comprehensive Course for Beginners P-5 Password reset](https://www.youtube.com/watch?v=Y7FCJF48Obk&list=PLU7aW4OZeUzxL1wZVOS31LfbB1VNL3MeX&index=7&ab_channel=CodeWithPrince)
-- [YouTube (For Mac) | command not found: pipenv Resolved](https://www.youtube.com/watch?v=Bzn_MZ0tNXU&ab_channel=SpecialCoder).
+- [YouTube (For Mac) | command not found: pipenv Resolved](https://www.youtube.com/watch?v=Bzn_MZ0tNXU&ab_channel=SpecialCoder)
 - [Article | Creating a Pipfile for multiple versions of Python](https://dev.to/tomoyukiaota/creating-a-pipfile-for-multiple-versions-of-python-9f2)
 - [Render | Redirects and Rewrites](https://render.com/docs/redirects-rewrites)
 - [Render | Spin-down behavior of free instance types](https://community.render.com/t/requests-to-back-end-take-long/10059)

@@ -90,8 +90,8 @@ Elle utilise MongoDB pour une gestion efficace des données, FastAPI pour traite
 La documentation officielle du projet se trouve dans le [wiki](https://github.com/ceduni/udem-cafe/wiki).  
 Pour faciliter la recherche, voilà quelques **liens rapides**:  
 🔗 [Spécifications du projet](https://github.com/ceduni/udem-cafe/wiki/Exigences)  
-🔗 [Documentation de l'API](https://github.com/ceduni/udem-cafe/wiki/API)  
-🔗 [Documentation de la BD](https://github.com/ceduni/udem-cafe/wiki/Base-de-donn%C3%A9es-(BD)) 
+🔗 [Documentation de l'API](https://cafesansfil-api.onrender.com/redoc)  
+🔗 [Documentation de la BD](https://github.com/ceduni/udem-cafe/wiki/API-et-Base-de-donn%C3%A9es) 
 <!-- 🔗 [Guide d'utilisation](https://github.com/ceduni/udem-cafe/wiki/Base-de-donn%C3%A9es-(BD))  -->
 
 

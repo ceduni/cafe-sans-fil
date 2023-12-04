@@ -13,10 +13,18 @@ import { MapPinIcon } from "@heroicons/react/24/solid";
 import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
 import { getCafeCategories, getItemByCategory } from "@/utils/items";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { useState } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
+import classNames from 'classnames';
 
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
   const [data, isLoading, error] = useApi(`/cafes/${cafeSlug}`);
+  const [showOpeningHours, setShowOpeningHours] = useState(false);
+
+  const toggleOpeningHours = () => {
+    setShowOpeningHours(!showOpeningHours);
+  };
 
   if (error) {
     if (error.status === 404) {
@@ -31,7 +39,7 @@ const Cafe = () => {
   return (
     <>
       <Helmet>{data?.name && <title>{data.name} | Café sans-fil</title>}</Helmet>
-      <Container className="py-10">
+      <Container className="py-10 pb-12">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
           <Breadcrumbs.Item isLoading={isLoading}>{data?.name}</Breadcrumbs.Item>
@@ -53,9 +61,20 @@ const Cafe = () => {
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
         )}
 
+      <div className="flex items-center justify-start space-x-2">
         <OpenIndicator isOpen={data?.is_open} openingHours={data?.opening_hours} statusMessage={data?.status_message} />
+        <button onClick={toggleOpeningHours}>
+          {showOpeningHours 
+            ? <ChevronUpIcon className="h-6 w-6" /> 
+            : <ChevronDownIcon className="h-6 w-6" />}
+        </button>
+      </div>
 
-        <div className="pb-3">
+      <div className={classNames("overflow-hidden transition-all duration-200", {"max-h-0": !showOpeningHours, "max-h-96": showOpeningHours})}>
+        {showOpeningHours && <OpeningHours openingHours={data?.opening_hours} />}
+      </div>
+
+        <div className="pb-3 pt-3">
           {(data?.description && (
             <p className="sm:text-lg leading-8 text-gray-600 max-w-3xl">{data?.description}</p>
           )) || (
@@ -88,7 +107,6 @@ const Cafe = () => {
             )
         )}
 
-        <OpeningHours openingHours={data?.opening_hours} />
       </Container>
 
       <Container className="pt-12 border-t border-gray-200">

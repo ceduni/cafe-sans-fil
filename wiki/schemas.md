@@ -1,10 +1,15 @@
+> Notre documentation de l'API back-end est disponible via Swagger UI et ReDoc aux URL suivantes :  
+>   
+> - Swagger UI : [cafesansfil-api.onrender.com/docs](https://cafesansfil-api.onrender.com/docs)  
+> - ReDoc : [cafesansfil-api.onrender.com/redoc](https://cafesansfil-api.onrender.com/redoc) 
+
 # 🗃️ Schemas
 
 Ce document présente la structure de notre BD MongoDB.
 
 ## Collections
 
-### User
+### users
 
 ```json
 {
@@ -23,7 +28,7 @@ Ce document présente la structure de notre BD MongoDB.
 }
 ```
 
-### Cafe
+### cafes
 
 ```json
 {
@@ -105,7 +110,7 @@ Ce document présente la structure de notre BD MongoDB.
 
 ```
 
-### Order
+### orders
 
 ```json
 {
@@ -138,3 +143,22 @@ Ce document présente la structure de notre BD MongoDB.
 }
 ```
 
+
+### Notes sur les Statuts de Commande
+
+Chaque commande traverse différents statuts qui indiquent sa progression :
+
+- **🔄 Placée**: 
+  - **Définition** : La commande est enregistrée mais n'est pas encore traitée par le café.
+  
+- **✅ Prête**: 
+  - **Définition** : La commande a été traitée et est prête à être récupérée par le client.
+
+- **✔️ Complétée**: 
+  - **Définition** : La commande a été récupérée par le client et est considérée comme terminée.
+
+- **❌ Annulée**: 
+  - **Définition** : La commande a été annulée.
+  - **Détails** : 
+    - Peut se produire automatiquement si la commande n'est pas traitée ou récupérée dans le délai d'une heure.
+    - Peut également être annulée manuellement par le client ou le café pour diverses raisons, telles que l'indisponibilité d'un article ou un autre problème opérationnel.

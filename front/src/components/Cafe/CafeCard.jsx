@@ -21,20 +21,17 @@ const CafeCard = ({ cafe }) => {
             statusMessage={cafe.status_message}
             size="xs"
           />
-        </Card.Header>
-        <Card.Body>{cafe.description}</Card.Body>
-        {cafe.additional_info && cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
-          <Card.Footer>
+          {cafe.additional_info && cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
             <div
-              className="px-4 bg-sky-200 rounded-full animate-text flex lg:inline-flex items-center justify-between gap-2 w-fit max-w-full"
+              className="mt-4 px-4 animate-text bg-sky-200 rounded-full flex items-center justify-center gap-2 w-fit"
               role="alert">
-              <span className="py-2 leading-none font-semibold text-xs text-gray-700" style={{ textWrap: "balance" }}>
+              <span className="py-2 leading-none font-semibold text-xs text-gray-700">
                 {cafe.additional_info[0].value}
               </span>
               <ChevronRightIcon className="w-4 h-4 flex-shrink-0 opacity-75" />
             </div>
-          </Card.Footer>
-        )}
+          )}
+        </Card.Header>
       </Card>
     </Link>
   );
