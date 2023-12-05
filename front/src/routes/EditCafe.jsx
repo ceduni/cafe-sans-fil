@@ -261,10 +261,8 @@ const EditCafe = () => {
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-4 text-sm font-semibold">
-          <Link to={`/cafes/${cafeSlug}`}>
-            <button type="button" className="leading-6 text-gray-900 px-3 py-2">
-              Annuler
-            </button>
+          <Link to={`/cafes/${cafeSlug}`} className="leading-6 text-gray-900 px-3 py-2">
+            Annuler
           </Link>
           <button
             className="flex items-center gap-2 \
