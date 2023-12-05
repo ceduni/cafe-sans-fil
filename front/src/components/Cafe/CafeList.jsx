@@ -23,7 +23,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
   }, [data, setStoredCafes]);
 
   if (error) {
-    return <EmptyState type="error" error={error} />;
+    return <div className="mt-20 mb-36"><EmptyState type="error" error={error} /></div>;
   }
 
   const filteredData = storedCafes.filter(
@@ -53,7 +53,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
     <>
       <Filters filters={filters} setFilters={setFilters} cafes={storedCafes} />
 
-      {filteredData?.length === 0 && <EmptyState name="café" />}
+      {filteredData?.length === 0 && <div className="mt-20 mb-36"><EmptyState name="café" /></div>}
 
       <div className="grid animate-fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
         {filteredData.map((cafe) => (
