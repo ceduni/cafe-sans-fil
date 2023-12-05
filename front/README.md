@@ -27,14 +27,35 @@
 
 ## Avancée du développement
 
+#### 2023-12-04
+
+- Amélioration UI
+- Fix black outline in Ipad
+
 #### 2023-12-03
 
 - Possibilité de modifier plus de champs en tant qu'admin d'un café (notamment ajouter des messages d'info)
+- Ajout Dynamic OpenIndicator, togglable OpeningHours
+- Enlever description dans CafeCard
+
+#### 2023-12-02
+
+- Amélioration UI, animation card cards..
+
+#### 2023-12-01
+
+- Déplacer loading logic à Breadcrumbs component
+- Ajout animation logo, rounded cards, bigger `Menu` text, another row CafeCardLoadings
+- Changer `Se connecter` à `Connexion` pour mobile
+- Fix Avatar sans `photo_url`
 
 #### 2023-11-30
 
 - Amélioration de code et design
 - Début développement page édition de menu
+- Ajout la logique de StaffList
+- Ajout de SalesReport
+- Enlever Dropdown menu mobile login
 
 #### 2023-11-29
 
@@ -46,6 +67,11 @@
 - Améliorations UI, design, et fix de bugs
 - Début de la page d'édition de café
 - Filtres par méthode de paiement fonctionnels
+- Fix Race Condition dans submitOrder
+- Changer Timezone à Montréal avec `moment`
+- Ajout Delete Account
+- Ajout Reset Password
+- Ajout des noms, emails, photos des staffs
 
 #### 2023-11-27
 
@@ -54,6 +80,7 @@
 - Possibilité de show le password sur la page de connexion
 - Commencé à proprement afficher les commandes en cours d'un café
 - Fix requetes API inutiles et amélioration temps chargement Orders
+- Corriger l'erreur de lecture null avec Recherche de Cafés.
 
 #### 2023-11-23
 
@@ -65,6 +92,7 @@
 - Ajout filtre commandes par statut
 - Ajout options à liste commandes
 - Affichage liste staff
+- Fix `is_open` HH:mm.
 
 #### 2023-11-21
 
@@ -72,6 +100,7 @@
 - Ajout du support des options de produits (ex: taille, sirop, etc.)
 - Début support photos de profil user
 - Début support des commandes côté café
+- Convertir l'heure à Montréal pour `is_open`
 
 #### 2023-11-16
 
