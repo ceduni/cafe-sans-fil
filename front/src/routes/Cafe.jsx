@@ -20,7 +20,7 @@ import classNames from "classnames";
 
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
-  const [data, isLoading, error] = useApi(`/cafes/${cafeSlug}`);
+  const { data, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
   const [showOpeningHours, setShowOpeningHours] = useState(false);
 
   const toggleOpeningHours = () => {
@@ -124,7 +124,7 @@ const Cafe = () => {
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">{category}</h2>
           <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 items-start">
             {getItemByCategory(menuItems, category).map((product) => (
-              <ItemCard key={product.item_id} item={product} cafeId={cafeSlug} />
+              <ItemCard key={product.item_id} item={product} cafeSlug={cafeSlug} />
             ))}
           </div>
         </Container>

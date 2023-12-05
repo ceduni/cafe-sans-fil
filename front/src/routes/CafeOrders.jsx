@@ -19,7 +19,7 @@ const CafeOrders = () => {
   const [areOrdersLoading, setAreOrdersLoading] = useState(true);
   const [isUnothorized, setIsUnauthorized] = useState(false);
 
-  const [data, isLoading] = useApi(`/cafes/${cafeSlug}`);
+  const { data, isLoading } = useApi(`/cafes/${cafeSlug}`);
   const cafeName = data?.name;
 
   // On récupère les commandes du café

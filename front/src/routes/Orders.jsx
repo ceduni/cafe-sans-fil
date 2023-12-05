@@ -32,8 +32,7 @@ function Orders() {
   }, [user]);
 
   // On récupère les cafés pour afficher les images et les noms
-  const [data, isLoading] = useApi(`/cafes`);
-  const cafes = data || [];
+  const { data: cafes, isLoading } = useApi(`/cafes`);
   const getCafeFromSlug = (slug) => {
     if (isLoading) return {};
     return cafes.find((cafe) => cafe.slug === slug);

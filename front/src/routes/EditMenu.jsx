@@ -41,7 +41,7 @@ const EditMenu = () => {
             <h3 className="font-medium">{category}</h3>
             <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:grid-cols-5 lg:gap-x-8 items-start">
               {getItemByCategory(menuItems, category).map((product) => (
-                <ItemCard key={product.item_id} item={product} cafeId={cafeSlug} edit />
+                <ItemCard key={product.item_id} item={product} cafeSlug={cafeSlug} edit />
               ))}
             </div>
           </div>

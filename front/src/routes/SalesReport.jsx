@@ -14,7 +14,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 
 const SalesReport = () => {
   const { id: cafeSlug } = useParams();
-  const [data, isLoading, error] = useApi(`/cafes/${cafeSlug}`);
+  const { data, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
   const [salesReport, setSalesReport] = useState(null);
   const { user } = useAuth();
 

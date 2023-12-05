@@ -18,7 +18,7 @@ import EditPaymentMethods from "@/components/Cafe/EditPaymentMehods";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
-  const [data, isLoading, error, setData] = useApi(`/cafes/${cafeSlug}`);
+  const { data, isLoading, error, setData } = useApi(`/cafes/${cafeSlug}`);
 
   // On utilise un état local pour sauegarder les changements et l'état précédent
   const [cafeData, setCafeData] = useState(null);

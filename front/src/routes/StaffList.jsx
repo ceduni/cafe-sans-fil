@@ -17,7 +17,7 @@ import classNames from "classnames";
 
 const StaffList = () => {
   const { id: cafeSlug } = useParams();
-  const [data, isLoading, error] = useApi(`/cafes/${cafeSlug}`);
+  const { data, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
   const [staffDetails, setStaffDetails] = useState([]);
 
   const { user: loggedInUser } = useAuth();
