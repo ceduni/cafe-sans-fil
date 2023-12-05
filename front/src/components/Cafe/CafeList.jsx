@@ -14,7 +14,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
     takesDebitCard: false,
   });
 
-  const [data, isLoading, error] = useApi("/cafes");
+  const { data, isLoading, error } = useApi("/cafes");
 
   useEffect(() => {
     if (data) {

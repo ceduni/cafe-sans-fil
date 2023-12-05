@@ -27,6 +27,10 @@
 
 ## Avancée du développement
 
+### 2023-12-05
+
+- Possibilité de modifier quelques infos d'items et d'ajouter un nouvel item (pas fini)
+
 #### 2023-12-04
 
 - Amélioration UI

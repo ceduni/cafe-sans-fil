@@ -31,7 +31,7 @@ const Profile = () => {
     }
   };
 
-  const [data] = useApi(`/cafes`);
+  const { data } = useApi(`/cafes`);
 
   const getMemberCafes = () => {
     const memberCafes = [];
