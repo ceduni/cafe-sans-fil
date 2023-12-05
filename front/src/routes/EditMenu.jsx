@@ -30,6 +30,7 @@ const EditMenu = () => {
           <h2 className="text-base font-semibold leading-7 text-gray-900">Catégories de produits</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             Ici apparaissent les catégories de produits qui apparaîtront sur la page de votre café.
+            <br /> Elles sont générées automatiquement à partir des produits que vous avez ajoutés.
           </p>
         </div>
 

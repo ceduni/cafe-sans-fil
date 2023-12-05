@@ -20,7 +20,7 @@ const CafeMemberHeader = ({ cafe }) => {
   const memberActions = [
     { name: "Commandes en cours", href: `/cafes/${cafeSlug}/orders`, icon: BuildingStorefrontIcon },
     { name: "Liste de staff", href: `/cafes/${cafeSlug}/staff`, icon: UserIcon },
-    { name: "Modifier le menu", href: "#", icon: PencilIcon },
+    { name: "Modifier le menu", href: `/cafes/${cafeSlug}/edit/menu`, icon: PencilIcon },
   ];
 
   const adminActions = [
