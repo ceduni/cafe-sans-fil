@@ -6,6 +6,7 @@ import { getCafeCategories, getItemByCategory } from "@/utils/items";
 import AdminOnly from "@/helpers/AdminOnly";
 import ItemCard from "@/components/Items/ItemCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const EditMenu = () => {
   const { id: cafeSlug } = useParams();
@@ -34,6 +35,7 @@ const EditMenu = () => {
           </p>
         </div>
 
+        {isLoading && <LoadingSpinner />}
         {categories.map((category) => (
           <div key={category} className="mb-12 border-b pb-12 last:border-b-0 last:pb-0">
             <h3 className="font-medium">{category}</h3>
