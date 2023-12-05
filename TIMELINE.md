@@ -2,23 +2,50 @@
 
 <!-- ## Semaine 15 (2023-12-11) -->
 
-<!-- ## Semaine 14 (2023-12-04) -->
+## Semaine 14 (2023-12-04)
+- **Front**:
+  - Améliorations de l'interface utilisateur, y compris la correction du contour noir sur iPad.
+  - Possibilité pour les admins de cafés de modifier davantage de champs.
+  - Ajout d'indicateurs d'ouverture dynamiques et heures d'ouverture modifiables.
+  - Diverses améliorations de l'interface utilisateur, y compris des animations.
+- **Back**:
+  - Mise à jour de la documentation de l'API et du back-end.
 
 ## Semaine 13 (2023-11-27)
-
--
+- **Front**:
+  - Développement de la page d'édition de menu.
+  - Amélioration de l'interface et du design.
+  - Ajout de la logique de StaffList et du rapport de ventes.
+- **Back**:
+  - Ajout de la route pour obtenir le rapport de ventes.
+  - Augmentation de la limitation des caractères pour image_url et faculty.
+  - Autorisation pour les bénévoles de mettre à jour le menu.
 
 ## Semaine 12 (2023-11-20)
-
--
+- **Front**:
+  - Diverses améliorations de l'interface utilisateur et du design.
+  - Début de la page d'édition de café.
+  - Filtres par méthode de paiement fonctionnels.
+- **Back**:
+  - Correction des schémas et refactorisation des routes.
+  - Ajout de davantage d'autorisations et de la limite de requête.
 
 ## Semaine 11 (2023-11-13)
-
--
+- **Front**:
+  - Amélioration de la page de commande POST fonctionnelle.
+  - Affichage des cafés dont on est staff sur le profil.
+  - Correction des requêtes API inutiles et amélioration du temps de chargement.
+- **Back**:
+  - Mise à jour de la recherche dynamique et du tri.
+  - Ajout de paramètres de requête dynamiques dans les routes.
 
 ## Semaine 10 (2023-11-06)
-
--
+- **Front**:
+  - Début de l'implémentation de la création de compte.
+  - Diverses optimisations de code et de structure de fichiers.
+  - Ajout d'un Footer.
+- **Back**:
+  - Ajout de la recherche de cafés.
 
 ## Semaine 9 (2023-10-30)
 
