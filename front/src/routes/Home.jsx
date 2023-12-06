@@ -16,7 +16,7 @@ const Home = () => {
       <Helmet>
         <title>Accueil | Café sans-fil</title>
       </Helmet>
-      <Container className="pt-9 pb-14 sm:py-14 space-y-6">
+      <Container className="pt-10 pb-[3.25rem] sm:py-14 space-y-6">
         <div className="flex gap-2">
           <h1 className="text-3xl sm:text-4xl text-opacity-90 font-secondary text-zinc-800 leading-7">
             Cafés étudiants de l'UdeM

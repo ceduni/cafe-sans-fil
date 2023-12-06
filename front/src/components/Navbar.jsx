@@ -107,7 +107,7 @@ const Navbar = () => {
                               "text-sm font-medium": true,
                             })
                           }>
-                          Connexion
+                          <span className="font-[580] hover:text-[#4388e7] duration-150">Connexion</span>
                         </NavLink>
                       </div>
                     )}
