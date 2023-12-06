@@ -87,6 +87,26 @@ def cafe_data2():
             ]
     }
 
+@pytest.fixture(scope="module")
+def cafe_data3():
+    return {
+            "name": "Cheeseburger " + fake.word(),
+            "tags": ["Rapide", "Savoureux"],
+            "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
+            "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
+            "price": 5.99,
+            "in_stock": True,
+            "category": "Burgers",
+            "options": [
+                {"type": "taille", "value": "grand", "fee": 0.5},
+                {"type": "ingrédients", "value": "bœuf", "fee": 0},
+                {"type": "ingrédients", "value": "laitue", "fee": 0},
+                {"type": "ingrédients", "value": "tomate", "fee": 0},
+                {"type": "ingrédients", "value": "fromage", "fee": 0}
+            ]
+    }
+
+
 # -----------------------------
 #       /api/cafes
 # -----------------------------
@@ -192,8 +212,8 @@ def test_create_menu_item_forbidden(client, list_cafes, cafe_data, auth_login):
     response = client.post(f"/api/cafes/{cafe_slug}/menu", json=menu_item_data, headers=headers)
     assert response.status_code == 403
 
-def test_create_menu_item_not_found(client, cafe_data, auth_login):
-    menu_item_data = cafe_data["menu_items"][0]
+def test_create_menu_item_not_found(client, cafe_data3, auth_login):
+    menu_item_data = cafe_data3
     tokens = auth_login
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
@@ -224,54 +244,54 @@ def test_get_menu_item_not_found2(client, list_cafes):
     response = client.get(f"/api/cafes/{cafe_slug}/menu/{item_slug}")
     assert response.status_code == 404
 
-def test_update_menu_item_success(client, list_cafes, cafe_data, auth_login):
+def test_update_menu_item_success(client, list_cafes, cafe_data3, auth_login):
     tokens = auth_login
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
     cafe_slug = list_cafes[0]["slug"]
     item_slug = list_cafes[0]["menu_items"][3]["slug"]
-    menu_item_data = cafe_data["menu_items"][0]
+    menu_item_data = cafe_data3
     response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data, headers=headers)
     assert response.status_code == 200
 
-def test_update_menu_item_unauthorized(client, list_cafes, cafe_data):
+def test_update_menu_item_unauthorized(client, list_cafes, cafe_data3):
     cafe_slug = list_cafes[0]["slug"]
     item_slug = list_cafes[0]["menu_items"][3]["slug"]
-    menu_item_data = cafe_data["menu_items"][0]
+    menu_item_data = cafe_data3
     response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data)
     assert response.status_code == 401
 
-def test_update_menu_item_forbidden(client, list_cafes, cafe_data, auth_login):
+def test_update_menu_item_forbidden(client, list_cafes, cafe_data3, auth_login):
     tokens = auth_login
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
     cafe_slug = list_cafes[1]["slug"]
     item_slug = list_cafes[0]["menu_items"][3]["slug"]
-    menu_item_data = cafe_data["menu_items"][0]
+    menu_item_data = cafe_data3
     response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data, headers=headers)
     assert response.status_code == 403
 
-def test_update_menu_item_not_found1(client, list_cafes, cafe_data, auth_login):
+def test_update_menu_item_not_found1(client, list_cafes, cafe_data3, auth_login):
     tokens = auth_login
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
     cafe_slug = "dont exist" # Non-existant slug
     item_slug = list_cafes[0]["menu_items"][3]["slug"]
-    menu_item_data = cafe_data["menu_items"][0]
+    menu_item_data = cafe_data3
     response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data, headers=headers)
     assert response.status_code == 404
 
-def test_update_menu_item_not_found2(client, list_cafes, cafe_data, auth_login):
+def test_update_menu_item_not_found2(client, list_cafes, cafe_data3, auth_login):
     tokens = auth_login
     headers = {
         "Authorization": f"Bearer {tokens['access_token']}"
     }
     cafe_slug = list_cafes[0]["slug"]
     item_slug = "dont exist" # Non-existant slug
-    menu_item_data = cafe_data["menu_items"][0]
+    menu_item_data = cafe_data3
     response = client.put(f"/api/cafes/{cafe_slug}/menu/{item_slug}", json=menu_item_data, headers=headers)
     assert response.status_code == 404
 

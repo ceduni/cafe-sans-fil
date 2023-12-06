@@ -201,17 +201,6 @@ class OrderService:
         elif report_type == "monthly":
             date_group_format = "%Y-%m"
 
-        sales_trends_aggregation = [
-            {"$match": query},
-            {"$group": {
-                "_id": {"$dateToString": {"format": date_group_format, "date": "$created_at"}},
-                "order_count": {"$sum": 1}
-            }},
-            {"$sort": SON([("_id", 1)])},
-            {"$project": {"time_period": "$_id", "_id": 0, "order_count": 1}}
-        ]
-        sales_trends = await Order.aggregate(sales_trends_aggregation).to_list()
-
         item_sales_details = [
             {
                 "item_name": data["_id"],
@@ -220,10 +209,40 @@ class OrderService:
             }
             for data in item_sales_details
         ]
+            
+        sales_order_trends_aggregation = [
+            {"$match": query},
+            {"$group": {
+                "_id": {"$dateToString": {"format": date_group_format, "date": "$created_at"}},
+                "order_count": {"$sum": 1}
+            }},
+            {"$sort": SON([("_id", 1)])},
+            {"$project": {"time_period": "$_id", "_id": 0, "order_count": 1}}
+        ]
+        sales_order_trends = await Order.aggregate(sales_order_trends_aggregation).to_list()
+
+        sales_revenue_trends_aggregation = [
+            {"$match": query},
+            {"$group": {
+                "_id": {"$dateToString": {"format": date_group_format, "date": "$created_at"}},
+                "total_revenue": {"$sum": "$total_price"}
+            }},
+            {"$sort": SON([("_id", 1)])},
+            {"$project": {"time_period": "$_id", "_id": 0, "total_revenue": 1}}
+        ]
+        sales_revenue_trends = await Order.aggregate(sales_revenue_trends_aggregation).to_list()
+        sales_revenue_trends = [
+            {
+                "time_period": data["time_period"],
+                "total_revenue": decimal128_to_float(data["total_revenue"])
+            }
+            for data in sales_revenue_trends
+        ]
 
         return {
             "total_revenue": total_revenue,
             "total_orders": total_orders,
+            "sales_revenue_trends": sales_revenue_trends,
+            "sales_order_trends": sales_order_trends,
             "item_sales_details": item_sales_details,
-            "sales_trends": sales_trends,
         }

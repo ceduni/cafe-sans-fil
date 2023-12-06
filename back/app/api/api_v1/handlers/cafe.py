@@ -48,8 +48,15 @@ async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Access forbidden"
         )
-    return await CafeService.create_cafe(cafe)
-
+    try:
+        return await CafeService.create_cafe(cafe)
+    except ValueError as e:
+        error_message = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=error_message
+        )
+    
 @cafe_router.put("/cafes/{cafe_slug}", response_model=CafeOut, summary="🔴 Update Cafe", description="Update the details of an existing cafe.")
 async def update_cafe(cafe: CafeUpdate, cafe_slug: str = Path(..., description="The slug of the cafe to update"),  current_user: User = Depends(get_current_user)):
     cafe_exists = await CafeService.retrieve_cafe(cafe_slug)
@@ -61,6 +68,7 @@ async def update_cafe(cafe: CafeUpdate, cafe_slug: str = Path(..., description="
 
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
+        return await CafeService.update_cafe(cafe_slug, cafe)
     except ValueError as e:
         if str(e) == "Cafe not found":
             raise HTTPException(
@@ -72,8 +80,11 @@ async def update_cafe(cafe: CafeUpdate, cafe_slug: str = Path(..., description="
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=str(e)
             )
-
-    return await CafeService.update_cafe(cafe_slug, cafe)
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=str(e)
+            )
 
 # --------------------------------------
 #               Menu
@@ -110,6 +121,7 @@ async def get_menu_item(cafe_slug: str = Path(..., description="The slug of the 
 async def create_menu_item(item: MenuItemCreate, cafe_slug: str = Path(..., description="The slug of the cafe"), current_user: User = Depends(get_current_user)):
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
+        return await CafeService.create_menu_item(cafe_slug, item)
     except ValueError as e:
         if str(e) == "Cafe not found":
             raise HTTPException(
@@ -121,8 +133,11 @@ async def create_menu_item(item: MenuItemCreate, cafe_slug: str = Path(..., desc
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=str(e)
             )
-
-    return await CafeService.create_menu_item(cafe_slug, item)
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=str(e)
+            )
 
 @cafe_router.put("/cafes/{cafe_slug}/menu/{item_slug}", response_model=MenuItemOut, summary="🟢 Update Menu Item", description="Update the details of an existing menu item.")
 async def update_menu_item(item: MenuItemUpdate, cafe_slug: str = Path(..., description="The slug of the cafe"), item_slug: str = Path(..., description="The slug of the menu item"), current_user: User = Depends(get_current_user)):
@@ -144,6 +159,11 @@ async def update_menu_item(item: MenuItemUpdate, cafe_slug: str = Path(..., desc
         elif error_message == "Access forbidden":
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
+                detail=error_message
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
                 detail=error_message
             )
 

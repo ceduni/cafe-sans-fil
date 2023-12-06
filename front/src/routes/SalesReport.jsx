@@ -38,6 +38,10 @@ const SalesReport = () => {
   const [startDate, setStartDate] = useState(oneMonthAgo);
   const [endDate, setEndDate] = useState(today);
 
+  const buttonBaseClass = "flex rounded-3xl px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
+  const buttonNormalClass = `${buttonBaseClass} bg-emerald-600 text-white hover:bg-emerald-500 focus-visible:outline-emerald-600`;
+  const buttonSelectedClass = `${buttonBaseClass} bg-emerald-700 text-white`;
+
   useEffect(() => {
     if (isAdmin(data, user?.username)) {
       fetchSalesReport(reportType, startDate, endDate);
@@ -82,17 +86,17 @@ const SalesReport = () => {
             des tendances de vente.
           </p>
 
-          <div className="mt-9 mb-2 flex justify-center">
-            <div>
+          <div className="mt-7 sm:mt-9 mb-2 flex justify-center">
+            <div className="mb-3 sm:mb-1">
               <input
-                className="rounded-full"
+                className="px-2 rounded-full"
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
               <span className="px-2">à</span>
               <input
-                className="rounded-full"
+                className="px-2 rounded-full"
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
@@ -100,36 +104,44 @@ const SalesReport = () => {
             </div>
           </div>
 
+
           <div className="gap-2 flex justify-center">
             <button
-              className="flex rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              className={reportType === "daily" ? buttonSelectedClass : buttonNormalClass}
               onClick={() => handleReportTypeChange("daily")}>
               Quotidien
             </button>
             <button
-              className="flex rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              className={reportType === "weekly" ? buttonSelectedClass : buttonNormalClass}
               onClick={() => handleReportTypeChange("weekly")}>
               Hebdomadaire
             </button>
             <button
-              className="flex rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+              className={reportType === "monthly" ? buttonSelectedClass : buttonNormalClass}
               onClick={() => handleReportTypeChange("monthly")}>
               Mensuel
             </button>
           </div>
 
-          <div className="md:mx-16 mt-14 mb-8">
-            <SalesReportChart salesTrends={salesReport.sales_trends} />
+          <div className="xl:grid xl:grid-cols-2 :mx-16 mt-14 mb-8">
+            <div>
+              <SalesReportChart
+                salesTrends={salesReport.sales_revenue_trends}
+                valueExtractor={(item) => item.total_revenue}
+                label={(item) => `${formatPrice(item.total_revenue)}`}
+              />
+              <div className="mt-2 ml-32 sm:ml-48 text-zinc-700">Total des revenus: <span className="font-semibold">{formatPrice(salesReport.total_revenue)}</span></div>
+            </div>
+            <div>
+              <SalesReportChart
+                salesTrends={salesReport.sales_order_trends}
+                valueExtractor={(item) => item.order_count}
+                label={(item) => `${item.order_count || 0} orders`}
+              />
+              <div className="mt-2 ml-32 sm:ml-48 text-zinc-700">Total des commandes: <span className="font-semibold">{salesReport.total_orders}</span></div>
+            </div>
           </div>
 
-          <div className="ml-24 text-zinc-700">
-            <div>
-              Total des revenus: <span className="font-semibold">{formatPrice(salesReport.total_revenue)}</span>
-            </div>
-            <div>
-              Total des commandes: <span className="font-semibold">{salesReport.total_orders}</span>
-            </div>
-          </div>
         </div>
 
         <div className="pb-12 mt-6">
@@ -170,10 +182,10 @@ const SalesReport = () => {
 
 export default SalesReport;
 
-const SalesReportChart = ({ salesTrends }) => {
+const SalesReportChart = ({ salesTrends, valueExtractor, label }) => {
   const svgRef = useRef();
   const [svgWidth, setSvgWidth] = useState(0);
-  const maxValue = Math.max(...salesTrends.map((item) => item.order_count));
+  const maxValue = Math.max(...salesTrends.map(valueExtractor));
   const svgHeight = 400;
   const barPadding = 1;
   const roundedCorner = 10;
@@ -195,7 +207,7 @@ const SalesReportChart = ({ salesTrends }) => {
     tooltip.style.display = "block";
     tooltip.style.left = `${tooltipX}px`;
     tooltip.style.top = `${tooltipY}px`;
-    tooltip.textContent = `${item.order_count} orders, ${item.time_period}`;
+    tooltip.textContent = `${label(item)}, ${item.time_period}`;
   };
 
   const handleMouseOut = () => {
@@ -258,7 +270,8 @@ const SalesReportChart = ({ salesTrends }) => {
         {/* Bars and on hover */}
         {salesTrends.map((item, index) => {
           const barWidth = (svgWidth - 30) / salesTrends.length;
-          const barHeight = (item.order_count / maxValue) * (svgHeight - 80);
+          const value = valueExtractor(item);
+          const barHeight = (value / maxValue) * (svgHeight - 80);
           return (
             <g key={index}>
               <rect

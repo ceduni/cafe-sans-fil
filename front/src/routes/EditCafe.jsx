@@ -19,7 +19,7 @@ import EditOpeningHours from "@/components/Cafe/EditOpeningHours";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
-  const { data, isLoading, error, setData } = useApi(`/cafes/${cafeSlug}`);
+  const { data, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
 
   // On utilise un état local pour sauegarder les changements et l'état précédent
   const [cafeData, setCafeData] = useState(null);
@@ -38,10 +38,9 @@ const EditCafe = () => {
     authenticatedRequest
       .put(`/cafes/${data?.slug}`, payload)
       .then((response) => {
-        toast.success("Café mis à jour !");
-        setData(response.data);
+        toast.success("Café mis à jour");
         if (response.data.slug !== data.slug) {
-          // Redirection vers la nouvelle page en écrasant l'ancienne dans l'historique
+          // Redirection vers la nouvelle page
           navigate(`/cafes/${response.data.slug}/edit`, { replace: true });
         }
       })

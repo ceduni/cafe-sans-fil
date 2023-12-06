@@ -18,13 +18,13 @@ Note: These models are for API data interchange related to cafes and not direct 
 # --------------------------------------
 
 class MenuItemCreate(BaseModel):
-    name: str = Field(..., max_length=50, description="Name of the menu item.")
-    tags: List[str] = Field(..., description="List of tags for the menu item.")
-    description: str = Field(..., max_length=255, description="Description of the menu item.")
-    image_url: Optional[str] = Field(None, max_length=755, description="Image URL of the menu item.")
+    name: str = Field(..., min_length=1, max_length=50, description="Name of the menu item.")
+    tags: List[str] = Field(..., max_length=20, description="List of tags for the menu item.")
+    description: str = Field(..., min_length=1, max_length=255, description="Description of the menu item.")
+    image_url: Optional[str] = Field(None, min_length=1, max_length=755, description="Image URL of the menu item.")
     price: DecimalAnnotation = Field(..., description="Price of the menu item.")
     in_stock: bool = Field(..., description="Availability status of the menu item.")
-    category: str = Field(..., max_length=50, description="Category of the menu item.")
+    category: str = Field(..., min_length=1, max_length=50, description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
@@ -53,13 +53,13 @@ class MenuItemCreate(BaseModel):
         return price
     
 class MenuItemUpdate(BaseModel):
-    name: Optional[str] = Field(None, max_length=50, description="Updated name of the menu item.")
-    tags: Optional[List[str]] = Field(None, description="Updated tags for the menu item.")
-    description: Optional[str] = Field(None, max_length=255, description="Updated description of the menu item.")
-    image_url: Optional[str] = Field(None, max_length=755, description="Updated image URL of the menu item.")
+    name: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated name of the menu item.")
+    tags: Optional[List[str]] = Field(None, max_length=20, description="Updated tags for the menu item.")
+    description: Optional[str] = Field(None, min_length=1, max_length=255, description="Updated description of the menu item.")
+    image_url: Optional[str] = Field(None, min_length=1, max_length=755, description="Updated image URL of the menu item.")
     price: Optional[DecimalAnnotation] = Field(None, description="Updated price of the menu item.")
     in_stock: Optional[bool] = Field(None, description="Updated availability status of the menu item.")
-    category: Optional[str] = Field(None, max_length=50, description="Updated category of the menu item.")
+    category: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated category of the menu item.")
     options: Optional[List[MenuItemOption]] = Field(None, description="Updated options for the menu item.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
@@ -150,12 +150,12 @@ class StaffOut(BaseModel):
 # --------------------------------------
 
 class CafeCreate(BaseModel):
-    name: str = Field(..., max_length=50, description="Name of the cafe.")
-    description: str = Field(..., max_length=255, description="Description of the cafe.")
-    image_url: Optional[str] = Field(None, max_length=755, description="Image URL of the cafe.")
-    faculty: str = Field(..., max_length=100, description="Faculty associated with the cafe.")
+    name: str = Field(..., min_length=1, max_length=50, description="Name of the cafe.")
+    description: str = Field(..., min_length=1, max_length=255, description="Description of the cafe.")
+    image_url: Optional[str] = Field(None, min_length=1, max_length=755, description="Image URL of the cafe.")
+    faculty: str = Field(..., min_length=1, max_length=100, description="Faculty associated with the cafe.")
     is_open: bool = Field(..., description="Indicates if the cafe is currently open.")
-    status_message: Optional[str] = Field(None, max_length=50, description="Status message about the cafe.")
+    status_message: Optional[str] = Field(None, min_length=1, max_length=50, description="Status message about the cafe.")
     opening_hours: List[DayHours] = Field(..., description="Opening hours of the cafe.")
     location: Location = Field(..., description="Location details of the cafe.")
     contact: Contact = Field(..., description="Contact information of the cafe.")
@@ -237,12 +237,12 @@ class CafeCreate(BaseModel):
     })
     
 class CafeUpdate(BaseModel):
-    name: Optional[str] = Field(None, max_length=50, description="Updated name of the cafe.")
-    description: Optional[str] = Field(None, max_length=255, description="Updated description of the cafe.")
-    image_url: Optional[str] = Field(None, max_length=755, description="Updated image URL of the cafe.")
-    faculty: Optional[str] = Field(None, max_length=100, description="Updated faculty association of the cafe.")
+    name: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated name of the cafe.")
+    description: Optional[str] = Field(None, min_length=1, max_length=255, description="Updated description of the cafe.")
+    image_url: Optional[str] = Field(None, min_length=1, max_length=755, description="Updated image URL of the cafe.")
+    faculty: Optional[str] = Field(None, min_length=1, max_length=100, description="Updated faculty association of the cafe.")
     is_open: Optional[bool] = Field(None, description="Updated open status of the cafe.")
-    status_message: Optional[str] = Field(None, max_length=50, description="Updated status message of the cafe.")
+    status_message: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated status message of the cafe.")
     opening_hours: Optional[List[DayHours]] = Field(None, description="Updated opening hours of the cafe.")
     location: Optional[Location] = Field(None, description="Updated location details of the cafe.")
     contact: Optional[Contact] = Field(None, description="Updated contact information of the cafe.")
