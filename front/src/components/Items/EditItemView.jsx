@@ -7,6 +7,7 @@ import Switch from "@/components/CustomSwitch";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import classNames from "classnames";
+import EditItemOptions from "@/components/Items/EditItemOptions";
 
 const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
   const [productData, setProductData] = useState({
@@ -175,6 +176,8 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
           </div>
         </div>
 
+        <EditItemOptions productData={productData} setProductData={setProductData} />
+
         <div
           className={classNames("flex items-center mt-12 text-sm font-semibold", {
             "justify-between": !isNewItem,
@@ -187,7 +190,7 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
             focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               onClick={() => deleteItem()}>
               <TrashIcon className="w-5 h-5" />
-              <span className="hidden sm:block">Supprimer</span>
+              <span className="hidden sm:block">Supprimer le produit</span>
             </button>
           )}
 
