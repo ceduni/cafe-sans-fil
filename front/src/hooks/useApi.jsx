@@ -5,6 +5,9 @@ const useApi = (url) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refetchIndex, setRefetchIndex] = useState(0);
+
+  const refetch = () => setRefetchIndex((prev) => prev + 1);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -24,9 +27,9 @@ const useApi = (url) => {
 
   useEffect(() => {
     fetchData();
-  }, [url]);
+  }, [url, refetchIndex]);
 
-  return [data, isLoading, error, setData];
+  return { data, isLoading, error, setData, refetch };
 };
 
 export default useApi;

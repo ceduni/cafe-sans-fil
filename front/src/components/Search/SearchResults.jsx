@@ -5,18 +5,30 @@ const SearchResults = ({ searchQuery, storedCafes }) => {
   // Pour l'instant, on fait la recherche dans les cafés déjà chargés au lieu de
   // faire une requête au serveur.
 
-  // const [data, isLoading, error] = useApi(`/search?query=${searchQuery}`);
-  const normalizedQuery = searchQuery.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  // const { data, isLoading, error } = useApi(`/search?query=${searchQuery}`);
+  const normalizedQuery = searchQuery
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 
-  const cafes = storedCafes.filter(cafe => {
-    const nameNormalized = cafe.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    const descriptionNormalized = cafe.description.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const cafes = storedCafes.filter((cafe) => {
+    const nameNormalized = cafe.name
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+    const descriptionNormalized = cafe.description
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
     return nameNormalized.includes(normalizedQuery) || descriptionNormalized.includes(normalizedQuery);
   });
 
   if (cafes?.length === 0) {
-    
-    return <div className="mt-20 mb-36"><EmptyState name="café" /></div>;
+    return (
+      <div className="mt-20 mb-36">
+        <EmptyState name="café" />
+      </div>
+    );
   }
 
   return (

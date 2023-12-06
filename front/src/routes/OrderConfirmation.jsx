@@ -160,7 +160,7 @@ const OrderConfirmation = () => {
                 {formatPrice(cartTotal)} à {displayCafeNames(items)}.
               </p>
               <div
-                className="bg-yellow-100 border-l-4 border-yellow-400 text-orange-800 p-4 mt-4 rounded-2xl"
+                className="bg-yellow-50 border-l-4 border-yellow-400 text-orange-800 p-4 mt-4 rounded-2xl"
                 role="alert">
                 <h3 className="font-bold">Attention</h3>
                 {moreThanOneCafe && (
