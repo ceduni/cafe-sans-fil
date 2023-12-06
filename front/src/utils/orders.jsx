@@ -10,7 +10,7 @@ export const isOldOrder = (status) => {
 };
 
 export const isPendingOrder = (status) => {
-  return status === ORDER_STATUS.PLACED;
+  return status === ORDER_STATUS.PLACED || status === ORDER_STATUS.READY;
 };
 
 export const getBadgeVariant = (status) => {

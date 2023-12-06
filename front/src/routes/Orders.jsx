@@ -59,19 +59,21 @@ function Orders() {
   ];
 
   const cancelOrder = (orderId) => {
-    const toastId = toast.loading("Annulation de la commande...");
-    authenticatedRequest
-      .put(`/orders/${orderId}`, { status: ORDER_STATUS.CANCELED })
-      .then(() => {
-        setOrders(orders.filter((order) => order.order_id !== orderId));
-        toast.success("Commande annulée");
-      })
-      .catch(() => {
-        toast.error("Impossible d'annuler la commande");
-      })
-      .finally(() => {
-        toast.dismiss(toastId);
-      });
+    if (confirm("Êtes-vous sûr de vouloir annuler cette commande ?")) {
+      const toastId = toast.loading("Annulation de la commande...");
+      authenticatedRequest
+        .put(`/orders/${orderId}`, { status: ORDER_STATUS.CANCELED })
+        .then(() => {
+          setOrders(orders.filter((order) => order.order_id !== orderId));
+          toast.success("Commande annulée");
+        })
+        .catch(() => {
+          toast.error("Impossible d'annuler la commande");
+        })
+        .finally(() => {
+          toast.dismiss(toastId);
+        });
+    }
   };
 
   return (
