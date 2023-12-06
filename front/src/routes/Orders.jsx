@@ -3,12 +3,13 @@ import authenticatedRequest from "@/helpers/authenticatedRequest";
 import Container from "@/components/Container";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
-import { isOldOrder } from "@/utils/orders";
+import { ORDER_STATUS, isOldOrder } from "@/utils/orders";
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import { LoadingOrderCard, OrderCard } from "@/components/Orders/OrderCard";
 import useApi from "@/hooks/useApi";
 import { Helmet } from "react-helmet-async";
+import toast from "react-hot-toast";
 
 function Orders() {
   const { user } = useAuth();
@@ -57,6 +58,22 @@ function Orders() {
     },
   ];
 
+  const cancelOrder = (orderId) => {
+    const toastId = toast.loading("Annulation de la commande...");
+    authenticatedRequest
+      .put(`/orders/${orderId}`, { status: ORDER_STATUS.CANCELED })
+      .then(() => {
+        setOrders(orders.filter((order) => order.order_id !== orderId));
+        toast.success("Commande annulée");
+      })
+      .catch(() => {
+        toast.error("Impossible d'annuler la commande");
+      })
+      .finally(() => {
+        toast.dismiss(toastId);
+      });
+  };
+
   return (
     <>
       <Helmet>
@@ -101,7 +118,12 @@ function Orders() {
 
           <div className="flex flex-col mt-4 gap-4 w-full max-w-2xl">
             {displayedOrders.map((order) => (
-              <OrderCard order={order} cafe={getCafeFromSlug(order.cafe_slug)} key={order.order_id} />
+              <OrderCard
+                order={order}
+                cafe={getCafeFromSlug(order.cafe_slug)}
+                key={order.order_id}
+                onCancel={() => cancelOrder(order.order_id)}
+              />
             ))}
           </div>
         </div>
