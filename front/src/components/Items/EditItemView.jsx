@@ -36,6 +36,7 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
         price: item.price,
         tags: item.tags,
       });
+      !isNewItem && console.log(`Editing item ${item.slug}`);
     }
   }, [open]);
 
@@ -48,8 +49,19 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
         toast.success("Produit mis à jour");
         setOpen(false);
       })
-      .catch(() => {
-        toast.error("Erreur lors de la mise à jour du produit");
+      .catch((error) => {
+        switch (error.response?.status) {
+          case 409:
+            if (error.response.data?.detail.includes("name")) {
+              toast.error("Le nom du produit doit être unique dans le menu de votre café.");
+            } else {
+              toast.error("Les options du produit doivent être uniques.");
+            }
+            break;
+          default:
+            toast.error("Erreur lors de la mise à jour du produit");
+            break;
+        }
       })
       .finally(() => {
         toast.dismiss(toastId);
