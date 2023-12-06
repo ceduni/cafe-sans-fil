@@ -93,6 +93,7 @@ const EditOpeningHours = ({ cafeData, setCafeData }) => {
                       type="time"
                       value={block.start}
                       onChange={(e) => handleChange(e, index, blockIndex)}
+                      required
                     />
                   </div>
                   <div className="space-y-2">
@@ -105,6 +106,7 @@ const EditOpeningHours = ({ cafeData, setCafeData }) => {
                       type="time"
                       value={block.end}
                       onChange={(e) => handleChange(e, index, blockIndex)}
+                      required
                     />
                   </div>
                 </div>
