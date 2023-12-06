@@ -44,7 +44,7 @@ const ProductView = ({
   return (
     <Modal open={open} setOpen={setOpen}>
       <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
-        <div className="aspect-h-3 aspect-w-2 overflow-hidden rounded-3xl bg-gray-100 sm:col-span-4 lg:col-span-5">
+        <div className="aspect-h-[1.5] sm:aspect-h-3 aspect-w-2 overflow-hidden rounded-3xl bg-gray-100 sm:col-span-4 lg:col-span-5">
           <img
             src={item.image_url || "https://placehold.co/300x300?text=Item"}
             className="object-cover object-center"

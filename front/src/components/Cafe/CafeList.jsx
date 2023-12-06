@@ -41,7 +41,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
 
   if (isLoading && storedCafes.length === 0) {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6 animate-pulse duration-100">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8 animate-pulse duration-100">
         {Array.from({ length: 20 }).map((_, i) => (
           <CafeCardLoading key={i} />
         ))}
@@ -50,17 +50,17 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
   }
 
   return (
-    <>
+    <div className="relative bottom-4 xl:bottom-2">
       <Filters filters={filters} setFilters={setFilters} cafes={storedCafes} />
 
       {filteredData?.length === 0 && <div className="mt-20 mb-36"><EmptyState name="café" /></div>}
 
-      <div className="grid animate-fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
+      <div className="grid animate-fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8">
         {filteredData.map((cafe) => (
           <CafeCard cafe={cafe} key={cafe.slug} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
