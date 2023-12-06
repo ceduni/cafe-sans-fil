@@ -104,7 +104,7 @@ const EditItemOptions = ({ productData, setProductData }) => {
 
       <button type="button" className="mt-6 text-sm font-medium text-gray-700 hover:text-gray-500" onClick={addOption}>
         <PlusIcon className="w-5 h-5 inline-block mr-2 -mt-1" />
-        Ajouter un type de variante
+        Ajouter une variante
       </button>
     </div>
   );
