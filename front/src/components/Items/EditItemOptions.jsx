@@ -19,7 +19,6 @@ const EditItemOptions = ({ productData, setProductData }) => {
   };
 
   useEffect(() => {
-    if (!options.type || !options.value) return;
     setProductData({ ...productData, options: options });
   }, [options]);
 
@@ -84,7 +83,10 @@ const EditItemOptions = ({ productData, setProductData }) => {
               </button>
             </div>
           </div>
-          <p className="text-sm text-gray-500 mt-4">
+          {option.type.length === 0 || option.value.length === 0 ? (
+            <p className="text-sm text-red-500 mt-2">Veuillez remplir les champs type et valeur.</p>
+          ) : null}
+          <p className="text-sm text-gray-500 mt-2">
             {productData.name}{" "}
             {option.type && option.value && (
               <>
