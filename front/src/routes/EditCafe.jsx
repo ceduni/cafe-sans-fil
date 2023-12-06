@@ -15,6 +15,7 @@ import AdminOnly from "@/helpers/AdminOnly";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import EditAdditionalInfo from "@/components/Cafe/EditAdditionalInfo";
 import EditPaymentMethods from "@/components/Cafe/EditPaymentMehods";
+import EditOpeningHours from "@/components/Cafe/EditOpeningHours";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
@@ -194,6 +195,8 @@ const EditCafe = () => {
               </div>
             </div>
           )}
+
+          <EditOpeningHours cafeData={cafeData} setCafeData={setCafeData} />
         </div>
 
         <div className="border-b border-gray-900/10 pb-12 mt-6">

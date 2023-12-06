@@ -10,6 +10,7 @@ import { getUserFromUsername } from "@/utils/getFromId";
 import Avatar from "@/components/Avatar";
 import useCountdown from "@/hooks/useCountdown";
 import Badge from "@/components/Badge";
+import DoubleCheck from "@/assets/icons/double-check.svg";
 
 const CafeOrderCard = ({ order, setOrderReady, setOrderCompleted, setOrderCanceled }) => {
   const [orderUser, setOrderUser] = useState(null);
@@ -94,7 +95,7 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCompleted, setOrderCancel
                 type="button"
                 onClick={() => setOrderCompleted(order.order_id)}
                 className="inline-flex items-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
-                <CheckIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                <img src={DoubleCheck} className="-ml-0.5 mr-1.5 h-5 w-5 object-contain" aria-hidden="true" />
                 Récupérée
               </button>
             )}

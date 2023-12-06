@@ -33,6 +33,7 @@
 - Possibiloté pour un user de cancel une commande placée
 - Prise en charge du statut prêt, complétée côté admin
 - Améliorations UI gestion des commandes
+- Ajout horaires d'ouverture sur modif café
 
 #### 2023-12-04
 
