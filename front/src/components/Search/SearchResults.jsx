@@ -33,7 +33,7 @@ const SearchResults = ({ searchQuery, storedCafes }) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-6">
+      <div className="relative top-1 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8">
         {cafes.map((cafe) => (
           <CafeCard cafe={cafe} key={cafe.slug} />
         ))}

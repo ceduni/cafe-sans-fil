@@ -204,7 +204,7 @@ const StaffList = () => {
           </ul>
 
           {isLoggedUserAdmin && (
-            <div className="mt-3 flex items-center justify-end gap-x-4 text-sm font-semibold sm:justify-end relative sm:right-24">
+            <div className="mt-3 flex items-center justify-end gap-x-4 text-sm font-semibold sm:justify-end relative">
               <Link to={`/cafes/${cafeSlug}`}>
                 <button type="button" className="leading-6 text-gray-900 px-3 py-2">
                   Annuler
