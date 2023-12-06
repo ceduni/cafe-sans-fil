@@ -15,8 +15,11 @@ function Orders() {
   const { user } = useAuth();
 
   const [orders, setOrders] = useState([]);
-  const [areOrdersLoading, setIsLoading] = useState(true);
+  const [areOrdersLoading, setIsLoading] = useState(false);
   const [showOldOrders, setShowOldOrders] = useState(false);
+  const [refreshIndex, setRefreshIndex] = useState(0);
+
+  const refeshOrders = () => setRefreshIndex((prev) => prev + 1);
 
   // On récupère les commandes de l'utilisateur
   useEffect(() => {
@@ -28,9 +31,10 @@ function Orders() {
     };
 
     if (user) {
+      setIsLoading(true);
       fetchOrders();
     }
-  }, [user]);
+  }, [user, refreshIndex]);
 
   // On récupère les cafés pour afficher les images et les noms
   const { data: cafes, isLoading } = useApi(`/cafes`);
@@ -64,7 +68,6 @@ function Orders() {
       authenticatedRequest
         .put(`/orders/${orderId}`, { status: ORDER_STATUS.CANCELED })
         .then(() => {
-          setOrders(orders.filter((order) => order.order_id !== orderId));
           toast.success("Commande annulée");
         })
         .catch(() => {
@@ -72,6 +75,7 @@ function Orders() {
         })
         .finally(() => {
           toast.dismiss(toastId);
+          refeshOrders();
         });
     }
   };

@@ -50,7 +50,7 @@ const OrderCard = ({ order, cafe, onCancel }) => {
               {(cafe.name && <h2 className="text-lg tracking-tight font-semibold text-gray-900">{cafe.name}</h2>) || (
                 <div className="w-32 h-4 mb-2 rounded-full bg-gray-200 animate-pulse"></div>
               )}
-              {(minutesBeforeCancel > 0 && order.status === ORDER_STATUS.PLACED && (
+              {(minutesBeforeCancel > 0 && isPendingOrder(order.status) && (
                 <p className="text-sm text-gray-500" title={formatDate(order.created_at)}>
                   {minutesBeforeCancel} minutes avant annulation
                 </p>
