@@ -3,8 +3,7 @@ export const OUT_OF_STOCK_TEXT = "Épuisé";
 
 // On récupère les catégories de produits proposées par le café, sans doublons
 export const getCafeCategories = (menuItems) => {
-  const categories = [...new Set(menuItems?.map((product) => product.category || "Autres"))];
-  return categories.sort();
+  return [...new Set(menuItems?.map((product) => product.category || "Autres"))];
 };
 
 // On récupère les produits d'une catégorie donnée
