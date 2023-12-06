@@ -18,6 +18,9 @@ const CafeOrders = () => {
   const [orders, setOrders] = useState([]);
   const [areOrdersLoading, setAreOrdersLoading] = useState(true);
   const [isUnothorized, setIsUnauthorized] = useState(false);
+  const [refreshIndex, setRefreshIndex] = useState(0);
+
+  const refeshOrders = () => setRefreshIndex((prev) => prev + 1);
 
   const { data, isLoading } = useApi(`/cafes/${cafeSlug}`);
   const cafeName = data?.name;
@@ -44,7 +47,7 @@ const CafeOrders = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [refreshIndex]);
 
   useEffect(() => {
     if (orders.length > 0) {
@@ -57,17 +60,29 @@ const CafeOrders = () => {
       status: newStatus,
     };
     const toastId = toast.loading("Mise à jour de la commande...");
-    const response = await authenticatedRequest.put(`/orders/${orderId}`, payload);
-    if (response.status !== 200) {
-      toast.error("Erreur lors de la mise à jour de la commande");
-      return;
-    }
-    (newStatus === ORDER_STATUS.READY && toast.success("Commande complétée!")) || toast.success("Commande annulée!");
-    setOrders(orders.filter((order) => order.order_id !== orderId)); // On retire la commande de la liste
-    toast.dismiss(toastId);
+    authenticatedRequest
+      .put(`/orders/${orderId}`, payload)
+      .then((response) => {
+        if (newStatus === ORDER_STATUS.COMPLETED) {
+          toast.success("Commande complétée!");
+        } else if (newStatus === ORDER_STATUS.CANCELED) {
+          toast.success("Commande annulée!");
+        }
+      })
+      .catch((error) => {
+        toast.error("Erreur lors de la mise à jour de la commande");
+      })
+      .finally(() => {
+        toast.dismiss(toastId);
+        refeshOrders();
+      });
   };
+
   const setOrderReady = (orderId) => {
     updateOrderStatus(orderId, ORDER_STATUS.READY);
+  };
+  const setOrderCompleted = (orderId) => {
+    updateOrderStatus(orderId, ORDER_STATUS.COMPLETED);
   };
   const setOrderCanceled = (orderId) => {
     updateOrderStatus(orderId, ORDER_STATUS.CANCELED);
@@ -103,6 +118,7 @@ const CafeOrders = () => {
             <CafeOrderCard
               order={order}
               setOrderReady={setOrderReady}
+              setOrderCompleted={setOrderCompleted}
               setOrderCanceled={setOrderCanceled}
               key={order.order_id}
             />

@@ -3,19 +3,23 @@ import authenticatedRequest from "@/helpers/authenticatedRequest";
 import Container from "@/components/Container";
 import EmptyState from "@/components/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
-import { isOldOrder } from "@/utils/orders";
+import { ORDER_STATUS, isOldOrder } from "@/utils/orders";
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import { LoadingOrderCard, OrderCard } from "@/components/Orders/OrderCard";
 import useApi from "@/hooks/useApi";
 import { Helmet } from "react-helmet-async";
+import toast from "react-hot-toast";
 
 function Orders() {
   const { user } = useAuth();
 
   const [orders, setOrders] = useState([]);
-  const [areOrdersLoading, setIsLoading] = useState(true);
+  const [areOrdersLoading, setIsLoading] = useState(false);
   const [showOldOrders, setShowOldOrders] = useState(false);
+  const [refreshIndex, setRefreshIndex] = useState(0);
+
+  const refeshOrders = () => setRefreshIndex((prev) => prev + 1);
 
   // On récupère les commandes de l'utilisateur
   useEffect(() => {
@@ -27,9 +31,10 @@ function Orders() {
     };
 
     if (user) {
+      setIsLoading(true);
       fetchOrders();
     }
-  }, [user]);
+  }, [user, refreshIndex]);
 
   // On récupère les cafés pour afficher les images et les noms
   const { data: cafes, isLoading } = useApi(`/cafes`);
@@ -56,6 +61,24 @@ function Orders() {
       onClick: () => setShowOldOrders(true),
     },
   ];
+
+  const cancelOrder = (orderId) => {
+    if (confirm("Êtes-vous sûr de vouloir annuler cette commande ?")) {
+      const toastId = toast.loading("Annulation de la commande...");
+      authenticatedRequest
+        .put(`/orders/${orderId}`, { status: ORDER_STATUS.CANCELED })
+        .then(() => {
+          toast.success("Commande annulée");
+        })
+        .catch(() => {
+          toast.error("Impossible d'annuler la commande");
+        })
+        .finally(() => {
+          toast.dismiss(toastId);
+          refeshOrders();
+        });
+    }
+  };
 
   return (
     <>
@@ -101,7 +124,12 @@ function Orders() {
 
           <div className="flex flex-col mt-4 gap-4 w-full max-w-2xl">
             {displayedOrders.map((order) => (
-              <OrderCard order={order} cafe={getCafeFromSlug(order.cafe_slug)} key={order.order_id} />
+              <OrderCard
+                order={order}
+                cafe={getCafeFromSlug(order.cafe_slug)}
+                key={order.order_id}
+                onCancel={() => cancelOrder(order.order_id)}
+              />
             ))}
           </div>
         </div>

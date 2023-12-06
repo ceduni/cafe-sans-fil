@@ -29,7 +29,10 @@
 
 ### 2023-12-05
 
-- Possibilité de modifier quelques infos d'items et d'ajouter un nouvel item (pas fini)
+- Possibilité de modifier un item et d'en ajouter un nouveau (+ options)
+- Possibiloté pour un user de cancel une commande placée
+- Prise en charge du statut prêt, complétée côté admin
+- Améliorations UI gestion des commandes
 
 #### 2023-12-04
 

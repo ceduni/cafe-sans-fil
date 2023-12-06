@@ -2,18 +2,18 @@ import { Fragment, useState, useEffect } from "react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
 import { BellAlertIcon, ClockIcon, InformationCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
-import { getBadgeVariant } from "@/utils/orders";
+import { ORDER_STATUS, getBadgeVariant } from "@/utils/orders";
 import { formatDate } from "@/utils/dates";
 import classNames from "classnames";
 import { displayOptions, formatPrice } from "@/utils/cart";
-import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 import { getUserFromUsername } from "@/utils/getFromId";
 import Avatar from "@/components/Avatar";
 import useCountdown from "@/hooks/useCountdown";
 import Badge from "@/components/Badge";
 
-const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
+const CafeOrderCard = ({ order, setOrderReady, setOrderCompleted, setOrderCanceled }) => {
   const [orderUser, setOrderUser] = useState(null);
+  const fullName = `${orderUser?.first_name} ${orderUser?.last_name}`;
 
   useEffect(() => {
     getUserFromUsername(order.user_username).then((user) => {
@@ -32,11 +32,9 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
           </h2>
           {(orderUser && (
             <div className="my-6 flex gap-3">
-              <Avatar name={`${orderUser.first_name} ${orderUser.last_name}`} size="md" image={orderUser.photo_url} />
+              <Avatar name={fullName} size="md" image={orderUser.photo_url} />
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {orderUser.first_name} {orderUser.last_name}
-                </h3>
+                <h3 className="text-lg font-semibold text-gray-900">{fullName}</h3>
                 <p className="text-sm text-gray-500">{orderUser.matricule}</p>
               </div>
             </div>
@@ -50,10 +48,6 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
             </div>
           )}
           <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
-            <div className="mt-2 flex items-center text-sm text-gray-500 font-bold">
-              <CurrencyDollarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-              {formatPrice(order.total_price)}
-            </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <InformationCircleIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
               <Badge variant={getBadgeVariant(order.status)}>{order.status}</Badge>
@@ -87,13 +81,23 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
           </span>
 
           <span className="sm:ml-3">
-            <button
-              type="button"
-              onClick={() => setOrderReady(order.order_id)}
-              className="inline-flex items-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
-              <CheckIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-              Prête
-            </button>
+            {(order.status === ORDER_STATUS.PLACED && (
+              <button
+                type="button"
+                onClick={() => setOrderReady(order.order_id)}
+                className="inline-flex items-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+                <CheckIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                Prête
+              </button>
+            )) || (
+              <button
+                type="button"
+                onClick={() => setOrderCompleted(order.order_id)}
+                className="inline-flex items-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+                <CheckIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                Récupérée
+              </button>
+            )}
           </span>
 
           {/* Dropdown */}
@@ -141,6 +145,10 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCanceled }) => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="mt-5">
+        <p className="text-sm text-gray-500">Total de la commande</p>
+        <p className="mt-1 text-2xl font-semibold text-gray-900">{formatPrice(order.total_price)}</p>
       </div>
     </div>
   );
