@@ -45,9 +45,14 @@ class CafeService:
     
     @staticmethod
     async def create_cafe(data: CafeCreate) -> Cafe:
-        cafe = Cafe(**data.model_dump())
-        await cafe.insert()
-        return cafe
+        try:
+            cafe = Cafe(**data.model_dump())
+            await cafe.insert()
+            return cafe
+        except Exception as e:
+            if "duplicate key error" in str(e):
+                raise ValueError("Cafe already exists")
+            raise e
 
     @staticmethod
     async def retrieve_cafe(cafe_slug: str):
@@ -56,8 +61,12 @@ class CafeService:
     @staticmethod
     async def update_cafe(cafe_slug: str, data: CafeUpdate):
         cafe = await CafeService.retrieve_cafe(cafe_slug)
-        await cafe.update({"$set": data.model_dump(exclude_unset=True)})
+        
+        for field, value in data.model_dump(exclude_unset=True).items():
+            setattr(cafe, field, value)
+
         await cafe.save()
+
         return cafe
 
     # --------------------------------------
