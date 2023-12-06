@@ -19,7 +19,7 @@ Note: These models are for API data interchange related to cafes and not direct 
 
 class MenuItemCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=50, description="Name of the menu item.")
-    tags: List[str] = Field(..., min_length=1, max_length=50, description="List of tags for the menu item.")
+    tags: List[str] = Field(..., max_length=20, description="List of tags for the menu item.")
     description: str = Field(..., min_length=1, max_length=255, description="Description of the menu item.")
     image_url: Optional[str] = Field(None, min_length=1, max_length=755, description="Image URL of the menu item.")
     price: DecimalAnnotation = Field(..., description="Price of the menu item.")
@@ -54,7 +54,7 @@ class MenuItemCreate(BaseModel):
     
 class MenuItemUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated name of the menu item.")
-    tags: Optional[List[str]] = Field(None, min_length=1, max_length=50, description="Updated tags for the menu item.")
+    tags: Optional[List[str]] = Field(None, max_length=20, description="Updated tags for the menu item.")
     description: Optional[str] = Field(None, min_length=1, max_length=255, description="Updated description of the menu item.")
     image_url: Optional[str] = Field(None, min_length=1, max_length=755, description="Updated image URL of the menu item.")
     price: Optional[DecimalAnnotation] = Field(None, description="Updated price of the menu item.")
