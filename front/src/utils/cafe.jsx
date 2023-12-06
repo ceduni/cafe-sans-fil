@@ -13,9 +13,15 @@ const mapDayEnglishToFrench = (englishDayName) => {
   return dayMap[englishDayName.toLowerCase()] || "";
 };
 
+const uppercaseFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+const lowercaseFirstLetter = (string) => {
+  return string.charAt(0).toLowerCase() + string.slice(1);
+};
 export const displayCafeLocation = (location) => {
   if (!location || !location.pavillon) return "";
-  return `${location.pavillon}, ${location.local}`;
+  return `${uppercaseFirstLetter(location.pavillon)}, ${lowercaseFirstLetter(location.local)}`;
 };
 
 export const shouldDisplayInfo = (object) => {
@@ -83,7 +89,7 @@ export const getNextOpeningTime = (openingHours) => {
   const todayIndex = weekDays.indexOf(mapDayEnglishToFrench(now.format("dddd").toLowerCase()));
   const daysInWeek = weekDays.length;
 
-  const todaySchedule = openingHours.find(d => d.day.toLowerCase() === weekDays[todayIndex]);
+  const todaySchedule = openingHours.find((d) => d.day.toLowerCase() === weekDays[todayIndex]);
   if (todaySchedule && todaySchedule.blocks && todaySchedule.blocks.length > 0) {
     for (const block of todaySchedule.blocks) {
       const startTime = moment(block.start, "HH:mm");
@@ -97,7 +103,7 @@ export const getNextOpeningTime = (openingHours) => {
     const dayIndex = (todayIndex + i) % daysInWeek;
     const dayName = weekDays[dayIndex];
 
-    const daySchedule = openingHours.find(d => d.day.toLowerCase() === dayName);
+    const daySchedule = openingHours.find((d) => d.day.toLowerCase() === dayName);
     if (daySchedule && daySchedule.blocks && daySchedule.blocks.length > 0) {
       const firstBlock = daySchedule.blocks[0];
       return `Ouvre à ${firstBlock.start} ${dayName.slice(0, 3)}.`;

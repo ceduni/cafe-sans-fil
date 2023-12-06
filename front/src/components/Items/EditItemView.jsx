@@ -36,7 +36,7 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
         price: item.price,
         tags: item.tags,
       });
-      !isNewItem && console.log(`Editing item ${item.slug}`);
+      if (!isNewItem) console.log(`Editing item ${item.slug}`);
     }
   }, [open]);
 
@@ -60,7 +60,6 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
             break;
           default:
             toast.error("Erreur lors de la mise à jour du produit");
-            break;
         }
       })
       .finally(() => {
