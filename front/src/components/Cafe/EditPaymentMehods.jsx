@@ -64,7 +64,7 @@ const EditPaymentMethods = ({ cafeData, setCafeData }) => {
                 id={`payment_methods_${method}_min`}
                 name="min"
                 type="number"
-                min="0"
+                min="0.01"
                 max="1000"
                 step="0.01"
                 value={cafeData?.payment_methods.find((pm) => pm.method === method)?.minimum || ""}
