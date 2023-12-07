@@ -15,7 +15,7 @@ const Card = ({ className, children }) => {
 };
 
 const Image = ({ className, src, alt }) => {
-  return <img className={classNames("w-full h-48 sm:h-[10.20rem] object-cover rounded-2xl sm:rounded-lg group-hover:rounded-none group-hover:scale-[1.02] duration-200", className)} src={src} alt={alt} />;
+  return <img className={classNames("w-full h-48 sm:h-[10.20rem] object-cover group-hover:rounded-none group-hover:scale-[1.02] duration-200", className)} src={src} alt={alt} />;
 };
 
 const Header = ({ className, children }) => {
