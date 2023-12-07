@@ -35,11 +35,11 @@ const OrderCard = ({ order, cafe, onCancel }) => {
 
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center">
-            {(cafe.image_url && (
+            {(cafe?.image_url && (
               <img
                 className="w-12 h-12 mr-4 rounded-full object-cover"
-                src={cafe.image_url}
-                alt={cafe.name}
+                src={cafe?.image_url}
+                alt={cafe?.name}
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://placehold.co/300x300?text=:/";
@@ -47,7 +47,7 @@ const OrderCard = ({ order, cafe, onCancel }) => {
               />
             )) || <div className="w-12 h-12 mr-4 rounded-full bg-gray-200 animate-pulse"></div>}
             <div>
-              {(cafe.name && <h2 className="text-lg tracking-tight font-semibold text-gray-900">{cafe.name}</h2>) || (
+              {(cafe?.name && <h2 className="text-lg tracking-tight font-semibold text-gray-900">{cafe?.name}</h2>) || (
                 <div className="w-32 h-4 mb-2 rounded-full bg-gray-200 animate-pulse"></div>
               )}
               {(minutesBeforeCancel > 0 && isPendingOrder(order.status) && (
@@ -63,7 +63,7 @@ const OrderCard = ({ order, cafe, onCancel }) => {
         {isPendingOrder(order.status) && (
           <div className="flex items-center gap-2 mt-6">
             <MapPinIcon className="w-5 h-5 text-gray-500" />
-            <p className="text-sm text-gray-500">{displayCafeLocation(cafe.location)}</p>
+            <p className="text-sm text-gray-500">{displayCafeLocation(cafe?.location)}</p>
           </div>
         )}
 
