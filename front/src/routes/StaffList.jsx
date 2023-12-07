@@ -125,7 +125,7 @@ const StaffList = () => {
         <div className={classNames("pb-12 w-full", { "border-b border-gray-900/10": isLoggedUserAdmin })}>
           <h2 className="text-base font-semibold leading-7 text-gray-900">Liste de staff</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
-            {`${isLoggedUserAdmin ? "Gérer" : "Consulter"}`} les membres du personnel actuels de votre café.
+            {`${isLoggedUserAdmin ? "Gérer" : "Consulter"}`} les membres du personnel actuels du café.
           </p>
 
           <ul role="list" className="divide-y divide-gray-100 mt-6">

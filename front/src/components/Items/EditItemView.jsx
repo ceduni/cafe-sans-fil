@@ -36,7 +36,7 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
         price: item.price,
         tags: item.tags,
       });
-      if (!isNewItem) console.log("Modification du produit " + item.item_id);
+      if (!isNewItem) console.log(`Editing item ${item.slug}`);
     }
   }, [open]);
 
@@ -49,8 +49,18 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
         toast.success("Produit mis à jour");
         setOpen(false);
       })
-      .catch(() => {
-        toast.error("Erreur lors de la mise à jour du produit");
+      .catch((error) => {
+        switch (error.response?.status) {
+          case 409:
+            if (error.response.data?.detail.includes("name")) {
+              toast.error("Le nom du produit doit être unique dans le menu de votre café.");
+            } else {
+              toast.error("Les options du produit doivent être uniques.");
+            }
+            break;
+          default:
+            toast.error("Erreur lors de la mise à jour du produit");
+        }
       })
       .finally(() => {
         toast.dismiss(toastId);
@@ -93,9 +103,21 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
       });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isNewItem) {
+      addItem(productData);
+    } else {
+      updateItem(productData);
+    }
+  };
+
   return (
     <Modal open={open} setOpen={setOpen}>
-      <div className="w-full">
+      <form className="w-full" onSubmit={handleSubmit}>
+        <h2 className="text-lg font-medium text-gray-900 leading-6">
+          {isNewItem ? "Ajouter un produit" : "Modifier le produit"}
+        </h2>
         <div>
           <div className="space-y-2 mt-6">
             <label htmlFor="itemName" className="block text-sm font-medium text-gray-700">
@@ -106,6 +128,7 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
               id="itemName"
               value={productData.name}
               onChange={(e) => setProductData({ ...productData, name: e.target.value })}
+              required
             />
             <p className="mt-2 text-sm text-gray-500">Le nom du produit doit être unique dans le menu de votre café.</p>
           </div>
@@ -123,6 +146,7 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
               value={productData.price}
               className="peer"
               onChange={(e) => setProductData({ ...productData, price: e.target.value })}
+              required
             />
             <p className="mt-2 text-sm text-gray-500 peer-invalid:invisible">
               Apparaîtra: {formatPrice(productData.price)}
@@ -137,7 +161,11 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
               id="description"
               value={productData.description}
               onChange={(e) => setProductData({ ...productData, description: e.target.value })}
-              className="block w-full shadow-sm sm:text-sm focus:ring-sky-500 focus:border-sky-500 border-gray-300 rounded-md"
+              className="block w-full rounded-md shadow-sm sm:text-sm \
+              focus:ring-2 focus:ring-inset focus:ring-sky-600 focus:ring-opacity-75 \
+              ring-1 ring-inset ring-gray-300 border-0 \
+              focus:invalid:border-red-600 focus:invalid:ring-red-600 focus:invalid:ring-opacity-70"
+              required
             />
           </div>
 
@@ -150,6 +178,7 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
               id="category"
               value={productData.category}
               onChange={(e) => setProductData({ ...productData, category: e.target.value })}
+              required
             />
             <p className="mt-2 text-sm text-gray-500">
               Il faut que le nom de la catégorie soit exactement identique à celui de la catégorie cible.
@@ -161,10 +190,11 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
               URL de l'image
             </label>
             <Input
-              type="text"
+              type="url"
               id="image_url"
               value={productData.image_url}
               onChange={(e) => setProductData({ ...productData, image_url: e.target.value })}
+              required
             />
           </div>
 
@@ -203,16 +233,15 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
               Annuler
             </button>
             <button
-              type="button"
+              type="submit"
               className="inline-flex items-center justify-center gap-2 px-3 py-2 text-white bg-emerald-600 rounded-md shadow-sm hover:bg-emerald-500 \
-            focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={() => (isNewItem ? addItem(productData) : updateItem(productData))}>
+            focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
               <CheckIcon className="w-5 h-5" />
               Enregistrer
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 };

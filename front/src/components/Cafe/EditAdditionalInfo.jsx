@@ -66,8 +66,9 @@ const EditAdditionalInfo = ({ cafeData, setCafeData }) => {
               value={info.type}
               onChange={(e) => handleAdditionalInfoChange(e, index)}
               placeholder="Ex: Promotion, Nouveauté, etc."
+              required
             />
-            {!info.type && <p className="text-sm text-red-500">Le type ne peut pas être vide.</p>}
+            {!info.type && <p className="text-sm text-red-500">Le titre ne peut pas être vide.</p>}
           </div>
 
           <div className="space-y-2 mt-6">
@@ -80,6 +81,8 @@ const EditAdditionalInfo = ({ cafeData, setCafeData }) => {
               type="text"
               value={info.value}
               onChange={(e) => handleAdditionalInfoChange(e, index)}
+              placeholder="Ex: 10% de rabais sur les cafés"
+              required
             />
             {!info.value && <p className="text-sm text-red-500">Le message ne peut pas être vide.</p>}
           </div>
