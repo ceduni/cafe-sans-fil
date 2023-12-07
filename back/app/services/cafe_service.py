@@ -50,9 +50,8 @@ class CafeService:
             await cafe.insert()
             return cafe
         except Exception as e:
-            if "duplicate key error" in str(e):
+            if "duplicate" or "'type': 'model_attributes_type', 'loc': ('response',), 'msg': 'Input should be a valid dictionary or object to extract fields from'" in str(e):
                 raise ValueError("Cafe already exists")
-            raise e
 
     @staticmethod
     async def retrieve_cafe(cafe_slug: str):
@@ -60,14 +59,18 @@ class CafeService:
     
     @staticmethod
     async def update_cafe(cafe_slug: str, data: CafeUpdate):
-        cafe = await CafeService.retrieve_cafe(cafe_slug)
-        
-        for field, value in data.model_dump(exclude_unset=True).items():
-            setattr(cafe, field, value)
+        try:
+            cafe = await CafeService.retrieve_cafe(cafe_slug)
+            
+            for field, value in data.model_dump(exclude_unset=True).items():
+                setattr(cafe, field, value)
 
-        await cafe.save()
+            await cafe.save()
 
-        return cafe
+            return cafe
+        except Exception as e:
+            if "duplicate" or "'type': 'model_attributes_type', 'loc': ('response',), 'msg': 'Input should be a valid dictionary or object to extract fields from'" in str(e):
+                raise ValueError("Cafe already exists")
 
     # --------------------------------------
     #               Menu

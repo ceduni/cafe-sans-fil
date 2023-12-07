@@ -13,20 +13,29 @@ export const getPlatformIcon = (social) => {
       return <img src={Instagram} alt="Instagram logo" className={iconClassNames} />;
     case "Twitter":
     case "X":
+    case "Twitter (X)":
       return <img src={X} alt="X (Twitter) logo" className={iconClassNames} />;
     default:
       return <LinkIcon className={iconClassNames} />;
   }
 };
 
+export const DEFAULT_PLATFORM = "Autre";
+
 export const getPlatformName = (social) => {
   const platformName = social.platform_name;
-  if (!platformName) {
-    const url = new URL(social.link);
-    return url.hostname;
+  if (!platformName || platformName === DEFAULT_PLATFORM) {
+    try {
+      const url = new URL(social.link);
+      return url.hostname;
+    } catch (e) {
+      return DEFAULT_PLATFORM;
+    }
   }
   if (platformName === "Twitter" || platformName === "X") {
     return "X (Twitter)";
   }
   return platformName;
 };
+
+export const supportedPlatforms = ["Facebook", "Instagram", "Twitter (X)"];
