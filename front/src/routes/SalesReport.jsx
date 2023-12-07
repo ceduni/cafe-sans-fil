@@ -127,7 +127,7 @@ const SalesReport = () => {
             <div>
               <SalesReportChart
                 salesTrends={salesReport.sales_revenue_trends}
-                valueExtractor={(item) => item.total_revenue}
+                valueExtractor={(item) => item.total_revenue || 0}
                 label={(item) => `${formatPrice(item.total_revenue)}`}
               />
               <div className="mt-2 ml-32 sm:ml-48 text-zinc-700">Total des revenus: <span className="font-semibold">{formatPrice(salesReport.total_revenue)}</span></div>
@@ -135,7 +135,7 @@ const SalesReport = () => {
             <div>
               <SalesReportChart
                 salesTrends={salesReport.sales_order_trends}
-                valueExtractor={(item) => item.order_count}
+                valueExtractor={(item) => item.order_count || 0}
                 label={(item) => `${item.order_count || 0} orders`}
               />
               <div className="mt-2 ml-32 sm:ml-48 text-zinc-700">Total des commandes: <span className="font-semibold">{salesReport.total_orders}</span></div>
@@ -157,7 +157,7 @@ const SalesReport = () => {
                 className="px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5">
                 <div className="flex min-w-0 gap-x-4">
                   <img
-                    src={findImageURL(item.item_name) || "default-placeholder-url.jpg"}
+                    src={findImageURL(item.item_name) || "https://placehold.co/300x300?text=:/"}
                     alt={item.item_name}
                     className="w-12 h-12 rounded-full object-cover"
                   />
@@ -185,7 +185,7 @@ export default SalesReport;
 const SalesReportChart = ({ salesTrends, valueExtractor, label }) => {
   const svgRef = useRef();
   const [svgWidth, setSvgWidth] = useState(0);
-  const maxValue = Math.max(...salesTrends.map(valueExtractor));
+  const maxValue = Math.max(...salesTrends.map(valueExtractor), 1);
   const svgHeight = 400;
   const barPadding = 1;
   const roundedCorner = 10;
@@ -269,7 +269,7 @@ const SalesReportChart = ({ salesTrends, valueExtractor, label }) => {
 
         {/* Bars and on hover */}
         {salesTrends.map((item, index) => {
-          const barWidth = (svgWidth - 30) / salesTrends.length;
+          const barWidth = Math.max((svgWidth - 30) / salesTrends.length, 1);
           const value = valueExtractor(item);
           const barHeight = (value / maxValue) * (svgHeight - 80);
           return (
