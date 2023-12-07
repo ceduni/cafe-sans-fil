@@ -3,8 +3,12 @@ import { getPlatformIcon, getPlatformName, iconClassNames } from "@/utils/social
 
 const displayWebsite = (website) => {
   if (!website) return null;
-  const url = new URL(website);
-  return url.hostname;
+  try {
+    const url = new URL(website);
+    return url.hostname;
+  } catch (e) {
+    return website;
+  }
 };
 
 const ContactCafe = ({ contact, socialMedia }) => {
