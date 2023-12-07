@@ -91,14 +91,6 @@ function Orders() {
             Mes commandes
           </h1>
 
-          {areOrdersLoading && (
-            <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
-              {Array.from({ length: 2 }).map((_, index) => (
-                <LoadingOrderCard key={index} />
-              ))}
-            </div>
-          )}
-
           <div className="w-full max-w-md px-2 pt-6 pb-4 sm:pt-8 sm:pb-6 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex space-x-1 rounded-xl bg-emerald-900/20 p-1">
@@ -119,6 +111,14 @@ function Orders() {
               </Tab.List>
             </Tab.Group>
           </div>
+
+          {areOrdersLoading && (
+            <div className="flex flex-col mt-10 gap-4 w-full max-w-2xl">
+              {Array.from({ length: 2 }).map((_, index) => (
+                <LoadingOrderCard key={index} />
+              ))}
+            </div>
+          )}
 
           {!areOrdersLoading && displayedOrders.length === 0 && <EmptyState name="commande" genre="féminin" />}
 
