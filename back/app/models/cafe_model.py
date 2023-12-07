@@ -49,7 +49,7 @@ class Location(BaseModel):
 
 class Contact(BaseModel):
     email: Optional[str] = Field(None, description="Contact email address.")
-    phone_number: Optional[str] = Field(None, min_length=1, description="Contact phone number.")
+    phone_number: Optional[str] = Field(None, description="Contact phone number.")
     website: Optional[str] = Field(None, description="Website URL.")
 
 class SocialMedia(BaseModel):
