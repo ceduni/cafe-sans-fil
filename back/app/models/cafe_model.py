@@ -48,9 +48,9 @@ class Location(BaseModel):
     local: Indexed(str) = Field(..., min_length=1, description="Local identifier within the pavilion.")
 
 class Contact(BaseModel):
-    email: Optional[EmailStr] = Field(None, min_length=1, description="Contact email address.")
+    email: Optional[str] = Field(None, description="Contact email address.")
     phone_number: Optional[str] = Field(None, min_length=1, description="Contact phone number.")
-    website: Optional[str] = Field(None, min_length=1, description="Website URL.")
+    website: Optional[str] = Field(None, description="Website URL.")
 
 class SocialMedia(BaseModel):
     platform_name: str = Field(..., min_length=1, description="Name of the social media platform.")
@@ -216,16 +216,19 @@ class Cafe(Document):
         return start1 < end2 and start2 < end1
 
     async def update(self, *args, **kwargs):
+        self.slug = slugify(self.name)
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
         return await super().update(*args, **kwargs)
     
     async def insert(self, *args, **kwargs):
+        self.slug = slugify(self.name)
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
         return await super().insert(*args, **kwargs)
     
     async def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
         return await super().save(*args, **kwargs)
