@@ -1,44 +1,76 @@
 import { PAYMENT_METHODS } from "@/utils/cafe";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "@/components/Input";
 import Switch from "../CustomSwitch";
-import classNames from "classnames";
 
 const EditPaymentMethods = ({ cafeData, setCafeData }) => {
-  const isPaymentMethodAccepted = (method) => {
-    return cafeData?.payment_methods.some((m) => m.method === PAYMENT_METHODS[method]);
+  const allPaymentMethods = Object.values(PAYMENT_METHODS);
+
+  const [isMethodSupported, setIsMethodSupported] = useState({});
+  useEffect(() => {
+    if (!cafeData) return;
+    const newIsMethodSupported = {};
+    allPaymentMethods.forEach((method) => {
+      newIsMethodSupported[method] = cafeData.payment_methods.some((pm) => pm.method === method);
+    });
+    setIsMethodSupported(newIsMethodSupported);
+  }, [cafeData]);
+
+  const handleMinimumChange = (method, value) => {
+    const newCafeData = { ...cafeData };
+    const paymentMethods = newCafeData.payment_methods;
+    const paymentMethod = paymentMethods.find((pm) => pm.method === method);
+    let newValue = value;
+    if (value === "") newValue = null;
+    paymentMethod.minimum = newValue;
+    setCafeData(newCafeData);
   };
 
-  const getPaymentMethodMin = (method) => {
-    return cafeData?.payment_methods.find((m) => m.method === PAYMENT_METHODS[method])?.minimum;
+  const enableMethod = (method) => {
+    const newCafeData = { ...cafeData };
+    const paymentMethods = newCafeData.payment_methods;
+    if (!paymentMethods.some((pm) => pm.method === method)) {
+      paymentMethods.push({ method, minimum: null });
+      setCafeData(newCafeData);
+    }
+  };
+  const disableMethod = (method) => {
+    const newCafeData = { ...cafeData };
+    const paymentMethods = newCafeData.payment_methods;
+    const index = paymentMethods.findIndex((pm) => pm.method === method);
+    if (index >= 0) {
+      paymentMethods.splice(index, 1);
+      setCafeData(newCafeData);
+    }
   };
 
   return (
     <div className="mt-6">
-      {Object.keys(PAYMENT_METHODS).map((method) => (
+      {allPaymentMethods.map((method) => (
         <div key={method} className="py-6">
           <div className="flex justify-between">
-            <p className="font-medium">{PAYMENT_METHODS[method]}</p>
-            <p
-              className={classNames("text-sm", {
-                "text-green-500": isPaymentMethodAccepted(method),
-              })}>
-              {isPaymentMethodAccepted(method) ? "Accepté" : "Non accepté"}
-            </p>
+            <p>{method}</p>
+            <Switch
+              checked={isMethodSupported[method] || false}
+              onChange={(e) => (e ? enableMethod(method) : disableMethod(method))}
+            />
           </div>
-          <p className="text-sm text-gray-500">
-            {isPaymentMethodAccepted(method)
-              ? PAYMENT_METHODS[method] === PAYMENT_METHODS.CASH
-                ? "Pas de minimum pour le paiement en argent comptant."
-                : `Minimum de ${getPaymentMethodMin(method)}$ avec ${PAYMENT_METHODS[method]}.`
-              : null}
-          </p>
-          {PAYMENT_METHODS[method] !== PAYMENT_METHODS.CASH && (
-            <div className="space-y-2 mt-6">
-              <label htmlFor={`payment_methods_${method}_min`} className="block text-sm font-medium text-gray-700">
-                Minimum
+          {method !== PAYMENT_METHODS.CASH && isMethodSupported[method] && (
+            <div className="space-y-2 mt-3">
+              <label htmlFor={`payment_methods_${method}_min`} className="block text-sm font-medium text-gray-500">
+                Montant minimum requis
               </label>
-              <Input id={`payment_methods_${method}_min`} name="min" type="number" step="0.01" />
+              <Input
+                id={`payment_methods_${method}_min`}
+                name="min"
+                type="number"
+                min="0"
+                max="1000"
+                step="0.01"
+                value={cafeData?.payment_methods.find((pm) => pm.method === method)?.minimum || ""}
+                onChange={(e) => handleMinimumChange(method, e.target.value)}
+              />
+              <p className="mt-2 text-sm text-gray-500">Laisser vide pour aucun minimum.</p>
             </div>
           )}
         </div>

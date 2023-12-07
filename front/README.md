@@ -27,6 +27,11 @@
 
 ## Avancée du développement
 
+### 2023-12-06
+
+- Réglages de bug / coordination avec le back
+- Possibilité de modifier les méthodes de paiement d'un café
+
 ### 2023-12-05
 
 - Possibilité de modifier un item et d'en ajouter un nouveau (+ options)
