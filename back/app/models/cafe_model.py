@@ -1,7 +1,7 @@
 from typing import List, Optional
 from uuid import UUID, uuid4
 from beanie import Document, DecimalAnnotation, Indexed
-from pydantic import field_validator, BaseModel, EmailStr, Field
+from pydantic import field_validator, BaseModel, Field
 from enum import Enum
 from datetime import datetime
 import re
@@ -51,6 +51,16 @@ class Contact(BaseModel):
     email: Optional[str] = Field(None, description="Contact email address.")
     phone_number: Optional[str] = Field(None, description="Contact phone number.")
     website: Optional[str] = Field(None, description="Website URL.")
+
+    @field_validator('email')
+    @classmethod
+    def validate_email(cls, v):
+        if v is None or v == "":
+            return None
+        email_regex = re.compile(r'^\w+[\w.-]*@\w+[\w.-]+\.\w+$')
+        if not email_regex.match(v):
+            raise ValueError('Invalid email address')
+        return v
 
 class SocialMedia(BaseModel):
     platform_name: str = Field(..., min_length=1, description="Name of the social media platform.")
@@ -207,7 +217,6 @@ class Cafe(Document):
                 for other_block in time_blocks[i+1:]:
                     if self.time_blocks_overlap(block, other_block):
                         raise ValueError(f"Overlapping time blocks detected on {day_hours.day}.")
-
 
     @staticmethod
     def time_blocks_overlap(block1, block2):
