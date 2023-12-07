@@ -190,12 +190,7 @@ class CafeCreate(BaseModel):
             "social_media": [{"platform_name": "Facebook", "link": "http://fb.com/centralcafe"}],
             "payment_methods": [{"method": "Carte de Crédit", "minimum": 4.0}],
             "staff": [
-                {"username": "cafesansfil", "role": "Admin"},
-                {"username": "janedoe", "role": "Admin"},
-                {"username": "johndoe2", "role": "Bénévole"},
-                {"username": "janedoe2", "role": "Bénévole"},
-                {"username": "johndoe3", "role": "Bénévole"},
-                {"username": "janedoe3", "role": "Bénévole"}
+                {"username": "cafesansfil", "role": "Admin"}
             ],
             "menu_items": [
                 {
