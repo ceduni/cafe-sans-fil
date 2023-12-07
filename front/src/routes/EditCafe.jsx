@@ -16,6 +16,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import EditAdditionalInfo from "@/components/Cafe/EditAdditionalInfo";
 import EditPaymentMethods from "@/components/Cafe/EditPaymentMehods";
 import EditOpeningHours from "@/components/Cafe/EditOpeningHours";
+import EditSocials from "@/components/Cafe/EditSocials";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
@@ -138,7 +139,7 @@ const EditCafe = () => {
                     onChange={(e) =>
                       setCafeData({ ...cafeData, location: { ...cafeData.location, pavillon: e.target.value } })
                     }
-                    placeholder="Exemple: Pavillon Claire-McNicoll"
+                    placeholder="Pavillon Claire-McNicoll"
                     required
                   />
                 </div>
@@ -157,7 +158,7 @@ const EditCafe = () => {
                     onChange={(e) =>
                       setCafeData({ ...cafeData, location: { ...cafeData.location, local: e.target.value } })
                     }
-                    placeholder="Exemple: local 1234"
+                    placeholder="local 1234"
                     required
                   />
                 </div>
@@ -209,14 +210,14 @@ const EditCafe = () => {
             {!cafeData?.is_open && (
               <div className="mt-6">
                 <label htmlFor="status-message" className="block text-sm font-medium text-gray-700">
-                  Raison de fermeture exceptionnelle (optionnel)
+                  Raison de fermeture <span className="text-xs text-gray-500">(optionnel)</span>
                 </label>
                 <div className="mt-2">
                   <Input
                     type="text"
                     name="status-message"
                     id="status-message"
-                    placeholder="Exemple: Fermé pour examens"
+                    placeholder="Fermé pour examens"
                     value={cafeData?.status_message || ""}
                     onChange={(e) => setCafeData({ ...cafeData, status_message: e.target.value })}
                   />
@@ -245,13 +246,13 @@ const EditCafe = () => {
             <EditPaymentMethods cafeData={cafeData} setCafeData={setCafeData} />
           </div>
 
-          <div className="mt-6 pb-12">
+          <div className="border-b border-gray-900/10 mt-6 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">Informations de contact</h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">Ces informations sont affichées sur la page du café</p>
 
             <div className="space-y-2 mt-6">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Adresse courriel
+                Adresse courriel <span className="text-xs text-gray-500">(optionnel)</span>
               </label>
               <Input
                 type="email"
@@ -264,10 +265,10 @@ const EditCafe = () => {
 
             <div className="space-y-2 mt-6">
               <label htmlFor="website" className="block text-sm font-medium text-gray-700">
-                Site web
+                Site web <span className="text-xs text-gray-500">(optionnel)</span>
               </label>
               <Input
-                type="text"
+                type="url"
                 name="website"
                 id="website"
                 value={cafeData?.contact.website || ""}
@@ -279,7 +280,7 @@ const EditCafe = () => {
 
             <div className="space-y-2 mt-6">
               <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">
-                Numéro de téléphone
+                Numéro de téléphone <span className="text-xs text-gray-500">(optionnel)</span>
               </label>
               <Input
                 type="text"
@@ -291,6 +292,13 @@ const EditCafe = () => {
                 }
               />
             </div>
+          </div>
+
+          <div className="mt-6 pb-12">
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Réseaux sociaux</h2>
+            <p className="mt-1 text-sm leading-6 text-gray-600">Ces informations sont affichées sur la page du café</p>
+
+            <EditSocials cafeData={cafeData} setCafeData={setCafeData} />
           </div>
 
           <div className="mt-6 flex items-center justify-end gap-x-4 text-sm font-semibold">

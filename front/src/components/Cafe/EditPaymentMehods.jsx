@@ -49,7 +49,7 @@ const EditPaymentMethods = ({ cafeData, setCafeData }) => {
       {allPaymentMethods.map((method) => (
         <div key={method} className="py-6">
           <div className="flex justify-between">
-            <p>{method}</p>
+            <p className="text-base text-gray-700">{method}</p>
             <Switch
               checked={isMethodSupported[method] || false}
               onChange={(e) => (e ? enableMethod(method) : disableMethod(method))}
@@ -58,7 +58,7 @@ const EditPaymentMethods = ({ cafeData, setCafeData }) => {
           {method !== PAYMENT_METHODS.CASH && isMethodSupported[method] && (
             <div className="space-y-2 mt-3">
               <label htmlFor={`payment_methods_${method}_min`} className="block text-sm font-medium text-gray-500">
-                Montant minimum requis
+                Montant minimum requis <span className="text-xs text-gray-500">(optionnel)</span>
               </label>
               <Input
                 id={`payment_methods_${method}_min`}

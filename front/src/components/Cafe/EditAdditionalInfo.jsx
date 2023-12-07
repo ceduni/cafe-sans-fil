@@ -87,32 +87,34 @@ const EditAdditionalInfo = ({ cafeData, setCafeData }) => {
             {!info.value && <p className="text-sm text-red-500">Le message ne peut pas être vide.</p>}
           </div>
 
-          <div className="space-y-2 mt-6">
-            <label htmlFor={`additional_info_${index}_start`} className="block text-sm font-medium text-gray-700">
-              Début de l'affichage
-            </label>
-            <Input
-              id={`additional_info_${index}_start`}
-              name="start"
-              type="datetime-local"
-              value={formatDatetimeForInput(info.start)}
-              onChange={(e) => handleAdditionalInfoChange(e, index)}
-            />
-            <p className="text-sm text-gray-500">Laisser vide pour afficher immédiatement.</p>
-          </div>
+          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-6">
+            <div className="sm:col-span-3 space-y-2">
+              <label htmlFor={`additional_info_${index}_start`} className="block text-sm font-medium text-gray-700">
+                Début de l'affichage <span className="text-xs text-gray-500">(optionnel)</span>
+              </label>
+              <Input
+                id={`additional_info_${index}_start`}
+                name="start"
+                type="datetime-local"
+                value={formatDatetimeForInput(info.start)}
+                onChange={(e) => handleAdditionalInfoChange(e, index)}
+              />
+              <p className="text-sm text-gray-500">Laisser vide pour afficher immédiatement.</p>
+            </div>
 
-          <div className="space-y-2 mt-6">
-            <label htmlFor={`additional_info_${index}_end`} className="block text-sm font-medium text-gray-700">
-              Fin de l'affichage
-            </label>
-            <Input
-              id={`additional_info_${index}_end`}
-              name="end"
-              type="datetime-local"
-              value={formatDatetimeForInput(info.end)}
-              onChange={(e) => handleAdditionalInfoChange(e, index)}
-            />
-            <p className="text-sm text-gray-500">Laisser vide pour afficher indéfiniment.</p>
+            <div className="sm:col-span-3 space-y-2">
+              <label htmlFor={`additional_info_${index}_end`} className="block text-sm font-medium text-gray-700">
+                Fin de l'affichage <span className="text-xs text-gray-500">(optionnel)</span>
+              </label>
+              <Input
+                id={`additional_info_${index}_end`}
+                name="end"
+                type="datetime-local"
+                value={formatDatetimeForInput(info.end)}
+                onChange={(e) => handleAdditionalInfoChange(e, index)}
+              />
+              <p className="text-sm text-gray-500">Laisser vide pour afficher indéfiniment.</p>
+            </div>
           </div>
         </div>
       ))}
