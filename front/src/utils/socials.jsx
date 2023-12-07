@@ -13,7 +13,7 @@ export const getPlatformIcon = (social) => {
       return <img src={Instagram} alt="Instagram logo" className={iconClassNames} />;
     case "Twitter":
     case "X":
-    case "Twitter (X)":
+    case "X (Twitter)":
       return <img src={X} alt="X (Twitter) logo" className={iconClassNames} />;
     default:
       return <LinkIcon className={iconClassNames} />;
@@ -38,4 +38,4 @@ export const getPlatformName = (social) => {
   return platformName;
 };
 
-export const supportedPlatforms = ["Facebook", "Instagram", "Twitter (X)"];
+export const supportedPlatforms = ["Facebook", "Instagram", "X (Twitter)"];
