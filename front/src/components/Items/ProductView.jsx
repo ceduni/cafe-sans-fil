@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
-import Badge from "../Badge";
+import Badge from "@/components/Badge";
 import { DEFAULT_OPTION_NAME, arrayToOptionsByType, formatPrice } from "@/utils/cart";
 import classNames from "classnames";
 import { IN_STOCK_TEXT, OUT_OF_STOCK_TEXT } from "@/utils/items";

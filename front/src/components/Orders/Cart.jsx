@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCart } from "react-use-cart";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import Badge from "../Badge";
+import Badge from "@/components/Badge";
 import { useNavigate } from "react-router-dom";
 import { formatPrice, areItemsFromMoreThanOneCafe, displayOptions } from "@/utils/cart";
 

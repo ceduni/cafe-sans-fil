@@ -1,7 +1,7 @@
 import { PAYMENT_METHODS } from "@/utils/cafe";
 import { useEffect, useState } from "react";
 import Input from "@/components/Input";
-import Switch from "../CustomSwitch";
+import Switch from "@/components/CustomSwitch";
 
 const EditPaymentMethods = ({ cafeData, setCafeData }) => {
   const allPaymentMethods = Object.values(PAYMENT_METHODS);
