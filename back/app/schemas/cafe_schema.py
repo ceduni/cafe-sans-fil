@@ -284,6 +284,7 @@ class CafeOut(BaseModel):
     cafe_id: UUID = Field(..., description="Unique identifier of the cafe.")
     name: str = Field(..., description="Name of the cafe.")
     slug: str = Field(..., description="Slug of the cafe.")
+    previous_slugs: List[str] = Field(None, description="Previous slugs of the cafe.")
     description: str = Field(..., description="Description of the cafe.")
     image_url: Optional[str] = Field(None, description="Image URL of the cafe.")
     faculty: str = Field(..., description="Faculty associated with the cafe.")
@@ -302,6 +303,7 @@ class CafeOut(BaseModel):
             "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
             "name": "Café Central",
             "slug": "cafe-central",
+            "previous_slugs": ["cafe-central-1", "cafe-central-2"],
             "description": "Un café populaire près de la bibliothèque principale.",
             "image_url": "https://media.architecturaldigest.com/photos/5b083c4675a4f940de3da8f1/master/pass/case-study-coffee.jpg",
             "faculty": "Science",

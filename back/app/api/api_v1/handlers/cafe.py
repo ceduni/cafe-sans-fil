@@ -51,10 +51,15 @@ async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current
     try:
         return await CafeService.create_cafe(cafe)
     except ValueError as e:
-        error_message = str(e)
+        if "duplicate" in str(e).lower() and len(str(e)) < 100: 
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=str(e)
+            )
+
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=error_message
+            detail="Cafe already exists"
         )
     
 @cafe_router.put("/cafes/{cafe_slug}", response_model=CafeOut, summary="🔴 Update Cafe", description="Update the details of an existing cafe.")
@@ -80,10 +85,15 @@ async def update_cafe(cafe: CafeUpdate, cafe_slug: str = Path(..., description="
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=str(e)
             )
-        else:
+        elif "duplicate" in str(e).lower() and len(str(e)) < 100: 
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail=str(e)
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Cafe already exists"
             )
 
 # --------------------------------------

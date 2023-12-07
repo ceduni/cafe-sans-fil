@@ -50,12 +50,15 @@ class CafeService:
             await cafe.insert()
             return cafe
         except Exception as e:
-            if "duplicate" or "'type': 'model_attributes_type', 'loc': ('response',), 'msg': 'Input should be a valid dictionary or object to extract fields from'" in str(e):
+            if "duplicate" in str(e).lower() and len(str(e)) < 100: 
+                raise ValueError(e)
+            else:
                 raise ValueError("Cafe already exists")
 
     @staticmethod
     async def retrieve_cafe(cafe_slug: str):
-        return await Cafe.find_one(Cafe.slug == cafe_slug)
+        cafe = await Cafe.find_one({"$or": [{"slug": cafe_slug}, {"previous_slugs": cafe_slug}]})
+        return cafe
     
     @staticmethod
     async def update_cafe(cafe_slug: str, data: CafeUpdate):
@@ -69,9 +72,11 @@ class CafeService:
 
             return cafe
         except Exception as e:
-            if "duplicate" or "'type': 'model_attributes_type', 'loc': ('response',), 'msg': 'Input should be a valid dictionary or object to extract fields from'" in str(e):
+            if "duplicate" in str(e).lower() and len(str(e)) < 100: 
+                raise ValueError(e)
+            else:
                 raise ValueError("Cafe already exists")
-
+    
     # --------------------------------------
     #               Menu
     # --------------------------------------
@@ -268,7 +273,7 @@ class CafeService:
 
     @staticmethod
     async def is_authorized_for_cafe_action_by_slug(cafe_slug: str, current_user: User, required_roles: List[Role]):
-        cafe = await Cafe.find_one({"slug": cafe_slug})
+        cafe = await Cafe.find_one({"$or": [{"slug": cafe_slug}, {"previous_slugs": cafe_slug}]})
         if not cafe:
             raise ValueError("Cafe not found")
 
