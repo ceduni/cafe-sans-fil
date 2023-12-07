@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from uuid import UUID
 from typing import List, Optional
+from app.models.cafe_model import Cafe
 from app.models.order_model import Order, OrderStatus
 from app.schemas.order_schema import OrderCreate, OrderUpdate
 from bson import SON
@@ -118,7 +119,13 @@ class OrderService:
     @staticmethod
     async def list_orders_for_cafe(cafe_slug: str, **filters) -> List[Order]:
         query_filters = {}
-        query_filters["cafe_slug"] = cafe_slug
+        
+        cafe = await Cafe.find_one({"slug": cafe_slug})
+        if not cafe:
+            return None
+        slug_list = [cafe.slug] + getattr(cafe, 'previous_slugs', [])
+
+        query_filters["cafe_slug"] = {"$in": slug_list}
         page = int(filters.pop('page', 1))
         limit = int(filters.pop('limit', 20))
 
@@ -170,7 +177,12 @@ class OrderService:
         start_date = datetime.strptime(start_date_str, "%Y-%m-%d") if start_date_str else None
         end_date = datetime.strptime(end_date_str, "%Y-%m-%d") if end_date_str else None
 
-        query = {"cafe_slug": cafe_slug, "status": "Complétée"}
+        cafe = await Cafe.find_one({"slug": cafe_slug})
+        if not cafe:
+            return None
+        slug_list = [cafe.slug] + getattr(cafe, 'previous_slugs', [])
+
+        query = {"cafe_slug": {"$in": slug_list}, "status": "Complétée"}
         if start_date:
             query["created_at"] = query.get("created_at", {})
             query["created_at"]["$gte"] = start_date

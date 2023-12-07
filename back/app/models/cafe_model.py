@@ -123,6 +123,7 @@ class Cafe(Document):
     cafe_id: UUID = Field(default_factory=uuid4)
     name: Indexed(str, unique=True)
     slug: Indexed(str, unique=True) = None
+    previous_slugs: List[str] = []
     description: Indexed(str)
     image_url: Optional[str] = None 
     faculty: Indexed(str)
@@ -141,6 +142,15 @@ class Cafe(Document):
         super().__init__(**data)
         self.slug = slugify(self.name)
 
+    async def is_slug_unique(self, slug: str) -> bool:
+        existing_cafe = await Cafe.find_one(
+            {"$and": [
+                {"$or": [{"slug": slug}, {"previous_slugs": slug}]},
+                {"cafe_id": {"$ne": self.cafe_id}}
+            ]}
+        )
+        return existing_cafe is None
+    
     async def check_for_duplicate_entries(self):
         # Unique SocialMedia platform_name-link combinations
         social_media_combinations = set()
@@ -225,19 +235,37 @@ class Cafe(Document):
         return start1 < end2 and start2 < end1
 
     async def update(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        new_slug = slugify(self.name)
+        if self.slug != new_slug:
+            if not await self.is_slug_unique(new_slug):
+                raise ValueError(f"The slug '{new_slug}' is already in use.")
+            if self.slug:
+                self.previous_slugs.append(self.slug)
+            self.slug = new_slug
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
         return await super().update(*args, **kwargs)
     
     async def insert(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        new_slug = slugify(self.name)
+        if self.slug != new_slug:
+            if not await self.is_slug_unique(new_slug):
+                raise ValueError(f"The slug '{new_slug}' is already in use.")
+            if self.slug:
+                self.previous_slugs.append(self.slug)
+            self.slug = new_slug
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
         return await super().insert(*args, **kwargs)
     
     async def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        new_slug = slugify(self.name)
+        if self.slug != new_slug:
+            if not await self.is_slug_unique(new_slug):
+                raise ValueError(f"The slug '{new_slug}' is already in use.")
+            if self.slug:
+                self.previous_slugs.append(self.slug)
+            self.slug = new_slug
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
         return await super().save(*args, **kwargs)

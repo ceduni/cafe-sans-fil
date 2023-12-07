@@ -40,7 +40,7 @@ function Orders() {
   const { data: cafes, isLoading } = useApi(`/cafes`);
   const getCafeFromSlug = (slug) => {
     if (isLoading) return {};
-    return cafes.find((cafe) => cafe.slug === slug);
+    return cafes.find((cafe) => cafe.slug === slug || (cafe.previous_slugs && cafe.previous_slugs.includes(slug)));
   };
 
   const oldOrdersCount = orders.filter((order) => isOldOrder(order.status)).length;
