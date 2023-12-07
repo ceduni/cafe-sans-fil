@@ -53,6 +53,8 @@ const EditCafe = () => {
               toast.error("Le nom du café doit être unique.");
             } else if (error.response.data?.detail.includes("time")) {
               toast.error("Les heures d'ouverture ne peuvent pas se chevaucher.");
+            } else if (error.response.data?.detail.includes("already exists")) {
+              toast.error("Vous devez choisir un autre nom pour ce café.");
             } else {
               toast.error("Conflit lors de la mise à jour du café");
             }
