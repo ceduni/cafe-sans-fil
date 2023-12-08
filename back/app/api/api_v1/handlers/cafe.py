@@ -30,7 +30,7 @@ async def list_cafes(
     return await CafeService.list_cafes(**query_params)
 
 @cafe_router.get("/cafes/{cafe_slug}", response_model=CafeOut, summary="Get Cafe", description="Retrieve detailed information about a specific cafe.")
-async def get_cafe(cafe_slug: str = Path(..., description="The slug of the cafe")):
+async def get_cafe(cafe_slug: str = Path(..., description="The slug or UUID of the cafe to retrieve")):
     cafe = await CafeService.retrieve_cafe(cafe_slug)
     if not cafe:
         raise HTTPException(
@@ -43,7 +43,7 @@ async def get_cafe(cafe_slug: str = Path(..., description="The slug of the cafe"
 @cafe_router.post("/cafes", response_model=CafeOut, summary="🔴* Create Cafe", description="Create a new cafe with the provided information. \n\nAuthorization: Only cafesansfil can create cafe.")
 async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current_user)):
     # Authorization check
-    if "cafesansfil" != current_user.username:
+    if "7802085" != current_user.username:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Access forbidden"

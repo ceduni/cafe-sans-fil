@@ -17,7 +17,7 @@ import classNames from "classnames";
 
 const StaffList = () => {
   const { id: cafeSlug } = useParams();
-  const { data, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
+  const { data, isLoading, error, refetch} = useApi(`/cafes/${cafeSlug}`);
   const [staffDetails, setStaffDetails] = useState([]);
 
   const { user: loggedInUser } = useAuth();
@@ -77,8 +77,8 @@ const StaffList = () => {
       }
     }
     if (success) {
+      refetch();
       toast.success("Modifications enregistrées avec succès");
-      window.location.reload();
     } else {
       toast.error("Des erreurs sont survenues lors de l'enregistrement");
     }
@@ -94,10 +94,9 @@ const StaffList = () => {
         username: newStaff,
         role: "Bénévole",
       });
-      setStaffDetails([...staffDetails, response.data]);
+      refetch();
       setNewStaff("");
       toast.success("Staff ajouté avec succès");
-      window.location.reload();
     } catch (error) {
       if (error.response && error.response.status === 404) {
         toast.error("Compte non trouvé");
@@ -231,9 +230,9 @@ const StaffList = () => {
 
             <div className="space-y-2 mt-6 sm:w-1/2">
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Username ou matricule du nouveau staff
+                Matricule du nouveau staff
               </label>
-              <Input id="new staff" type="text" onChange={(e) => setNewStaff(e.target.value)} />
+              <Input id="new staff" type="text" value={newStaff} onChange={(e) => setNewStaff(e.target.value)} />
             </div>
 
             <button

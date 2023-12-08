@@ -24,7 +24,6 @@ async def create_users(num_users):
         while True:
             try:
                 matricule = generate_matricule()
-                username = fake.user_name()
                 first_name = fake.first_name()
                 last_name = fake.last_name()
                 email = normalize_string(first_name).replace(" ", "").lower() + "." + normalize_string(last_name).replace(" ", "").lower() + "@umontreal.ca"
@@ -34,7 +33,7 @@ async def create_users(num_users):
                 user_data = UserAuth(
                     email=email,
                     matricule=matricule,
-                    username=username,
+                    username=matricule,
                     password=password,
                     first_name=first_name,
                     last_name=last_name,
@@ -48,17 +47,18 @@ async def create_users(num_users):
                 continue
 
     # Update the first User to be cafesansfil
+    cafesansfil_matricule = "7802085"
     cafesansfil_user = {
         "email": "cafesansfil@umontreal.ca",
-        "matricule": "20303214",
-        "username": "cafesansfil",
+        "matricule": cafesansfil_matricule,
+        "username": cafesansfil_matricule,
         "password": "Cafepass1",
         "first_name": "Tom",
         "last_name": "Holland",
         "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
     }
     await UserService.update_user(user_usernames[0], UserAuth(**cafesansfil_user))
-    user_usernames[0] = "cafesansfil"
+    user_usernames[0] = cafesansfil_matricule
     return user_usernames
 
 # This function is used to normalize the first_name and last_name to be used as a password

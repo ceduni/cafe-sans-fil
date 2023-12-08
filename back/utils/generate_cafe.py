@@ -101,7 +101,7 @@ def random_payment_methods():
     payment_methods = []
 
     for method in selected_methods:
-        minimum = round(random.uniform(0.0, 7.0), 2) if method in ["Carte de débit", "Carte de crédit"] else None
+        minimum = random.randint(3, 8) if method in ["Carte de débit", "Carte de crédit"] else None
         payment_methods.append(PaymentMethod(method=method, minimum=minimum))
     return payment_methods
 

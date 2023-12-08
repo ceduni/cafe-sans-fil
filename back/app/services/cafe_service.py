@@ -56,10 +56,12 @@ class CafeService:
                 raise ValueError("Cafe already exists")
 
     @staticmethod
-    async def retrieve_cafe(cafe_slug: str):
-        cafe = await Cafe.find_one({"$or": [{"slug": cafe_slug}, {"previous_slugs": cafe_slug}]})
-        return cafe
-    
+    async def retrieve_cafe(cafe: str):
+        try:
+            return await Cafe.find_one({"cafe_id": UUID(cafe)})
+        except ValueError:
+            return await Cafe.find_one({"$or": [{"slug": cafe}, {"previous_slugs": cafe}]})
+
     @staticmethod
     async def update_cafe(cafe_slug: str, data: CafeUpdate):
         try:
