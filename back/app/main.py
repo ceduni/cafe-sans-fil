@@ -29,7 +29,7 @@ This project is currently in development and is hosted on [Render](https://cafes
 
 ## Testing Protected Endpoints
 To test protected endpoints, you can use the following default credentials:
-- Username: `cafesansfil`
+- Username: `cafesansfil@umontreal.ca`
 - Password: `Cafepass1`
 
 You can also create your own user or utilize any pre-generated users with different roles via the `/api/users` endpoint. All pre-generated users share the same password: `Cafepass1`.
