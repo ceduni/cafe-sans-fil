@@ -193,6 +193,9 @@ const SalesReportChart = ({ salesTrends, valueExtractor, label }) => {
   const interval = Math.floor(salesTrends.length / maxLabelCount);
   const leftMargin = 50;
 
+  const upperLimitForTicks = 10;
+  const numberOfTicks = Math.min(maxValue, upperLimitForTicks);
+
   useEffect(() => {
     if (svgRef.current) {
       setSvgWidth(svgRef.current.parentElement.offsetWidth * 0.9);
@@ -214,7 +217,7 @@ const SalesReportChart = ({ salesTrends, valueExtractor, label }) => {
     const tooltip = document.getElementById("tooltip");
     tooltip.style.display = "none";
   };
-
+  
   return (
     <div>
       <svg ref={svgRef} width={svgWidth + leftMargin} height={svgHeight}>
@@ -253,15 +256,15 @@ const SalesReportChart = ({ salesTrends, valueExtractor, label }) => {
             <text
               className="font-semibold"
               x={leftMargin - 25}
-              y={svgHeight - 40 - (i * (svgHeight - 80)) / 10}
+              y={svgHeight - 40 - (i * (svgHeight - 80)) / numberOfTicks}
               fontSize="14px">
-              {Math.round((maxValue * i) / 10)}
+              {Math.round((maxValue * i) / numberOfTicks)}
             </text>
             <line
               x1={leftMargin - 5}
-              y1={svgHeight - 40 - (i * (svgHeight - 80)) / 10}
+              y1={svgHeight - 40 - (i * (svgHeight - 80)) / numberOfTicks}
               x2={leftMargin}
-              y2={svgHeight - 40 - (i * (svgHeight - 80)) / 10}
+              y2={svgHeight - 40 - (i * (svgHeight - 80)) / numberOfTicks}
               stroke="black"
             />
           </g>

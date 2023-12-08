@@ -31,7 +31,7 @@ def user_data_cafesansfil():
     return {
         "email": "cafesansfil@umontreal.ca",
         "matricule": "20303214",
-        "username": "cafesansfil",
+        "username": "7802085",
         "password": "Cafepass1",
         "first_name": "Tom",
         "last_name": "Holland",
