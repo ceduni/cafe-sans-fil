@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: List[str] = config("BACKEND_CORS_ORIGINS", cast=lambda v: v.split(","))
     BASE_URL: str = config("BASE_URL", cast=str)
     PROJECT_NAME: str = "Café sans-fil"
-    VERSION: str = "0.1.1"
+    VERSION: str = "0.2.0"
     
     # Database
     MONGO_CONNECTION_STRING: str = config("MONGO_CONNECTION_STRING", cast=str)

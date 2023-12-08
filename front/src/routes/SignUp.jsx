@@ -15,9 +15,14 @@ const SignUp = () => {
     passwordConfirm: "",
     matricule: "",
   });
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    onSignUp(e, userData, setHasSubmitted);
   };
 
   return (
@@ -36,7 +41,7 @@ const SignUp = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST" onSubmit={(e) => onSignUp(e, userData)}>
+          <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
@@ -145,7 +150,11 @@ const SignUp = () => {
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+              className="flex w-full justify-center rounded-3xl bg-emerald-600 px-3 py-1.5 \
+              text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 \
+              focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 \
+              disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={hasSubmitted}>
               Créer le compte
             </button>
           </form>
