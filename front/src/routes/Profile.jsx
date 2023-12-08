@@ -44,6 +44,7 @@ const Profile = () => {
     });
     return memberCafes;
   };
+  const memberCafes = getMemberCafes();
 
   // Change password
   const [passwordDetails, setPasswordDetails] = useState({
@@ -190,11 +191,17 @@ const Profile = () => {
 
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">Cafés</h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">
-              Ici s'affichent les cafés où vous êtes bénévole ou administrateur.
-            </p>
+            {(memberCafes.length === 0 && (
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Vous n'êtes bénévole dans aucun café. Contactez les cafés pour vous impliquer!
+              </p>
+            )) || (
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Ici s'affichent les cafés où vous êtes bénévole ou administrateur.
+              </p>
+            )}
 
-            {getMemberCafes().map((cafe) => (
+            {memberCafes.map((cafe) => (
               <div className="mt-6" key={cafe.slug}>
                 <Link to={`/cafes/${cafe.slug}`} className="contents">
                   <div className="flex items-center gap-3 w-fit">

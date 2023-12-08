@@ -48,9 +48,10 @@ const SignUp = () => {
                     name="firstName"
                     id="firstName"
                     autoComplete="given-name"
-                    required
                     value={userData.firstName}
                     onChange={handleChange}
+                    required
+                    minLength="2"
                   />
                 </div>
               </div>
@@ -64,92 +65,89 @@ const SignUp = () => {
                     name="lastName"
                     id="lastName"
                     autoComplete="family-name"
-                    required
                     value={userData.lastName}
                     onChange={handleChange}
+                    required
+                    minLength="2"
                   />
                 </div>
               </div>
             </div>
 
-            <div>
+            <div className="space-y-2">
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Adresse courriel de l'UdeM
               </label>
-              <div className="mt-2">
-                <Input
-                  type="email"
-                  name="email"
-                  id="email"
-                  autoComplete="email"
-                  required
-                  value={userData.email}
-                  onChange={handleChange}
-                />
-              </div>
+              <Input
+                type="email"
+                name="email"
+                id="email"
+                autoComplete="email"
+                required
+                value={userData.email}
+                onChange={handleChange}
+              />
             </div>
 
-            <div>
+            <div className="space-y-2">
               <label htmlFor="matricule" className="block text-sm font-medium leading-6 text-gray-900">
                 Matricule UdeM
               </label>
-              <div className="mt-2">
-                <Input
-                  type="text"
-                  name="matricule"
-                  id="matricule"
-                  required
-                  value={userData.matricule}
-                  onChange={handleChange}
-                />
-              </div>
+              <Input
+                type="text"
+                name="matricule"
+                id="matricule"
+                value={userData.matricule}
+                onChange={handleChange}
+                required
+                minLength="6"
+                pattern="[0-9]{6,8}"
+              />
+              <p className="text-sm text-gray-500">
+                Doit contenir entre 6 et 8 chiffres. Affiché sur votre carte étudiante.
+              </p>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                  Mot de passe
-                </label>
-              </div>
-              <div className="mt-2">
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={userData.password}
-                  onChange={handleChange}
-                />
-              </div>
+            <div className="space-y-2">
+              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                Mot de passe
+              </label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                value={userData.password}
+                onChange={handleChange}
+                required
+                minLength="8"
+              />
+              <p className="text-sm text-gray-500">Minimum de 8 caractères.</p>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="passwordConfirm" className="block text-sm font-medium leading-6 text-gray-900">
-                  Confirmez le mot de passe
-                </label>
-              </div>
-              <div className="mt-2">
-                <Input
-                  id="passwordConfirm"
-                  name="passwordConfirm"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={userData.passwordConfirm}
-                  onChange={handleChange}
-                />
-              </div>
+            <div className="space-y-2">
+              <label htmlFor="passwordConfirm" className="block text-sm font-medium leading-6 text-gray-900">
+                Confirmez le mot de passe
+              </label>
+              <Input
+                id="passwordConfirm"
+                name="passwordConfirm"
+                type="password"
+                autoComplete="current-password"
+                value={userData.passwordConfirm}
+                onChange={handleChange}
+                required
+              />
+              {userData.password !== userData.passwordConfirm && userData.passwordConfirm.length > 0 && (
+                <p className="text-sm text-red-500">Les mots de passe ne correspondent pas.</p>
+              )}
             </div>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
-                Créer le compte
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="flex w-full justify-center rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+              Créer le compte
+            </button>
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">

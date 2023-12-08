@@ -38,7 +38,8 @@ const SalesReport = () => {
   const [startDate, setStartDate] = useState(oneMonthAgo);
   const [endDate, setEndDate] = useState(today);
 
-  const buttonBaseClass = "flex rounded-3xl px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
+  const buttonBaseClass =
+    "flex rounded-3xl px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
   const buttonNormalClass = `${buttonBaseClass} bg-emerald-600 text-white hover:bg-emerald-500 focus-visible:outline-emerald-600`;
   const buttonSelectedClass = `${buttonBaseClass} bg-emerald-700 text-white`;
 
@@ -104,7 +105,6 @@ const SalesReport = () => {
             </div>
           </div>
 
-
           <div className="gap-2 flex justify-center">
             <button
               className={reportType === "daily" ? buttonSelectedClass : buttonNormalClass}
@@ -130,7 +130,9 @@ const SalesReport = () => {
                 valueExtractor={(item) => item.total_revenue || 0}
                 label={(item) => `${formatPrice(item.total_revenue)}`}
               />
-              <div className="mt-2 ml-32 sm:ml-48 text-zinc-700">Total des revenus: <span className="font-semibold">{formatPrice(salesReport.total_revenue)}</span></div>
+              <div className="mt-2 ml-32 sm:ml-48 text-zinc-700">
+                Total des revenus: <span className="font-semibold">{formatPrice(salesReport.total_revenue)}</span>
+              </div>
             </div>
             <div>
               <SalesReportChart
@@ -138,10 +140,11 @@ const SalesReport = () => {
                 valueExtractor={(item) => item.order_count || 0}
                 label={(item) => `${item.order_count || 0} orders`}
               />
-              <div className="mt-2 ml-32 sm:ml-48 text-zinc-700">Total des commandes: <span className="font-semibold">{salesReport.total_orders}</span></div>
+              <div className="mt-2 ml-32 sm:ml-48 text-zinc-700">
+                Total des commandes: <span className="font-semibold">{salesReport.total_orders}</span>
+              </div>
             </div>
           </div>
-
         </div>
 
         <div className="pb-12 mt-6">
@@ -154,7 +157,7 @@ const SalesReport = () => {
             {salesReport.item_sales_details.map((item, index) => (
               <li
                 key={index}
-                className="px-6 mx-14 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5">
+                className="px-2 rounded-2xl flex flex-col sm:flex-row justify-between gap-x-6 gap-y-4 py-5">
                 <div className="flex min-w-0 gap-x-4">
                   <img
                     src={findImageURL(item.item_name) || "https://placehold.co/300x300?text=:/"}
@@ -217,7 +220,7 @@ const SalesReportChart = ({ salesTrends, valueExtractor, label }) => {
     const tooltip = document.getElementById("tooltip");
     tooltip.style.display = "none";
   };
-  
+
   return (
     <div>
       <svg ref={svgRef} width={svgWidth + leftMargin} height={svgHeight}>

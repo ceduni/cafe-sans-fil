@@ -27,6 +27,10 @@
 
 ## Avancée du développement
 
+### 2023-12-08
+
+- Derniers réglages de bugs et petites améliorations
+
 ### 2023-12-06
 
 - Réglages de bug / coordination avec le back
