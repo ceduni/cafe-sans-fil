@@ -10,9 +10,14 @@ const Login = () => {
   const { onLogin } = useAuth();
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    onLogin(e, credentials, setCredentials, setHasSubmitted);
   };
 
   return (
@@ -31,7 +36,7 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" method="POST" onSubmit={(e) => onLogin(e, credentials, setCredentials)}>
+          <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Adresse courriel de l'UdeM
@@ -86,7 +91,11 @@ const Login = () => {
 
             <button
               type="submit"
-              className="flex w-full justify-center rounded-3xl bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+              className="flex w-full justify-center rounded-3xl bg-emerald-600 px-3 py-1.5 \
+              text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 \
+              focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 \
+              disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={hasSubmitted}>
               Se connecter
             </button>
           </form>

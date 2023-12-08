@@ -45,8 +45,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleLogin = async (event, credentials, setCredentials) => {
+  const handleLogin = async (event, credentials, setCredentials, setHasSubmitted) => {
     event.preventDefault();
+    setHasSubmitted(true);
     const { email, password } = credentials;
 
     const toastId = toast.loading("Connexion...");
@@ -61,6 +62,7 @@ export const AuthProvider = ({ children }) => {
       navigate("/");
       setUser(await getCurrentUser());
     } else {
+      setHasSubmitted(false);
       setCredentials({ ...credentials, password: "" });
     }
   };
@@ -110,8 +112,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleSignUp = async (event, userData) => {
+  const handleSignUp = async (event, userData, setHasSubmitted) => {
     event.preventDefault();
+    setHasSubmitted(true);
     const { email, firstName, lastName, matricule, password, passwordConfirm } = userData;
 
     if (password !== passwordConfirm) {
@@ -130,6 +133,8 @@ export const AuthProvider = ({ children }) => {
 
       navigate("/");
       setUser(await getCurrentUser());
+    } else {
+      setHasSubmitted(false);
     }
   };
 
@@ -187,7 +192,7 @@ export const AuthProvider = ({ children }) => {
       if (!currentUser) {
         return false;
       }
-  
+
       const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/auth/login", {
         method: "POST",
         headers: {
@@ -198,13 +203,13 @@ export const AuthProvider = ({ children }) => {
           password,
         }),
       });
-  
+
       return response.status === 200;
     } catch (error) {
       return false;
     }
   };
-  
+
   const handleDeleteAccount = async () => {
     try {
       const user = await getCurrentUser();
