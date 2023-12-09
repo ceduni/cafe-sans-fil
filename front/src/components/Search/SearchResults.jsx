@@ -16,11 +16,7 @@ const SearchResults = ({ searchQuery, storedCafes }) => {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase();
-    const descriptionNormalized = cafe.description
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-    return nameNormalized.includes(normalizedQuery) || descriptionNormalized.includes(normalizedQuery);
+    return nameNormalized.includes(normalizedQuery);
   });
 
   if (cafes?.length === 0) {
