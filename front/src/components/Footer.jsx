@@ -1,3 +1,5 @@
+import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
+
 const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200 py-5">
@@ -5,7 +7,7 @@ const Footer = () => {
         <div className="flex gap-3 items-center mb-4 justify-center">
           <img src="/logo_text.png" className="h-[2.6rem]" alt="Logo de café sans-fil" />
         </div>
-        <div className="text-sm text-gray-500 text-center space-y-3">
+        <div className="text-sm text-gray-500 text-center space-y-4">
           <span className="font-semibold">Preview, version {APP_VERSION}</span>
           <div>
             <p>
@@ -16,10 +18,16 @@ const Footer = () => {
             </p>
             <p>Développé par Axel ZAREB et Southidej OUDANONH</p>
           </div>
-          <a className="underline block" href="https://github.com/ceduni/udem-cafe/issues/new" target="_blank">
-            Signalez une erreur ou faites une suggestion
+          <a className="underline block" href="mailto:louis.edouard.lafontant@umontreal.ca">
+            Signalez un problème ou faites une suggestion
           </a>
-          <p className="font-semibold">&copy; 2023 Café sans-fil</p>
+          <a
+            href="mailto:louis.edouard.lafontant@umontreal.ca"
+            className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-all inline-flex items-center max-w-xs gap-4 sm:max-w-none">
+            <QuestionMarkCircleIcon className="h-5 w-5 text-gray-500" />
+            <span className="text-left">Vous êtes gérant d'un café? Contactez&nbsp;nous</span>
+          </a>
+          <p className="font-medium">&copy; 2023 Café sans-fil</p>
         </div>
       </div>
     </footer>
