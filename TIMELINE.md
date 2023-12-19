@@ -1,8 +1,14 @@
 # 📅 Suivi
 
-<!-- ## Semaine 15 (2023-12-11) -->
+### Semaines 15 et 16 (2023-12-11 à 2023-12-22)
 
-## Semaine 14 (2023-12-04)
+- **Front**:
+  - Derniers fix de bugs et ajout e-mail de contact dans le footer.
+- **Autres**:
+  - Présentation du projet, soutenance et rapport final.
+
+### Semaine 14 (2023-12-04)
+
 - **Front**:
   - Améliorations de l'interface utilisateur, y compris la correction du contour noir sur iPad.
   - Possibilité pour les admins de cafés de modifier davantage de champs.
@@ -11,7 +17,8 @@
 - **Back**:
   - Mise à jour de la documentation de l'API et du back-end.
 
-## Semaine 13 (2023-11-27)
+### Semaine 13 (2023-11-27)
+
 - **Front**:
   - Développement de la page d'édition de menu.
   - Amélioration de l'interface et du design.
@@ -21,7 +28,8 @@
   - Augmentation de la limitation des caractères pour image_url et faculty.
   - Autorisation pour les bénévoles de mettre à jour le menu.
 
-## Semaine 12 (2023-11-20)
+### Semaine 12 (2023-11-20)
+
 - **Front**:
   - Diverses améliorations de l'interface utilisateur et du design.
   - Début de la page d'édition de café.
@@ -30,7 +38,8 @@
   - Correction des schémas et refactorisation des routes.
   - Ajout de davantage d'autorisations et de la limite de requête.
 
-## Semaine 11 (2023-11-13)
+### Semaine 11 (2023-11-13)
+
 - **Front**:
   - Amélioration de la page de commande POST fonctionnelle.
   - Affichage des cafés dont on est staff sur le profil.
@@ -39,7 +48,8 @@
   - Mise à jour de la recherche dynamique et du tri.
   - Ajout de paramètres de requête dynamiques dans les routes.
 
-## Semaine 10 (2023-11-06)
+### Semaine 10 (2023-11-06)
+
 - **Front**:
   - Début de l'implémentation de la création de compte.
   - Diverses optimisations de code et de structure de fichiers.
@@ -47,20 +57,20 @@
 - **Back**:
   - Ajout de la recherche de cafés.
 
-## Semaine 9 (2023-10-30)
+### Semaine 9 (2023-10-30)
 
 - **Front**: Continué à développer le front-end.
 - **Back et BD**: Refactorings et améliorations de l'API et de la BD.
 
 Réunion: discussions sur le hosting et divers sujets.
 
-## Semaine 8 (2023-10-23)
+### Semaine 8 (2023-10-23)
 
 - **Création routes API** : Ajout de l'authentification et des authorisations pour les routes de l'API.
 - **Front-end** : Avancements sur le front, création de contextes d'authentification, création UI de l'appli, création logique pour fetch l'API.
 - **Connexion avec l'API** : Connexion avec l'API pour récupérer la liste des cafés et les infos sur un café.
 
-### Résumé des discussions
+#### Résumé des discussions
 
 - **Modération** : Comment gérer l'ajout d'un café et vérifier qui est vraiment admin? => Manuellement
 - **Authentification** : Username ? => Non seulement email et matricule à l'inscription
@@ -72,18 +82,18 @@ Réunion: discussions sur le hosting et divers sujets.
 - **Accès à la BD** : Discussions sur l'accès à la BD, installation du GUI MongoDB Compass.
 - **Autre** : Switch vers la fonctionnalité Wiki sur GitHub?
 
-## Semaine 7 (2023-10-16)
+### Semaine 7 (2023-10-16)
 
 > Semaine de relâche, pas de réunion
 
 **Avancement du front-end et de l'API**
 
-## Semaine 6 (2023-10-09)
+### Semaine 6 (2023-10-09)
 
 - **Modifications du schéma** : Modifications du schéma de la base de données pour mieux correspondre aux besoins après nos discussions de la semaine dernière.
 - **Début du front-end** : Début du développement du front-end.
 
-### Résumé des discussions
+#### Résumé des discussions
 
 - **Design** : Discussions sur le design de l'application, les couleurs, le logo. **On doit faire une version finale du logo avec éventuellement une version réduite pour les petits formats.**
 - **Concept de la page d'accueil** : Discussions sur le concept de la page d'accueil, la recherche intégrée, et notamment sur la possibilité de mettre en avant les cafés les plus proches de l'utilisateur.
@@ -91,71 +101,64 @@ Réunion: discussions sur le hosting et divers sujets.
 - **Discussions sur le système de commandes** : Discussions sur le système de commandes, notamment sur la possibilité de commander des items de plusieurs cafés en même temps.
   - **Décision** : On va permettre aux utilisateurs de mettre dans leur panier des items de plusieurs cafés en même temps, puis cela créera une commande par café. Cela sera plus simple pour les utilisateurs et les cafés, et cela permettra de ne pas avoir à gérer des commandes avec des items de plusieurs cafés.
 
-## Semaine 5 (2023-10-02)
+### Semaine 5 (2023-10-02)
 
 - **Définition des modèles** : Définition des modèles de données pour la base de données (schéma).
 - **Définition des routes** : Définition des premières routes de l'API, et tests avec Postman.
 - **Organisation des tâches** : Création d'un GitHub Project pour organiser les tâches à faire, avec issues et milestones.
 
-### Tâches à faire
+#### Tâches effectuées
 
-- [x] Review tout ce qu'on a fait, valider ou non les routes et le schéma de BD
+- Review tout ce qu'on a fait, validation des routes et du schéma de BD
 
-## Semaine 4 (2023-09-25)
+### Semaine 4 (2023-09-25)
 
 - **Révision des flux réalisés** : Révision des flux réalisés et des exigences associées.
-- **Documentation** : Ajustements et complétion de la documentation (wiki), ajout des risques.
+- **Documentation** : Ajustements et complétion de la documentation (wiki), ajout des risques dans la documentation.
 - **Architecture** : Discussions sur l'architecture de l'application et les possibles contraintes qui pourraient arriver.
 - **Initialisation de l'API** : Initialisation d'un dossier API avec FastAPI.
 
-### Tâches à faire
+#### Tâches effectuées
 
-- [x] Ajouter des risques dans la documentation
-- [x] Définir si on utilise MongoDB ou PostgreSQL
-- [x] Utiliser un outil simple pour les graphiques (notamment timeline), voir [diagrams.net (avant draw.io)](https://app.diagrams.net/)
-- [x] Initialiser un dossier API avec FastAPI
-- [x] Ajouter la page de point de départ dans les flux
+- Choix entre MongoDB ou PostgreSQL
+- Utilisation d'un outil simple pour les graphiques (notamment timeline), voir [diagrams.net (avant draw.io)](https://app.diagrams.net/)
+- Ajout de la page de point de départ dans les flux
 
-## Semaine 3 (2023-09-18)
+### Semaine 3 (2023-09-18)
 
 - **Définition des exigences** : Définition des exigences principales et secondaires.
 - **Définition des flux** : Définition des flux pour les exigences principales, avec leur output et input.
 - **Documentation** : Rédaction de la documentation (wiki) pour les flux et les exigences.
 
-### Tâches à faire
+### Semaine 2 (2023-09-11)
 
-- [x] Réaliser le document exigences
-- [x] Réaliser les flux
-
-## Semaine 2 (2023-09-11)
-
-### Objectifs de la deuxième semaine
+#### Objectifs de la deuxième semaine
 
 - **Débrief des besoins des cafés** : Récapitulatif des exigences et des fonctionnalités voulues par les cafés (notamment Tore et Fraction).
 - **Discussion sur les technologies** : Évaluation des technologies disponibles et sélection des outils à utiliser pour le projet.
 - **Définition des prochaines étapes** : Planification des prochaines étapes et des tâches à accomplir, notamment prendre chaque éxigence pour la transformer en un flux, faire des mini maquettes, etc.
 
-### Tâches éffectuées
+#### Tâches effectuées
 
-- Regroupement des informations utiles pour notre BDD sur tous les cafés dans un fichier JSON. (Voir [data/cafes.json](data/cafes.json))
+- Regroupement des informations utiles pour notre BDD sur tous les cafés dans un fichier JSON.
 - Initialisation du front React avec Vite. (Dans le dossier [front](front/))
 
-## Semaine 1 (2023-09-04)
+### Semaine 1 (2023-09-04)
 
-### Objectifs de la première semaine
+#### Objectifs de la première semaine
 
 - **Lancement du projet** : Réunion initiale pour démarrer les travaux.
 - **Planification globale** : Définition de la roadmap et des étapes clés.
 - **Définition des exigences** : Précision des fonctionnalités et des besoins pour l'application.
 - **Communication avec les cafés** : Prise de contact avec le responsable du Café Tore et Fraction.
 
-### Vue d'ensemble du projet
+## Vue d'ensemble du projet
 
 ![Plan du Projet](https://cdn.discordapp.com/attachments/841456989443325973/1149925649943887943/cafe_sans_fils_rounded_updated_v2.png)
 
 La durée totale du projet est estimée à 13 semaines. Il est catégorisé en trois sections principales : **la base de données**, **l'API** et **l'interface Web**.
 
-### Phases clés
+## Phases clés
 
 - **Semaines 1 à 2** : Mise en place et définition des exigences.
 - **Semaines 2 à 3** : Sélection des technologies et mise en place de l'architecture des données.
@@ -163,7 +166,7 @@ La durée totale du projet est estimée à 13 semaines. Il est catégorisé en t
 - **Semaines 5 à 13** : Développement et intégration des fonctionnalités principales.
 - **Semaine 13** : Phase finale avec déploiement et réalisation des tests utilisateurs.
 
-### Exigences du projet
+## Exigences du projet
 
 - **Localisation des cafés** | 🔵 _Consommateur_  
   Lister les cafés basés sur leur localisation. Offrir une fonction de recherche où les utilisateurs peuvent formuler des requêtes spécifiques en utilisant des étiquettes ou des "tags" associés aux items du menu (par exemple, un tag "jus de fruits"). Incorporer l'utilisation d'une map pour une visualisation facile des emplacements des cafés et fournir des détails sur les moyens de paiement disponibles.
