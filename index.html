@@ -68,13 +68,26 @@
   <body>
     <header>
       <h1>Projet Café sans-fil</h1>
-      <p>Amélioration du service des cafés étudiants de l'UdeM</p>
+      <p>IFT 3150 - Projet informatique</p>
     </header>
 
     <main>
       <section class="links">
         <h2>🔗 Liens</h2>
         <a href="https://cafesansfil.onrender.com/" target="_blank">☕️ Plateforme Café sans-fil</a>
+      </section>
+      <section>
+        <h2>ℹ️ Infos</h2>
+        <ul>
+          <li>📅 Dernière mise à jour: 15 décembre 2023</li>
+        </ul>
+      </section>
+      <section>
+        <h2>👥 Équipe</h2>
+        <ul>
+          <li><a href="https://github.com/axeelz" target="_blank">Axel ZAREB</a></li>
+          <li><a href="https://github.com/GokaGokai" target="_blank">Southidej OUDANONH</a></li>
+        </ul>
       </section>
       <section>
         <h2>Énoncé du projet</h2>
@@ -123,7 +136,29 @@
         <p>
           L'infrastructure de l'application est basée sur le FARM stack, comprenant FastAPI, React et MongoDB. Elle
           utilise MongoDB pour une gestion efficace des données, FastAPI pour traiter les requêtes et React pour offrir
-          une interface utilisateur pour visualiser et interagir avec les données.
+          une interface utilisateur pour visualiser et interagir avec les données. L'API et le client web sont
+          indépendants. L'API pourrait être utilisée par d'autres clients, comme une application mobile.
+        </p>
+        <p>
+          <b>FastAPI</b> est utilisé comme framework backend pour gérer les requêtes HTTP et les opérations liées à la
+          base de données. Il offre une performance élevée grâce à la génération automatique de la documentation, une
+          validation rapide des données et la prise en charge des spécifications OpenAPI.
+        </p>
+        <p>
+          <b>MongoDB</b> est la base de données choisie pour stocker et gérer efficacement les données de l'application.
+          Son modèle de données flexible basé sur des documents JSON facilite le stockage et la récupération des
+          informations. Les opérations de lecture/écriture sont optimisées pour des performances élevées.
+        </p>
+        <p>
+          <b>React</b> est utilisé pour créer l'interface utilisateur dynamique de l'application. Il permet de
+          construire des composants réutilisables et offre un rendu efficace des vues basé sur la gestion de l'état,
+          assurant une expérience utilisateur fluide et réactive. Nous l'utilisons couplé à <b>Tailwind CSS</b>, un
+          framework CSS open-source, pour faciliter le développement de l'interface utilisateur en équipe.
+        </p>
+        <p>
+          L'application est hébergée sur <b>Render</b>, une plateforme de cloud computing. Elle est accessible à
+          l'adresse suivante:
+          <a href="https://cafesansfil.onrender.com/" target="_blank">https://cafesansfil.onrender.com/</a>.
         </p>
         <h4>🗄️ Base de données</h4>
         <ul>
