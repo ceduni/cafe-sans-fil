@@ -63,7 +63,7 @@ Le projet se découpe en plusieurs phases. La phase 1 commence à l'automne 2023
 
 > **Phase 1**  
 > Début: 1er septembre 2023  
-> Fin: 11 décembre 2023  
+> Fin: 11 décembre 2023
 
 Le suivi du projet est présenté dans le fichier [**TIMELINE**](TIMELINE.md).
 
@@ -87,13 +87,13 @@ Elle utilise MongoDB pour une gestion efficace des données, FastAPI pour traite
 
 # 📘 Documentation
 
-La documentation officielle du projet se trouve dans le [wiki](https://github.com/ceduni/udem-cafe/wiki).  
+La documentation officielle du projet se trouve dans le [wiki](https://github.com/ceduni/cafe-sans-fil/wiki).  
 Pour faciliter la recherche, voilà quelques **liens rapides**:  
-🔗 [Spécifications du projet](https://github.com/ceduni/udem-cafe/wiki/Exigences)  
+🔗 [Spécifications du projet](https://github.com/ceduni/cafe-sans-fil/wiki/Exigences)  
 🔗 [Documentation de l'API](https://cafesansfil-api.onrender.com/redoc)  
-🔗 [Documentation de la BD](https://github.com/ceduni/udem-cafe/wiki/API-et-Base-de-donn%C3%A9es) 
-<!-- 🔗 [Guide d'utilisation](https://github.com/ceduni/udem-cafe/wiki/Base-de-donn%C3%A9es-(BD))  -->
+🔗 [Documentation de la BD](https://github.com/ceduni/cafe-sans-fil/wiki/API-et-Base-de-donn%C3%A9es)
 
+<!-- 🔗 [Guide d'utilisation](https://github.com/ceduni/cafe-sans-fil/wiki/Base-de-donn%C3%A9es-(BD))  -->
 
 # 🗂️ Organisation
 
