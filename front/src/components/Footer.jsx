@@ -12,7 +12,7 @@ const Footer = () => {
           <div>
             <p>
               Ceduni &bull; Projet disponible sur{" "}
-              <a className="underline" href="https://github.com/ceduni/udem-cafe" target="_blank">
+              <a className="underline" href="https://github.com/ceduni/cafe-sans-fil" target="_blank">
                 GitHub
               </a>
             </p>
