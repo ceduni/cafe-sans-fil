@@ -1,4 +1,7 @@
 ---
+import '../styles/normalize.css'
+import '../styles/base.css'
+
 interface Props {
 	title: string;
 }
@@ -12,19 +15,25 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
 	<body>
 		<slot />
+		<footer>			
+			<div>
+				<img height="40" src={`logo_text.png`} alt="Logo de café sans-fil" />
+			</div>
+		</footer>
 	</body>
 </html>
 <style is:global>
 	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
+		--accent: 48, 110, 191;
+		--accent-light: 48, 152, 242;
+		--accent-dark: 44, 94, 180;
+		--accent-red: 186, 34, 73;
 		--accent-gradient: linear-gradient(
 			45deg,
 			rgb(var(--accent)),
@@ -47,5 +56,12 @@ const { title } = Astro.props;
 			Bitstream Vera Sans Mono,
 			Courier New,
 			monospace;
+	}
+
+	footer {
+		display: flex; flex-direction: column; 
+		align-items: center;
+		padding: 30px 5vw;
+		background-color: #f2f1f0;
 	}
 </style>
