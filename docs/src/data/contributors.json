@@ -1,0 +1,23 @@
+[
+    {
+        "name":"Louis-Edouard LAFONTANT",
+        "role": "Superviseur du projet",
+        "work": "Louis-Edouard supervise le projet",
+        "photo": "images/photo-louis-edouard.jpg",
+        "email": "mailto:louis.edouard.lafontant@umontreal.ca"
+    },
+    {
+        "name":"Southidej OUDANONH",
+        "role": "Responsable du backend",
+        "work": "Southidej a monté l'architecture du backend et le circuit de déploiement continue.",
+        "photo": "images/photo-southidej.jpg",
+        "email": "https://github.com/GokaGokai"
+    },
+    {
+        "name":"Axel ZAREB",
+        "role": "Responsable du frontend",
+        "work": "Axel a conçu et développé l'application web pleinement fonctionnel.",
+        "photo": "images/photo-axel.jpg",
+        "email": "https://github.com/axeelz"
+    }
+]

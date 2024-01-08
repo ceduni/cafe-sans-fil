@@ -103,6 +103,7 @@ celerybeat.pid
 
 # Environments
 .env
+.env.production
 .venv
 env/
 venv/
@@ -145,6 +146,7 @@ dist-ssr
 *.local
 
 # Editor directories and files
+.vscode
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -155,3 +157,6 @@ dist-ssr
 *.sln
 *.sw?
 .internal/*
+
+# generated types
+.astro/

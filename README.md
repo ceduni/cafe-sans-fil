@@ -65,6 +65,10 @@ Le projet se découpe en plusieurs phases. La phase 1 commence à l'automne 2023
 > Début: 1er septembre 2023  
 > Fin: 11 décembre 2023
 
+> **Phase 2**  
+> Début: 10 janvier 2024  
+> Fin: 11 avril 2024
+
 Le suivi du projet est présenté dans le fichier [**TIMELINE**](TIMELINE.md).
 
 ## 🌐 Infrastructure
