@@ -2,9 +2,6 @@
 import '../styles/normalize.css'
 import '../styles/base.css'
 
-const BASE_URL = import.meta.env.BASE_URL;
-console.log(BASE_URL)
-
 interface Props {
 	title: string;
 }
@@ -26,7 +23,7 @@ const { title } = Astro.props;
 		<slot />
 		<footer>			
 			<div>
-				<img height="40" src={`${BASE_URL}/logo_text.png`} alt="Logo de café sans-fil" />
+				<img height="40" src={`logo_text.png`} alt="Logo de café sans-fil" />
 			</div>
 		</footer>
 	</body>

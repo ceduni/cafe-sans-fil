@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
-const BASE_URL = '/cafe-sans-fil/docs';
+// const BASE_URL = '/cafe-sans-fil/docs';
 
 import contributors from '../data/contributors.json';
 
@@ -18,7 +18,7 @@ try {
 	<main>
 		<header>
 			<div class="logo-wrapper">
-				<img class="logo" src={`${BASE_URL}/logo.png`} height="60" alt="">
+				<img class="logo" src={`logo.png`} height="60" alt="">
 			</div>
 	
 			<ul class="bare-list cafes">
@@ -113,7 +113,7 @@ try {
 				<ul class="bare-list contributors">
 					{contributors.map((contributor) => (
 					<li class="contributor">
-						<img class="contributor-img" src={`${BASE_URL}/${contributor.photo}`} alt={`Photo de ${contributor.name}`}>
+						<img class="contributor-img" src={`${contributor.photo}`} alt={`Photo de ${contributor.name}`}>
 						<h4 class="contributor-name">
 							<a href={contributor.email}>{contributor.name}</a>
 						</h4>
