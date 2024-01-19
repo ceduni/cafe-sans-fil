@@ -1,9 +1,21 @@
 # 📅 Suivi
+## Phase 2
 
-### Semaines 17 et 18 (2024-01-8 à 2024-01-19)
+<!-- ### Semaine 7 (2024-02-21) -->
 
+<!-- ### Semaine 6 (2024-02-14) -->
+
+<!-- ### Semaine 5 (2024-02-07) -->
+
+<!-- ### Semaine 4 (2024-01-31) -->
+
+<!-- ### Semaine 3 (2024-01-24) -->
+
+### Semaine 1 et 2 (2024-01-10 à 2024-01-19) 
 - **Evaluation de l'application** : Envoi d'un formulaire d'enquête aux testeurs.
 - **Segment social** : Lancement de la réflexion sur le segment social de l'application.
+
+## Phase 1
 
 ### Semaines 15 et 16 (2023-12-11 à 2023-12-22)
 
@@ -157,21 +169,13 @@ Réunion: discussions sur le hosting et divers sujets.
 - **Définition des exigences** : Précision des fonctionnalités et des besoins pour l'application.
 - **Communication avec les cafés** : Prise de contact avec le responsable du Café Tore et Fraction.
 
-## Vue d'ensemble du projet
+#### Vue d'ensemble du projet
 
 ![Plan du Projet](https://cdn.discordapp.com/attachments/841456989443325973/1149925649943887943/cafe_sans_fils_rounded_updated_v2.png)
 
 La durée totale du projet est estimée à 13 semaines. Il est catégorisé en trois sections principales : **la base de données**, **l'API** et **l'interface Web**.
 
-## Phases clés
-
-- **Semaines 1 à 2** : Mise en place et définition des exigences.
-- **Semaines 2 à 3** : Sélection des technologies et mise en place de l'architecture des données.
-- **Semaines 3 à 5** : Élaboration de l'API et de la base de données.
-- **Semaines 5 à 13** : Développement et intégration des fonctionnalités principales.
-- **Semaine 13** : Phase finale avec déploiement et réalisation des tests utilisateurs.
-
-## Exigences du projet
+#### Exigences du projet
 
 - **Localisation des cafés** | 🔵 _Consommateur_  
   Lister les cafés basés sur leur localisation. Offrir une fonction de recherche où les utilisateurs peuvent formuler des requêtes spécifiques en utilisant des étiquettes ou des "tags" associés aux items du menu (par exemple, un tag "jus de fruits"). Incorporer l'utilisation d'une map pour une visualisation facile des emplacements des cafés et fournir des détails sur les moyens de paiement disponibles.
