@@ -1,5 +1,10 @@
 # 📅 Suivi
 
+### Semaines 17 et 18 (2024-01-8 à 2024-01-19)
+
+- **Evaluation de l'application** : Envoi d'un formulaire d'enquête aux testeurs.
+- **Segment social** : Lancement de la réflexion sur le segment social de l'application.
+
 ### Semaines 15 et 16 (2023-12-11 à 2023-12-22)
 
 - **Front**:
