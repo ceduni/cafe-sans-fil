@@ -13,10 +13,10 @@
 
 #### Objectifs de la semaine 
 
-- **Organisation et classification des retours** : Analyse détaillée des feedbacks (bugs, suggestions d'amélioration, commentaires sur l'interface utilisateur, etc...).
+- **Détermination des nouvelles exigences de l'application** : Organisation, classification et analyse détaillée des feedbacks (bugs, suggestions d'amélioration, commentaires sur l'interface utilisateur, etc...).
 
 #### Tâches effectuées
-- **Evaluation de l'application** : Récolte des réponses des testeurs.
+- **Evaluation de l'application** : Récolte des réponses/feedbacks des testeurs.
 - **Segment Social** : Identification des idées pour l'engagement et l'amélioration de l'expérience globale.
 
 
