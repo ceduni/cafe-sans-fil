@@ -9,7 +9,16 @@
 
 <!-- ### Semaine 4 (2024-01-31) -->
 
-<!-- ### Semaine 3 (2024-01-24) -->
+### Semaine 3 (2024-01-24)
+
+#### Objectifs de la semaine 
+
+- **Organisation et classification des retours** : Analyse détaillée des feedbacks (bugs, suggestions d'amélioration, commentaires sur l'interface utilisateur, etc...).
+
+#### Tâches effectuées
+- **Evaluation de l'application** : Récolte des réponses des testeurs.
+- **Segment Social** : Identification des idées pour l'engagement et l'amélioration de l'expérience globale.
+
 
 ### Semaine 1 et 2 (2024-01-10 à 2024-01-19) 
 - **Evaluation de l'application** : Envoi d'un formulaire d'enquête aux testeurs.
