@@ -74,16 +74,22 @@ td textarea { font-size: 1em; }
         box-shadow: none; 
     }
 
-/* Pseudo class */
-.label { font-weight: 600; }
+
+/* Reset */
 
 .bare { margin: 0; padding: 0; }
 
-.bare-list { margin: 0; padding-left: 0; list-style: none; }
+.bare-list { margin: 0; padding: 0; list-style: none; }
 
-.hidden {
-    display: none!important;
-}
+.bare-link { color: inherit; text-decoration: none; }
+
+.block { display: block!important; }
+
+.inline { display: inline-block!important; }
+
+.hidden { display: none!important; }
+
+.fit-content { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
 * {
     box-sizing: border-box;

@@ -1,23 +1,42 @@
 [
     {
         "name":"Louis-Edouard LAFONTANT",
-        "role": "Superviseur du projet",
-        "work": "Louis-Edouard supervise le projet",
-        "photo": "images/photo-louis-edouard.jpg",
-        "email": "mailto:louis.edouard.lafontant@umontreal.ca"
+        "role": "manager",
+        "title": "Chef de projet",
+        "photo": "images/photo-louis-edouard-min.jpg",
+        "email": "https://lelafontant.github.io"
     },
     {
         "name":"Southidej OUDANONH",
-        "role": "Responsable du backend",
-        "work": "Southidej a monté l'architecture du backend et le circuit de déploiement continue.",
-        "photo": "images/photo-southidej.jpg",
+        "role": "developer",
+        "title": "Développeur full stack",
+        "photo": "images/photo-southidej-min.jpg",
         "email": "https://github.com/GokaGokai"
     },
     {
         "name":"Axel ZAREB",
-        "role": "Responsable du frontend",
-        "work": "Axel a conçu et développé l'application web pleinement fonctionnel.",
-        "photo": "images/photo-axel.jpg",
+        "role": "developer",
+        "title": "Développeur frontend",
+        "photo": "images/photo-axel-min.jpg",
         "email": "https://github.com/axeelz"
+    },
+    {
+        "name":"E. Flory JEAN-BAPTISTE",
+        "role": "developer",
+        "title": "Développeur frontend",
+        "photo": "images/photo-flory-min.jpg",
+        "email": "https://www.linkedin.com/in/fejb"
+    },
+    {
+        "name":"Thuy-Linh Christina DUONG",
+        "role": "tester",
+        "title": "Testeuse",
+        "photo": "images/photo-christina-min.jpg"
+    },
+    {
+        "name": "Fatoumata MANÉ",
+        "role": "tester",
+        "title": "Testeuse",
+        "photo": "images/photo-fatoumata-min.jpg"
     }
 ]

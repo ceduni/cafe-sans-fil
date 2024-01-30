@@ -2,16 +2,16 @@
 <br/>
 <p align="center">
   <a href="https://cafesansfil.onrender.com/">
-    <img src="/front/public/logo.png" width="300">
+    <img src="front/public/logo.png" width="300">
   </a>
 </p>
 <br/>
 
 # Café sans-fil
 
-Ce projet pilote vise à améliorer le service des cafés étudiants de l'UdeM. Il consiste à développer une application web complète (backend + frontend) facilitant la recherche de cafés et produits, la prise de commandes et la gestion du menu et de l'inventaire.
-
-L'application sera accessible à tout membre de l'UdeM (étudiant, employé, professeur, chercheur...) et offrira certains rôles assurant le bon maintien des informations présentées sur l'application.
+Café sans-fil est un projet pilote visant à améliorer le service des cafés étudiants de l'UdeM.  
+Les cafés étudiants donnent accès à un espace de socialisation et de la nourriture à prix abordable, enrichissant la vie de campus des étudiants. Toutefois, l'infrastructure actuelle ne facilite pas l'accès à l'information et alourdit la gestion des cafés.  
+Nous proposons une plateforme commune facilitant la gestion des cafés, leur découverte, la communication de leurs produits et la prise de commande.
 
 ## 📋 Fonctionnalités
 
@@ -21,16 +21,18 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
   - [x] Afficher la liste des cafés
   - [x] Filtrer la liste des cafés
   - [x] Chercher un café par nom
-- [x] **Café et menu**
+  - [ ] Chercher un café par item
+  - [ ] Chercher un café par tag
   - [x] Afficher les informations d'un café
+- [x] **Café: Menu**
   - [x] Accéder au menu d'un café
   - [x] Afficher le détail d'un item du menu
+- [ ] **Café: Évènements**
 
-### Pour les membres de l'UdeM
+### Pour les membres
 
 - [x] **Authentification et profil**
   - [x] Créer un compte
-  - [x] Se connecter
   - [x] Modifier mon profil
 - [x] **Passer une commande (pour ramassage)**
   - [x] Réserver un item
@@ -38,38 +40,20 @@ L'application sera accessible à tout membre de l'UdeM (étudiant, employé, pro
 
 ### Pour les bénévoles et responsables d'un café
 
-- [x] **Gestion du café**
+- [ ] **Gestion du café**
   - [x] Modifier les informations de base d'un café
   - [x] Créer une annonce
-- [x] **Gestion du menu**
+  - [ ] Personnalisation de la page du café
+- [ ] **Gestion du menu**
   - [x] Ajouter, modifier ou supprimer un item
-- [x] **Gestion des bénévoles**
+  - [ ] Modification en lot
+  - [ ] Importer son menu
+- [ ] **Gestion des bénévoles**
   - [x] Ajouter, modifier ou supprimer un staff
-- [x] **Rapports de ventes**
+  - [ ] Gestion de l'horaire
+- [ ] **Rapports de ventes**
   - [x] Générer des rapports sur les ventes journalières, hebdomadaires, et mensuelles
   - [x] Afficher les items les plus vendus et les moins vendus
-
-<!-- ## 👥 Roles
-
-L'application offrira certains rôles donnant accès à certaines fonctionnalités.
-
-- **Membre**: Rôle **de base** dans l'application. Avec ce rôle, un utilisateur peut accéder au menu et passer des commandes.
-- **Staff**: Rôle **réservé aux bénévoles** travaillant au café, incluant toutes les actions du rôle membre. Il permet en plus de traiter les commandes, modifier le menu et gérer l'inventaire.
-- **Admin**: Rôle **réservé aux responsables de la maintenance** de l'application, incluant toutes les actions du rôle membre. Il permet de faire toute opération sur la base de données. -->
-
-## 📅 Échéancier
-
-Le projet se découpe en plusieurs phases. La phase 1 commence à l'automne 2023 et se concentre sur le prototypage de l'application et le développement de l'API.
-
-> **Phase 1**  
-> Début: 1er septembre 2023  
-> Fin: 11 décembre 2023
-
-> **Phase 2**  
-> Début: 10 janvier 2024  
-> Fin: 11 avril 2024
-
-Le suivi du projet est présenté dans le fichier [**TIMELINE**](TIMELINE.md).
 
 ## 🌐 Infrastructure
 
@@ -103,16 +87,17 @@ Pour faciliter la recherche, voilà quelques **liens rapides**:
 
 Les dossiers du répertoire sont organisés comme suit:
 
-- back: contient le code source du backend composé de l'API et de la base de données
-- front: contient le code source de l'application web
-- wiki: contient la documentation du projet
+- `\back`: contient le code source du backend composé de l'API et de la base de données
+- `\front`: contient le code source de l'application web
+- `\docs`: contient le site web du projet
 
 # 🌟 Contribution
 
-Le projet est supervisé par Louis-Edouard LAFONTANT.  
-Si vous êtes intéressé à participer au projet la session prochaine (hiver 2024), contactez [Louis-Edouard LAFONTANT](mailto:louis.edouard.lafontant@umontreal.ca) d'ici le 20 décembre 2023.
+Si vous êtes intéressé à participer au projet, veuillez prendre contact avec [Louis-Edouard LAFONTANT](mailto:louis.edouard.lafontant@umontreal.ca).
 
 ## Contributeurs
 
+- Louis-Edouard LAFONTANT [@lelafontant](https://github.com/lelafontant)
 - Axel ZAREB [@axeelz](https://github.com/axeelz)
 - Southidej OUDANONH [@GokaGokai](https://github.com/GokaGokai)
+- Flory JEAN-BAPTISTE [@FloryJB](https://github.com/FloryJB)
