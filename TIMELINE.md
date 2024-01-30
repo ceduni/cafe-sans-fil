@@ -8,15 +8,15 @@
 <!-- ### Semaine 5 (2024-02-07) -->
 
 ### Semaine 4 (2024-01-31)
-
-
-### Semaine 3 (2024-01-24)
 #### Objectifs de la semaine 
 
 - **Création de Prototypes** : Modifier les pages des cafés en intégrant l'élément "événement" et en améliorant l'affichage des éléments de la page, conformément aux nouvelles exigences identifiées..
 
 #### Tâches effectuées
 - **Détermination des nouvelles exigences de l'application** : Organisation, classification et analyse détaillée des feedbacks (bugs, suggestions d'amélioration, commentaires sur l'interface utilisateur, etc...).
+
+
+### Semaine 3 (2024-01-24)
 
 #### Objectifs de la semaine 
 
