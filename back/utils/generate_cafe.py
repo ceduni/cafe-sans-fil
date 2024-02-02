@@ -1,12 +1,17 @@
 import json
 from app.models.cafe_model import Cafe, MenuItem, TimeBlock, DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, Role, StaffMember
+from app.services.user_service import UserService
+from app.schemas.user_schema import UserUpdate
 from datetime import datetime, timedelta
 from tqdm import tqdm
+import re
+import unicodedata
 import random
 random.seed(42)
 
 async def create_cafes(usernames):
     cafe_menu_items_slug_dict = {}
+    testAccounts = []
 
     # Load templates
     with open("./utils/templates/cafes_updated.json", "r", encoding="utf-8") as file:
@@ -17,15 +22,15 @@ async def create_cafes(usernames):
     for index, cafe_info in enumerate(tqdm(cafes_data, desc="Creating cafes")):
         # Make cafesansfil Admin in First Cafe (For Test)
         if index == 0:
-            staff = random_staff_members(usernames, first_user_admin=True)
+            staff = await random_staff_members(usernames, cafe_info["name"], testAccounts, first_user_admin=True)
         # Don't make cafesansfil a Staff in second and last Cafe (For Test)
         elif index == 1:
-            staff = random_staff_members(usernames, exclude_first_user=True)
+            staff = await random_staff_members(usernames, cafe_info["name"], testAccounts, exclude_first_user=True)
         elif index == len(cafes_data) - 1:
-            staff = random_staff_members(usernames, exclude_first_user=True)
+            staff = await random_staff_members(usernames, cafe_info["name"], testAccounts, exclude_first_user=True)
         # Randomly choose staff
         else:
-            staff = random_staff_members(usernames)
+            staff = await random_staff_members(usernames, cafe_info["name"], testAccounts)
 
         is_open, status_message = random_open_status_message()
 
@@ -105,9 +110,21 @@ def random_payment_methods():
         payment_methods.append(PaymentMethod(method=method, minimum=minimum))
     return payment_methods
 
-def random_staff_members(usernames, first_user_admin=False, exclude_first_user=False):
+async def random_staff_members(usernames, cafe_name, testAccounts, first_user_admin=False, exclude_first_user=False):
+    def reformat(text):
+        text = unicodedata.normalize('NFKD', text)
+        text = text.encode('ascii', 'ignore').decode('ascii')
+        text = text.lower()
+        slug = re.sub(r'\W+', '.', text)
+        slug = slug.strip('.')
+        return slug
+
     staff_members = []
     selected_users = usernames.copy()
+    selected_users.remove("7802085") # Remove cafesansfil from list of selected users
+    for username in testAccounts:
+        if username in selected_users:
+            selected_users.remove(username)
 
     # Always choose first User cafesansfil as admin (For Test)
     if first_user_admin:
@@ -119,14 +136,30 @@ def random_staff_members(usernames, first_user_admin=False, exclude_first_user=F
         selected_users = selected_users[1:]
 
     # Randomly choose how many
-    num_admins = random.randint(1, 6) - len(staff_members)
+    num_admins = random.randint(2, 6) - len(staff_members)
     num_volunteers = random.randint(12, 20)
     selected_users = random.sample(selected_users, num_admins + num_volunteers)
+    firstAdmin = False
+    firstVolunteer = False
 
     for username in selected_users[:num_admins]:
         staff_members.append(StaffMember(username=username, role=Role.ADMIN))
+        if username in testAccounts:
+            raise ValueError(f"Username {username} is already in testAccounts")
+        if firstAdmin == False and username not in testAccounts:
+            await UserService.update_user(username, UserUpdate(email="admin." + reformat(cafe_name) + "@umontreal.ca"))
+            firstAdmin = True 
+            testAccounts.append(username)
+            
     for username in selected_users[num_admins:]:
         staff_members.append(StaffMember(username=username, role=Role.VOLUNTEER))
+        if username in testAccounts:
+            raise ValueError(f"Username {username} is already in testAccounts")
+        if firstVolunteer == False and username not in testAccounts:
+            await UserService.update_user(username, UserUpdate(email="benevole." + reformat(cafe_name) + "@umontreal.ca"))
+            firstVolunteer = True
+            testAccounts.append(username)
+
     return staff_members
 
 def random_additional_info():

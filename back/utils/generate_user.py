@@ -1,4 +1,4 @@
-from app.schemas.user_schema import UserAuth
+from app.schemas.user_schema import UserAuth, UserUpdate
 from app.services.user_service import UserService
 import json
 from tqdm import tqdm
@@ -57,7 +57,7 @@ async def create_users(num_users):
         "last_name": "Holland",
         "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
     }
-    await UserService.update_user(user_usernames[0], UserAuth(**cafesansfil_user))
+    await UserService.update_user(user_usernames[0], UserUpdate(**cafesansfil_user))
     user_usernames[0] = cafesansfil_matricule
     return user_usernames
 

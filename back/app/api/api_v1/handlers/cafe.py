@@ -40,7 +40,7 @@ async def get_cafe(cafe_slug: str = Path(..., description="The slug or UUID of t
     
     return cafe
 
-@cafe_router.post("/cafes", response_model=CafeOut, summary="🔴* Create Cafe", description="Create a new cafe with the provided information. \n\nAuthorization: Only cafesansfil can create cafe.")
+@cafe_router.post("/cafes", response_model=CafeOut, summary="⚫ Create Cafe", description="Create a new cafe with the provided information. \n\nAuthorization: Only cafesansfil can create cafe.", include_in_schema=False)
 async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current_user)):
     # Authorization check
     if "7802085" != current_user.username:
