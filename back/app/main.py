@@ -28,9 +28,11 @@ This project is currently in development and is hosted on [Render](https://cafes
 - Use the [**ReDoc**](https://cafesansfil-api.onrender.com/redoc) interface for an alternative view of the API documentation.
 
 ## Testing Protected Endpoints
-To test protected endpoints, you can use the following default credentials:
-- Username: `cafesansfil@umontreal.ca`
-- Password: `Cafepass1`
+To test protected endpoints, you can use the following structure: [role].[cafe_name]@umontreal.ca
+
+Examples:
+- admin.tore.et.fraction@umontreal.ca
+- benevole.tore.et.fraction@umontreal.ca
 
 You can also create your own user or utilize any pre-generated users with different roles via the `/api/users` endpoint. All pre-generated users share the same password: `Cafepass1`.
 

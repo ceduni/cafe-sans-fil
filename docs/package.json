@@ -1,0 +1,20 @@
+{
+  "name": "",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "gh-pages -d dist --nojekyll",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.1.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-yaml": "^4.1.2",
+    "gh-pages": "^6.1.1"
+  }
+}
