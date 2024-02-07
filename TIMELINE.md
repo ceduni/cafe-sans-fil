@@ -12,7 +12,7 @@
 - **Amélioration de la Recherche** : Permettre la recherche de cafés par item pour une expérience utilisateur plus ciblée.
 
 #### Tâches effectuées
-- - **Ajustement de Prototypes** : Nouvelle incorporation de fonctionnalités et améliorations.
+- **Ajustement de Prototypes** : Nouvelle incorporation de fonctionnalités et améliorations.
 
 
 ### Semaine 4 (2024-01-31)
