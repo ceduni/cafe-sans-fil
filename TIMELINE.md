@@ -5,7 +5,15 @@
 
 <!-- ### Semaine 6 (2024-02-14) -->
 
-<!-- ### Semaine 5 (2024-02-07) -->
+### Semaine 5 (2024-02-07)
+
+#### Objectifs de la semaine 
+
+- **Ajustement de Prototypes** : Nouvelle incorporation de fonctionnalités et améliorations.
+
+#### Tâches effectuées
+- **Amélioration de la Recherche** : Permettre la recherche de cafés par item pour une expérience utilisateur plus ciblée.
+
 
 ### Semaine 4 (2024-01-31)
 #### Objectifs de la semaine 
