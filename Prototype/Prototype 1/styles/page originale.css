@@ -1,0 +1,171 @@
+/* .image-1{
+    width: 100%;
+} */
+#image-caf {
+    position: relative; /* Cela permettra de positionner #titre et #resaux par rapport à #image-caf */
+    width: 100%;
+}
+#image-caf img{
+    width: 100%;
+}
+
+#titre h1 {
+    font-size: 2vw;
+    border-radius: 15px;
+    padding: 5px 10px; /* Ajoute un peu d'espace autour du texte */
+    background-color: rgba(255, 255, 255, 0.5); /* Couleur de fond semi-transparente */
+    display: inline; /* Fait en sorte que l'arrière-plan ne s'étende que sur le texte */
+}
+
+#titre {
+    position: absolute;
+    bottom: 1px;
+    left: 2px;
+}
+
+#resaux {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.5); /* Couleur de fond semi-transparente */
+    border-radius: 5px; /* Arrondit les coins du conteneur d'arrière-plan */
+    padding: 5px 10px;
+}
+
+#resaux img {
+    width: 20px; /* Largeur de l'image */
+    margin-right: 10px;
+}
+
+.icon img {
+    width: 20px;  /* Ou la taille que vous souhaitez */
+    display: inline;
+}
+
+#comptant img{
+    margin-left: 20px;
+}
+
+.status {
+    position:absolute;
+    right: 1px;
+}
+
+/*code du menu Pop up*/
+
+:root {
+    font-family: Inter, system-ui, "Segoe UI", Avenir, Helvetica, Arial,
+      sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  .Menu1 {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  #app {
+    text-align: center;
+    width: 100%;
+  }
+  
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    padding: 12px 2% 24px;
+  }
+  
+  .menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    width: 100%;
+    max-width: 800px;
+    /* height: 600px; */
+    gap: 1rem;
+    padding: 12px;
+    border: 2px solid #d5d5d5;
+    border-radius: 12px;
+    transition: 0.2s;
+  }
+  
+  .group-box[data-index="0"].active {
+    grid-column-start: span 2;
+    grid-row-start: span 2;
+  }
+  
+  .group-box[data-index="1"].active {
+    grid-column-start: span 2;
+    grid-row-start: span 2;
+  }
+  
+  .group-box[data-index="2"].active {
+    grid-column-start: span 2;
+    grid-row-start: span 2;
+  }
+  
+  .group-box[data-index="3"].active {
+    grid-column-start: span 2;
+    grid-row-start: span 2;
+  }
+  
+  .group-box {
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    padding: 12px;
+    border-radius: 4px;
+    background-color: #e5e4e2;
+    max-height: 400px;
+  }
+  
+  .group-box.active {
+    color: #fff;
+    background-color: #232425;
+  }
+  
+  .group-box.active .group-item {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .group-box-items {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .group-item {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 6px;
+    border-radius: 2px;
+    background-color: #646cff;
+    transition: 0.2s;
+  }
+  
+  @media screen and (min-width: 48em) {
+    .group-item {
+      display: block;
+      width: 60px;
+      height: 60px;
+      margin: 12px;
+    }
+  
+    .group-box.active .group-item {
+      width: 120px;
+      height: 120px;
+    }
+  }
+  
