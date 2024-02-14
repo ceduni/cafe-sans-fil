@@ -8,7 +8,7 @@
 
 </head>
 <body>
-
+<!-- https://codepen.io/crazeddd/pen/abPZWOm pour les publications -->
     <div class="image-1" id="image-caf">
         <img src="assets/cafekine-1-Xvj.png" alt="">
         
@@ -61,45 +61,367 @@
             class="container d-flex flex-column justify-content-center align-items-center p-5"
             >
             <!-- tabs control -->
-            <div class="tabs-control w-100 bg-white  rounded-top-4 d-flex
-            justify-content-start align-items-center">
-            <a href="#tab1" class="py-4 px-5 text-decoration-none text-dark"
-            >Publications</a
-            >
-            <a href="#tab2" class="py-4  px-5 text-decoration-none text-dark">Evénements</a>
+            <div class="tabs-control w-100 bg-white  rounded-top-4 d-flex justify-content-start align-items-center">
+                <a href="#tab1" class="py-4 px-5 text-decoration-none text-dark">Publications</a>
+                <a href="#tab2" class="py-4  px-5 text-decoration-none text-dark">Evénements</a>
 
             </div>
 
             <!-- tabs content -->
             <div class="tabs-content rounded-bottom-4">
-            <div class="box " id="tab1">
-            <h2>Tab 1</h2>
-            <p
-                >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat
-                incidunt eaque quibusdam accusantium cumque doloribus odit explicabo,
-                ad unde veniam quidem molestiae rem dolorem nam asperiores
-                praesentium. In eos, corrupti fugiat voluptate ex hic modi impedit,
-                quo odit, ducimus quam consequatur? Vero reprehenderit commodi minus
-                sequi voluptates. Voluptates, cupiditate ipsam.</p
-            >
-            </div>
-            <div class="box" id="tab2">
-            <h2>Tab 2</h2>
-            <p
-                >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat
-                incidunt eaque quibusdam accusantium cumque doloribus odit explicabo,
-                ad unde veniam quidem molestiae rem dolorem nam asperiores
-                praesentium. In eos, corrupti fugiat voluptate ex hic modi impedit,
-                quo odit, ducimus quam consequatur? Vero reprehenderit commodi minus
-                sequi voluptates. Voluptates, cupiditate ipsam.</p
-            >
-            </div>
-            </div>
-            </div>
+                <div class="box " id="tab1">
+                    <h4>Tab 1</h4>
+                    <!-- <p>
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat
+                        incidunt eaque quibusdam accusantium cumque doloribus odit explicabo,
+                        ad unde veniam quidem molestiae rem dolorem nam asperiores
+                        praesentium. In eos, corrupti fugiat voluptate ex hic modi impedit,
+                        quo odit, ducimus quam consequatur? Vero reprehenderit commodi minus
+                        sequi voluptates. Voluptates, cupiditate ipsam.hsbkhadkbafadfaa afdd
+                        sfsddddddddddddddddddddddddddddddfaf 
+                        asdddsssssssfsdsssssssffffffffffffffffffffffffffffffffffffffff</p> -->
 
+                    <div class="big">
+                        <div id="cmtModal">
+                            <div id="txtarea">
+                                <span id="cmtHeader">Comment<span>
+                                <span class="close material-symbols-outlined" onclick="openCmt()">close</span>
+                                    <textarea type="text" class="txtinput" placeholder="Say Something..."></textarea> 
+                            </div>
+                        </div>
+                    
+                        <div class="pubcontainer">
+                            <div id="header">
+                                <span class="material-symbols-outlined">
+                                <img src="assets/group-3Fq.png" alt=""></span>
+                                &nbsp;
+                                <span id="user">User123456</span>
+                            </div>
+
+                            <br>
+                            <span id="txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+                            <!-- <div class="buttons">
+                            <button onclick="likePost()" id="fav" class="btn">favorite</button>
+                            <button onclick="mrkPost()" class="btn" id="bookmrk">bookmark</button>
+                            <button onclick="cmtPost()" class="btn" id="comment">comment</button>
+                            </div> -->
+                        
+                        </div>
+                    </div>  
+                </div>
+
+                <div class="box" id="tab2">
+                    <h4>Tab 2</h4>
+                    <!-- <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat
+                        incidunt eaque quibusdam accusantium cumque doloribus odit explicabo,
+                        ad unde veniam quidem molestiae rem dolorem nam asperiores
+                        praesentium. In eos, corrupti fugiat voluptate ex hic modi impedit,
+                        quo odit, ducimus quam consequatur? Vero reprehenderit commodi minus
+                        sequi voluptates. Voluptates, cupiditate ipsam.
+                    </p> -->
+                    <div class="card-container">
+                        <div class="photo-container">
+                            <div class="date">
+                                <div class="day">14</div>
+                                <div class="month">Février</div>
+                                <div class= "hour">19h30Pm</div>
+                            </div>
+                            <div class="image"></div>
+                        </div>
+                      <div class="info-container">
+                        <div class="event-name">
+                          Saint-Valentin
+                        </div>
+                        <div class="event-location">
+                         Photo Booth de couple !
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="photo-container">
+                          <div class="date">
+                            <div class="day">10</div>
+                            <div class="month">Mars</div>
+                            <div class= "hour">19h30Pm</div>
+                          </div>
+                          <div class="image"></div>
+                        </div>
+                        <div class="info-container">
+                          <div class="event-name">
+                            Soiree karaoke
+                          </div>
+                          <div class="event-location">
+                           Faites-sortir votre inner Star !
+                          </div>
+                        </div>
+                      </div>
+                    <div class="card-container">
+                      <div class="photo-container">
+                        <div class="date">
+                          <div class="day">2</div>
+                          <div class="month">Mai</div>
+                          <div class= "hour">17h30Pm</div>
+                        </div>
+                        <div class="image"></div>
+                      </div>
+                      <div class="info-container">
+                        <div class="event-name">
+                          Soirée Verité
+                        </div>
+                        <div class="event-location">
+                          Viens ! C'est l'heure de la vérité...
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-container">
+                      <div class="photo-container">
+                        <div class="date">
+                          <div class="day">22</div>
+                          <div class="month">Mai</div>
+                          <div class= "hour">12h30Pm - 14h30 Pm</div>
+                        </div>
+                        <div class="image"></div>
+                      </div>
+                      <div class="info-container">
+                        <div class="event-name">
+                          De-Stress Fest
+                        </div>
+                        <div class="event-location">
+                          De-stress before finals with puppies!
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
             </div>
+        </div>
+    </div>
+  </div>
+
+    <!-- this section wraps the team members as a container-->
+
+    <div class="cf team-container">
+      <h1 class="team-h1">Staff</h1>
+
+        <!-- member-->  
+        <div class="team-member">
+          <img class="team-photo" src="https://p16-va.lemon8cdn.com/tos-maliva-v-ac5634-us/ogFjQkAMIE8xaHAFeyVW7DEIeQfZknAfAPsFD2~tplv-tej9nj120t-origin.webp">
+          <h3>Paul</h3>
+          <span>Bénévole</span>
+          <button class="open-button"onclick="openForm()">Chat</button>
+        </div>
+
+
+        <!-- member-->
+        <div class="team-member">
+        <img class="team-photo" src="https://i.pinimg.com/736x/ba/92/7f/ba927ff34cd961ce2c184d47e8ead9f6.jpg">
+          <h3>Ginette</h3>
+          <span>Bénévole</span>
+          <button class="open-button"onclick="openForm()">Chat</button>
+        </div>      
+    </div>
+
+    <div class="chatbox">
+      <!-- <script src="https://kit.fontawesome.com/d8bd919f93.js" crossorigin="anonymous"></script> -->
+
+      <!-- <h2>Popup Chat Window</h2>
+      <p>Click on the button at the bottom of this page to open the chat form.</p> -->
+      
+      <!-- <button class="open-button"onclick="openForm()">Chat</button> -->
+      
+      <div class="chat-popup" id="myForm">
+        <form action="/action_page.php" class="form-container">
+         <i class="fa-solid fa-chalkboard-user"></i> <h3>Chat with us</h3>
+      
+          <label for="msg">Message</label>
+          <textarea placeholder="Type message.." name="msg" required></textarea>
+      
+          <button type="submit" class="btn">Send</button>
+          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="sondage">
+      
+<div class="pollContainer">
+  <a href="#" class="button">
+    
+    <div id="bbell">
+<div class="bell-icon" tabindex="0">
+  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="30px" viewBox="0 0 50 30" enable-background="new 0 0 50 30" xml:space="preserve">
+    <g class="bell-icon__group">
+      <path class="bell-icon__ball" id="ball" fill-rule="evenodd" stroke-width="1.5" clip-rule="evenodd" fill="black" stroke="#currentColor" stroke-miterlimit="10" d="M28.7,25 c0,1.9-1.7,3.5-3.7,3.5s-3.7-1.6-3.7-3.5s1.7-3.5,3.7-3.5S28.7,23,28.7,25z"/>
+      <path class="bell-icon__shell" id="shell" fill-rule="evenodd" clip-rule="evenodd" fill="gold" stroke="#currentColor" stroke-width="2" stroke-miterlimit="10" d="M35.9,21.8c-1.2-0.7-4.1-3-3.4-8.7c0.1-1,0.1-2.1,0-3.1h0c-0.3-4.1-3.9-7.2-8.1-6.9c-3.7,0.3-6.6,3.2-6.9,6.9h0 c-0.1,1-0.1,2.1,0,3.1c0.6,5.7-2.2,8-3.4,8.7c-0.4,0.2-0.6,0.6-0.6,1v1.8c0,0.2,0.2,0.4,0.4,0.4h22.2c0.2,0,0.4-0.2,0.4-0.4v-1.8 C36.5,22.4,36.3,22,35.9,21.8L35.9,21.8z"/>
+    </g>
+  </svg>
+  <div class="notification-amount">
+    <span>1</span>
+  </div>
+</div>
+</div>
+    
+  </a>
+  <div class="slider">
+    <h1>I'm here to be hidden. ;-)</h1>
+<!--     <p>Bacon ipsum dolor sit amet swine jerky jowl pork belly sausage brisket, beef ribs meatloaf chuck beef. Flank corned beef prosciutto cow. Pork tail swine meatball brisket cow. Turducken short loin doner pork belly frankfurter flank kevin ball tip meatloaf ham capicola. Tri-tip meatloaf pancetta tenderloin frankfurter shoulder swine turkey porchetta strip steak biltong pork. Bresaola turkey boudin filet mignon spare ribs jowl t-bone kevin tri-tip brisket chuck beef ribs.</p>     -->
+    
+    <div class="container">
+		<div class="col-sm-12">
+			<div class="mm-survey">
+
+				<div class="mm-survey-progress">
+					<div class="mm-survey-progress-bar mm-progress"></div>
+				</div>
+
+				<div class="mm-survey-results">
+					<div class="mm-survey-results-container">
+						<h3 class="mm-survey-results-score"></h3>
+						<ul class="mm-survey-results-list"></ul>
+					</div>
+					<div class="mm-survey-results-controller">
+						<div class="mm-back-btn">
+							<button>Back</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="mm-survey-bottom">
+					<div class="mm-survey-container">
+
+						<div class="mm-survey-page active" data-page="1">
+							<div class="mm-survery-content">
+								<div class="mm-survey-question">
+									<p>Based on history... What is the ideal color for a Ferrari?</p>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio01" data-item="1" name="radio1" value="red" />
+									<label for="radio01"><span></span><p>Red</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio02" data-item="1" name="radio1" value="blue" />
+									<label for="radio02"><span></span><p>Blue</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio03" data-item="1" name="radio1" value="green" />
+									<label for="radio03"><span></span><p>Green</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio04" data-item="1" name="radio1" value="purple" />
+									<label for="radio04"><span></span><p>Purple</p></label>
+								</div>
+							</div>
+						</div>
+						<div class="mm-survey-page" data-page="2">
+							<div class="mm-survery-content">
+								<div class="mm-survey-question">
+									<p>Which one of these car brands is made in Germany?</p>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio05" data-item="2" name="radio2" value="honda" />
+									<label for="radio05"><span></span><p>Honda</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio06" data-item="2" name="radio2" value="ford" />
+									<label for="radio06"><span></span><p>Ford</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio07" data-item="2" name="radio2" value="mercedes" />
+									<label for="radio07"><span></span><p>Mercedes</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio08" data-item="2" name="radio2" value="ferrari" />
+									<label for="radio08"><span></span><p>Ferrari</p></label>
+								</div>
+							</div>
+						</div>
+						<div class="mm-survey-page" data-page="3">
+							<div class="mm-survery-content">
+								<div class="mm-survey-question">
+									<p>Which is the correct integer for Pi?</p>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio09" data-item="3" name="radio3" value="3" />
+									<label for="radio09"><span></span><p>3</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio10" data-item="3" name="radio3" value="4" />
+									<label for="radio10"><span></span><p>4</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio11" data-item="3" name="radio3" value="3.41" />
+									<label for="radio11"><span></span><p>3.41</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio12" data-item="3" name="radio3" value="3.14" />
+									<label for="radio12"><span></span><p>3.14</p></label>
+								</div>
+							</div>
+						</div>
+						<div class="mm-survey-page" data-page="4">
+							<div class="mm-survery-content">
+								<div class="mm-survey-question">
+									<p>The letter 'C' is the nth number in the alphabet, choose the correct number.</p>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio13" data-item="4" name="radio4" value="1" />
+									<label for="radio13"><span></span><p>1</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio14" data-item="4" name="radio4" value="2" />
+									<label for="radio14"><span></span><p>2</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio15" data-item="4" name="radio4" value="3" />
+									<label for="radio15"><span></span><p>3</p></label>
+								</div>
+								<div class="mm-survey-item">
+									<input type="radio" id="radio16" data-item="4" name="radio4" value="4" />
+									<label for="radio16"><span></span><p>4</p></label>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="mm-survey-page" data-page="5">
+							<div class="mm-survery-content">
+
+							</div>
+						</div>
+						<div class="mm-survey-page" data-page="6">
+							<div class="mm-survery-content">
+
+							</div>
+						</div>
+						<div class="mm-survey-page" data-page="7">
+							<div class="mm-survery-content">
+
+							</div>
+						</div> -->
+
+					</div>
+
+					<div class="mm-survey-controller">
+						<div class="mm-prev-btn">
+							<button>Prev</button>
+						</div>
+						<div class="mm-next-btn">
+							<button disabled="true">Next</button>
+						</div>
+						<div class="mm-finish-btn">
+							<button>Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+
+
+
 
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
