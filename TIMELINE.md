@@ -3,9 +3,9 @@
 
 <!-- ### Semaine 7 (2024-02-21) -->
 
-<!-- ### Semaine 6 (2024-02-14) -->
 
-### Semaine 5 (2024-02-07)
+
+### Semaine 5 (2024-02-07) et semaine 6 (2024-02-14)
 
 #### Objectifs de la semaine 
 
