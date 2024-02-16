@@ -666,7 +666,7 @@ h2.team-h1 {
 }
 
 .team-member {
-  width: 20%;
+  width: 30%;
   flex: 0 0 auto;       /* Les éléments enfants ne grandissent pas, ne rétrécissent pas et sont basés sur leur largeur automatique */
   margin: 0 1em;        /* Ajoutez un peu d'espace autour de chaque membre de l'équipe */
   text-align: center;
