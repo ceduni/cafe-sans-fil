@@ -179,8 +179,8 @@
 }
 
 :root {
-  font-family: Inter, system-ui, "Segoe UI", Avenir, Helvetica, Arial,
-    sans-serif;
+  /* font-family: Inter, system-ui, "Segoe UI", Avenir, Helvetica, Arial,
+    sans-serif; */
   line-height: 1.5;
   font-weight: 400;
 }
@@ -393,7 +393,7 @@
   /* height: 250px; 
   width: 500px; */
   border-radius: 10px;
-  background-color: grey;
+  background-color: paleturquoise;
   /* box-shadow: 5px 5px 0px 5px var(--darktwo); */
   /* position: relative; */
 }
@@ -403,7 +403,7 @@
 }
 
 #txt{
-  font-family: Inconsolata;
+  /* font-family: Inconsolata; */
   color: var(--darktwo);
   font-size: 20px;
 }
@@ -557,7 +557,7 @@ div.buttons {
 }
 
 h4 {
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
   color: #555;
 }
 
@@ -581,7 +581,7 @@ h4 {
   grid-template-columns: 150px 1fr;
   width:100%;
   max-width: 500px; 
-  background-color:pink;
+  background-color:paleturquoise;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   line-height: 1.95em;
   box-sizing: border-box;  
@@ -681,7 +681,7 @@ h2.team-h1 {
 .team-member span,
 .team-member h3 {
   max-width: 200px;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
   letter-spacing: -1px;
 }
 
