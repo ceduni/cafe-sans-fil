@@ -1,6 +1,8 @@
 /* .image-1{
     width: 100%;
 } */
+
+
 #image-caf {
     position: relative; /* Cela permettra de positionner #titre et #resaux par rapport à #image-caf */
     width: 100%;
@@ -34,8 +36,8 @@
 }
 
 #resaux img {
-    width: 20px; /* Largeur de l'image */
-    margin-right: 10px;
+    width: 25px; /* Largeur de l'image */
+    margin-right: 15px;
 }
 
 .icon img {
@@ -170,8 +172,9 @@
 
 .MenuTab{
   display: flex;
-  align-items: flex-start;
-  /* margin-top: 100px; */
+ justify-content: space-between; 
+  margin-top: 60px;
+  /* background-color: blue; */
   
 }
 
@@ -187,13 +190,13 @@
 } */
 
 .Menu1 {
-  margin-top: 0;
-  display: flex;
-  place-items: center;
+  margin-top: 0px;
+  /* display: flex;
+  place-items: center; */
   min-width: 320px;
   width: 100%;
-  min-height: 60vh;
-  /* background-color: #fff; */
+  /* min-height: 100vh; */
+  /* background-color: orange; */
 }
 
 #app {
@@ -201,21 +204,21 @@
   width: 100%;
 }
 
-.content-wrapper {
+/* .content-wrapper {
   display: flex;
   flex-direction: column;
   place-items: center;
   padding: 12px 2% 24px;
-}
+} */
 
 .menu {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   width: 100%;
-  max-width: 500px;
+  max-width: 700px;
   /* height: 100%;
-  max-height: 1000px; */
+  max-height: 450px; */
   gap: 1rem;
   padding: 12px;
   border: 2px solid #d5d5d5;
@@ -250,7 +253,7 @@
   padding: 12px;
   border-radius: 4px;
   background-color: #e5e4e2;
-  max-height: 400px;
+  min-height: 200px;
 }
 
 .group-box.active {
@@ -260,8 +263,8 @@
 }
 
 .group-box.active .group-item {
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
 }
 
 .group-box-items {
@@ -271,8 +274,8 @@
 
 .group-item {
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   margin: 6px;
   border-radius: 2px;
   background-color: #646cff;
@@ -301,14 +304,15 @@
   box-sizing: border-box;
 } */
 
-body {
+/* body {
   height: 100vh;
-  /* background: linear-gradient(90deg, #8711c1 20%, #2472fc); */
-}
-
-/* .tabs{
-  background-color: red;
+  background: linear-gradient(90deg, #8711c1 20%, #2472fc);
 } */
+
+.tabs{
+  /* background-color: purple; */
+  min-height: 90vh;
+}
 
 .container {
   width: 60%;
@@ -549,10 +553,10 @@ div.buttons {
   overflow-y: auto;
   /* background-color: red; */
   max-height: 380px;
-  padding: 1em;
+  min-width: 530px;  
 }
 
-h1 {
+h4 {
   font-family: sans-serif;
   color: #555;
 }
@@ -561,12 +565,13 @@ h1 {
   font-size: 1.5em;
   background-color: #2c3e52;
   color: white;
-  padding: 1px;
+  /* padding: 0px; */
   text-align: center;
   grid-area: photo;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 140px;
 }
 .card-container {
   margin-bottom: 1rem;
@@ -574,12 +579,12 @@ h1 {
   grid-template-areas: 
     'photo info';
   grid-template-columns: 150px 1fr;
-  /* width:500px;  */
+  width:100%;
+  max-width: 500px; 
   background-color:pink;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   line-height: 1.95em;
-  box-sizing: border-box;
-  
+  box-sizing: border-box;  
 }
 
 .info-container {
@@ -614,7 +619,7 @@ h1 {
 /* Team Member CSS 
 ===========================*/
 
-h1.team-h1 {
+h2.team-h1 {
   margin: 0;
   position: absolute;
   top: -16px;
@@ -646,8 +651,12 @@ h1.team-h1 {
 }
 
 .team-container {
-  max-width: 1000px;
+  width: 500px;
   margin: auto;
+  display: flex;        /* Utilisez Flexbox pour le conteneur */
+  justify-content: center; /* Centre horizontalement les éléments enfants */
+  align-items: center;     /* Centre verticalement les éléments enfants si nécessaire */
+  flex-wrap: wrap;
   border-top: 1px #e9e9e9 solid;
   border-bottom: 1px #e9e9e9 solid;
   padding-top: 5em;
@@ -657,13 +666,16 @@ h1.team-h1 {
 }
 
 .team-member {
-  width: 16%;
-  float: left;
+  width: 20%;
+  flex: 0 0 auto;       /* Les éléments enfants ne grandissent pas, ne rétrécissent pas et sont basés sur leur largeur automatique */
+  margin: 0 1em;        /* Ajoutez un peu d'espace autour de chaque membre de l'équipe */
   text-align: center;
-  margin-right: 5%;
+  /* float: left; */
+  /* text-align: center;
+  margin-right: 15%; */
 }
 
-.team-member:last-child {margin-right: 0;}
+/* .team-member:last-child {margin-right: 0;} */
 
 
 .team-member span,
@@ -747,7 +759,7 @@ h3{line-height:0rem;} */
 
 
 /* Button used to open the chat form - fixed at the bottom of the page */
-.open-button {
+/* .open-button {
   padding:10px 40px;
   background-color: #04AA6D;
   color: white;
@@ -756,32 +768,32 @@ h3{line-height:0rem;} */
   border-radius:20px;
   border: none;
   cursor: pointer;
-  /* position: fixed; */
+  position: fixed;
   bottom: 23px;
   right: 28px;  
-}
+} */
 
 /* The popup chat - hidden by default */
-.chat-popup {
+/* .chat-popup {
   display: none;
   position: fixed;
   bottom: 0;
   right: 15px;
   z-index: 9;
  
-}
+} */
 
 /* Add styles to the form container */
-.form-container {
+/* .form-container {
   max-width: 300px;
   padding: 10px;
   border-radius:20px;
   background-color: white;
   color:#777;
-}
+} */
 
 /* Full-width textarea */
-.form-container textarea {
+/* .form-container textarea {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -791,16 +803,16 @@ h3{line-height:0rem;} */
   resize: none;
   min-height: 200px;
   color:#777;
-}
+} */
 
 /* When the textarea gets focus, do something */
-.form-container textarea:focus {
+/* .form-container textarea:focus {
   background-color: #ddd;
   outline: none;
-}
+} */
 
 /* Set a style for the submit/send button */
-.form-container .btn {
+/* .form-container .btn {
   background-color: #04AA6D;
   color: white;
    font-size:17px;
@@ -810,15 +822,90 @@ h3{line-height:0rem;} */
   cursor: pointer;
   width: 100%;
   margin-bottom:10px;
-}
+} */
 
 /* Add a red background color to the cancel button */
-.form-container .cancel {
+/* .form-container .cancel {
   background-color: #1974D2;
-}
+} */
 
 /* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
+/* .form-container .btn:hover, .open-button:hover {
 opacity: 0.8;
+} */
+
+
+/* mail-contactez-nous */
+
+.md-modal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 50%;
+	max-width: 400px;
+	min-width: 200px;
+	height: auto;
+	z-index: 2000;
+	visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	-moz-transform: translateX(-50%) translateY(-50%);
+	-ms-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+}
+
+.md-show {
+	visibility: visible;
+}
+
+.md-overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	opacity: 0;
+	background: rgba(40,43,49,.8);
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.md-show ~ .md-overlay {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Content styles */
+.md-content {
+	color: #333;
+	background: #fff;
+  border-radius: 10px;
+}
+
+/* Effect 1: Fade in and scale up */
+.md-effect-1 .md-content {
+	-webkit-transform: scale(0.7);
+	-ms-transform: scale(0.7);
+	transform: scale(0.7);
+	opacity: 0;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.md-show.md-effect-1 .md-content {
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+	opacity: 1;
+}
+
+#md-close{
+  background-color: #1CA3A3;
+  border-radius: 10px;
+  
 }
 

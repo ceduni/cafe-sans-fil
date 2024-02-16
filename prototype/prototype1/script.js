@@ -43,7 +43,7 @@ function createGroupBox(category, onclick) {
 
   groupBox.addEventListener("click", (event) => {
     onclick(groupBox);
-    groupBox.scrollIntoView(true);
+    // groupBox.scrollIntoView(true);
   });
 
   return groupBox;
@@ -165,6 +165,7 @@ async function openCmt() {
 }
 
 window.onclick = function(event) {
+  event.preventDefault(); //empecher la page de bouger
  if (event.target == modal) {
    modal.style.display = "none";
    }
@@ -233,13 +234,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 // Chatbox
 
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
+// function openForm() {
+//   document.getElementById("myForm").style.display = "block";
+// }
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
+// function closeForm() {
+//   document.getElementById("myForm").style.display = "none";
+// }
+
+//mail-contactez-nous
+$('#md-trigger').on('click', function(e) {
+  $('#modal-1').toggleClass("md-show"); //you can list several class names 
+  e.preventDefault();
+});
+
+$('#md-close').on('click', function(e) {
+  $('#modal-1').toggleClass("md-show"); //you can list several class names 
+  e.preventDefault();
+});
+
+$('#md-trigger2').on('click', function(e) {
+  $('#modal-1').toggleClass("md-show"); //you can list several class names 
+  e.preventDefault();
+});
 
 //Sondage
 
