@@ -43,7 +43,7 @@ function createGroupBox(category, onclick) {
 
   groupBox.addEventListener("click", (event) => {
     onclick(groupBox);
-    groupBox.scrollIntoView(true);
+    // groupBox.scrollIntoView(true);
   });
 
   return groupBox;
@@ -165,6 +165,7 @@ async function openCmt() {
 }
 
 window.onclick = function(event) {
+  event.preventDefault(); //empecher la page de bouger
  if (event.target == modal) {
    modal.style.display = "none";
    }
@@ -188,9 +189,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   // Informations pour les différents posts
   const postsData = [
-    { userName: 'User1', postText: 'fkajbdbfk kjfa kkjfhkshk djkf' },
-    { userName: 'User2', postText: 'Bla bla bla' },
-    { userName: 'User3', postText: 'Bkjsdff fhdsjjfkd' }
+    { userName: 'Tore et Fraction', postText: 'Soirée Saint-Valentin au Café Campus! Rejoignez-nous pour une soirée romantique pleine de surprises et de douceur. Amenez votre valentin(e) ou venez rencontrer votre âme sœur. Musique douce, ambiance chaleureuse et boissons spéciales vous attendent ce 14 février.' },
+    {
+      "userName": "User3",
+      "postText": "**Gardons Notre Café Propre!** Chers étudiants, nous vous invitons à contribuer à la propreté de notre espace commun. Après avoir savouré vos repas et boissons, pensez à débarrasser votre table et à utiliser les poubelles prévues à cet effet. Ensemble, maintenons un cadre agréable et accueillant pour tous. Merci de votre coopération!"
+    }
+    
   ];
 
   // Assurez-vous d'abord de vider le contenu de tab1, ou de supprimer le post original si nécessaire
@@ -233,13 +237,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 // Chatbox
 
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
+// function openForm() {
+//   document.getElementById("myForm").style.display = "block";
+// }
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
+// function closeForm() {
+//   document.getElementById("myForm").style.display = "none";
+// }
+
+//mail-contactez-nous
+$('#md-trigger').on('click', function(e) {
+  $('#modal-1').toggleClass("md-show"); //you can list several class names 
+  e.preventDefault();
+});
+
+$('#md-close').on('click', function(e) {
+  $('#modal-1').toggleClass("md-show"); //you can list several class names 
+  e.preventDefault();
+});
+
+$('#md-trigger2').on('click', function(e) {
+  $('#modal-1').toggleClass("md-show"); //you can list several class names 
+  e.preventDefault();
+});
 
 //Sondage
 
