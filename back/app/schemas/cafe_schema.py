@@ -174,7 +174,8 @@ class CafeCreate(BaseModel):
             "faculty": "Science",
             "location": {
                 "pavillon": "Pavillon JEAN-TALON",
-                "local": "local B-1234"
+                "local": "local B-1234",
+                "geometry": {"type": "Point", "coordinates": [45.504, -73.577]}
             },
             "is_open": True,
             "opening_hours": [
@@ -256,7 +257,8 @@ class CafeUpdate(BaseModel):
             "faculty": "Science",
             "location": {
                 "pavillon": "Pavillon JEAN-TALON",
-                "local": "local B-1234"
+                "local": "local B-1234",
+                "geometry": {"type": "Point", "coordinates": [45.504, -73.577]}
             },
             "is_open": True,
             "opening_hours": [
@@ -315,7 +317,8 @@ class CafeOut(BaseModel):
             "faculty": "Science",
             "location": {
                 "pavillon": "Pavillon JEAN-TALON",
-                "local": "local B-1234"
+                "local": "local B-1234",
+                "geometry": {"type": "Point", "coordinates": [45.504, -73.577]}
             },
             "is_open": True,
             "opening_hours": [

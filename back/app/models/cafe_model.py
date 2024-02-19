@@ -46,9 +46,14 @@ class DayHours(BaseModel):
     day: Days = Field(..., description="Day of the week.")
     blocks: List[TimeBlock] = Field(..., description="List of time blocks for the day.")
 
+class Geometry(BaseModel):
+    type: str = Field(..., min_length=1, description="Type of the geometry.")
+    coordinates: List[float] = Field(..., min_length=1, description="List of coordinates.")
+
 class Location(BaseModel):
     pavillon: Indexed(str) = Field(..., min_length=1, description="Name or identifier of the pavilion.")
     local: Indexed(str) = Field(..., min_length=1, description="Local identifier within the pavilion.")
+    geometry: Optional[Geometry] = Field(None, description="Geographical coordinates of the location.")
 
 class Contact(BaseModel):
     email: Optional[str] = Field(None, description="Contact email address.")
