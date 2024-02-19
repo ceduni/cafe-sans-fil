@@ -137,6 +137,7 @@
 
           .cafe-brand .cafe-logo {
                height: 120px;
+               object-fit: cover;
           }
 
           .cafe-brand .socials {
@@ -159,6 +160,7 @@
                .cafe-brand .social-img {
                     height: 100%;
                     width: auto;
+                    object-fit: cover;
                }
 
 
@@ -396,6 +398,7 @@
           height: 84px;
           width: 84px;
           border-radius: 50%;
+          object-fit: cover;
      }
 
      .cafe-identification .team-member-name {
