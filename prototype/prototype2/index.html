@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="/logo_min.png" />
+    <link rel="icon" type="image/svg+xml" href="assets/logo_min.png" />
     <!-- Inter font -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     <!-- Google Fonts -->
@@ -44,7 +44,7 @@
         <header class="cafe-header">
             <div class="status">
                 <i class="status-icon"></i>
-                <span class="status-text">Ouvert &bull; Fermé à 18:00</span>
+                <span class="status-text">Ouvert &bull; <strong>Ferme à 18:00</strong></span>
             </div>
             <div class="cafe-brand">
                 <img class="cafe-logo" src="assets/logo_tore_fraction.jpg" alt="Logo du café">
@@ -112,7 +112,7 @@
                     <li class="appliance">Machine à café</li>
                 </ul>
 
-                <h3 class="title">Contact</h3>
+                <h3 class="title">Staff</h3>
                 <ul class="bare-list team-members">
                     <li class="team-member">
                         <img class="team-member-photo"
@@ -138,39 +138,32 @@
                     </svg>
                 </div>
                 <div class="tab-container">
-                    <div class="tab active" onclick="openTab('ads')">Annonces</div>
+                    <div class="tab active" onclick="openTab('posts')">Annonces</div>
                     <div class="tab" onclick="openTab('events')">Evénements</div>
                 </div>
                 <div class="tab-body">
-                    <div id="ads" class="tab-content active">
-                        <div class="ad">
-                            <div id="ad-header">
-                                <h3 class="ad-title">Distribution de Chocolat Gratuit</h3>
-                                <span class="ad-date">Il y a 4 jours</span>
+                    <div id="posts" class="tab-content active">
+                        <div class="post">
+                            <div class="post-header">
+                                <h3 class="post-title">Distribution de Chocolat Gratuit</h3>
+                                <span class="post-date">Il y a 4 jours</span>
                             </div>
 
-                            <p class="ad-content">
-                                <span class="ad-author">Tore et Fraction:</span> Pour égayer votre journée,
+                            <p class="post-content">
+                                <span class="post-author">Tore et Fraction:</span> Pour égayer votre journée,
                                 passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour
                                 tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses
                                 café
                             </p>
-
-                            <!-- <div class="buttons">
-                            <button onclick="likePost()" id="fav" class="btn">favorite</button>
-                            <button onclick="mrkPost()" class="btn" id="bookmrk">bookmark</button>
-                            <button onclick="cmtPost()" class="btn" id="comment">comment</button>
-                            </div> 
-                            -->
                         </div>
 
-                        <div class="ad">
-                            <div id="header">
-                                <h3 class="ad-title">Soirée Saint-Valentin au Café Campus!</h3>
-                                <span class="ad-date">Il y a 10 jours</span>
+                        <div class="post">
+                            <div class="post-header">
+                                <h3 class="post-title">Soirée Saint-Valentin au Café Campus!</h3>
+                                <span class="post-date">Il y a 10 jours</span>
                             </div>
-                            <p class="ad-content">
-                                <span class="ad-author">Tore et Fraction:</span>
+                            <p class="post-content">
+                                <span class="post-author">Tore et Fraction:</span>
                                 Rejoignez-nous pour une soirée romantique pleine de surprises et de douceur. 
                                 Amenez votre valentin(e) ou venez rencontrer votre âme sœur. Musique douce, ambiance chaleureuse et boissons spéciales vous attendent ce 14 février.
                             </p>

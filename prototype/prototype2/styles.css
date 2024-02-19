@@ -124,6 +124,10 @@
                     animation: pulse 1s infinite;
                }
 
+               .cafe-header .status-text {
+                    font-size: 0.9em;
+               }
+
 
      .cafe-brand {
           display: flex;
@@ -177,6 +181,7 @@
           'menu info'
           'menu comm';
           grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: auto 1fr;
           /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
      }
 }
@@ -196,7 +201,7 @@
 }
 
      .menu-section .accepted-payments {
-          display: flex;
+          display: flex; flex-wrap: wrap;
           margin-top: 6px;
      }
 
@@ -209,6 +214,7 @@
 
      .menu-section .accepted-payment-icon {
           height: 18px;
+          margin-right: 2px;
      }
 
 
@@ -272,6 +278,7 @@
           margin-bottom: 6px;
           font-size: 1.8em;
           text-transform: lowercase;
+          color: inherit;
      }
 
      .group-box-title::first-letter {
@@ -284,11 +291,14 @@
           background-color: #232425;
 
      }
+          .group-box:not(.active):hover .group-item {
+               transform: scale(1.1);
+          }
 
-     .group-box.active .group-item {
-          width: 120px;
-          height: 120px;
-     }
+          .group-box.active .group-item {
+               width: 120px;
+               height: 120px;
+          }
 
      .group-box-items {
           display: flex;
@@ -383,25 +393,27 @@
 
      .cafe-identification .team-member-photo {
           display: block;
-          height: 72px;
-          width: 72px;
+          height: 84px;
+          width: 84px;
           border-radius: 50%;
      }
 
      .cafe-identification .team-member-name {
-          font-size: 1.2em;
+          margin-top: 2px;
+          font-size: 1.1em;
           font-weight: 300;
           margin: 0;
      }
 
      .cafe-identification .team-member-role {
           font-weight: 500;
+          font-size: 0.9em;
      }
 
 
 
 /*
-  COMMUNICATION SECTION
+  POST/EVENT SECTION
 ----------------------------------------------------------------------*/
 
 .cafe-communication {
@@ -479,19 +491,19 @@
      }
 
 
-.ad {
+.post {
      position: relative;
      margin-bottom: 1rem;
      padding: 12px;
      border-radius: 4px;
      background-color: #f5f5f5;
 }
-     .ad-title {
+     .post-title {
           margin: 0;
           font-size: 2em;
      }
 
-     .ad-date {
+     .post-date {
           position: absolute;
           top: 6px; right: 12px;
           font-size: 1.4em;
@@ -499,11 +511,11 @@
           font-weight: 500;
      }
 
-     .ad-content {
+     .post-content {
           font-size: 1.4em;
      }
 
-     .ad-author {
+     .post-author {
           font-size: 0.95em;
           font-weight: bold;
           color: crimson;
