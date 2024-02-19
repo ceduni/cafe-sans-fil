@@ -6,12 +6,14 @@ fake = Faker('fr_CA')
 def cafe_data():
     return {
             "name": fake.company(),
+            "features": ["Order"],
             "description": "Un café populaire près de la bibliothèque principale.",
             "image_url": "https://media.architecturaldigest.com/photos/5b083c4675a4f940de3da8f1/master/pass/case-study-coffee.jpg",
             "faculty": "Science",
             "location": {
                 "pavillon": "Pavillon JEAN-TALON",
-                "local": "local B-1234"
+                "local": "local B-1234",
+                "geometry": {"type": "Point", "coordinates": [45.504, -73.577]}
             },
             "is_open": True,
             "opening_hours": [
