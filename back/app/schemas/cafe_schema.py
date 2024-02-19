@@ -3,7 +3,7 @@ from uuid import UUID
 from pydantic import field_validator, ConfigDict, BaseModel, Field
 from datetime import datetime, timedelta
 from beanie import DecimalAnnotation
-from app.models.cafe_model import DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, StaffMember, MenuItemOption
+from app.models.cafe_model import Feature, DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, StaffMember, MenuItemOption
 
 """
 This module defines the Pydantic-based schemas for cafe operations in the Café application. 
@@ -151,6 +151,7 @@ class StaffOut(BaseModel):
 
 class CafeCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=50, description="Name of the cafe.")
+    features: List[Feature] = Field(..., description="Features of the cafe.")
     description: str = Field(..., min_length=1, max_length=255, description="Description of the cafe.")
     image_url: Optional[str] = Field(None, max_length=755, description="Image URL of the cafe.")
     faculty: str = Field(..., min_length=1, max_length=100, description="Faculty associated with the cafe.")
@@ -167,6 +168,7 @@ class CafeCreate(BaseModel):
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "name": "Café Central",
+            "features": ["Order"],
             "description": "Un café populaire près de la bibliothèque principale.",
             "image_url": "https://media.architecturaldigest.com/photos/5b083c4675a4f940de3da8f1/master/pass/case-study-coffee.jpg",
             "faculty": "Science",
@@ -233,6 +235,7 @@ class CafeCreate(BaseModel):
     
 class CafeUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated name of the cafe.")
+    features: Optional[List[Feature]] = Field(None, description="Updated features of the cafe.")
     description: Optional[str] = Field(None, min_length=1, max_length=255, description="Updated description of the cafe.")
     image_url: Optional[str] = Field(None, max_length=755, description="Updated image URL of the cafe.")
     faculty: Optional[str] = Field(None, min_length=1, max_length=100, description="Updated faculty association of the cafe.")
@@ -247,6 +250,7 @@ class CafeUpdate(BaseModel):
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "name": "Café Central",
+            "features": ["Order"],
             "description": "Un café populaire près de la bibliothèque principale.",
             "image_url": "https://media.architecturaldigest.com/photos/5b083c4675a4f940de3da8f1/master/pass/case-study-coffee.jpg",
             "faculty": "Science",
@@ -285,6 +289,7 @@ class CafeOut(BaseModel):
     name: str = Field(..., description="Name of the cafe.")
     slug: str = Field(..., description="Slug of the cafe.")
     previous_slugs: List[str] = Field(None, description="Previous slugs of the cafe.")
+    features: List[Feature] = Field(..., description="Features of the cafe.")
     description: str = Field(..., description="Description of the cafe.")
     image_url: Optional[str] = Field(None, description="Image URL of the cafe.")
     faculty: str = Field(..., description="Faculty associated with the cafe.")
@@ -304,6 +309,7 @@ class CafeOut(BaseModel):
             "name": "Café Central",
             "slug": "cafe-central",
             "previous_slugs": ["cafe-central-1", "cafe-central-2"],
+            "features": ["Order"],
             "description": "Un café populaire près de la bibliothèque principale.",
             "image_url": "https://media.architecturaldigest.com/photos/5b083c4675a4f940de3da8f1/master/pass/case-study-coffee.jpg",
             "faculty": "Science",

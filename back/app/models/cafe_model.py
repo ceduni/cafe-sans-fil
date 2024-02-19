@@ -17,6 +17,9 @@ Note: These models are intended for direct database interactions related to cafe
 different from the API data interchange models.
 """
 
+class Feature(str, Enum):
+    ORDER = "Order"
+
 class TimeBlock(BaseModel):
     start: str = Field(..., min_length=1, description="Start time in HH:mm format.")
     end: str = Field(..., min_length=1, description="End time in HH:mm format.")
@@ -124,6 +127,7 @@ class Cafe(Document):
     name: Indexed(str, unique=True)
     slug: Indexed(str, unique=True) = None
     previous_slugs: List[str] = []
+    features: List[Feature]
     description: Indexed(str)
     image_url: Optional[str] = None 
     faculty: Indexed(str)

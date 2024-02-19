@@ -43,6 +43,7 @@ async def create_cafes(usernames):
             
         cafe = Cafe(
             name=cafe_info["name"],
+            features=["Order"] if random.random() <= 0.8 else [],
             description=cafe_info["description"],
             image_url=cafe_info["image_url"],
             faculty=cafe_info["faculty"],
