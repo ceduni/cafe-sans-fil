@@ -25,16 +25,23 @@
      }
 
      .page-title {
-          /* flex: 1 1; */
-          margin: 0;
-          font-size: 2em;
-          width: 300px;
-          padding: 6px;
-          border-radius: 180px;
-          font-weight: 800;
-          text-align: center;
-          color: #555;
-          background-color: #e5e4e2;
+          font-size: 0;
+     }
+
+     @media screen and (min-width: 30em) {
+          .page-title {
+               /* flex: 1 1; */
+               margin: 0;
+               font-size: 2em;
+               width: 300px;
+               padding: 6px;
+               border-radius: 180px;
+               font-weight: 800;
+               text-align: center;
+               color: #555;
+               background-color: #e5e4e2;
+          }
+          
      }
 
      .header-session {
@@ -456,15 +463,23 @@
 
 
 .notification-wrapper {
-     position: absolute;
-     top: 20px;
-     right: 26px;
-     height: 36px;
-     width: 36px;
-     border: 2px solid rgb(186, 34, 73);
-     padding: 4px;
-     background-color: #fff;
-     border-radius: 50%;
+     height: 20px;
+     width: 20px;
+}
+
+@media screen and (min-width: 30em) {
+     .notification-wrapper {
+          position: absolute;
+          top: 20px;
+          right: 26px;
+          height: 36px;
+          width: 36px;
+          border: 2px solid rgb(186, 34, 73);
+          padding: 4px;
+          background-color: #fff;
+          border-radius: 50%;
+     }
+     
 }
 
      .notification-icon {
