@@ -179,6 +179,38 @@
                     object-fit: cover;
                }
 
+               .cafe-hours ul {
+                    background-color: rgba(128, 128, 128, 0.5); 
+                    border-radius: 5px;
+                    padding: 10px; 
+                    width: 300px; 
+                    list-style-type: none; 
+                }
+                
+                .cafe-hours p{
+                    font-size: 18px;
+                    margin-bottom: 0px;
+
+                }
+
+                .cafe-hours li {
+                    font-size: 15px;
+                    color: #FFF; 
+                }
+                
+                .day {
+                    font-weight: bold; 
+                    color: #FFF;                    
+                    border-radius: 3px;                     
+                    margin-right: 0px; 
+                    display: inline-block; 
+                }
+                
+                .time {
+                    color: #FFF; 
+                }
+                
+
 
 .main-body {
      display: grid;
@@ -816,8 +848,10 @@ h4 {
 /* Content styles */
 .md-content {
      color: #333;
-     background: #fff;
      border-radius: 10px;
+     width: 450px;
+     height: 300px;
+     background-color:rgba(156, 212, 219, 0.5); 
 }
 
 /* Effect 1: Fade in and scale up */
@@ -837,8 +871,27 @@ h4 {
      opacity: 1;
 }
 
-#md-close {
-     background-color: #1CA3A3;
-     border-radius: 10px;
-
+.mailcontainer textarea{
+     width: 450px;
+     height: 227px;
+     border-radius: 5px;
 }
+
+.md-content h3{
+     font-size: 25px;
+     margin-bottom: 0px;
+}
+
+.dflex {
+     display: flex;
+     justify-content: space-between;     
+}
+
+.dflex button{
+     background-color: #2472fc;
+     border-radius: 3px;
+     height: 40px;
+     width: 90px;
+     font-size: 20px;
+}
+

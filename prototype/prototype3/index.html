@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="assets/logo_min.png" />
-    <!-- Inter font -->
+    
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<!-- Inter font -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,6 +114,52 @@
                         Pavillon André-Aisenstadt, local AA-1221
                     </p>
                 </div>
+                <!-- <div class="cafe-hours">
+                    <p><strong>Lundi</strong><br>08:00 - 12:00<br>13:00 - 16:00</p>
+                    <p><strong>Mardi</strong><br>09:00 - 12:00<br>13:00 - 16:00</p>
+                    <p><strong>Mercredi</strong><br>08:00 - 17:00</p>
+                    <p><strong>Jeudi</strong><br>10:00 - 17:00</p>
+                    <p><strong>Vendredi</strong><br>09:00 - 12:00<br>13:00 - 17:00</p>
+                </div> -->
+                <!-- <div class="cafe-hours">
+                    <table>
+                        <tr>
+                            <td><strong>Lundi</strong></td>
+                            <td>08:00 - 12:00</td>
+                            <td>13:00 - 16:00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mardi</strong></td>
+                            <td>09:00 - 12:00</td>
+                            <td>13:00 - 16:00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mercredi</strong></td>
+                            <td colspan="1">08:00 - 17:00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Jeudi</strong></td>
+                            <td colspan="1">10:00 - 17:00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vendredi</strong></td>
+                            <td>09:00 - 12:00</td>
+                            <td>13:00 - 17:00</td>
+                        </tr>
+                    </table>
+                </div> -->
+
+                <div class="cafe-hours">
+                    <p> <strong>Horaire</strong></p>
+                    <ul class="hours-list">
+                        <li><span class="day">Lundi:</span> <span class="time">08:00 - 12:00, 13:00 - 16:00</span></li>
+                        <li><span class="day">Mardi:</span> <span class="time">09:00 - 12:00, 13:00 - 16:00</span></li>
+                        <li><span class="day">Mercredi:</span> <span class="time">08:00 - 17:00</span></li>
+                        <li><span class="day">Jeudi:</span> <span class="time">10:00 - 17:00</span></li>
+                        <li><span class="day">Vendredi:</span> <span class="time">09:00 - 12:00, 13:00 - 17:00</span></li>
+                    </ul>
+                </div>
+                
                 <p class="bare">Café 100% bénévoles, vue du coucher de soleil magnifique, on remplit votre tasse
                     pour 0,50$.</p>
 
@@ -123,14 +173,14 @@
                 <h3 class="title">Staff</h3>
                 <ul class="bare-list team-members">
                     <li class="team-member">
-                        <img class="team-member-photo"
-                            src="https://nimblebar.co/wp-content/uploads/2021/04/DSC3375.jpg">
+                        <button class="md-trigger2" id="md-trigger2"> <img class="team-member-photo"
+                            src="https://nimblebar.co/wp-content/uploads/2021/04/DSC3375.jpg"> </button>
                         <h3 class="team-member-name">Jeremy</h3>
                         <span class="team-member-role">Gérant</span>
                     </li>
                     <li class="team-member">
-                        <img class="team-member-photo"
-                            src="https://media.istockphoto.com/id/1404412754/photo/various-shakers-and-bottles-stand-on-the-bar-counter-and-bartender-gently-pours-alcoholic.jpg?s=612x612&w=0&k=20&c=_Stb_4zojqZ1LhfB8TFilaxso4vB19mM94gNEgJmgBA=">
+                        <button class="md-trigger" id="md-trigger"><img class="team-member-photo"
+                            src="https://media.istockphoto.com/id/1404412754/photo/various-shakers-and-bottles-stand-on-the-bar-counter-and-bartender-gently-pours-alcoholic.jpg?s=612x612&w=0&k=20&c=_Stb_4zojqZ1LhfB8TFilaxso4vB19mM94gNEgJmgBA="></button>
                         <h3 class="team-member-name">Simon</h3>
                         <span class="team-member-role">Gérant</span>
                     </li>
@@ -274,15 +324,16 @@
                             <textarea placeholder="Taper votre message..." class="form-control" name="message" rows="10"
                                 required></textarea>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <button class="md-close btn btn-primary btn-lg" id="md-close">fermer</button>
-                            <button type="submit" class="btn btn-lg btn-primary">Envoyer</button>
+                        <div class="dflex ">
+                            <button class="md-close btn btn-primary btn-lg" id="md-close">Fermer</button>
+                            <button type="submit" class="btn btn-lg btn-primary" id="send">Envoyer</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <div class="md-overlay"></div><!-- the overlay element -->
 
     <script src="script.js"></script>
 </body>
