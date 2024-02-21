@@ -197,9 +197,17 @@
      }
 
           .cafe-brand .cafe-logo {
-               height: 180px;
+               height: 140px;
                object-fit: cover;
                border-top-right-radius: 16px;
+               transition: 0.2     s;
+          }
+
+          @media screen and (min-width: 44em) {
+               .cafe-brand .cafe-logo {
+                    height: 180px;
+                    transition: 0.2s;
+               }
           }
 
           .cafe-brand .socials {
