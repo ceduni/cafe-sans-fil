@@ -217,7 +217,7 @@
                padding: 7px;
                background-color: #f4f4f4;
                border-radius: 42%;
-               box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+               box-shadow: 0 1px 4px 2px rgba(0, 0, 0, 0.3);
           }
 
                .cafe-brand .social-img {
