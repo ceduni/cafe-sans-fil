@@ -200,7 +200,7 @@
                height: 140px;
                object-fit: cover;
                border-top-right-radius: 16px;
-               transition: 0.2     s;
+               transition: 0.2s;
           }
 
           @media screen and (min-width: 44em) {
