@@ -25,52 +25,23 @@
      }
 
      .page-title {
-          display: none;
+          font-size: 0;
      }
 
-     .search-icon {
-          position: absolute;
-          right: 125px;
-          fill: #4b4b4b;
-     }
-
-     @media screen and (min-width: 48em) {
+     @media screen and (min-width: 40em) {
           .page-title {
+               /* flex: 1 1; */
                margin: 0;
-               font-size: 1.7em;
+               font-size: 2em;
                width: 300px;
-               height: 36px;
-               padding: 6px 12px;
+               padding: 6px;
                border-radius: 180px;
-               border: 0;
                font-weight: 800;
+               text-align: center;
                color: #555;
                background-color: #e5e4e2;
-               display: block;
-               box-sizing: border-box;
-               outline: none;
-               -webkit-appearance: none;
-               appearance: none;
-               padding-left: 30px;
-               margin-right: 30px;
           }
-
-          .page-title::placeholder {
-               color: #555;
-               opacity: 1;
-               text-align: center;
-               padding-right: 20px;
-          }
-
-          .page-title:focus::placeholder {
-               color: transparent;
-          }
-
-          .search-icon {
-               position: relative;
-               fill: #4b4b4b;
-               right: 5px;
-          }
+          
      }
 
      .header-session {
@@ -82,7 +53,7 @@
 
           .header-user {
                display: block;
-               margin-left: 16px;
+               margin-right: 12px;
                width: 46px;
                height: 46px;
                background-color: #d5d5d5;
@@ -100,6 +71,7 @@
                padding: 8px;
                height: 42px;
                width: 42px;
+               background-color: #e5e4e2;
                border-radius: 50%;
           }
 
@@ -473,7 +445,6 @@
 
      .cafe-identification .team-members {
           display: flex;
-          width: 33%;
      }
 
      .cafe-identification .team-member {
@@ -483,54 +454,17 @@
      }
 
      .cafe-identification .team-member:not(:first-child) {
-          margin-left: -35px;
+          margin-left: 12px;
           z-index: 1;
      }
 
      .cafe-identification .team-member-photo {
           display: block;
-          height: 60px;
-          width: 60px;
-          border-radius: 50%;
-          object-fit: cover;
-          margin: 7px 4px ;
-          transition: 0.3s;
-     }
-
-     .cafe-identification .team-member:hover .team-member-photo {
-          transform: scale(1.1);
-     }
-
-     .cafe-identification .team-member:not(:first-child) {
-          margin-left: -35px;
-          z-index: 1;
-     }
-
-     .team-members:hover .team-member-photo {
-          display: block;
           height: 80px;
           width: 80px;
           border-radius: 50%;
           object-fit: cover;
-          margin: 7px 7px;
-          transition: 0.3s;
-     }
-
-     .team-members:hover .team-member:not(:first-child) .team-member-photo {
-          margin: 7px 40px 
-     }
-
-     .team-members:hover .team-member-info {
-          margin-top: 0px;
-          opacity: 1;
-          transition: 0.1s;
-     }
-     
-     .cafe-identification .team-member-info {
-          margin-top: -40px;
-          opacity: 0;
-          transition: 0.1s;
-          z-index: -1;
+          margin: 7px 4px 
      }
 
      .cafe-identification .team-member-name {
