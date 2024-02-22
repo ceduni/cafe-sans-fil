@@ -43,7 +43,7 @@ function createGroupBox(category, onclick) {
 
   groupBox.addEventListener("click", (event) => {
     onclick(groupBox);
-    groupBox.scrollIntoView(false);
+    // groupBox.scrollIntoView(false);
   });
 
   return groupBox;
