@@ -298,7 +298,13 @@
      border-radius: 12px;
      background-color: #f5f5f5;
      box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-     margin-bottom: 800px;
+     margin-bottom: 0;
+}
+
+@media screen and (min-width: 60em){
+     .menu-section {
+          margin-bottom: 800px;
+     }
 }
 
      .menu-section .accepted-payments {
