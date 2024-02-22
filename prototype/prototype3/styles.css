@@ -570,8 +570,7 @@
           font-size: 0.8em;
      }
 
-
-
+     
 /*
   POST/EVENT SECTION
 ----------------------------------------------------------------------*/
@@ -699,6 +698,7 @@
           font-size: 0.95em;
           font-weight: bold;
           color: crimson;
+          cursor: pointer;
      }
 
      .post-image {
@@ -708,6 +708,7 @@
           object-fit: cover;
           border-radius: 12px;
           margin-top: 12px;
+          cursor: pointer;
      
      }
 
