@@ -514,6 +514,7 @@
           }
 
      .cafe-identification .team-members {
+          margin-left: 4px;
           display: flex;
           width: 33%;
      }
@@ -540,13 +541,12 @@
           box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
      }
 
-     .cafe-identification .team-member:hover .team-member-photo {
-          transform: scale(1.1);
-          cursor: pointer;
+     .cafe-identification .getbig:hover .team-member-photo {
+          transform: scale(1.05);
      }
 
      .cafe-identification .team-member:not(:first-child) {
-          margin-left: -35px;
+          margin-left: -25px;
           z-index: 1;
      }
 
@@ -561,7 +561,7 @@
      }
 
      .team-members:hover .team-member:not(:first-child) .team-member-photo {
-          margin: 7px 40px 
+          margin: 7px 36px 
      }
 
      .team-members:hover .team-member-info {
