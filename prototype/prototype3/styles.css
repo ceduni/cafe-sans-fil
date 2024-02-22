@@ -29,10 +29,14 @@
           display: none;
      }
 
+     .search-bar {
+          display: flex;
+     }
      .search-icon {
           position: absolute;
+          top: 20px;
           right: 125px;
-          fill: #4b4b4b;
+          fill: #6b6b6b;
           cursor: pointer;
      }
 
@@ -53,7 +57,7 @@
                outline: none;
                -webkit-appearance: none;
                appearance: none;
-               padding-left: 30px;
+               padding-left: 42px;
                margin-right: 30px;
           }
 
@@ -61,17 +65,27 @@
                color: #555;
                opacity: 1;
                text-align: center;
+               margin-right: 12px;
           }
 
           .page-title:focus::placeholder {
                color: transparent;
           }
-
+          
           .search-icon {
                position: relative;
-               fill: #4b4b4b;
-               right: 5px;
+               fill: #6b6b6b;
+               right: -37px;
+               top: 5px;
           }
+
+          .search-bar:hover .search-icon {
+               position: relative;
+               fill: #4b4b4b;
+               right: -37px;
+               top: 5px;
+          }
+
      }
 
      .header-session {
@@ -135,7 +149,7 @@
 
      .cafe-header .status {
           position: absolute;
-          top: -20px;
+          top: -18px;
           left: calc(50% - 150px);
           display: flex; flex-direction: row; place-items: center; justify-content: center;
           padding: 12px; padding-top: 42px;
@@ -150,7 +164,7 @@
      }
 
           .cafe-header .status:hover {
-               top: -18px;
+               top: -14px;
                transition: 0.2s;
           }
 
@@ -161,6 +175,7 @@
                border-radius: 50%;
                margin-right: 12px;
                background-color: #63B76C;
+               margin-bottom: 12px;
 
           }
                .cafe-header .status-icon:after {
@@ -186,7 +201,7 @@
                     font-size: 0.6em;
                     font-weight: 400;
                     color: #aaa;
-                    margin: 18px 53px 0 0 ;
+                    margin: 22px 52px 0 0;
                 }
                 
 
