@@ -144,7 +144,17 @@
      align-items: flex-end;
      justify-content: space-between;
      background: url(https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/b108d192-c9ea-4827-18a0-ccb528642f00/public) center/cover no-repeat;
-     overflow: hidden;
+     overflow: hidden;;
+}
+
+@media screen and (min-width: 60em) {
+     .cafe-header {
+          margin: 64px 28px 0 28px;
+          border-bottom-right-radius: 40px;
+          border-bottom-left-radius: 40px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+     }
+     
 }
 
      .cafe-header .status {
@@ -215,6 +225,7 @@
                height: 140px;
                object-fit: cover;
                border-top-right-radius: 30px;
+               box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                transition: 0.2s;
           }
 
@@ -222,6 +233,7 @@
                .cafe-brand .cafe-logo {
                     height: 195px;
                     transition: 0.2s;
+                    border-top-right-radius: 40px;
                }
           }
 
@@ -240,7 +252,7 @@
                padding: 7px;
                background-color: #f4f4f4;
                border-radius: 46%;
-               box-shadow: 0 1px 4px 2px rgba(0, 0, 0, 0.3);
+               box-shadow: 0 1px 4px 2px rgba(0, 0, 0, 0.4);
           }
 
                .cafe-brand .social-img {
@@ -346,26 +358,27 @@
                grid-template-columns: repeat(2, 1fr);
                grid-template-rows: repeat(2, 1fr);
           }
-     }
 
-     .group-box[data-index="0"].active {
-          grid-column-start: span 2;
-          grid-row-start: span 2;
-     }
+          .group-box[data-index="0"].active {
+               grid-column-start: span 2;
+               grid-row-start: span 2;
+          }
+     
+          .group-box[data-index="1"].active {
+               grid-column-start: span 2;
+               grid-row-start: span 2;
+          }
+     
+          .group-box[data-index="2"].active {
+               grid-column-start: span 2;
+               grid-row-start: span 2;
+          }
+     
+          .group-box[data-index="3"].active {
+               grid-column-start: span 2;
+               grid-row-start: span 2;
+          }
 
-     .group-box[data-index="1"].active {
-          grid-column-start: span 2;
-          grid-row-start: span 2;
-     }
-
-     .group-box[data-index="2"].active {
-          grid-column-start: span 2;
-          grid-row-start: span 2;
-     }
-
-     .group-box[data-index="3"].active {
-          grid-column-start: span 2;
-          grid-row-start: span 2;
      }
 
      .group-box {
