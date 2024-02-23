@@ -174,7 +174,7 @@
           border-radius: 18px;
           background-color: #232425f0;
           box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.95);
-          transition: 0.1s;
+          transition: 0.2s;
           cursor: pointer;
      }
 
@@ -185,6 +185,7 @@
 
      .cafe-header .status:not(.active) .schedule {
           display: none;
+          transition: 0.2s;
      }
 
      .schedule {
@@ -192,6 +193,7 @@
           display: grid;
           grid-template-columns: auto auto auto;
           gap: 18px;
+          transition: 0.2s;
         }
         
         .day {
@@ -461,13 +463,13 @@
 
           .group-box:not(.active) .item-img {
                /* dim */
-               opacity: 0.9;
+               opacity: 0.8;
                border-radius: 15px;
           }
 
           .group-box.active .item-img {
-               width: 125px;
-               height: 125px;
+               width: 145px;
+               height: 145px;
                cursor: pointer;
                margin: 15px 8px;
           }
@@ -506,8 +508,8 @@
 
      .item-img {
           display: block;
-          width: 90px;
-          height: 90px;
+          width: 85px;
+          height: 85px;
           margin: 7px;
           border-radius: 22px;
           background-color: #646cff;
@@ -533,6 +535,11 @@
      box-shadow: -1px 0 2px -1px #000;
      z-index: 5;
 }
+
+     .cafe-identification .bare {
+          margin-top: 2px;
+          margin-bottom: 2px;
+     }
 
      .cafe-location-container {
           display: flex;
