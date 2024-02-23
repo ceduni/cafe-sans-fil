@@ -22,10 +22,12 @@
         <nav>
             <img class="header-logo" src="assets/logo_text.png" alt="Café sans-fil" />
         </nav>
-        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="28" height="28" viewBox="0 0 72 72" class="search-icon">
-            <path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path>
-        </svg>
-        <input type="search" class="page-title" placeholder="Tore et Fraction">
+        <div class="search-bar">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="28" height="28" viewBox="0 0 72 72" class="search-icon">
+                <path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path>
+            </svg>
+            <input type="search" class="page-title" placeholder="Tore et Fraction">
+        </div>
         <div class="header-session">
             <div class="header-cart">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path></svg>
@@ -43,6 +45,10 @@
             <div class="status">
                 <i class="status-icon"></i>
                 <span class="status-text">Ouvert &bull; <strong>Ferme à 18:00</strong></span>
+                <span class="status-text-more">Voir plus d'heures</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="height: 12px; width: 12px; fill: grey;
+                position: absolute; bottom: 10.5px; right: 113px;
+                "><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
             </div>
             <div class="cafe-brand">
                 <img class="cafe-logo" src="assets/logo_tore_fraction.jpg" alt="Logo du café">
@@ -77,7 +83,7 @@
                                 d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <p class="bare">Carte de débit <strong>(min 8.00 $)</strong></p>
+                        <p class="bare">Carte de débit <strong>(min 4.00 $)</strong></p>
                     </div>
                     
                     <div class="accepted-payment">
@@ -88,7 +94,7 @@
                                 d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <p class="bare">Carte de crédit <strong>(min 5.00 $)</strong></p>
+                        <p class="bare">Carte de crédit <strong>(min 4.00 $)</strong></p>
                     </div>
                 </div>
 
@@ -118,19 +124,23 @@
                     <li class="appliance">Machine à café</li>
                 </ul>
 
-                <h3 class="title">Staff</h3>
+                <h3 class="title">Contact</h3>
                 <ul class="bare-list team-members">
                     <li class="team-member">
-                        <img class="team-member-photo"
-                        src="https://tse4.mm.bing.net/th?id=OIP.UGlKxiZQylR3CnJIXSbFIAHaLL&pid=Api&f=1&ipt=1afd981963c9f8942c9bb36c06e79b63af6ab5c38ede9ac8b8cfc4eb516ac97d&ipo=images">
+                        <a href="mailto:toreetfraction@gmail.com" class="getbig">
+                            <img class="team-member-photo"
+                            src="https://tse4.mm.bing.net/th?id=OIP.UGlKxiZQylR3CnJIXSbFIAHaLL&pid=Api&f=1&ipt=1afd981963c9f8942c9bb36c06e79b63af6ab5c38ede9ac8b8cfc4eb516ac97d&ipo=images">
+                        </a>
                         <div class="team-member-info">
                             <h3 class="team-member-name">Jeremy</h3>
                             <span class="team-member-role">Gérant</span>
                         </div>
                     </li>
                     <li class="team-member">
-                        <img class="team-member-photo"
-                        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F1040881%2Fpexels-photo-1040881.jpeg%3Fauto%3Dcompress%26cs%3Dtinysrgb%26h%3D650%26w%3D940&f=1&nofb=1&ipt=660b452f4c0466f7128d71cd60ef464d75d20ed4b0d2dcfb9338f861a0e2e9be&ipo=images">
+                        <a href="mailto:toreetfraction@gmail.com" class="getbig">
+                            <img class="team-member-photo"
+                            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F1040881%2Fpexels-photo-1040881.jpeg%3Fauto%3Dcompress%26cs%3Dtinysrgb%26h%3D650%26w%3D940&f=1&nofb=1&ipt=660b452f4c0466f7128d71cd60ef464d75d20ed4b0d2dcfb9338f861a0e2e9be&ipo=images">
+                        </a>
                         <div class="team-member-info">
                             <h3 class="team-member-name">Simon</h3>
                             <span class="team-member-role">Gérant</span>
@@ -155,27 +165,27 @@
                     <div id="posts" class="tab-content active">
                         <div class="post">
                             <div class="post-header">
-                                <h3 class="post-title">Distribution de Chocolat Gratuit</h3>
+                                <h3 class="post-title">Chocolat Gratuits au Café!</h3>
                                 <span class="post-date">Il y a 4 jours</span>
                             </div>
 
                             <p class="post-content">
-                                <span class="post-author">Tore et Fraction:</span> Pour égayer votre journée,
-                                passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour
-                                tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses
-                                café
+                                <span class="post-author">Tore et Fraction:</span> Passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour
+                                tous nos visiteurs. 🍫
+                                <img src="assets/chocolat.webp" class="post-image" alt="Chocolat">
                             </p>
                         </div>
 
                         <div class="post">
                             <div class="post-header">
-                                <h3 class="post-title">Soirée Saint-Valentin au Café Campus!</h3>
+                                <h3 class="post-title">Soirée Saint-Valentin</h3>
                                 <span class="post-date">Il y a 10 jours</span>
                             </div>
                             <p class="post-content">
                                 <span class="post-author">Tore et Fraction:</span>
                                 Rejoignez-nous pour une soirée romantique pleine de surprises et de douceur. 
-                                Amenez votre valentin(e) ou venez rencontrer votre âme sœur. Musique douce, ambiance chaleureuse et boissons spéciales vous attendent ce 14 février.
+                                Amenez votre valentin(e) ou venez rencontrer votre âme sœur. Musique douce, ambiance chaleureuse et boissons spéciales vous attendent ce 14 février. 💘
+                                <img src="assets/valentin.webp" class="post-image" alt="Valentin">
                             </p>
                         </div>
                     </div>

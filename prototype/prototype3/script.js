@@ -20,12 +20,28 @@ function div(options) {
   return element;
 }
 
-function createGroupBox(category, onclick) {
-  const items = (nb) =>
-    `
-    <div class="group-item">
-    </div>
-    `.repeat(nb);
+function fetchImageUrls(category) {
+  const filename = category.toLowerCase().replace(/\s+/g, '') + '.json';
+  const filepath = `./assets/${filename}`;
+  return fetch(filepath)
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => console.error('Error fetching image URLs:', error));
+}
+
+async function createGroupBox(category, onclick) {
+  const imageUrls = await fetchImageUrls(category.name).catch(error => {
+    console.error('Error fetching image URLs:', error);
+    return [];
+  });
+
+  const itemCount = 5 + randint(10);
+
+  const items = (urls, count) => {
+    return urls.slice(0, count).map(url =>
+      `<img src="${url}" class="group-item" alt="Item Image">`
+    ).join('');
+  };
 
   const groupBox = div({
     class: ["group-box"],
@@ -33,17 +49,23 @@ function createGroupBox(category, onclick) {
       index: category.index
     }
   });
+
+  let urlsToUse = imageUrls;
+  while (urlsToUse.length < itemCount) {
+    urlsToUse = urlsToUse.concat(imageUrls);
+  }
+
   groupBox.innerHTML = `
         <h4 class="group-box-title">${category.name}</h4>
         <div class="group-box-items">
-            ${items(5 + randint(10))}
+            ${items(urlsToUse, itemCount)}
         </div>
         `;
   groupBox.tabIndex = 0;
 
   groupBox.addEventListener("click", (event) => {
     onclick(groupBox);
-    groupBox.scrollIntoView(true);
+    // groupBox.scrollIntoView(false);
   });
 
   return groupBox;
@@ -53,24 +75,23 @@ function createGroupBox(category, onclick) {
  *
  * @param {HTMLElement} menu
  */
-function setupMenu(app, menu) {
+async function setupMenu(app, menu) {
   let active = null;
-  categories.forEach((category, index) => {
-    menu.append(
-      createGroupBox({ name: category, index: index }, (box) => {
-        if (active && active !== box) {
-          active.classList.remove("active");
-        }
-        if (active === box) {
-          return;
-        }
-        active = box;
-        active.classList.add("active");
-        menu.classList.add("active");
-        menu.dataset.selected = active.dataset.index;
-      })
-    );
-  });
+  for (const category of categories) {
+    const groupBox = await createGroupBox({ name: category, index: categories.indexOf(category) }, (box) => {
+      if (active && active !== box) {
+        active.classList.remove("active");
+      }
+      if (active === box) {
+        return;
+      }
+      active = box;
+      active.classList.add("active");
+      menu.classList.add("active");
+      menu.dataset.selected = active.dataset.index;
+    });
+    menu.append(groupBox);
+  }
 
   app.addEventListener("click", (event) => {
     const target = event.target;
@@ -85,7 +106,6 @@ function setupMenu(app, menu) {
     }
   });
 }
-
 const app = document.querySelector("#app");
 const menu = document.querySelector("#menu");
 

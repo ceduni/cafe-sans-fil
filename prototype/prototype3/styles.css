@@ -22,16 +22,22 @@
 
      .header-logo {
           height: 95%;
+          cursor: pointer;
      }
 
      .page-title {
           display: none;
      }
 
+     .search-bar {
+          display: flex;
+     }
      .search-icon {
           position: absolute;
+          top: 20px;
           right: 125px;
-          fill: #4b4b4b;
+          fill: #6b6b6b;
+          cursor: pointer;
      }
 
      @media screen and (min-width: 48em) {
@@ -51,7 +57,7 @@
                outline: none;
                -webkit-appearance: none;
                appearance: none;
-               padding-left: 30px;
+               padding-left: 42px;
                margin-right: 30px;
           }
 
@@ -59,18 +65,27 @@
                color: #555;
                opacity: 1;
                text-align: center;
-               padding-right: 20px;
+               margin-right: 12px;
           }
 
           .page-title:focus::placeholder {
                color: transparent;
           }
-
+          
           .search-icon {
                position: relative;
-               fill: #4b4b4b;
-               right: 5px;
+               fill: #6b6b6b;
+               right: -37px;
+               top: 5px;
           }
+
+          .search-bar:hover .search-icon {
+               position: relative;
+               fill: #4b4b4b;
+               right: -37px;
+               top: 5px;
+          }
+
      }
 
      .header-session {
@@ -87,6 +102,7 @@
                height: 46px;
                background-color: #d5d5d5;
                border-radius: 50%;
+               cursor: pointer;
           }
 
           .header-user img {
@@ -101,6 +117,7 @@
                height: 42px;
                width: 42px;
                border-radius: 50%;
+               cursor: pointer;
           }
 
           .header-cart svg {
@@ -126,8 +143,18 @@
      display: flex;
      align-items: flex-end;
      justify-content: space-between;
-     background: url(assets/cafekine-1-Xvj.png) center/cover no-repeat;
-     overflow: hidden;
+     background: url(https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/b108d192-c9ea-4827-18a0-ccb528642f00/public) center/cover no-repeat;
+     overflow: hidden;;
+}
+
+@media screen and (min-width: 60em) {
+     .cafe-header {
+          margin: 64px 28px 0 28px;
+          border-bottom-right-radius: 40px;
+          border-bottom-left-radius: 40px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+     }
+     
 }
 
      .cafe-header .status {
@@ -142,7 +169,14 @@
           border-radius: 18px;
           background-color: #232425f0;
           box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.95);
+          transition: 0.1s;
+          cursor: pointer;
      }
+
+          .cafe-header .status:hover {
+               top: -14px;
+               transition: 0.2s;
+          }
 
           .cafe-header .status-icon {
                position: relative;
@@ -151,6 +185,7 @@
                border-radius: 50%;
                margin-right: 12px;
                background-color: #63B76C;
+               margin-bottom: 12px;
 
           }
                .cafe-header .status-icon:after {
@@ -167,9 +202,18 @@
                }
 
                .cafe-header .status-text {
+                    margin-bottom: 12px;
                     font-size: 0.9em;
                }
 
+               .cafe-header .status-text-more {
+                    position: absolute;
+                    font-size: 0.6em;
+                    font-weight: 400;
+                    color: #aaa;
+                    margin: 22px 52px 0 0;
+                }
+                
 
      .cafe-brand {
           display: flex;
@@ -178,15 +222,25 @@
      }
 
           .cafe-brand .cafe-logo {
-               height: 180px;
+               height: 140px;
                object-fit: cover;
-               border-top-right-radius: 16px;
+               border-top-right-radius: 30px;
+               box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+               transition: 0.2s;
+          }
+
+          @media screen and (min-width: 44em) {
+               .cafe-brand .cafe-logo {
+                    height: 195px;
+                    transition: 0.2s;
+                    border-top-right-radius: 40px;
+               }
           }
 
           .cafe-brand .socials {
                display: flex;
-               margin-left: 18px;
-               padding-bottom: 12px;
+               margin-left: 22px;
+               padding-bottom: 15px;
           }
 
           .cafe-brand .social {
@@ -197,8 +251,8 @@
                border-radius: 4px;
                padding: 7px;
                background-color: #f4f4f4;
-               border-radius: 42%;
-               box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+               border-radius: 46%;
+               box-shadow: 0 1px 4px 2px rgba(0, 0, 0, 0.4);
           }
 
                .cafe-brand .social-img {
@@ -216,9 +270,16 @@
           'comm';
      /* grid-template-columns: minmax(600px, 50%); */
      gap: 1vw;
-     /* margin-top: 24px; */
-     margin: 25px 20px 0 20px;
-     padding-left: 2vw; padding-right: 2vw; padding-bottom: 24px;
+     margin: 27px 0px;
+     /* margin: 27px 20px 0 20px; */
+     padding-left: 0; padding-right: 0; padding-bottom: 24px;
+}
+
+
+@media screen and (min-width: 40em) {
+     .main-body {
+          padding-left: 2vw; padding-right: 2vw; padding-bottom: 24px;
+     }
 }
 
 
@@ -229,7 +290,9 @@
           'menu menu comm';
           grid-template-columns: repeat(3, 1fr);
           grid-template-rows: auto 1fr;
+          margin: 27px 20px 0 20px;
           /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+          padding-left: 2vw; padding-right: 2vw; padding-bottom: 24px;
      }
 }
 
@@ -239,14 +302,21 @@
 
 .menu-section {
      grid-area: menu;
-     position: relative;
+     position: sticky;
      min-width: 50%;
      /* flex-grow: 2; */
      padding: 12px;
      /* border: 2px solid #d5d5d5; */
      border-radius: 12px;
      background-color: #f5f5f5;
-     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+     margin-bottom: 0;
+}
+
+@media screen and (min-width: 60em){
+     .menu-section {
+          margin-bottom: 800px;
+     }
 }
 
      .menu-section .accepted-payments {
@@ -288,26 +358,27 @@
                grid-template-columns: repeat(2, 1fr);
                grid-template-rows: repeat(2, 1fr);
           }
-     }
 
-     .group-box[data-index="0"].active {
-          grid-column-start: span 2;
-          grid-row-start: span 2;
-     }
+          .group-box[data-index="0"].active {
+               grid-column-start: span 2;
+               grid-row-start: span 2;
+          }
+     
+          .group-box[data-index="1"].active {
+               grid-column-start: span 2;
+               grid-row-start: span 2;
+          }
+     
+          .group-box[data-index="2"].active {
+               grid-column-start: span 2;
+               grid-row-start: span 2;
+          }
+     
+          .group-box[data-index="3"].active {
+               grid-column-start: span 2;
+               grid-row-start: span 2;
+          }
 
-     .group-box[data-index="1"].active {
-          grid-column-start: span 2;
-          grid-row-start: span 2;
-     }
-
-     .group-box[data-index="2"].active {
-          grid-column-start: span 2;
-          grid-row-start: span 2;
-     }
-
-     .group-box[data-index="3"].active {
-          grid-column-start: span 2;
-          grid-row-start: span 2;
      }
 
      .group-box {
@@ -317,8 +388,9 @@
           padding: 12px;
           border-radius: 10px;
           background-color: #ffffff9c;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
           min-height: 200px;
+          cursor: pointer;
      }
 
      .group-box-title {
@@ -339,6 +411,7 @@
      .group-box.active {
           color: #fff;
           background-color: #232425;
+          cursor: default;
 
      }
           .group-box:not(.active):hover .group-item {
@@ -348,6 +421,7 @@
           .group-box.active .group-item {
                width: 120px;
                height: 120px;
+               cursor: pointer;
           }
 
      .group-box-items {
@@ -363,6 +437,7 @@
           border-radius: 12px;
           background-color: #646cff;
           transition: 0.2s;
+          object-fit: cover;
      }
 
 
@@ -414,10 +489,10 @@
 
      .cafe-identification .title {
           font-size: 2em;
-          font-weight: bold;
+          font-weight: 700;
           margin-top: 6px;
           margin-bottom: 6px;
-          font-size: 1.8em;
+          font-size: 1.75em;
           text-transform: lowercase;
      }
           .cafe-identification .title::first-letter {
@@ -440,6 +515,7 @@
           }
 
      .cafe-identification .team-members {
+          margin-left: 4px;
           display: flex;
           width: 33%;
      }
@@ -449,12 +525,12 @@
           flex-direction: column;
           place-items: center;
      }
-
+     
      .cafe-identification .team-member:not(:first-child) {
           margin-left: -35px;
           z-index: 1;
      }
-
+     
      .cafe-identification .team-member-photo {
           display: block;
           height: 60px;
@@ -463,14 +539,15 @@
           object-fit: cover;
           margin: 7px 4px ;
           transition: 0.3s;
+          box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
      }
 
-     .cafe-identification .team-member:hover .team-member-photo {
-          transform: scale(1.1);
+     .cafe-identification .getbig:hover .team-member-photo {
+          transform: scale(1.05);
      }
 
      .cafe-identification .team-member:not(:first-child) {
-          margin-left: -35px;
+          margin-left: -25px;
           z-index: 1;
      }
 
@@ -485,7 +562,7 @@
      }
 
      .team-members:hover .team-member:not(:first-child) .team-member-photo {
-          margin: 7px 40px 
+          margin: 7px 36px 
      }
 
      .team-members:hover .team-member-info {
@@ -503,18 +580,17 @@
 
      .cafe-identification .team-member-name {
           margin-top: 2px;
-          font-size: 1.1em;
-          font-weight: 300;
+          font-size: 1em;
+          font-weight: 400;
           margin: 0;
      }
 
      .cafe-identification .team-member-role {
-          font-weight: 500;
-          font-size: 0.9em;
+          font-weight: 600;
+          font-size: 0.8em;
      }
 
-
-
+     
 /*
   POST/EVENT SECTION
 ----------------------------------------------------------------------*/
@@ -526,6 +602,8 @@
      padding: 12px;
      border-radius: 8px;
      background-color: #e5e6ed9f;
+     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+     height: 760px;
 }
 
 
@@ -535,6 +613,7 @@
      right: 16px;
      height: 20px;
      width: 20px;
+     cursor: pointer;
 }
 
 @media screen and (min-width: 80em) {
@@ -632,14 +711,26 @@
 
      .post-content {
           font-size: 1.4em;
+          margin-top: 6px;
      }
 
      .post-author {
           font-size: 0.95em;
           font-weight: bold;
           color: crimson;
+          cursor: pointer;
      }
 
+     .post-image {
+          display: block;
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 12px;
+          margin-top: 12px;
+          cursor: pointer;
+     
+     }
 
 .card-container {
      margin-bottom: 1rem;
@@ -686,11 +777,13 @@
 .event-name {
      font-weight: bold;
      padding-bottom: 5px;
+     margin-bottom: 7px;
 }
 
 .event-location {
      width: 90%;
      font-weight: 300;
+     margin-bottom: 30px;
 }
     
 
