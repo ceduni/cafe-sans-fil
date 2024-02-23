@@ -172,24 +172,24 @@
           font-size: 1.7em; font-weight: 500;
           color: #fff;
           border-radius: 18px;
-          background-color: #232425f0;
+          background-color: #232425f7;
           box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.95);
-          transition: 0.2s;
+          transition: 0.12s;
           cursor: pointer;
      }
 
      .cafe-header .status:hover {
-          background-color: #232425fb;
+          background-color: #232425;
      }
 
      .cafe-header .status.active {
           height: 66%;
-          transition: 0.2s;
+          transition: 0.1s;
      }
 
      .cafe-header .status:not(.active) .schedule {
           display: none;
-          transition: 0.2s;
+          transition: 0.1s;
      }
 
      .schedule {
@@ -197,7 +197,7 @@
           display: grid;
           grid-template-columns: auto auto auto;
           gap: 18px;
-          transition: 0.2s;
+          transition: 0.1s;
         }
         
         .day {
