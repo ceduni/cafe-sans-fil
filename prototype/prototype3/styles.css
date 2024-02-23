@@ -121,7 +121,12 @@
           }
 
           .header-cart svg {
-               stroke: #999;
+               stroke: #646464;
+          }
+          
+          .header-cart:hover svg {
+               stroke: #4f83fd;
+               transition: 0.2s;
           }
 
                .header-cart:hover svg {
@@ -657,8 +662,13 @@
           padding: 4px;
           background-color: #fff;
           border-radius: 50%;
+          transition: 0.2s;
      }
      
+     .notification-wrapper:hover {
+          background-color: #ffe1e1;
+          transition: 0.2s;
+     }
 }
 
      .notification-icon {
