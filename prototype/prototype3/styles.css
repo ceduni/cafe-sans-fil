@@ -178,7 +178,43 @@
           cursor: pointer;
      }
 
-          .cafe-header .status:hover {
+     .cafe-header .status.active {
+          height: 66%;
+          transition: 0.2s;
+     }
+
+     .cafe-header .status:not(.active) .schedule {
+          display: none;
+     }
+
+     .schedule {
+          font-size: 1.3rem;
+          display: grid;
+          grid-template-columns: auto auto auto;
+          gap: 18px;
+        }
+        
+        .day {
+          font-weight: 700;
+        }
+        
+        .time {
+          font-weight: 300;
+          text-align: left;
+        }
+
+        .current-time {
+          color: rgb(56, 142, 255);
+          /* font-size: 1.33rem; */
+          font-weight: 800;
+        }
+
+     .cafe-header .status.active .status-simple-hidden {
+          display: none;
+          transition: 0.2s;
+     }
+
+          .cafe-header .status:not(.active):hover {
                top: -14px;
                transition: 0.2s;
           }
@@ -426,6 +462,7 @@
           .group-box:not(.active) .item-img {
                /* dim */
                opacity: 0.9;
+               border-radius: 15px;
           }
 
           .group-box.active .item-img {
@@ -443,12 +480,15 @@
 
           .group-box.active .item-name {
                font-size: 1.2em;
-               font-weight: 900;
+               font-weight: 700;
+               margin-left: 8px;
           }
 
           .group-box.active .item-price {
                font-size: 1.2em;
-               font-weight: 600;
+               font-weight: 300;
+               margin-left: 8px;
+               margin-bottom: 7px;
           }
 
           .group-box:not(.active) .item-name {
@@ -469,7 +509,7 @@
           width: 90px;
           height: 90px;
           margin: 7px;
-          border-radius: 12px;
+          border-radius: 22px;
           background-color: #646cff;
           transition: 0.2s;
           object-fit: cover;
@@ -666,7 +706,7 @@
      }
      
      .notification-wrapper:hover {
-          background-color: #ffe1e1;
+          background-color: #ffd8d8;
           transition: 0.2s;
      }
 }
@@ -801,9 +841,14 @@
      display: flex; flex-direction: column; place-items: center; justify-content: center;
      width: 84px;
      height: 84px;
-     border-radius: 5px;
+     border-radius: 8px;
      background-color: rgb(31, 124, 246);
      cursor: pointer;
+}
+
+.event-date:hover {
+     background-color: rgb(29, 110, 216);
+     transition: 0.15s;
 }
      .event-date .day { font-weight: 300; }
      .event-date .month { font-weight: 600; }

@@ -177,3 +177,10 @@ function openTab(tabName) {
   document.getElementById(tabName).classList.add("active");
   event.currentTarget.classList.add("active");
 }
+
+
+document.querySelectorAll('.status').forEach(function(element) {
+  element.addEventListener('click', function() {
+    this.classList.toggle('active');
+  });
+});
