@@ -415,7 +415,7 @@
 
      }
           .group-box:not(.active):hover .item-img {
-               transform: scale(1.05);
+               transform: scale(1.04);
           }
 
           .group-box:not(.active) .item-img {
@@ -430,7 +430,18 @@
                margin: 15px 8px;
           }
 
+          .group-box.active .item-img:hover {
+               transform: scale(1.05);
+               filter: brightness(110%);
+          }
+
+
           .group-box.active .item-name {
+               font-size: 1.2em;
+               font-weight: 900;
+          }
+
+          .group-box.active .item-price {
                font-size: 1.2em;
                font-weight: 600;
           }
@@ -781,7 +792,8 @@
      width: 84px;
      height: 84px;
      border-radius: 5px;
-     background-color: rgb(48, 110, 191);
+     background-color: rgb(31, 124, 246);
+     cursor: pointer;
 }
      .event-date .day { font-weight: 300; }
      .event-date .month { font-weight: 600; }
