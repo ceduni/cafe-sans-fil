@@ -315,6 +315,7 @@
           border-radius: 2px;
           background-color: #646cff;
           transition: 0.2s;
+          object-fit: cover;
      }
 
 

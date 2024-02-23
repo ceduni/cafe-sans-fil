@@ -437,6 +437,7 @@
           border-radius: 12px;
           background-color: #646cff;
           transition: 0.2s;
+          object-fit: cover;
      }
 
 
