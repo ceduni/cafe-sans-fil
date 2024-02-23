@@ -178,6 +178,10 @@
           cursor: pointer;
      }
 
+     .cafe-header .status:hover {
+          background-color: #232425fb;
+     }
+
      .cafe-header .status.active {
           height: 66%;
           transition: 0.2s;
@@ -458,7 +462,8 @@
 
      }
           .group-box:not(.active):hover .item-img {
-               transform: scale(1.04);
+               transform: scale(1.025);
+               opacity: 0.95;
           }
 
           .group-box:not(.active) .item-img {
