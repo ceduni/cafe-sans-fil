@@ -207,38 +207,103 @@
                     object-fit: cover;
                }
 
-               .cafe-hours ul {
-                    background-color: rgba(128, 128, 128, 0.5); 
-                    border-radius: 5px;
-                    padding: 10px; 
-                    width: 300px; 
-                    list-style-type: none; 
-                }
-                
-                .cafe-hours p{
-                    font-size: 18px;
-                    margin-bottom: 0px;
 
-                }
+.card{
+     border: none;
+     width: 260px;
+     padding:0px;
+     background-color: transparent;    
+     border: none;
+}
 
-                .cafe-hours li {
-                    font-size: 15px;
-                    color: #FFF; 
-                }
-                
-                .day {
-                    font-weight: bold; 
-                    color: #FFF;                    
-                    border-radius: 3px;                     
-                    margin-right: 0px; 
-                    display: inline-block; 
-                }
-                
-                .time {
-                    color: #FFF; 
-                }
-                
+.card-header{    
+     color: #FFF; 
+     padding-left: 0px;
+}
 
+.card-header strong{     
+     color:white;
+}
+
+.day{
+     font-weight: bold;
+}
+
+.card-header svg{
+     color:white;
+     padding-left: 0px;
+     margin-right: 5px;
+}
+
+.card-header button{
+     background-color:rgba(128, 128, 128, 0.5) ;
+     border: none; 
+     padding: 0px; 
+     padding-right: 5px;
+     margin: 0px; 
+     overflow: hidden; 
+     display: flex; 
+     align-items: center;
+     transition: transform 0.2s ease
+}
+
+.card-header button:hover{
+     transform: scale(1.1);
+}
+
+.card-body {
+     /* background-color:rgba(128, 128, 128, 0.5) ;     */
+     color:white; 
+     padding-left:0px;
+     padding-bottom:0px;   
+     border-radius: 5px;  
+ }
+ 
+
+ .hours-list {
+     list-style: none; /* Enlève les puces de la liste */
+     padding-left: 0; 
+ }
+ 
+ 
+ .hours-list li {
+     background-color: inherit; 
+     color: inherit; 
+ }
+ .contact-staff button{
+     background-color:rgba(128, 128, 128, 0.5) ;
+     border-radius:5px; 
+     padding: 0px; 
+     padding-right: 5px;
+     margin: 0px; 
+     overflow: hidden; 
+     display: flex; 
+     align-items: center;
+     transition: transform 0.2s ease
+ }
+
+ .contact-staff button:hover{
+     transform: scale(1.1);
+ }
+ 
+ 
+ .contact-staff svg,
+ .contact-staff h3 {
+     margin: 0px;
+ }
+ 
+
+ .contact-staff svg {
+     color: white;
+ }
+ 
+ .contact-staff h3 {
+     font-size: 18px; 
+     line-height: 18px; 
+     padding: 0; 
+     color: white;
+ }
+ 
 
 .main-body {
      display: grid;
@@ -674,6 +739,7 @@
 
 
 .card-container {
+     position: relative;
      margin-bottom: 1rem;
      display: grid;
      grid-template-areas:
@@ -685,6 +751,7 @@
      line-height: 1.95em;
      box-sizing: border-box;
      border-radius: 12px;
+     height: 150px;
 }
 
 .photo-container {
@@ -698,8 +765,8 @@
      width: 140px;
 }
 
-.event-date {
-     display: flex; flex-direction: column; place-items: center; justify-content: center;
+/* .event-date {
+     display: flex; flex-direction: row; place-items: center; justify-content: center;
      width: 84px;
      height: 84px;
      border-radius: 5px;
@@ -707,12 +774,38 @@
 }
      .event-date .day { font-weight: 300; }
      .event-date .month { font-weight: 600; }
-     .event-date .hour { font-weight: 300; }
+     .event-date .hour { font-weight: 300; } */
+
+.event-date {
+     position: absolute;
+     top: 10px; /* move it down */
+     left: 165px; /* move it right */
+     background-color: #3070BF;
+     padding: 5px;
+     border-radius: 5px;
+     color: white;
+     }
+
+
+     .image {
+          
+          border-radius: 5px; 
+          overflow: hidden; 
+          margin-right: 10px; 
+      }
+      
+      .image img {
+          width: 130px; 
+          height: 150px; 
+          object-fit: cover; 
+      }
 
 .info-container {
+     margin-top: 40px;
      grid-area: info;
      padding: 1em;
      font-size: 1.5em;
+
 }
 
 .event-name {
@@ -724,7 +817,23 @@
      width: 90%;
      font-weight: 300;
 }
-    
+
+.attendance{
+     position: absolute; 
+     z-index: 10; /* Ensure it's higher than the z-index of siblings if they have one */
+     bottom: 10px; 
+     right: -60px; 
+     /* background-color: red; */
+     width: 100px;
+     padding:0px!important;
+     margin:0px !important;
+     transition: transform 0.2s ease;
+}
+
+.attendance:hover{
+     transform: scale(1.1);
+}
+
 
 #txt {
      /* font-family: Inconsolata; */
