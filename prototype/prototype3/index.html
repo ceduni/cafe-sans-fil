@@ -1,0 +1,341 @@
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="assets/logo_min.png" />
+    <!-- Inter font -->
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300&display=swap" rel="stylesheet">
+
+    <title>Tore et Fraction | Café sans-fil</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="effect.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="page-header">
+        <nav>
+            <img class="header-logo" src="assets/logo_text.png" alt="Café sans-fil" />
+        </nav>
+        <div class="search-bar">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="28" height="28" viewBox="0 0 72 72" class="search-icon">
+                <path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path>
+            </svg>
+            <input type="search" class="page-title" placeholder="Tore et Fraction">
+        </div>
+        <div class="header-session">
+            <div class="header-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path></svg>
+            </div>
+            <span class="header-user">
+                <img src="https://yt3.googleusercontent.com/-CFTJHU7fEWb7BYEb6Jh9gm1EpetvVGQqtof0Rbh-VQRIznYYKJxCaqv_9HeBcmJmIsp2vOO9JU=s900-c-k-c0x00ffffff-no-rj"
+                    alt="">
+            </span>
+        </div>
+    </header>
+
+    <main id="app">
+        <!-- https://codepen.io/crazeddd/pen/abPZWOm pour les publications -->
+        <header class="cafe-header">
+            <div class="status">
+                <div class="schedule">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="height: 12px; width: 12px; fill: grey;
+                    position: absolute; top: 31px; right: 143px; rotate: 180deg;
+                    "><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                    <div class="day">Lundi:</div>
+                    <div class="time">08:00 - 12:00</div>
+                    <div class="time">13:00 - 16:00</div>
+                    
+                    <div class="day">Mardi:</div>
+                    <div class="time">09:00 - 12:00</div>
+                    <div class="time">13:00 - 16:00</div>
+                    
+                    <div class="day">Mercredi:</div>
+                    <div class="time">08:00 - 17:00</div>
+                    <div class="time"></div>
+                    
+                    <div class="day">Jeudi:</div>
+                    <div class="time">10:00 - 17:00</div>
+                    <div class="time"></div>
+                    
+                    <div class="day">Vendredi:</div>
+                    <div class="time">09:00 - 12:00</div>
+                    <div class="time current-time">13:00 - 17:00</div>
+                </div>
+                <i class="status-icon status-simple-hidden"></i>
+                <span class="status-text status-simple-hidden">Ouvert &bull; <strong>Ferme à 17:00</strong></span>
+                <span class="status-text-more status-simple-hidden">Voir plus d'heures</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="status-simple-hidden" style="height: 12px; width: 12px; fill: grey;
+                position: absolute; bottom: 10.5px; right: 113px;
+                "><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+            </div>
+            <div class="cafe-brand">
+                <img class="cafe-logo" src="assets/logo_tore_fraction.jpg" alt="Logo du café">
+                <ul class="bare-list socials">
+                    <li class="social">
+                        <a href="https://www.facebook.com/CafeToreetFraction" target="_blank">
+                            <img class="social-img" src="assets/logo-facebook.svg" alt="Logo de facebook">
+                        </a>
+                    </li>
+                    <li class="social">
+                        <a href="https://www.instagram.com" target="_blank">
+                            <img class="social-img" src="assets/logo-instagram.svg" alt="Logo de instagram"></a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <section class="main-body">
+            <div class="menu-section">
+                <h2 class="section-title">Menu</h2>
+                <div class="accepted-payments">
+                    <div class="accepted-payment">
+                        <span style="font-size: 20px; margin: 0 7px;">  · </span>
+                        <svg class="accepted-payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z"></path>
+                            <path fill-rule="evenodd"
+                                d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="bare">Carte de débit <strong>(min 4.00 $)</strong></p>
+                    </div>
+                    
+                    <div class="accepted-payment">
+                        <span style="font-size: 20px; margin: 0 7px;">  · </span>
+                        <svg class="accepted-payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4 text-gray-500">
+                            <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z"></path>
+                            <path fill-rule="evenodd"
+                                d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="bare">Carte de crédit <strong>(min 4.00 $)</strong></p>
+                    </div>
+                </div>
+
+                <div class="content-wrapper">
+                    <div id="menu" class="menu"></div>
+                </div>
+            </div>
+
+            <!-- evenement et publications -->
+            <div class="cafe-identification">
+                <h3 class="cafe-name">Tore et Fraction</h3>
+                <div class="cafe-location-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon-small">
+                        <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+                    </svg>
+                    <p class="bare cafe-location">
+                        Pavillon André-Aisenstadt, <span style="font-weight: 800; margin-left: 6px;"> local AA-1221 </span>
+                    </p>
+                </div>
+                <p class="bare">Café 100% bénévoles, vue du coucher de soleil magnifique, on remplit votre tasse
+                    pour 0,50$.</p>
+                
+                <div style="display: flex;">
+                    
+                    <svg fill="#ffffff" style="margin-top: 10px; margin-right: 10px;" height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                        viewBox="0 0 512 512" xml:space="preserve">
+                    <g>
+                        <g>
+                            <path d="M461.913,55.652H50.087C22.468,55.652,0,78.12,0,105.739v267.13c0,27.619,22.468,50.087,50.087,50.087h16.696v16.696
+                                c0,9.223,7.473,16.696,16.696,16.696s16.696-7.473,16.696-16.696v-16.696h311.652v16.696c0,9.223,7.473,16.696,16.696,16.696
+                                c9.223,0,16.696-7.473,16.696-16.696v-16.696h16.696c27.619,0,50.087-22.468,50.087-50.087v-267.13
+                                C512,78.12,489.532,55.652,461.913,55.652z M378.435,339.478c0,9.223-7.473,16.696-16.696,16.696H83.478
+                                c-9.223,0-16.696-7.473-16.696-16.696V139.13c0-9.223,7.473-16.696,16.696-16.696h278.261c9.223,0,16.696,7.473,16.696,16.696
+                                V339.478z M445.217,122.435c9.22,0,16.696,7.475,16.696,16.696s-7.475,16.696-16.696,16.696c-9.22,0-16.696-7.475-16.696-16.696
+                                S435.997,122.435,445.217,122.435z M445.217,189.217c9.22,0,16.696,7.475,16.696,16.696c0,9.22-7.475,16.696-16.696,16.696
+                                c-9.22,0-16.696-7.475-16.696-16.696C428.522,196.693,435.997,189.217,445.217,189.217z M461.913,356.174h-33.391
+                                c-9.223,0-16.696-7.473-16.696-16.696c0-9.223,7.473-16.696,16.696-16.696h33.391c9.223,0,16.696,7.473,16.696,16.696
+                                C478.609,348.701,471.136,356.174,461.913,356.174z M461.913,289.391h-33.391c-9.223,0-16.696-7.473-16.696-16.696
+                                c0-9.223,7.473-16.696,16.696-16.696h33.391c9.223,0,16.696,7.473,16.696,16.696C478.609,281.918,471.136,289.391,461.913,289.391
+                                z"/>
+                        </g>
+                    </g>
+                    <g>
+                        <g>
+                            <path d="M328.348,189.217c-9.22,0-16.696,7.475-16.696,16.696v66.783c0,9.22,7.475,16.696,16.696,16.696
+                                s16.696-7.475,16.696-16.696v-66.783C345.043,196.693,337.568,189.217,328.348,189.217z"/>
+                        </g>
+                    </g>
+                    </svg>
+                    <h3 class="title">Appareils</h3>
+                </div>
+                <ul class="bare-list appliances">
+                    <li class="appliance">Micro-ondes</li>
+                    <li class="appliance">Presse panini</li>
+                    <li class="appliance">Machine à café</li>
+                </ul>
+
+                <div style="display: flex;">
+                    <svg height="25px" width="25px" style="margin-top: 10px; margin-right: 10px;" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                        viewBox="0 0 512 512"  xml:space="preserve">
+                    <style type="text/css">
+                        .st0{fill:#ffffff;}
+                    </style>
+                    <g>
+                        <path class="st0" d="M440.917,67.925H71.083C31.827,67.925,0,99.752,0,139.008v233.984c0,39.256,31.827,71.083,71.083,71.083
+                            h369.834c39.255,0,71.083-31.827,71.083-71.083V139.008C512,99.752,480.172,67.925,440.917,67.925z M178.166,321.72l-99.54,84.92
+                            c-7.021,5.992-17.576,5.159-23.567-1.869c-5.992-7.021-5.159-17.576,1.87-23.567l99.54-84.92c7.02-5.992,17.574-5.159,23.566,1.87
+                            C186.027,305.174,185.194,315.729,178.166,321.72z M256,289.436c-13.314-0.033-26.22-4.457-36.31-13.183l0.008,0.008l-0.032-0.024
+                            c0.008,0.008,0.017,0.008,0.024,0.016L66.962,143.694c-6.98-6.058-7.723-16.612-1.674-23.583c6.057-6.98,16.612-7.723,23.582-1.674
+                            l152.771,132.592c3.265,2.906,8.645,5.004,14.359,4.971c5.706,0.017,10.995-2.024,14.44-5.028l0.074-0.065l152.615-132.469
+                            c6.971-6.049,17.526-5.306,23.583,1.674c6.048,6.97,5.306,17.525-1.674,23.583l-152.77,132.599
+                            C282.211,284.929,269.322,289.419,256,289.436z M456.948,404.771c-5.992,7.028-16.547,7.861-23.566,1.869l-99.54-84.92
+                            c-7.028-5.992-7.861-16.546-1.869-23.566c5.991-7.029,16.546-7.861,23.566-1.87l99.54,84.92
+                            C462.107,387.195,462.94,397.75,456.948,404.771z"/>
+                    </g>
+                    </svg>
+                    <h3 class="title">Contact</h3>
+                </div>
+                <ul class="bare-list team-members">
+                    <li class="team-member">
+                        <a href="mailto:toreetfraction@gmail.com" class="getbig">
+                            <img class="team-member-photo"
+                            src="https://tse4.mm.bing.net/th?id=OIP.UGlKxiZQylR3CnJIXSbFIAHaLL&pid=Api&f=1&ipt=1afd981963c9f8942c9bb36c06e79b63af6ab5c38ede9ac8b8cfc4eb516ac97d&ipo=images">
+                        </a>
+                        <div class="team-member-info">
+                            <h3 class="team-member-name">Jérémy</h3>
+                            <span class="team-member-role">Gérant</span>
+                        </div>
+                    </li>
+                    <li class="team-member">
+                        <a href="mailto:toreetfraction@gmail.com" class="getbig">
+                            <img class="team-member-photo"
+                            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F1040881%2Fpexels-photo-1040881.jpeg%3Fauto%3Dcompress%26cs%3Dtinysrgb%26h%3D650%26w%3D940&f=1&nofb=1&ipt=660b452f4c0466f7128d71cd60ef464d75d20ed4b0d2dcfb9338f861a0e2e9be&ipo=images">
+                        </a>
+                        <div class="team-member-info">
+                            <h3 class="team-member-name">Simon</h3>
+                            <span class="team-member-role">Gérant</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="cafe-communication">
+                <div class="notification-wrapper">
+                    <svg class="notification-icon" viewBox="0 0 512 512" xml:space="preserve"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M381.7 225.9c0-97.6-52.5-130.8-101.6-138.2l.1-1.6c0-12.3-10.9-22.1-24.2-22.1s-23.8 9.8-23.8 22.1l.1 1.6c-49.2 7.5-102 40.8-102 138.4 0 113.8-28.3 126-66.3 158h384c-37.8-32.1-66.3-44.4-66.3-158.2M256.2 448a52 52 0 0 0 51.7-43H204.5c2.8 23.1 24.9 43 51.7 43" />
+                    </svg>
+                </div>
+                <div class="tab-container">
+                    <div class="tab active" onclick="openTab('posts')">Annonces</div>
+                    <div class="tab" onclick="openTab('events')">Événements</div>
+                </div>
+                <div class="tab-body">
+                    <div id="posts" class="tab-content active">
+                        <div class="post">
+                            <div class="post-header">
+                                <h3 class="post-title">Chocolat Gratuits au Café!</h3>
+                                <span class="post-date">Il y a 4 jours</span>
+                            </div>
+
+                            <p class="post-content">
+                                <span class="post-author">Tore et Fraction:</span> Passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour
+                                tous nos visiteurs. 🍫
+                                <img src="assets/chocolat.webp" class="post-image" alt="Chocolat">
+                            </p>
+                        </div>
+
+                        <div class="post">
+                            <div class="post-header">
+                                <h3 class="post-title">Soirée Saint-Valentin</h3>
+                                <span class="post-date">Il y a 10 jours</span>
+                            </div>
+                            <p class="post-content">
+                                <span class="post-author">Tore et Fraction:</span>
+                                Rejoignez-nous pour une soirée romantique pleine de surprises et de douceur. 
+                                Amenez votre valentin(e) ou venez rencontrer votre âme sœur. Musique douce, ambiance chaleureuse et boissons spéciales vous attendent ce 14 février. 💘
+                                <img src="assets/valentin.webp" class="post-image" alt="Valentin">
+                            </p>
+                        </div>
+                    </div>
+                    <div id="events" class="tab-content">
+                        <div class="card-container">
+                            <div class="photo-container">
+                                <div class="event-date">
+                                    <span class="day">14</span>
+                                    <span class="month">Février</span>
+                                    <span class="hour">19h30</span>
+                                </div>
+                                <div class="image"></div>
+                            </div>
+                            <div class="info-container">
+                                <h3 class="event-name">
+                                    Saint-Valentin
+                                </h3>
+                                <div class="event-location">
+                                    Photo Booth de couple !
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-container">
+                            <div class="photo-container">
+                                <div class="event-date">
+                                    <span class="day">10</span>
+                                    <span class="month">Mars</span>
+                                    <span class="hour">19h30</span>
+                                </div>
+                                <div class="image"></div>
+                            </div>
+                            <div class="info-container">
+                                <h3 class="event-name">
+                                    Soiree karaoke
+                                </h3>
+                                <div class="event-location">
+                                    Faites-sortir votre inner Star !
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-container">
+                            <div class="photo-container">
+                                <div class="event-date">
+                                    <span class="day">2</span>
+                                    <span class="month">Mai</span>
+                                    <span class="hour">17h30</span>
+                                </div>
+                                <div class="image"></div>
+                            </div>
+                            <div class="info-container">
+                                <h3 class="event-name">
+                                    Soirée Verité
+                                </h3>
+                                <div class="event-location">
+                                    Viens ! C'est l'heure de la vérité...
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-container">
+                            <div class="photo-container">
+                                <div class="event-date">
+                                    <span class="day">22</span>
+                                    <span class="month">Mai</span>
+                                    <span class="hour">12h30</span>
+                                </div>
+                                <div class="image"></div>
+                            </div>
+                            <div class="info-container">
+                                <h3 class="event-name">
+                                    De-Stress Fest
+                                </h3>
+                                <div class="event-location">
+                                    De-stress before finals with puppies!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

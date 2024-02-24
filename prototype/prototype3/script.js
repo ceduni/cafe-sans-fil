@@ -5,45 +5,6 @@ const categories = [
   "Boissons froides"
 ];
 
-const items = [
-  {
-    name: "Café filtre",
-    category: 0
-  },
-  {
-    name: "Café mocha (filtre)",
-    category: 0
-  },
-  {
-    name: "Café mocha (expresso)",
-    category: 0
-  },
-  {
-    name: "Nespresso",
-    category: 0
-  },
-  {
-    name: "Espresso",
-    category: 0
-  },
-  {
-    name: "Café latte",
-    category: 0
-  },
-  {
-    name: "Americano glacé",
-    category: 0
-  },
-  {
-    name: "Latte glacé",
-    category: 0
-  },
-  {
-    name: "Chocolat chaud",
-    category: 0
-  },
-]
-
 function randint(max) {
   return Math.floor(Math.random() * max);
 }
@@ -156,7 +117,7 @@ async function createGroupBox(category, onclick) {
 
   groupBox.addEventListener("click", (event) => {
     onclick(groupBox);
-    groupBox.scrollIntoView(true);
+    // groupBox.scrollIntoView(false);
   });
 
   return groupBox;
@@ -216,3 +177,10 @@ function openTab(tabName) {
   document.getElementById(tabName).classList.add("active");
   event.currentTarget.classList.add("active");
 }
+
+
+document.querySelectorAll('.status').forEach(function(element) {
+  element.addEventListener('click', function() {
+    this.classList.toggle('active');
+  });
+});
