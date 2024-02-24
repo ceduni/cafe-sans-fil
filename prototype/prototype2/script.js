@@ -5,6 +5,45 @@ const categories = [
   "Snack"
 ];
 
+const items = [
+  {
+    name: "Café filtre",
+    category: 0
+  },
+  {
+    name: "Café mocha (filtre)",
+    category: 0
+  },
+  {
+    name: "Café mocha (expresso)",
+    category: 0
+  },
+  {
+    name: "Nespresso",
+    category: 0
+  },
+  {
+    name: "Espresso",
+    category: 0
+  },
+  {
+    name: "Café latte",
+    category: 0
+  },
+  {
+    name: "Americano glacé",
+    category: 0
+  },
+  {
+    name: "Latte glacé",
+    category: 0
+  },
+  {
+    name: "Chocolat chaud",
+    category: 0
+  },
+]
+
 function randint(max) {
   return Math.floor(Math.random() * max);
 }
@@ -18,6 +57,14 @@ function div(options) {
     Object.assign(element.dataset, options.dataset);
   }
   return element;
+}
+
+function createItem(category){
+  return items.filter(item=>item.category == category).map(item=>
+    `
+    <div class="group-item">
+    </div>
+    `).join("")
 }
 
 function createGroupBox(category, onclick) {
@@ -36,7 +83,7 @@ function createGroupBox(category, onclick) {
   groupBox.innerHTML = `
         <h4 class="group-box-title">${category.name}</h4>
         <div class="group-box-items">
-            ${items(5 + randint(10))}
+            ${createItem(category.index)}
         </div>
         `;
   groupBox.tabIndex = 0;
