@@ -22,20 +22,24 @@
         <nav>
             <img class="header-logo" src="assets/logo_text.png" alt="Café sans-fil" />
         </nav>
-        <h1 class="page-title">Tore et fraction</h1>
+        <h1 class="page-title">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="28" height="28" viewBox="0 0 72 72" class="search-icon">
+                <path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path>
+            </svg> 
+            <span contenteditable="true" class="search-text">Tore et fraction</span>
+        </h1>
         <div class="header-session">
             <span class="header-user">
-                <img src="https://yt3.googleusercontent.com/-CFTJHU7fEWb7BYEb6Jh9gm1EpetvVGQqtof0Rbh-VQRIznYYKJxCaqv_9HeBcmJmIsp2vOO9JU=s900-c-k-c0x00ffffff-no-rj"
-                    alt="">
+                <img src="https://yt3.googleusercontent.com/-CFTJHU7fEWb7BYEb6Jh9gm1EpetvVGQqtof0Rbh-VQRIznYYKJxCaqv_9HeBcmJmIsp2vOO9JU=s900-c-k-c0x00ffffff-no-rj" alt="">
             </span>
-            <div class="header-cart">
+            <!-- <div class="header-cart">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z">
                     </path>
                 </svg>
-            </div>
+            </div> -->
         </div>
     </header>
 
@@ -102,17 +106,52 @@
                 <p class="bare cafe-location">
                     Pavillon André-Aisenstadt, local AA-1221
                 </p>
-                <p class="bare">Café 100% bénévoles, vue du coucher de soleil magnifique, on remplit votre tasse
-                    pour 0,50$.</p>
+                <p class="bare">
+                    Café 100% bénévoles, vue du coucher de soleil magnifique, on remplit votre tasse pour 0,50$.
+                </p>
 
-                <h3 class="title">Appareils</h3>
+                <div class="cafe-identification__header">
+                    <h3 class="title">
+                        Horaire
+                        <!-- <svg class="clock-icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"></path></svg> -->
+                    </h3>
+                </div>
+                
+                <div>
+                    <p class="bare">
+                        Aujourd'hui: 09:00 &ndash; 12:00 / 13:00 &ndash; 17:00
+                        <button class="bare" onclick="toggle('#openingHours')">
+                            <svg class="caret-icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 320 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg>
+                        </button> 
+                    </p> 
+                    <ul class="bare-list opening-hours hidden" id="openingHours">
+                        <li class="op-hour">Lundi: 09:00 &ndash; 17:00</li>
+                        <li class="op-hour">Mardi: 08:00 &ndash; 17:00</li>
+                        <li class="op-hour">Mercredi: 10:00 &ndash; 17:00</li>
+                        <li class="op-hour">Jeudi: 08:00 &ndash; 17:00</li>
+                        <li class="op-hour active">Vendredi: 09:00 &ndash; 17:00 / 13:00 &ndash; 17:00</li>
+                    </ul>
+                </div>
+
+                    <div class="cafe-identification__header">
+                        <h3 class="title">Appareils</h3>
+                    </div>
+                
                 <ul class="bare-list appliances">
-                    <li class="appliance">Micro-ondes</li>
-                    <li class="appliance">Presse panini</li>
-                    <li class="appliance">Machine à café</li>
+                    <li class="appliance">
+                        Micro-ondes (x2)
+                    </li>
+                    <li class="appliance">Presse panini (x1)</li>
+                    <li class="appliance">Machine à café (x3)</li>
                 </ul>
 
-                <h3 class="title">Staff</h3>
+                <div class="cafe-identification__header">
+                    <h3 class="title">Staff</h3>
+                    <button class="btn btn-email">
+                        <svg class="email-icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+                    </button>
+                    <button class="btn btn-volunteer">Devenir bénévole</button>
+                </div>
                 <ul class="bare-list team-members">
                     <li class="team-member">
                         <img class="team-member-photo"
@@ -126,27 +165,34 @@
                         <h3 class="team-member-name">Simon</h3>
                         <span class="team-member-role">Gérant</span>
                     </li>
+                    <li class="team-volunteer">
+                        <span class="num">54</span>  
+                        <span class="txt">bénévoles</span>
+                    </li>
                 </ul>
             </div>
             
             <div class="cafe-communication">
-                <div class="notification-wrapper">
+                <!-- <div class="notification-wrapper">
                     <svg class="notification-icon" viewBox="0 0 512 512" xml:space="preserve"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M381.7 225.9c0-97.6-52.5-130.8-101.6-138.2l.1-1.6c0-12.3-10.9-22.1-24.2-22.1s-23.8 9.8-23.8 22.1l.1 1.6c-49.2 7.5-102 40.8-102 138.4 0 113.8-28.3 126-66.3 158h384c-37.8-32.1-66.3-44.4-66.3-158.2M256.2 448a52 52 0 0 0 51.7-43H204.5c2.8 23.1 24.9 43 51.7 43" />
                     </svg>
-                </div>
+                </div> -->
                 <div class="tab-container">
                     <div class="tab active" onclick="openTab('posts')">Annonces</div>
-                    <div class="tab" onclick="openTab('events')">Événements</div>
+                    <div class="tab" onclick="openTab('events')">Evénements</div>
                 </div>
                 <div class="tab-body">
                     <div id="posts" class="tab-content active">
                         <div class="post">
                             <div class="post-header">
                                 <h3 class="post-title">Distribution de Chocolat Gratuit</h3>
-                                <span class="post-date">Il y a 4 jours</span>
+                                <span class="post-date" title="Publié il y a 4 jours">
+                                    <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path></svg>
+                                    4 jours
+                                </span>
                             </div>
 
                             <p class="post-content">
@@ -155,18 +201,47 @@
                                 tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses
                                 café
                             </p>
+                            <div class="post-footer">
+                                <ul class="bare-list post-tags">
+                                    <li class="post-tag">chocolat</li>
+                                    <li class="post-tag">gratuit</li>
+                                </ul>
+    
+                                <div class="post-reactions">
+                                    <button class="btn btn-reaction">
+                                        <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></svg>
+                                        18
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="post">
                             <div class="post-header">
                                 <h3 class="post-title">Soirée Saint-Valentin au Café Campus!</h3>
-                                <span class="post-date">Il y a 10 jours</span>
+                                <span class="post-date" title="Publié il y a 10 jours">
+                                    <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path></svg>
+                                    10 jours
+                                </span>
                             </div>
                             <p class="post-content">
                                 <span class="post-author">Tore et Fraction:</span>
                                 Rejoignez-nous pour une soirée romantique pleine de surprises et de douceur. 
                                 Amenez votre valentin(e) ou venez rencontrer votre âme sœur. Musique douce, ambiance chaleureuse et boissons spéciales vous attendent ce 14 février.
                             </p>
+                            <div class="post-footer">
+                                <ul class="bare-list post-tags">
+                                    <li class="post-tag">valentin</li>
+                                    <li class="post-tag">romance</li>
+                                    <li class="post-tag">danse</li>
+                                </ul>
+                                <div class="post-reactions">
+                                    <button class="btn btn-reaction">
+                                        <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></svg>
+                                        24
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="events" class="tab-content">
@@ -177,17 +252,39 @@
                                     <span class="month">Février</span>
                                     <span class="hour">19h30</span>
                                 </div>
-                                <div class="image"></div>
+                                <div class="event-venue">
+                                    <span>7077 Ave du Parc</span>
+                                    <span>Agora du 5e etage</span>
+                                </div>
                             </div>
                             <div class="info-container">
                                 <h3 class="event-name">
                                     Saint-Valentin
                                 </h3>
-                                <div class="event-location">
-                                    Photo Booth de couple !
+                                <div class="event-description">
+                                    Plongez dans l'atmosphère romantique de la Saint-Valentin avec une soirée spécialement conçue pour célébrer l'amour sous toutes ses formes. 
+                                    Que vous soyez en couple, célibataire ou simplement en quête d'une bonne soirée entre amis, cette soirée est faite pour vous !
                                 </div>
                             </div>
+                            <div class="event-media">
+                                <img class="event-image" src="https://scontent.fyhu1-1.fna.fbcdn.net/v/t39.30808-6/424605983_1138101757645388_6341286932893698451_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=RNgKiKoWLygAX8eaUzJ&_nc_ht=scontent.fyhu1-1.fna&oh=00_AfAHGcdbvVM-xV0NkYua4O9_LvpegLK-ERxtp1orRgNuOQ&oe=65DDA083" alt="">
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn-action btn-action--support">
+                                    <svg class="btn-icon" stroke="currentColor" stroke-width="0" viewBox="0 0 576 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M275.3 250.5c7 7.4 18.4 7.4 25.5 0l108.9-114.2c31.6-33.2 29.8-88.2-5.6-118.8-30.8-26.7-76.7-21.9-104.9 7.7L288 36.9l-11.1-11.6C248.7-4.4 202.8-9.2 172 17.5c-35.3 30.6-37.2 85.6-5.6 118.8l108.9 114.2zm290 77.6c-11.8-10.7-30.2-10-42.6 0L430.3 402c-11.3 9.1-25.4 14-40 14H272c-8.8 0-16-7.2-16-16s7.2-16 16-16h78.3c15.9 0 30.7-10.9 33.3-26.6 3.3-20-12.1-37.4-31.6-37.4H192c-27 0-53.1 9.3-74.1 26.3L71.4 384H16c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h356.8c14.5 0 28.6-4.9 40-14L564 377c15.2-12.1 16.4-35.3 1.3-48.9z"></path>
+                                    </svg>
+                                    <!-- Je supporte! -->
+                                </button>
+                                <button class="btn-action btn-action--attend">
+                                    <svg class="btn-icon" stroke="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M429.58 209.08c-15.06-6.62-32.38 1.31-38.5 17.62L356 312h-11.27V80c0-17.6-13.3-32-29.55-32-16.26 0-29.55 14.4-29.55 32v151.75l-14.78.25V32c0-17.6-13.3-32-29.55-32s-29.55 14.4-29.55 32v199.75L197 232V64c0-17.6-13.3-32-29.55-32-16.26 0-29.55 14.4-29.55 32v183.75l-14.8.25V128c0-17.6-13.3-32-29.55-32S64 110.4 64 128v216c0 75.8 37.13 168 169 168 40.8 0 79.42-7 100.66-21a121.41 121.41 0 0 0 33.72-33.31 138 138 0 0 0 16-31.78l62.45-175.14c6.17-16.31-1.19-35.06-16.25-41.69z"></path>
+                                    </svg>
+                                    <!-- Je viens! -->
+                                </button>
+                            </div>
                         </div>
+
                         <div class="card-container">
                             <div class="photo-container">
                                 <div class="event-date">
@@ -195,51 +292,80 @@
                                     <span class="month">Mars</span>
                                     <span class="hour">19h30</span>
                                 </div>
-                                <div class="image"></div>
+                                <div class="event-venue">
+                                    <span>7077 Ave du Parc</span>
+                                    <span>Agora du 5e etage</span>
+                                </div>
                             </div>
                             <div class="info-container">
                                 <h3 class="event-name">
                                     Soiree karaoke
                                 </h3>
-                                <div class="event-location">
-                                    Faites-sortir votre inner Star !
+                                <div class="event-description">
+                                    Venez libérer votre superstar intérieure lors de notre soirée karaoké tant attendue ! Que vous soyez un chanteur chevronné ou un débutant timide, cette soirée est ouverte à tous les amateurs de musique et de divertissement.
                                 </div>
                             </div>
+                            <div class="event-media">
+                                <img class="event-image" src="https://campingmousquetaires.ca/storage/2023/02/karaoke-1-400x200-1.png" alt="">
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn-action btn-action--support">
+                                    <svg class="btn-icon" stroke="currentColor" stroke-width="0" viewBox="0 0 576 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M275.3 250.5c7 7.4 18.4 7.4 25.5 0l108.9-114.2c31.6-33.2 29.8-88.2-5.6-118.8-30.8-26.7-76.7-21.9-104.9 7.7L288 36.9l-11.1-11.6C248.7-4.4 202.8-9.2 172 17.5c-35.3 30.6-37.2 85.6-5.6 118.8l108.9 114.2zm290 77.6c-11.8-10.7-30.2-10-42.6 0L430.3 402c-11.3 9.1-25.4 14-40 14H272c-8.8 0-16-7.2-16-16s7.2-16 16-16h78.3c15.9 0 30.7-10.9 33.3-26.6 3.3-20-12.1-37.4-31.6-37.4H192c-27 0-53.1 9.3-74.1 26.3L71.4 384H16c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h356.8c14.5 0 28.6-4.9 40-14L564 377c15.2-12.1 16.4-35.3 1.3-48.9z"></path>
+                                    </svg>
+                                    <!-- Je supporte! -->
+                                </button>
+                                <button class="btn-action btn-action--attend">
+                                    <svg class="btn-icon" stroke="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M429.58 209.08c-15.06-6.62-32.38 1.31-38.5 17.62L356 312h-11.27V80c0-17.6-13.3-32-29.55-32-16.26 0-29.55 14.4-29.55 32v151.75l-14.78.25V32c0-17.6-13.3-32-29.55-32s-29.55 14.4-29.55 32v199.75L197 232V64c0-17.6-13.3-32-29.55-32-16.26 0-29.55 14.4-29.55 32v183.75l-14.8.25V128c0-17.6-13.3-32-29.55-32S64 110.4 64 128v216c0 75.8 37.13 168 169 168 40.8 0 79.42-7 100.66-21a121.41 121.41 0 0 0 33.72-33.31 138 138 0 0 0 16-31.78l62.45-175.14c6.17-16.31-1.19-35.06-16.25-41.69z"></path>
+                                    </svg>
+                                    <!-- Je viens! -->
+                                </button>
+                            </div>
                         </div>
-                        <div class="card-container">
+
+                        <div class="card-container paid">
                             <div class="photo-container">
                                 <div class="event-date">
                                     <span class="day">2</span>
                                     <span class="month">Mai</span>
                                     <span class="hour">17h30</span>
                                 </div>
-                                <div class="image"></div>
+                                <div class="event-venue">
+                                    <span>7077 Ave du Parc</span>
+                                    <span>Agora du 5e etage</span>
+                                </div>
+                                <div class="event-fees">
+                                    <span class="event-fee">50 billets restants</span> 
+                                    <span class="event-fee">Prix: <strong>62 $</strong></span> 
+                                </div>
                             </div>
                             <div class="info-container">
                                 <h3 class="event-name">
-                                    Soirée Verité
+                                    CHALET 🏡
                                 </h3>
-                                <div class="event-location">
-                                    Viens ! C'est l'heure de la vérité...
+                                <div class="event-description">
+                                    Le moment tant attendu est enfin arrivé pour vous annoncer l'arrivée du chalet d'informatique ! Cette session, il se déroule au Domaine du Rocher
+                                    La première semaine de mise en vente des billets est réservée uniquement aux membres de l'AÉDIROUM (ceux qui ont payé leur cotisation). Après une semaine, s'il reste des places, les +1 seront les bienvenus. La vérification va être faite. <br>
+                                    
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-container">
-                            <div class="photo-container">
-                                <div class="event-date">
-                                    <span class="day">22</span>
-                                    <span class="month">Mai</span>
-                                    <span class="hour">12h30</span>
-                                </div>
-                                <div class="image"></div>
+                            <div class="event-media">
+                                <img class="event-image" src="https://sbl.umontreal.ca/public/FAS/_processed_/0/6/csm_csm_20170713_154011_8697e22635_6678f68c32.jpg" alt="">
                             </div>
-                            <div class="info-container">
-                                <h3 class="event-name">
-                                    De-Stress Fest
-                                </h3>
-                                <div class="event-location">
-                                    De-stress before finals with puppies!
-                                </div>
+                            <div class="event-actions">
+                                <button class="btn-action btn-action--support">
+                                    <svg class="btn-icon" stroke="currentColor" stroke-width="0" viewBox="0 0 576 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M275.3 250.5c7 7.4 18.4 7.4 25.5 0l108.9-114.2c31.6-33.2 29.8-88.2-5.6-118.8-30.8-26.7-76.7-21.9-104.9 7.7L288 36.9l-11.1-11.6C248.7-4.4 202.8-9.2 172 17.5c-35.3 30.6-37.2 85.6-5.6 118.8l108.9 114.2zm290 77.6c-11.8-10.7-30.2-10-42.6 0L430.3 402c-11.3 9.1-25.4 14-40 14H272c-8.8 0-16-7.2-16-16s7.2-16 16-16h78.3c15.9 0 30.7-10.9 33.3-26.6 3.3-20-12.1-37.4-31.6-37.4H192c-27 0-53.1 9.3-74.1 26.3L71.4 384H16c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h356.8c14.5 0 28.6-4.9 40-14L564 377c15.2-12.1 16.4-35.3 1.3-48.9z"></path>
+                                    </svg>
+                                    <!-- Je supporte! -->
+                                </button>
+                                <button class="btn-action btn-action--attend">
+                                    <svg class="btn-icon" stroke="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M429.58 209.08c-15.06-6.62-32.38 1.31-38.5 17.62L356 312h-11.27V80c0-17.6-13.3-32-29.55-32-16.26 0-29.55 14.4-29.55 32v151.75l-14.78.25V32c0-17.6-13.3-32-29.55-32s-29.55 14.4-29.55 32v199.75L197 232V64c0-17.6-13.3-32-29.55-32-16.26 0-29.55 14.4-29.55 32v183.75l-14.8.25V128c0-17.6-13.3-32-29.55-32S64 110.4 64 128v216c0 75.8 37.13 168 169 168 40.8 0 79.42-7 100.66-21a121.41 121.41 0 0 0 33.72-33.31 138 138 0 0 0 16-31.78l62.45-175.14c6.17-16.31-1.19-35.06-16.25-41.69z"></path>
+                                    </svg>
+                                    <!-- Je viens! -->
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -247,7 +373,6 @@
             </div>
         </section>
     </main>
-
     <script src="script.js"></script>
 </body>
 
