@@ -112,29 +112,35 @@
      overflow: hidden;
 }
 
-     .cafe-header .status {
+     .cafe-header .status-wrapper {
           position: absolute;
-          top: -18px;
+          top: -12px;
           left: calc(50% - 150px);
-          display: flex; flex-direction: row; place-items: center; justify-content: center;
-          padding: 12px; padding-top: 42px;
+          display: flex; flex-direction: column; place-items: center;
+          padding: 12px; padding-top: 30px; padding-bottom: 24px;
           width: 300px;
-          font-size: 1.7em; font-weight: 500;
           color: #fff;
           border-radius: 0 0 18px 18px;
+          cursor: pointer;
           background-color: #232425f0;
           box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.95);
           transition: .2s;
           transition-property: transform;
           z-index: 10;
      }
-          .cafe-header .status:hover {
+
+     .cafe-header .status {
+          display: flex; flex-direction: row; place-items: center; justify-content: center;
+          font-size: 1.7em; font-weight: 500;
+     }
+          .cafe-header .status-wrapper:hover {
                transform: translateY(12px);
+               background-color: #232425;
           }
-          .cafe-header .status:after {
+          .cafe-header .status-wrapper:after {
                content: "";
                position: absolute;
-               bottom: 3px;
+               bottom: 8px;
                width: 30px;
                height: 2px;
                border-top: 1px solid #777;
@@ -166,6 +172,38 @@
 
                .cafe-header .status-text {
                     font-size: 0.9em;
+               }
+
+               .schedule {
+                    margin-top: 12px;
+                    font-size: 1rem;
+                    color: #fff;
+               }
+               .schedule-row.current {
+                    font-weight: bold;
+               }
+
+               .schedule-row.current .schedule-day {
+                    color: rgb(56, 142, 255);
+                    font-weight: bold;
+               }
+               .schedule-day {
+                    color: #fff;
+                    font-weight: 500;
+                    font-size: 1.4em;
+                    padding: 6px 0;
+               }
+                    .schedule-day:after {
+                         content: ": ";
+                    }
+               .schedule-time {
+                    color: #fff;
+                    font-size: 1.4em;
+                    padding-left: 6px;
+                    padding-right: 6px;
+               }
+               .schedule-time.current {
+                    color: rgb(56, 142, 255);
                }
 
 
@@ -206,7 +244,8 @@
      grid-template-areas:
           'info'
           'menu'
-          'comm';
+          'comm'
+          'event';
      /* grid-template-columns: minmax(600px, 50%); */
      gap: 1vw;
      margin-top: 24px;
@@ -218,7 +257,8 @@
      .main-body {
           grid-template-areas:
           'menu info'
-          'menu comm';
+          'menu comm'
+          'event event';
           /* grid-template-columns: repeat(2, 1fr); */
           grid-template-columns: 1.5fr 1fr;
           grid-template-rows: auto 1fr;
@@ -620,7 +660,6 @@
                border-radius: 2px;
                color: #fff;
                background-color: #555;
-               background-color: #c53a45;
           }
 
      .cafe-identification .team-members {
@@ -691,7 +730,7 @@
      grid-area: comm;
      
      position: relative;
-     padding: 12px 3%;
+     padding: 24px 3%;
      border-radius: 8px;
      background-color: #e5e4e2;
 }
@@ -722,61 +761,18 @@
           perspective: 1000px;
      }
 
-.tab-container {
-     display: flex;
-     margin-top: 6px;
+.cafe-communication .title {
+     margin-top: 0;
+     font-size: 2em;
 }
-
-     .tab {
-          position: relative;
-          font-size: 1.6em; font-weight: 500;
-          padding: 8px 12px;
-          cursor: pointer;
-          border-radius: 180px;
-          margin-right: 12px;
-          background-color: #d5d5d5;
-     }
-
-     .tab.active,
-     .tab:hover {
-          color: #2472fc;
-     }
-
-     .tab.active {
-          background-color: #f5f5f5;
-          font-weight: bold;
-          box-shadow: inset 0 1px 2px -1px #555;
-     }
-
-     /* .tab.active:after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 4px;
-          border-radius: 180px;
-          background-color: #2472fc;
-     } */
-
-     .tab-content {
-          display: none;
-          width: 100%;
-          margin-top: 20px;
-     }
-
-     .tab-content.active {
-          display: block;
-     }
 
 
 .post {
      position: relative;
-     margin-bottom: 18px;
+     margin-bottom: 12px;
      padding: 12px;
      border-radius: 6px;
      background-color: #f5f5f5;
-     box-shadow: inset 0 1px 2px -1px #555;
 }
      .post-header {
           position: relative;
@@ -894,13 +890,14 @@
      display: flex; flex-direction: column; place-items: center; justify-content: center;
      width: 96px;
      height: 96px;
+     font-weight: 600;
+     font-size: 1.1em;
      border-radius: 6px;
      color: #fff;
      background-color: rgb(48, 110, 191);
 }
-     .event-date .day { font-weight: 300; }
-     .event-date .month { font-weight: 600; }
-     .event-date .hour { font-weight: 300; }
+     
+     .event-date .hour { margin-top: 6px; font-weight: 400; }
 
 .event-venue {
      margin-top: 12px;
@@ -942,7 +939,6 @@
 .event-media {
      grid-area: media;
      margin-top: 12px;
-     border-radius: 12px;
      overflow: hidden;
      max-height: 300px;
      box-shadow: inset 0 -2px 1px #555;
@@ -952,6 +948,7 @@
      grid-area: media;
      width: 100%;
      object-fit: cover;
+     border-radius: 12px;
 }
 
 .event-actions {
@@ -980,4 +977,42 @@
           background-color: #ED2839;
      }
 
-  
+/*
+------------------------------------------------------------------------------------*/
+
+.cafe-event {
+     grid-area: event;
+     margin-top: 12px;
+}
+
+     .cafe-event .title {
+          font-size: 3em;
+          font-weight: 800;
+          text-align: center;
+          color: #c53a45;
+     }
+
+     .cafe-event .grid-content {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: 1rem;
+     }
+
+     .cafe-event .card-container {
+          box-shadow: none;
+     }
+     .cafe-event .event-media {
+          box-shadow: none;
+     }
+
+     @media screen and (min-width: 54em) {
+          .cafe-event .grid-content {
+               grid-template-columns: repeat(2, 1fr);
+          }
+     }
+
+     @media screen and (min-width: 76em) {
+          .cafe-event .grid-content {
+               grid-template-columns: repeat(3, 1fr);
+          }
+     }
