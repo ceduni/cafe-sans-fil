@@ -92,33 +92,35 @@
 
         <section class="main-body">
             <div class="menu-section">
-                <h2 class="section-title">Menu</h2>
-                <div class="accepted-payments">
-                    <div class="accepted-payment">
-                        <span style="font-size: 20px; margin: 0 7px;">  · </span>
-                        <svg class="accepted-payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z"></path>
-                            <path fill-rule="evenodd"
-                                d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        <p class="bare">Carte de débit <strong>(min $4.00)</strong></p>
+                <div class="menu-container">
+                    <h2 class="section-title">Menu</h2>
+                    <div class="accepted-payments">
+                        <div class="accepted-payment">
+                            <span style="font-size: 20px; margin: 0 7px;">  · </span>
+                            <svg class="accepted-payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z"></path>
+                                <path fill-rule="evenodd"
+                                    d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <p class="bare">Carte de débit <strong>(min $4.00)</strong></p>
+                        </div>
+                        
+                        <div class="accepted-payment">
+                            <span style="font-size: 20px; margin: 0 7px;">  · </span>
+                            <svg class="accepted-payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4 text-gray-500">
+                                <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z"></path>
+                                <path fill-rule="evenodd"
+                                    d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <p class="bare">Carte de crédit <strong>(min $4.00)</strong></p>
+                        </div>
                     </div>
-                    
-                    <div class="accepted-payment">
-                        <span style="font-size: 20px; margin: 0 7px;">  · </span>
-                        <svg class="accepted-payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4 text-gray-500">
-                            <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z"></path>
-                            <path fill-rule="evenodd"
-                                d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        <p class="bare">Carte de crédit <strong>(min $4.00)</strong></p>
+    
+                    <div class="content-wrapper">
+                        <div id="menu" class="menu"></div>
                     </div>
-                </div>
-
-                <div class="content-wrapper">
-                    <div id="menu" class="menu"></div>
                 </div>
             </div>
 
@@ -217,115 +219,117 @@
             </div>
             
             <div class="cafe-communication">
-                <div class="notification-wrapper">
-                    <svg class="notification-icon" viewBox="0 0 512 512" xml:space="preserve"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M381.7 225.9c0-97.6-52.5-130.8-101.6-138.2l.1-1.6c0-12.3-10.9-22.1-24.2-22.1s-23.8 9.8-23.8 22.1l.1 1.6c-49.2 7.5-102 40.8-102 138.4 0 113.8-28.3 126-66.3 158h384c-37.8-32.1-66.3-44.4-66.3-158.2M256.2 448a52 52 0 0 0 51.7-43H204.5c2.8 23.1 24.9 43 51.7 43" />
-                    </svg>
-                </div>
-                <div class="tab-container">
-                    <div class="tab active" onclick="openTab('posts')">Annonces</div>
-                    <div class="tab" onclick="openTab('events')">Événements</div>
-                </div>
-                <div class="tab-body">
-                    <div id="posts" class="tab-content active">
-                        <div class="post">
-                            <div class="post-header">
-                                <h3 class="post-title">Chocolat Gratuits au Café!</h3>
-                                <span class="post-date">Il y a 4 jours</span>
-                            </div>
-
-                            <p class="post-content">
-                                <span class="post-author">Tore et Fraction:</span> Passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour
-                                tous nos visiteurs. 🍫
-                                <img src="assets/chocolat.webp" class="post-image" alt="Chocolat">
-                            </p>
-                        </div>
-
-                        <div class="post">
-                            <div class="post-header">
-                                <h3 class="post-title">Soirée Saint-Valentin</h3>
-                                <span class="post-date">Il y a 10 jours</span>
-                            </div>
-                            <p class="post-content">
-                                <span class="post-author">Tore et Fraction:</span>
-                                Rejoignez-nous pour une soirée romantique pleine de surprises et de douceur. 
-                                Amenez votre valentin(e) ou venez rencontrer votre âme sœur. Musique douce, ambiance chaleureuse et boissons spéciales vous attendent ce 14 février. 💘
-                                <img src="assets/valentin.webp" class="post-image" alt="Valentin">
-                            </p>
-                        </div>
+                <div class="cafe-communication-container">
+                    <div class="notification-wrapper">
+                        <svg class="notification-icon" viewBox="0 0 512 512" xml:space="preserve"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M381.7 225.9c0-97.6-52.5-130.8-101.6-138.2l.1-1.6c0-12.3-10.9-22.1-24.2-22.1s-23.8 9.8-23.8 22.1l.1 1.6c-49.2 7.5-102 40.8-102 138.4 0 113.8-28.3 126-66.3 158h384c-37.8-32.1-66.3-44.4-66.3-158.2M256.2 448a52 52 0 0 0 51.7-43H204.5c2.8 23.1 24.9 43 51.7 43" />
+                        </svg>
                     </div>
-                    <div id="events" class="tab-content">
-                        <div class="card-container">
-                            <div class="photo-container">
-                                <div class="event-date">
-                                    <span class="day">14</span>
-                                    <span class="month">Février</span>
-                                    <span class="hour">19h30</span>
+                    <div class="tab-container">
+                        <div class="tab active" onclick="openTab('posts')">Annonces</div>
+                        <div class="tab" onclick="openTab('events')">Événements</div>
+                    </div>
+                    <div class="tab-body">
+                        <div id="posts" class="tab-content active">
+                            <div class="post">
+                                <div class="post-header">
+                                    <h3 class="post-title">Chocolat Gratuits au Café!</h3>
+                                    <span class="post-date">Il y a 4 jours</span>
                                 </div>
-                                <div class="image"></div>
+    
+                                <p class="post-content">
+                                    <span class="post-author">Tore et Fraction:</span> Passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour
+                                    tous nos visiteurs. 🍫
+                                    <img src="assets/chocolat.webp" class="post-image" alt="Chocolat">
+                                </p>
                             </div>
-                            <div class="info-container">
-                                <h3 class="event-name">
-                                    Saint-Valentin
-                                </h3>
-                                <div class="event-location">
-                                    Photo Booth de couple !
+    
+                            <div class="post">
+                                <div class="post-header">
+                                    <h3 class="post-title">Soirée Saint-Valentin</h3>
+                                    <span class="post-date">Il y a 10 jours</span>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="card-container">
-                            <div class="photo-container">
-                                <div class="event-date">
-                                    <span class="day">10</span>
-                                    <span class="month">Mars</span>
-                                    <span class="hour">19h30</span>
-                                </div>
-                                <div class="image"></div>
-                            </div>
-                            <div class="info-container">
-                                <h3 class="event-name">
-                                    Soiree karaoke
-                                </h3>
-                                <div class="event-location">
-                                    Faites-sortir votre inner Star !
-                                </div>
+                                <p class="post-content">
+                                    <span class="post-author">Tore et Fraction:</span>
+                                    Rejoignez-nous pour une soirée romantique pleine de surprises et de douceur. 
+                                    Amenez votre valentin(e) ou venez rencontrer votre âme sœur. Musique douce, ambiance chaleureuse et boissons spéciales vous attendent ce 14 février. 💘
+                                    <img src="assets/valentin.webp" class="post-image" alt="Valentin">
+                                </p>
                             </div>
                         </div>
-                        <div class="card-container">
-                            <div class="photo-container">
-                                <div class="event-date">
-                                    <span class="day">2</span>
-                                    <span class="month">Mai</span>
-                                    <span class="hour">17h30</span>
+                        <div id="events" class="tab-content">
+                            <div class="card-container">
+                                <div class="photo-container">
+                                    <div class="event-date">
+                                        <span class="day">14</span>
+                                        <span class="month">Février</span>
+                                        <span class="hour">19h30</span>
+                                    </div>
+                                    <div class="image"></div>
                                 </div>
-                                <div class="image"></div>
-                            </div>
-                            <div class="info-container">
-                                <h3 class="event-name">
-                                    Soirée Verité
-                                </h3>
-                                <div class="event-location">
-                                    Viens ! C'est l'heure de la vérité...
+                                <div class="info-container">
+                                    <h3 class="event-name">
+                                        Saint-Valentin
+                                    </h3>
+                                    <div class="event-location">
+                                        Photo Booth de couple !
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-container">
-                            <div class="photo-container">
-                                <div class="event-date">
-                                    <span class="day">22</span>
-                                    <span class="month">Mai</span>
-                                    <span class="hour">12h30</span>
+                            <div class="card-container">
+                                <div class="photo-container">
+                                    <div class="event-date">
+                                        <span class="day">10</span>
+                                        <span class="month">Mars</span>
+                                        <span class="hour">19h30</span>
+                                    </div>
+                                    <div class="image"></div>
                                 </div>
-                                <div class="image"></div>
+                                <div class="info-container">
+                                    <h3 class="event-name">
+                                        Soiree karaoke
+                                    </h3>
+                                    <div class="event-location">
+                                        Faites-sortir votre inner Star !
+                                    </div>
+                                </div>
                             </div>
-                            <div class="info-container">
-                                <h3 class="event-name">
-                                    De-Stress Fest
-                                </h3>
-                                <div class="event-location">
-                                    De-stress before finals with puppies!
+                            <div class="card-container">
+                                <div class="photo-container">
+                                    <div class="event-date">
+                                        <span class="day">2</span>
+                                        <span class="month">Mai</span>
+                                        <span class="hour">17h30</span>
+                                    </div>
+                                    <div class="image"></div>
+                                </div>
+                                <div class="info-container">
+                                    <h3 class="event-name">
+                                        Soirée Verité
+                                    </h3>
+                                    <div class="event-location">
+                                        Viens ! C'est l'heure de la vérité...
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-container">
+                                <div class="photo-container">
+                                    <div class="event-date">
+                                        <span class="day">22</span>
+                                        <span class="month">Mai</span>
+                                        <span class="hour">12h30</span>
+                                    </div>
+                                    <div class="image"></div>
+                                </div>
+                                <div class="info-container">
+                                    <h3 class="event-name">
+                                        De-Stress Fest
+                                    </h3>
+                                    <div class="event-location">
+                                        De-stress before finals with puppies!
+                                    </div>
                                 </div>
                             </div>
                         </div>
