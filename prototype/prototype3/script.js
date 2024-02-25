@@ -43,22 +43,24 @@ function generateFakeName(category) {
 
 function generateFakePrice(category) {
   const priceRange = {
-    "Sandwich": [5, 10],
-    "Boissons chaudes": [2, 5],
+    "Sandwich": [1, 5],
+    "Boissons chaudes": [1, 3],
     "Snack": [1, 4],
-    "Boissons froides": [3, 7]
+    "Boissons froides": [1, 3]
   };
 
   const range = priceRange[category] || [1, 15];
   let price = Math.random() * (range[1] - range[0]) + range[0];
 
   const endingType = Math.random();
-  if (endingType < 0.9) {
-    price = Math.floor(price) + (Math.random() < 0.5 ? 0.99 : 0.00);
-    price = price.toFixed(2);
+  if (endingType < 0.33) {
+    price = Math.floor(price) + 0.99;
+  } else if (endingType < 0.66) {
+    price = Math.floor(price) + 0.50;
   } else {
-    price = price.toFixed(2);
+    price = Math.floor(price);
   }
+  price = price.toFixed(2);
 
   return `$${price}`;
 }

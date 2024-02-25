@@ -193,10 +193,10 @@
      }
 
      .schedule {
-          font-size: 1.3rem;
+          font-size: 1.4rem;
           display: grid;
           grid-template-columns: auto auto auto;
-          gap: 18px;
+          gap: 13px;
           transition: 0.1s;
         }
         
@@ -333,12 +333,11 @@
 @media screen and (min-width: 60em) {
      .main-body {
           grid-template-areas:
-          'menu menu info'
-          'menu menu comm';
-          grid-template-columns: repeat(3, 1fr);
+          'menu info'
+          'menu comm';
+          grid-template-columns: 1.85fr 1fr;
           grid-template-rows: auto 1fr;
           margin: 27px 20px 0 20px;
-          /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
           padding-left: 2vw; padding-right: 2vw; padding-bottom: 24px;
      }
 }
@@ -486,13 +485,13 @@
 
 
           .group-box.active .item-name {
-               font-size: 1.2em;
+               font-size: 1.38em;
                font-weight: 700;
                margin-left: 8px;
           }
 
           .group-box.active .item-price {
-               font-size: 1.2em;
+               font-size: 1.6em;
                font-weight: 300;
                margin-left: 8px;
                margin-bottom: 7px;
