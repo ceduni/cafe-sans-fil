@@ -119,7 +119,17 @@ async function createGroupBox(category, onclick) {
 
   groupBox.addEventListener("click", (event) => {
     onclick(groupBox);
-    // groupBox.scrollIntoView(false);
+    setTimeout(() => {
+      const groupBoxRect = groupBox.getBoundingClientRect();
+      const distanceFromTop = 180;
+      const topPositionToScroll = window.pageYOffset + groupBoxRect.top - distanceFromTop;
+    
+      window.scrollTo({
+        top: topPositionToScroll,
+        behavior: 'smooth'
+      });
+    }, 200);
+    
   });
 
   return groupBox;
