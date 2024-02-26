@@ -202,13 +202,7 @@ function showItemDetails(image, groupBox) {
   closeAllDetailsViews();
   resetGroupBoxPadding();
 
-  groupBox.style.paddingRight = '313px';
-
   groupBox.style.minHeight = '420px';
-
-  groupBox.querySelectorAll('.item-img').forEach(img => {
-    img.style.margin = '15px 6px';
-  });
 
   const detailsView = document.createElement('div');
   detailsView.innerHTML = `
@@ -232,11 +226,7 @@ function closeAllDetailsViews() {
 
 function resetGroupBoxPadding() {
   document.querySelectorAll('.group-box').forEach(groupBox => {
-    groupBox.style.paddingRight = '';
     groupBox.style.minHeight = '';
-    groupBox.querySelectorAll('.item-img').forEach(img => {
-      img.style.margin = '';
-    });
   });
 }
 

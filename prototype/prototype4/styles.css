@@ -456,6 +456,7 @@
           background-color: #232425;
           cursor: default;
           position: relative;
+          /* padding-right: 313px; */
      }
           .group-box:not(.active):hover .item-img {
                transform: scale(1.025);
@@ -514,14 +515,14 @@
           margin: 7px;
           border-radius: 22px;
           background-color: #646cff;
-          transition: 0.15s;
+          transition: 0.2s;
           object-fit: cover;
      }
      
      .item-details-view {
           position: absolute;
-          /* right: -317px; */
-          right: 0;
+          right: -313px;
+          /* right: 0; */
           top: 0;
           width: 290px;
           height: 100%;
@@ -534,7 +535,21 @@
           flex-direction: column;
           z-index: 999;
           font-size: 1.4em;
+          opacity: 0;
+          animation: slideIn 0.1s ease-out forwards;
         }
+        
+        @keyframes slideIn {
+          from {
+            transform: translateX(-20%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
         
         .detailed-img {
           width: 250px;
