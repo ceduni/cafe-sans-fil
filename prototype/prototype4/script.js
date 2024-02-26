@@ -128,7 +128,7 @@ async function createGroupBox(category, onclick) {
         top: topPositionToScroll,
         behavior: 'smooth'
       });
-    }, 200);
+    }, 150);
     
   });
   return groupBox;
