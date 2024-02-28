@@ -61,3 +61,69 @@
          transform: rotate3d(0, 0, 5, 30deg)
     }
 }
+
+@keyframes animSignal1 {
+     0% {
+          opacity: 0;
+          translate: 0 10px;
+      }
+      3.33333% {
+          opacity: 1;
+          translate: 0 0px;
+     }
+      73.3333% {
+          opacity: 1;
+      }
+      83.3333% {
+          opacity: 0;
+      }
+      100% {
+          opacity: 0;
+      }
+}
+
+@keyframes animSignal2 {
+     0% {
+          opacity: 0;
+          translate: 0 10px;
+      }
+      10% {
+          opacity: 0;
+      }
+      13.3333% {
+          opacity: 1;
+          translate: 0 0px;
+      }
+      76.6667% {
+          opacity: 1;
+      }
+      83.3333% {
+          opacity: 0;
+      }
+      100% {
+          opacity: 0;
+      }
+}
+
+@keyframes animSignal3 {
+     0% {
+          opacity: 0;
+          translate: 0 10px;
+      }
+      23.3333% {
+          opacity: 0;
+      }
+      26.6667% {
+          opacity: 1;
+          translate: 0 0px;
+      }
+      80% {
+          opacity: 1;
+      }
+      86.6667% {
+          opacity: 0;
+      }
+      100% {
+          opacity: 0;
+      }
+}

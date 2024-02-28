@@ -131,6 +131,7 @@ async function createGroupBox(category, onclick) {
     }, 150);
     
   });
+
   return groupBox;
 }
 
@@ -209,9 +210,7 @@ document.addEventListener('click', function(e) {
 
 function showItemDetails(image, groupBox) {
   closeAllDetailsViews();
-  resetGroupBoxPadding();
-
-  groupBox.style.minHeight = '420px';
+  groupBox.classList.add('details-active');
 
   const detailsView = document.createElement('div');
   detailsView.innerHTML = `
@@ -229,16 +228,17 @@ function showItemDetails(image, groupBox) {
 
 function closeAllDetailsViews() {
   const openDetailsViews = document.querySelectorAll('.item-details-view');
-  openDetailsViews.forEach(view => view.remove());
-  resetGroupBoxPadding();
+  openDetailsViews.forEach(view => {
+    view.parentNode.classList.remove('details-active');
+    view.remove();
+  });
 }
 
 function resetGroupBoxPadding() {
   document.querySelectorAll('.group-box').forEach(groupBox => {
-    groupBox.style.minHeight = '';
+    groupBox.classList.remove('details-active');
   });
 }
-
 function closeDetailsView(event) {
   const detailsViews = document.querySelectorAll('.item-details-view');
   detailsViews.forEach(view => {
