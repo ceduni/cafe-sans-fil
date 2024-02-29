@@ -247,3 +247,35 @@ function closeDetailsView(event) {
     }
   });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const cafeCommunication = document.querySelector('.cafe-communication');
+  let originalTop = cafeCommunication.offsetTop;
+  let isFixed = false;
+
+  function applyFixedPosition() {
+    cafeCommunication.classList.add('cafe-communication-fixed');
+    isFixed = true;
+  }
+
+  function removeFixedPosition() {
+    cafeCommunication.classList.remove('cafe-communication-fixed');
+    isFixed = false;
+  }
+
+  document.addEventListener('scroll', function() {
+    const scrollY = window.scrollY || window.pageYOffset;
+    if (scrollY >= originalTop && !isFixed) {
+      applyFixedPosition();
+    } else if (scrollY < originalTop && isFixed) {
+      removeFixedPosition();
+    }
+  });
+
+  window.addEventListener('resize', function() {
+    if (isFixed) {
+      removeFixedPosition();
+      applyFixedPosition();
+    }
+  });
+});
