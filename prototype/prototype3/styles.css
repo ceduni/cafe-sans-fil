@@ -791,7 +791,7 @@
      position: relative;
 }
 
-@media screen and (min-width: 90em) {
+@media screen and (min-width: 60em) {
      .cafe-communication-fixed {
           position: fixed;
           top: 0;
@@ -890,6 +890,12 @@
           overflow-y: auto;
           margin-bottom: 20px;
           padding: 4px;
+     }
+
+     @media screen and (max-height: 51em) {
+          .tab-content {
+               max-height: 480px;
+          }
      }
 
      .tab-content::-webkit-scrollbar {
