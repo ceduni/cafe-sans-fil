@@ -935,6 +935,7 @@
           width: 70%;
           margin: 0;
           font-size: 2em;
+          cursor: pointer;
      }
 
      .post-date {
@@ -997,16 +998,16 @@
 
 .event-date {
      display: flex; flex-direction: column; place-items: center; justify-content: center;
-     width: 84px;
-     height: 84px;
-     border-radius: 8px;
-     background-color: rgb(31, 124, 246);
+     width: 95px;
+     height: 95px;
+     border-radius: 18px;
+     background-color: rgba(31, 124, 246, 0.961);
      cursor: pointer;
 }
 
 .event-date:hover {
-     background-color: rgb(29, 110, 216);
-     transition: 0.15s;
+     filter: brightness(88%);
+     transition: 0.12s;
 }
      .event-date .day { font-weight: 300; }
      .event-date .month { font-weight: 600; }
@@ -1022,12 +1023,14 @@
      font-weight: bold;
      padding-bottom: 5px;
      margin-bottom: 7px;
+     cursor: pointer;
 }
 
 .event-location {
      width: 90%;
      font-weight: 300;
      margin-bottom: 30px;
+     cursor: pointer;
 }
     
 
