@@ -159,6 +159,11 @@ async function setupMenu(app, menu) {
 
   app.addEventListener("click", (event) => {
     const target = event.target;
+    const isWithinCafeCommunicationContainer = target.closest('.cafe-communication-container');
+
+    if (isWithinCafeCommunicationContainer) {
+      return;
+    }
 
     if (!menu.contains(target) || target === menu) {
       menu.classList.remove("active");
