@@ -418,27 +418,27 @@
      @media screen and (min-width: 44em) {
           .menu {
                grid-template-columns: repeat(2, 1fr);
-               grid-template-rows: repeat(2, 1fr);
+               /* grid-template-rows: repeat(2, 1fr); */
           }
 
           .group-box[data-index="0"].active {
                grid-column-start: span 2;
-               grid-row-start: span 2;
+               /* grid-row-start: span 2; */
           }
      
           .group-box[data-index="1"].active {
                grid-column-start: span 2;
-               grid-row-start: span 2;
+               /* grid-row-start: span 2; */
           }
      
           .group-box[data-index="2"].active {
                grid-column-start: span 2;
-               grid-row-start: span 2;
+               /* grid-row-start: span 2; */
           }
      
           .group-box[data-index="3"].active {
                grid-column-start: span 2;
-               grid-row-start: span 2;
+               /* grid-row-start: span 2; */
           }
 
      }
