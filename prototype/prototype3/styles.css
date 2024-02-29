@@ -972,7 +972,7 @@
       }
       
 .card-container {
-     margin-bottom: 1rem;
+     margin-bottom: 0.2rem;
      display: grid;
      grid-template-areas:
           'photo info';
@@ -998,9 +998,9 @@
 
 .event-date {
      display: flex; flex-direction: column; place-items: center; justify-content: center;
-     width: 95px;
-     height: 95px;
-     border-radius: 18px;
+     width: 86px;
+     height: 86px;
+     border-radius: 17px;
      background-color: rgba(31, 124, 246, 0.961);
      cursor: pointer;
 }
@@ -1022,7 +1022,7 @@
 .event-name {
      font-weight: bold;
      padding-bottom: 5px;
-     margin-bottom: 7px;
+     margin-bottom: 6px;
      cursor: pointer;
 }
 
