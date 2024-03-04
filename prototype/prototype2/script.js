@@ -225,6 +225,11 @@ function randint(min, max) {
   return min + Math.floor(Math.random() * (max - min + 1));
 }
 
+/**
+ * Creates a div element
+ * @param {*} options 
+ * @returns {HTMLElement}
+ */
 function div(options) {
   element = document.createElement("div");
   if (options.class) {
@@ -236,31 +241,49 @@ function div(options) {
   return element;
 }
 
-function createItem(category) {
-  return items.filter(item => item.category == category).map(item =>
-    `
-    <div class="group-item ${item.available?'in': 'out'}">
-      <img class="group-item-image" src="${item.photo}">
+function createItem(data) {
+  const item = div({
+    class: ["group-item", `${data.available ? 'in' : 'out'}`],
+  });
+  item.innerHTML = `
+      <img class="group-item-image" src="${data.photo}">
       <div class="group-item-info">
         <div class="group-item-info-main">
-          <span class="group-item-name">${item.name}</span>
-          <span class="group-item-price">${item.price.toFixed(2)}</span>
+          <span class="group-item-name">${data.name}</span>
+          <span class="group-item-price">${data.price.toFixed(2)}</span>
         </div>
         <div class="group-item-info-details">
-          <span class="group-item-desc">${item.description}</span>
-          <!--<ul class="bare-list group-item-variants">
-            ${item.variants.map(variant => `<li class="group-item-variant">${variant}</li>`).join("")}
-          </ul>-->
-          <div class="group-item-reactions">
-            <button class="btn btn-reaction">
-              <svg class="btn-reaction-icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z"></path></svg>
-              ${randint(70, 100)}%              
-            </button>
-          </div>
+          <span class="group-item-desc">${data.description}</span>
+          <ul class="bare-list group-item-variants">
+            ${data.variants.map(variant => `<li class="group-item-variant">${variant}</li>`).join("")}
+          </ul>
+        </div>
+        <div class="group-item-reactions">
+          <button class="btn btn-reaction">
+            <svg class="btn-reaction-icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z"></path></svg>
+            ${randint(70, 100)}%              
+          </button>
         </div>
       </div>
-    </div>
-    `).join("")
+    `;
+  item.addEventListener('click', (event) => {
+    document.querySelectorAll('.group-item').forEach(x => x.classList.remove("active"));
+    item.classList.add("active");
+    setTimeout(() => {
+      const groupBoxRect = item.getBoundingClientRect();
+      const distanceFromTop = item.clientHeight/2;
+      const topPositionToScroll = window.scrollY + groupBoxRect.top - distanceFromTop;
+
+      window.scrollTo({
+        top: topPositionToScroll,
+        behavior: 'smooth'
+      });
+
+      item.scrollIntoView(true);
+    }, 200);
+  });
+  
+  return item;
 }
 
 
@@ -272,11 +295,14 @@ function createGroupBox(category, onclick) {
     }
   });
   groupBox.innerHTML = `
-        <h4 class="group-box-title">${category.name}</h4>
-        <div class="group-box-items">
-            ${createItem(category.index)}
-        </div>
-        `;
+    <h4 class="group-box-title">${category.name}</h4>
+    <div class="group-box-items"></div>
+  `;
+  const groupBoxItems = groupBox.querySelector(".group-box-items");
+
+  items.filter(item => item.category == category.index).forEach(item => {
+    groupBoxItems.append(createItem(item));
+  })
   groupBox.tabIndex = 0;
 
   groupBox.addEventListener("click", (event) => {
@@ -284,14 +310,14 @@ function createGroupBox(category, onclick) {
     setTimeout(() => {
       const groupBoxRect = groupBox.getBoundingClientRect();
       const distanceFromTop = 240;
-      const topPositionToScroll = window.pageYOffset + groupBoxRect.top - distanceFromTop;
-    
+      const topPositionToScroll = window.scrollY + groupBoxRect.top - distanceFromTop;
+
       window.scrollTo({
         top: topPositionToScroll,
         behavior: 'smooth'
       });
     }, 150);
-    
+
   });
 
   return groupBox;

@@ -381,9 +381,55 @@
                width: calc(50% - 24px);
                margin-right: 18px;
                margin-bottom: 12px;
+               padding: 3px 6px;
                flex-direction: column;
                place-items: center;
+               border: 2px solid transparent;
+               cursor: default;
           }
+               .group-box.active .group-item:not(.active):hover {
+                    background-color: #333;
+                    box-shadow: 2px 0 1px #1b1b1b;
+                    transform: scale(1.05) translate(3px);
+               }
+          
+          .group-box.active .group-item.active {
+               margin: 0;
+               width: 100%;
+               background-color: #414243;
+               font-size: 1.5em;
+               padding: 12px;
+               border-radius: 6px;
+               margin-bottom: 12px;
+          }
+
+          .group-box.active .group-item.active .group-item-variants {
+               display: flex;
+               margin-top: 6px;
+          }
+
+          .group-box.active .group-item-info {
+               height: 100%;
+          }
+
+          .group-box.active .group-item-info-details {
+               flex-grow: 2;
+          }
+
+          .group-box.active .group-item-reactions {
+               display: flex;
+               justify-content: flex-end;
+               margin-top: 6px;
+          }
+
+          .group-box.active .group-item.active .group-item-image {
+               margin-bottom: 12px;
+               width: 180px;
+               min-width: 180px;
+               height: 180px;
+               border-radius: 12px;
+          }
+
                .group-box.active .group-item-image {
                     width: 84px;
                     min-width: 84px;
@@ -395,6 +441,14 @@
                     .group-box.active .group-item {
                          flex-direction: row;
                          place-items: flex-start;
+                    }
+
+                    .group-box.active .group-item.active .group-item-image {
+                         margin-right: 12px; margin-bottom: 0;
+                         width: 240px;
+                         min-width: 240px;
+                         height: 240px;
+                         border-radius: 12px;
                     }
                }
 
@@ -475,7 +529,7 @@
                display: flex; 
           }
           .group-box.active .group-item-info-details {
-               display: block
+               display: block;
           }
           .group-box.active .group-item-price {
                font-size: 0.85em;
@@ -504,27 +558,24 @@
 
      .group-item-variants {
           display: none;
-          display: flex;
           margin-top: 4px;
      }
 
           .group-item-variant {
                font-size: 0.95em;
                padding: 4px 6px;
-               margin-right: 3px;
+               margin-right: 4px;
                border-radius: 1px;
                background-color: #c53a45;
           }
 
      .group-item-reactions {
-          display: flex;
-          justify-content: flex-end;
-          margin-top: 6px;
+          display: none;
      }
 
      .group-item .btn-reaction {
           color: #bcbcbc;
-          font-size: 1em;
+          font-size: 0.9em;
           display: flex; place-items: center;
      }
           .group-item .btn-reaction:hover {
