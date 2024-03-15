@@ -1,8 +1,17 @@
 # 📅 Suivi
 ## Phase 2
 
-<!-- ### Semaine 7 (2024-02-21) -->
+### Semaine 10 (2024-03-13)
+- **Discussion sur les Mécanismes de Recherches** : Discussion sur l'intégration d'un schéma de "search" dans le backend, spécifiquement conçu pour améliorer la fonctionnalité de recherche par item/tag.
 
+
+### Semaine 9
+> Semaine de relâche, pas de réunion
+
+### Semaine 7 (2024-02-21) et semaine 8 (2024-02-28) 
+- **Création de Trois Nouveaux Prototypes** : Développement de trois nouvelles versions différentes du prototype pour tester diverses améliorations et intégrations basées sur les retours et objectifs précédents.
+- **Sélection du Prototype avec un Gérant de Café** :
+Discussion avec le gérant d'un des cafés pour choisir le prototype le plus adapté à ses besoins et préférences, assurant ainsi une collaboration étroite avec les partenaires de l'application.
 
 
 ### Semaine 5 (2024-02-07) et semaine 6 (2024-02-14)
