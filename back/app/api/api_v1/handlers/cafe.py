@@ -322,11 +322,11 @@ async def get_sales_report(
 #               Search
 # --------------------------------------
 
-@cafe_router.get("/search", summary="Search for Cafes and Menu Items", description="Search across cafes and their menu items with a given query.")
-async def search(
-    request: Request,
-    query: str = Query(..., description="Search query for cafes or menu items"),
-):
-    filters = dict(request.query_params)
-    filters.pop('query', None)
-    return await CafeService.search_cafes_and_items(query, **filters)
+# @cafe_router.get("/search", summary="Search for Cafes and Menu Items", description="Search across cafes and their menu items with a given query.")
+# async def search(
+#     request: Request,
+#     query: str = Query(..., description="Search query for cafes or menu items"),
+# ):
+#     filters = dict(request.query_params)
+#     filters.pop('query', None)
+#     return await CafeService.search_cafes_and_items(query, **filters)

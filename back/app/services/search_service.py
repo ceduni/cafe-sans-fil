@@ -1,6 +1,7 @@
 from typing import List
 from app.models.cafe_model import Cafe, MenuItem  
 
+# To fix
 @staticmethod
 async def search(query: str) -> List[Cafe]:
     regex_pattern = f".*{query}.*"

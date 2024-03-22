@@ -1,8 +1,10 @@
+from typing import List, Optional
 from pydantic import BaseModel, Field
 from uuid import UUID
-from app.models.cafe_model import CafeOut
+from app.schemas.cafe_schema import CafeOut
 
-class searchCreate(BaseModel):
+
+class SearchCreate(BaseModel):
      query: str = Field(..., description="The search query, e.g., a cafe name, menu item name, or tag.")
 
 class SearchOut(BaseModel):
