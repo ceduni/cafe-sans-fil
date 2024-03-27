@@ -23,8 +23,7 @@
 
 ##version 2 qui fonctionne avec search_service.py
 from fastapi import APIRouter, HTTPException
-from app.services.search_service import search  # Assurez-vous que le chemin d'import est correct
-
+from app.services.search_service import search 
 search_router = APIRouter()
 
 @search_router.get("/search")
