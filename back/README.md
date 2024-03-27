@@ -22,27 +22,27 @@ Les fichiers sont organisés suivant la structure suivante:
 ```ada
 / -- Racine du projet (/back)
 ├── app/ -- Code source de l'API
-│   ├── api/ 
-│   ├── core/ 
-│   ├── models/ 
-│   ├── schemas/ 
-│   ├── services/ 
+│   ├── api/ -- Définit les routes et les points de terminaison de l'API.
+│   ├── core/ -- Contient les paramètres de configuration et les utilitaires liés à la sécurité.
+│   ├── models/ -- Modèles de schéma de base de données pour l'ORM.
+│   ├── schemas/ -- Modèles Pydantic pour la validation et la sérialisation des requêtes/réponses.
+│   ├── services/ -- Couche de logique métier, interface entre l'API et la base de données.
 │   └── .env
-│   └── main.py
+│   └── main.py -- Point d'entrée pour l'application FastAPI, inclut la configuration de l'application.
 ├── test/ -- Test unitaire
-│   └── conftest.py
+│   └── conftest.py -- Configuration des fixtures de test pour pytest.
 │   └── test_auth.py
 │   └── test_cafe.py
 │   └── test_order.py
 │   └── test_user.py
 ├── utils/
-│   ├── templates/
+│   ├── templates/ -- Modèles d'email et fichiers json pour l'initialisation des données.
 │   │   └── cafes_updated.json
 │   │   └── menu_items.json
 │   │   └── photo_urls.json
 │   │   └── register_mail.html
 │   │   └── reset_password_mail.html
-│   └── generate_all.py
+│   └── generate_all.py -- Utilitaire pour générer des données d'exemple pour toute l'application.
 │   └── generate_cafe.py
 │   └── generate_order.py
 │   └── generate_user.py
