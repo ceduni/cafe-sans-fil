@@ -60,8 +60,10 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
     combined_query = {
         "$or": [
             {"name": regex_pattern},  
-            {"menu_items": {"$elemMatch": {"name": regex_pattern}}} 
+            {"menu_items": {"$elemMatch": {"name": regex_pattern}}}, 
+            {"menu_items": {"$elemMatch": {"tags": regex_pattern}}}  # search dans les tags des éléments de menu
         ]
+        
     }
     combined_query.update(filters)
     matching_cafes_full = await Cafe.find(combined_query).to_list()
@@ -69,7 +71,9 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
 
     matching_cafes_and_items = []
     for cafe in matching_cafes_full:
-        filtered_menu_items = [item for item in cafe.menu_items if query.lower() in item.name.lower()]
+        # filtered_menu_items = [item for item in cafe.menu_items if query.lower() in item.name.lower()]
+        filtered_menu_items = [item for item in cafe.menu_items if query.lower() in item.name.lower() or any(query.lower() in tag.lower() for tag in item.tags)]
+
 
         
         cafe_dict = {
