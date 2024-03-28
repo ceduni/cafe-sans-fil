@@ -1,6 +1,13 @@
 # 📅 Suivi
 ## Phase 2
 
+### Semaine 11 (2024-03-20) et semaine 12 (2024-03-27)
+
+- **Implémentation de la Recherche dans le Backend** : Intégration réussie de la fonctionnalité de recherche par item et tag.
+- **Tests via API** : Validation de la nouvelle fonctionnalité à travers des tests avec une API temporaire.
+- **Intégration Frontend-Backend** : Travail en cours sur l'implémentation réelle de la fonctionnalité de recherche dans l'application pour permettre au frontend d'appeler le backend.
+
+
 ### Semaine 10 (2024-03-13)
 - **Discussion sur les Mécanismes de Recherches** : Discussion sur l'intégration d'un schéma de "search" dans le backend, spécifiquement conçu pour améliorer la fonctionnalité de recherche par item/tag.
 
