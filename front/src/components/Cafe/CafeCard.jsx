@@ -4,7 +4,15 @@ import Card from "@/components/Card";
 import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 
-const CafeCard = ({ cafe }) => {
+const CafeCard = ({ cafe ,searchQuery}) => {
+
+  // Trouvez l'item de menu  ou tag recherché
+  const searchedMenuItem = searchQuery
+    ? cafe.menu_items.find((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()), //pour les items
+      )
+    : null;
+
   return (
     <Link
       to={`/cafes/${cafe.slug}`}
@@ -21,6 +29,19 @@ const CafeCard = ({ cafe }) => {
             statusMessage={cafe.status_message}
             size="xs"
           />
+
+
+        {searchedMenuItem && ( // affichage du preview si l'item est trouvé
+                  <div
+                    className="mt-4 px-4 bg-blue-100 rounded-full flex items-center justify-center gap-2 w-fit"
+                    role="alert"
+                  >
+                    <span className="py-2 leading-none font-semibold text-xs text-blue-800">
+                      Menu: {searchedMenuItem.name} - ${searchedMenuItem.price}
+                    </span>
+                  </div>
+                )}
+
           {cafe.additional_info && cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
             <div
               className="mt-4 px-4 animate-text bg-sky-200 rounded-full flex items-center justify-center gap-2 w-fit"
