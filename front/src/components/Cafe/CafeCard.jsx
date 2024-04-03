@@ -8,10 +8,10 @@ const CafeCard = ({ cafe ,searchQuery}) => {
 
   // Trouvez l'item de menu  ou tag recherché
   const searchedMenuItem = searchQuery
-    ? cafe.menu_items.find((item) =>
+    ? cafe.menu_items.filter((item) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase()), //pour les items
       )
-    : null;
+    : [];
 
   return (
     <Link
@@ -31,7 +31,7 @@ const CafeCard = ({ cafe ,searchQuery}) => {
           />
 
 
-        {searchedMenuItem && ( // affichage du preview si l'item est trouvé
+        {/* {searchedMenuItem && ( // affichage du preview si l'item est trouvé
                   <div
                     className="mt-4 px-4 bg-blue-100 rounded-full flex items-center justify-center gap-2 w-fit"
                     role="alert"
@@ -40,8 +40,36 @@ const CafeCard = ({ cafe ,searchQuery}) => {
                       Menu: {searchedMenuItem.name} - ${searchedMenuItem.price}
                     </span>
                   </div>
-                )}
+                )} */}
 
+
+{/* version avec le tout en fond bleu */}
+{/* {searchedMenuItem.length > 0 && (
+            searchedMenuItem.map((item) => (
+              <div key={item.item_id} className="mt-4 px-4 bg-blue-100 rounded-full flex items-center justify-center gap-2 w-fit" role="alert">
+                <span className="py-2 leading-none font-semibold text-xs text-blue-800">
+                  Menu: {item.name} - ${item.price}
+                </span>
+              </div>
+            ))
+          )} */}
+
+{/* version avec seulement Menu en fond bleu */}
+{searchedMenuItem.length > 0 && (
+            <>
+              <div className="mt-4 px-4 bg-blue-100 rounded-full flex items-center justify-center gap-2 w-fit" role="alert">
+                <span className="py-2 leading-none font-semibold text-xs text-blue-800">Menu:</span>
+              </div>
+              <div className="flex flex-col items-center justify-center gap-2 w-fit">
+                {searchedMenuItem.map((item) => (
+                  <span key={item.item_id} className="leading-none font-semibold text-xs text-blue-800">
+                    {item.name} - ${item.price}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
+          
           {cafe.additional_info && cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
             <div
               className="mt-4 px-4 animate-text bg-sky-200 rounded-full flex items-center justify-center gap-2 w-fit"
