@@ -96,4 +96,4 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
         }
         matching_cafes_and_items.append(cafe_dict)
 
-    return {"matching_cafesssss_and_items": matching_cafes_and_items}
+    return {"matching_cafes_and_their_items": matching_cafes_and_items}
