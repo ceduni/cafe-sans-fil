@@ -1,6 +1,14 @@
 # 📅 Suivi
 ## Phase 2
 
+### Semaine 13 (2024-04-03)
+
+- **Tâches Réalisées** :
+  - Finalisation de l'intégration de la recherche par tag et item. Cette étape cruciale permet aux utilisateurs de naviguer plus efficacement à travers l'application en utilisant des filtres spécifiques.
+ 
+- **Objectifs** :
+  - Début du développement de la nouvelle version du café,basée sur le prototype choisi précédemment. Ceci inlcus l'intégration des fonctionnalités et améliorations décidées en collaboration avec le gérant.
+
 ### Semaine 11 (2024-03-20) et semaine 12 (2024-03-27)
 
 - **Implémentation de la Recherche dans le Backend** : Intégration réussie de la fonctionnalité de recherche par item et tag.
@@ -10,6 +18,7 @@
 
 ### Semaine 10 (2024-03-13)
 - **Discussion sur les Mécanismes de Recherches** : Discussion sur l'intégration d'un schéma de "search" dans le backend, spécifiquement conçu pour améliorer la fonctionnalité de recherche par item/tag.
+- **Difficulté** : Identification de l'efficacité de créer un composant 'search' spécifique pour encapsuler toutes les fonctionnalités liées à la recherche. Cette réalisation permet une meilleure modularité et facilité de maintenance du code.
 
 
 ### Semaine 9
