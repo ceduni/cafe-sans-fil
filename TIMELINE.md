@@ -1,6 +1,12 @@
 # 📅 Suivi
 ## Phase 2
 
+### Semaine 14 (2024-04-10)
+
+- **Tâches en Cours** :
+  - Intégration du nouveau modèle de menu dans l'application, en alignement avec le nouveau modèle.
+  - Modification du placement des images des réseaux sociaux et de l'image principale du café pour améliorer l'expérience utilisateur et l'engagement sur la plateforme.
+
 ### Semaine 13 (2024-04-03)
 
 - **Tâches Réalisées** :
