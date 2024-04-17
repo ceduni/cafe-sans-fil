@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 from app.models.cafe_model import Cafe, MenuItem, Role, StaffMember
-from app.schemas.cafe_schema import CafeCreate, CafeUpdate, MenuItemCreate, MenuItemUpdate, StaffCreate, StaffUpdate
+from app.schemas.cafe_schema import CafeCreate, CafeUpdate, CafeShortOut, MenuItemCreate, MenuItemUpdate, StaffCreate, StaffUpdate
 from app.models.user_model import User
 
 class CafeService:
@@ -15,36 +15,26 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_cafes(**filters) -> List[Cafe]:
-        # Example: http://cafesansfil-api.onrender.com/api/cafes?is_open=true&sort_by=-name&page=1&limit=10
-        query_filters = {}
-        page = int(filters.pop('page', 1))
-        limit = int(filters.pop('limit', 40))
-
-        # Convert 'is_open' string to boolean
-        if 'is_open' in filters:
-            if filters['is_open'].lower() == 'true':
-                query_filters['is_open'] = True
-            elif filters['is_open'].lower() == 'false':
-                query_filters['is_open'] = False
-
-
-        sort_by = filters.pop('sort_by', 'name')  # Default sort field
-        sort_order = -1 if sort_by.startswith('-') else 1
-        sort_field = sort_by[1:] if sort_order == -1 else sort_by
-        sort_params = [(sort_field, sort_order)]
-
-        cafes_cursor = Cafe.aggregate([
-            {"$match": query_filters},
-            {"$sort": dict(sort_params)},
-            {"$skip": (page - 1) * limit},
-            {"$limit": limit}
-        ])
-
-        return await cafes_cursor.to_list(None)
+    async def list_cafes(**query_params) -> List[Cafe]:
+        """
+        List cafes based on the provided query parameters.
+        
+        :param query_params: Dictionary with query parameters for filtering cafes.
+        :return: List of Cafe objects that match the query criteria.
+        """
+        sort_by = query_params.pop("sort_by", "name")
+        page = int(query_params.pop("page", 1))
+        limit = int(query_params.pop("limit", 40))
+        return await Cafe.find(query_params).project(CafeShortOut).skip((page - 1) * limit).limit(limit).sort(sort_by).to_list()
     
     @staticmethod
     async def create_cafe(data: CafeCreate) -> Cafe:
+        """
+        Create a new cafe using the provided data.
+
+        :param data: The data to create the cafe with.
+        :return: The created Cafe object.
+        """
         try:
             cafe = Cafe(**data.model_dump())
             await cafe.insert()
@@ -56,25 +46,35 @@ class CafeService:
                 raise ValueError("Cafe already exists")
 
     @staticmethod
-    async def retrieve_cafe(cafe: str):
+    async def retrieve_cafe(cafe_id_or_slug: str):
+        """
+        Retrieve a cafe from the database based on the provided cafe UUID or slug.
+
+        :param cafe_id_or_slug: A string representing the cafe UUID or slug.
+        :return: A Cafe object if found, None otherwise.
+        """
         try:
-            return await Cafe.find_one({"cafe_id": UUID(cafe)})
+            return await Cafe.find_one({"cafe_id": UUID(cafe_id_or_slug)})
         except ValueError:
-            return await Cafe.find_one({"$or": [{"slug": cafe}, {"previous_slugs": cafe}]})
+            return await Cafe.find_one({"$or": [{"slug": cafe_id_or_slug}, {"previous_slugs": cafe_id_or_slug}]})
 
     @staticmethod
-    async def update_cafe(cafe_slug: str, data: CafeUpdate):
+    async def update_cafe(cafe_id_or_slug: str, data: CafeUpdate):
+        """
+        Update a cafe based on the provided UUID or slug and data.
+
+        :param cafe_id_or_slug: A string representing the cafe UUID or slug.
+        :param data: The data to update the cafe with.
+        :return: The updated Cafe object.
+        """
         try:
-            cafe = await CafeService.retrieve_cafe(cafe_slug)
-            
+            cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
             for field, value in data.model_dump(exclude_unset=True).items():
                 setattr(cafe, field, value)
-
             await cafe.save()
-
             return cafe
         except Exception as e:
-            if "duplicate" in str(e).lower() and len(str(e)) < 100: 
+            if "duplicate" in str(e).lower() and len(str(e)) < 100:
                 raise ValueError(e)
             else:
                 raise ValueError("Cafe already exists")
@@ -84,26 +84,30 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_menu_items(**filters) -> List[MenuItem]:
-        # Currently not used
-        cafe_slug = filters.pop('slug', None)
-        sort = filters.pop('sort', None)
+    async def list_menu_items(**query_params) -> List[MenuItem]:
+        """
+        Retrieves a list of menu items based on the provided query parameters.
 
-        # Convert string to boolean
-        if 'in_stock' in filters:
-            if filters['in_stock'].lower() == 'true':
-                filters['in_stock'] = True
-            elif filters['in_stock'].lower() == 'false':
-                filters['in_stock'] = False
-
-        cafe = await CafeService.retrieve_cafe(cafe_slug)
-        if cafe and hasattr(cafe, 'menu_items'):
-            filtered_menu = [item for item in cafe.menu_items if all(filters.get(key, getattr(item, key)) == getattr(item, key) for key in filters)]
-            if sort:
-                filtered_menu.sort(key=lambda item: getattr(item, sort, None))
-            return filtered_menu
-        return None
-
+        :param query_params: Additional query parameters to apply when retrieving menu items.
+        :return: A list of MenuItem objects that match the specified query parameters.
+        """
+        slug = query_params.pop('cafe_id_or_slug', None)  # TODO: Implement cafe_id_or_slug, not just slug
+        sort_by = query_params.pop('sort_by', "nothing")
+        page = int(query_params.pop("page", 1))
+        limit = int(query_params.pop("limit", 40))
+        query = {f"menu_items.{k}": v for k, v in query_params.items()}
+        pipeline = [
+            {"$match": {"slug": slug}},
+            {"$unwind": "$menu_items"},
+            {"$match": query},
+            {"$project": {"menu_items": 1, "_id": 0}},
+            {"$sort": {f"menu_items.{sort_by[1:] if sort_by[0] == '-' else sort_by}": -1 if sort_by[0] == '-' else 1}},
+            {"$skip": (page - 1) * limit},
+            {"$limit": limit}
+        ]
+        menu_items = await Cafe.aggregate(pipeline).to_list()
+        return [item['menu_items'] for item in menu_items] if menu_items else None
+    
     @staticmethod
     async def retrieve_menu_item(cafe_slug: str, item_slug: str):
         cafe = await CafeService.retrieve_cafe(cafe_slug)

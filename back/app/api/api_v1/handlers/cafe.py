@@ -1,12 +1,13 @@
-from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
+from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends, UploadFile
 from app.models.cafe_model import Role
-from app.schemas.cafe_schema import CafeOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate, StaffCreate, StaffUpdate, StaffOut
+from app.schemas.cafe_schema import CafeOut, CafeShortOut, CafeCreate, CafeUpdate, MenuItemOut, MenuItemCreate, MenuItemUpdate, StaffCreate, StaffUpdate, StaffOut
 from app.services.cafe_service import CafeService
 from app.services.order_service import OrderService
 from app.services.user_service import UserService
-from typing import List, Optional
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
+from typing import List, Dict, Optional
+import json
 
 """
 This module defines the API routes related to cafes, their menus, and a unified search function for cafes and menu items.
@@ -14,11 +15,37 @@ This module defines the API routes related to cafes, their menus, and a unified 
 
 cafe_router = APIRouter()
 
+def parse_query_params(query_params: Dict) -> Dict:
+    parsed_params = {}
+    for key, value in query_params.items():
+        if value.lower() == 'true':
+            value = True
+        elif value.lower() == 'false':
+            value = False
+        elif ',' in value:
+            value = value.split(',')
+        elif ',' in value:
+            value = [float(v) if v.replace('.', '', 1).isdigit() else v for v in value.split(',')]
+        elif value.replace('.', '', 1).isdigit():
+            value = float(value)
+
+        if '__' in key:
+            parts = key.split('__')
+            if parts[-1] in ['eq', 'gt', 'gte', 'in', 'lt', 'lte', 'ne', 'nin']:
+                field = '__'.join(parts[:-1])
+                op = '$' + parts[-1]
+                parsed_params[field] = {op: value}
+            else:
+                parsed_params[key] = value
+        else:
+            parsed_params[key] = value
+    return parsed_params
+
 # --------------------------------------
 #               Cafe
 # --------------------------------------
 
-@cafe_router.get("/cafes", response_model=List[CafeOut], summary="List Cafes", description="Retrieve a list of all cafes.")
+@cafe_router.get("/cafes", response_model=List[CafeShortOut], summary="List Cafes", description="Retrieve a list of all cafes with short information.")
 async def list_cafes(
     request: Request,
     is_open: Optional[bool] = Query(None, description="Filter cafes by open status (true/false)."),
@@ -27,11 +54,12 @@ async def list_cafes(
     limit: Optional[int] = Query(40, description="Set the number of cafes to return per page.")
 ):
     query_params = dict(request.query_params)
-    return await CafeService.list_cafes(**query_params)
+    parsed_params = parse_query_params(query_params)
+    return await CafeService.list_cafes(**parsed_params)
 
-@cafe_router.get("/cafes/{cafe_slug}", response_model=CafeOut, summary="Get Cafe", description="Retrieve detailed information about a specific cafe.")
-async def get_cafe(cafe_slug: str = Path(..., description="The slug or UUID of the cafe to retrieve")):
-    cafe = await CafeService.retrieve_cafe(cafe_slug)
+@cafe_router.get("/cafes/{cafe_id_or_slug}", response_model=CafeOut, summary="Get Cafe", description="Retrieve detailed information about a specific cafe.")
+async def get_cafe(cafe_id_or_slug: str = Path(..., description="The UUID or slug of the cafe to retrieve")):
+    cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, 
@@ -62,9 +90,9 @@ async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current
             detail="Cafe already exists"
         )
     
-@cafe_router.put("/cafes/{cafe_slug}", response_model=CafeOut, summary="🔴 Update Cafe", description="Update the details of an existing cafe.")
-async def update_cafe(cafe: CafeUpdate, cafe_slug: str = Path(..., description="The slug of the cafe to update"),  current_user: User = Depends(get_current_user)):
-    cafe_exists = await CafeService.retrieve_cafe(cafe_slug)
+@cafe_router.put("/cafes/{cafe_id_or_slug}", response_model=CafeOut, summary="🔴 Update Cafe", description="Update the details of an existing cafe.")
+async def update_cafe(cafe: CafeUpdate, cafe_id_or_slug: str = Path(..., description="The UUID or slug of the cafe to update"),  current_user: User = Depends(get_current_user)):
+    cafe_exists = await CafeService.retrieve_cafe(cafe_id_or_slug)
     if not cafe_exists:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -72,8 +100,8 @@ async def update_cafe(cafe: CafeUpdate, cafe_slug: str = Path(..., description="
         )
 
     try:
-        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_slug, current_user, [Role.ADMIN])
-        return await CafeService.update_cafe(cafe_slug, cafe)
+        await CafeService.is_authorized_for_cafe_action_by_slug(cafe_id_or_slug, current_user, [Role.ADMIN])
+        return await CafeService.update_cafe(cafe_id_or_slug, cafe)
     except ValueError as e:
         if str(e) == "Cafe not found":
             raise HTTPException(
@@ -100,16 +128,20 @@ async def update_cafe(cafe: CafeUpdate, cafe_slug: str = Path(..., description="
 #               Menu
 # --------------------------------------
 
-@cafe_router.get("/cafes/{cafe_slug}/menu", response_model=List[MenuItemOut], summary="List Menu Items", description="Retrieve the menu items of a specific café.")
+@cafe_router.get("/cafes/{cafe_id_or_slug}/menu", response_model=List[MenuItemOut], summary="List Menu Items", description="Retrieve the menu items of a specific café.")
 async def list_menu_items(
     request: Request, 
-    cafe_slug: str = Path(..., description="The slug of the cafe"),
+    cafe_id_or_slug: str = Path(..., description="The ID or slug of the cafe"),
     in_stock: Optional[bool] = Query(None, description="Filter menu items by stock availability (true/false)."),
-    sort: Optional[str] = Query(None, description="Sort menus by a specific field.")
+    sort_by: Optional[str] = Query(None, description="Sort menus by a specific field. Prefix with '-' for descending order (e.g., '-name')."),
+    page: Optional[int] = Query(1, description="Specify the page number for pagination."),
+    limit: Optional[int] = Query(40, description="Set the number of cafes to return per page.")
+    
 ):
     query_params = dict(request.query_params)
-    query_params['slug'] = cafe_slug
-    menu = await CafeService.list_menu_items(**query_params)
+    query_params['cafe_id_or_slug'] = cafe_id_or_slug
+    parsed_params = parse_query_params(query_params)
+    menu = await CafeService.list_menu_items(**parsed_params)
     if not menu:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -330,3 +362,24 @@ async def search(
     filters = dict(request.query_params)
     filters.pop('query', None)
     return await CafeService.search_cafes_and_items(query, **filters)
+
+# --------------------------------------
+#               Import
+# --------------------------------------
+
+@cafe_router.post("/import", summary="Import Menu Items", description="Import menu items from a JSON file. JSON must be an array of objects, with each object containing a unique menu item slug and the item's data.")
+async def import_menu_items(
+    cafe_slug: str,
+    file: UploadFile
+):
+    json_data = (await file.read()).decode()
+    menu_items = json.loads(json_data)
+    for menu_item in menu_items:
+        if 'item_slug' not in menu_item or 'item_data' not in menu_item or 'name' not in menu_item['item_data'] or 'price' not in menu_item['item_data']:
+            print(f"Error importing menu item: JSON is not in the expected format")
+            continue
+        try:
+            await CafeService.update_menu_item(cafe_slug, menu_item['item_slug'], MenuItemUpdate(**menu_item['item_data']))
+        except ValueError as e:
+            print(f"Error importing menu item: {e}")
+    return {"message": "Menu items imported successfully"}

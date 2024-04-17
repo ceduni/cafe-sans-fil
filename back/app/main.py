@@ -63,7 +63,8 @@ app = FastAPI(
     description=description,
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
-    lifespan=lifespan
+    lifespan=lifespan,
+    debug=True
 )
 
 app.add_middleware(
