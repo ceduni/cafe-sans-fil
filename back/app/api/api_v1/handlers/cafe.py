@@ -37,6 +37,15 @@ cafe_router = APIRouter()
 
 
 def parse_query_params(query_params: Dict) -> Dict:
+    """
+    Parses and converts the query parameters to the appropriate data types based on the values.
+
+    Args:
+        query_params (Dict): A dictionary containing the query parameters to be parsed.
+
+    Returns:
+        Dict: A dictionary with the parsed query parameters where values are converted to their appropriate types.
+    """
     parsed_params = {}
     for key, value in query_params.items():
         if value.lower() == "true":
@@ -93,6 +102,19 @@ async def list_cafes(
         40, description="Set the number of cafes to return per page."
     ),
 ):
+    """
+    Retrieve a list of all cafes with short information.
+
+    Args:
+        - request: Request
+        - is_open: Optional[bool] (default: None) - Filter cafes by open status (true/false).
+        - sort_by: Optional[str] (default: "name") - Sort cafes by a specific field. Prefix with '-' for descending order (e.g., '-name').
+        - page: Optional[int] (default: 1) - Specify the page number for pagination.
+        - limit: Optional[int] (default: 40) - Set the number of cafes to return per page.
+
+    Returns:
+        - List[CafeShortOut]: A list of cafes with short information.
+    """
     query_params = dict(request.query_params)
     parsed_params = parse_query_params(query_params)
     return await CafeService.list_cafes(**parsed_params)
@@ -109,6 +131,18 @@ async def get_cafe(
         ..., description="The UUID or slug of the cafe to retrieve"
     )
 ):
+    """
+    Retrieve detailed information about a specific cafe.
+
+    Args:
+        cafe_id_or_slug (str): The UUID or slug of the cafe to retrieve.
+
+    Raises:
+        HTTPException: If the cafe is not found.
+
+    Returns:
+        CafeOut: The detailed information about the cafe.
+    """
     cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
     if not cafe:
         raise HTTPException(
@@ -126,6 +160,23 @@ async def get_cafe(
     include_in_schema=False,
 )
 async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current_user)):
+    """
+    Create a new cafe with the provided information.
+
+    This endpoint allows the creation of a new cafe with the provided information. Only users with the username '7802085' are authorized to create a cafe.
+
+    Args:
+        - cafe (CafeCreate): The information of the cafe to be created.
+        - current_user (User, optional): The currently authenticated user. Defaults to the user returned by the `get_current_user` dependency.
+
+    Raises:
+        - HTTPException: If the user is not authorized to create a cafe. The status code is 403 FORBIDDEN and the detail is 'Access forbidden'.
+        - HTTPException: If the cafe already exists. The status code is 409 CONFLICT and the detail is 'Cafe already exists'.
+        - HTTPException: If there is a duplicate value in the cafe information. The status code is 409 CONFLICT and the detail is the specific duplicate value.
+
+    Returns:
+        - CafeOut: The created cafe with detailed information.
+    """
     # Authorization check
     if "7802085" != current_user.username:
         raise HTTPException(
@@ -155,6 +206,23 @@ async def update_cafe(
     ),
     current_user: User = Depends(get_current_user),
 ):
+    """
+    Update the details of an existing cafe.
+
+    Args:
+        - cafe (CafeUpdate): The updated cafe information.
+        - cafe_id_or_slug (str): The UUID or slug of the cafe to update.
+        - current_user (User): The current user making the request.
+
+    Raises:
+        - HTTPException: If the cafe is not found. The status code is 404 NOT FOUND and the detail is 'Café not found'.
+        - HTTPException: If the user is not authorized to update the cafe. The status code is 403 FORBIDDEN and the detail is 'Access forbidden'.
+        - HTTPException: If there is a duplicate value in the cafe information. The status code is 409 CONFLICT and the detail is the specific duplicate value.
+        - HTTPException: If the cafe already exists. The status code is 409 CONFLICT and the detail is 'Cafe already exists'.
+
+    Returns:
+        - CafeOut: The updated cafe with detailed information.
+    """
     cafe_exists = await CafeService.retrieve_cafe(cafe_id_or_slug)
     if not cafe_exists:
         raise HTTPException(
@@ -207,6 +275,23 @@ async def list_menu_items(
         40, description="Set the number of cafes to return per page."
     ),
 ):
+    """
+    Retrieve the menu items of a specific café.
+
+    Args:
+        - request: Request - The HTTP request object.
+        - cafe_id_or_slug: str - The UUID or slug of the cafe.
+        - in_stock: Optional[bool] - Filter menu items by stock availability (true/false).
+        - sort_by: Optional[str] - Sort menus by a specific field. Prefix with '-' for descending order (e.g., '-name').
+        - page: Optional[int] - Specify the page number for pagination.
+        - limit: Optional[int] - Set the number of cafes to return per page.
+
+    Raises:
+        - HTTPException: If the menu is not found for the given café.
+
+    Returns:
+        - List[MenuItemOut]: A list of menu items for the specified café.
+    """
     query_params = dict(request.query_params)
     query_params["cafe_id_or_slug"] = cafe_id_or_slug
     parsed_params = parse_query_params(query_params)
@@ -229,6 +314,19 @@ async def get_menu_item(
     cafe_slug: str = Path(..., description="The slug of the cafe"),
     item_slug: str = Path(..., description="The slug of the menu item"),
 ):
+    """
+    Get detailed information about a specific menu item.
+
+    Args:
+        - cafe_slug (str): The slug of the cafe.
+        - item_slug (str): The slug of the menu item.
+
+    Raises:
+        - HTTPException: If the menu item is not found.
+
+    Returns:
+        - MenuItemOut: The detailed information about the menu item.
+    """
     item = await CafeService.retrieve_menu_item(cafe_slug, item_slug)
     if not item:
         raise HTTPException(
@@ -248,6 +346,20 @@ async def create_menu_item(
     cafe_slug: str = Path(..., description="The slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
+    """
+    Create a new menu item for the specified café.
+
+    Args:
+        item (MenuItemCreate): The menu item to create.
+        cafe_slug (str, optional): The slug of the cafe. Defaults to Path(..., description="The slug of the cafe").
+        current_user (User, optional): The current user. Defaults to Depends(get_current_user).
+
+    Raises:
+        HTTPException: If the cafe is not found, access is forbidden, or a conflict occurs.
+
+    Returns:
+        MenuItemOut: The created menu item.
+    """
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(
             cafe_slug, current_user, [Role.ADMIN]
@@ -274,6 +386,21 @@ async def update_menu_item(
     item_slug: str = Path(..., description="The slug of the menu item"),
     current_user: User = Depends(get_current_user),
 ):
+    """
+    Update the details of an existing menu item.
+
+    Args:
+        item (MenuItemUpdate): The updated menu item.
+        cafe_slug (str, optional): The slug of the cafe. Defaults to Path(..., description="The slug of the cafe").
+        item_slug (str, optional): The slug of the menu item. Defaults to Path(..., description="The slug of the menu item").
+        current_user (User, optional): The current user. Defaults to Depends(get_current_user).
+
+    Raises:
+        HTTPException: If the menu item or cafe is not found, access is forbidden, or a conflict occurs.
+
+    Returns:
+        MenuItemOut: The updated menu item.
+    """
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(
             cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER]
@@ -309,6 +436,20 @@ async def delete_menu_item(
     item_slug: str = Path(..., description="The slug of the menu item"),
     current_user: User = Depends(get_current_user),
 ):
+    """
+    Delete a specific menu item from the cafe's menu.
+
+    Args:
+        cafe_slug (str): The slug of the cafe (Path Parameter)
+        item_slug (str): The slug of the menu item (Path Parameter)
+        current_user (User): The current user (Dependency Injection)
+
+    Raises:
+        HTTPException: If the menu item is not found, the cafe is not found, or access is forbidden.
+
+    Returns:
+        dict: A dictionary containing a message indicating the success of the deletion.
+    """
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(
             cafe_slug, current_user, [Role.ADMIN]
@@ -343,6 +484,15 @@ async def delete_menu_item(
     description="Retrieve a list of all staff members for a specific cafe.",
 )
 async def list_staff(cafe_slug: str = Path(..., description="The slug of the cafe")):
+    """
+    Retrieves a list of all staff members for a specific cafe.
+
+    Args:
+        cafe_slug (str): The slug of the cafe.
+
+    Returns:
+        List[StaffOut]: A list of StaffOut objects representing the staff members of the cafe.
+    """
     return await CafeService.list_staff_members(cafe_slug)
 
 
@@ -355,6 +505,20 @@ async def list_staff(cafe_slug: str = Path(..., description="The slug of the caf
 async def create_staff_member(
     cafe_slug: str, staff: StaffCreate, current_user: User = Depends(get_current_user)
 ):
+    """
+    Add a new staff member to a specific cafe.
+
+    Args:
+        cafe_slug (str): The slug of the cafe.
+        staff (StaffCreate): The details of the staff member to be added.
+        current_user (User, optional): The current user making the request.
+        
+    Raises:
+        HTTPException: If the staff member already exists, user is not found, cafe is not found, or access is forbidden.
+
+    Returns:
+        The newly created staff member.
+    """
     user = await CafeService.retrieve_staff_member(cafe_slug, staff.username)
     if user:
         raise HTTPException(
@@ -392,6 +556,21 @@ async def update_staff_member(
     staff: StaffUpdate,
     current_user: User = Depends(get_current_user),
 ):
+    """
+    Update details of an existing staff member.
+
+    Args:
+        cafe_slug (str): The slug of the cafe.
+        username (str): The username of the staff member to update.
+        staff (StaffUpdate): The details to update for the staff member.
+        current_user (User, optional): The current user making the request.
+
+    Raises:
+        HTTPException: If the cafe is not found, access is forbidden, or the staff member is not found.
+
+    Returns:
+        The updated staff member information.
+    """
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(
             cafe_slug, current_user, [Role.ADMIN]
@@ -414,6 +593,20 @@ async def update_staff_member(
 async def delete_staff_member(
     cafe_slug: str, username: str, current_user: User = Depends(get_current_user)
 ):
+    """
+    Remove a staff member from a cafe.
+
+    Args:
+        cafe_slug (str): The slug of the cafe.
+        username (str): The username of the staff member to delete.
+        current_user (User, optional): The current user making the request. Defaults to the user obtained from the dependency `get_current_user`.
+
+    Raises:
+        HTTPException: If the cafe is not found, access is forbidden, or the staff member is not found.
+
+    Returns:
+        dict: A dictionary containing a message indicating the success of the deletion.
+    """
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(
             cafe_slug, current_user, [Role.ADMIN]
@@ -456,6 +649,22 @@ async def get_sales_report(
     ),
     current_user: User = Depends(get_current_user),
 ):
+    """
+    Retrieve a sales report for a specific cafe. If no date range is provided, the entire available data range is considered.
+    
+    Args:
+        cafe_slug (str): The slug of the cafe for which to generate the report.
+        start_date (Optional[str]): The start date of the reporting period in YYYY-MM-DD format. Defaults to None.
+        end_date (Optional[str]): The end date of the reporting period in YYYY-MM-DD format. Defaults to None.
+        report_type (str): The type of report to generate. Can be 'daily', 'weekly', or 'monthly'. Defaults to 'daily'.
+        current_user (User): The current user. Defaults to the user obtained from the get_current_user dependency.
+    
+    Raises:
+        HTTPException: If the cafe is not found or access is forbidden.
+    
+    Returns:
+        The sales report data generated by OrderService.generate_sales_report_data.
+    """
     try:
         await CafeService.is_authorized_for_cafe_action_by_slug(
             cafe_slug, current_user, [Role.ADMIN]
@@ -487,6 +696,18 @@ async def search(
     request: Request,
     query: str = Query(..., description="Search query for cafes or menu items"),
 ):
+    """
+    Search for Cafes and Menu Items.
+
+    This function performs a search across cafes and their menu items with a given query.
+
+    Args:
+        - request: Request - The HTTP request object.
+        - query: str - Search query for cafes or menu items.
+
+    Returns:
+        The search results for cafes and menu items.
+    """
     filters = dict(request.query_params)
     filters.pop("query", None)
     return await CafeService.search_cafes_and_items(query, **filters)
@@ -503,6 +724,18 @@ async def search(
     description="Import menu items from a JSON file. JSON must be an array of objects, with each object containing a unique menu item slug and the item's data.",
 )
 async def import_menu_items(cafe_slug: str, file: UploadFile):
+    """
+    Import Menu Items.
+
+    Import menu items from a JSON file. JSON must be an array of objects, with each object containing a unique menu item slug and the item's data.
+
+    Args:
+        - cafe_slug: str - The slug of the cafe to import menu items to.
+        - file: UploadFile - The JSON file containing the menu items to import.
+
+    Returns:
+        A dictionary containing the message "Menu items imported successfully".
+    """
     json_data = (await file.read()).decode()
     menu_items = json.loads(json_data)
     for menu_item in menu_items:
