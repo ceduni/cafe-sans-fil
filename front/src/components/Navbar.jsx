@@ -9,6 +9,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "react-use-cart";
 import classNames from "classnames";
 
+import SearchBar from "@/components/Search/SearchBar";
+import { useNavigate } from 'react-router-dom';
+
 const routes = {
   home: "/",
   login: "/login",
@@ -23,6 +26,16 @@ const avatarNavigation = [
 ];
 
 const Navbar = () => {
+  let navigate = useNavigate();
+
+  const handleSearch= (e) => {
+    e.preventDefault();
+    console.log("Search submitted: ", searchQuery); // debug
+    navigate(`/?search=${searchQuery}`);
+  };
+
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { isLoggedIn, onLogout, user } = useAuth();
   const userFullName = user ? user.first_name + " " + user.last_name : "";
 
@@ -52,6 +65,15 @@ const Navbar = () => {
                     <Link to={routes.home} className="flex items-center gap-2 md:gap-4">
                       <img className="h-[2.4rem] w-auto ml-2 lg:ml-3" src="/logo_text.png" alt="Café sans-fil" />
                     </Link>
+                  </div>
+
+                  {/* SearchBar */}
+
+                  {/* <div className="flex-1 max-w-xl mx-auto"><SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} /></div> */}
+                  <div className="flex-1 max-w-xl mx-auto">
+                    <form onSubmit={handleSearch}>
+                      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+                    </form>
                   </div>
 
                   <div className="ml-auto flex items-center">
