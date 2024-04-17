@@ -1,15 +1,25 @@
 import Container from "@/components/Container";
 import { Helmet } from "react-helmet-async";
-import SearchBar from "@/components/Search/SearchBar";
+// import SearchBar from "@/components/Search/SearchBar";
 import { useState } from "react";
 import CafeList from "@/components/Cafe/CafeList";
 import SearchResults from "@/components/Search/SearchResults";
+import { useSearchParams } from 'react-router-dom';
+
+
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const isSearching = searchQuery.length > 0;
-
+  let [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+  console.log("Search query: ", searchQuery); // débug
   const [storedCafes, setStoredCafes] = useState([]);
+  // const isSearching = searchQuery.length > 0;
+  // const [searchQuery, setSearchQuery] = useState("");
+  // const isSearching = searchQuery.length > 0;
+
+ 
+
+
 
   return (
     <>
@@ -25,12 +35,19 @@ const Home = () => {
             <img src="/udem_logo.png" alt="UdeM Logo" className="h-9 object-contain" />
           </a> */}
         </div>
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        {/* <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
       </Container>
       <main>
-        <Container>
+        {/* <Container>
           {(!isSearching && <CafeList setStoredCafes={setStoredCafes} storedCafes={storedCafes} />) || (
             <SearchResults searchQuery={searchQuery} storedCafes={storedCafes} />
+          )}
+        </Container> */}
+        <Container>
+        {searchQuery ? (
+            <SearchResults searchQuery={searchQuery} />
+          ) : (
+            <CafeList setStoredCafes={setStoredCafes} storedCafes={storedCafes} />
           )}
         </Container>
       </main>
