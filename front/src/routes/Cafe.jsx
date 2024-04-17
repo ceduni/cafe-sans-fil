@@ -12,11 +12,14 @@ import ContactCafe from "@/components/Cafe/ContactCafe";
 import SocialIcons from "@/components/Cafe/SocialIcons";
 import { MapPinIcon } from "@heroicons/react/24/solid";
 import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
-import { getCafeCategories, getItemByCategory } from "@/utils/items";
+// import { getCafeCategories, getItemByCategory } from "@/utils/items";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import classNames from "classnames";
+import Menu from "./Menu";
+import EventBoard from "./Board/eventBoard";
+
 
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
@@ -27,6 +30,23 @@ const Cafe = () => {
     setShowOpeningHours(!showOpeningHours);
   };
 
+
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  // const handleCategoryClick = (category) => {
+  //   setActiveCategory(category === activeCategory ? null : category);
+  // };
+
+  const events = [
+    {
+      title: 'Saint-Valentin',
+      description: 'Plongez dans l\'atmosphère romantique de la Saint-Valentin avec une soirée spécialement conçue pour célébrer l\'amour sous toutes ses formes...',
+      date: '14 Février',
+      time: '19h30',
+      image: 'path_to_valentin_image.jpg',
+    },
+  ];
+
   if (error) {
     if (error.status === 404) {
       throw new Response("Not found", { status: 404, statusText: "Ce café n'existe pas" });
@@ -35,20 +55,20 @@ const Cafe = () => {
   }
 
   const menuItems = data?.menu_items;
-  const categories = getCafeCategories(menuItems);
+  // const categories = getCafeCategories(menuItems);
 
   return (
     <>
       <Helmet>{data?.name && <title>{data.name} | Café sans-fil</title>}</Helmet>
-      <Container className="py-10 pb-12">
-        <Breadcrumbs>
+      {/* <Container className="py-10 pb-12"> */}
+        {/* <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
           <Breadcrumbs.Item isLoading={isLoading}>{data?.name}</Breadcrumbs.Item>
-        </Breadcrumbs>
+        </Breadcrumbs> */}
 
         <CafeMemberHeader cafe={data} />
 
-        <img
+        {/* <img
           className="mb-6 rounded-3xl shadow-xl object-cover md:h-[25rem] w-full"
           src={data?.image_url || "https://placehold.co/700x400?text=..."}
           alt={`Photo du café ${data?.name}`}
@@ -56,13 +76,40 @@ const Cafe = () => {
             e.target.onerror = null;
             e.target.src = "https://placehold.co/700x400?text=:/";
           }}
-        />
+        /> */}
 
+        <div className="relative">
+          <img
+            className="object-cover md:h-[25rem] w-full"
+            src={data?.image_url || "https://placehold.co/700x400?text=..."}
+            alt={`Photo du café ${data?.name}`}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://placehold.co/700x400?text=:/";
+            }}
+          />
+<div className="absolute bottom-0 left-0 right-0 p-0 flex  items-center">
+    {/* Title container with background */}
+    <div className="bg-white px-4 py-2 rounded-r"> {/* Adjust padding and rounded corners as needed */}
+      {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          {data?.name}
+        </h2>
+      )}
+    </div>
+    
+    {/* Social icons container with background */}
+    <div className="flex">
+    {!isLoading && <SocialIcons socialMedia={data?.social_media} />}
+  </div>
+</div>
+        </div>
+{/* 
         {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
-        )}
+        )} */}
 
-        <div className="flex items-center justify-start space-x-2">
+        <div className=" top-12 flex items-center justify-start space-x-2">
           <OpenIndicator
             isOpen={data?.is_open}
             openingHours={data?.opening_hours}
@@ -99,7 +146,7 @@ const Cafe = () => {
 
         {!isLoading && <PaymentMethods arrayOfMethods={data?.payment_methods} />}
 
-        {!isLoading && <SocialIcons socialMedia={data?.social_media} />}
+        {/* {!isLoading && <SocialIcons socialMedia={data?.social_media} />} */}
 
         {data?.additional_info?.map(
           (info, index) =>
@@ -113,12 +160,12 @@ const Cafe = () => {
               </div>
             )
         )}
-      </Container>
+      {/* </Container> */}
 
-      <Container className="pt-12 border-t border-gray-200">
+      {/* <Container className="pt-12 border-t border-gray-200">
         <h2 className=" text-4xl text-center font-bold text-gray-900 tracking-wide">Menu</h2>
-      </Container>
-
+      </Container> */}
+{/* 
       {categories.map((category) => (
         <Container key={category} className="py-10">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">{category}</h2>
@@ -128,7 +175,46 @@ const Cafe = () => {
             ))}
           </div>
         </Container>
-      ))}
+      ))} */}
+
+     {/* Menu principal*/}
+     
+      {/* <Container className="pt-12 pb-24 border-t border-gray-200">
+        <h2 className="text-4xl text-center font-bold text-gray-900 mb-10">Menu</h2>
+        <div className={`grid grid-cols-2 grid-rows-2 gap-4 p-4`}> 
+          {categories.map((category) => (
+            <div
+              key={category}
+              className={classNames(
+                "bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 relative",
+                { "col-span-1": activeCategory === category },"cursor-pointer hover:bg-slate-200" // Si catégorie est active, prend toute la largeur
+              )}
+              onClick={() => handleCategoryClick(category)}
+            >
+              <h3 className="text-xl font-semibold text-gray-800 p-4 ">
+                {category}
+              </h3>
+              <div className={classNames(
+                "grid grid-cols-4 p-1 transition-all duration-500 ease-in-out",
+                { "gap-10": activeCategory === category, "max-h-screen": activeCategory === category },
+                { "gap-4": activeCategory !== category, "max-h-60 overflow-hidden": activeCategory !== category }
+              )}>
+                {getItemByCategory(menuItems, category).map((item) => (
+                  <ItemCard key={item.item_id} item={item} cafeSlug={cafeSlug} />
+                ))}
+              </div>
+              {activeCategory === category && (
+                <div className="absolute top-0 right-0 p-4">
+                  <button onClick={() => setActiveCategory(null)}>Fermer</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </Container> */}
+      
+      <Menu items={menuItems} />
+      <EventBoard events={events} />
 
       <Container className="py-12 border-t border-gray-200">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nous contacter</h2>
