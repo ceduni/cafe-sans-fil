@@ -19,7 +19,8 @@ Script to generate data for the Test DB.
 It can also be used to generate data for other DB.
 """
 MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"
-print (f"Generating data for {MONGO_DB_NAME}")
+print(f"Generating data for {MONGO_DB_NAME}")
+
 
 async def main():
     db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
@@ -28,10 +29,18 @@ async def main():
     db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[MONGO_DB_NAME]
     await init_beanie(database=db_client, document_models=[User, Cafe, Order])
 
-    # Generate all 
-    user_usernames = await create_users(70) # Must have minimum 70 Users to always have enough Staff, max 270
+    # Generate all
+    user_usernames = await create_users(
+        70
+    )  # Must have minimum 70 Users to always have enough Staff, max 270
     cafe_menu_items_slugs_dict, cafes_data = await create_cafes(user_usernames)
-    await create_orders(user_usernames, cafe_menu_items_slugs_dict, cafes_data, MONGO_DB_NAME.endswith("test"))
+    await create_orders(
+        user_usernames,
+        cafe_menu_items_slugs_dict,
+        cafes_data,
+        MONGO_DB_NAME.endswith("test"),
+    )
+
 
 if __name__ == "__main__":
     asyncio.run(main())

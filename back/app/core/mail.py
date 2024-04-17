@@ -26,7 +26,7 @@
 #         template_body=body,
 #         subtype='html',
 #     )
-    
+
 #     fm = FastMail(conf)
 #     await fm.send_message(message, template_name='register_mail.html')
 
@@ -37,7 +37,7 @@
 #         template_body=body,
 #         subtype='html',
 #     )
-    
+
 #     fm = FastMail(conf)
 #     await fm.send_message(message, template_name='reset_password_mail.html')
 
