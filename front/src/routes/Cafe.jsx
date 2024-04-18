@@ -19,6 +19,8 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import classNames from "classnames";
 import Menu from "./Menu";
 import EventBoard from "./Board/eventBoard";
+import NewsBoard from "./Board/NewsBoard";
+import CafeDescriptionBoard from "./Board/CafeDescriptionBoard";
 
 
 const Cafe = () => {
@@ -37,6 +39,7 @@ const Cafe = () => {
   //   setActiveCategory(category === activeCategory ? null : category);
   // };
 
+  //Fake data pour tableau d'affichage
   const events = [
     {
       title: 'Saint-Valentin',
@@ -46,6 +49,28 @@ const Cafe = () => {
       image: 'path_to_valentin_image.jpg',
     },
   ];
+
+  //Fake data pour Annonces
+  const news = [
+    {
+      title: 'Distribution de Chocolat Gratuit',
+      content: 'Pour égayer votre journée, passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses café.',
+      timePosted: 'Il y a 4 jours',
+      tags: ['rapide', 'chocolat'], // Un tableau de tags
+      buttonText: 'En savoir plus',
+      likes: 18 // Assurez-vous d'avoir un champ pour les likes si vous allez l'afficher
+    },
+  ];
+
+  //Fake data pour description board
+  // Fake data pour la boîte de description
+  const cafeInfo = {
+    name: "Tore et Fraction",
+    description: "Café 100% bénévoles, vu de coucher de soleil magnifique, on remplit votre tasse pour 0,50$.",
+    appareils: ["Micro-ondes", "Presse panini", "Machine à café"],
+    staff: [{ name: "Jeremy" }, { name: "Simon" }],
+    // ... autres données si nécessaire
+  };
 
   if (error) {
     if (error.status === 404) {
@@ -213,7 +238,21 @@ const Cafe = () => {
         </div>
       </Container> */}
       
-      <Menu items={menuItems} />
+      {/* <Menu items={menuItems} /> */}
+      
+      <div className="flex flex-wrap md:flex-nowrap">
+        {/* Colonne du menu */}
+        <div className="w-full md:w-3/5">
+          <Menu items={menuItems} />
+        </div>
+
+        {/* Colonne de droite pour la boîte de description et les annonces */}
+        <div className="w-full md:w-2/5 mt-4 md:mt-0 md:ml-4">
+          <CafeDescriptionBoard cafe={cafeInfo} />
+          <NewsBoard news={news} />
+        </div>
+      </div>
+      
       <EventBoard events={events} />
 
       <Container className="py-12 border-t border-gray-200">
