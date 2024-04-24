@@ -62,14 +62,12 @@ const Cafe = () => {
     },
   ];
 
-  //Fake data pour description board
-  // Fake data pour la boîte de description
-  const cafeInfo = {
-    name: "Tore et Fraction",
-    description: "Café 100% bénévoles, vu de coucher de soleil magnifique, on remplit votre tasse pour 0,50$.",
-    appareils: ["Micro-ondes", "Presse panini", "Machine à café"],
-    staff: [{ name: "Jeremy" }, { name: "Simon" }],
-    // ... autres données si nécessaire
+  const cafeDescriptionProps = {
+    name: data?.name,
+    description: data?.description,
+    location: displayCafeLocation(data?.location),
+    appareils: ["Micro-ondes", "Presse panini", "Machine à café"], // Placeholder en attendant les vraies données
+    staff: data?.staff // Supposons que data contienne une propriété staff avec les bonnes données
   };
 
   if (error) {
@@ -113,6 +111,28 @@ const Cafe = () => {
               e.target.src = "https://placehold.co/700x400?text=:/";
             }}
           />
+
+          
+<div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
+        <div className=" top-12 flex items-center justify-start space-x-2 rounded-lg bg-slate-200">
+          <OpenIndicator
+            isOpen={data?.is_open}
+            openingHours={data?.opening_hours}
+            statusMessage={data?.status_message}
+          />
+          <button onClick={toggleOpeningHours}>
+            {showOpeningHours ? <ChevronUpIcon className="h-6 w-6" /> : <ChevronDownIcon className="h-6 w-6" />}
+          </button>
+        </div>
+
+        <div
+          className={classNames("overflow-hidden transition-all duration-200", {
+            "max-h-0": !showOpeningHours,
+            "max-h-96": showOpeningHours,
+          })}>
+          {showOpeningHours && <OpeningHours openingHours={data?.opening_hours} />}
+        </div>
+      </div>
 <div className="absolute bottom-0 left-0 right-0 p-0 flex  items-center">
     {/* Title container with background */}
     <div className="bg-white px-4 py-2 rounded-r"> {/* Adjust padding and rounded corners as needed */}
@@ -134,6 +154,8 @@ const Cafe = () => {
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
         )} */}
 
+{/* 
+<div className="absolute top-12 left-1/2 transform -translate-x-1/2 z-10">
         <div className=" top-12 flex items-center justify-start space-x-2">
           <OpenIndicator
             isOpen={data?.is_open}
@@ -152,8 +174,9 @@ const Cafe = () => {
           })}>
           {showOpeningHours && <OpeningHours openingHours={data?.opening_hours} />}
         </div>
+      </div> */}
 
-        <div className="pb-3 pt-3">
+        {/* <div className="pb-3 pt-3">
           {(data?.description && (
             <p className="sm:text-lg leading-8 text-gray-600 max-w-3xl">{data?.description}</p>
           )) || (
@@ -162,12 +185,12 @@ const Cafe = () => {
               <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
             </>
           )}
-        </div>
-
+        </div> */}
+{/* 
         <div className="flex items-center mb-1">
           <MapPinIcon className="inline-block w-5 h-5 text-gray-500" />
           <span className="ml-1 text-gray-500">{displayCafeLocation(data?.location)}</span>
-        </div>
+        </div> */}
 
         {!isLoading && <PaymentMethods arrayOfMethods={data?.payment_methods} />}
 
@@ -248,9 +271,10 @@ const Cafe = () => {
 
         {/* Colonne de droite pour la boîte de description et les annonces */}
         <div className="w-full md:w-2/5 mt-4 md:mt-0 md:ml-4">
-          <CafeDescriptionBoard cafe={cafeInfo} />
-          <NewsBoard news={news} />
-        </div>
+        {data && <CafeDescriptionBoard cafe={cafeDescriptionProps} />}
+        
+        <NewsBoard news={news} />
+      </div>
       </div>
       
       <EventBoard events={events} />
