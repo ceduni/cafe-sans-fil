@@ -13,6 +13,8 @@ from app.api.api_v1.router import router
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.models.order_model import Order
+from app.models.announcement_model import Announcement
+from app.models.event_model import Event
 
 """
 Main application initialization for Café sans-fil.
@@ -50,7 +52,9 @@ async def lifespan(app: FastAPI):
         document_models=[
             User,
             Cafe,
-            Order
+            Order,
+            Announcement,
+            Event
         ]
     )
     yield
