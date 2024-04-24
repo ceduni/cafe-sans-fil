@@ -5,12 +5,14 @@ from datetime import datetime
 from app.models.announcement_model import UserInteraction
 
 class AnnouncementCreate(BaseModel):
+    cafe_id: UUID = Field(..., description="Identifier of the cafe for which the announcement is made.")
     title: str = Field(..., min_length=1, description="Title of the announcement.")
     content: str = Field(..., description="The content of the announcement.")
     active_until: Optional[datetime] = Field(None, description="Date and time until the announcement is considered active.")
     tags: List[str] = Field([], description="List of tags relevant to the announcement for categorization.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
+            "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
             "title": "Distribution de Chocolat Gratuit",
             "content": "Pour égayer votre journée, passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses café",
             "active_until": "2025-12-31T23:59:59",

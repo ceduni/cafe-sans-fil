@@ -1,11 +1,39 @@
 from typing import List
-from app.models.announcement_model import Announcement
+from app.models.announcement_model import Announcement, UserInteraction
 from app.schemas.announcement_schema import AnnouncementCreate, AnnouncementOut
+from uuid import UUID
 
-async def get_announcements() -> List[AnnouncementOut]:
-    return await Announcement.find_all().to_list()
+class AnnouncementService:
+    async def get_announcements() -> List[AnnouncementOut]:
+        return await Announcement.find_all().to_list()
 
-async def create_announcement(announcement_data: AnnouncementCreate) -> AnnouncementOut:
-    announcement = Announcement(**announcement_data.model_dump())
-    await announcement.insert()
-    return announcement
+    async def create_announcement(announcement_data: AnnouncementCreate) -> AnnouncementOut:
+        announcement = Announcement(**announcement_data.model_dump())
+        await announcement.insert()
+        return announcement
+
+    async def remove_announcement(announcement_id: UUID) -> AnnouncementOut:
+        announcement = await Announcement.find_one(Announcement.announcement_id == announcement_id)
+        if not announcement:
+            raise ValueError("Announcement not found")
+        await announcement.delete()
+        return announcement
+    
+    async def add_like_to_announcement(announcement_id: UUID, user_id: UUID) -> AnnouncementOut:
+        announcement = await Announcement.find_one(Announcement.announcement_id == announcement_id)
+        if not announcement:
+            raise ValueError("Announcement not found")
+        if not any(li.user_id == user_id for li in announcement.likes):
+            announcement.likes.append(UserInteraction(user_id=user_id))
+            await announcement.save()
+        return announcement
+
+    async def remove_like_from_announcement(announcement_id: UUID, user_id: UUID) -> AnnouncementOut:
+        announcement = await Announcement.find_one(Announcement.announcement_id == announcement_id)
+        if not announcement:
+            raise ValueError("Announcement not found")
+        original_likes = len(announcement.likes)
+        announcement.likes = [like for like in announcement.likes if like.user_id != user_id]
+        if len(announcement.likes) < original_likes:
+            await announcement.save()
+        return announcement

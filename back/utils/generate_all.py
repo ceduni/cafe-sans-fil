@@ -8,17 +8,21 @@ from app.core.config import settings
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.models.order_model import Order
+from app.models.event_model import Event
+from app.models.announcement_model import Announcement
 
 # Utils
 from utils.generate_user import create_users
 from utils.generate_cafe import create_cafes
 from utils.generate_order import create_orders
+from utils.generate_event import generate_events
+from utils.generate_announcement import generate_announcements
 
 """
 Script to generate data for the Test DB.
 It can also be used to generate data for other DB.
 """
-MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"
+MONGO_DB_NAME = settings.MONGO_DB_NAME
 print (f"Generating data for {MONGO_DB_NAME}")
 
 async def main():
@@ -26,12 +30,14 @@ async def main():
     db_client.drop_database(MONGO_DB_NAME)
 
     db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)[MONGO_DB_NAME]
-    await init_beanie(database=db_client, document_models=[User, Cafe, Order])
+    await init_beanie(database=db_client, document_models=[User, Cafe, Order, Event, Announcement])
 
     # Generate all 
-    user_usernames = await create_users(27) # Must have minimum 26 Users to always have enough Staff, max 270
-    cafe_menu_items_slugs_dict, cafes_data = await create_cafes(user_usernames)
+    user_ids, user_usernames = await create_users(27) # Must have minimum 26 Users to always have enough Staff, max 270
+    cafes_ids, cafe_menu_items_slugs_dict, cafes_data = await create_cafes(user_usernames)
     await create_orders(user_usernames, cafe_menu_items_slugs_dict, cafes_data, MONGO_DB_NAME.endswith("test"))
+    await generate_events(cafes_ids, user_ids)
+    # await generate_announcements(cafes_ids, user_ids)
 
 if __name__ == "__main__":
     asyncio.run(main())
