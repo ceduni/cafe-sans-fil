@@ -35,9 +35,7 @@ const Cafe = () => {
 
   const [activeCategory, setActiveCategory] = useState(null);
 
-  // const handleCategoryClick = (category) => {
-  //   setActiveCategory(category === activeCategory ? null : category);
-  // };
+
 
   //Fake data pour tableau d'affichage
   const events = [
@@ -78,28 +76,14 @@ const Cafe = () => {
   }
 
   const menuItems = data?.menu_items;
-  // const categories = getCafeCategories(menuItems);
+
 
   return (
     <>
       <Helmet>{data?.name && <title>{data.name} | Café sans-fil</title>}</Helmet>
-      {/* <Container className="py-10 pb-12"> */}
-        {/* <Breadcrumbs>
-          <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
-          <Breadcrumbs.Item isLoading={isLoading}>{data?.name}</Breadcrumbs.Item>
-        </Breadcrumbs> */}
 
         <CafeMemberHeader cafe={data} />
 
-        {/* <img
-          className="mb-6 rounded-3xl shadow-xl object-cover md:h-[25rem] w-full"
-          src={data?.image_url || "https://placehold.co/700x400?text=..."}
-          alt={`Photo du café ${data?.name}`}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "https://placehold.co/700x400?text=:/";
-          }}
-        /> */}
 
         <div className="relative">
           <img
@@ -114,7 +98,7 @@ const Cafe = () => {
 
           
 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
-        <div className=" top-12 flex items-center justify-start space-x-2 rounded-lg bg-slate-200">
+        <div className=" top-12 flex items-center justify-start space-x-2 rounded-lg bg-white">
           <OpenIndicator
             isOpen={data?.is_open}
             openingHours={data?.opening_hours}
@@ -149,52 +133,10 @@ const Cafe = () => {
   </div>
 </div>
         </div>
-{/* 
-        {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
-        )} */}
 
-{/* 
-<div className="absolute top-12 left-1/2 transform -translate-x-1/2 z-10">
-        <div className=" top-12 flex items-center justify-start space-x-2">
-          <OpenIndicator
-            isOpen={data?.is_open}
-            openingHours={data?.opening_hours}
-            statusMessage={data?.status_message}
-          />
-          <button onClick={toggleOpeningHours}>
-            {showOpeningHours ? <ChevronUpIcon className="h-6 w-6" /> : <ChevronDownIcon className="h-6 w-6" />}
-          </button>
-        </div>
-
-        <div
-          className={classNames("overflow-hidden transition-all duration-200", {
-            "max-h-0": !showOpeningHours,
-            "max-h-96": showOpeningHours,
-          })}>
-          {showOpeningHours && <OpeningHours openingHours={data?.opening_hours} />}
-        </div>
-      </div> */}
-
-        {/* <div className="pb-3 pt-3">
-          {(data?.description && (
-            <p className="sm:text-lg leading-8 text-gray-600 max-w-3xl">{data?.description}</p>
-          )) || (
-            <>
-              <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
-              <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
-            </>
-          )}
-        </div> */}
-{/* 
-        <div className="flex items-center mb-1">
-          <MapPinIcon className="inline-block w-5 h-5 text-gray-500" />
-          <span className="ml-1 text-gray-500">{displayCafeLocation(data?.location)}</span>
-        </div> */}
 
         {!isLoading && <PaymentMethods arrayOfMethods={data?.payment_methods} />}
 
-        {/* {!isLoading && <SocialIcons socialMedia={data?.social_media} />} */}
 
         {data?.additional_info?.map(
           (info, index) =>
@@ -208,58 +150,6 @@ const Cafe = () => {
               </div>
             )
         )}
-      {/* </Container> */}
-
-      {/* <Container className="pt-12 border-t border-gray-200">
-        <h2 className=" text-4xl text-center font-bold text-gray-900 tracking-wide">Menu</h2>
-      </Container> */}
-{/* 
-      {categories.map((category) => (
-        <Container key={category} className="py-10">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">{category}</h2>
-          <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 items-start">
-            {getItemByCategory(menuItems, category).map((product) => (
-              <ItemCard key={product.item_id} item={product} cafeSlug={cafeSlug} />
-            ))}
-          </div>
-        </Container>
-      ))} */}
-
-     {/* Menu principal*/}
-     
-      {/* <Container className="pt-12 pb-24 border-t border-gray-200">
-        <h2 className="text-4xl text-center font-bold text-gray-900 mb-10">Menu</h2>
-        <div className={`grid grid-cols-2 grid-rows-2 gap-4 p-4`}> 
-          {categories.map((category) => (
-            <div
-              key={category}
-              className={classNames(
-                "bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 relative",
-                { "col-span-1": activeCategory === category },"cursor-pointer hover:bg-slate-200" // Si catégorie est active, prend toute la largeur
-              )}
-              onClick={() => handleCategoryClick(category)}
-            >
-              <h3 className="text-xl font-semibold text-gray-800 p-4 ">
-                {category}
-              </h3>
-              <div className={classNames(
-                "grid grid-cols-4 p-1 transition-all duration-500 ease-in-out",
-                { "gap-10": activeCategory === category, "max-h-screen": activeCategory === category },
-                { "gap-4": activeCategory !== category, "max-h-60 overflow-hidden": activeCategory !== category }
-              )}>
-                {getItemByCategory(menuItems, category).map((item) => (
-                  <ItemCard key={item.item_id} item={item} cafeSlug={cafeSlug} />
-                ))}
-              </div>
-              {activeCategory === category && (
-                <div className="absolute top-0 right-0 p-4">
-                  <button onClick={() => setActiveCategory(null)}>Fermer</button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </Container> */}
       
       {/* <Menu items={menuItems} /> */}
       
