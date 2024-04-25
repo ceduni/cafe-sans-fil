@@ -20,6 +20,19 @@ class AnnouncementCreate(BaseModel):
         }
     })
 
+class AnnouncementUpdate(BaseModel):
+    title: Optional[str] = Field(None, description="Title of the announcement.")
+    content: Optional[str] = Field(None, description="The content of the announcement.")
+    active_until: Optional[datetime] = Field(None, description="Date and time until the announcement is considered active.")
+    tags: Optional[List[str]] = Field(None, description="List of tags relevant to the announcement for categorization.")
+    model_config = ConfigDict(json_schema_extra={
+        "example": {
+            "title": "Distribution de Chocolat Gratuit",
+            "content": "Pour égayer votre journée, passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses café",
+            "active_until": "2025-12-31T23:59:59",
+            "tags": ["Rapide", "Chocalat"]
+        }
+    })
 
 class AnnouncementOut(BaseModel):
     announcement_id: UUID = Field(..., description="Unique identifier of the announcement.")

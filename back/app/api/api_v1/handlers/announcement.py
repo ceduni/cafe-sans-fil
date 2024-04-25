@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, Path, Request, Query
 from typing import List, Optional, Dict
 from uuid import UUID
 
-from app.schemas.announcement_schema import AnnouncementCreate, AnnouncementOut
+from app.schemas.announcement_schema import AnnouncementCreate, AnnouncementUpdate, AnnouncementOut
 from app.services.announcement_service import AnnouncementService
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
@@ -64,6 +64,10 @@ async def list_announcements(
 @announcement_router.post("/announcements/", response_model=AnnouncementOut)
 async def create_announcement(announcement: AnnouncementCreate):
     return await AnnouncementService.create_announcement(announcement)
+
+@announcement_router.put("/announcements/{announcement_id}", response_model=AnnouncementOut)
+async def update_announcement(announcement_id: UUID, announcement: AnnouncementUpdate):
+    return await AnnouncementService.update_announcement(announcement_id, announcement)
 
 @announcement_router.delete("/announcements/{announcement_id}")
 async def delete_announcement(announcement_id: UUID):

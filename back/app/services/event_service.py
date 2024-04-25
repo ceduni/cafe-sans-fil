@@ -21,6 +21,15 @@ class EventService:
         await event.insert()
         return event
 
+    async def update_event(event_id: UUID, event_data: EventCreate) -> EventOut:
+        event = await Event.find_one(Event.event_id == event_id)
+        if not event:
+            raise ValueError("Event not found")
+        for key, value in event_data.dict(exclude_unset=True).items():
+            setattr(event, key, value)
+        await event.save()
+        return event
+
     async def remove_event(event_id: UUID) -> EventOut:
         event = await Event.find_one(Event.event_id == event_id)
         if not event:

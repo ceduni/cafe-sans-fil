@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, Path, Request, Query
 from typing import List, Optional, Dict
 from uuid import UUID
 
-from app.schemas.event_schema import EventCreate, EventOut
+from app.schemas.event_schema import EventCreate, EventUpdate, EventOut
 from app.services.event_service import EventService
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
@@ -64,6 +64,10 @@ async def list_events(
 @event_router.post("/events/", response_model=EventOut)
 async def create_event(event: EventCreate):
     return await EventService.create_event(event)
+
+@event_router.put("/events/{event_id}", response_model=EventOut)
+async def update_event(event_id: UUID, event: EventUpdate):
+    return await EventService.update_event(event_id, event)
 
 @event_router.delete("/events/{event_id}")
 async def delete_event(event_id: UUID):

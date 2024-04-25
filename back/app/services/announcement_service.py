@@ -21,6 +21,15 @@ class AnnouncementService:
         await announcement.insert()
         return announcement
 
+    async def update_announcement(announcement_id: UUID, announcement_data: AnnouncementCreate) -> AnnouncementOut:
+        announcement = await Announcement.find_one(Announcement.announcement_id == announcement_id)
+        if not announcement:
+            raise ValueError("Announcement not found")
+        for key, value in announcement_data.dict(exclude_unset=True).items():
+            setattr(announcement, key, value)
+        await announcement.save()
+        return announcement
+    
     async def remove_announcement(announcement_id: UUID) -> AnnouncementOut:
         announcement = await Announcement.find_one(Announcement.announcement_id == announcement_id)
         if not announcement:
