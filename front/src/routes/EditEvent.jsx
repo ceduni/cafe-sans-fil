@@ -66,12 +66,13 @@ const EditEvent = () => {
   const { data, isLoading, error, refetch } = useApi(`/events/`);
   const [events, setEvents] = useState([]);
   const [eventData, setEventData] = useState({
+    cafe_id:cafe.cafe_id,
     title: '',
     description: '',
     start_date: '',
     end_date: '',
     image_url: '',
-    // ... autres champs si nécessaire
+   
   });
 
   useEffect(() => {
