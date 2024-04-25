@@ -5,7 +5,7 @@ from datetime import datetime
 from app.models.announcement_model import UserInteraction
 
 class EventCreate(BaseModel):
-    # cafe_id: UUID = Field(..., description="Identifier of the cafe hosting the event.")
+    cafe_id: UUID = Field(..., description="Identifier of the cafe hosting the event.")
     title: str = Field(..., min_length=1, description="Title of the event.")
     description: str = Field(..., description="Detailed description of the event.")
     start_date: datetime = Field(..., description="Starting date and time of the event.")
@@ -13,6 +13,7 @@ class EventCreate(BaseModel):
     image_url: Optional[str] = Field(None, description="URL of the event image.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
+            "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
             "title": "Saint-Valentin",
             "description": "Plongez dans l'atmosphère romantique de la Saint-Valentin avec une soirée spécialement conçue pour célébrer l'amour sous toutes ses formes...",
             "start_date": "2025-02-14T10:00:00",
