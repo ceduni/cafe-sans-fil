@@ -16,7 +16,9 @@ import {
   StaffList,
   SalesReport,
   EditMenu,
-} from "@/routes";
+  EditEvent,
+} 
+from "@/routes";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
@@ -112,6 +114,17 @@ const router = createBrowserRouter([
           </LoggedInOnly>
         ),
       },
+
+     
+      {
+        path: "/cafes/:id/edit/events",
+        element: (
+          <LoggedInOnly>
+            <EditEvent/>
+          </LoggedInOnly>
+        ),
+      },
+
       {
         path: "/cafes/:id/sales-report",
         element: (
