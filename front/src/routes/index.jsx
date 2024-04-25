@@ -11,6 +11,7 @@ import EditCafe from "./EditCafe";
 import StaffList from "./StaffList";
 import SalesReport from "./SalesReport";
 import EditMenu from "./EditMenu";
+import EditEvent from "./EditEvent";
 
 export {
   Home,
@@ -26,4 +27,5 @@ export {
   StaffList,
   SalesReport,
   EditMenu,
+  EditEvent,
 };
