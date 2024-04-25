@@ -4,8 +4,17 @@ from app.schemas.announcement_schema import AnnouncementCreate, AnnouncementOut
 from uuid import UUID
 
 class AnnouncementService:
-    async def get_announcements() -> List[AnnouncementOut]:
-        return await Announcement.find_all().to_list()
+    async def get_announcements(**query_params) -> List[AnnouncementOut]:
+        sort_by = query_params.pop("sort_by", "start_date")
+        page = int(query_params.pop("page", 1))
+        limit = int(query_params.pop("limit", 9))
+        return (
+            await Announcement.find(query_params)
+            .skip(page)
+            .limit(limit)
+            .sort(sort_by)
+            .to_list()
+        )
 
     async def create_announcement(announcement_data: AnnouncementCreate) -> AnnouncementOut:
         announcement = Announcement(**announcement_data.model_dump())

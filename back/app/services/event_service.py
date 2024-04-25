@@ -4,8 +4,17 @@ from app.schemas.event_schema import EventCreate, EventOut
 from uuid import UUID
 
 class EventService:
-    async def get_events() -> List[EventOut]:
-        return await Event.find_all().to_list()
+    async def get_events(**query_params) -> List[EventOut]:
+        sort_by = query_params.pop("sort_by", "start_date")
+        page = int(query_params.pop("page", 1))
+        limit = int(query_params.pop("limit", 9))
+        return (
+            await Event.find(query_params)
+            .skip(page)
+            .limit(limit)
+            .sort(sort_by)
+            .to_list()
+        )
 
     async def create_event(event_data: EventCreate) -> EventOut:
         event = Event(**event_data.model_dump())
