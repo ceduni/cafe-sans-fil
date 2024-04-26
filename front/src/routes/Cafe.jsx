@@ -21,12 +21,16 @@ import Menu from "./Menu";
 import EventBoard from "./Board/eventBoard";
 import NewsBoard from "./Board/NewsBoard";
 import CafeDescriptionBoard from "./Board/CafeDescriptionBoard";
+import { useEffect } from "react";
+
 
 
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
   const { data, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
   const [showOpeningHours, setShowOpeningHours] = useState(false);
+  const { data: events, isLoading: eventsLoading, error: eventsError } = useApi(`/events/`);
+
 
   const toggleOpeningHours = () => {
     setShowOpeningHours(!showOpeningHours);
@@ -35,18 +39,39 @@ const Cafe = () => {
 
   const [activeCategory, setActiveCategory] = useState(null);
 
+  // const [events, setEvents] = useState([]);
+  if (eventsError) return <EmptyState message="Erreur lors du chargement des événements" />;
 
 
-  //Fake data pour tableau d'affichage
-  const events = [
-    {
-      title: 'Saint-Valentin',
-      description: 'Plongez dans l\'atmosphère romantique de la Saint-Valentin avec une soirée spécialement conçue pour célébrer l\'amour sous toutes ses formes...',
-      date: '14 Février',
-      time: '19h30',
-      image: 'path_to_valentin_image.jpg',
-    },
-  ];
+  useEffect(() => {
+    const fetchEvents = async () => {
+        try {
+            const response = await fetch('/events/?cafe_id=${cafeSlug}');
+            console.log('reponse fectch',response)
+            if (!response.ok) {
+                throw new Error(`Erreur de réponse HTTP : ${response.status}`);
+            }
+            const data = await response.json();
+            setEvents(data);
+        } catch (error) {
+            console.error("Erreur lors de la récupération des événements :", error);
+        }
+    };
+
+    fetchEvents();
+}, []);
+
+
+  // //Fake data pour tableau d'affichage
+  // const events = [
+  //   {
+  //     title: 'Saint-Valentin',
+  //     description: 'Plongez dans l\'atmosphère romantique de la Saint-Valentin avec une soirée spécialement conçue pour célébrer l\'amour sous toutes ses formes...',
+  //     date: '14 Février',
+  //     time: '19h30',
+  //     image: 'path_to_valentin_image.jpg',
+  //   },
+  // ];
 
   //Fake data pour Annonces
   const news = [
@@ -151,7 +176,6 @@ const Cafe = () => {
             )
         )}
       
-      {/* <Menu items={menuItems} /> */}
       
       <div className="flex flex-wrap md:flex-nowrap">
         {/* Colonne du menu */}
@@ -167,7 +191,7 @@ const Cafe = () => {
       </div>
       </div>
       
-      <EventBoard events={events} />
+      <EventBoard events={events || []} />
 
       <Container className="py-12 border-t border-gray-200">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nous contacter</h2>
