@@ -126,28 +126,7 @@ const EditEvent = () => {
     });
   };
 
-  // const handleSubmit = async (e) => {
-  // e.preventDefault();
-  // toast.promise(
-  //   authenticatedRequest.post('/events/', eventData),
-  //   {
-  //     loading: 'Création de l\'événement en cours...',
-  //     success: 'Événement créé avec succès!',
-  //     error: 'Erreur lors de la création de l\'événement!',
-  //   }
-  // ).then(response => {
-  //   return response.json(); // Transforme la réponse en JSON
-  // }).then(data => {
-  //   console.log('Réponse de l\'API:', data);
-  //   setEvents([...events, data]); // Ajoute le nouvel événement à l'état local
-  //   refetchEvents(); // Met à jour la liste des événements
-  //   navigate(`/events`); // Redirige l'utilisateur après la création
-  // }).catch(error => {
-  //   console.error('Une erreur est survenue lors de la création de l\'événement', error);
-  // });
-  // };
-  // console.log(eventData)
-
+  
   return (
     <AdminOnly>
       <Helmet>
