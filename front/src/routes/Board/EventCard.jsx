@@ -76,8 +76,10 @@
 import AdminOnly from "@/helpers/AdminOnly";
 import useApi from "@/hooks/useApi";
 import toast from "react-hot-toast";
+import authenticatedRequest from "@/helpers/authenticatedRequest";
 
-const EventCard = ({ event,onDelete}) => {
+
+const EventCard = ({ event}) => {
   // Convertir les chaînes de date de l'API en objets Date JavaScript
   const startDate = new Date(event.start_date);
   const endDate = new Date(event.end_date);
@@ -87,26 +89,21 @@ const EventCard = ({ event,onDelete}) => {
   const displayStartTime = startDate.toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' });
   const displayEndTime = endDate.toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' });
 
+  
+  
   const handleDelete = async () => {
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/api/events/${event.event_id}`, {
-        method: 'DELETE',
-        headers: {
-          'Accept': 'application/json',
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to delete the event: ${response.status}`);
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.')) {
+      const toastId = toast.loading('Suppression de l\'événement...');
+      try {
+        await authenticatedRequest.delete(`/events/${event.event_id}`);
+        toast.success('Événement supprimé avec succès', { id: toastId });
+        window.location.reload() 
+        // Vous devrez peut-être appeler une fonction pour rafraîchir la liste des événements ici, si cela fait partie d'un composant plus large qui affiche plusieurs événements.
+      } catch (error) {
+        toast.error('Échec de la suppression de l\'événement : ' + error.message, { id: toastId });
       }
-
-      toast.success('Event successfully deleted');
-      // Refresh or reroute if needed
-    } catch (error) {
-      toast.error(`Error deleting the event: ${error.message}`);
     }
   };
-  
 return (
   <div className="bg-white rounded-lg overflow-hidden shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105">
       <img className="w-full object-cover h-48" src={event.image_url} alt={event.title} />
