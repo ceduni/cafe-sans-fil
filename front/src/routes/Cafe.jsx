@@ -45,21 +45,16 @@ const Cafe = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-        try {
-            const response = await fetch('/events/?cafe_id=${cafeSlug}');
-            console.log('reponse fectch',response)
-            if (!response.ok) {
-                throw new Error(`Erreur de réponse HTTP : ${response.status}`);
-            }
-            const data = await response.json();
-            setEvents(data);
-        } catch (error) {
+        const { data, error } = useApi(`/events/?cafe_id=${cafeSlug}`);
+        if (error) {
             console.error("Erreur lors de la récupération des événements :", error);
+        } else {
+            setEvents(data);
         }
     };
-
     fetchEvents();
-}, []);
+}, [cafeSlug]);  
+
 
 
   // //Fake data pour tableau d'affichage
