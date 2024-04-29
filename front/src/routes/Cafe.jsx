@@ -27,47 +27,22 @@ import { useEffect } from "react";
 
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
-  const { data, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
+  const { data: cafeData, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
+  const { data: events, isLoading: eventsLoading, error: eventsError, refetch: refetchEvents } = useApi(`/events/${cafeData ? "?cafe_id=" + cafeData.cafe_id : ''}`, false);
+  
   const [showOpeningHours, setShowOpeningHours] = useState(false);
-  const { data: events, isLoading: eventsLoading, error: eventsError } = useApi(`/events/`);
-
-
   const toggleOpeningHours = () => {
     setShowOpeningHours(!showOpeningHours);
   };
 
-
   const [activeCategory, setActiveCategory] = useState(null);
 
-  // const [events, setEvents] = useState([]);
-  if (eventsError) return <EmptyState message="Erreur lors du chargement des événements" />;
-
-
   useEffect(() => {
-    const fetchEvents = async () => {
-        const { data, error } = useApi(`/events/?cafe_id=${cafeSlug}`);
-        if (error) {
-            console.error("Erreur lors de la récupération des événements :", error);
-        } else {
-            setEvents(data);
-        }
-    };
-    fetchEvents();
-}, [cafeSlug]);  
-
-
-
-  // //Fake data pour tableau d'affichage
-  // const events = [
-  //   {
-  //     title: 'Saint-Valentin',
-  //     description: 'Plongez dans l\'atmosphère romantique de la Saint-Valentin avec une soirée spécialement conçue pour célébrer l\'amour sous toutes ses formes...',
-  //     date: '14 Février',
-  //     time: '19h30',
-  //     image: 'path_to_valentin_image.jpg',
-  //   },
-  // ];
-
+    if (cafeData && !cafeData.cafe_id &&refetchEvents) {
+      refetchEvents();
+    }
+  }, [cafeData, refetchEvents]); // Ensure refetchEvents is stable or memoized if defined outside useEffect
+    
   //Fake data pour Annonces
   const news = [
     {
@@ -81,11 +56,11 @@ const Cafe = () => {
   ];
 
   const cafeDescriptionProps = {
-    name: data?.name,
-    description: data?.description,
-    location: displayCafeLocation(data?.location),
+    name: cafeData?.name,
+    description: cafeData?.description,
+    location: displayCafeLocation(cafeData?.location),
     appareils: ["Micro-ondes", "Presse panini", "Machine à café"], // Placeholder en attendant les vraies données
-    staff: data?.staff // Supposons que data contienne une propriété staff avec les bonnes données
+    staff: cafeData?.staff // Supposons que data contienne une propriété staff avec les bonnes données
   };
 
   if (error) {
@@ -95,21 +70,23 @@ const Cafe = () => {
     return <EmptyState type="error" error={error} />;
   }
 
-  const menuItems = data?.menu_items;
+  if (eventsError) return <EmptyState message="Error loading events" />;
+
+  const menuItems = cafeData?.menu_items;
 
 
   return (
     <>
-      <Helmet>{data?.name && <title>{data.name} | Café sans-fil</title>}</Helmet>
+      <Helmet>{cafeData?.name && <title>{cafeData.name} | Café sans-fil</title>}</Helmet>
 
-        <CafeMemberHeader cafe={data} />
+        <CafeMemberHeader cafe={cafeData} />
 
 
         <div className="relative">
           <img
             className="object-cover md:h-[25rem] w-full"
-            src={data?.image_url || "https://placehold.co/700x400?text=..."}
-            alt={`Photo du café ${data?.name}`}
+            src={cafeData?.image_url || "https://placehold.co/700x400?text=..."}
+            alt={`Photo du café ${cafeData?.name}`}
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "https://placehold.co/700x400?text=:/";
@@ -120,9 +97,9 @@ const Cafe = () => {
 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
         <div className=" top-12 flex items-center justify-start space-x-2 rounded-lg bg-white">
           <OpenIndicator
-            isOpen={data?.is_open}
-            openingHours={data?.opening_hours}
-            statusMessage={data?.status_message}
+            isOpen={cafeData?.is_open}
+            openingHours={cafeData?.opening_hours}
+            statusMessage={cafeData?.status_message}
           />
           <button onClick={toggleOpeningHours}>
             {showOpeningHours ? <ChevronUpIcon className="h-6 w-6" /> : <ChevronDownIcon className="h-6 w-6" />}
@@ -134,7 +111,7 @@ const Cafe = () => {
             "max-h-0": !showOpeningHours,
             "max-h-96": showOpeningHours,
           })}>
-          {showOpeningHours && <OpeningHours openingHours={data?.opening_hours} />}
+          {showOpeningHours && <OpeningHours openingHours={cafeData?.opening_hours} />}
         </div>
       </div>
 <div className="absolute bottom-0 left-0 right-0 p-0 flex  items-center">
@@ -142,23 +119,23 @@ const Cafe = () => {
     <div className="bg-white px-4 py-2 rounded-r"> {/* Adjust padding and rounded corners as needed */}
       {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-          {data?.name}
+          {cafeData?.name}
         </h2>
       )}
     </div>
     
     {/* Social icons container with background */}
     <div className="flex">
-    {!isLoading && <SocialIcons socialMedia={data?.social_media} />}
+    {!isLoading && <SocialIcons socialMedia={cafeData?.social_media} />}
   </div>
 </div>
         </div>
 
 
-        {!isLoading && <PaymentMethods arrayOfMethods={data?.payment_methods} />}
+        {!isLoading && <PaymentMethods arrayOfMethods={cafeData?.payment_methods} />}
 
 
-        {data?.additional_info?.map(
+        {cafeData?.additional_info?.map(
           (info, index) =>
             shouldDisplayInfo(info) && (
               <div
@@ -180,17 +157,17 @@ const Cafe = () => {
 
         {/* Colonne de droite pour la boîte de description et les annonces */}
         <div className="w-full md:w-2/5 mt-4 md:mt-0 md:ml-4">
-        {data && <CafeDescriptionBoard cafe={cafeDescriptionProps} />}
+        {cafeData && <CafeDescriptionBoard cafe={cafeDescriptionProps} />}
         
         <NewsBoard news={news} />
       </div>
       </div>
       
-      <EventBoard events={events || []} />
+      <EventBoard cafe={cafeData} events={events || []} />
 
       <Container className="py-12 border-t border-gray-200">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nous contacter</h2>
-        <ContactCafe contact={data?.contact} socialMedia={data?.social_media} />
+        <ContactCafe contact={cafeData?.contact} socialMedia={cafeData?.social_media} />
       </Container>
     </>
   );

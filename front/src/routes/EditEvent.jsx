@@ -128,7 +128,7 @@ const EditEvent = () => {
 
   
   return (
-    <AdminOnly>
+    <AdminOnly cafe={cafeData} error={cafeError}>
       <Helmet>
         <title>{`Édition des événements de ${eventData?.title || 'Café sans-fil'}`}</title>
       </Helmet>
