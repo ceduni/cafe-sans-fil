@@ -10,7 +10,7 @@ class EventService:
         limit = int(query_params.pop("limit", 9))
         return (
             await Event.find(query_params)
-            .skip(page)
+            .skip((page - 1) * limit)
             .limit(limit)
             .sort(sort_by)
             .to_list()
