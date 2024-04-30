@@ -385,3 +385,54 @@ class CafeOut(BaseModel):
             ]
         }
     })
+
+class CafeShortOut(BaseModel):
+    cafe_id: UUID = Field(..., description="Unique identifier of the cafe.")
+    name: str = Field(..., description="Name of the cafe.")
+    slug: str = Field(..., description="Slug of the cafe.")
+    previous_slugs: List[str] = Field(None, description="Previous slugs of the cafe.")
+    features: List[Feature] = Field(..., description="Features of the cafe.")
+    description: str = Field(..., description="Description of the cafe.")
+    image_url: Optional[str] = Field(None, description="Image URL of the cafe.")
+    faculty: str = Field(..., description="Faculty associated with the cafe.")
+    is_open: bool = Field(..., description="Open status of the cafe.")
+    status_message: Optional[str] = Field(None, description="Status message about the cafe.")
+    opening_hours: List[DayHours] = Field(..., description="Opening hours of the cafe.")
+    location: Location = Field(..., description="Location details of the cafe.")
+    payment_methods: List[PaymentMethod] = Field(..., description="Payment methods accepted at the cafe.")
+    additional_info: List[AdditionalInfo] = Field(..., description="Additional information about the cafe.")
+    model_config = ConfigDict(json_schema_extra={
+        "example": {
+            "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "Café Central",
+            "slug": "cafe-central",
+            "previous_slugs": ["cafe-central-1", "cafe-central-2"],
+            "features": ["Order"],
+            "description": "Un café populaire près de la bibliothèque principale.",
+            "image_url": "https://media.architecturaldigest.com/photos/5b083c4675a4f940de3da8f1/master/pass/case-study-coffee.jpg",
+            "faculty": "Science",
+            "location": {
+                "pavillon": "Pavillon JEAN-TALON",
+                "local": "local B-1234",
+                "geometry": {"type": "Point", "coordinates": [45.504, -73.577]}
+            },
+            "is_open": True,
+            "opening_hours": [
+                {"day": "Lundi", "blocks": [{"start": "09:00", "end": "17:00"}]},
+                {"day": "Mardi", "blocks": [{"start": "09:00", "end": "17:00"}]},
+                {"day": "Mercredi", "blocks": [{"start": "09:00", "end": "12:00"}, {"start": "13:00", "end": "17:00"}]},
+                {"day": "Jeudi", "blocks": [{"start": "09:00", "end": "17:00"}]},
+                {"day": "Vendredi", "blocks": [{"start": "10:00", "end": "11:00"}, {"start": "12:00", "end": "17:00"}]}
+            ],
+            "payment_methods": [{"method": "Carte de Crédit", "minimum": 4.0}],
+            "additional_info": [
+                {
+                    "type": "promo",
+                    "value": "10% de réduction les lundis",
+                    "start": datetime.now() - timedelta(hours=5),
+                    "end": datetime.now() + timedelta(minutes=30)
+                }
+            ]
+        }
+    })
+

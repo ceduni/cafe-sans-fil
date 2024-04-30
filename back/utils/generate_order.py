@@ -6,7 +6,9 @@ from app.services.order_service import OrderService
 from datetime import datetime, timedelta
 from tqdm import tqdm
 import random
+
 random.seed(42)
+
 
 async def create_orders(user_usernames, cafe_menu_items, cafes_data, is_test=False):
     cafe_items_list = list(cafe_menu_items.items())
@@ -16,7 +18,7 @@ async def create_orders(user_usernames, cafe_menu_items, cafes_data, is_test=Fal
         # Minimum 2 Orders for cafesansfil (For Test)
         minimum = 2 + 1 if i == 0 else 0
         maximum = 4 if is_test else 15
-        for index in range(random.randint(minimum, maximum)): 
+        for index in range(random.randint(minimum, maximum)):
             user_username = user_usernames[i]
             # First Order is related to first cafe (For Test)
             if index == 0:
@@ -35,7 +37,7 @@ async def create_orders(user_usernames, cafe_menu_items, cafes_data, is_test=Fal
 
             items = []
             # Probabilities for [<OrderStatus.PLACED: 'Placée'>, <OrderStatus.READY: 'Prête'>, <OrderStatus.COMPLETED: 'Complétée'>, <OrderStatus.CANCELLED: 'Annulée'>]
-            weights = [0.075 , 0.075, 0.80, 0.05]  
+            weights = [0.075, 0.075, 0.80, 0.05]
             status = random.choices(list(OrderStatus), weights, k=1)[0]
             created_at, updated_at = random_timestamps(status)
 
@@ -50,25 +52,33 @@ async def create_orders(user_usernames, cafe_menu_items, cafes_data, is_test=Fal
                 if random.choice([True, False]) and menu_item.options:
                     num_options = random.randint(1, len(menu_item.options))
                     selected_options = random.sample(menu_item.options, num_options)
-                    options = [OrderedItemOption(type=opt.type, value=opt.value, fee=opt.fee) for opt in selected_options]
+                    options = [
+                        OrderedItemOption(type=opt.type, value=opt.value, fee=opt.fee)
+                        for opt in selected_options
+                    ]
 
-                items.append(OrderedItem(
-                    item_name=menu_item.name,
-                    item_slug=menu_item.slug, 
-                    item_image_url=menu_item.image_url,
-                    quantity=quantity, 
-                    item_price=item_price,
-                    options=options
-                ))
+                items.append(
+                    OrderedItem(
+                        item_name=menu_item.name,
+                        item_slug=menu_item.slug,
+                        item_image_url=menu_item.image_url,
+                        quantity=quantity,
+                        item_price=item_price,
+                        options=options,
+                    )
+                )
 
             order = OrderCreate(
                 cafe_name=cafe_name,
                 cafe_slug=cafe_slug,
                 cafe_image_url=cafe_image_url,
-                items=items
+                items=items,
             )
 
-            await OrderService.create_order_test(order, user_username, created_at, updated_at, status)
+            await OrderService.create_order_test(
+                order, user_username, created_at, updated_at, status
+            )
+
 
 def random_timestamps(status):
     if status == OrderStatus.PLACED:
@@ -89,21 +99,24 @@ def random_timestamps(status):
     elif status == OrderStatus.COMPLETED:
         created_at = random_days_ago(1, 30)
         updated_at = created_at + timedelta(minutes=random.randint(5, 60))
-    
+
     return created_at, updated_at
+
 
 def random_minutes_ago(min_minutes, max_minutes):
     minutes_ago = random.randint(min_minutes, max_minutes)
     return datetime.now() - timedelta(minutes=minutes_ago)
 
+
 def random_days_ago(start_days_ago, end_days_ago):
     days_ago = random.randint(start_days_ago, end_days_ago)
     return datetime.now() - timedelta(days=days_ago)
 
+
 def slugify(text):
-    text = unicodedata.normalize('NFKD', text)
-    text = text.encode('ascii', 'ignore').decode('ascii')
+    text = unicodedata.normalize("NFKD", text)
+    text = text.encode("ascii", "ignore").decode("ascii")
     text = text.lower()
-    slug = re.sub(r'\W+', '-', text)
-    slug = slug.strip('-')
+    slug = re.sub(r"\W+", "-", text)
+    slug = slug.strip("-")
     return slug

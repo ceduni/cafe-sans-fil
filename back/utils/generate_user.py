@@ -6,9 +6,11 @@ import pymongo
 from faker import Faker
 import unicodedata
 import random
+
 random.seed(42)
 Faker.seed(42)
-fake = Faker('fr_FR')
+fake = Faker("fr_FR")
+
 
 async def create_users(num_users):
     user_usernames = []
@@ -26,9 +28,16 @@ async def create_users(num_users):
                 matricule = generate_matricule()
                 first_name = fake.first_name()
                 last_name = fake.last_name()
-                email = normalize_string(first_name).replace(" ", "").lower() + "." + normalize_string(last_name).replace(" ", "").lower() + "@umontreal.ca"
+                email = (
+                    normalize_string(first_name).replace(" ", "").lower()
+                    + "."
+                    + normalize_string(last_name).replace(" ", "").lower()
+                    + "@umontreal.ca"
+                )
                 password = "Cafepass1"
-                photo_url = photo_urls[i] if random.random() <= 1.00 else None # chance of having a photo
+                photo_url = (
+                    photo_urls[i] if random.random() <= 1.00 else None
+                )  # chance of having a photo
 
                 user_data = UserAuth(
                     email=email,
@@ -37,7 +46,7 @@ async def create_users(num_users):
                     password=password,
                     first_name=first_name,
                     last_name=last_name,
-                    photo_url=photo_url
+                    photo_url=photo_url,
                 )
 
                 user = await UserService.create_user(user_data)
@@ -55,18 +64,20 @@ async def create_users(num_users):
         "password": "Cafepass1",
         "first_name": "Tom",
         "last_name": "Holland",
-        "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg"
+        "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg",
     }
     await UserService.update_user(user_usernames[0], UserUpdate(**cafesansfil_user))
     user_usernames[0] = cafesansfil_matricule
     return user_usernames
 
+
 # This function is used to normalize the first_name and last_name to be used as a password
 # Example: "Éric" -> "Eric"
 def normalize_string(input_str: str) -> str:
-    normalized_str = unicodedata.normalize('NFKD', input_str)
-    ascii_str = normalized_str.encode('ascii', 'ignore')
-    return ascii_str.decode('ascii')
+    normalized_str = unicodedata.normalize("NFKD", input_str)
+    ascii_str = normalized_str.encode("ascii", "ignore")
+    return ascii_str.decode("ascii")
+
 
 def generate_matricule():
     if random.random() < 0.95:
@@ -75,6 +86,6 @@ def generate_matricule():
     else:
         # Other digits
         length = random.choice([6, 7])
-        matricule_num = random.randint(10**(length-1), (10**length)-1)
-    
+        matricule_num = random.randint(10 ** (length - 1), (10**length) - 1)
+
     return str(matricule_num)

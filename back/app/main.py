@@ -45,25 +45,23 @@ In the endpoint summaries, different roles are indicated using color codes for e
 
 db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_beanie(
-        database=db_client[settings.MONGO_DB_NAME],
-        document_models=[
-            User,
-            Cafe,
-            Order
-        ]
+        database=db_client[settings.MONGO_DB_NAME], document_models=[User, Cafe, Order]
     )
     yield
-    
+
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    summary="The project is a web application designed to improve café services and ordering processes for UdeM members.", 
+    summary="The project is a web application designed to improve café services and ordering processes for UdeM members.",
     description=description,
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
-    lifespan=lifespan
+    lifespan=lifespan,
+    debug=True,
 )
 
 app.add_middleware(
@@ -76,18 +74,23 @@ app.add_middleware(
 
 app.include_router(router, prefix=settings.API_V1_STR)
 
+
 @app.get("/api/health", tags=["health"])
 async def health_check():
     try:
         result = await db_client.admin.command("serverStatus")
-        if result['ok'] == 1.0:
+        if result["ok"] == 1.0:
             return {"status": "available"}
         else:
-            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                                detail="MongoDB serverStatus not ok")
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="MongoDB serverStatus not ok",
+            )
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                            detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=str(e)
+        )
+
 
 # --------------------------------------
 #           Scheduler
@@ -98,15 +101,22 @@ from datetime import datetime, timedelta
 from app.models.order_model import Order, OrderStatus
 import asyncio
 
+
 async def cancel_old_orders():
     now = datetime.utcnow()
-    async for order in Order.find({"$or": [{"status": OrderStatus.PLACED}, {"status": OrderStatus.READY}], "created_at": {"$lt": now - timedelta(hours=1)}}):
+    async for order in Order.find(
+        {
+            "$or": [{"status": OrderStatus.PLACED}, {"status": OrderStatus.READY}],
+            "created_at": {"$lt": now - timedelta(hours=1)},
+        }
+    ):
         order.status = OrderStatus.CANCELLED
         order.updated_at = order.created_at + timedelta(hours=1)
         await order.save()
 
+
 scheduler = AsyncIOScheduler()
-scheduler.add_job(cancel_old_orders, 'interval', seconds=30)
+scheduler.add_job(cancel_old_orders, "interval", seconds=30)
 scheduler.start()
 
 loop = asyncio.get_event_loop()

@@ -1,5 +1,17 @@
 import json
-from app.models.cafe_model import Cafe, MenuItem, TimeBlock, DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, Role, StaffMember
+from app.models.cafe_model import (
+    Cafe,
+    MenuItem,
+    TimeBlock,
+    DayHours,
+    Location,
+    Contact,
+    SocialMedia,
+    PaymentMethod,
+    AdditionalInfo,
+    Role,
+    StaffMember,
+)
 from app.services.user_service import UserService
 from app.schemas.user_schema import UserUpdate
 from datetime import datetime, timedelta
@@ -7,7 +19,9 @@ from tqdm import tqdm
 import re
 import unicodedata
 import random
+
 random.seed(42)
+
 
 async def create_cafes(usernames):
     cafe_menu_items_slug_dict = {}
@@ -22,15 +36,23 @@ async def create_cafes(usernames):
     for index, cafe_info in enumerate(tqdm(cafes_data, desc="Creating cafes")):
         # Make cafesansfil Admin in First Cafe (For Test)
         if index == 0:
-            staff = await random_staff_members(usernames, cafe_info["name"], testAccounts, first_user_admin=True)
+            staff = await random_staff_members(
+                usernames, cafe_info["name"], testAccounts, first_user_admin=True
+            )
         # Don't make cafesansfil a Staff in second and last Cafe (For Test)
         elif index == 1:
-            staff = await random_staff_members(usernames, cafe_info["name"], testAccounts, exclude_first_user=True)
+            staff = await random_staff_members(
+                usernames, cafe_info["name"], testAccounts, exclude_first_user=True
+            )
         elif index == len(cafes_data) - 1:
-            staff = await random_staff_members(usernames, cafe_info["name"], testAccounts, exclude_first_user=True)
+            staff = await random_staff_members(
+                usernames, cafe_info["name"], testAccounts, exclude_first_user=True
+            )
         # Randomly choose staff
         else:
-            staff = await random_staff_members(usernames, cafe_info["name"], testAccounts)
+            staff = await random_staff_members(
+                usernames, cafe_info["name"], testAccounts
+            )
 
         is_open, status_message = random_open_status_message()
 
@@ -40,7 +62,7 @@ async def create_cafes(usernames):
             item_copy = item.copy()
             item_copy["in_stock"] = random.random() < 0.80
             randomized_menu_items.append(MenuItem(**item_copy))
-            
+
         cafe = Cafe(
             name=cafe_info["name"],
             features=["Order"] if random.random() <= 0.8 else [],
@@ -56,7 +78,7 @@ async def create_cafes(usernames):
             additional_info=random_additional_info(),
             payment_methods=random_payment_methods(),
             staff=staff,
-            menu_items=randomized_menu_items
+            menu_items=randomized_menu_items,
         )
         await cafe.insert()
 
@@ -64,13 +86,19 @@ async def create_cafes(usernames):
 
     return cafe_menu_items_slug_dict, cafes_data
 
+
 def random_open_status_message():
     messages = [
-        "Fermé pour la journée", "Fermé pour la semaine", "De retour dans 1 heure", "Temporairement fermé", "Fermé pour MIDIRO"
+        "Fermé pour la journée",
+        "Fermé pour la semaine",
+        "De retour dans 1 heure",
+        "Temporairement fermé",
+        "Fermé pour MIDIRO",
     ]
-    is_open = random.random() < 0.7 # chance of is_open
+    is_open = random.random() < 0.7  # chance of is_open
     status_message = random.choice(messages) if not is_open else None
     return is_open, status_message
+
 
 def random_opening_hours():
     days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"]
@@ -94,10 +122,11 @@ def random_opening_hours():
         afternoon_end = f"{afternoon_end_hour:02d}:00"
         blocks = [TimeBlock(start=morning_start, end=morning_end)]
         if has_break:
-            blocks.append(TimeBlock(start=afternoon_start, end=afternoon_end))    
+            blocks.append(TimeBlock(start=afternoon_start, end=afternoon_end))
         opening_hours.append(DayHours(day=day, blocks=blocks))
 
     return opening_hours
+
 
 def random_payment_methods():
     methods = ["Carte de débit", "Carte de crédit", "Argent comptant"]
@@ -107,22 +136,29 @@ def random_payment_methods():
     payment_methods = []
 
     for method in selected_methods:
-        minimum = random.randint(3, 8) if method in ["Carte de débit", "Carte de crédit"] else None
+        minimum = (
+            random.randint(3, 8)
+            if method in ["Carte de débit", "Carte de crédit"]
+            else None
+        )
         payment_methods.append(PaymentMethod(method=method, minimum=minimum))
     return payment_methods
 
-async def random_staff_members(usernames, cafe_name, testAccounts, first_user_admin=False, exclude_first_user=False):
+
+async def random_staff_members(
+    usernames, cafe_name, testAccounts, first_user_admin=False, exclude_first_user=False
+):
     def reformat(text):
-        text = unicodedata.normalize('NFKD', text)
-        text = text.encode('ascii', 'ignore').decode('ascii')
+        text = unicodedata.normalize("NFKD", text)
+        text = text.encode("ascii", "ignore").decode("ascii")
         text = text.lower()
-        slug = re.sub(r'\W+', '.', text)
-        slug = slug.strip('.')
+        slug = re.sub(r"\W+", ".", text)
+        slug = slug.strip(".")
         return slug
 
     staff_members = []
     selected_users = usernames.copy()
-    selected_users.remove("7802085") # Remove cafesansfil from list of selected users
+    selected_users.remove("7802085")  # Remove cafesansfil from list of selected users
     for username in testAccounts:
         if username in selected_users:
             selected_users.remove(username)
@@ -147,29 +183,40 @@ async def random_staff_members(usernames, cafe_name, testAccounts, first_user_ad
         staff_members.append(StaffMember(username=username, role=Role.ADMIN))
         if username in testAccounts:
             raise ValueError(f"Username {username} is already in testAccounts")
-        if firstAdmin == False and username not in testAccounts:
-            await UserService.update_user(username, UserUpdate(email="admin." + reformat(cafe_name) + "@umontreal.ca"))
-            firstAdmin = True 
+        if firstAdmin is False and username not in testAccounts:
+            await UserService.update_user(
+                username,
+                UserUpdate(email="admin." + reformat(cafe_name) + "@umontreal.ca"),
+            )
+            firstAdmin = True
             testAccounts.append(username)
-            
+
     for username in selected_users[num_admins:]:
         staff_members.append(StaffMember(username=username, role=Role.VOLUNTEER))
         if username in testAccounts:
             raise ValueError(f"Username {username} is already in testAccounts")
-        if firstVolunteer == False and username not in testAccounts:
-            await UserService.update_user(username, UserUpdate(email="benevole." + reformat(cafe_name) + "@umontreal.ca"))
+        if firstVolunteer is False and username not in testAccounts:
+            await UserService.update_user(
+                username,
+                UserUpdate(email="benevole." + reformat(cafe_name) + "@umontreal.ca"),
+            )
             firstVolunteer = True
             testAccounts.append(username)
 
     return staff_members
 
+
 def random_additional_info():
     today = datetime.now()
     info_types = [
-        "Événement spécial", "Fermeture temporaire", "Promotion", "Atelier", "Nouveau produit"
+        "Événement spécial",
+        "Fermeture temporaire",
+        "Promotion",
+        "Atelier",
+        "Nouveau produit",
     ]
     additional_infos = []
-    
+
     # Lower chance of additional info
     if random.random() < 0.50:
         return additional_infos
@@ -180,14 +227,18 @@ def random_additional_info():
         event_type = random.choice(info_types)
         # Random start date
         start = today + timedelta(days=random.randint(-3, 0))
-        end = None # Always show for Test and Preview
+        end = None  # Always show for Test and Preview
 
-        date_message = today + timedelta(days=random.randint(-1, 7)) 
+        date_message = today + timedelta(days=random.randint(-1, 7))
         additional_info = AdditionalInfo(
             type=event_type,
-            value=f"{event_type} à {date_message.strftime('%d/%m/%Y')}" if random.random() > 0.25 else f"{event_type}",
+            value=(
+                f"{event_type} à {date_message.strftime('%d/%m/%Y')}"
+                if random.random() > 0.25
+                else f"{event_type}"
+            ),
             start=start,
-            end=end
+            end=end,
         )
         additional_infos.append(additional_info.model_dump())
 
