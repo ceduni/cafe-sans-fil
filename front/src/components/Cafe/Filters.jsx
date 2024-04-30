@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
@@ -19,11 +20,13 @@ const filterTypes = [
 ];
 
 const Filters = ({ filters, setFilters, cafes }) => {
+  const { t } = useTranslation();
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const generatedSortOptions = cafes
     ? [
-        { name: "Tous les pavillons" },
+        { name: t("select.all") },
         ...cafes
           .map((cafe) => cafe.location.pavillon)
           .filter((value, index, self) => self.indexOf(value) === index) // On retire les doublons

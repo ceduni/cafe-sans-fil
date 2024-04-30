@@ -1,35 +1,51 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const useApi = (url) => {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [refetchIndex, setRefetchIndex] = useState(0);
+const buildUrl = (url) => import.meta.env.VITE_API_ENDPOINT + "/api" + url;
 
-  const refetch = () => setRefetchIndex((prev) => prev + 1);
+const fetchData = async ({url, okCb, errorCb, pre = null, post = null}) => {
+    try {
+        if (pre) {
+            pre();
+        }
+        
+        const response = await fetch(buildUrl(url));
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    fetch(import.meta.env.VITE_API_ENDPOINT + "/api" + url)
-      .then((response) => (response.ok ? response : Promise.reject(response)))
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setIsLoading(false);
-        toast.error(`${error.statusText || error.message}`);
-      });
-  };
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
 
-  useEffect(() => {
-    fetchData();
-  }, [url, refetchIndex]);
+        const responseData = await response.json();
 
-  return { data, isLoading, error, refetch };
+        okCb(responseData)
+    } catch (error) {
+        errorCb(error)
+        toast.error(`${error.message}`);
+    } finally {
+        if (post) {
+            post();
+        }
+    }
+};
+
+const useApi = (url, fn) => {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [refetchIndex, setRefetchIndex] = useState(0);
+
+    const refetch = () => setRefetchIndex(prev => prev + 1);
+
+    useEffect(() => {
+        fetchData({
+            url, 
+            okCb: setData, 
+            errorCb: setError,
+            pre: () => setIsLoading(true),
+            post: () => setIsLoading(false)});
+    }, [url, refetchIndex]);
+
+    return { data, isLoading, error, refetch };
 };
 
 export default useApi;
