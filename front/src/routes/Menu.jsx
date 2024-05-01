@@ -32,7 +32,7 @@ const Menu = ({ items }) => {
   const categories = getCafeCategories(items);
 
   return (
-    <Container className="pt-12 pb-24 border-t border-gray-200">
+    <Container className="pt-6 pb-24 border-t border-gray-200">
       <h2 className="text-4xl text-center font-bold text-gray-900 mb-10">Menu</h2>
       <div ref={menuRef} className="menu-container">
       <div className={`grid grid-cols-2 grid-rows-2 gap-4 p-4`}> 

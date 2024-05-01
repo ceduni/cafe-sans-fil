@@ -17,6 +17,7 @@ import {
   SalesReport,
   EditMenu,
   EditEvent,
+  EditNews,
 } 
 from "@/routes";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -121,6 +122,15 @@ const router = createBrowserRouter([
         element: (
           <LoggedInOnly>
             <EditEvent/>
+          </LoggedInOnly>
+        ),
+      },
+
+      {
+        path: "/cafes/:id/edit/announcements",
+        element: (
+          <LoggedInOnly>
+            <EditNews/>
           </LoggedInOnly>
         ),
       },

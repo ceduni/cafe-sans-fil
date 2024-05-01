@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import useApi from "@/hooks/useApi";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
+import { useNavigate } from "react-router-dom";
 
 
 const EventCard = ({cafe, event}) => {
@@ -16,7 +17,11 @@ const EventCard = ({cafe, event}) => {
   const displayStartTime = startDate.toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' });
   const displayEndTime = endDate.toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' });
 
-  
+  const navigate = useNavigate();
+
+  // const handleEdit = () => {
+  //   navigate(`/edit/events/${event.event_id}`); 
+  // };
   
   const handleDelete = async () => {
     if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.')) {
@@ -25,7 +30,6 @@ const EventCard = ({cafe, event}) => {
         await authenticatedRequest.delete(`/events/${event.event_id}`);
         toast.success('Événement supprimé avec succès', { id: toastId });
         window.location.reload() 
-        // Vous devrez peut-être appeler une fonction pour rafraîchir la liste des événements ici, si cela fait partie d'un composant plus large qui affiche plusieurs événements.
       } catch (error) {
         toast.error('Échec de la suppression de l\'événement : ' + error.message, { id: toastId });
       }

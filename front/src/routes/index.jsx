@@ -12,6 +12,7 @@ import StaffList from "./StaffList";
 import SalesReport from "./SalesReport";
 import EditMenu from "./EditMenu";
 import EditEvent from "./EditEvent";
+import EditNews from "./EditNews";
 
 export {
   Home,
@@ -28,4 +29,5 @@ export {
   SalesReport,
   EditMenu,
   EditEvent,
+  EditNews,
 };
