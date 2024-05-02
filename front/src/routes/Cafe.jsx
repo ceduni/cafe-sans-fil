@@ -58,7 +58,7 @@ const Cafe = () => {
     if (cafeData?.staff && cafeData.staff.length > 0) {
       const fetchStaffDetails = async () => {
         const staffPromises = cafeData.staff.map(staffMember => 
-          useApi(`/users/${staffMember.username}`, true) 
+          useApi(`/users/${username}`, true) 
         );
   
         Promise.all(staffPromises).then(results => {
