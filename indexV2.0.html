@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projet IFT3150: Café sans-fil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        *,
+        *:before,
+        *:after {
+          box-sizing: border-box;
+        }
+  
+        * {
+          margin: 0;
+          padding: 0;
+        }
+  
+        .bare {
+          margin: 0;
+          padding: 0;
+        }
+  
+        .bare-list {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+        }
+  
+        .bare-link {
+          text-decoration: none;
+          color: inherit;
+        }
+  
+        html {
+          font-family: "Inter", "Droid Sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+          font-size: 16px;
+          line-height: 1.5;
+          scroll-behavior: smooth;
+          text-rendering: optimizeLegibility;
+        }
+  
+        img {
+          display: block;
+        }
+  
+        main {
+          width: min(100% - 3rem, 120ch);
+          margin: 0 auto;
+        }
+  
+        header,
+        footer {
+          margin: 3rem 1rem;
+          text-align: center;
+        }
+  
+        .doc-link {
+          display: block;
+          margin: 6px;
+          padding: 6px 12px;
+          color: royalblue;
+          font-weight: bold;
+          border-radius: 2px;
+          background-color: #f5f5f5;
+        }
+  
+        footer {
+          font-size: 0.9em;
+          color: #555;
+        }
+  
+        main header {
+          margin: 0;
+          text-align: left;
+        }
+  
+        section {
+          margin: 2rem 0;
+        }
+  
+        section > * {
+          margin-top: 1rem;
+        }
+  
+        h2 {
+          margin-bottom: 0;
+        }
+  
+        p {
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+  
+        ul {
+          margin: 0;
+          margin-left: 1rem;
+        }
+  
+        .links a {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          background-color: #f5f5f5;
+          border-radius: 0.25rem;
+          text-decoration: none;
+          color: #000;
+          margin-right: 1rem;
+          transition: background-color 0.2s ease-in-out;
+        }
+        .links a:hover {
+          background-color: #e5e5e5;
+        }
+      </style>
+</head>
+<body>
+    <header>
+        <img style="display: inline-block" src="https://cafesansfil.onrender.com/logo.png" height="120" alt="Logo café sans-fil" />
+        <h1>
+          <a class="bare-link" style="color: royalblue" href="https://cafesansfil.onrender.com/" target="_blank">
+            Café sans-fil
+          </a>
+        </h1>
+        <ul class="bare-list">
+          <li>Eed Flory Jean-Baptiste</li>
+          <li>IFT3150 - Projet informatique</li>
+        </ul>
+  
+        <ul class="bare-list" style="display: flex; justify-content: center">
+          <li><a class="bare-link doc-link" href="https://github.com/ceduni/cafe-sans-fil">Répertoire GitHub</a></li>
+          <!-- <li>
+            <a class="bare-link doc-link" href="https://ceduni.github.io/cafe-sans-fil/index.en.html">
+              English version
+            </a>
+          </li> -->
+          <li>
+            <a
+              class="bare-link doc-link"
+              href="https://github.com/ceduni/cafe-sans-fil/blob/Flory_v2/livrablesV2.0/presentation_Cafe.pdf">
+              Présentation
+            </a>
+          </li>
+          <!-- <li>
+            <a class="bare-link doc-link" href="https://ceduni.github.io/cafe-sans-fil/livrables/rapport.pdf"
+              >Rapport</a
+            >
+          </li> -->
+        </ul>
+      </header>
+  
+      <main>
+        <header>
+            <h2>Description du projet</h2>
+            <p>
+              Ce projet, initié pour améliorer les services des cafés étudiants de l'UdeM, s'est développé à travers deux sessions principales. La session d'automne a posé les bases avec le développement de l'infrastructure, la création d'un prototype fonctionnel, et l'implémentation de fonctionnalités essentielles telles que la découverte des cafés, la prise de commandes pour ramassage, et la gestion des cafés.
+            </p>
+            <p>
+              Durant la session actuelle, mon rôle a été de valider et d'optimiser le prototype existant (version 1.0), en me concentrant sur la création de nouveaux prototypes pour la version 2.0. J'ai activement participé à la détermination des nouvelles exigences pour cette mise à jour, en développant notamment le segment social de l'application. Ces efforts visent à enrichir l'expérience des utilisateurs et à élargir les fonctionnalités interactives de la plateforme.
+            </p>
+            <p>
+              L'application est accessible à tous les membres de l'UdeM (étudiants, employés, professeurs, etc.) et offre divers rôles pour assurer la maintenance correcte des informations. Mon implication dans le développement continu de cette solution a permis d'accroître son efficacité et sa pertinence pour la communauté universitaire.
+            </p>
+        </header>
+        
+      <section>
+        <h2>Timeline du projet</h2>
+        <section>
+            <h2>Timeline des avancements du projet</h2>
+
+            <h3>Semaine 15 (2024-04-17)</h3>
+              <ul>
+                <li>Ajout des composants "annonces" et "événements" dans le backend et frontend pour le développement du segment social.</li>
+                <li>Modification de l'image des cafés et ajout d'une boîte de description dans le frontend pour améliorer la présentation et l'information disponible sur les cafés.</li>
+              </ul>          
+            <h3>Semaine 14 (2024-04-10)</h3>
+            <ul>
+              <li>Intégration du nouveau modèle de menu dans l'application, aligné sur le nouveau modèle.</li>
+              <li>Modification du placement des images des réseaux sociaux et de l'image principale du café pour améliorer l'expérience utilisateur et l'engagement sur la plateforme.</li>
+            </ul>
+          
+            <h3>Semaine 13 (2024-04-03)</h3>
+            <ul>
+              <li>Finalisation de l'intégration de la recherche par tag et item, améliorant significativement la navigation dans l'application.</li>
+              <li>Objectifs : Début du développement de la nouvelle version du café, basée sur le prototype choisi précédemment, incluant l'intégration des fonctionnalités et améliorations en collaboration avec le gérant.</li>
+            </ul>
+          
+            <h3>Semaine 11 et 12 (2024-03-20 à 2024-03-27)</h3>
+            <ul>
+              <li>Implémentation réussie de la fonctionnalité de recherche par item et tag dans le backend.</li>
+              <li>Tests via API : Validation de la nouvelle fonctionnalité avec une API temporaire.</li>
+              <li>Intégration Frontend-Backend : Avancement sur l'implémentation réelle de la fonctionnalité de recherche dans l'application.</li>
+            </ul>
+          
+            <h3>Semaine 10 (2024-03-13)</h3>
+            <ul>
+              <li>Discussion sur l'intégration d'un schéma de "search" dans le backend pour améliorer la recherche par item/tag.</li>
+              <li>Identification de l'efficacité de créer un composant 'search' spécifique, facilitant la modularité et la maintenance du code.</li>
+            </ul>
+          
+            <h3>Semaine 9</h3>
+            <p>Semaine de relâche, aucune réunion tenue.</p>
+          
+            <h3>Semaine 7 et 8 (2024-02-21 à 2024-02-28)</h3>
+            <ul>
+              <li>Développement de trois nouveaux prototypes pour tester diverses améliorations et intégrations.</li>
+              <li>Sélection du prototype avec un gérant de café, choisissant le modèle le plus adapté à ses besoins et préférences, renforçant la collaboration avec les partenaires de l'application.</li>
+            </ul>
+          
+            <h3>Semaine 5 et 6 (2024-02-07 à 2024-02-14)</h3>
+            <ul>
+              <li>Objectifs : Amélioration de la recherche pour permettre la recherche de cafés par item, visant une expérience utilisateur plus ciblée.</li>
+              <li>Ajustement des prototypes avec incorporation de nouvelles fonctionnalités et améliorations.</li>
+            </ul>
+          
+            <h3>Semaine 4 (2024-01-31)</h3>
+            <ul>
+              <li>Objectifs : Création de prototypes modifiant les pages des cafés pour intégrer l'élément "événement" et améliorer l'affichage des éléments de la page selon les nouvelles exigences.</li>
+              <li>Détermination des nouvelles exigences de l'application par l'organisation, classification, et analyse détaillée des feedbacks reçus.</li>
+            </ul>
+          
+            <h3>Semaine 3 (2024-01-24)</h3>
+            <ul>
+              <li>Objectifs : Détermination continue des nouvelles exigences de l'application par analyse détaillée des feedbacks.</li>
+              <li>Evaluation de l'application par la collecte des réponses et feedbacks des testeurs.</li>
+              <li>Segment Social : Identification des idées pour renforcer l'engagement et améliorer l'expérience globale.</li>
+            </ul>
+          
+            <h3>Semaine 1 et 2 (2024-01-10 à 2024-01-19)</h3>
+            <ul>
+              <li>Evaluation de l'application par l'envoi d'un formulaire d'enquête aux testeurs.</li>
+              <li>Commencement de la réflexion sur le segment social de l'application, visant à enrichir l'interaction utilisateur.</li>
+            </ul>
+          </section>
+          
+    </main>
+
+    <footer>
+      <p>© 2024 Café sans-fil. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
