@@ -1,4 +1,8 @@
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
+import { getUserFromUsername } from "@/utils/getFromId";
+import { displayCafeLocation } from "@/utils/cafe";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const CafeDescriptionBoard = ({ cafe }) => {
   
@@ -10,19 +14,37 @@ const CafeDescriptionBoard = ({ cafe }) => {
   };
   
   const additionalVolunteers = cafe.volunteers - cafe.staff.length;
-  
+  const [staffDetails, setStaffDetails] = useState([]);
+  const appareils = ["Micro-ondes", "Presse panini", "Machine à café"];
+
+  useEffect(() => {
+    const fetchStaffDetails = async () => {
+      if (cafe?.staff) {
+        const fetchedStaffDetails = await Promise.all(
+          cafe.staff.map(async (person) => {
+            const userData = await getUserFromUsername(person.username);
+            return userData ? { ...person, ...userData } : person;
+          })
+        );
+        setStaffDetails(fetchedStaffDetails);
+        console.log(fetchedStaffDetails);
+      }
+    };
+    fetchStaffDetails();
+  }, [cafe?.staff]);
+
   return (
     <div className="bg-black shadow rounded-lg p-4 mb-4">
       <div className="mb-4">
         <h2 className="text-xl font-bold text-white">{cafe.name}</h2>
-        <p className="text-xs text-white">{cafe.location}</p>
+        <p className="text-xs text-white">{displayCafeLocation(cafe.location)}</p>
         <p className="text-sm text-white pt-2">{cafe.description}</p>
         
       </div>
       <div className="mb-4 text-white">
         <strong>Appareils:</strong>
         <ul className="list-disc list-inside text-sm">
-          {cafe.appareils.map((appareil, index) => (
+          {appareils.map((appareil, index) => (
             <li key={index}>{appareil}</li>
           ))}
         </ul>
@@ -37,14 +59,14 @@ const CafeDescriptionBoard = ({ cafe }) => {
         </button>
       </div>
       <div className="flex flex-wrap items-center">
-          {cafe.staff.map((member, index) => (
+          {staffDetails.map((member, index) => (
             <div key={index} className="flex items-center mr-4 mb-4">
               <img
-                src={member.photoUrl}
-                alt={`${member.firstName} ${member.lastName}`}
+                src={member.photo_url}
+                alt={`${member.first_name} ${member.last_name}`}
                 className="h-10 w-10 rounded-full mr-2"
               />
-              <span className="text-sm mr-2">{`${member.firstName} ${member.lastName}`}</span>
+              <span className="text-sm mr-2">{`${member.first_name} ${member.last_name}`}</span>
             </div>
           ))}
         </div>

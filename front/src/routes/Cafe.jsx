@@ -24,7 +24,6 @@ import CafeDescriptionBoard from "./Board/CafeDescriptionBoard";
 import { useEffect } from "react";
 
 
-
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
   const { data: cafeData, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
@@ -34,8 +33,6 @@ const Cafe = () => {
   const toggleOpeningHours = () => {
     setShowOpeningHours(!showOpeningHours);
   };
-  const [enrichedStaff, setEnrichedStaff] = useState([]);
-
   const [activeCategory, setActiveCategory] = useState(null);
 
   useEffect(() => {
@@ -50,37 +47,9 @@ const Cafe = () => {
  }
   }, [cafeData, refetchAnnoucements]);
 
-  useEffect(() => {
-    console.log(cafeData); // cheker la structure des données reçues
-  }, [cafeData]);
-
-  useEffect(() => {
-    if (cafeData?.staff && cafeData.staff.length > 0) {
-      const fetchStaffDetails = async () => {
-        const staffPromises = cafeData.staff.map(staffMember => 
-          useApi(`/users/${username}`, true) 
-        );
-  
-        Promise.all(staffPromises).then(results => {
-          const staffDetails = results.map(res => res.data); 
-          setEnrichedStaff(staffDetails);
-        }).catch(error => {
-          console.error("Failed to fetch staff details:", error);
-        });
-      };
-  
-      fetchStaffDetails();
-    }
-  }, [cafeData]);
-
-  const cafeDescriptionProps = {
-    name: cafeData?.name,
-    description: cafeData?.description,
-    location: displayCafeLocation(cafeData?.location),
-    appareils: ["Micro-ondes", "Presse panini", "Machine à café"], // Placeholder en attendant les vraies données
-    staff:setEnrichedStaff
-   
-  };
+  // useEffect(() => {
+  //   console.log(cafeData?.staff); // cheker la structure des données reçues
+  // }, [cafeData]);
 
   if (error) {
     if (error.status === 404) {
@@ -178,7 +147,7 @@ const Cafe = () => {
 
         {/* Colonne de droite pour la boîte de description et les annonces */}
         <div className="w-full md:w-2/5 mt-4 md:mt-0 md:ml-4">
-        {cafeData && <CafeDescriptionBoard cafe={cafeDescriptionProps} />}
+        {cafeData && <CafeDescriptionBoard cafe={cafeData} />}
         
         <NewsBoard cafe={cafeData} news={announcements || []} />
       </div>

@@ -14,9 +14,6 @@ import { ClockIcon,BellIcon, BellAlertIcon, HandThumbUpIcon} from "@heroicons/re
 import NewsBoard from "./Board/NewsBoard";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 
-import { format, formatDistanceToNow } from 'date-fns';
-import { fr } from 'date-fns/locale'; 
-
 const EditNews = () => {
   const { id: cafeSlug } = useParams();
   const { announcementId } = useParams(); 
