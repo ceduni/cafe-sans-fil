@@ -1,7 +1,16 @@
 # 📅 Suivi
 ## Phase 2
 
+### Semaine 16 (2024-04-24)
 
+- **Tâches en Cours** :
+  - Peaufinement des nouvelles fonctionnalités introduites dans les dernières semaines, y compris les composants d'annonces et d'événements.
+
+### Semaine 15 (2024-04-17)
+
+- **Tâches Réalisées** :
+  - Ajout des composants "annonces" et "événements" dans le backend et frontend pour le développement du segment social.
+  - Modification de l'image des cafés et ajout d'une boîte de description dans le frontend pour améliorer la présentation et l'information disponible sur les cafés.
 
 ### Semaine 14 (2024-04-10)
 
