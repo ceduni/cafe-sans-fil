@@ -59,40 +59,15 @@ const ItemCard = ({ item, cafeSlug, edit, onItemUpdate, showDescription }) => {
         key={item.item_id}
         className="group text-left focus:outline-2 focus:outline-offset-4 focus:outline-indigo-600 focus:rounded"
         onClick={() => (edit ? setItemEditOpen(true) : setItemPreviewOpen(true))}>
-      {/* <div
-        key={item.item_id}
-        className="group p-4 bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300"
-        onClick={() => (edit ? setItemEditOpen(true) : setItemPreviewOpen(true))}
-      >
-        <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-full bg-gray-100 ">
-          <img
-            src={item.image_url || "https://placehold.co/300x300?text=Item"}
-            alt={item.name}
-            className={classNames("h-full w-full object-cover object-center", {
-              "opacity-50": !item.in_stock,
-              "group-hover:opacity-75": item.in_stock,
-            })}
-          />
-          {!item.in_stock && (
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center font-bold text-white">
-              {OUT_OF_STOCK_TEXT}
-            </div>
-          )}
-        </div>
-        <div className="mt-3 ">
-          <h3 className="text-lg font-semibold text-gray-800">{item.name || "Sans nom"}</h3>
-          {showDescription && <p className="text-sm text-gray-600">{item.description}</p>}
-          <p className="mt-2 flex flex-row text-lg font-medium text-gray-900">{formatPrice(item.price)}</p>
-        </div>
-      </div> */}
 
-  <div className="flex items-center  bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300 ">
+  {/* <div className="flex items-center  bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300 "> */}
+  <div className="flex items-center   transition-shadow duration-300 ">
           <div className="flex-shrink-0 relative">
             <img
               src={item.image_url || "https://placehold.co/300x300?text=Item"}
               alt={item.name}
               className={classNames(
-                "h-20 w-20 object-cover rounded-full transition-transform duration-500",
+                "h-14 w-14 object-cover rounded-full transition-transform duration-500",
                 { "opacity-50": !item.in_stock },
                 { "group-hover:opacity-75": item.in_stock },
                 {"scale-50": !showDescription}, // diminue la taille quand la description n'est pas montrée
@@ -100,10 +75,7 @@ const ItemCard = ({ item, cafeSlug, edit, onItemUpdate, showDescription }) => {
               )}
             />
             {!item.in_stock && (
-          //    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center font-bold text-white rounded-full">
-          //    {OUT_OF_STOCK_TEXT}
-          //  </div>
-          <div className={classNames(
+                <div className={classNames(
               "absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center font-bold text-white rounded-full transition-transform duration-500",
               {"scale-50": !showDescription}, 
               {"scale-200": showDescription}, )}>
@@ -111,9 +83,9 @@ const ItemCard = ({ item, cafeSlug, edit, onItemUpdate, showDescription }) => {
           </div>
             )}
           </div>
-          <div className="ml-4 flex-grow">
+          <div className=" ml-2 flex-grow">
             {/* <h3 className="text-lg font-semibold text-gray-800">{item.name || "Sans nom"}</h3> */}
-            <h3 className={`text-sm font-semibold transition-all duration-500 ${!item.in_stock ? 'line-through text-gray-400' : 'text-gray-900'} ${showDescription ? 'scale-text-125' : ''}`}>
+            <h3 className={`text-xs mr-2 font-semibold transition-all duration-500 ${!item.in_stock ? 'line-through text-gray-400' : 'text-gray-900'} ${showDescription ? 'scale-text-125' : ''}`}>
               {item.name || "Sans nom"} </h3>
             {showDescription && <p className="text-sm text-gray-600">{item.description}</p>}
           </div>
