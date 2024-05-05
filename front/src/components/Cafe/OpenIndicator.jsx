@@ -1,19 +1,30 @@
 import { isCafeActuallyOpen, getClosingTimeToday, getNextOpeningTime } from "@/utils/cafe";
 import classNames from "classnames";
 
-const OpenIndicator = ({ isOpen, openingHours, statusMessage, size = "sm" }) => {
+const OpenIndicator = ({ isOpen, openingHours, statusMessage, size = "sm", color="black" }) => {
   const isActuallyOpen = isCafeActuallyOpen(isOpen, openingHours);
   const { closingTime, isBreak } = getClosingTimeToday(openingHours) || {};
   const nextOpeningTime = getNextOpeningTime(openingHours);
 
   const getText = () => {
-    if(!isOpen){
-      return <span className="font-bold"> {statusMessage ? statusMessage :  "Fermé"} </span>;
-    }
-    else if (isActuallyOpen) {
-      return <>Ouvert <span className="font-bold">⋅ {isBreak ? `Pause à ${closingTime}` : `Ferme à ${closingTime}`}</span></>;
-    } else {
-      return <>Fermé <span className="font-bold">⋅ {nextOpeningTime}</span></>;
+    if(color == "black") {
+      if(!isOpen){
+        return <span className="font-bold text-black"> {statusMessage ? statusMessage :  "Fermé"} </span>;
+      }
+      else if (isActuallyOpen) {
+        return <>Ouvert <span className="font-bold text-black">⋅ {isBreak ? `Pause à ${closingTime}` : `Ferme à ${closingTime}`}</span></>;
+      } else {
+        return <>Fermé <span className="font-bold text-black">⋅ {nextOpeningTime}</span></>;
+      }
+    }else{
+      if(!isOpen){
+        return <span className="font-bold text-white"> {statusMessage ? statusMessage :  "Fermé"} </span>;
+      }
+      else if (isActuallyOpen) {
+        return <>Ouvert <span className="font-bold text-white">⋅ {isBreak ? `Pause à ${closingTime}` : `Ferme à ${closingTime}`}</span></>;
+      } else {
+        return <>Fermé <span className="font-bold text-white">⋅ {nextOpeningTime}</span></>;
+      }  
     }
   };
   
@@ -24,7 +35,7 @@ const OpenIndicator = ({ isOpen, openingHours, statusMessage, size = "sm" }) => 
       </div>
       <p
         className={classNames(
-          "text-gray-500",
+          "text-white",
           size === "sm" ? "text-sm leading-5 font-semibold" : "text-xs leading-4 font-medium"
         )}>
         {getText()}
