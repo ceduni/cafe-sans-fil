@@ -88,6 +88,7 @@ const Cafe = () => {
         <div className=" top-12 flex items-center justify-start space-x-2 rounded-lg bg-black">
           <OpenIndicator
             isOpen={cafeData?.is_open}
+            color="white"
             openingHours={cafeData?.opening_hours}
             statusMessage={cafeData?.status_message}
           />
