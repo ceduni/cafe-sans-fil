@@ -8,7 +8,7 @@ const CafeDescriptionBoard = ({ cafe }) => {
   
 
   const handleEmailClick = () => {
-    // Remplacez 'yourcafe@example.com' par l'adresse e-mail que vous souhaitez utiliser
+    // Remplace 'yourcafe@example.com' par l'adresse e-mail qu'on souhaite utiliser
     const mailto = `mailto:yourcafe@example.com`;
     window.location.href = mailto;
   };
@@ -59,14 +59,14 @@ const CafeDescriptionBoard = ({ cafe }) => {
         </button>
       </div>
       <div className="flex flex-wrap items-center">
-          {staffDetails.map((member, index) => (
+          {staffDetails.slice(0, 2).map((member, index) => (
             <div key={index} className="flex items-center mr-4 mb-4">
               <img
                 src={member.photo_url}
                 alt={`${member.first_name} ${member.last_name}`}
                 className="h-10 w-10 rounded-full mr-2"
               />
-              <span className="text-sm mr-2">{`${member.first_name} ${member.last_name}`}</span>
+              <span className="text-sm mr-2 text-white">{`${member.first_name} ${member.last_name}`}</span>
             </div>
           ))}
         </div>
