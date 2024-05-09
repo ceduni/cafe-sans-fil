@@ -1,203 +1,162 @@
 # 📅 Suivi
 
-### Semaines 15 et 16 (2023-12-11 à 2023-12-22)
+<!-- ## Semaine 15 (2024-08-12)
 
-- **Front**:
-  - Derniers fix de bugs et ajout e-mail de contact dans le footer.
-- **Autres**:
-  - Présentation du projet, soutenance et rapport final.
+### Objectifs
 
-### Semaine 14 (2023-12-04)
+### Réalisations
 
-- **Front**:
-  - Améliorations de l'interface utilisateur, y compris la correction du contour noir sur iPad.
-  - Possibilité pour les admins de cafés de modifier davantage de champs.
-  - Ajout d'indicateurs d'ouverture dynamiques et heures d'ouverture modifiables.
-  - Diverses améliorations de l'interface utilisateur, y compris des animations.
-- **Back**:
-  - Mise à jour de la documentation de l'API et du back-end.
+### Observations
 
-### Semaine 13 (2023-11-27)
+### Ressources
 
-- **Front**:
-  - Développement de la page d'édition de menu.
-  - Amélioration de l'interface et du design.
-  - Ajout de la logique de StaffList et du rapport de ventes.
-- **Back**:
-  - Ajout de la route pour obtenir le rapport de ventes.
-  - Augmentation de la limitation des caractères pour image_url et faculty.
-  - Autorisation pour les bénévoles de mettre à jour le menu.
+## Semaine 14 (2024-08-05)
 
-### Semaine 12 (2023-11-20)
+### Objectifs
 
-- **Front**:
-  - Diverses améliorations de l'interface utilisateur et du design.
-  - Début de la page d'édition de café.
-  - Filtres par méthode de paiement fonctionnels.
-- **Back**:
-  - Correction des schémas et refactorisation des routes.
-  - Ajout de davantage d'autorisations et de la limite de requête.
+### Réalisations
 
-### Semaine 11 (2023-11-13)
+### Observations
 
-- **Front**:
-  - Amélioration de la page de commande POST fonctionnelle.
-  - Affichage des cafés dont on est staff sur le profil.
-  - Correction des requêtes API inutiles et amélioration du temps de chargement.
-- **Back**:
-  - Mise à jour de la recherche dynamique et du tri.
-  - Ajout de paramètres de requête dynamiques dans les routes.
+### Ressources
 
-### Semaine 10 (2023-11-06)
+## Semaine 13 (2024-07-29)
 
-- **Front**:
-  - Début de l'implémentation de la création de compte.
-  - Diverses optimisations de code et de structure de fichiers.
-  - Ajout d'un Footer.
-- **Back**:
-  - Ajout de la recherche de cafés.
+### Objectifs
 
-### Semaine 9 (2023-10-30)
+### Réalisations
 
-- **Front**: Continué à développer le front-end.
-- **Back et BD**: Refactorings et améliorations de l'API et de la BD.
+### Observations
 
-Réunion: discussions sur le hosting et divers sujets.
+### Ressources
 
-### Semaine 8 (2023-10-23)
+## Semaine 12 (2024-07-22)
 
-- **Création routes API** : Ajout de l'authentification et des authorisations pour les routes de l'API.
-- **Front-end** : Avancements sur le front, création de contextes d'authentification, création UI de l'appli, création logique pour fetch l'API.
-- **Connexion avec l'API** : Connexion avec l'API pour récupérer la liste des cafés et les infos sur un café.
+### Objectifs
 
-#### Résumé des discussions
+### Réalisations
 
-- **Modération** : Comment gérer l'ajout d'un café et vérifier qui est vraiment admin? => Manuellement
-- **Authentification** : Username ? => Non seulement email et matricule à l'inscription
-- **Recherche** : Discussions sur la recherche, notamment sur la possibilité de rechercher par tags, et sur quelles propriétés des cafés on peut rechercher (ne pas rechercher trop large, faire en sorte que le mot commence par la query?).
-- **Filtres** : Discussions sur les filtres, notamment sur la possibilité de filtrer les cafés par pavillon.
-- **API** : Discussions sur l'API, notamment sur la structure de "additional_info_cafe" qui incluerait un type de message et une date de début et de fin.
-- **Items du menu** : Discussions sur les items du menu, notamment sur des variations d'items (ex: un café peut avoir plusieurs tailles de café).
-- **Design** : Discussions sur le design, notamment la bannière qui indique si on est admin ou bénévole d'un café, et les actions asociées. Discussions sur à quoi va ressembler d'édition d'un café en tant qu'admin.
-- **Accès à la BD** : Discussions sur l'accès à la BD, installation du GUI MongoDB Compass.
-- **Autre** : Switch vers la fonctionnalité Wiki sur GitHub?
+### Observations
 
-### Semaine 7 (2023-10-16)
+### Ressources
 
-> Semaine de relâche, pas de réunion
+## Semaine 11 (2024-07-15)
 
-**Avancement du front-end et de l'API**
+### Objectifs
 
-### Semaine 6 (2023-10-09)
+### Réalisations
 
-- **Modifications du schéma** : Modifications du schéma de la base de données pour mieux correspondre aux besoins après nos discussions de la semaine dernière.
-- **Début du front-end** : Début du développement du front-end.
+### Observations
 
-#### Résumé des discussions
+### Ressources
 
-- **Design** : Discussions sur le design de l'application, les couleurs, le logo. **On doit faire une version finale du logo avec éventuellement une version réduite pour les petits formats.**
-- **Concept de la page d'accueil** : Discussions sur le concept de la page d'accueil, la recherche intégrée, et notamment sur la possibilité de mettre en avant les cafés les plus proches de l'utilisateur.
-  - **Décision** : On ne va pas inclure de système de localisation pour l'instant, car il faudrait que les gens acceptent de partager leur localisation, et cela pourrait être un frein pour certains utilisateurs. De plus, tout est dans le campus, donc les distances sont raisonnables.
-- **Discussions sur le système de commandes** : Discussions sur le système de commandes, notamment sur la possibilité de commander des items de plusieurs cafés en même temps.
-  - **Décision** : On va permettre aux utilisateurs de mettre dans leur panier des items de plusieurs cafés en même temps, puis cela créera une commande par café. Cela sera plus simple pour les utilisateurs et les cafés, et cela permettra de ne pas avoir à gérer des commandes avec des items de plusieurs cafés.
+## Semaine 10 (2024-07-08)
 
-### Semaine 5 (2023-10-02)
+### Objectifs
 
-- **Définition des modèles** : Définition des modèles de données pour la base de données (schéma).
-- **Définition des routes** : Définition des premières routes de l'API, et tests avec Postman.
-- **Organisation des tâches** : Création d'un GitHub Project pour organiser les tâches à faire, avec issues et milestones.
+### Réalisations
 
-#### Tâches effectuées
+### Observations
 
-- Review tout ce qu'on a fait, validation des routes et du schéma de BD
+### Ressources
 
-### Semaine 4 (2023-09-25)
+## Semaine 9 (2024-07-01)
 
-- **Révision des flux réalisés** : Révision des flux réalisés et des exigences associées.
-- **Documentation** : Ajustements et complétion de la documentation (wiki), ajout des risques dans la documentation.
-- **Architecture** : Discussions sur l'architecture de l'application et les possibles contraintes qui pourraient arriver.
-- **Initialisation de l'API** : Initialisation d'un dossier API avec FastAPI.
+### Objectifs
 
-#### Tâches effectuées
+### Réalisations
 
-- Choix entre MongoDB ou PostgreSQL
-- Utilisation d'un outil simple pour les graphiques (notamment timeline), voir [diagrams.net (avant draw.io)](https://app.diagrams.net/)
-- Ajout de la page de point de départ dans les flux
+### Observations
 
-### Semaine 3 (2023-09-18)
+### Ressources
 
-- **Définition des exigences** : Définition des exigences principales et secondaires.
-- **Définition des flux** : Définition des flux pour les exigences principales, avec leur output et input.
-- **Documentation** : Rédaction de la documentation (wiki) pour les flux et les exigences.
+## Semaine 8 (2024-06-24)
 
-### Semaine 2 (2023-09-11)
+### Objectifs
 
-#### Objectifs de la deuxième semaine
+### Réalisations
 
-- **Débrief des besoins des cafés** : Récapitulatif des exigences et des fonctionnalités voulues par les cafés (notamment Tore et Fraction).
-- **Discussion sur les technologies** : Évaluation des technologies disponibles et sélection des outils à utiliser pour le projet.
-- **Définition des prochaines étapes** : Planification des prochaines étapes et des tâches à accomplir, notamment prendre chaque éxigence pour la transformer en un flux, faire des mini maquettes, etc.
+### Observations
 
-#### Tâches effectuées
+### Ressources
 
-- Regroupement des informations utiles pour notre BDD sur tous les cafés dans un fichier JSON.
-- Initialisation du front React avec Vite. (Dans le dossier [front](front/))
+## Semaine 7 (2024-06-17)
 
-### Semaine 1 (2023-09-04)
+### Objectifs
 
-#### Objectifs de la première semaine
+### Réalisations
 
-- **Lancement du projet** : Réunion initiale pour démarrer les travaux.
-- **Planification globale** : Définition de la roadmap et des étapes clés.
-- **Définition des exigences** : Précision des fonctionnalités et des besoins pour l'application.
-- **Communication avec les cafés** : Prise de contact avec le responsable du Café Tore et Fraction.
+### Observations
 
-## Vue d'ensemble du projet
+### Ressources
 
-![Plan du Projet](https://cdn.discordapp.com/attachments/841456989443325973/1149925649943887943/cafe_sans_fils_rounded_updated_v2.png)
+## Semaine 6 (2024-06-10)
 
-La durée totale du projet est estimée à 13 semaines. Il est catégorisé en trois sections principales : **la base de données**, **l'API** et **l'interface Web**.
+### Objectifs
 
-## Phases clés
+### Réalisations
 
-- **Semaines 1 à 2** : Mise en place et définition des exigences.
-- **Semaines 2 à 3** : Sélection des technologies et mise en place de l'architecture des données.
-- **Semaines 3 à 5** : Élaboration de l'API et de la base de données.
-- **Semaines 5 à 13** : Développement et intégration des fonctionnalités principales.
-- **Semaine 13** : Phase finale avec déploiement et réalisation des tests utilisateurs.
+### Observations
 
-## Exigences du projet
+### Ressources
 
-- **Localisation des cafés** | 🔵 _Consommateur_  
-  Lister les cafés basés sur leur localisation. Offrir une fonction de recherche où les utilisateurs peuvent formuler des requêtes spécifiques en utilisant des étiquettes ou des "tags" associés aux items du menu (par exemple, un tag "jus de fruits"). Incorporer l'utilisation d'une map pour une visualisation facile des emplacements des cafés et fournir des détails sur les moyens de paiement disponibles.
+## Semaine 5 (2024-06-03)
 
-- **Lister les menus** | 🟠 _Public_  
-  Afficher les différents items offerts par les cafés, incluant les prix, les descriptions et éventuellement des images. Permettre aux utilisateurs de parcourir les offres avant de faire une sélection.
+### Objectifs
 
-- **Fiche de présentation d'un café** | 🟠 _Public_  
-  Affichage des détails tels que photo, horaires, coordonnées, et autres informations pertinentes.
+### Réalisations
 
-- **Identification de l'étudiant & création de compte** | 🔵 _Consommateur_  
-  Mettre en œuvre un mécanisme d'authentification, utiliser un QR code, et s'intégrer avec le service UdeM.
+### Observations
 
-- **Gestion du menu pour un café spécifique** | 🟢 _Bénévole_, 🔴 _Admin_  
-  Ajouter, modifier, supprimer du contenu.  
-  _Note_: Investiguer la structure des bénévoles au sein d'un café et définir leurs rôles.
+### Ressources
 
-- **Gestion de la liste des bénévoles** | 🔴 _Admin_  
-  Offre aux administrateurs la capacité de gérer les bénévoles associés à un café. Cela inclut l'ajout, la modification, et la suppression de bénévoles, ainsi que la gestion de leurs rôles et responsabilités.
+## Semaine 4 (2024-05-27)
 
-- **Prise de commande** | 🔵 _Consommateur_, 🟢 _Bénévole_  
-  Permet aux consommateurs de sélectionner et commander des items du menu. Les bénévoles reçoivent et traitent ces commandes pour préparation.
+### Objectifs
 
-- **Paiement en ligne** | 🔵 _Consommateur_, 🔴 _Admin_  
-  Intégrer des contraintes comme un montant minimum et des frais.
+### Réalisations
 
-- **Rapports et statistiques** | 🟢 _Bénévole_, 🔴 _Admin_  
-  Générer des rapports de vente, statistiques et autres informations pertinentes.
+### Observations
 
-- **Système de récompenses/Gamification** | 🔵 _Consommateur_, 🔴 _Admin_  
-  Introduit un mécanisme incitatif pour encourager les consommateurs à passer des commandes ou à participer à certaines activités. Les récompenses peuvent être sous forme de points, de remises ou d'autres avantages.
+### Ressources
 
-- **Canal de communication** | 🔵 _Consommateur_, 🟢 _Bénévole_  
-  Offrir un moyen pour les recommandations, sondages et autres formes de communication.
+## Semaine 3 (2024-05-20)
+
+### Objectifs
+
+### Réalisations
+
+### Observations
+
+### Ressources
+
+## Semaine 2 (2024-05-13)
+
+### Objectifs
+
+### Réalisations
+
+### Observations
+
+### Ressources -->
+
+## Semaine 1 (2024-05-06)
+
+### Objectifs
+
+- Prendre en main les outils qui seront utilisés pour le projet
+- Produire une première version de l'échéancier
+- Déterminer les exigences du projet
+- Étudier le domaine, les notions et outils envisagés pour le projet
+
+### Réalisations
+
+<!-- Description des tâches accomplies -->
+
+### Observations
+
+<!-- Description des observations importantes (ex: remarque ou trouvaille intéressante, difficultés rencontrées) de la semaine -->
+
+### Ressources
+
+<!-- Matériels consultés (vidéo, article, documentation, livres)-->
