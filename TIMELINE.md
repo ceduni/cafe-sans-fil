@@ -146,17 +146,23 @@
 
 - Prendre en main les outils qui seront utilisés pour le projet
 - Produire une première version de l'échéancier
-- Déterminer les exigences du projet
 - Étudier le domaine, les notions et outils envisagés pour le projet
 
 ### Réalisations
 
 <!-- Description des tâches accomplies -->
+- **Planification du projet**: Définition des grandes tâches à effectuer durant la session.
+- **Recherche des algorithmes de recommandation**: Recherche des algorithmes, compréhension de ces derniers et reflexion sur leur pertinence et comment les utiliser dans le cadre du projet.
+- **Recherche de sources pour la ceuillette des données**: Recherche de quelques bases de données pour la récupération ainsi que la validation des attributs des différents repas. Recherche de bases de données pour tester le système.
 
-### Observations
-
+<!-- ### Observations -->
 <!-- Description des observations importantes (ex: remarque ou trouvaille intéressante, difficultés rencontrées) de la semaine -->
 
-### Ressources
 
-<!-- Matériels consultés (vidéo, article, documentation, livres)-->
+### Ressources
+- [Description des algorithmes de recommandation](https://towardsdatascience.com/introduction-to-recommender-systems-1-971bd274f421)
+- [Implémentation des algorithmes en python](https://www.geeksforgeeks.org/recommendation-system-in-python/)
+- [Market Basket Analysis](https://www.youtube.com/watch?v=icGS26TS1fE&ab_channel=DATAtab)
+- [Market Basket Analysis python](https://medium.com/@jihargifari/how-to-perform-market-basket-analysis-in-python-bd00b745b106)
+- [Base de données de test](https://www.kaggle.com/datasets/joebeachcapital/fast-food)
+- [Plateforme pour receuillir les informations sur les repas (Fatsecret)](https://platform.fatsecret.com/)
