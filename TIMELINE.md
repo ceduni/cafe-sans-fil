@@ -128,17 +128,21 @@
 
 ### Observations
 
-### Ressources
+### Ressources -->
 
 ## Semaine 2 (2024-05-13)
 
 ### Objectifs
 
+- Étudier l'intégration des systèmes au backend de l'application.
+- Produire un diagramme descriptif sur comment les systèmes fonctionnent et sont intégrés au backend.
+- Produire un pseudo code spécifique pour chacun des algorithmes utilisés.
+
 ### Réalisations
 
 ### Observations
 
-### Ressources -->
+### Ressources
 
 ## Semaine 1 (2024-05-06)
 
