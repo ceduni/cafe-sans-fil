@@ -26,6 +26,7 @@ const CafeCard = ({ cafe ,searchQuery}) => {
           <Card.Header.Subtitle>{displayCafeLocation(cafe.location)}</Card.Header.Subtitle>
           <OpenIndicator
             isOpen={cafe.is_open}
+            color="black"
             openingHours={cafe.opening_hours}
             statusMessage={cafe.status_message}
             size="xs"

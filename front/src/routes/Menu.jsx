@@ -32,7 +32,7 @@ const Menu = ({ items }) => {
   const categories = getCafeCategories(items);
 
   return (
-    <Container className="pt-12 pb-24 border-t border-gray-200">
+    <Container className="pt-6 pb-24 rounded border-gray-200 bg-gray-200">
       <h2 className="text-4xl text-center font-bold text-gray-900 mb-10">Menu</h2>
       <div ref={menuRef} className="menu-container">
       <div className={`grid grid-cols-2 grid-rows-2 gap-4 p-4`}> 
@@ -49,7 +49,7 @@ const Menu = ({ items }) => {
             <div className={classNames(
                 "grid grid-cols-2 p-1 transition-all duration-500 ease-in-out",
                 { "gap-4": activeCategory === category, "max-h-screen": activeCategory === category },
-                { "gap-4": activeCategory !== category, "max-h-44 overflow-hidden": activeCategory !== category }
+                { "gap-4": activeCategory !== category, "max-h-40 overflow-hidden": activeCategory !== category }
               )}>
               {getItemByCategory(items, category).map((item) => (
                 <ItemCard key={item.item_id} item={item} showDescription={activeCategory === category} />

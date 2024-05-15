@@ -24,44 +24,32 @@ import CafeDescriptionBoard from "./Board/CafeDescriptionBoard";
 import { useEffect } from "react";
 
 
-
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
   const { data: cafeData, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
   const { data: events, isLoading: eventsLoading, error: eventsError, refetch: refetchEvents } = useApi(`/events/${cafeData ? "?cafe_id=" + cafeData.cafe_id : ''}`, false);
-  
+  const { data: announcements, isLoading: announcementsLoading, error: announcementsError, refetch: refetchAnnoucements } = useApi(`/announcements/${cafeData ? "?cafe_id=" + cafeData.cafe_id : ''}`, false);
   const [showOpeningHours, setShowOpeningHours] = useState(false);
   const toggleOpeningHours = () => {
     setShowOpeningHours(!showOpeningHours);
   };
-
   const [activeCategory, setActiveCategory] = useState(null);
 
   useEffect(() => {
     if (cafeData && !cafeData.cafe_id &&refetchEvents) {
       refetchEvents();
     }
-  }, [cafeData, refetchEvents]); // Ensure refetchEvents is stable or memoized if defined outside useEffect
-    
-  //Fake data pour Annonces
-  const news = [
-    {
-      title: 'Distribution de Chocolat Gratuit',
-      content: 'Pour égayer votre journée, passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses café.',
-      timePosted: 'Il y a 4 jours',
-      tags: ['rapide', 'chocolat'], // Un tableau de tags
-      buttonText: 'En savoir plus',
-      likes: 18 // Assurez-vous d'avoir un champ pour les likes si vous allez l'afficher
-    },
-  ];
+  }, [cafeData, refetchEvents]); 
 
-  const cafeDescriptionProps = {
-    name: cafeData?.name,
-    description: cafeData?.description,
-    location: displayCafeLocation(cafeData?.location),
-    appareils: ["Micro-ondes", "Presse panini", "Machine à café"], // Placeholder en attendant les vraies données
-    staff: cafeData?.staff // Supposons que data contienne une propriété staff avec les bonnes données
-  };
+  useEffect(() => {
+ if(cafeData && !cafeData.cafe_id &&refetchAnnoucements){
+  refetchAnnoucements();
+ }
+  }, [cafeData, refetchAnnoucements]);
+
+  // useEffect(() => {
+  //   console.log(cafeData?.staff); // cheker la structure des données reçues
+  // }, [cafeData]);
 
   if (error) {
     if (error.status === 404) {
@@ -73,6 +61,8 @@ const Cafe = () => {
   if (eventsError) return <EmptyState message="Error loading events" />;
 
   const menuItems = cafeData?.menu_items;
+
+  if(announcementsError) return <EmptyState message= "Error loading annoucements"/>
 
 
   return (
@@ -95,9 +85,10 @@ const Cafe = () => {
 
           
 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
-        <div className=" top-12 flex items-center justify-start space-x-2 rounded-lg bg-white">
+        <div className=" top-12 flex items-center justify-start space-x-2 rounded-lg bg-black">
           <OpenIndicator
             isOpen={cafeData?.is_open}
+            color="white"
             openingHours={cafeData?.opening_hours}
             statusMessage={cafeData?.status_message}
           />
@@ -157,9 +148,9 @@ const Cafe = () => {
 
         {/* Colonne de droite pour la boîte de description et les annonces */}
         <div className="w-full md:w-2/5 mt-4 md:mt-0 md:ml-4">
-        {cafeData && <CafeDescriptionBoard cafe={cafeDescriptionProps} />}
+        {cafeData && <CafeDescriptionBoard cafe={cafeData} />}
         
-        <NewsBoard news={news} />
+        <NewsBoard cafe={cafeData} news={announcements || []} />
       </div>
       </div>
       
