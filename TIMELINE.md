@@ -133,12 +133,13 @@
 ## Semaine 2 (2024-05-13)
 
 ### Objectifs
-
-- Étudier l'intégration des systèmes au backend de l'application.
-- Produire un diagramme descriptif sur comment les systèmes fonctionnent et sont intégrés au backend.
-- Produire un pseudo code spécifique pour chacun des algorithmes utilisés.
+- Chercher des algorithmes de système de recommendation
+- Élaborer un algorithme (pseudo code) spécifique à café sans fil
 
 ### Réalisations
+<!--
+- **Recherche des algorithmes de recommandation**: Recherche des algorithmes, compréhension de ces derniers et reflexion sur leur pertinence et comment les utiliser dans le cadre du projet. 
+-->
 
 ### Observations
 
@@ -156,7 +157,6 @@
 
 <!-- Description des tâches accomplies -->
 - **Planification du projet**: Définition des grandes tâches à effectuer durant la session.
-- **Recherche des algorithmes de recommandation**: Recherche des algorithmes, compréhension de ces derniers et reflexion sur leur pertinence et comment les utiliser dans le cadre du projet.
 - **Recherche de sources pour la ceuillette des données**: Recherche de quelques bases de données pour la récupération ainsi que la validation des attributs des différents repas. Recherche de bases de données pour tester le système.
 
 <!-- ### Observations -->
