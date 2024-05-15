@@ -26,12 +26,10 @@ Nous proposons une plateforme commune facilitant la gestion des cafés, leur dé
 ### Pour le gérant
 
 - [ ] **Recommandations par rapport aux repas à ajouter dans le menu basé sur les spécifications**
-
+<!--
 ## 🌐 Infrastructure
 
-Les systèmes sont implémentés en Pyhthon.
-
-<!-- L'infrastructure de l'application est basée sur le **FARM stack**, comprenant FastAPI, React et MongoDB.  
+ L'infrastructure de l'application est basée sur le **FARM stack**, comprenant FastAPI, React et MongoDB.  
 Elle utilise MongoDB pour une gestion efficace des données, FastAPI pour traiter les requêtes et React pour offrir une interface utilisateur pour visualiser et interagir avec les données.
 
 ### 🗄️ Base de données
