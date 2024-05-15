@@ -1,0 +1,21 @@
+@startuml 
+
+left to right direction 
+class Gerant 
+class BENEVOLE 
+class Hoiraire 
+
+Gerant "1" -- "*" BENEVOLE : gere >
+Gerant "1" -- "*" BENEVOLE : donne les Droit >
+Gerant "1" -- "*" BENEVOLE : ajouter au sys >
+Gerant "1" -- "*" BENEVOLE : donne les Droit >
+Gerant "1" -- "*" BENEVOLE : communique avec >
+Gerant "1" -- "*" Hoiraire: ajouter un evement >
+BENEVOLE -- Hoiraire : voire >
+Gerant  -- Hoiraire : voire horaire cafe >
+Gerant  "1"  -- "*" Hoiraire :ajouter benevole  >
+Gerant  "1"  -- "*" Hoiraire :retirer benevole  >
+
+@enduml
+
+
