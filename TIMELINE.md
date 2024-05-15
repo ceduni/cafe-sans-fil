@@ -62,11 +62,13 @@ Discussion avec le gérant d'un des cafés pour choisir le prototype le plus ada
 - **Détermination des nouvelles exigences de l'application** : Organisation, classification et analyse détaillée des feedbacks (bugs, suggestions d'amélioration, commentaires sur l'interface utilisateur, etc...).
 
 #### Tâches effectuées
+
 - **Evaluation de l'application** : Récolte des réponses/feedbacks des testeurs.
 - **Segment Social** : Identification des idées pour l'engagement et l'amélioration de l'expérience globale.
 
 
-### Semaine 1 et 2 (2024-01-10 à 2024-01-19) 
+### Semaine 1 et 2 (2024-01-10 à 2024-01-19)
+
 - **Evaluation de l'application** : Envoi d'un formulaire d'enquête aux testeurs.
 - **Segment social** : Lancement de la réflexion sur le segment social de l'application.
 

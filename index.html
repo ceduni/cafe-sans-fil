@@ -48,7 +48,6 @@
       }
 
       main {
-        width: min(100% - 3rem, 120ch);
         margin: 0 auto;
       }
 
@@ -79,11 +78,8 @@
       }
 
       section {
-        margin: 2rem 0;
-      }
-
-      section > * {
-        margin-top: 1rem;
+        width: min(100% - 3rem, 120ch);
+        margin: 0 auto;
       }
 
       h2 {
@@ -110,11 +106,109 @@
         margin-right: 1rem;
         transition: background-color 0.2s ease-in-out;
       }
-      .links a:hover {
-        background-color: #e5e5e5;
-      }
+        .links a:hover {
+          background-color: #e5e5e5;
+        }
+
+    .info { text-align: center; }
+
+    nav { 
+      margin-top: 30px; 
+      margin-bottom: 10px; 
+      font-size: 10px;
+    }
+
+    .nav { 
+      padding-left: 2rem;
+      padding-right: 2rem;
+      padding-bottom: 30px;
+      border-bottom: 4px solid #000; 
+    }
+    .nav-item {
+      position: relative;
+      display: inline-block; 
+      width: 80px; height: 20px; 
+      font: 600 1.4em 'Segoe UI', Arial, sans-serif;
+      transform: rotate(-45deg);
+      margin-left: -30px;
+      color: #555;
+    }
+        .nav-item:after { 
+          content: "";
+          position: absolute;
+          bottom: -10px; left: -10px;
+          height: 11px;
+          width: 11px;
+          border-radius: 50%;
+          background-color: #555;
+        }
+    .nav-item.current { font-weight: bold; color: #333; }
+        .nav-item.current:after { background-color: #333; }
+    .nav-item a { display: block; color: inherit; }
+    .nav-item:hover { color: #007BB8; }
+
+    .doc-list { margin-top: 5px; }
+    .doc-list li { display: inline-block; margin-right: 3px; }
+
+    code { font-size: 1.5em; font-family: Consolas, 'Courier New', Courier, monospace; }
+
+    a { text-decoration: none; }
+
+    button { font-size: inherit; }
+
+    .link { 
+      position: relative;
+      display: inline-block; 
+      font-family: 'AvenirLT Light', 'ITC Avant Garde', 'Futura', Arial, sans-serif;
+      padding: 1px 2px;
+      border-radius: 2px;
+      color: inherit;
+    }
+    .link:hover { background: #fff; box-shadow: 0 1px 2px #a9a9a9; }
+    .link:active { box-shadow: none; }
+
+    .link:after {
+      content: "";
+      position: absolute;
+      left: 1px; right: 1px; bottom: 1px;
+      border-bottom: 2px dashed #007BB8; 
+    }
+    .link:hover:after { left: 0; right: 0; bottom: 0; border-bottom-style: solid; }
+
+    .link-out {
+      position: relative;
+      display: inline-block; 
+      font-family: 'AvenirLT Light', 'ITC Avant Garde', 'Futura', Arial, sans-serif;
+      padding: 5px 10px 4px;
+      border-radius: 3px;
+      color: #fff;
+      text-transform: uppercase;
+      background: #007BB8;
+      box-shadow: 0 1px 3px #999;
+      transition: .2s;
+    }
+
+    .link-out:hover { background: #33487e; }
+    .link-out:active { transform: scale(.95); }
+    section { 
+      background-color: #f9f9f9;
+      border-radius: 2px;  
+      overflow: hidden;  
+      width: 100%;
+    }
+
+    .section-title { padding: 5px 15px; background-color: ; }
+
+    .section-content { padding: 10px 20px 15px; }
+
+    section:not(:last-child) { margin-bottom: 10px; }
+
+    @media(max-width: 780px) {
+      .img-container { display: block; width: 100%; height: auto; }
+    }
     </style>
   </head>
+
   <body>
     <header>
       <img style="display: inline-block" src="https://cafesansfil.onrender.com/logo.png" height="120" alt="Logo café sans-fil" />
@@ -124,17 +218,12 @@
         </a>
       </h1>
       <ul class="bare-list">
-        <li>Axel ZAREB & Southidej OUDANONH</li>
+        <li>Flory JEAN-BAPTISTE</li>
         <li>IFT3150 - Projet informatique</li>
       </ul>
 
       <ul class="bare-list" style="display: flex; justify-content: center">
         <li><a class="bare-link doc-link" href="https://github.com/ceduni/cafe-sans-fil">Répertoire GitHub</a></li>
-        <li>
-          <a class="bare-link doc-link" href="https://ceduni.github.io/cafe-sans-fil/index.en.html">
-            English version
-          </a>
-        </li>
         <li>
           <a
             class="bare-link doc-link"
@@ -144,8 +233,7 @@
         </li>
         <li>
           <a class="bare-link doc-link" href="https://ceduni.github.io/cafe-sans-fil/livrables/rapport.pdf"
-            >Rapport</a
-          >
+            >Rapport</a>
         </li>
       </ul>
     </header>
@@ -154,12 +242,19 @@
       <header>
         <h2>Description du projet</h2>
         <p>
-          Ce projet vise à améliorer le service des cafés étudiants de l'UdeM. Il consiste à développer une application
-          web complète facilitant la recherche de cafés et produits, la prise de commandes et la gestion du menu et de
-          l'inventaire. <br />
-          L'application sera accessible à tout membre de l'UdeM (étudiant, employé, professeur, etc.) et offrira
-          certains rôles assurant le bon maintien des informations présentées sur l'application.
+          Les cafés étudiants donnent accès à un espace de socialisation et de la nourriture à prix abordable, enrichissant la vie de campus des étudiants. 
+          Toutefois, l'infrastructure actuelle ne facilite pas l'accès à l'information et alourdit la gestion des cafés.
+          Café sans-fil est un projet pilote, commencé à l'automne 2023, qui vise à améliorer le service des cafés étudiants de l'UdeM. 
+          À l'automne, un prototype fonctionnel (<a href="https://cafesansfil.onrender.com/">application web</a>) a été réalisé par deux étudiants.      
+          <br>
         </p>
+
+        <h3>Objectifs</h3>
+        <ol>
+          <li>Valider le prototype</li>
+          <li>Améliorer la recherche et le système d'identification de produits</li>
+          <li>Développer le segment social de l'application</li>
+        </ol>
       </header>
 
       <section>
@@ -254,18 +349,48 @@
         </p>
       </section>
 
-      <section>
-        <h2>Rapport d'avancement</h2>
-        <div class="links">
-          <a href="https://github.com/ceduni/cafe-sans-fil/blob/main/front/README.md" target="_blank">
-            💡 Détail des avancements du front-end
-          </a>
-          <a href="https://github.com/ceduni/cafe-sans-fil/blob/main/back/README.md" target="_blank">
-            💡 Détail des avancements du back-end
-          </a>
-        </div>
+      <section style="background: linear-gradient(#232425, #232425e3);">
+        <header>
+          <h2>Rapport d'avancement</h2>
+          <nav>
+            <ul class="nav bare-list">
+                <li class="nav-item"><a href="#week1">Semaine 1</a></li>
+                <li class="nav-item"><a href="#week2">Semaine 2</a></li>
+                <li class="nav-item"><a href="#week3">Semaine 3</a></li>
+                <li class="nav-item"><a href="#week4">Semaine 4</a></li>
+                <li class="nav-item"><a href="#week5">Semaine 5</a></li>
+                <li class="nav-item"><a href="#week6">Semaine 6</a></li>
+                <li class="nav-item"><a href="#week7">Semaine 7</a></li>
+                <li class="nav-item"><a href="#week8">Semaine 8</a></li>
+                <li class="nav-item"><a href="#week9">Semaine 9</a></li>
+                <li class="nav-item"><a href="#week10">Semaine 10</a></li>
+                <li class="nav-item"><a href="#week11">Semaine 11</a></li>
+                <li class="nav-item"><a href="#week12">Semaine 12</a></li>
+                <li class="nav-item"><a href="#week13">Semaine 13</a></li>
+                <li class="nav-item"><a href="#week14">Semaine 14</a></li>
+            </ul>
+          </nav>
+        </header>
+        
+        <section id="week1">
+          <h3 class="section-title">Semaine 1 &ndash;
+              <time datetime="2024-01-10">Lundi 8 janvier 2024</time>
+          </h3>
+          <div class="section-content">
+              <p>
+                  Durant cette semaine, nous avons prise en main l'infrastructure existante (développée à l'automne) et élaboré les exigences du projet en vue du mandat fixé. 
+                  Nous commençons aussi la documentation.
+              </p>
+
+              <ul>
+                <li><strong>Lancement du projet:</strong> Réunion initiale pour démarrer les travaux.</li>
+                <li><strong>Planification globale:</strong> Définition de l'échéancier et des étapes clés du projet.</li>
+                <li><strong>Définition des exigences:</strong> Précision des fonctionnalités et des besoins pour l'application.</li>
+              </ul>
+          </div>
+        </section>
+
         <h3>Semaines 15 et 16 (2023-12-11 à 2023-12-22)</h3>
-        <h4>Front-end</h4>
         <ul>
           <li>Derniers fixes de bogues et ajout e-mail de contact dans le footer.</li>
         </ul>
@@ -277,7 +402,6 @@
         </ul>
 
         <h3>Semaine 14 (2023-12-04)</h3>
-        <h4>Front-end</h4>
         <ul>
           <li>Améliorations de l&#39;interface utilisateur, y compris la correction du contour noir sur iPad.</li>
           <li>Possibilité pour les admins de cafés de modifier davantage de champs.</li>
