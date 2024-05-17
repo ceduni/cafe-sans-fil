@@ -15,7 +15,6 @@ BENEVOLE -- Hoiraire : voire >
 Gerant  -- Hoiraire : voire horaire cafe >
 Gerant  "1"  -- "*" Hoiraire :ajouter benevole  >
 Gerant  "1"  -- "*" Hoiraire :retirer benevole  >
-
 @enduml
 
 
