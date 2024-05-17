@@ -4,123 +4,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projet IFT3150: Café sans-fil</title>
+    <title>Projet IFT3150 | Café sans-fil: Système de gestion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-    <style>
-        *,
-        *:before,
-        *:after {
-            box-sizing: border-box;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        .bare {
-            margin: 0;
-            padding: 0;
-        }
-
-        .bare-list {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .bare-link {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        html {
-            font-family: "Inter", "Droid Sans", "Lucida Grande", Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            scroll-behavior: smooth;
-            text-rendering: optimizeLegibility;
-        }
-
-        img {
-            display: block;
-        }
-
-        main {
-            width: min(100% - 3rem, 120ch);
-            margin: 0 auto;
-        }
-
-        header,
-        footer {
-            margin: 3rem 1rem;
-            text-align: center;
-        }
-
-        .doc-link {
-            display: block;
-            margin: 6px;
-            padding: 6px 12px;
-            color: royalblue;
-            font-weight: bold;
-            border-radius: 2px;
-            background-color: #f5f5f5;
-        }
-
-        footer {
-            font-size: 0.9em;
-            color: #555;
-        }
-
-        main header {
-            margin: 0;
-            text-align: left;
-        }
-
-        section {
-            margin: 2rem 0;
-        }
-
-        section>* {
-            margin-top: 1rem;
-        }
-
-        h2 {
-            margin-bottom: 0;
-        }
-
-        p {
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        ul {
-            margin: 0;
-            margin-left: 1rem;
-        }
-
-        .links a {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: #f5f5f5;
-            border-radius: 0.25rem;
-            text-decoration: none;
-            color: #000;
-            margin-right: 1rem;
-            transition: background-color 0.2s ease-in-out;
-        }
-
-        .links a:hover {
-            background-color: #e5e5e5;
-        }
-    </style>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <header>
-        <img style="display: inline-block" src="https://cafesansfil.onrender.com/logo.png" height="120" alt="Logo café sans-fil" />
+    <header class="page-header">
+        <img style="display: inline-block" src="https://cafesansfil.onrender.com/logo.png" height="180"
+            alt="Logo Café sans-fil" />
         <h1>
             Café sans-fil: Système de gestion
         </h1>
@@ -130,7 +25,8 @@
         </ul>
 
         <ul class="bare-list" style="display: flex; justify-content: center">
-            <li><a class="bare-link doc-link" href="https://github.com/ceduni/cafe-sans-fil/tree/mobile">Répertoire GitHub</a></li>
+            <li><a class="bare-link doc-link" href="https://github.com/ceduni/cafe-sans-fil/tree/mobile">Répertoire
+                    GitHub</a></li>
             <!-- <li>
                 <a class="bare-link doc-link" href="https://ceduni.github.io/cafe-sans-fil/livrables/presentation.pdf">
                     Présentation
@@ -144,7 +40,7 @@
     </header>
 
     <main>
-        <header>
+        <header class="content-wrapper">
             <h2>Description du projet</h2>
             <p>
                 Afin d'améliorer le service des cafés étudiants de l'Université de Montréal (UdeM), le projet Café
@@ -169,7 +65,7 @@
             </p>
         </header>
 
-        <section>
+        <section class="content-wrapper">
             <h2>Exigences</h2>
 
             <h3>Besoins fonctionnels</h3>
@@ -181,66 +77,70 @@
 
         </section>
 
-        <section>
+        <section class="content-wrapper">
             <h2>Infrastructure</h2>
 
             <!-- TODO: Décrire l'infrastructure de l'application -->
         </section>
 
-        <section>
-            <h2>Rapport d'avancement</h2>
-            
-            <h3>Semaine 2 (2023-09-11)</h3>
-            <h4>Objectifs de la deuxième semaine</h4>
-            <ul>
-                <li>
-                    <strong>Débrief des besoins des cafés</strong> : Récapitulatif des exigences et des fonctionnalités
-                    voulues
-                    par les cafés (notamment Tore et Fraction).
-                </li>
-                <li>
-                    <strong>Discussion sur les technologies</strong> : Évaluation des technologies disponibles et
-                    sélection des
-                    outils à utiliser pour le projet.
-                </li>
-                <li>
-                    <strong>Définition des prochaines étapes</strong> : Planification des prochaines étapes et des
-                    tâches à
-                    accomplir, notamment prendre chaque exigence pour la transformer en un flux, faire des mini
-                    maquettes, etc.
-                </li>
-            </ul>
-            <h4>Tâches effectuées</h4>
-            <ul>
-                <li>Regroupement des informations utiles pour notre BDD sur tous les cafés dans un fichier JSON.</li>
-                <li>
-                    Initialisation du front React avec Vite. (Dans le dossier
-                    <a href="https://github.com/ceduni/cafe-sans-fil/tree/main/front">front</a>)
-                </li>
-            </ul>
+        <section class="content-wrapper">
+            <header>
+                <h2>Rapport d'avancement</h2>
+                <ul class="bare-list phases">
+                    <li class="phase fit-content current" title="Exigences & Analyse">Exigences & Analyse</li>
+                    <li class="phase fit-content" title="Prototypage & Conception">Prototypage & Conception</li>
+                    <li class="phase fit-content" title="Implémentation: Infrastructure & Application">Implémentation: Infrastructure & Application</li>
+                    <li class="phase fit-content" title="Validation">Validation</li>
+                </ul>
+                <div class="timeline"></div>
+            </header>
 
-            <h3>Semaine 1 (2023-09-04)</h3>
-            <h4>Ouverture de projet</h4>
-            <ul>
-                <li><strong>Lancement du projet</strong> : Réunion initiale pour démarrer les travaux.</li>
-                <li><strong>Planification globale</strong> : Définition du roadmap et des étapes clés du projet.</li>
-                <li>
-                    <strong>Définition des exigences</strong> : Précision des fonctionnalités et des besoins pour
-                    l&#39;application.
-                </li>
-                <li>
-                    <strong>Communication avec les cafés</strong> : Prise de contact avec le responsable du Café Tore et
-                    Fraction.
-                </li>
-            </ul>
+            <section class="week">
+                <header class="section-header">
+                    <h3 class="section-title">Semaine 1 &ndash;
+                        <time datetime="2024-05-06">Lundi 6 mai 2024</time>
+                    </h3>
+                    <p>Ouverture de projet & Élaboration des exigences</p>
+                </header>
+                <div class="section-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul class="goals">
+                        <li>Prendre en main les outils qui seront utilisés pour le projet</li>
+                        <li>Produire une première version de l'échéancier</li>
+                        <li>Déterminer les exigences du projet</li>
+                        <li>Étudier le domaine, les notions et outils envisagés pour le projet</li>
+                    </ul>
+
+                    <h4 class="title">Réalisations</h4>
+                    <ul class="tasks">
+                        <li><strong>Lancement du projet:</strong> Réunion initiale pour démarrer les travaux.</li>
+                        <li><strong>Planification globale:</strong> Définition de l'échéancier et des étapes clés du
+                            projet.</li>
+                        <li><strong>Définition des exigences:</strong> Précision des fonctionnalités et des besoins pour
+                            l'application.</li>
+                    </ul>
+
+                    <h4 class="title">Notes</h4>
+                    <p></p>
+                </div>
+            </section>
         </section>
     </main>
 
-    <footer>
-        <hr style="margin-bottom: 1rem" />
-        <a href="https://github.com/ceduni/cafe-sans-fil" target="_blank">Répertoire GitHub</a>
-        <p>Dernière mise à jour: 22 décembre 2023</p>
+    <footer class="page-footer">
+        <a href="https://github.com/ceduni/cafe-sans-fil/tree/mobile" target="_blank">Répertoire GitHub</a>
+        <p>Dernière mise à jour: 16 mai 2024</p>
     </footer>
+
+    <script>
+        const NB_WEEK = 15;
+        let projetStart = new Date("2024-05-06");
+        let current = (Date.now() - projetStart) / 1000 / 60 / 60 / 24 / 7;
+        let progress = Math.round((current/NB_WEEK) * 100);
+
+        let timeline = document.querySelector('.timeline');
+        timeline.style.background = `linear-gradient(to right, royalblue ${progress}%, #d5d5d5 0%)`;
+    </script>
 </body>
 
 </html>
