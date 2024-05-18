@@ -158,3 +158,18 @@
 ### Ressources
 
 - Tutoriel : intro-to-flutter (www.codecademy.com)
+
+## Semaine 2 (2024-05-16)
+
+### Objectifs
+
+- Carateriser le projet(contexte,problématique,proposition)
+- Etudier le domaine
+- identification de solutions similaire
+
+
+### Réalisations
+
+- Lancement du projet: Diagramme de CU et MDD
+- Planification globale: Définition de l'échéancier et des étapes clés du projet.
+- Définition des exigences: Précision des fonctionnalités et des besoins pour l'application.
