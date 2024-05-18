@@ -167,9 +167,9 @@
 - Etudier le domaine
 - identification de solutions similaire
 
-
 ### Réalisations
 
-- Lancement du projet: Diagramme de CU et MDD
+- Affinement des exigences fonctionnelles: Diagramme de CU et MDD, classification des besoins fonctionnels
+  pour le gérant
 - Planification globale: Définition de l'échéancier et des étapes clés du projet.
 - Définition des exigences: Précision des fonctionnalités et des besoins pour l'application.
