@@ -1,146 +1,307 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projet IFT3150 | Café sans-fil: Système de gestion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-<body>
+  <body>
     <header class="page-header">
-        <img style="display: inline-block" src="https://cafesansfil.onrender.com/logo.png" height="180"
-            alt="Logo Café sans-fil" />
-        <h1>
-            Café sans-fil: Système de gestion
-        </h1>
-        <ul class="bare-list" style="font-size: 1.1em;">
-            <li>Larry FOTSO GUIFFO & Johann SOUROU</li>
-            <li>IFT3150 &ndash; Projet informatique</li>
-        </ul>
+      <img
+        style="display: inline-block"
+        src="https://cafesansfil.onrender.com/logo.png"
+        height="180"
+        alt="Logo Café sans-fil"
+      />
+      <h1>Café sans-fil: Système de gestion</h1>
+      <ul class="bare-list" style="font-size: 1.1em">
+        <li>Larry FOTSO GUIFFO & Johann SOUROU</li>
+        <li>IFT3150 &ndash; Projet informatique</li>
+      </ul>
 
-        <ul class="bare-list" style="display: flex; justify-content: center">
-            <li><a class="bare-link doc-link" href="https://github.com/ceduni/cafe-sans-fil/tree/mobile">Répertoire
-                    GitHub</a></li>
-            <!-- <li>
+      <ul class="bare-list" style="display: flex; justify-content: center">
+        <li>
+          <a
+            class="bare-link doc-link"
+            href="https://github.com/ceduni/cafe-sans-fil/tree/mobile"
+            >Répertoire GitHub</a
+          >
+        </li>
+        <!-- <li>
                 <a class="bare-link doc-link" href="https://ceduni.github.io/cafe-sans-fil/livrables/presentation.pdf">
                     Présentation
                 </a>
             </li> -->
-            <!-- <li>
+        <!-- <li>
                 <a class="bare-link doc-link"
                     href="https://ceduni.github.io/cafe-sans-fil/livrables/rapport.pdf">Rapport</a>
             </li> -->
-        </ul>
+      </ul>
     </header>
 
     <main>
-        <header class="content-wrapper">
-            <h2>Description du projet</h2>
-            <p>
-                Afin d'améliorer le service des cafés étudiants de l'Université de Montréal (UdeM), le projet Café
-                sans-fil a été initié
-                au trimestre d'automne 2023 durant lequel furent construits l'infrastructure backend et un premier <a
-                    href="https://cafesansfil.onrender.com/">prototype de l'application</a>.
-                Le projet a été poursuivi au trimestre d'hiver durant lequel l'application fut évaluée et enrichi par
-                l'ajout d'éléments à caractères sociaux tel que les évènements,
-                reflétant mieux la nature sociale des cafés étudiants.
-                Le lancement de la plateforme est prévue pour la fin de cet été, intégrant le travail réalisé à l'hiver
-                et des améliorations mineures additionnelles.
-            </p>
+      <header class="content-wrapper">
+        <h2>Description du projet</h2>
+        <p>
+          Après la création de la plateforme web Café-Sans permettant aux
+          étudiants de l'Université de Montréal (UdeM) de voir les menus des
+          cafés sur les différents campus de l'université lors des sessions
+          précédentes, cette session (été 2024), nous devons développer une
+          application mobile qui permettra la gestion des bénévoles et des
+          employés des différents cafés sur le campus. Elle permettra aussi aux
+          gérants de gérer leurs stocks et les événements prévus dans les cafés.
+          Enfin, cette application permettra aussi aux bénévoles de consulter et
+          choisir leurs horaires de travail.
+        </p>
 
-            <p>
-                <!-- TODO: Rédiger la problématique motivant le projet -->
-                La plateforme web répond principalement aux besoins des clients des cafés...
-            </p>
+        <p>
+          <!-- TODO: Rédiger la problématique motivant le projet -->
+          Avant de lancer ce projet, le gérant du café Tore et Fraction s'occupait de toute la gestion — les horaires, les bénévoles, les stocks, les événements, 
+          et plus — en utilisant des méthodes traditionnelles sur papier et Excel. 
+          Cette approche, bien que familière, s'avérait non seulement fastidieuse mais aussi extrêmement éprouvante,
+           exigeant un effort considérable pour maintenir l'ordre et l'efficacité dans le fonctionnement quotidien du café. 
+           Les différents bénévoles devaient également choisir leurs heures de travail sur papier, ce qui pouvait causer des confusions entre eux. 
+           De plus, il était difficile de savoir quand un bénévole était présent au café pour commencer son quart de travail. Cette méthode de suivi basée sur l'entrée de données manuelle pouvait aussi occasionner des erreurs, réduisant la fiabilité et l'efficacité de leur système de gestion.
+        </p>
 
-            <p>
-                <!-- TODO: Rédiger la proposition -->
-                En réponse aux problèmes énoncés, ce projet vise à...
-            </p>
+        <p>
+          <!-- TODO: Rédiger la proposition -->
+          En réponse à cette problématique, nous avons décidé de développer une
+          application qui permettra d'automatiser ces tâches quotidiennes et de
+          rendre la gestion du café plus facile et plus efficace. Une
+          fonctionnalité d'organisation d'horaires sera intégrée dans
+          l'application, permettant au gérant et aux bénévoles de non seulement
+          choisir leurs horaires mais aussi de les consulter facilement via
+          l'application mobile. De plus, un système de pointage (clock-in) sera
+          considéré pour les bénévoles lorsqu'ils arrivent au café pour
+          commencer leur quart de travail.
+        </p>
+      </header>
+
+      <section class="content-wrapper">
+        <h2>Exigences</h2>
+
+        <h3>Besoins fonctionnels</h3>
+        <!-- TODO: Ajouter la liste des besoins fonctionnels de l'application -->
+        <h4>Gerant:</h4>
+
+        <h5>Gestion des événements</h5>
+        <ul class="ml-3">
+          <li>Voir les événements</li>
+          <li>Voir les horaires du café</li>
+          <li>Ajouter un événement</li>
+          <li>Retirer un événement</li>
+
+          <li>
+            Enregistrer des événements dès qu'ils sont épinglés dans la boîte
+            mail
+          </li>
+        </ul>
+
+        <h5>Gestion des stocks</h5>
+        <ul class="ml-3">
+          <li>
+            Enregistrer les nouveaux produits dans le système de la plateforme
+            via des factures d'achat
+          </li>
+          <li>
+            Suivre en temps réel des entrées et sorties de stock, y compris les
+            ventes, les réapprovisionnements et les pertes éventuelles
+          </li>
+          <li>
+            Voir notification en cas de faible stock ou de rupture de stock
+          </li>
+        </ul>
+
+        <h5>Tableau de bord</h5>
+        <ul class="ml-3">
+          <li>
+            Consulter le tableau de bord personnalisable offrant différentes
+            métriques (niveaux de stock actuels, ventes quotidiennes,
+            hebdomadaires et mensuelles, bénéfices nets)
+          </li>
+          <li>Consulter des Graphiques et visualisations intuitives</li>
+        </ul>
+
+        <h5>Gestion des bénévoles</h5>
+        <ul class="ml-3">
+          <li>
+            Attribuer des rôles et des autorisations spécifiques aux bénévoles
+          </li>
+          <li>Créer et modifier le planning hebdomadaire</li>
+          <li>Ajouter un bénévole à l'horaire</li>
+          <li>Retirer un bénévole de l'horaire</li>
+          <li>Communiquer avec les bénévoles</li>
+        </ul>
+
+        <h4>Benevole:</h4>
+        <ul>
+          <li>Voir son horaire</li>
+          <li>Clock In</li>
+          <li>Choisir une heure</li>
+        </ul>
+
+        <h3>Besoins non-fonctionnels</h3>
+
+        <!-- TODO: Ajouter la liste des besoins non-fonctionnels de l'application -->
+        <ul>
+          <li>
+            Utilisabilité : Concevoir une interface utilisateur conviviale et
+            intuitive pour une prise en main rapide par le gérant et les
+            bénévoles.
+          </li>
+          <li>
+            Portabilité : Développer l'application de manière à ce qu'elle soit
+            compatible avec différentes plateformes et systèmes d'exploitation,
+            tels Android et iOS.
+          </li>
+          <li>
+            Sécurité : Garantir que les informations confidentielles, telles que
+            les données financières et les horaires des bénévoles, sont
+            protégées contre tout accès non autorisé.
+          </li>
+          <li>
+            Fiabilité : Effectuer des sauvegardes régulières des données pour
+            garantir leur intégrité et leur disponibilité en cas de besoin.
+          </li>
+          <li>
+            Maintenabilité : Concevoir l'application avec des modules
+            indépendants et bien définis pour faciliter les modifications et les
+            ajouts futurs sans impact sur le reste du système.
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-wrapper">
+        <h2>Infrastructure</h2>
+
+        <!-- TODO: Décrire l'infrastructure de l'application -->
+      </section>
+
+      <section class="content-wrapper">
+        <header>
+          <h2>Rapport d'avancement</h2>
+          <ul class="bare-list phases">
+            <li class="phase fit-content current" title="Exigences & Analyse">
+              Exigences & Analyse
+            </li>
+            <li class="phase fit-content" title="Prototypage & Conception">
+              Prototypage & Conception
+            </li>
+            <li
+              class="phase fit-content"
+              title="Implémentation: Infrastructure & Application"
+            >
+              Implémentation: Infrastructure & Application
+            </li>
+            <li class="phase fit-content" title="Validation">Validation</li>
+          </ul>
+          <div class="timeline"></div>
         </header>
 
-        <section class="content-wrapper">
-            <h2>Exigences</h2>
+        <section class="week">
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 1 &ndash;
+              <time datetime="2024-05-06">Lundi 6 mai 2024</time>
+            </h3>
+            <p>Ouverture de projet & Élaboration des exigences</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>
+                Prendre en main les outils qui seront utilisés pour le projet
+              </li>
+              <li>Produire une première version de l'échéancier</li>
+              <li>Déterminer les exigences du projet</li>
+              <li>
+                Étudier le domaine, les notions et outils envisagés pour le
+                projet
+              </li>
+            </ul>
 
-            <h3>Besoins fonctionnels</h3>
-            <!-- TODO: Ajouter la liste des besoins fonctionnels de l'application -->
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                <strong>Lancement du projet:</strong> Réunion initiale pour
+                démarrer les travaux.
+              </li>
+              <li>
+                <strong>Planification globale:</strong> Définition de
+                l'échéancier et des étapes clés du projet.
+              </li>
+              <li>
+                <strong>Définition des exigences:</strong> Précision des
+                fonctionnalités et des besoins pour l'application.
+              </li>
+            </ul>
 
-            <h3>Besoins non-fonctionnels</h3>
+            <h4 class="title">Notes</h4>
+            <p></p>
+          </div>
 
-            <!-- TODO: Ajouter la liste des besoins non-fonctionnels de l'application -->
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 2 &ndash;
+              <time datetime="2024-05-14">Lundi 14 mai 2024</time>
+            </h3>
+            <p>Fin de la comprehension du projet</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Carateriser le projet(contexte,problématique,proposition)</li>
+              <li>Etudier le domaine</li>
+              <li>identification de solutions similaire</li>
+            </ul>
 
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                <strong>Affinement des exigences fonctionnelles : </strong>
+                Diagramme de CU et MDD, classification des besoins fonctionnels
+                pour le gérant
+              </li>
+              <li>
+                <strong>Planification globale:</strong> Définition de
+                l'échéancier et des étapes clés du projet.
+              </li>
+            </ul>
+
+            <h4 class="title">Notes</h4>
+            <p></p>
+          </div>
         </section>
-
-        <section class="content-wrapper">
-            <h2>Infrastructure</h2>
-
-            <!-- TODO: Décrire l'infrastructure de l'application -->
-        </section>
-
-        <section class="content-wrapper">
-            <header>
-                <h2>Rapport d'avancement</h2>
-                <ul class="bare-list phases">
-                    <li class="phase fit-content current" title="Exigences & Analyse">Exigences & Analyse</li>
-                    <li class="phase fit-content" title="Prototypage & Conception">Prototypage & Conception</li>
-                    <li class="phase fit-content" title="Implémentation: Infrastructure & Application">Implémentation: Infrastructure & Application</li>
-                    <li class="phase fit-content" title="Validation">Validation</li>
-                </ul>
-                <div class="timeline"></div>
-            </header>
-
-            <section class="week">
-                <header class="section-header">
-                    <h3 class="section-title">Semaine 1 &ndash;
-                        <time datetime="2024-05-06">Lundi 6 mai 2024</time>
-                    </h3>
-                    <p>Ouverture de projet & Élaboration des exigences</p>
-                </header>
-                <div class="section-content">
-                    <h4 class="title">Objectifs</h4>
-                    <ul class="goals">
-                        <li>Prendre en main les outils qui seront utilisés pour le projet</li>
-                        <li>Produire une première version de l'échéancier</li>
-                        <li>Déterminer les exigences du projet</li>
-                        <li>Étudier le domaine, les notions et outils envisagés pour le projet</li>
-                    </ul>
-
-                    <h4 class="title">Réalisations</h4>
-                    <ul class="tasks">
-                        <li><strong>Lancement du projet:</strong> Réunion initiale pour démarrer les travaux.</li>
-                        <li><strong>Planification globale:</strong> Définition de l'échéancier et des étapes clés du
-                            projet.</li>
-                        <li><strong>Définition des exigences:</strong> Précision des fonctionnalités et des besoins pour
-                            l'application.</li>
-                    </ul>
-
-                    <h4 class="title">Notes</h4>
-                    <p></p>
-                </div>
-            </section>
-        </section>
+      </section>
     </main>
 
     <footer class="page-footer">
-        <a href="https://github.com/ceduni/cafe-sans-fil/tree/mobile" target="_blank">Répertoire GitHub</a>
-        <p>Dernière mise à jour: 16 mai 2024</p>
+      <a
+        href="https://github.com/ceduni/cafe-sans-fil/tree/mobile"
+        target="_blank"
+        >Répertoire GitHub</a
+      >
+      <p>Dernière mise à jour: 18 mai 2024</p>
     </footer>
 
     <script>
-        const NB_WEEK = 15;
-        let projetStart = new Date("2024-05-06");
-        let current = (Date.now() - projetStart) / 1000 / 60 / 60 / 24 / 7;
-        let progress = Math.round((current/NB_WEEK) * 100);
+      const NB_WEEK = 15;
+      let projetStart = new Date("2024-05-06");
+      let current = (Date.now() - projetStart) / 1000 / 60 / 60 / 24 / 7;
+      let progress = Math.round((current / NB_WEEK) * 100);
 
-        let timeline = document.querySelector('.timeline');
-        timeline.style.background = `linear-gradient(to right, royalblue ${progress}%, #d5d5d5 0%)`;
+      let timeline = document.querySelector(".timeline");
+      timeline.style.background = `linear-gradient(to right, royalblue ${progress}%, #d5d5d5 0%)`;
     </script>
-</body>
-
+  </body>
 </html>

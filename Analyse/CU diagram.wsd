@@ -4,8 +4,8 @@ actor gerant as g
 actor employe as em
 
 package systeme{
-    usecase " voire horaire du cafe" as CU1
-    usecase "voire evenement " as CU2
+    usecase " voir horaire du cafe" as CU1
+    usecase "voir evenement " as CU2
     usecase "ajouter un evenement " as CU3
     usecase "retirer un evenement " as CU4
     usecase "ajouter  benevole a l'hoiraire" as CU4
@@ -14,7 +14,7 @@ package systeme{
     usecase "ajouter  benevole au systeme" as CU7
     usecase "donner des droits au bevenoles" as CU8
     usecase "clock In" as CU9
-    usecase "voire mon horaire" as CU10
+    usecase "voir mon horaire" as CU10
 }
 
 em --> CU9

@@ -98,6 +98,7 @@ Si vous êtes intéressé à participer au projet, veuillez prendre contact avec
 ## Contributeurs
 
 - Louis-Edouard LAFONTANT [@lelafontant](https://github.com/lelafontant)
-- Axel ZAREB [@axeelz](https://github.com/axeelz)
-- Southidej OUDANONH [@GokaGokai](https://github.com/GokaGokai)
-- Flory JEAN-BAPTISTE [@FloryJB](https://github.com/FloryJB)
+- Johann SOUROU [@JohannSR28](https://github.com/JohannSR28)
+- Larry Fotso Guiffo [@larry1473](https://github.com/larry1473)
+
+
