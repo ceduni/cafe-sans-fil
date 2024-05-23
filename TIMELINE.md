@@ -123,14 +123,15 @@
 ## Semaine 3 (2024-05-20)
 
 ### Objectifs
-- Révision et amélioration du pseudo code du système
+- Révision et amélioration de la logique du système
 - Conception des diagrammes décrivant le fonctionnement du système
 
-<!--### Réalisations
+<!--### Réalisations -->
 
 ### Observations
+- Découverte d'autoML ([Automated Machine Learning](https://www.automl.org/automl/)): Outil permettant l'automatisation de tout le processus d'entraînement, de recherche du meilleur modèle ansi que des meilleurs hyperparamètres.
 
-### Ressources -->
+<!-- ### Ressources -->
 
 ## Semaine 2 (2024-05-13)
 
