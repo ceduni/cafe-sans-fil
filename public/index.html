@@ -263,7 +263,7 @@
         <h4>Observations</h4>
         <ul>
           <li>Découverte d'AutoML (<a href="https://www.automl.org/automl/" target="blank">Automated Machine Learning</a>): Outil permettant 
-          l'automatisation de tout le processus d'entraînement, de recherche du meilleur modèle ansi que des meilleurs hyperparamètres.</li>
+          l'automatisation de tout le processus d'entraînement, de recherche du meilleur modèle ainsi que des meilleurs hyperparamètres.</li>
         </ul>
 
         <!--
@@ -324,7 +324,16 @@
     <footer>
       <hr style="margin-bottom: 1rem" />
       <a href="https://github.com/ceduni/cafe-sans-fil/tree/Samir" target="_blank">Répertoire GitHub</a>
-      <p>Dernière mise à jour: 19 Mai 2024</p>
+      <p>Dernière mise à jour: <span id="lastModified"></span></p>
+      <script>
+        let derniereModif = new Date(document.lastModified);
+        let derniereModifFormate = derniereModif.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+        document.getElementById('lastModified').textContent = derniereModifFormate;
+      </script>
     </footer>
   </body>
 </html>

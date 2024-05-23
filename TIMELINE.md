@@ -129,7 +129,7 @@
 <!--### Réalisations -->
 
 ### Observations
-- Découverte d'autoML ([Automated Machine Learning](https://www.automl.org/automl/)): Outil permettant l'automatisation de tout le processus d'entraînement, de recherche du meilleur modèle ansi que des meilleurs hyperparamètres.
+- Découverte d'autoML ([Automated Machine Learning](https://www.automl.org/automl/)): Outil permettant l'automatisation de tout le processus d'entraînement, de recherche du meilleur modèle ainsi que des meilleurs hyperparamètres.
 
 <!-- ### Ressources -->
 
