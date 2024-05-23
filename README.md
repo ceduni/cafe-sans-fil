@@ -9,9 +9,10 @@
 
 # Café sans-fil
 
-Café sans-fil est un projet pilote visant à améliorer le service des cafés étudiants de l'UdeM.  
-Les cafés étudiants donnent accès à un espace de socialisation et de la nourriture à prix abordable, enrichissant la vie de campus des étudiants. Toutefois, l'infrastructure actuelle ne facilite pas l'accès à l'information et alourdit la gestion des cafés.  
-Nous proposons une plateforme commune facilitant la gestion des cafés, leur découverte, la communication de leurs produits et la prise de commande.
+Après la création de la plateforme web Café-Sans permettant aux étudiants de l'Université de Montréal (UdeM) de voir les menus des
+cafés sur les différents campus de l'université lors des sessions précédentes, cette session (été 2024), nous devons développer une
+application mobile qui permettra la gestion des bénévoles et des employés des différents cafés sur le campus. Elle permettra aussi aux
+gérants de gérer leurs stocks et les événements prévus dans les cafés.Enfin, cette application permettra aussi aux bénévoles de consulter et choisir leurs horaires de travail.
 
 ## 📋 Fonctionnalités
 
