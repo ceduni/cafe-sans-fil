@@ -1,0 +1,47 @@
+@startuml 
+
+class Cafe{
+    name: string
+    location: string
+}
+
+class Gerant{
+    name:string
+    cafeName:string
+}
+
+class Benevole{
+    name:string
+    cafeName:string
+}
+class Horaire{
+    
+}
+
+class Stock{
+
+}
+
+class Evenement{
+    name:string
+    Date:Date
+    hour:Time
+
+}
+
+Cafe "1" ---- "1" Gerant: est gere par > 
+Cafe "1" -- "1..*" Benevole: a >
+Cafe "1" -- "*" Evenement: host >
+Gerant "1" -- "1..*"  Cafe: gere >
+Gerant "1" -- "1..*"  Benevole: supervise/ajoute/retire >
+Gerant "1" -- "1"  Horaire: consulte >
+Gerant "1" -- "1"  Benevole: consulte/ajoute/retire  >
+Gerant "1" -- "1"  Evenement: communique avec  >
+Gerant "1" ---- "1"  Stock: consult/modifie  >
+Benevole "1" - "1" Horaire: consulte >
+Benevole "1" -- "*" Benevole: communique avec >
+Benevole "1" -- "*" Gerant: communique avec >
+Benevole "1" -- "1"  Stock: consult/modifie  >
+Benevole "1" -- "1"  Cafe: postule/demissionne >
+
+@enduml
