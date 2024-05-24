@@ -173,3 +173,26 @@
   pour le gérant
 - Planification globale: Définition de l'échéancier et des étapes clés du projet.
 - Définition des exigences: Précision des fonctionnalités et des besoins pour l'application.
+
+## Semaine 3 (2024-05-20)
+
+### Objectifs
+
+- Prototypage du UI/UX et Flux d'activités
+- Modèle du domaine
+- Modèle de données
+- Etude du modèle existant sur le marche
+- Prise en main de Flutter 
+
+### Réalisations
+
+- Premiere realisation d'un prototype getable 
+- Realisation d'un deuxieme modele du domaine ("/cafe-sans-fil/Analyse/Mdd2.png")
+- Etude du modèle existant sur le marche(Employee link)
+- Prise en main de Flutter (https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU) (https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi)
+
+### Resources 
+
+- Tutoriel Flutter : (https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU) 
+- Tutoriel Flutter : (https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi)
+- logicel etudie   : Employee link 
