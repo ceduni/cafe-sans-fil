@@ -32,12 +32,13 @@ gérants de gérer leurs stocks et les événements prévus dans les cafés.Enfi
   - [ ] Consulter le tableau de bord personnalisable offrant différentes métriques (niveaux de stock actuels, ventes quotidiennes, hebdomadaires et mensuelles, bénéfices nets)
   - [ ]  Consulter des Graphiques et visualisations intuitives
 - [ ] **Gestion des bénévoles**
+  - [ ] Attribuer des rôles et des autorisations spécifiques aux bénévoles
+  - [ ] Créer et modifier la planification hebdomadaire
+  - [ ] Ajouter un bénévole à l'horaire
+  - [ ] Retirer un bénévole de l'horaire
+  - [ ] Communiquer avec les bénévoles
 ### Pour les membres
- - [ ] Attribuer des rôles et des autorisations spécifiques aux bénévoles
- - [ ] Créer et modifier la planification hebdomadaire
- - [ ] Ajouter un bénévole à l'horaire
- - [ ] Retirer un bénévole de l'horaire
- - [ ] Communiquer avec les bénévoles
+
 
 - [x] **Authentification et profil**
   - [x] Créer un compte
