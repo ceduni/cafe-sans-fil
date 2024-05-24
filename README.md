@@ -14,7 +14,7 @@ cafés sur les différents campus de l'université lors des sessions précédent
 application mobile qui permettra la gestion des bénévoles et des employés des différents cafés sur le campus. Elle permettra aussi aux
 gérants de gérer leurs stocks et les événements prévus dans les cafés.Enfin, cette application permettra aussi aux bénévoles de consulter et choisir leurs horaires de travail.
 
-## 📋 Fonctionnalités
+## 📋 Besoins fonctionnels
 
 ### Gerant
 
@@ -37,37 +37,29 @@ gérants de gérer leurs stocks et les événements prévus dans les cafés.Enfi
   - [ ] Ajouter un bénévole à l'horaire
   - [ ] Retirer un bénévole de l'horaire
   - [ ] Communiquer avec les bénévoles
-### Pour les membres
+### Bénévole:
+  - [ ] Voir son horaire
+  - [ ] Clock In
+  - [ ] Choisir une heure
+  - [ ] Voir les autre bénévoles
+  - [ ] Communiquer avec les bénévoles
+  - [ ] **Gestion des stocks**
+    - [ ]  Enregistrer les nouveaux produits dans le système de la plateforme via des 
+  
+## 📋 Besoins non-fonctionnels
+  - [ ] Utilisabilité : Concevoir une interface utilisateur conviviale et intuitive pour une prise en main rapide par le gérant et les bénévoles.
+  - [ ] Portabilité : Développer l'application de manière à ce qu'elle soit compatible avec différentes plateformes et systèmes d'exploitation, tels Android et iOS.
+  - [ ] Sécurité : Garantir que les informations confidentielles, telles que les données financières et les horaires des bénévoles, sont protégées contre tout accès non autorisé.
+  - [ ] Fiabilité : Effectuer des sauvegardes régulières des données pour garantir leur intégrité et leur disponibilité en cas de besoin.
+  - [ ] Maintenabilité : Concevoir l'application avec des modules indépendants et bien définis pour faciliter les modifications et les ajouts futurs sans impact sur le reste du système.
 
-
-- [x] **Authentification et profil**
-  - [x] Créer un compte
-  - [x] Modifier mon profil
-- [x] **Passer une commande (pour ramassage)**
-  - [x] Réserver un item
-  - [x] Voir l'historique de mes commandes
-
-### Pour les bénévoles et responsables d'un café
-
-- [ ] **Gestion du café**
-  - [x] Modifier les informations de base d'un café
-  - [x] Créer une annonce
-  - [ ] Personnalisation de la page du café
-- [ ] **Gestion du menu**
-  - [x] Ajouter, modifier ou supprimer un item
-  - [ ] Modification en lot
-  - [ ] Importer son menu
-- [ ] **Gestion des bénévoles**
-  - [x] Ajouter, modifier ou supprimer un staff
-  - [ ] Gestion de l'horaire
-- [ ] **Rapports de ventes**
-  - [x] Générer des rapports sur les ventes journalières, hebdomadaires, et mensuelles
-  - [x] Afficher les items les plus vendus et les moins vendus
+- [ ] **Authentification et profil**
+  - [ ] Créer un compte
+  - [ ] Modifier mon profil
 
 ## 🌐 Infrastructure
 
-L'infrastructure de l'application est basée sur le **FARM stack**, comprenant FastAPI, React et MongoDB.  
-Elle utilise MongoDB pour une gestion efficace des données, FastAPI pour traiter les requêtes et React pour offrir une interface utilisateur pour visualiser et interagir avec les données.
+
 
 ### 🗄️ Base de données
 
@@ -75,20 +67,16 @@ Elle utilise MongoDB pour une gestion efficace des données, FastAPI pour traite
 
 ### 🔗 API
 
-- [**FastAPI**](https://fastapi.tiangolo.com/): Framework Python facilitant le développement d'API de style REST.
 
-### 💻 Application web
 
-- [**React**](https://react.dev/): Librairie JavaScript facilitant le développement d'application web en mode single-page application (SPA).
-- [**Tailwind CSS**](https://tailwindcss.com/): Framework CSS open-source.
+### 💻 Application Mobil
+
+- [**Flutter**](https://flutter.dev): Librairie develeppe par Google facilitant la creation des applications cross platform
+
 
 # 📘 Documentation
 
-La documentation officielle du projet se trouve dans le [wiki](https://github.com/ceduni/cafe-sans-fil/wiki).  
-Pour faciliter la recherche, voilà quelques **liens rapides**:  
-🔗 [Spécifications du projet](https://github.com/ceduni/cafe-sans-fil/wiki/Exigences)  
-🔗 [Documentation de l'API](https://cafesansfil-api.onrender.com/redoc)  
-🔗 [Documentation de la BD](https://github.com/ceduni/cafe-sans-fil/wiki/API-et-Base-de-donn%C3%A9es)
+
 
 <!-- 🔗 [Guide d'utilisation](https://github.com/ceduni/cafe-sans-fil/wiki/Base-de-donn%C3%A9es-(BD))  -->
 
