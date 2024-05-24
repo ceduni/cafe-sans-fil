@@ -16,15 +16,14 @@ gérants de gérer leurs stocks et les événements prévus dans les cafés.Enfi
 
 ## 📋 Fonctionnalités
 
-### Pour le grand public
+### Gerant
 
-- [x] **Recherche de café**
-  - [x] Afficher la liste des cafés
-  - [x] Filtrer la liste des cafés
-  - [x] Chercher un café par nom
-  - [ ] Chercher un café par item
-  - [ ] Chercher un café par tag
-  - [x] Afficher les informations d'un café
+- [] **Gestion D'evenements **
+  - []  Voir les événements
+  - []  Voir les horaires du café
+  - []  Ajouter un événement
+  - [ ] Retirer un événement
+  - [ ] Enregistrer des événements dès qu'ils sont épinglés dans la boîte mail
 - [x] **Café: Menu**
   - [x] Accéder au menu d'un café
   - [x] Afficher le détail d'un item du menu
