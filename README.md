@@ -18,18 +18,26 @@ gérants de gérer leurs stocks et les événements prévus dans les cafés.Enfi
 
 ### Gerant
 
-- [ ] **Gestion D'evenements **
+- [ ] **Gestion D'evenement**
   - [ ]  Voir les événements
   - [ ]  Voir les horaires du café
   - [ ]  Ajouter un événement
   - [ ] Retirer un événement
   - [ ] Enregistrer des événements dès qu'ils sont épinglés dans la boîte mail
-- [x] **Café: Menu**
-  - [x] Accéder au menu d'un café
-  - [x] Afficher le détail d'un item du menu
-- [ ] **Café: Évènements**
-
+- [ ] **Gestion des stocks**
+  - [ ]  Enregistrer les nouveaux produits dans le système de la plateforme via des factures d'achat
+  - [ ]  Suivre en temps réel des entrées et sorties de stock, y compris les ventes, les réapprovisionnements et les pertes éventuelles
+  - [ ]  Suivre en temps réel des entrées et sorties de stock, y compris les ventes, les réapprovisionnements et les pertes éventuelles
+- [ ] **Tableau de bord**
+  - [ ] Consulter le tableau de bord personnalisable offrant différentes métriques (niveaux de stock actuels, ventes quotidiennes, hebdomadaires et mensuelles, bénéfices nets)
+  - [ ]  Consulter des Graphiques et visualisations intuitives
+- [ ] **Gestion des bénévoles**
 ### Pour les membres
+ - [ ] Attribuer des rôles et des autorisations spécifiques aux bénévoles
+ - [ ] Créer et modifier la planification hebdomadaire
+ - [ ] Ajouter un bénévole à l'horaire
+ - [ ] Retirer un bénévole de l'horaire
+ - [ ] Communiquer avec les bénévoles
 
 - [x] **Authentification et profil**
   - [x] Créer un compte
