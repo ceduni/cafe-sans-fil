@@ -18,10 +18,10 @@ gérants de gérer leurs stocks et les événements prévus dans les cafés.Enfi
 
 ### Gerant
 
-- [] **Gestion D'evenements **
-  - []  Voir les événements
-  - []  Voir les horaires du café
-  - []  Ajouter un événement
+- [ ] **Gestion D'evenements **
+  - [ ]  Voir les événements
+  - [ ]  Voir les horaires du café
+  - [ ]  Ajouter un événement
   - [ ] Retirer un événement
   - [ ] Enregistrer des événements dès qu'ils sont épinglés dans la boîte mail
 - [x] **Café: Menu**
