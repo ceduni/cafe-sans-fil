@@ -187,7 +187,7 @@
 ### Réalisations
 
 - Premiere realisation d'un prototype getable 
-- Realisation d'un deuxieme modele du domaine ("/cafe-sans-fil/Analyse/Mdd2.png")
+- Realisation d'un deuxieme modele du domaine (/cafe-sans-fil/Analyse/Mdd2.png)
 - Etude du modèle existant sur le marche(Employee link)
 - Prise en main de Flutter (https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU) (https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi)
 
