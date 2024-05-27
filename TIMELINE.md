@@ -108,17 +108,20 @@
 
 ### Observations
 
-### Ressources
+### Ressources -->
 
 ## Semaine 4 (2024-05-27)
 
 ### Objectifs
+- Révision et amélioration de la logique du système: Robot de recommandation et fonction de score santé
 
+<!-- 
 ### Réalisations
 
 ### Observations
 
-### Ressources -->
+### Ressources
+-->
 
 ## Semaine 3 (2024-05-20)
 
