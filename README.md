@@ -9,12 +9,11 @@
 
 # Café sans-fil
 
-Ce projet vise à intégrer des systèmes de recommandation à l'application web Café sans fil. Il consiste à développer 
-des systèmes pour recommander des repas aux utilisateurs et à faire des suggestions au gérant du café, sur les repas à acheter.
+Ce projet vise à mettre en place un système de recommandation utilisant les données fournies par les utilisateurs. Pour créer un moyen efficace de collecte et d'analyse de données nécessaire au système de recommandation, nous envisageons enrichir la plateforme avec de nouvelles fonctionnalités permettant aux utilisateurs de communiquer leurs préférences et réagir avec plus de choix aux propositions des cafés.
 
 <!-- Café sans-fil est un projet pilote visant à améliorer le service des cafés étudiants de l'UdeM.  
 Les cafés étudiants donnent accès à un espace de socialisation et de la nourriture à prix abordable, enrichissant la vie de campus des étudiants. Toutefois, l'infrastructure actuelle ne facilite pas l'accès à l'information et alourdit la gestion des cafés.  
-Nous proposons une plateforme commune facilitant la gestion des cafés, leur découverte, la communication de leurs produits et la prise de commande. -->
+Nous proposons une plateforme commune facilitant la gestion des cafés, leur découverte, la communication de leurs produits et la prise de commande. 
 
 ## 📋 Fonctionnalités
 
@@ -26,6 +25,9 @@ Nous proposons une plateforme commune facilitant la gestion des cafés, leur dé
 ### Pour le gérant
 
 - [ ] **Recommandations par rapport aux repas à ajouter dans le menu basé sur les spécifications**
+
+-->
+
 <!--
 ## 🌐 Infrastructure
 

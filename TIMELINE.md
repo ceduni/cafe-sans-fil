@@ -126,12 +126,18 @@
 - Révision et amélioration de la logique du système
 - Conception des diagrammes décrivant le fonctionnement du système
 
-<!--### Réalisations -->
+### Réalisations
+- Ajout d'une logique pour la recommandation des cafés
+- Lecture sur les algorithmes CARS ([Context Aware Recommender Systems](https://link.springer.com/chapter/10.1007/978-1-4899-7637-6_6#:~:text=In%20contrast%2C%20context%2Daware%20recommender,but%20also%20the%20context%20in)) pour la recommandation basé sur les préférences de l'utilisateur
+- Définition des attributs les plus importants pour recommander un repas (Heure de la journée, Valeurs nutritives, Catégorie de repas, Fraicheur des aliments, Préférence de l'individu)
+- Diagramme général présentant toute la logique du projet
 
 ### Observations
 - Découverte d'autoML ([Automated Machine Learning](https://www.automl.org/automl/)): Outil permettant l'automatisation de tout le processus d'entraînement, de recherche du meilleur modèle ainsi que des meilleurs hyperparamètres.
 
-<!-- ### Ressources -->
+### Ressources 
+- [Context Aware Recommender Systems](https://link.springer.com/chapter/10.1007/978-1-4899-7637-6_6#:~:text=In%20contrast%2C%20context%2Daware%20recommender,but%20also%20the%20context%20in)
+- [Automated Machine Learning](https://www.automl.org/automl/)
 
 ## Semaine 2 (2024-05-13)
 
