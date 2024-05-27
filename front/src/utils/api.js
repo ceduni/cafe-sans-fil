@@ -1,8 +1,9 @@
 import { Cafe, CafeMenu, CafeMenuItem, Order, User } from "@/models";
+import { Event } from "@/models/event";
 
 const buildUrl = (url) => import.meta.env.VITE_API_ENDPOINT + "/api" + url;
 
-async function fetchData (url, setLoading = null) {
+async function fetchData(url, setLoading = null) {
     if (setLoading) {
         setLoading(true);
     }
@@ -79,6 +80,17 @@ export const CafeAPI = {
         const result = await fetchData(`/cafes/${id}/menu/${item}`, setLoading);
         return result.map(cafeData => new CafeMenuItem(cafeData));
     },
+    /**
+     * Fetches all cafe matching a query.
+     * @param {string} query - The query used to filter the cafe.
+     * @param {Function} setLoading - Optional. A function to set loading state.
+     * @param {boolean} cancel - Optional. Flag to cancel the request.
+     * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Cafe objects.
+     */
+    search: async function (query, setLoading = null, cancel = false) {
+        const result = await fetchData(`/search/${query}`, setLoading);
+        return result.map(cafeData => new Cafe(cafeData));
+    },
 }
 
 export const UserAPI = {
@@ -133,4 +145,28 @@ export const OrderAPI = {
             return result.map(orderData => new Order(orderData));
         }
     }
+}
+
+export const EventAPI = {
+    /**
+     * Fetches a specific event by ID.
+     * @param {string} id - The ID of the event to fetch.
+     * @param {Function} setLoading - Optional. A function to set loading state.
+     * @param {boolean} cancel - Optional. Flag to cancel the request.
+     * @returns {Promise<Order[]>} - A promise that resolves with an array of Event objects.
+     */
+    get: async function (id, setLoading = null, cancel = false) {
+        const result = await fetchData(`/events/${id}`, setLoading).then();
+        return result.map(eventData => new Event(eventData));
+    },
+    /**
+     * Fetches all events.
+     * @param {Function} setLoading - Optional. A function to set loading state.
+     * @param {boolean} cancel - Optional. Flag to cancel the request.
+     * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Event objects.
+     */
+    getAll: async function (setLoading = null, cancel = false) {
+        const result = await fetchData(`/events`, setLoading);
+        return result.map(eventData => new Event(eventData));
+    },
 }

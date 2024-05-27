@@ -40,16 +40,16 @@ const Cafe = () => {
   return (
     <>
       <Helmet>{data?.name && <title>{data.name} | Café sans-fil</title>}</Helmet>
-      <Container className="py-10 pb-12">
-        <Breadcrumbs>
+      <Container className="pb-12" bare="true">
+        {/* <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>
           <Breadcrumbs.Item isLoading={isLoading}>{data?.name}</Breadcrumbs.Item>
-        </Breadcrumbs>
+        </Breadcrumbs> */}
 
         <CafeMemberHeader cafe={data} />
 
         <img
-          className="mb-6 rounded-3xl shadow-xl object-cover md:h-[25rem] w-full"
+          className="mb-6 object-cover md:h-[25rem] w-full"
           src={data?.image_url || "https://placehold.co/700x400?text=..."}
           alt={`Photo du café ${data?.name}`}
           onError={(e) => {
@@ -129,11 +129,6 @@ const Cafe = () => {
           </div>
         </Container>
       ))}
-
-      <Container className="py-12 border-t border-gray-200">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nous contacter</h2>
-        <ContactCafe contact={data?.contact} socialMedia={data?.social_media} />
-      </Container>
     </>
   );
 };

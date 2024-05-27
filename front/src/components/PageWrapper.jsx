@@ -7,19 +7,19 @@ import Footer from "@/components/Footer";
 import { CartProvider } from "react-use-cart";
 
 const PageWrapper = () => {
-  return (
-    <AuthProvider>
-      <CartProvider>
-        <ScrollToTop />
-        <Navbar />
-        <div id="content">
-          <Outlet />
-        </div>
-        <Footer />
-        <Toaster position="bottom-right" />
-      </CartProvider>
-    </AuthProvider>
-  );
+    return (
+        <AuthProvider>
+            <CartProvider>
+                <ScrollToTop />
+                <Navbar />
+                <div id="content">
+                    <Outlet />
+                </div>
+                <Footer />
+                <Toaster position="bottom-right" />
+            </CartProvider>
+        </AuthProvider>
+    );
 };
 
 export default PageWrapper;
