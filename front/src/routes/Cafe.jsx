@@ -12,20 +12,44 @@ import ContactCafe from "@/components/Cafe/ContactCafe";
 import SocialIcons from "@/components/Cafe/SocialIcons";
 import { MapPinIcon } from "@heroicons/react/24/solid";
 import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
-import { getCafeCategories, getItemByCategory } from "@/utils/items";
+// import { getCafeCategories, getItemByCategory } from "@/utils/items";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import classNames from "classnames";
+import Menu from "./Menu";
+import EventBoard from "./Board/eventBoard";
+import NewsBoard from "./Board/NewsBoard";
+import CafeDescriptionBoard from "./Board/CafeDescriptionBoard";
+import { useEffect } from "react";
+
 
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
-  const { data, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
+  const { data: cafeData, isLoading, error } = useApi(`/cafes/${cafeSlug}`);
+  const { data: events, isLoading: eventsLoading, error: eventsError, refetch: refetchEvents } = useApi(`/events/${cafeData ? "?cafe_id=" + cafeData.cafe_id : ''}`, false);
+  const { data: announcements, isLoading: announcementsLoading, error: announcementsError, refetch: refetchAnnoucements } = useApi(`/announcements/${cafeData ? "?cafe_id=" + cafeData.cafe_id : ''}`, false);
   const [showOpeningHours, setShowOpeningHours] = useState(false);
-
   const toggleOpeningHours = () => {
     setShowOpeningHours(!showOpeningHours);
   };
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  useEffect(() => {
+    if (cafeData && !cafeData.cafe_id &&refetchEvents) {
+      refetchEvents();
+    }
+  }, [cafeData, refetchEvents]); 
+
+  useEffect(() => {
+ if(cafeData && !cafeData.cafe_id &&refetchAnnoucements){
+  refetchAnnoucements();
+ }
+  }, [cafeData, refetchAnnoucements]);
+
+  // useEffect(() => {
+  //   console.log(cafeData?.staff); // cheker la structure des données reçues
+  // }, [cafeData]);
 
   if (error) {
     if (error.status === 404) {
@@ -34,8 +58,12 @@ const Cafe = () => {
     return <EmptyState type="error" error={error} />;
   }
 
-  const menuItems = data?.menu_items;
-  const categories = getCafeCategories(menuItems);
+  if (eventsError) return <EmptyState message="Error loading events" />;
+
+  const menuItems = cafeData?.menu_items;
+
+  if(announcementsError) return <EmptyState message= "Error loading annoucements"/>
+
 
   return (
     <>
@@ -46,7 +74,7 @@ const Cafe = () => {
           <Breadcrumbs.Item isLoading={isLoading}>{data?.name}</Breadcrumbs.Item>
         </Breadcrumbs> */}
 
-        <CafeMemberHeader cafe={data} />
+        <CafeMemberHeader cafe={cafeData} />
 
         <img
           className="mb-6 object-cover md:h-[25rem] w-full"
@@ -58,15 +86,25 @@ const Cafe = () => {
           }}
         />
 
-        {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.name}</h2>
-        )}
+        <div className="relative">
+          <img
+            className="object-cover md:h-[25rem] w-full"
+            src={cafeData?.image_url || "https://placehold.co/700x400?text=..."}
+            alt={`Photo du café ${cafeData?.name}`}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://placehold.co/700x400?text=:/";
+            }}
+          />
 
-        <div className="flex items-center justify-start space-x-2">
+          
+<div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
+        <div className=" top-12 flex items-center justify-start space-x-2 rounded-lg bg-black">
           <OpenIndicator
-            isOpen={data?.is_open}
-            openingHours={data?.opening_hours}
-            statusMessage={data?.status_message}
+            isOpen={cafeData?.is_open}
+            color="white"
+            openingHours={cafeData?.opening_hours}
+            statusMessage={cafeData?.status_message}
           />
           <button onClick={toggleOpeningHours}>
             {showOpeningHours ? <ChevronUpIcon className="h-6 w-6" /> : <ChevronDownIcon className="h-6 w-6" />}
@@ -78,30 +116,31 @@ const Cafe = () => {
             "max-h-0": !showOpeningHours,
             "max-h-96": showOpeningHours,
           })}>
-          {showOpeningHours && <OpeningHours openingHours={data?.opening_hours} />}
+          {showOpeningHours && <OpeningHours openingHours={cafeData?.opening_hours} />}
+        </div>
+      </div>
+<div className="absolute bottom-0 left-0 right-0 p-0 flex  items-center">
+    {/* Title container with background */}
+    <div className="bg-white px-4 py-2 rounded-r"> {/* Adjust padding and rounded corners as needed */}
+      {(isLoading && <div className="animate-pulse h-10 w-1/5 bg-gray-200 rounded-full" />) || (
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          {cafeData?.name}
+        </h2>
+      )}
+    </div>
+    
+    {/* Social icons container with background */}
+    <div className="flex">
+    {!isLoading && <SocialIcons socialMedia={cafeData?.social_media} />}
+  </div>
+</div>
         </div>
 
-        <div className="pb-3 pt-3">
-          {(data?.description && (
-            <p className="sm:text-lg leading-8 text-gray-600 max-w-3xl">{data?.description}</p>
-          )) || (
-            <>
-              <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
-              <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-3/4"></div>
-            </>
-          )}
-        </div>
 
-        <div className="flex items-center mb-1">
-          <MapPinIcon className="inline-block w-5 h-5 text-gray-500" />
-          <span className="ml-1 text-gray-500">{displayCafeLocation(data?.location)}</span>
-        </div>
+        {!isLoading && <PaymentMethods arrayOfMethods={cafeData?.payment_methods} />}
 
-        {!isLoading && <PaymentMethods arrayOfMethods={data?.payment_methods} />}
 
-        {!isLoading && <SocialIcons socialMedia={data?.social_media} />}
-
-        {data?.additional_info?.map(
+        {cafeData?.additional_info?.map(
           (info, index) =>
             shouldDisplayInfo(info) && (
               <div
@@ -113,7 +152,13 @@ const Cafe = () => {
               </div>
             )
         )}
-      </Container>
+      
+      
+      <div className="flex flex-wrap md:flex-nowrap">
+        {/* Colonne du menu */}
+        <div className="w-full md:w-3/5">
+          <Menu items={menuItems} />
+        </div>
 
       <Container className="pt-12 border-t border-gray-200">
         <h2 className=" text-4xl text-center font-bold text-gray-900 tracking-wide">Menu</h2>

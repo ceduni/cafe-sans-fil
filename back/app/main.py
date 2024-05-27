@@ -13,6 +13,8 @@ from app.api.api_v1.router import router
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.models.order_model import Order
+from app.models.announcement_model import Announcement
+from app.models.event_model import Event
 
 """
 Main application initialization for Café sans-fil.
@@ -49,7 +51,14 @@ db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_beanie(
-        database=db_client[settings.MONGO_DB_NAME], document_models=[User, Cafe, Order]
+        database=db_client[settings.MONGO_DB_NAME],
+        document_models=[
+            User,
+            Cafe,
+            Order,
+            Announcement,
+            Event
+        ]
     )
     yield
 
@@ -61,7 +70,7 @@ app = FastAPI(
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     lifespan=lifespan,
-    debug=True,
+    debug=True  
 )
 
 app.add_middleware(

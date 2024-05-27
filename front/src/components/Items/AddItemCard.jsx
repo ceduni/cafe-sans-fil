@@ -26,7 +26,7 @@ const AddItemCard = ({ cafeSlug, onItemUpdate }) => {
         onItemUpdate={onItemUpdate}
       />
       <button
-        className="group text-left focus:outline-2 focus:outline-offset-4 focus:outline-indigo-600 focus:rounded"
+        className="group text-left focus:oiutline-2 focus:outline-offset-4 focus:outline-indigo-600 focus:rounded"
         onClick={() => setItemEditOpen(true)}>
         <div className="aspect-h-1 aspect-w-1 xl:aspect-h-8 xl:aspect-w-7 w-full rounded-3xl bg-gray-200 flex justify-center items-center">
           <PlusIcon className="text-gray-400 group-hover:text-gray-500 group-hover:scale-105 hover:transition-all duration-200" />

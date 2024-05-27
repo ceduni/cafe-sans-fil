@@ -25,7 +25,7 @@ random.seed(42)
 
 async def create_cafes(usernames):
     cafe_menu_items_slug_dict = {}
-    testAccounts = []
+    cafes_ids = []
 
     # Load templates
     with open("./utils/templates/cafes_updated.json", "r", encoding="utf-8") as file:
@@ -83,8 +83,9 @@ async def create_cafes(usernames):
         await cafe.insert()
 
         cafe_menu_items_slug_dict[cafe.slug] = cafe.menu_items
+        cafes_ids.append(cafe.cafe_id)
 
-    return cafe_menu_items_slug_dict, cafes_data
+    return cafes_ids, cafe_menu_items_slug_dict, cafes_data
 
 
 def random_open_status_message():

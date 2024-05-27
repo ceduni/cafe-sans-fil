@@ -1,3 +1,5 @@
+//recherche par item et tag dans l'application
+import useApi from "@/hooks/useApi"; 
 import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import { CafeAPI, isAPIAvailable } from "@/utils/api";

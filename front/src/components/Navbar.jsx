@@ -75,7 +75,6 @@ const Navbar = () => {
                     </form>
                   </div>
 
-
                   <div className="ml-auto flex items-center">
                     {isLoggedIn ? (
                       <Menu as="div" className="relative ml-3">
