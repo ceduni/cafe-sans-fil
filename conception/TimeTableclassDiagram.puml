@@ -1,0 +1,31 @@
+@startuml Time table 
+left to right direction 
+class Benevole{
+    name:String 
+    timeTable:Period
+    position:String
+
+}
+
+class Period{
+}
+
+class Session{
+    session:String
+    periods:List<Periods>
+
+}
+
+class Cafe{
+    name:String
+    location:String
+    manager:Benevole
+    Session:List<Session>
+
+}
+
+Benevole "1" -- "*" Period 
+Period "*" --* "1" Session 
+Cafe  "*" o-- "*" Session 
+
+@enduml
