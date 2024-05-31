@@ -14,9 +14,9 @@ const TX = {
 const Home = () => {
     const { t } = useTranslation();
     let [searchParams] = useSearchParams();
-    // const searchQuery = searchParams.get("search") || "";
+    const searchQuery = searchParams.get("search") || "";
     
-    const [searchQuery, setSearchQuery] = useState("");
+    // const [searchQuery, setSearchQuery] = useState("");
     const isSearching = searchQuery.length > 0;
 
     const [storedCafes, setStoredCafes] = useState([]);
@@ -29,7 +29,7 @@ const Home = () => {
             <main className="pt-10 pb-[3.25rem] sm:py-10 space-y-6">
                 <Container>
                     {isSearching ? (
-                        <SearchResults searchQuery={searchQuery} storedCafes={storedCafes} />
+                        <SearchResults searchQuery={searchQuery} setStoredCafes={setStoredCafes} storedCafes={storedCafes}  />
                     ) : (
                         <CafeList setStoredCafes={setStoredCafes} storedCafes={storedCafes} />
                     )}

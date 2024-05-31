@@ -1,5 +1,4 @@
-import { Cafe, CafeMenu, CafeMenuItem, Order, User } from "@/models";
-import { Event } from "@/models/event";
+import { Cafe, CafeMenu, CafeMenuItem, Order, User, Event } from "@/models";
 
 const buildUrl = (url) => import.meta.env.VITE_API_ENDPOINT + "/api" + url;
 
@@ -44,11 +43,11 @@ export const CafeAPI = {
      * @param {string} id - The ID of the cafe to fetch.
      * @param {Function} setLoading - Optional. A function to set loading state.
      * @param {boolean} cancel - Optional. Flag to cancel the request.
-     * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Cafe objects.
+     * @returns {Promise<Cafe>} - A promise that resolves with a Cafe object.
      */
     get: async function (id, setLoading = null, cancel = false) {
         const result = await fetchData(`/cafes/${id}`, setLoading);
-        return result.map(cafeData => new Cafe(cafeData));
+        return new Cafe(result);
     },
     /**
      * Fetches all cafes.
@@ -61,24 +60,27 @@ export const CafeAPI = {
         return result.map(cafeData => new Cafe(cafeData));
     },
     /**
-     * Fetches all cafes.
+     * Fetches the menu of a specific cafe.
+     * @param {string} id - The ID of the cafe to get the menu from.
      * @param {Function} setLoading - Optional. A function to set loading state.
      * @param {boolean} cancel - Optional. Flag to cancel the request.
-     * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Cafe objects.
+     * @returns {Promise<CafeMenu>} - A promise that resolves with a CafeMenu object.
      */
     getMenu: async function (id, setLoading = null, cancel = false) {
         const result = await fetchData(`/cafes/${id}/menu`, setLoading);
-        return result.map(cafeData => new CafeMenu(cafeData));
+        return new CafeMenu(result);
     },
     /**
-     * Fetches all cafes.
+     * Fetches an item of the menu of a specific cafe.
+     * @param {string} id - The ID of the cafe to get the menu from.
+     * @param {string} item - The ID of item of the menu.
      * @param {Function} setLoading - Optional. A function to set loading state.
      * @param {boolean} cancel - Optional. Flag to cancel the request.
-     * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Cafe objects.
+     * @returns {Promise<CafeMenuItem>} - A promise that resolves with a CafeMenuItem object.
      */
     getMenuItem: async function (id, item, setLoading = null, cancel = false) {
         const result = await fetchData(`/cafes/${id}/menu/${item}`, setLoading);
-        return result.map(cafeData => new CafeMenuItem(cafeData));
+        return new CafeMenuItem(result);
     },
     /**
      * Fetches all cafe matching a query.
@@ -88,7 +90,7 @@ export const CafeAPI = {
      * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Cafe objects.
      */
     search: async function (query, setLoading = null, cancel = false) {
-        const result = await fetchData(`/search/${query}`, setLoading);
+        const result = await fetchData(`/search?query=${query}`, setLoading);
         return result.map(cafeData => new Cafe(cafeData));
     },
 }
@@ -103,7 +105,7 @@ export const UserAPI = {
      */
     get: async function (id, setLoading = null, cancel = false) {
         const result = await fetchData(`/users/${id}`, setLoading).then();
-        return result.map(userData => new User(userData));
+        return new User(result);
     },
     /**
      * Fetches all users.
@@ -127,7 +129,7 @@ export const OrderAPI = {
      */
     get: async function (id, setLoading = null, cancel = false) {
         const result = await fetchData(`/orders/${id}`, setLoading).then();
-        return result.map(orderData => new Order(orderData));
+        return new Order(result);
     },
     /**
      * Fetches all orders.
@@ -157,7 +159,7 @@ export const EventAPI = {
      */
     get: async function (id, setLoading = null, cancel = false) {
         const result = await fetchData(`/events/${id}`, setLoading).then();
-        return result.map(eventData => new Event(eventData));
+        return new Event(result);
     },
     /**
      * Fetches all events.

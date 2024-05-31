@@ -36,13 +36,9 @@ const Navbar = () => {
   const { totalItems, emptyCart } = useCart();
 
   
-  const handleSearch= (e) => {
-    e.preventDefault();
-    console.log("Search submitted: ", searchQuery); // debug
-    navigate(`/?search=${searchQuery}`);
+  const handleSearch= (query) => {
+    navigate(`/?search=${query}`);
   };
-
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLogout = () => {
     emptyCart();
@@ -70,12 +66,10 @@ const Navbar = () => {
 
                   {/* SearchBar */}
                   <div className="flex-1 max-w-xl mx-auto">
-                    <form onSubmit={handleSearch}>
-                      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-                    </form>
+                      <SearchBar onSearch={handleSearch} />
                   </div>
 
-                  <div className="ml-auto flex items-center">
+                  <div className="flex items-center">
                     {isLoggedIn ? (
                       <Menu as="div" className="relative ml-3">
                         <div className="flex items-center justify-center">

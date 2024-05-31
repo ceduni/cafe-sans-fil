@@ -89,6 +89,7 @@ Les dossiers du répertoire sont organisés comme suit:
 
 - `\back`: contient le code source du backend composé de l'API et de la base de données
 - `\front`: contient le code source de l'application web
+- `\prototype`: contient les prototypes de la nouvelle version de l'application web
 - `\docs`: contient le site web du projet
 
 # 🌟 Contribution

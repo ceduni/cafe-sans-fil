@@ -1,5 +1,4 @@
 //recherche par item et tag dans l'application
-import useApi from "@/hooks/useApi"; 
 import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import { CafeAPI, isAPIAvailable } from "@/utils/api";
@@ -29,7 +28,7 @@ function renderEmpty() {
 }
 
 function renderCafe(cafes) {
-    (
+    return (
         <div className="relative top-1 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8">
             {cafes.map((cafe) => (
                 <CafeCard cafe={cafe} key={cafe.slug} />
@@ -38,12 +37,11 @@ function renderCafe(cafes) {
     );
 }
 
-const SearchResults = ({ searchQuery }) => {
+const SearchResults = ({ searchQuery, setStoredCafes, storedCafes }) => {
     const query = normalizeQuery(searchQuery)
 
-
     const [isLoading, setIsLoading] = useState(true);
-    const [cafes, setStoredCafes] = useState(null);
+    // const [cafes, setStoredCafes] = useState(null);
     const [error, setError] = useState(null);
 
     // Fetching cafe
@@ -61,11 +59,11 @@ const SearchResults = ({ searchQuery }) => {
         return renderError(error);
     }
 
-    if (isLoading && isEmpty(cafes)) {
+    if (isLoading && isEmpty(storedCafes)) {
         return renderEmpty();
     }
 
-    return renderCafe(cafes);
+    return renderCafe(storedCafes);
 };
 
 export default SearchResults;
