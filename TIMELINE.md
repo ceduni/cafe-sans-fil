@@ -98,30 +98,33 @@
 
 ### Observations
 
-### Ressources
+### Ressources -->
 
 ## Semaine 5 (2024-06-03)
 
 ### Objectifs
+- Déterminer les habitudes de consommations des étudiants en fonction de l’heure de la journée.
 
+<!--
 ### Réalisations
 
 ### Observations
 
-### Ressources -->
+### Ressources 
+-->
 
 ## Semaine 4 (2024-05-27)
 
 ### Objectifs
-- Révision et amélioration de la logique du système: Robot de recommandation et fonction de score santé
+- Conception d'un robot de recommandation et d'une fonction de score santé.
 
-<!-- 
 ### Réalisations
-
-### Observations
+- Ajout de la logique pour le robot de recommandation.
+- Définition d'une hiérarchie des repas basé sur le niveau de transformation des aliments ainsi que le niveau de cuisson nécessaire pour consommer l'aliment.
+- Définition d’une fonction score santé basé sur trois autres scores (Score basé sur la fraîcheur, Densité nutritionnelle, Score basé sur le niveau hiérarchique)
 
 ### Ressources
--->
+- [Comprendre la densité nutritionnelle | Ethiquable](https://www.ethiquable.coop/page-guide-dachats-espace-presse/comprendre-densite-nutritionnelle#:~:text=Il%20existe%20plusieurs%20d%C3%A9finitions%20mais,%C3%A0%20son%20contenu%20en%20calories.)
 
 ## Semaine 3 (2024-05-20)
 
