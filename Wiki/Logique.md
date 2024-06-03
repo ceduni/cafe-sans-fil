@@ -72,7 +72,7 @@ NB: Avoir une sorte de petite base de données/cache pour garder les repas aller
 2. Récupérer le(s) k cluster(s) qui représente(nt) le mieux les préférences de l’utilisateur OU/ET les clusters qui contiennent le plus de repas aimés
 3. Récupérer aléatoirement un échantillon $E_i$ de taille n dans chaque cluster
 4. Créer une matrice $X_{nk\times p}$ où $nk$ est le nombre de repas (lignes) et p, le nombre d’attributs (*****à déterminer***** )
-5. Compléter la matrice comme suit : $X_{ij} = \begin{cases}0 &\text{si le repas i n'a pas l'attribut j}\\ 1 &\text{sinon} \end{cases}$
+5. Compléter la matrice comme suit : $X_{ij} = 0$ si le repas $i$ n'a pas l'attribut $j$ et $X_{ij} = 1$ sinon
 6. Récupérer un repas aimé par l’utilisateur qui est dans $\cup E_i,..., E_k$
 7. Créer un vecteur V tel que l’élément i de V corresponde au nombre de match que les lignes 1 et $i\text{ }(i > 1$) de X possèdent (ie. le nombre d’index pour lesquels les deux vecteurs contiennent la même valeur 0 ou 1) où la ligne 1 de X représente le repas trouvé en 6.
 8. S’il y a un seule cluster, rajouter les *m* repas possédant le plus grand coefficient de V dans L. Sinon, rajouter le repas avec le plus grand coefficient dans L et recommencer à l’étape 4. avec un autre échantillon.
