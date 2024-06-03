@@ -9,7 +9,7 @@
 
 # Café sans-fil
 
-Ce projet vise à mettre en place un système de recommandation utilisant les données fournies par les utilisateurs. Pour créer un moyen efficace de collecte et d'analyse de données nécessaire au système de recommandation, nous envisageons enrichir la plateforme avec de nouvelles fonctionnalités permettant aux utilisateurs de communiquer leurs préférences et réagir avec plus de choix aux propositions des cafés.
+Ce projet vise à mettre en place des systèmes de recommandation utilisant les données fournies par les utilisateurs. Pour créer un moyen efficace de collecte et d'analyse de données nécessaire aux systèmes de recommandations, nous envisageons enrichir la plateforme avec de nouvelles fonctionnalités permettant aux utilisateurs de communiquer leurs préférences et réagir avec plus de choix aux propositions des cafés.
 
 <!-- Café sans-fil est un projet pilote visant à améliorer le service des cafés étudiants de l'UdeM.  
 Les cafés étudiants donnent accès à un espace de socialisation et de la nourriture à prix abordable, enrichissant la vie de campus des étudiants. Toutefois, l'infrastructure actuelle ne facilite pas l'accès à l'information et alourdit la gestion des cafés.  
