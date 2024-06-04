@@ -103,7 +103,7 @@
 ## Semaine 5 (2024-06-03)
 
 ### Objectifs
-- Déterminer les habitudes de consommations des étudiants en fonction de l’heure de la journée.
+- Concevoir un algorithme pour déterminer les habitudes de consommations des étudiants en fonction de l’heure de la journée.
 - Définir un schéma pour les données.
 
 <!--
