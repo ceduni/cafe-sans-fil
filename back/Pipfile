@@ -22,6 +22,7 @@ pytest = "*"
 httpx = "*"
 fastapi-mail = "*"
 apscheduler = "*"
+sendgrid = "*"
 
 [dev-packages]
 

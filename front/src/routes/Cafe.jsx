@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
 import EmptyState from "@/components/EmptyState";
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { CafeAPI } from "@/utils/api";
 
 
@@ -16,7 +15,7 @@ const Cafe = () => {
 
     // Fetching cafe
     useEffect(() => {
-        CafeAPI.get(id, setIsLoading)
+        CafeAPI.find(id, setIsLoading)
             .then((data) => {
                 console.log(data);
                 setCafe(data);

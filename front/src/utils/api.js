@@ -1,6 +1,13 @@
 import { Cafe, CafeMenu, CafeMenuItem, Order, User, Event } from "@/models";
 
-const buildUrl = (url) => import.meta.env.VITE_API_ENDPOINT + "/api" + url;
+const testing = true;
+const buildUrl = (url) => {
+    if (testing) {
+        return `http://localhost:8000${url}`;
+    }
+
+    return import.meta.env.VITE_API_ENDPOINT + "/api" + url;
+}
 
 async function fetchData(url, setLoading = null) {
     if (setLoading) {
@@ -9,6 +16,7 @@ async function fetchData(url, setLoading = null) {
 
     try {
         const response = await fetch(buildUrl(url));
+        console.log(response);
 
         if (!response.ok) {
             throw new Error(response.statusText);
@@ -48,6 +56,17 @@ export const CafeAPI = {
     get: async function (id, setLoading = null, cancel = false) {
         const result = await fetchData(`/cafes/${id}`, setLoading);
         return new Cafe(result);
+    },
+    /**
+     * Find a specific cafe by slug.
+     * @param {string} slug - The slug of the cafe to fetch.
+     * @param {Function} setLoading - Optional. A function to set loading state.
+     * @param {boolean} cancel - Optional. Flag to cancel the request.
+     * @returns {Promise<Cafe>} - A promise that resolves with a Cafe object.
+     */
+    find: async function (slug, setLoading = null, cancel = false) {
+        const result = await fetchData(`/cafes?slug=${slug}`, setLoading);
+        return new Cafe(result[0]);
     },
     /**
      * Fetches all cafes.

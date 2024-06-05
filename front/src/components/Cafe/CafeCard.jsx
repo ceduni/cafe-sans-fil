@@ -15,6 +15,7 @@ const CafeCard = ({ cafe }) => {
   return (
     <Link
       to={`/cafes/${cafe.slug}`}
+      state={cafe}
       className="contents select-none"
       onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
       <Card>

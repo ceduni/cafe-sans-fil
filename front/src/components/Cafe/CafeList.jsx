@@ -18,11 +18,11 @@ const isEmpty = (arr) => arr?.length === 0
 function filterCafe(cafe, filters) {
     const { openOnly, pavillon, takesCash, takesCreditCard, takesDebitCard } = filters;
 
-    if (openOnly && cafe.isOpen()) {
+    if (openOnly && !cafe.isOpen()) {
         return false;
     }
 
-    if (pavillon !== "Tous les pavillons" && cafe.location.pavillon === this.pavillon) {
+    if (pavillon !== "Tous les pavillons" && cafe.location.pavillon === pavillon) {
         return false;
     }
 
