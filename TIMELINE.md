@@ -1,6 +1,6 @@
 # 📅 Suivi
 
-<!-- ## Semaine 15 (2024-08-12)
+<!-- ## Semaine 15 (2024-08-09)
 
 ### Objectifs
 
@@ -10,7 +10,7 @@
 
 ### Ressources
 
-## Semaine 14 (2024-08-05)
+## Semaine 14 (2024-08-02)
 
 ### Objectifs
 
@@ -20,7 +20,7 @@
 
 ### Ressources
 
-## Semaine 13 (2024-07-29)
+## Semaine 13 (2024-07-26)
 
 ### Objectifs
 
@@ -30,7 +30,7 @@
 
 ### Ressources
 
-## Semaine 12 (2024-07-22)
+## Semaine 12 (2024-07-19)
 
 ### Objectifs
 
@@ -40,7 +40,7 @@
 
 ### Ressources
 
-## Semaine 11 (2024-07-15)
+## Semaine 11 (2024-07-12)
 
 ### Objectifs
 
@@ -50,7 +50,7 @@
 
 ### Ressources
 
-## Semaine 10 (2024-07-08)
+## Semaine 10 (2024-07-05)
 
 ### Objectifs
 
@@ -60,7 +60,7 @@
 
 ### Ressources
 
-## Semaine 9 (2024-07-01)
+## Semaine 9 (2024-06-28)
 
 ### Objectifs
 
@@ -70,7 +70,7 @@
 
 ### Ressources
 
-## Semaine 8 (2024-06-24)
+## Semaine 8 (2024-06-21)
 
 ### Objectifs
 
@@ -80,7 +80,7 @@
 
 ### Ressources
 
-## Semaine 7 (2024-06-17)
+## Semaine 7 (2024-06-14)
 
 ### Objectifs
 
