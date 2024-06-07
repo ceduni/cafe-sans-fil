@@ -1,7 +1,7 @@
 # Logique de fonctionnement des systèmes de recommandation
 Cette page présente les différents algorithmes utilisés dans le système de recommandation.
 
-## 0. Bases de recommandations:
+## 0. Heuristiques de recommandations:
 
 1. ***Heure de la journée :*** permet d'approximer les besoins énergétiques
 2. ***Valeurs nutritives :*** permet de déterminer les apports du repas
@@ -114,7 +114,7 @@ NB: Avoir une sorte de petite base de données/cache pour garder les repas aller
     | 1 | 1 |
     | 2 | 0.5 |
     | 3 | -0.5 |
-    | 4 | -1 |
+    | 4 | -2 |
     
 
 #### **Fonction de score finale**

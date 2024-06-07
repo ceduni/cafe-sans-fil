@@ -88,13 +88,15 @@
 
 ### Observations
 
-### Ressources
+### Ressources-->
 
-## Semaine 6 (2024-06-10)
+## Semaine 6 (2024-06-07)
 
 ### Objectifs
+- Mise au propre des algorithmes et écrire les pseudo code.
+- Reconception d'un nouveau diagramme décrivant le fonctionant global du système.
 
-### Réalisations
+<!--### Réalisations
 
 ### Observations
 
@@ -106,13 +108,15 @@
 - Concevoir un algorithme pour déterminer les habitudes de consommations des étudiants en fonction de l’heure de la journée.
 - Définir un schéma pour les données.
 
-<!--
 ### Réalisations
-
-### Observations
+- Conception d'un algorithme pour déterminer les habitudes de consommation des utilisateurs.
+- Conception d'un algorithme pour attribuer un moment de la journée à un repas (à quel moment il doit être consommé).
+- Première version du schéma des données définit (modification toujours en cours).
 
 ### Ressources 
--->
+- [Score santé yuka](https://help.yuka.io/l/en/article/ijzgfvi1jq)
+- [Comment organiser sa journée et sa répartition calorique](https://media.dietis.fr/sante-et-alimentation/conseils-nutrition-sante/893-repartition-calorique-quotidienne.html)
+- [Comprendre la densité nutritionnelle | Ethiquable](https://www.ethiquable.coop/page-guide-dachats-espace-presse/comprendre-densite-nutritionnelle#:~:text=Il%20existe%20plusieurs%20d%C3%A9finitions%20mais,%C3%A0%20son%20contenu%20en%20calories.)
 
 ## Semaine 4 (2024-05-27)
 
