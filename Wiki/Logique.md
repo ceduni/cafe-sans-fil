@@ -24,7 +24,7 @@ Pour chaque repas du menu:
 
 1. Récupérer le menu M
 2. Trouver le nombre de centroids (clusters) avec la méthode du genou
-3. Créer les clusters avec k-medoids
+3. Créer les clusters avec k-means
 
 ### 2.2 Obtenir les préférences à partir du profile
 
