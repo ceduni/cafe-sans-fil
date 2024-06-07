@@ -197,25 +197,24 @@
 - Tutoriel Flutter : (https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi)
 - logicel etudie   : Employee link 
 
-## Semaine 3 (2024-05-26)
+## Semaine 4 (2024-05-26)
 
 ### Objectifs
 
-<li>Prototypage du UI/UX et Flux d'activités</li>
-<li>Modèle du domaine</li>
-<li>Modèle de données</li>
-<li>Etude du modèle existant sur le marche</li>
-<li>Prise en main de Flutter </li>
+- Prototypage du UI/UX et Flux d'activités
+- Modèle du domaine
+- Modèle de données
+- Etude du modèle existant sur le marche
+- Prise en main de Flutter 
 
 ### Réalisations
-
-- Premiere realisation d'un prototype getable 
-- Realisation d'un deuxieme modele du domaine (/cafe-sans-fil/Analyse/Mdd2.png)
-- Etude du modèle existant sur le marche(Employee link)
-- Prise en main de Flutter (https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU) (https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi)
+- Deuxieme iteration du prototype getable UI/UX
+- Etude de la gestion d'evenement en Flutter(flutter Bloc et Provider)
+- Anticipation sur la conception logicel
+- Définition des statistiques pour le dashbord pour la gestion des stocks
 
 ### Resources 
+- Tutoriel Flutter Bloc : (https://www.youtube.com/live/Y1roIi0-Sro?si=a-8voALgBdDL-8so)
+- Tutoriel Flutter provider : (https://youtu.be/ABfwe8nUi-s?si=RpP6auWw-LwgvuWp)
+- Esquisse pour les statistiques : (https://drive.google.com/file/d1rRE_-XlDQPk9TL3YLr2vEiilq-66o8MX/view?usp=sharing)
 
-- Tutoriel Flutter : (https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU) 
-- Tutoriel Flutter : (https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi)
-- logicel etudie   : Employee link 
