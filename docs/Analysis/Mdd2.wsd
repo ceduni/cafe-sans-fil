@@ -1,5 +1,5 @@
 @startuml 
-
+left to right direction
 class Cafe{
     name: string
     location: string

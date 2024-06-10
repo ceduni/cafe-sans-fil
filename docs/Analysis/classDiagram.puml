@@ -1,0 +1,129 @@
+@startuml class diagram
+left to right direction 
+class EventHandler{
+
+}
+
+class Cafe {
+    {static} + name:String
+    {static} + location:String
+    {static} + volunteers: List<Volunteer>
+    {static} + stock:Stock
+    {static} + manager:Manager
+
+    + getName():String 
+    + getLocation():String
+    + GetVolunteers():List<Volunteer>
+    + getStock():stock
+    + getManager():Manager
+
+    + addNewVolunteer(v:Volunteer):void
+    + removeVoLunteer(v:Volunteer):void
+}
+enum Role{
+    Manager
+    Volunteer
+}
+class Manager{
+    - role: Role
+    - Name: string
+    - cafe:cafe
+
+    + getRole():String
+    + getName():String
+    + getCafe():String
+    + seeEvent():List<Event>
+    + seeShift():List<Shift>
+    + addEvent():void 
+    + removeEvent():void
+    + addNewProduct():void
+    + viewStock():void 
+    + printStock():void
+    + addNewVolunteer(v:Volunteer):void
+    + removeVoLunteer(v:Volunteer):void
+    + assignShift(v:Volunteer):void
+
+
+}
+
+class Volunteer{
+    - role: Role
+    - name:String
+    - coffee:Coffee
+
+    + addNewProduct():void
+    + viewStock():void 
+    + printStock():void
+    + createShift():Shift
+
+}
+
+class Product {
+    - ID:Int 
+    - name:string
+    - price:float
+    - Description:string 
+    
+    + toString():String 
+    + getID() :Int 
+
+
+
+}
+
+class Stock{
+    products:HashMap<Product,Integer>
+
+
+}
+
+class Shift{
+    - date:Date
+    - startTime:Time 
+    - endTime:Time
+
+     +getDate():Date
+     +getstartTime():Time
+     +getEndTime():Time
+     +toString():String
+}
+
+class Event {
+    - date:Date
+    - startTime:Time
+    - endTime:Time
+    - name:String
+
+    +getDate():Date
+    +getstartTime():Time
+    +getEndTime():Time
+    +getName() :String
+    +toString():String
+}
+
+class Planner{
+    events:List<Event>
+    shifts:List<Shift>
+
+    +getEvents():List<Event>
+    +getEvents():List<Shift>
+
+}
+
+Event "1..*" --o "1" Planner:includes
+Shift "1..*" --o "1" Planner:includes
+
+Manager "1" -- "1..*" Event:creates
+Manager "1" -left- "1" Cafe:Works
+Manager "1" -right- "1..*" Shift:creates
+Volunteer "1" -- "1..*" Shift
+Volunteer "1" -- "1" Role:has
+Manager "1" -left- "1" Role:has
+
+Manager "1" -- "1..*" Volunteer:Manages
+
+Cafe "1" *-- "1" Stock:has
+Stock "1" *-- "1" Product:contains
+Volunteer "1" -left- "1..*" Cafe:Works
+
+@enduml
