@@ -9,7 +9,7 @@ description de comment ces données peuvent être obtenus.
 
 ## Format des données
 
-**Foods**
+**Food**
 ```
 {
     "barecode": "String",
@@ -17,6 +17,8 @@ description de comment ces données peuvent être obtenus.
     "health_score": "Decimal128",
     "allergens": ["String"].
     "time": "String",
+    "likes": ["String"],
+    "nombre_likes": "Decimal128,
     "nutritionnal_densities": {
         "protein": "Decimal128",
         "lipids": "Decimal128",
@@ -33,18 +35,36 @@ description de comment ces données peuvent être obtenus.
             "barecode": "String",
             "item_id": "UUID",
             "health_score": "Decimal128",
+            "allergens": ["String"].
+            "time": "String",
+            "likes": "["String"]",
             "nutritionnal_densities": {
                 "protein": "Decimal128",
                 "lipids": "Decimal128",
                 "carbohydrates": "Decimal128"
-            },
-            "allergens": ["String"]
+            }
         }
     ],
     
     "allergens": {
         "names": ["String"],
         "level": ["Int32"]
-    }
+    },
+
+    "historique_achat": [
+        {
+            "barecode": "String",
+            "item_id": "UUID",
+            "health_score": "Decimal128",
+            "allergens": ["String"].
+            "time": "String",
+            "likes": "["String"]",
+            "nutritionnal_densities": {
+                "protein": "Decimal128",
+                "lipids": "Decimal128",
+                "carbohydrates": "Decimal128"
+            }
+        }
+    ]
 }
 ```
