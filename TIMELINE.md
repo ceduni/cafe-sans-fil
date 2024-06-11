@@ -182,20 +182,20 @@
 - Modèle du domaine
 - Modèle de données
 - Etude du modèle existant sur le marche
-- Prise en main de Flutter 
+- Prise en main de Flutter
 
 ### Réalisations
 
-- Premiere realisation d'un prototype getable 
+- Premiere realisation d'un prototype getable
 - Realisation d'un deuxieme modele du domaine (/cafe-sans-fil/Analyse/Mdd2.png)
 - Etude du modèle existant sur le marche(Employee link)
 - Prise en main de Flutter (https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU) (https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi)
 
-### Resources 
+### Resources
 
-- Tutoriel Flutter : (https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU) 
+- Tutoriel Flutter : (https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU)
 - Tutoriel Flutter : (https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi)
-- logicel etudie   : Employee link 
+- logicel etudie : Employee link
 
 ## Semaine 4 (2024-05-26)
 
@@ -205,16 +205,36 @@
 - Modèle du domaine
 - Modèle de données
 - Etude du modèle existant sur le marche
-- Prise en main de Flutter 
+- Prise en main de Flutter
 
 ### Réalisations
+
 - Deuxieme iteration du prototype getable UI/UX
 - Etude de la gestion d'evenement en Flutter(flutter Bloc et Provider)
 - Anticipation sur la conception logicel
 - Définition des statistiques pour le dashbord pour la gestion des stocks
 
-### Resources 
+### Resources
+
 - Tutoriel Flutter Bloc : (https://www.youtube.com/live/Y1roIi0-Sro?si=a-8voALgBdDL-8so)
 - Tutoriel Flutter provider : (https://youtu.be/ABfwe8nUi-s?si=RpP6auWw-LwgvuWp)
 - Esquisse pour les statistiques : (https://drive.google.com/file/d1rRE_-XlDQPk9TL3YLr2vEiilq-66o8MX/view?usp=sharing)
 
+## Semaine 5 (2024-06-03)
+
+### Objectifs
+
+- Créer et faire évoluer le prototype évolutif
+
+### Réalisations
+
+- Troisième itération du prototype jetable UI/UX
+- Rencontre avec le gérant pour réévaluer les besoins de
+  l'application notemment la communiation entre bénévole et les
+  alertes lorsque le stock est faible pour un produit (dashborad)
+- Fixations des deadlines pour les fonctionnalités à développer :
+  • 26 juin : Élaboration du dashborad
+  • 17 juillet : Création du menu pour les bénévoles et pour la
+  gestion de leurs horaires
+  • 31 juillet : Création des fonctions liées à la gestion des
+  stocks
