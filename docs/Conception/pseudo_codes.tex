@@ -1,0 +1,187 @@
+\documentclass[11pt]{article}
+
+\usepackage[french]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{blindtext}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{array}
+\usepackage{comment}
+
+\begin{document}
+
+\begin{center}
+    \Large \textbf{Pseudo codes des algorithmes\\ de recommandation}
+\end{center}
+
+\section{Méthodes utilitaires}
+\begin{algorithm}
+    \caption{Repas pas encore consommés}
+    \begin{algorithmic}[1]
+    \Statex \textbf{Entrée:} Menu du restaurant ($M$), utilisateur actuel ($u$)
+    \Statex \textbf{Sortie:} Liste de repas
+    \State \textbf{\textit{Algorithme(M[1...n], u)}}
+    \State \hspace{0.5cm} $L \leftarrow u.historique\_achat$
+    \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in L$
+    \State \hspace{1cm} \textbf{Si} $r \in M$:
+    \State \hspace{1.5cm} $M.retirer(r)$
+    \State \hspace{0.5cm} \textbf{retourner} $M$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Mesure similarité: Jaccard}
+    \begin{algorithmic}[1]
+    \Statex \textbf{Entrée:} Deux listes ou ensembles ($L_1, L_2$)
+    \Statex \textbf{Sortie:} Nombre décimal représentant la similarité
+    \State \textbf{\textit{Jaccard($L_1[1...n]$,$L_2[1...m]$):}}
+    \State \hspace{0.5cm} $union \leftarrow L_1 \cup L_2$
+    \State \hspace{0.5cm} $inter \leftarrow L_1 \cap L_2$
+    \State \hspace{0.5cm} $sim \leftarrow inter/union$
+    \State \hspace{0.5cm} \textbf{retourner} sim.length
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Clusters en fontion des préférences de l'utilisateur}
+    \begin{algorithmic}[1]
+    \Statex \textbf{Entrée:} Menu du restaurant ($M$)
+    \Statex \textbf{Sortie:} Liste des régimes contenant les catégories de repas
+    \State \textbf{\textit{clusters(M[1...n])}}
+    \State \hspace{0.5cm} // Nous avons k régimes différents et p catégories de repas
+    \State \hspace{0.5cm} $R \leftarrow [[0...n]...k]$
+    \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in M$:
+    \State \hspace{1cm} mettre le repas dans un ensemble en fonction de son régime
+    \State \hspace{1cm} rajouter les différents régimes de repas à $R$
+    \State \hspace{0.5cm} \textbf{Pour chaque} régime $T[1...\ell] \in R$ 
+    \State \hspace{1cm} mettre chaque repas du même régime dans une catégorie 
+    \State \hspace{0.5cm} \textbf{retourner} $R[[[0...n]...p]...k]$
+    \end{algorithmic}
+\end{algorithm}
+
+\newpage
+\section{Algorithmes principales}
+\begin{algorithm}
+    \caption{Collaborative filtering}
+    \begin{algorithmic}[1]
+        \Statex \textbf{Description:} Recommandations basé sur les similarités entre utilisateurs.
+        \Statex \textbf{Entrée:} Liste des utilisateurs de l'application ($U$), utilisateur actuel ($u$)
+        \Statex \textbf{Sortie:} Liste $L$ des recommandations
+        \State \textbf{\textit{Algorithme(U[1...n], u):}}
+        \State \hspace{0.5cm} $L \leftarrow [vide]$
+        \State \hspace{0.5cm} $\tau \leftarrow$ seuil de similarité 
+        \State \hspace{0.5cm} $S_{n\times 1} \leftarrow$ sous ensemble aléatoire de $U$ t.q $u \notin S$
+        \State \hspace{0.5cm} $L_u \leftarrow [[u.likes]$, [u.repas\_consommés], [u.cafés\_visités]]
+        \State \hspace{0.5cm} \textbf{Pour chaque} utilisateur $x\in S_{n\times 1}$
+        \State \hspace{1cm} $L_x \leftarrow$ [[x.likes], [x.repas\_consommés], [x.cafés\_visités]]
+        \State \hspace{1cm} $J \leftarrow [vide]$
+        \State \hspace{1cm} \textbf{Pour} $i \leftarrow 0$ à $L_x.length$
+        \State \hspace{1.5cm} $j \leftarrow Jaccard(L_u[i], L_x[i])$
+        \State \hspace{1.5cm} $J.ajouter(j)$
+        \State \hspace{1cm} $score \leftarrow sum(J)$
+        \State \hspace{1cm} \textbf{Si} $score \geq \tau$:
+        \State \hspace{1.5cm} $L \leftarrow (L_u[0] \cup L_u[1]) \backslash [(L_x[0] \cup L_x[1]) \cap (L_u[0] \cup L_u[1])]$
+        \State \hspace{1cm} $S.retirer(x)$
+        \State \hspace{0.5cm} \textbf{retourner} $L$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Content based filtering}
+    \begin{algorithmic}[1]
+        \Statex \textbf{Description:} Recommandations basé sur les habitudes de l'utilisateur.
+        \Statex \textbf{Entrée:} Liste des clusters ($C$), utilisateur actuel ($u$)
+        \Statex \textbf{Sortie:} Liste $L$ des recommandations
+        \State \textbf{\textit{Algorithme(C[[1...n],[1...m],...k], u):}}
+        \State \hspace{0.5cm} $L \leftarrow [vide]$
+        \State \hspace{0.5cm} $P \leftarrow$ repas pas encore achetés (Algorithme 1)
+        \State \hspace{0.5cm} $\tau,k \leftarrow$ seuil de similarité, nombre de clusters
+        \State \hspace{0.5cm} $n \leftarrow R.length$
+        \State \hspace{0.5cm} $c_1 \leftarrow cluster\_favoris(C, u)$
+        \State \hspace{0.5cm} $C \leftarrow C.retirer(c_1)$
+        \State \hspace{0.5cm} $c_2 \leftarrow cluster\_favoris(C, u)$
+        \State \hspace{0.5cm} $r_1, r_2 \leftarrow$ repas aléatoire aimé par $u$ et qui se trouvent dans $c_1$ et $c_2$
+        \State \hspace{0.5cm} $R \leftarrow [r_1, r_2]$
+        \State \hspace{0.5cm} \textbf{Pour} $i \in [0,1]$:
+        \State \hspace{1cm} $X \leftarrow [vide]$ 
+        \State \hspace{1cm} $X.inserer(one\_hot(R[i]))$
+        \State \hspace{1cm} \textbf{Pour} chaque repas $p \in P$:
+        \State \hspace{1.5cm} $X.inserer(one\_hot(p))$
+        \State \hspace{1cm} $V \leftarrow [empty]$
+        \State \hspace{1cm} \textbf{Pour} $j \in [1, X.length]$:
+        \State \hspace{1.5cm} $V.inserer(Jaccard(X[0], X[j]))$
+        \State \hspace{1cm} \textbf{Pour} $\_ \in [0, k]$:
+        \State \hspace{1.5cm} $i \leftarrow V.index\_du\_max$
+        \State \hspace{1.5cm} L.inserer(P[i])
+        \State \hspace{1.5cm} $V.retirer(V[i])$ si $V$ n'est pas vide
+        
+        \\
+--------------------------------------------------------------------------------------------------------------------
+        \State \textbf{\textit{cluster\_favoris(C[[1...n],[1...m],...k], u)}:}
+        \State \hspace{0.5cm} $L \leftarrow [empty]$
+        \State \hspace{0.5cm} \textbf{Pour chaque} cluster $c[1...n] \in C$:
+        \State \hspace{1cm} $tmp \leftarrow [empty]$
+        \State \hspace{1cm} \textbf{Pour chaque} repas $r \in c[1...n]$: 
+        \State \hspace{2cm} \textbf{SI} $u \in r.likes$:
+        \State \hspace{2.5cm} $tmp.ajouter(r)$
+        \State \hspace{1cm} $L.ajouter(tmp.length)$
+        \State \hspace{0.5cm} $i \leftarrow L.index\_du\_max$
+        \State \hspace{0.5cm} \textbf{retourner} $C[i]$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Knowledge based filtering}
+    \begin{algorithmic}[1]
+        \Statex \textbf{Description:}
+        \Statex \textbf{Entrée:} Utilisateur actuel ($u$), Liste des repas du menu ($M$)
+        \Statex \textbf{Sortie:} 
+        \State \textbf{\textit{Algorithme(M[1...n], u):}}
+        \State \hspace{0.5cm} $A \leftarrow u.liste\_allergens$
+        \State \hspace{0.5cm} $allergenes \leftarrow repas\_allergens(A)$
+        \State \hspace{0.5cm} $P \leftarrow u.preferences$
+        \State \hspace{0.5cm} $R \leftarrow clusters(M)$ // Algorithme 5
+        \State \hspace{0.5cm} $E[0...n] \leftarrow$ récupérer les bons repas en fonction du régime (P[0]) et des
+        \State \hspace{0.5cm} catégories (P[1]) spécifiées par l'utilisateur
+        \State \hspace{0.5cm} \textbf{retourner} les $k$ repas de $E$ possédant la plus grande densité nutritionnelle basé sur
+        \State \hspace{0.5cm} le nutriment spécifié par l'utilisateur (P[2])\\
+--------------------------------------------------------------------------------------------------------------------
+        \State \textbf{\textit{repas\_allergenes(A[1...n]):}}
+        \State \hspace{0.5cm} $L \leftarrow [vide]$
+        \State \hspace{0.5cm} \textbf{Pour chaque} repas $r\in M$:
+        \State \hspace{1cm} \textbf{Si} $r.allergens \cap A \neq \emptyset$:
+        \State \hspace{1.5cm} $L$.inserer(r)
+        \State \hspace{0.5cm} Trier les repas de $L$ en fonction du niveau de gravité
+        \State \hspace{0.5cm} \textbf{retourner} $L$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Recommandation globale}
+    \begin{algorithmic}[1]
+        \Statex \textbf{Description:}
+        \Statex \textbf{Entrée:} Liste des repas du menu ($M$)
+        \Statex \textbf{Sortie:}
+        \State \textbf{\textit{Algorithme(M[1...n]):}}
+        \State \hspace{0.5cm} $t \leftarrow$ heure de la journée
+        \State \hspace{0.5cm} $k \leftarrow$ nombre de repas à recommander
+        \State \hspace{0.5cm} $T \leftarrow [vide]$
+        \State \hspace{0.5cm} $R \leftarrow [vide]$
+        \State \hspace{0.5cm} \textbf{Pour chaque} repas $m \in M$:
+        \State \hspace{1cm} $T.inserer(m.nombre\_likes)$
+        \State \hspace{0.5cm} \textbf{Pour} $i \in [0, k]$:
+        \State \hspace{1cm} $i \leftarrow T.index\_du\_max$
+        \State \hspace{1cm} $R.inserer(M[i])$
+        \State \hspace{1cm} $T.retirer(T[i])$
+        \State \hspace{0.5cm} $I_1, I_2, I_3 \leftarrow [vide], [vide], [vide]$
+        \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in R$:
+        \State \hspace{1cm} Rajouter le repas $r$ dans la bonne liste en fonction de $r.times$
+        \State \hspace{0.5cm} En fonction de la valeur de $t$, retourner le bon ensemble ($I_1$, $I_2$, $I_3$)
+    \end{algorithmic}
+\end{algorithm}
+\end{document}
