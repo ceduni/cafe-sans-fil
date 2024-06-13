@@ -13,35 +13,21 @@ Cette page présente les différents algorithmes utilisés dans le système de r
 ## 1. Prétraitement et formattage des données
 Pour chaque repas du menu:
 
-1. Calculer la densité en protéine, en lipide et en glucide et le niveau hiérarchique.
+1. Calculer la densité en sucre, protéine, en lipide, glucide, vitamines et sodium etc. et le niveau hiérarchique.
 2. Calculer son score santé (**section 3**).
 3. Attribuer une étiquette disant à quel moment de la journée le repas devrait être consommé (**section 2.6**).
 1. Mettre les repas dans le bon format (voir fichier ***Donnees.md***).
 
 ## 2. Algorithmes secondaires
 
-### 2.1 Créer des catégories de repas (clusters)
+### 2.1 Obtenir les préférences à partir du profile
 
-1. Récupérer le menu M
-2. Trouver le nombre de centroids (clusters) avec la méthode du genou
-3. Créer les clusters avec k-means
+Besoins: 
+1. Profile nutritif (végétarien, végan etc.)
+2. Catégories des repas
+3. Précision des valeurs nutritives (l'utilisateur veut des repas avec beaucoup de protéines etc.)
 
-### 2.2 Obtenir les préférences à partir du profile
-
-1. TODO
-
-### 2.3 Associer préférences de l’utilisateur à un cluster
-
-1. Récupérer les préférences ( caractéristiques ) de l’utilisateur 
-2. Comparer les préférences à chaque medoid (représentant) de chaque cluster ***(similarité Cosinus ?)***
-3. Retourner le(s) cluster(s) qui représente(nt) le mieux les préférences de l’utilisateur
-
-OU
-
-1. Brute force (beaucoup plus lent) :
-2. Pour chaque repas, vérifier si le repas possède un certain nombre de caractéristique. Si oui, le rajouter à la liste des candidats
-
-### 2.4 Trouver les repas contenant les allergènes spécifiés par l’utilisateur (appel uniquement lors du changement dans la spécification des allergènes)
+### 2.2 Trouver les repas contenant les allergènes spécifiés par l’utilisateur (appel uniquement lors du changement dans la spécification des allergènes)
 
 Niveau allergies:
 
@@ -51,30 +37,26 @@ II- Assez inconfortable mais pas mortel
 
 III- Très grave, possiblement mortel, ne doit jamais consommer
 
----
-
-NB: Avoir une sorte de petite base de données/cache pour garder les repas allergènes et modifier cette mémoire seulement quand il y a changement dans la spécification des allergènes.
-
----
-
 1. Entrée: liste des allergènes de l’utilisateur (dans l’ordre de gravité)
 2. Pour chaque repas du menu, vérifier si l’un des allergènes se trouve dans la liste des allergènes contenu dans le repas (allergènes des repas est fourni par Fatsecret)
     1. Classer les repas contenant des allergènes par ordre de gravité
 3. Retourner les repas allergènes
 
 
-### 2.5 Déterminer les habitudes de consommation (pour les heures de la journée)
-1. Récupérer les repas les plus consommés en fonction de l'heure de la journée (appel de l'API).
-2. Mettre ces repas dans des ensembles différents en fonction de l'heure de consommation.
-3. Prendre la moyenne bayésienne des densités, du nombre de calories et de l'hiérarchie (arrondir la moyenne des hiérarchies) de chaque groupe. Chaque tuple (***moyenne_lipides***, ***moyenne_glucides***, ***moyenne_protéines***, ***moyenne_calories***, ***moyenne_hiérarchique***) représente chaque cluster (moment de la journée).
-4. Retouner les tuples de l'étape 4.
+### 2.3 Déterminer les habitudes de consommation (pour les heures de la journée)
+1. Récupérer les repas les plus consommés en fonction de l'heure de la journée.
+2. Pour chaque intervalle d'heure (**à déterminer**), trouver le repas le plus acheté
+3. Retourner ces repas (ce sont les représentant de chaque)
 
+<!--
+Avis Nutrotionniste
 ### 2.6 Attribuer un moment de la journée à un repas
 1. Entrée: un repas
 2. Définir les étiquettes. ***TODO: Définir les intervalles d'heure***
 3. Définir n ensemble(s) qui représentent les repas qui devraient être consommés à n moment de la journée (un ensemble pour les repas qui devraient être consommés entre 8h-10h AM etc.).
 4. Mettre chaque aliment dans le bon cluster en fonction de la densité en protéine, lipide et en glucide ainsi que de son apport en calories (voir référence 8).
 5. Pour chaque élément dans le même cluster, attribuer une étiquette (***à définir***).
+-->
 
 ## 3. Robot de recommandation de repas santé
 
@@ -104,9 +86,7 @@ NB: Avoir une sorte de petite base de données/cache pour garder les repas aller
     1. Récupérer l’aliment ( avec la date à laquelle il a été mit dans le stock ainsi que sa data d’expiration )
     2. Soit ***t*** le nombre de jours écoulés depuis l’ajout de l’aliment dans le stock et ***T*** la durée de conservation restante (à partir de l’ajout dans le stock jusqu’à la date d’expiration)
     3. Retourner $\displaystyle Score = e^{-\frac{t}{T}}$.
-- **Densité nutritionnelle pour un aliment**
-    1. Récupérer l’aliment 
-    2. Retourner $\displaystyle Score = \frac{\text{Vitamines + Fibres}}{\text{Calories}}$ 
+    
 - **Hiérarchie**
 
     | Hiérarchie | Score |
@@ -116,12 +96,15 @@ NB: Avoir une sorte de petite base de données/cache pour garder les repas aller
     | 3 | -0.5 |
     | 4 | -2 |
     
+- [**Nutri-score**](https://en.wikipedia.org/wiki/Nutri-Score)
+
 
 #### **Fonction de score finale**
 
 - X % score fraîcheur
 - Y % score densité nutritionnelle
 - Z % score hiérarchie
+- W % score hiérarchie
 
 ### 3.2 Conception du robot
 1. En fonction du moment de la journée, trouver le bon ensemble de repas et retourner les k repas avec le plus haut score santé.
@@ -152,10 +135,12 @@ NB: Avoir une sorte de petite base de données/cache pour garder les repas aller
 
 ### 4.3 Knowledge Based Recommender (recommandation individuelle)
 
-1. Récupérer les repas allergènes par **2.4** et garder les repas de niveau II et III.
-2. Récupérer les repas ou clusters respectant les préférences de l’utilisateur par 2.3.
-3. Retirer tous les repas allergène des repas trouvés basé sur les préférences.
-4. Utiliser une fonction de score pour garder les p repas possédant les plus haut scores et les recommander.
+1. Récupérer les repas allergènes par **2.2** et garder les repas de niveau II et III.
+2. Classer ces repas en fonction de leur catégories.
+3. Récupérer les préférences de l’utilisateur par 2.1 (liste de préférence).
+4. Récupérer les repas qui respectent les préférences de l'utilisateur.
+5. Retirer tous les repas allergènes des repas trouvés en 4.
+6. Utiliser une fonction de score pour garder les p repas possédant les plus haut scores et les recommander.
 
 ### 4.4 Recommandation globale (ensemble des utilisateurs)
 
@@ -164,6 +149,7 @@ NB: Avoir une sorte de petite base de données/cache pour garder les repas aller
 3. Regrouper les repas qui devraient être consommés durant la même période de la journée ensemble.
 4. En fonction de l'heure de la journée, retourner le bon cluster.
 
+<!--
 ### 4.5 Recommandation de café basé sur la recherche de repas
 
 1. Liste *L* des cafés
@@ -171,7 +157,7 @@ NB: Avoir une sorte de petite base de données/cache pour garder les repas aller
 3. Récupérer les menus de tous les cafés (map M)
 4. Rajouter tous les restaurants dans lesquels R est vendu dans la liste *L*
 5. Retourner L
-
+-->
 
 # Références
 
@@ -183,3 +169,4 @@ NB: Avoir une sorte de petite base de données/cache pour garder les repas aller
 6. [Python Machine Learning - K-means (w3schools.com)](https://www.w3schools.com/python/python_ml_k-means.asp)
 7. [Comprendre la densité nutritionnelle | Ethiquable](https://www.ethiquable.coop/page-guide-dachats-espace-presse/comprendre-densite-nutritionnelle#:~:text=Il%20existe%20plusieurs%20d%C3%A9finitions%20mais,%C3%A0%20son%20contenu%20en%20calories.)
 8. [Comment organiser sa journée et sa répartition calorique](https://media.dietis.fr/sante-et-alimentation/conseils-nutrition-sante/893-repartition-calorique-quotidienne.html)
+9. [Nutri-score](https://en.wikipedia.org/wiki/Nutri-Score)

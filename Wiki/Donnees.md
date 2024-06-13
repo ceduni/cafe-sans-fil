@@ -15,56 +15,42 @@ description de comment ces données peuvent être obtenus.
     "barecode": "String",
     "item_id": "UUID",
     "health_score": "Decimal128",
-    "allergens": ["String"].
     "time": "String",
     "likes": ["String"],
     "nombre_likes": "Decimal128,
-    "nutritionnal_densities": {
+    "category": "String",
+    "regime_alimentaire": "String",
+    "nutritionnal_information": {
         "protein": "Decimal128",
         "lipids": "Decimal128",
-        "carbohydrates": "Decimal128"
+        "carbohydrates": "Decimal128",
+        "fiber": "Decimal128",
+        "vitamins": "Decimal128",
+        "sugar": "Decimal128",
+        "sodium": "Decimal128",
+        "energy_per_100g": "Decimal128",
+        "saturated fatty acids": "Decimal128",
     }
 }
 ```
 
-**Users**
+**Likes**
 ```
 {
-  "likes": [
-        {
-            "barecode": "String",
-            "item_id": "UUID",
-            "health_score": "Decimal128",
-            "allergens": ["String"].
-            "time": "String",
-            "likes": "["String"]",
-            "nutritionnal_densities": {
-                "protein": "Decimal128",
-                "lipids": "Decimal128",
-                "carbohydrates": "Decimal128"
-            }
-        }
-    ],
-    
+    "food_id": ["String"],
+    "user_id": ["String"]
+}
+
+```
+
+**Users**
+```
+{  
     "allergens": {
         "names": ["String"],
         "level": ["Int32"]
     },
 
-    "historique_achat": [
-        {
-            "barecode": "String",
-            "item_id": "UUID",
-            "health_score": "Decimal128",
-            "allergens": ["String"].
-            "time": "String",
-            "likes": "["String"]",
-            "nutritionnal_densities": {
-                "protein": "Decimal128",
-                "lipids": "Decimal128",
-                "carbohydrates": "Decimal128"
-            }
-        }
-    ]
+    "historique_achat": ["String"]
 }
 ```
