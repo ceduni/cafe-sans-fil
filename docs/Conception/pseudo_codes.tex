@@ -138,9 +138,9 @@
 \begin{algorithm}
     \caption{Knowledge based filtering}
     \begin{algorithmic}[1]
-        \Statex \textbf{Description:}
+        \Statex \textbf{Description:} Recommandations basé sur les spécifications de l'utilisateur.
         \Statex \textbf{Entrée:} Utilisateur actuel ($u$), Liste des repas du menu ($M$)
-        \Statex \textbf{Sortie:} 
+        \Statex \textbf{Sortie:} Liste des recommandations.
         \State \textbf{\textit{Algorithme(M[1...n], u):}}
         \State \hspace{0.5cm} $A \leftarrow u.liste\_allergens$
         \State \hspace{0.5cm} $allergenes \leftarrow repas\_allergens(A)$
@@ -164,9 +164,9 @@
 \begin{algorithm}
     \caption{Recommandation globale}
     \begin{algorithmic}[1]
-        \Statex \textbf{Description:}
+        \Statex \textbf{Description:} Recommandations à tout les utilisateurs en fonction de la journée et basé sur les repas les plus aimés.
         \Statex \textbf{Entrée:} Liste des repas du menu ($M$)
-        \Statex \textbf{Sortie:}
+        \Statex \textbf{Sortie:} Liste des recommandations
         \State \textbf{\textit{Algorithme(M[1...n]):}}
         \State \hspace{0.5cm} $t \leftarrow$ heure de la journée
         \State \hspace{0.5cm} $k \leftarrow$ nombre de repas à recommander
