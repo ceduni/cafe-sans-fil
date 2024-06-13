@@ -96,11 +96,10 @@
 - Mise au propre des algorithmes et écrire les pseudo code.
 - Reconception d'un nouveau diagramme décrivant le fonctionant global du système.
 
-<!--### Réalisations
-
-### Observations
-
-### Ressources -->
+### Réalisations
+- Écriture des pseudos code des algorithmes.
+- Mise en place d'une architecture pour l'implémentation.
+- Création d'un diagramme présentant la pipeline du projet.
 
 ## Semaine 5 (2024-06-03)
 
