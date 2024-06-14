@@ -37,8 +37,8 @@ description de comment ces données peuvent être obtenus.
 **Likes**
 ```
 {
-    "food_id": ["String"],
-    "user_id": ["String"]
+    "food_id": "String",
+    "user_id": "String"
 }
 
 ```
