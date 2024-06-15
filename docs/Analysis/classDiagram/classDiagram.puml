@@ -1,0 +1,150 @@
+@startuml class diagram
+left to right direction 
+
+
+
+class Cafe {
+    {static} + name:String
+    {static} + location:String
+    {static} + volunteers: List<Volunteer>
+    {static} + product:Product
+    {static} + manager:Manager
+    {static} + shifts:List<Shifts>
+
+    
+    + GetVolunteers():List<Volunteer>
+    + addNewVolunteer(v:Volunteer):void
+    + removeVoLunteer(v:Volunteer):void
+    + printStock():void
+    + addNewVolunteer(v:Volunteer):void
+    + removeVoLunteer(v:Volunteer):void
+    + assignShift(v:Volunteer):void
+    + addNewProduct():void
+    + viewStock():void 
+}
+
+class WorkerService {
+    {static} + getVolunteers():List<Volunteer>
+    {static} + addNewVolunteer(v:Volunteer):string
+    {static} + removeVoLunteer(v:Volunteer):string
+    {static} + assignShift(v:Volunteer):string
+    {static} + updateVolunteer(v:Volunteer):string
+    {static} + updateManager(m:Manager):string
+}
+
+class ProductService {
+    {static} + getProducts():List<Products>
+    {static} + addNewProduct(v:Product):string
+    {static} + removeProduct(v:Product):string
+
+}
+
+class ShiftService {
+    {static} + getShifts():List<Shift>
+    {static} + addNewShift(v:Shift, User:User):string
+    {static} + getEvents():List<Event>
+    {static} + addNewEvent(v:Event):string
+    {static} + getEvent(e:Event):Event
+}
+class Worker{
+    - name:String
+    - cafe:cafe
+    - shift:Shift
+
+    + seeShift():Shift
+
+}
+class Manager{
+    
+
+    
+    
+    
+}
+
+class Volunteer{
+   
+
+
+
+}
+
+class Product {
+    - ID:Int 
+    - name:string
+    - price:float
+    - Description:string 
+    
+    + toString():String 
+    + getID() :Int 
+
+
+
+}
+
+
+
+class Shift{
+    - date:Date
+    - startTime:Time 
+    - endTime:Time
+
+     +getDate():Date
+     +getstartTime():Time
+     +getEndTime():Time
+     +toString():String
+}
+
+class Event {
+    - date:Date
+    - startTime:Time
+    - endTime:Time
+    - name:String
+
+    +getDate():Date
+    +getstartTime():Time
+    +getEndTime():Time
+    +getName() :String
+    +toString():String
+}
+
+class Planner{
+    events:List<Event>
+    shifts:List<Shift>
+
+    + addEvent():void 
+    + removeEvent():void
+    +getEvents():List<Event>
+    +getEvents():List<Shift>
+
+}
+
+Event "1..*" --o "1" Planner:includes
+Shift "1..*" --o "1" Planner:includes
+
+Cafe "1" -- "1..*" Event:creates
+
+Manager "1" o--right-- "1..*" Shift:has
+Volunteer "1" -up- "1..*" Shift
+
+
+
+Manager "1" -- "1..*" Volunteer:Manages
+
+
+
+Cafe "1" *-up- "1..*" Product:contain 
+Cafe "1" -up- "1..*" ProductService
+
+
+Cafe "1" -left- "1" WorkerService:communicates
+Cafe "1" *-- "1..*" Shift
+
+Manager -up-^ Worker
+Volunteer --^ Worker
+
+Cafe "1" -left- "1" Worker:Works
+Cafe "1" -right- "1" ShiftService:communicates
+
+
+@enduml
