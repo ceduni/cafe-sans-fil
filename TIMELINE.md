@@ -78,17 +78,24 @@
 
 ### Observations
 
-### Ressources
+### Ressources -->
 
 ## Semaine 7 (2024-06-14)
 
 ### Objectifs
+- Mise à jour des diagrammes.
+- Mise à jour des attributs des repas et des utilisateurs pour la base de données.
+- Modifier la base de données.
+- Implémenter les algorithmes de recommandation.
+- Créer des tests unitaires.
 
+<!--
 ### Réalisations
 
 ### Observations
 
-### Ressources-->
+### Ressources
+-->
 
 ## Semaine 6 (2024-06-07)
 
