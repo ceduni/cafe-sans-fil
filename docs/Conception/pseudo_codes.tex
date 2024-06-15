@@ -76,7 +76,7 @@
         \State \hspace{0.5cm} $L \leftarrow [vide]$
         \State \hspace{0.5cm} $\tau \leftarrow$ seuil de similarité 
         \State \hspace{0.5cm} $S_{n\times 1} \leftarrow$ sous ensemble aléatoire de $U$ t.q $u \notin S$
-        \State \hspace{0.5cm} $L_u \leftarrow [[u.likes]$, [u.repas\_consommés], [u.cafés\_visités]]
+        \State \hspace{0.5cm} $L_u \leftarrow$ [[u.likes], [u.repas\_consommés], [u.cafés\_visités]]
         \State \hspace{0.5cm} \textbf{Pour chaque} utilisateur $x\in S_{n\times 1}$
         \State \hspace{1cm} $L_x \leftarrow$ [[x.likes], [x.repas\_consommés], [x.cafés\_visités]]
         \State \hspace{1cm} $J \leftarrow [vide]$
@@ -145,7 +145,7 @@
         \State \hspace{0.5cm} $A \leftarrow u.liste\_allergens$
         \State \hspace{0.5cm} $allergenes \leftarrow repas\_allergens(A)$
         \State \hspace{0.5cm} $P \leftarrow u.preferences$
-        \State \hspace{0.5cm} $R \leftarrow clusters(M)$ // Algorithme 5
+        \State \hspace{0.5cm} $R \leftarrow clusters(M)$ // Algorithme 3
         \State \hspace{0.5cm} $E[0...n] \leftarrow$ récupérer les bons repas en fonction du régime (P[0]) et des
         \State \hspace{0.5cm} catégories (P[1]) spécifiées par l'utilisateur
         \State \hspace{0.5cm} \textbf{retourner} les $k$ repas de $E$ possédant la plus grande densité nutritionnelle basé sur

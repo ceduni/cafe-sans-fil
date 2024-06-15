@@ -34,23 +34,20 @@ description de comment ces données peuvent être obtenus.
 }
 ```
 
-**Likes**
-```
-{
-    "food_id": "String",
-    "user_id": "String"
-}
-
-```
-
 **Users**
 ```
 {  
+    "order_history": [
+        {
+            "order_id": "UUID",
+            "item_id": "UUID",
+            "cafe_id": "UUID"
+        }
+    ],
+    
     "allergens": {
         "names": ["String"],
         "level": ["Int32"]
     },
-
-    "historique_achat": ["String"]
 }
 ```
