@@ -6,10 +6,6 @@ left to right direction
 class Cafe {
     {static} + name:String
     {static} + location:String
-    {static} + volunteers: List<Volunteer>
-    {static} + product:Product
-    {static} + manager:Manager
-    {static} + shifts:List<Shifts>
 
     
     + GetVolunteers():List<Volunteer>
@@ -39,7 +35,7 @@ class ProductService {
 
 }
 
-class ShiftService {
+class PlannerService {
     {static} + getShifts():List<Shift>
     {static} + addNewShift(v:Shift, User:User):string
     {static} + getEvents():List<Event>
@@ -119,32 +115,54 @@ class Planner{
 
 }
 
+class WokerController{
+    {static} + volunteers: List<Volunteer>
+    {static} + manager:Manager
+
+
+}
+
+class PlannerController{
+    {static} + shifts:List<Shifts>
+    {static} + Events:List<Events>
+
+}
+
+class ProductController{
+    {static} + products:List<Product>
+
+}
+
 Event "1..*" --o "1" Planner:includes
 Shift "1..*" --o "1" Planner:includes
 
-Cafe "1" -- "1..*" Event:creates
+PlannerController "1" -- "1..*" Event:creates
+Cafe "1" -- "1" PlannerController
 
-Manager "1" o--right-- "1..*" Shift:has
+Worker "1" o--right-- "1..*" Shift:has
 Volunteer "1" -up- "1..*" Shift
 
 
 
-Manager "1" -- "1..*" Volunteer:Manages
+Worker "1" -- "1..*" Worker:Manages
 
 
 
-Cafe "1" *-up- "1..*" Product:contain 
-Cafe "1" -up- "1..*" ProductService
+ProductController "1" *-up- "1..*" Product:contain 
+ProductController "1" -up- "1..*" ProductService
+Cafe  "1" -left- "1..*" ProductController
 
 
-Cafe "1" -left- "1" WorkerService:communicates
-Cafe "1" *-- "1..*" Shift
 
 Manager -up-^ Worker
 Volunteer --^ Worker
 
-Cafe "1" -left- "1" Worker:Works
-Cafe "1" -right- "1" ShiftService:communicates
+WokerController "1" -left- "1" Worker
+WokerController "1" -- "1" Cafe
+WokerController "1" -left- "1" WorkerService:communicates
 
+PlannerController "1" -right- "1" PlannerService:communicates
+PlannerController "1" *-- "1..*" Shift
 
 @enduml
+
