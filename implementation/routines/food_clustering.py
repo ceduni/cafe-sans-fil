@@ -23,7 +23,7 @@ async def get_foods_db() -> list[MenuItem]:
 
 
 def numeric_foods(foods: list[MenuItem]) -> list[any]:
-    #TODO: Find the attributes of the foods necessary to transform them into numeric
+    #TODO: Find food's attributes necessary to transform them into numeric
     # values without losing the similarity between them (nutritionnal values for exemple)
     pass
 
