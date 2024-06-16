@@ -22,8 +22,14 @@ Pour chaque repas du menu:
 
 ### 2.1 Obtenir les préférences à partir du profile
 
-Besoins: 
-1. Profile nutritif (végétarien, végan etc.)
+Profile nutritif: 
+1. Principaux régime alimentaire ([référence](https://larecolteenvrac.com/articles/les-differents-regimes-alimentaires)):
+    1. Végétarisme
+    2. Végétalisme
+    3. Véganisme
+    4. Sans lactose
+    5. Sans gluten
+    6. Cétogène
 2. Catégories des repas
 3. Précision des valeurs nutritives (l'utilisateur veut des repas avec beaucoup de protéines etc.)
 

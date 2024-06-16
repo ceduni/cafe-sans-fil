@@ -17,9 +17,9 @@ description de comment ces données peuvent être obtenus.
     "health_score": "Decimal128",
     "time": "String",
     "likes": ["String"],
-    "nombre_likes": "Decimal128,
+    "number_likes": "Decimal128,
     "category": "String",
-    "regime_alimentaire": "String",
+    "diet": "String",
     "nutritionnal_information": {
         "protein": "Decimal128",
         "lipids": "Decimal128",
@@ -44,10 +44,17 @@ description de comment ces données peuvent être obtenus.
             "cafe_id": "UUID"
         }
     ],
-    
-    "allergens": {
-        "names": ["String"],
-        "level": ["Int32"]
-    },
+
+    "dietary_profile": {
+        "diet": "String",
+        "foods_categories": ["String"],
+        "nutrients": ["String"],
+        "allergens": [
+            {
+                "names": ["String"],
+                "level": ["Int32"]
+            }
+        ]
+    }
 }
 ```
