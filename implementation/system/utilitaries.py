@@ -8,10 +8,6 @@ import numpy as np
 def meal_not_consumed(menu, user) -> list:
     return
 
-# THis method creates clusters based on the user preferences.
-def clusters_user_preference(menu, user):
-    return
-
 def intersection(A: list, B: list) -> list:
     res = []
     for elem in A:
