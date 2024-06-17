@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.metrics import jaccard_score
 from sklearn.metrics.pairwise import cosine_similarity
 import time 
-    
+
 # Collaborative filtering algorithm.
 # Recommand foods based on the similarity between the users.
 def main(users: list, user) -> list:

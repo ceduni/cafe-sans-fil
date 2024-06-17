@@ -1,8 +1,11 @@
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID, uuid4
-from beanie import Document, Indexed
+from beanie import Document, Indexed, DecimalAnnotation
 from pydantic import EmailStr, Field
 from datetime import datetime
+
+from user_model import DietProfile, Allergen
+
 
 """
 This module defines the Pydantic-based models used in the Café application for user management, 
@@ -23,6 +26,7 @@ class User(Document):
     first_name: Indexed(str)
     last_name: Indexed(str)
     photo_url: Optional[str] = None
+    allergens: DietProfile
 
     # Hidden from out
     failed_login_attempts: int = Field(default=0)
@@ -49,3 +53,26 @@ class User(Document):
 
     class Settings:
         name = "users"
+
+'''
+class DietProfile():
+    diets: List[str] = Field(..., description="User diets.")
+    food_categories: List[str] = Field(..., description="Categories of foods preferred by the user.")
+    prefered_nutrients: List[str] = Field(..., description="User preferes nutrients.")
+    allergens: List[Allergen] = Field(..., description="User allergens.")
+
+    def __init__(self, **data) -> None:
+        self.diets = data['diets']
+        self.food_categories = data['food_categories']
+        self.allergens = data['allergens']
+        self.prefered_nutrients = data['prefered_nutrients']
+
+    
+class Allergen():
+    name: str
+    level: DecimalAnnotation
+    
+    def __init__(self, name: str, level: DecimalAnnotation) -> None:
+        self.name = name
+        self.level = level
+'''

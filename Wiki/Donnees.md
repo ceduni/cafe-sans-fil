@@ -38,16 +38,10 @@ description de comment ces données peuvent être obtenus.
 **Users**
 ```
 {  
-    "order_history": [
-        {
-            "order_id": "UUID",
-            "item_id": "UUID",
-            "cafe_id": "UUID"
-        }
-    ],
+    "order_history": ["Order"],
 
     "dietary_profile": {
-        "diet": "String",
+        "diets": ["String"],
         "foods_categories": ["String"],
         "nutrients": ["String"],
         "allergens": [
