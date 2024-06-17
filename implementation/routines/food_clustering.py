@@ -24,7 +24,8 @@ async def get_foods_db() -> list[MenuItem]:
 
 def numeric_foods(foods: list[MenuItem]) -> list[any]:
     #TODO: Find the attributes of the foods necessary to transform them into numeric
-    # values without losing the similarity between them (nutritionnal values for exemple)
+    #   values without losing the similarity between them (nutritionnal values for exemple).
+    #   One hot encoding
     pass
 
 # Check if a values is duplicated in a list.
