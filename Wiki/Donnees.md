@@ -20,6 +20,7 @@ description de comment ces données peuvent être obtenus.
     "number_likes": "Decimal128,
     "category": "String",
     "diet": "String",
+    "allergens": ["String"],
     "nutritionnal_information": {
         "protein": "Decimal128",
         "lipids": "Decimal128",
