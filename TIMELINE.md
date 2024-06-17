@@ -238,3 +238,17 @@
   gestion de leurs horaires
   • 31 juillet : Création des fonctions liées à la gestion des
   stocks
+
+## Semaine 6 (2024-06-10)
+
+### Objectifs
+
+- Modèle du domaine
+- Modèle de données
+- Etude du modèle existant sur le marche
+- Prise en main de Flutter
+
+### Réalisations
+
+- Réalisation du diagramme de classe
+- Réalisation Schéma de requêtes
