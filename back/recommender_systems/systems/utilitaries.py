@@ -6,7 +6,6 @@ from back.app.models.user_model import User
 from back.app.models.order_model import Order, OrderedItem
 from back.app.services.cafe_service import CafeService
 from back.app.services.order_service import OrderService
-import utilitaries as Utilitaries
 import uuid
 
 # Takes a list of items as parameter and returns a list that contains the ids
@@ -27,7 +26,7 @@ async def list_items(orders_ids: List[str], action: str) -> Union[List[MenuItem]
             items.append(retrived_item) if retrived_item != None else None
             
     if action == "ids":
-        return Utilitaries.items_ids()
+        return items_ids(items)
     elif action == "items":
         return items
 
