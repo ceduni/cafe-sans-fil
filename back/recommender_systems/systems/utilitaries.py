@@ -8,27 +8,37 @@ from back.app.services.cafe_service import CafeService
 from back.app.services.order_service import OrderService
 import uuid
 
-# Takes a list of items as parameter and returns a list that contains the ids
+# Takes a list of items as parameter and returns a list that contains the slugs
 #   of the items.
-def items_ids(items: List[MenuItem]) -> List[str]:
-    return list(map(lambda x: x.item_id, items))
+def items_slugs(items: List[MenuItem]) -> List[str]:
+    return list(map(lambda x: x.slug, items))
 
 # This method takes a list of orders ids and return a list of all the items
 #   contained in these orders.
 async def list_items(orders_ids: List[str], action: str) -> Union[List[MenuItem], List[str]]:
     items: list[MenuItem] = []
+    all_slugs: list[str] = []
     for id in orders_ids:
         order: Order = await OrderService.retrieve_order(uuid.UUID(id))
         cafe_slug: str = order.cafe_slug
-        ordered_items: list[OrderedItem] = order.items            
+        ordered_items: list[OrderedItem] = order.items     
+        slugs: list[str] = []       
         for item in ordered_items:
-            retrived_item = await CafeService.retrieve_menu_item(cafe_slug, item.item_slug)
-            items.append(retrived_item) if retrived_item != None else None
+            slugs.append(item.item_slug)
+        all_slugs.extend(slugs)
+        items.extend(await get_items_from_slugs(slugs, cafe_slug))
             
-    if action == "ids":
-        return items_ids(items)
+    if action == "slugs":
+        return all_slugs
     elif action == "items":
         return items
+
+async def get_items_from_slugs(slugs: List[str], cafe_slug: str) -> List[MenuItem]:
+    items: list[MenuItem] = []
+    for slug in slugs:
+        retrived_item = await CafeService.retrieve_menu_item(cafe_slug, slug)
+        items.append(retrived_item) if retrived_item != None else None
+    return items
 
 # This method takes the actual user and the cafe as parameters and return
 #   a list of items not yet consummed by the user.

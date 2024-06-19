@@ -30,4 +30,4 @@ def main(cafe: Cafe) -> List[str]:
     #TODO Recommand items based on the time of the day. 
     #   Should be done after nutritionist advice.
 
-    return Utilitaries.items_ids(most_likes)
+    return Utilitaries.items_slugs(most_likes)

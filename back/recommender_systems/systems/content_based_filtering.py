@@ -67,4 +67,4 @@ async def main(clusters: Dict[str, List[MenuItem]], user: User, cafe: Cafe) -> L
         not_bought_cafe: np.array[MenuItem] = np.intersect1d(np_cafe_items, items_not_bought) # Items in cafe not yet bought.
         recommendations.extend(list( np.intersect1d(not_bought_cafe, np_cluster) )) # Items (not yet bought) in cafe and in most liked clusters.
 
-    return Utilitaries.items_ids(recommendations)
+    return Utilitaries.items_slugs(recommendations)

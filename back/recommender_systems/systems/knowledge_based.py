@@ -72,6 +72,6 @@ def main(actual_cafe: Cafe, user: User) -> List[str]:
                 if prefered_category in category:
                     recommendations.extend(category[prefered_category])
         valid_recommendations: list[MenuItem] = list( filter(lambda x: x if x not in allergenic_foods_list else None ,recommendations) )
-        return Utilitaries.items_ids(valid_recommendations)
+        return Utilitaries.items_slugs(valid_recommendations)
     except KeyError: # There is no foods satisfying the user specifications
         return []
