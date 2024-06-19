@@ -118,6 +118,7 @@ class MenuItem(BaseModel):
     diets: List[str] = Field(..., description="List of diets in which the food is eaten.")
     allergens: List[str] = Field(..., description="List of allergens contained in the item.")
     likes: List[str] = Field(..., description="Liste contanant l'id des utilisateurs ayant aimé cet item.")
+    barecode: str = Field(..., description="Food's barecode.")
 
     def __init__(self, **data):
         super().__init__(**data)
