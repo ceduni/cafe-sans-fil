@@ -1,15 +1,14 @@
 ### Algorithme 4.1 ###
 from app.models.user_model import User
-from app.services.user_service import UserService
-from app.models.cafe_model import MenuItem
 import utilitaries as Utilitaries
 
 import random
 import numpy as np
 from sklearn.metrics import jaccard_score
 from sklearn.metrics.pairwise import cosine_similarity
+from typing import List, Any, Tuple
 
-def reshape(A: list, B: list) -> tuple[list]:
+def reshape(A: List[Any], B: List[Any]) -> Tuple[List[Any]]:
     if len(A) == len(B):
         return (A, B)
     elif len(A) < len(B):
@@ -23,7 +22,7 @@ def reshape(A: list, B: list) -> tuple[list]:
 
 # Collaborative filtering algorithm.
 # Recommand foods based on the similarity between the users.
-async def main(users: list[User], user: User) -> list[str]:
+async def main(users: List[User], user: User) -> List[str]:
     recommendations: list[list[str]] = []
     similarity_threshold: float = 0.75
     n_users: int = len(users)

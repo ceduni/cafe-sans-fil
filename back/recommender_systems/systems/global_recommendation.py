@@ -1,9 +1,11 @@
 ### Algorithme 4.4 ###
 from datetime import datetime
 from app.models.cafe_model import Cafe, MenuItem
+import utilitaries as Utilitaries
+from typing import List
 
 # Recommand foods to all the users based on the time and the most liked foods.
-def main(cafe: Cafe) -> list[MenuItem]:
+def main(cafe: Cafe) -> List[str]:
     time_of_the_day: any = any #TODO
     cafe_items: list[MenuItem] = cafe.menu_items
 
@@ -28,4 +30,4 @@ def main(cafe: Cafe) -> list[MenuItem]:
     #TODO Recommand items based on the time of the day. 
     #   Should be done after nutritionist advice.
 
-    return most_likes
+    return Utilitaries.items_ids(most_likes)

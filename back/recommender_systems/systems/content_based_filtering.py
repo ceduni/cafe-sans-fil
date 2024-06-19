@@ -1,18 +1,15 @@
 ### Algorithme 4.2 ###
-from app.services.user_service import UserService
 from app.models.user_model import User
 from app.models.cafe_model import MenuItem, Cafe
-
+from typing import List, Dict, str
 import utilitaries as Utilitaries
 import numpy as np
 from collections import Counter
 
-import recommender_systems.routines.food_clustering as Clustering
-
 # Take the clusters and the actual user as parameters and return the cluster/clusters
 #  constaining the most item the user liked.
 # Note: The 'n_likes' indexing is the same indexing as 'clusters' dictionnary key's.
-def favorite_cluster(clusters: dict[str, list[MenuItem]], user: User) -> dict[str, list[MenuItem]]:
+def favorite_cluster(clusters: Dict[str, List[MenuItem]], user: User) -> Dict[str, List[MenuItem]]:
     n_likes: list[int] = []
     res: dict[str, list[MenuItem]] = []
     # Get the number of likes per cluster.
@@ -37,7 +34,7 @@ def favorite_cluster(clusters: dict[str, list[MenuItem]], user: User) -> dict[st
     return res
 
 # This method remove a specified cluster from the list of clusters.
-def remove_cluster(chosen_clusters: dict[str, list[MenuItem]], clusters: dict[str, list[MenuItem]]):
+def remove_cluster(chosen_clusters: Dict[str, List[MenuItem]], clusters: Dict[str, List[MenuItem]]):
     keys_to_remove = [key for key in clusters if key in chosen_clusters]
     
     for key in keys_to_remove:
@@ -47,9 +44,9 @@ def remove_cluster(chosen_clusters: dict[str, list[MenuItem]], clusters: dict[st
 
 # Content based filtering algorithm.
 # Recommend food based on the user habits.
-def algorithm(clusters: dict, user: User, cafe: Cafe) -> list[MenuItem]:
+async def main(clusters: Dict[str, List[MenuItem]], user: User, cafe: Cafe) -> List[str]:
     recommendations: list[MenuItem] = []
-    items_not_bought: np.array = np.array(Utilitaries.meal_not_consumed(cafe, user))
+    items_not_bought: np.array[MenuItem] = np.array(await Utilitaries.meal_not_consumed(cafe, user))
     cafe_items: list[MenuItem] = cafe.menu_items
     # Number of clusters.
     if len(cafe_items) > 50:
@@ -65,17 +62,9 @@ def algorithm(clusters: dict, user: User, cafe: Cafe) -> list[MenuItem]:
         clusters: dict[str, list[MenuItem]] = remove_cluster(chosen_clusters, clusters)
      
     for cluster in favorit_clusters:
-        np_cluster: np.array = np.array(cluster)
-        np_cafe_items = np.array(cafe_items)
-        not_bought_cafe = np.intersect1d(np_cafe_items, items_not_bought) # Items in cafe not yet bought.
+        np_cluster: np.array[MenuItem] = np.array(cluster)
+        np_cafe_items: np.array[MenuItem] = np.array(cafe_items)
+        not_bought_cafe: np.array[MenuItem] = np.intersect1d(np_cafe_items, items_not_bought) # Items in cafe not yet bought.
         recommendations.extend(list( np.intersect1d(not_bought_cafe, np_cluster) )) # Items (not yet bought) in cafe and in most liked clusters.
 
-    return recommendations
-
-# Execute the algorithm.
-def main():
-    clusters: dict[str, list[MenuItem]] = Clustering.clusters()
-    user: User = any #TODO: Get the actual user
-    cafe: Cafe = any #TODO: Get the actual cafe
-    algorithm(clusters, user, cafe)
-    return
+    return Utilitaries.items_ids(recommendations)
