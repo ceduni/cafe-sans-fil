@@ -16,7 +16,7 @@ def items_ids(items: List[MenuItem]) -> List[str]:
 
 # This method takes a list of orders ids and return a list of all the items
 #   contained in these orders.
-async def list_items_bought(orders_ids: List[str], action: str) -> Union[List[MenuItem], List[str]]:
+async def list_items(orders_ids: List[str], action: str) -> Union[List[MenuItem], List[str]]:
     items: list[MenuItem] = []
     for id in orders_ids:
         order: Order = await OrderService.retrieve_order(uuid.UUID(id))

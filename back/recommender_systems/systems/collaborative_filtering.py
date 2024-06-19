@@ -37,10 +37,10 @@ async def main(users: List[User], user: User) -> List[str]:
             if str(rand_user.id) not in S and str(rand_user.id) != str(user.id):
                 S.append(rand_user)
 
-        items_in_orders: list[str] = await Utilitaries.list_items_bought(user.order_history)
+        items_in_orders: list[str] = await Utilitaries.list_items_bought(user.order_history, "ids")
         user_list: list[list[str]] = [user.likes, items_in_orders, user.visited_cafe]
         for u in S:
-            other_items_in_orders: list[str] = await Utilitaries.list_items_bought(u.order_history)
+            other_items_in_orders: list[str] = await Utilitaries.list_items_bought(u.order_history, "ids")
             other_user_list: list[list[str]] = [u.likes, other_items_in_orders, u.visited_cafe]
             J: list[float] = []
             for i in range(0, len(other_user_list)):
