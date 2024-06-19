@@ -17,9 +17,7 @@ description de comment ces données peuvent être obtenus.
     "health_score": "Decimal128",
     "time": "String",
     "likes": ["String"],
-    "number_likes": "Decimal128,
-    "category": "String",
-    "diet": "String",
+    "diet": ["String"],
     "allergens": ["String"],
     "nutritionnal_information": {
         "protein": "Decimal128",
@@ -39,7 +37,6 @@ description de comment ces données peuvent être obtenus.
 ```
 {  
     "order_history": ["Order"],
-
     "dietary_profile": {
         "diets": ["String"],
         "foods_categories": ["String"],
@@ -47,7 +44,7 @@ description de comment ces données peuvent être obtenus.
         "allergens": [
             {
                 "names": ["String"],
-                "level": ["Int32"]
+                "danger_level": ["Int32"]
             }
         ]
     }
