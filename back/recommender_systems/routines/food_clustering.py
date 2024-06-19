@@ -5,13 +5,14 @@ import asyncio
 
 import itertools
 from collections import Counter
+from typing import List, Dict, Any
 
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 
 # Get items/foods from the database
-async def get_foods_db() -> list[MenuItem]:
+async def get_foods_db() -> List[MenuItem]:
     query_params = {
         "page": 1,
         "limit": 40,
@@ -21,20 +22,20 @@ async def get_foods_db() -> list[MenuItem]:
     items: list[list[MenuItem]] = list(map(lambda x: x.menu_items, cafes))
     return list(itertools.chain(*items))
 
-
-def numeric_foods(foods: list[MenuItem]) -> list[any]:
+#TODO
+def numeric_foods(foods: List[MenuItem]) -> None:
     #TODO: One hot encoding with nutritionnal values as parameters
     pass
 
 # Check if a values is duplicated in a list.
-def is_duplicated(element: any, list: list[any]) -> bool:
+def is_duplicated(element: Any, list: List[Any]) -> bool:
     counts = Counter(list)
     return counts[element] > 1
 
 # Create clusters based on the labels got from kmeans.
 # It assumes that the items in the 'items' and 'data' lists in the method 'clustering'
 #   have the same indexing: items[i] equiv data[i].
-def create_clusters(labels: np.array, items: list[MenuItem]) -> dict[str, list[MenuItem]]:
+def create_clusters(labels: np.array, items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
     clusters = {}
     for label, item in zip(labels, items):
         if label not in clusters:
@@ -44,7 +45,7 @@ def create_clusters(labels: np.array, items: list[MenuItem]) -> dict[str, list[M
 
 # Create clusters using k-means algorithm.
 # Create clusters from all the foods available in all cafe.
-def clusters() -> dict[str, list[MenuItem]]:
+def clusters() -> Dict[str, List[MenuItem]]:
     items: list[MenuItem] = asyncio.run(get_foods_db())
     data: list[any] = numeric_foods(items) #TODO: update the type of the list
     n: int = len(data)
