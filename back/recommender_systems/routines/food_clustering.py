@@ -34,7 +34,7 @@ def is_duplicated(element: any, list: list[any]) -> bool:
 # Create clusters based on the labels got from kmeans.
 # It assumes that the items in the 'items' and 'data' lists in the method 'clustering'
 #   have the same indexing: items[i] equiv data[i].
-def create_clusters(labels: np.array, items: list[MenuItem]) -> dict:
+def create_clusters(labels: np.array, items: list[MenuItem]) -> dict[str, list[MenuItem]]:
     clusters = {}
     for label, item in zip(labels, items):
         if label not in clusters:
@@ -44,7 +44,7 @@ def create_clusters(labels: np.array, items: list[MenuItem]) -> dict:
 
 # Create clusters using k-means algorithm.
 # Create clusters from all the foods available in all cafe.
-def clustering() -> dict:
+def clusters() -> dict[str, list[MenuItem]]:
     items: list[MenuItem] = asyncio.run(get_foods_db())
     data: list[any] = numeric_foods(items) #TODO: update the type of the list
     n: int = len(data)

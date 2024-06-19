@@ -9,12 +9,12 @@ def main(cafe: Cafe) -> list[MenuItem]:
 
     # Number of items to recommand.
     if len(cafe_items) > 50:
-        k = len(cafe_items)//2
+        k: int = len(cafe_items)//2
     else:
-        k = len(cafe_items)
+        k: int = len(cafe_items)
 
     # Find the items with the most likes.
-    likes = []
+    likes: list[int] = []
     for item in cafe_items:
         likes.append(len(item.likes))
     
