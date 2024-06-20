@@ -6,7 +6,7 @@ module.exports = {
     transform: {
       '^.+\\.ts$': 'ts-jest',
     },
-    testMatch: ['**/__tests__/**/*.test.ts'],
+    testMatch: ['**/tests/**/*.test.ts'],
     globals: {
       'ts-jest': {
         tsconfig: 'tsconfig.json',

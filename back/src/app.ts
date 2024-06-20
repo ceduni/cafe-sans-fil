@@ -1,8 +1,9 @@
-import {Server} from "./Server";
+import {MainController} from "../contollers/mainController";
 
-const server = new Server();
+const server = new MainController();
 
 server.listen();
 
-server.getIndex('/');
+//server.getIndex('/api/v1/cafe');
+
 
