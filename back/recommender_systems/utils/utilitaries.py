@@ -6,6 +6,7 @@ from back.app.models.user_model import User
 from back.app.models.order_model import Order, OrderedItem
 from back.app.services.cafe_service import CafeService
 from back.app.services.order_service import OrderService
+from back.app.services.user_service import UserService
 import uuid
 
 # Takes a list of items as parameter and returns a list that contains the slugs
@@ -36,8 +37,9 @@ async def list_items(orders_ids: List[str], action: str) -> Union[List[MenuItem]
 async def get_items_from_slugs(slugs: List[str], cafe_slug: str) -> List[MenuItem]:
     items: list[MenuItem] = []
     for slug in slugs:
-        retrived_item = await CafeService.retrieve_menu_item(cafe_slug, slug)
-        items.append(retrived_item) if retrived_item != None else None
+        retrived_item: MenuItem = await CafeService.retrieve_menu_item(cafe_slug, slug)
+        if retrived_item not in items:
+            items.append(retrived_item) if retrived_item != None else None
     return items
 
 # This method takes the actual user and the cafe as parameters and return
@@ -59,23 +61,33 @@ async def meal_not_consumed(cafe: Cafe, user: User) -> List[MenuItem]:
 
     return meal_not_consumed
 
-'''
-def intersection(A: list, B: list) -> list:
-    res = []
-    for elem in A:
-        if elem in B:
-            res.append(elem)
-    return res
+# Get all items
+async def get_all_items() -> List[MenuItem]:
+    query_params = {
+        "cafe_id_or_slug": None,
+        "page": 1,
+        "limit": 40,
+        "sort_by": "nothing"
+    }
+    items: list[MenuItem] = await CafeService.list_menu_items(**query_params)
+    return items
 
-### Test the code with each similarity and choose the best one.
-def jaccard(A: list, B: list):
-    A.extend(B)
-    inter = intersection(A, B)
-    return len(inter) / len(A)
+# Get all cafe
+async def get_all_cafe() -> List[Cafe]:
+    query_params = {
+        "page": 1,
+        "limit": 40,
+        "sort_by": "name"
+    }
+    cafes: list[Cafe] = await CafeService.list_cafes(**query_params)
+    return cafes
 
-def cosine_similarity(x,y):
-    return
-
-def pearson_correlation(x,y):
-    return
-'''
+#TODO: Get a user list instead of a dictionnary.
+async def get_all_users() -> List[User]:
+    filters = {
+        "page": 1,
+        "limit": 20,
+        "sort_by": "last_name"
+    }
+    users: list[User] = await UserService.list_users(**filters)
+    return users

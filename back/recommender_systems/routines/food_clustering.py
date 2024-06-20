@@ -1,32 +1,24 @@
 ### Ce fichier contient les scripts qui permettront de créer des catégories de repas ###
-from back.app.services.cafe_service import CafeService
-from back.app.models.cafe_model import Cafe, MenuItem
+from back.app.models.cafe_model import MenuItem
+from recommender_systems.utils import utilitaries as Utilitaries
+
 import asyncio
 
-import itertools
 from collections import Counter
 from typing import List, Dict, Any
 
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import StandardScaler
 
-# Get items/foods from the database
-async def get_foods_db() -> List[MenuItem]:
-    query_params = {
-        "page": 1,
-        "limit": 40,
-        "sort_by": "name"
-    }
-    cafes: list[Cafe] = await CafeService.list_cafes(**query_params)
-    items: list[list[MenuItem]] = list(map(lambda x: x.menu_items, cafes))
-    return list(itertools.chain(*items))
-
-#TODO
-def numeric_foods(foods: List[MenuItem]) -> None:
-    #TODO: One hot encoding with nutritionnal values as parameters
-    pass
-
+def numeric_foods(items: List[MenuItem]) -> List[List[float]]:
+    data: list[list[float]] = []
+    for item in items:
+        infos: list[float] = list(item.nutritional_informations.values())
+        data.append(infos)
+    return data
+    
 # Check if a values is duplicated in a list.
 def is_duplicated(element: Any, list: List[Any]) -> bool:
     counts = Counter(list)
@@ -46,15 +38,19 @@ def create_clusters(labels: np.array, items: List[MenuItem]) -> Dict[str, List[M
 # Create clusters using k-means algorithm.
 # Create clusters from all the foods available in all cafe.
 def clusters() -> Dict[str, List[MenuItem]]:
-    items: list[MenuItem] = asyncio.run(get_foods_db())
-    data: list[any] = numeric_foods(items) #TODO: update the type of the list
+    items: list[MenuItem] = asyncio.run(Utilitaries.get_all_items())
+    data: list[list[float]] = numeric_foods(items)
     n: int = len(data)
+
+    # Normaize the data
+    scaler = StandardScaler()
+    normalized_data = scaler.fit_transform(data)
 
     # Find the best number of clusters using silhouette score.
     scores: list = []
-    for i in range(1, n+1):
+    for i in range(2, n+1):
         kmeans: KMeans = KMeans(n_clusters=i, random_state=42)
-        scores.append(silhouette_score(data, kmeans.fit_predict(data)))
+        scores.append(silhouette_score(normalized_data, kmeans.fit_predict(normalized_data)))
     max_score: float = max(scores)
     if is_duplicated(max_score, scores):
         #TODO: Define an action to do to
@@ -63,6 +59,6 @@ def clusters() -> Dict[str, List[MenuItem]]:
     
     # Apply k-means
     kmeans: KMeans = KMeans(n_clusters=k, random_state=42)
-    kmeans.fit(data)
+    kmeans.fit(normalized_data)
     clusters = create_clusters(kmeans.labels_, items)
     return clusters

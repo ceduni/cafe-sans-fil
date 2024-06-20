@@ -2,7 +2,7 @@
 from app.models.user_model import User
 from app.models.cafe_model import MenuItem, Cafe
 from typing import List, Dict, str
-import utilitaries as Utilitaries
+import back.recommender_systems.utils.utilitaries as Utilitaries
 import numpy as np
 from collections import Counter
 
@@ -67,4 +67,4 @@ async def main(clusters: Dict[str, List[MenuItem]], user: User, cafe: Cafe) -> L
         not_bought_cafe: np.array[MenuItem] = np.intersect1d(np_cafe_items, items_not_bought) # Items in cafe not yet bought.
         recommendations.extend(list( np.intersect1d(not_bought_cafe, np_cluster) )) # Items (not yet bought) in cafe and in most liked clusters.
 
-    return Utilitaries.items_slugs(recommendations)
+    return Utilitaries.items_slugs( list( set(recommendations) ) )

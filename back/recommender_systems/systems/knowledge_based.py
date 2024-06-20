@@ -2,7 +2,7 @@
 from back.app.models.cafe_model import MenuItem, Cafe
 from back.app.models.user_model import User, DietProfile
 from typing import List, Dict
-import utilitaries as Utilitaries
+import back.recommender_systems.utils.utilitaries as Utilitaries
 import numpy as np
 
 # This method creates clusters based on the user preferences.
@@ -72,6 +72,6 @@ def main(actual_cafe: Cafe, user: User) -> List[str]:
                 if prefered_category in category:
                     recommendations.extend(category[prefered_category])
         valid_recommendations: list[MenuItem] = list( filter(lambda x: x if x not in allergenic_foods_list else None ,recommendations) )
-        return Utilitaries.items_slugs(valid_recommendations)
+        return Utilitaries.items_slugs( list( set(valid_recommendations) ) )
     except KeyError: # There is no foods satisfying the user specifications
         return []

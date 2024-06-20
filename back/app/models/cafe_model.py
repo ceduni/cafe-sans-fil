@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Dict, Optional
 from uuid import UUID, uuid4
 from beanie import Document, DecimalAnnotation, Indexed
 from pydantic import field_validator, BaseModel, Field
@@ -119,6 +119,8 @@ class MenuItem(BaseModel):
     allergens: List[str] = Field(..., description="List of allergens contained in the item.")
     likes: List[str] = Field(..., description="Liste contanant l'id des utilisateurs ayant aimé cet item.")
     barecode: str = Field(..., description="Food's barecode.")
+    nutritional_informations: Dict[str, float] = Field(..., description="Dictionnary of the nutritive values of an item.")
+    health_score: DecimalAnnotation = Field(..., description="Food's health score.")
 
     def __init__(self, **data):
         super().__init__(**data)

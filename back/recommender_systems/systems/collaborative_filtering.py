@@ -1,6 +1,6 @@
 ### Algorithme 4.1 ###
 from app.models.user_model import User
-import utilitaries as Utilitaries
+import back.recommender_systems.utils.utilitaries as Utilitaries
 
 import random
 import numpy as np

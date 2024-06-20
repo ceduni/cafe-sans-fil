@@ -9,7 +9,7 @@ description de comment ces données peuvent être obtenus.
 
 ## Format des données
 
-**Food**
+**Item**
 ```
 {
     "barecode": "String",
@@ -33,7 +33,7 @@ description de comment ces données peuvent être obtenus.
 }
 ```
 
-**Users**
+**User**
 ```
 {  
     "order_history": ["Order"],
@@ -48,5 +48,58 @@ description de comment ces données peuvent être obtenus.
             }
         ]
     }
+}
+```
+
+**Users recommendations**
+```
+{
+    "user_id": {
+        "cafe_slug": [
+            {
+                "barecode": "String",
+                "item_id": "UUID",
+                "health_score": "Decimal128",
+                "time": "String",
+                "likes": ["String"],
+                "diet": ["String"],
+                "allergens": ["String"],
+                "nutritionnal_information": {
+                    "protein": "Decimal128",
+                    "lipids": "Decimal128",
+                    "carbohydrates": "Decimal128",
+                    "fiber": "Decimal128",
+                    "vitamins": "Decimal128",
+                    "sugar": "Decimal128",
+                    "sodium": "Decimal128",
+                    "energy_per_100g": "Decimal128",
+                    "saturated fatty acids": "Decimal128",
+                }
+            }
+        ],
+    },
+
+    "healthy_recommendations": [
+        {
+            "barecode": "String",
+            "item_id": "UUID",
+            "health_score": "Decimal128",
+            "time": "String",
+            "likes": ["String"],
+            "diet": ["String"],
+            "allergens": ["String"],
+            "nutritionnal_information": {
+                "protein": "Decimal128",
+                "lipids": "Decimal128",
+                "carbohydrates": "Decimal128",
+                "fiber": "Decimal128",
+                "vitamins": "Decimal128",
+                "sugar": "Decimal128",
+                "sodium": "Decimal128",
+                "energy_per_100g": "Decimal128",
+                "saturated fatty acids": "Decimal128",
+            }
+        }
+    ]
 }
 ```
