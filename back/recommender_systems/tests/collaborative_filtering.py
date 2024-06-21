@@ -1,10 +1,12 @@
 from systems import collaborative_filtering as CB
 from app.models.user_model import User
+from typing import List
 
-def tes_main_1():
-    users = []
-    user = User()
-    assert CB.main(users, user) == []
+# Test cases for 0 and 1 user.
+def test_main_1(user: User):
+    assert CB.main([], user) == user.likes
+    assert CB.main([user], user) == user.likes
 
-if __name__ == '__main__':
-    tes_main_1()
+# Test cases for more than 1 user.
+def test_main_2(users: List[User], user: User):
+    pass

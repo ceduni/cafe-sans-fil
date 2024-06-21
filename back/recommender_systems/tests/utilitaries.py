@@ -1,24 +1,27 @@
 from utils import utilitaries as Utilitaries
-from utils import utilitaries as Utilitaries
 from app.models.user_model import User
 from app.models.cafe_model import Cafe, MenuItem
+from typing import List
 
-def test_contains_hight_nutri(item: MenuItem):
-    item = MenuItem(**{
-        'nutritionnal_informations'
-    })
-    data = [
-        {
-            'nutrient': 'lipids',
-            'threshold': 3,
-            'item': item
-        },
-        {
-            'nutrient': 'proteins',
-            'threshold': 10,
-            'item': item
-        },
-    ]
+def tes_reshape():
+    A: list[str] = ['This', 'Is']
+    B: list[str] = ['A', 'Test']
+    C: list[str] = ['For', 'This', 'Code']
 
-    assert Utilitaries.contains_hight_nutri(**data[0]) == 0
-    assert Utilitaries.contains_hight_nutri(**data[1]) == 1
+    assert Utilitaries.reshape(A,B) == (A, B)
+    assert Utilitaries.reshape(B,C) == (['A', 'Test', '0'], C)
+    assert Utilitaries.reshape(C,A) == (C, ['This', 'Is', '0'])
+
+def test_items_slugs(items: List[MenuItem]):
+    slugs: list[str] = []
+    for item in items:
+        slugs.append(item.slug)
+
+    assert Utilitaries.items_slugs([items[0]])[0] == slugs[0] # Check for one item
+    assert Utilitaries.items_slugs(items) == slugs # Check for many items
+
+def test_list_items(orders_ids: List[str], action: str):
+    pass
+
+def test_meal_not_consumed(cafe: Cafe, user: User):
+    pass

@@ -7,7 +7,7 @@ import numpy as np
 from collections import Counter
 
 # Take the clusters and the actual user as parameters and return the cluster/clusters
-#  constaining the most item the user liked.
+#  containing the most item the user liked.
 # Note: The 'n_likes' indexing is the same indexing as 'clusters' dictionnary key's.
 def favorite_cluster(clusters: Dict[str, List[MenuItem]], user: User) -> Dict[str, List[MenuItem]]:
     n_likes: list[int] = []

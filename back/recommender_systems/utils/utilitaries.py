@@ -1,6 +1,6 @@
 # Ce fichier contient le code des algorithmes de la section 2 du document
 #   "Logique" du wiki.
-from typing import List, Union
+from typing import List, Any, Tuple, Union
 from back.app.models.cafe_model import MenuItem, Cafe
 from back.app.models.user_model import User
 from back.app.models.order_model import Order, OrderedItem
@@ -8,6 +8,22 @@ from back.app.services.cafe_service import CafeService
 from back.app.services.order_service import OrderService
 from back.app.services.user_service import UserService
 import uuid
+
+#TODO
+def health_score():
+    pass
+
+def reshape(A: List[Any], B: List[Any]) -> Tuple[List[Any]]:
+    if len(A) == len(B):
+        return (A, B)
+    elif len(A) < len(B):
+        for _ in range(len(B) - len(A)):
+            A.append('0')
+        return (A, B)
+    else:
+        for _ in range(len(A) - len(B)):
+            B.append('0')
+        return (A, B)    
 
 # Takes a list of items as parameter and returns a list that contains the slugs
 #   of the items.
@@ -42,8 +58,8 @@ async def get_items_from_slugs(slugs: List[str], cafe_slug: str) -> List[MenuIte
             items.append(retrived_item) if retrived_item != None else None
     return items
 
-# This method takes the actual user and the cafe as parameters and return
-#   a list of items not yet consummed by the user.
+# This method takes a user and a cafe as parameters and return
+#   a list of items not yet bought by the user in this cafe.
 async def meal_not_consumed(cafe: Cafe, user: User) -> List[MenuItem]:
     cafe_slug = cafe.slug
     order_history: list[Order] = user.order_history
@@ -82,12 +98,23 @@ async def get_all_cafe() -> List[Cafe]:
     cafes: list[Cafe] = await CafeService.list_cafes(**query_params)
     return cafes
 
-#TODO: Get a user list instead of a dictionnary.
+# Get all users
 async def get_all_users() -> List[User]:
     filters = {
         "page": 1,
         "limit": 20,
         "sort_by": "last_name"
     }
-    users: list[User] = await UserService.list_users(**filters)
+    dict_users: list[dict[str, Any]] = await UserService.list_users(**filters)
+    users: list[User] = []
+    for u in dict_users:
+        users.append(User(
+            id= u['user_id'],
+            email= u["email"],
+            matricule= u["matricule"],
+            username= u["username"],
+            first_name= u["first_name"],
+            last_name= u["last_name"],
+            photo_url= u["photo_url"],
+        ))
     return users

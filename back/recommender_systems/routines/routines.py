@@ -62,3 +62,7 @@ def clusters() -> Dict[str, List[MenuItem]]:
     kmeans.fit(normalized_data)
     clusters = create_clusters(kmeans.labels_, items)
     return clusters
+
+#TODO
+def assign_health_score(items: List[MenuItem]) -> List[MenuItem]:
+    pass

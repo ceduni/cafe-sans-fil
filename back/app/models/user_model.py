@@ -26,8 +26,10 @@ class User(Document):
     first_name: Indexed(str)
     last_name: Indexed(str)
     photo_url: Optional[str] = None
+    
+    # New fields
     diet_profile: DietProfile
-    likes: List[str] # Contains id of the foods liked by the user.
+    likes: List[str] # Contains slugs of the foods liked by the user.
     order_history: List[str] # Contains orders ids.
     visited_cafe: List[str] # Contains visited cafe ids.
 

@@ -8,10 +8,11 @@ import health_bot as HB
 from typing import List, Dict
 from app.models.cafe_model import MenuItem, Cafe
 from app.models.user_model import User
-import routines.food_clustering as Clustering
+import back.recommender_systems.routines.routines as Clustering
 import recommender_systems.utils.utilitaries as Utilitaries
 import asyncio
 
+#TODO: The algorithms should return a list of item. Not a list of slugs/ids.
 # This method takes the foods candidates by the algorihtms
 #  and return the final recommandation.
 def main(action: str) -> List[MenuItem]:
@@ -20,19 +21,23 @@ def main(action: str) -> List[MenuItem]:
     all_cafe: list[Cafe] = asyncio.run(Utilitaries.get_all_cafe())
 
     # Bot recommendations.
-    bot_recommendations_set: set[MenuItem] = set()
-    recs: list[str] = HB.main()
-    for cafe in all_cafe:
-        cafe_slug = cafe.slug
-        bot_recommendations_set.add( asyncio.run(Utilitaries.get_items_from_slugs(recs, cafe_slug)) )
-    bot_recommendations: list[MenuItem] = list(bot_recommendations_set)
+    bot_recommendations: dict[str, list[MenuItem]] = HB.main(all_cafe)
 
     if action == "personnal":
         result = asyncio.run( personnal_recommendations(users, all_cafe, clusters) )
         result['healthy_recommendations'] = bot_recommendations
         return result
     elif action == "public":
-        return bot_recommendations.extend(asyncio.run( Utilitaries.get_items_from_slugs(GR.main(cafe) ), cafe_slug))
+        public_recommendations: dict[str, list[MenuItem]] = {}
+        for cafe in all_cafe:
+            cafe_slug = cafe.slug
+            if cafe_slug not in public_recommendations:
+                public_recommendations[cafe_slug] = []
+            public_recommendations[cafe_slug].extend( asyncio.run(Utilitaries.get_items_from_slugs(GR.main(cafe)), cafe_slug) )
+
+        public_recommendations['healthy_recommendations'] = bot_recommendations
+        
+        return public_recommendations
 
 #TODO
 async def personnal_recommendations(users: List[User], list_cafe: List[Cafe], clusters: Dict[str, List[MenuItem]]) -> Dict[str, Dict[str, List[MenuItem]]]:

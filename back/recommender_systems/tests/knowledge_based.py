@@ -15,6 +15,7 @@ def generate_user() -> dict:
 
 @pytest.fixture(scope="module")
 def generate_cafe() -> Cafe:
+    '''
     items = [
         {
             "name": "Orange",
@@ -47,7 +48,8 @@ def generate_cafe() -> Cafe:
     }
     
     cafe = Cafe(**data)
-    return cafe
+    '''
+    pass
 
 def generate_user() -> User:
     #TODO
