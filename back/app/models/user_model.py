@@ -1,10 +1,9 @@
 from typing import Optional, List
 from uuid import UUID, uuid4
 from beanie import Document, Indexed, DecimalAnnotation
+from pydantic import BaseModel
 from pydantic import EmailStr, Field
 from datetime import datetime
-
-from user_model import DietProfile
 
 
 """
@@ -16,6 +15,12 @@ and constraints of the user-related data stored in the database.
 Note: These models are intended for direct database interactions related to users and are 
 different from the API data interchange models.
 """
+
+class DietProfile(BaseModel):
+    diets: Optional[List[str]] = Field(None, description="User diets.")
+    food_categories: Optional[List[str]] = Field(None, description="Categories of foods preferred by the user.")
+    prefered_nutrients: Optional[List[str]] = Field(None, description="User preferes nutrients.")
+    allergens: Optional[dict[str, int]] = Field(None, description="User allergens. {Key= allergen name: Value= danger level}")
 
 class User(Document):
     user_id: UUID = Field(default_factory=uuid4)
@@ -58,15 +63,3 @@ class User(Document):
 
     class Settings:
         name = "users"
-
-class DietProfile():
-    diets: List[str] = Field(..., description="User diets.")
-    food_categories: List[str] = Field(..., description="Categories of foods preferred by the user.")
-    prefered_nutrients: List[str] = Field(..., description="User preferes nutrients.")
-    allergens: dict[str, int] = Field(..., description="User allergens. {Key= allergen name: Value= danger level}")
-
-    def __init__(self, **data) -> None:
-        self.diets = data['diets']
-        self.food_categories = data['food_categories']
-        self.allergens = data['allergens']
-        self.prefered_nutrients = data['prefered_nutrients']
