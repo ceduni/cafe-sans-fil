@@ -1,6 +1,6 @@
 import { Cafe, CafeMenu, CafeMenuItem, Order, User, Event } from "@/models";
 
-const testing = true;
+const testing = false;
 const buildUrl = (url) => {
     if (testing) {
         return `http://localhost:8000${url}`;

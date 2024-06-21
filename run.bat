@@ -1,12 +1,19 @@
 @echo off
-echo Starting FastAPI backend...
+
+echo Starting FastAPI backend
 cd back
 start pipenv run uvicorn app.main:app --reload
-
-echo Starting React frontend...
 cd ..
+
+echo Starting React frontend
 cd front
 start npm run dev
+cd ..
 
-echo Both FastAPI and React have been started.
-pause
+timeout /t 6 >nul
+
+echo Opening in browser
+start http://127.0.0.1:8000/docs#/
+start http://localhost:5173/
+
+echo Done
