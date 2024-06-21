@@ -89,13 +89,11 @@
 - Implémenter les algorithmes de recommandation.
 - Créer des tests unitaires.
 
-<!--
 ### Réalisations
+- Mise à jour des <a href="https://cafe-sans-fil-recommendation-diagrams.netlify.app/" target="_blank">diagrammes</a>.</li>
+- Implémentation des algorithmes et du robot santé.</li>
+- Mise à jour des attributs des repas et des utilisateurs pour la base de données et modification de la base de données.</li>
 
-### Observations
-
-### Ressources
--->
 
 ## Semaine 6 (2024-06-07)
 
