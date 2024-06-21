@@ -12,7 +12,6 @@ import back.recommender_systems.routines.routines as Clustering
 import recommender_systems.utils.utilitaries as Utilitaries
 import asyncio
 
-#TODO: The algorithms should return a list of item. Not a list of slugs/ids.
 # This method takes the foods candidates by the algorihtms
 #  and return the final recommandation.
 def main(action: str) -> List[MenuItem]:
@@ -63,6 +62,6 @@ async def personnal_recommendations(users: List[User], list_cafe: List[Cafe], cl
             recommendations[user.id] = cafes
 
     
-    #TODO Define a proportion of recommendations.
+    #TODO Define a proportion ofr recommendations.
 
     return recommendations
