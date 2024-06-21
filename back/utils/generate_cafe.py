@@ -12,8 +12,6 @@ async def create_cafes(usernames):
     # Load templates
     with open("./utils/templates/cafes_updated.json", "r", encoding="utf-8") as file:
         cafes_data = json.load(file)
-    with open("./utils/templates/menu_items.json", "r", encoding="utf-8") as file:
-        menu_items_data = json.load(file)
 
     for index, cafe_info in enumerate(tqdm(cafes_data, desc="Creating cafes")):
         # Make cafesansfil Admin in First Cafe (For Test)
@@ -30,13 +28,31 @@ async def create_cafes(usernames):
 
         is_open, status_message = random_open_status_message()
 
+        with open("./utils/templates/menu_items.json", "r", encoding="utf-8") as file:
+            menu_items_data = json.load(file)
+            categories = {}
+            for item in menu_items_data:
+                category = item['category']
+                if category not in categories:
+                    categories[category] = []
+                categories[category].append(item)
+
+            randomized_selection = {}
+            for category, items in categories.items():
+                if category == "Grilled Cheese":
+                    num_items_to_select = random.randint(3, 4)
+                else:
+                    num_items_to_select = random.randint(3, 6)
+                randomized_selection[category] = random.sample(items, min(num_items_to_select, len(items)))
+                
         # Randomly set in_stock for each menu item
         randomized_menu_items = []
-        for item in menu_items_data:
-            item_copy = item.copy()
-            item_copy["in_stock"] = random.random() < 0.80
-            randomized_menu_items.append(MenuItem(**item_copy))
-            
+        for category, items in randomized_selection.items():
+            for item in items:
+                item_copy = item.copy()
+                item_copy["in_stock"] = random.random() < 0.80
+                randomized_menu_items.append(item_copy)
+
         cafe = Cafe(
             name=cafe_info["name"],
             description=cafe_info["description"],

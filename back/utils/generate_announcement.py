@@ -14,7 +14,7 @@ announcement_templates = [
 
 async def generate_announcements(cafe_ids, user_ids, num_announcements=3):
     for cafe_id in tqdm(cafe_ids, total=len(cafe_ids), desc='Generating announcements'):
-        num_to_generate = randint(0, num_announcements)
+        num_to_generate = randint(1, num_announcements)
         for _ in range(num_to_generate):
             title, content = choice(announcement_templates)
             tags = ["promo", "weekend", "special"]

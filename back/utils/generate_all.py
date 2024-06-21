@@ -37,7 +37,7 @@ async def main():
     cafes_ids, cafe_menu_items_slugs_dict, cafes_data = await create_cafes(user_usernames)
     await create_orders(user_usernames, cafe_menu_items_slugs_dict, cafes_data, MONGO_DB_NAME.endswith("test"))
     await generate_events(cafes_ids, user_ids)
-    # await generate_announcements(cafes_ids, user_ids)
+    await generate_announcements(cafes_ids, user_ids)
 
 if __name__ == "__main__":
     asyncio.run(main())

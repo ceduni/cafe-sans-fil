@@ -20,12 +20,13 @@ image_urls = [
 
 async def generate_events(cafe_ids, user_ids, num_events=3):
     for cafe_id in tqdm(cafe_ids, total=len(cafe_ids), desc="Generating events"):
-        num_to_generate = randint(0, num_events)
+        num_to_generate = randint(1, num_events)
         for _ in range(num_to_generate):
-            title, description = choice(event_templates)
+            index = randint(0, len(event_templates)-1)
+            title, description = event_templates[index]
+            image_url = image_urls[index]
             start_date = datetime.now() + timedelta(days=randint(1, 30))
             end_date = start_date + timedelta(hours=randint(2, 6))  # Events last between 2 to 6 hours
-            image_url = choice(image_urls)
 
             event_data = EventCreate(
                 cafe_id=cafe_id,

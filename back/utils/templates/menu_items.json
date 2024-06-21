@@ -151,7 +151,7 @@
             "D\u00e9licat"
         ],
         "description": "3,00$",
-        "image_url": "https://tse3.mm.bing.net/th?id=OIP.lXOas6GH-dGvwBW-GHvSuQHaFj&pid=Api&f=1&ipt=449b48a3ad8149f2758ee105ac0ec70c54dbe0d092ae33e471797497dad902bb&ipo=images",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fvaya.in%2Frecipes%2Fwp-content%2Fuploads%2F2019%2F02%2FCappuccino.jpg&f=1&nofb=1&ipt=6115d5cb74d92c76bea2744b7a95120f9c1160cbcf84d1eeaa4b57c6cfcc4c4a&ipo=images",
         "price": 3.0,
         "in_stock": true,
         "category": "Boissons chaudes",
@@ -316,5 +316,255 @@
         "in_stock": true,
         "category": "Collations",
         "options": []
+    },
+    {
+        "name": "LE CHEDDAR FORT",
+        "tags": ["Fromage intense", "Croustillant"],
+        "description": "Un grilled-cheese au fromage cheddar fort",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fstatic.pratico-pratiques.com%2Fuploads%2Fimages%2Frecipe%2Forig%2Ff124f4cc68e551c97d0ebb5c8f9d1826%2Fmega-burgers-a-la-biere-cheddar-fort-et-bacon.jpeg&f=1&nofb=1&ipt=c21b4d23be428094a446e78544358fce35913a836787e025e0a65456154afade&ipo=images",
+        "price": 2.5,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "jalapenos",
+                "fee": 0.3
+            }
+        ]
+    },
+    {
+        "name": "LE GOUDA",
+        "tags": ["Fumé", "Riche"],
+        "description": "Un grilled-cheese au fromage gouda fumé",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flh3.googleusercontent.com%2FgaQ-RbKoFOFlFIG5y384jL8_wWHWUiT3CpDaKBKsGiaIt-loDVARuK1dq05zcUHUHgspNYTjnWF6NED5y8IX2A%3Dw1200-h630-pp-rj-v1-e365&f=1&nofb=1&ipt=68fa16c8852b4ee3d9a1e9c69be5f38293cec07a147e89188704a320391ffe8c&ipo=images",
+        "price": 2.75,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "champignons",
+                "fee": 0.35
+            }
+        ]
+    },
+    {
+        "name": "LE PROVOLONE",
+        "tags": ["Doux", "Fondant"],
+        "description": "Un grilled-cheese au fromage provolone doux",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.steaksandgame.com%2Fimages%2FProduct%2Fmedium%2Fargentine-grilled-provolone-burger-chimichurri-sauce-recipe-1S-12732.jpg&f=1&nofb=1&ipt=a25bfb3ec2d01323bdd35a85b5c9239cdf634a39a9235391215d63ccd4ce8fcb&ipo=images",
+        "price": 2.5,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "poivrons grillés",
+                "fee": 0.4
+            }
+        ]
+    },
+    {
+        "name": "LE CAMEMBERT",
+        "tags": ["Crémeux", "Luxueux"],
+        "description": "Un grilled-cheese au fromage camembert",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.lolibox.fr%2Fwp-content%2Fuploads%2F2017%2F04%2Fburger-camembert.jpg&f=1&nofb=1&ipt=2974e56177ebbbf81aeddeb8caac733d6a603bba98ba9b4c6714811b33950ef5&ipo=images",
+        "price": 3.0,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "truffe noire",
+                "fee": 0.5
+            }
+        ]
+    },
+    {
+        "name": "LE BRELER",
+        "tags": ["Crémeux", "Luxueux"],
+        "description": "Un grilled-cheese au fromage camembert",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.gob.mx%2Fcms%2Fuploads%2Fimage%2Ffile%2F761647%2FWhatsApp_Image_2022-11-01_at_2.23.08_PM.jpeg&f=1&nofb=1&ipt=d3a482c405a717a72e3daa119a80d85442751983385d50011e80f4bf14112fa1&ipo=images",
+        "price": 3.0,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "truffe noire",
+                "fee": 0.5
+            }
+        ]
+    },
+    {
+        "name": "LE MIA",
+        "tags": ["Crémeux", "Luxueux"],
+        "description": "Un grilled-cheese au fromage camembert",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.theliveinkitchen.com%2Fwp-content%2Fuploads%2F2012%2F02%2F02145027%2FUltimateTurkeySandwichCut.jpg&f=1&nofb=1&ipt=4b89c96b3fad52107e4f5e5f6785f591a7ad8652811ae4e6c8a2d9861435645e&ipo=images",
+        "price": 3.0,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "truffe noire",
+                "fee": 0.5
+            }
+        ]
+    },
+    {
+        "name": "LE BONJOUR",
+        "tags": ["Crémeux", "Luxueux"],
+        "description": "Un grilled-cheese au fromage camembert",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fscm-assets.constant.co%2Fscm%2Funilever%2Fe9dc924f238fa6cc29465942875fe8f0%2F0faaf626-6881-434f-b01d-8a6c5807f81f.jpg&f=1&nofb=1&ipt=1bb321c4ddeba091729212bfcc0711fa7cca9e59a7660511a63119a7e402e421&ipo=images",
+        "price": 3.0,
+        "in_stock": true,
+        "category": "Grilled Cheese",
+        "options": [
+            {
+                "type": "extra",
+                "value": "truffe noire",
+                "fee": 0.5
+            }
+        ]
+    },
+    {
+        "name": "Mocha",
+        "tags": ["Chocolaté", "Réconfortant"],
+        "description": "Café avec chocolat et lait mousseux",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.immediate.co.uk%2Fproduction%2Fvolatile%2Fsites%2F2%2F2021%2F11%2FMocha-1fc71f7.png%3Fquality%3D90%26resize%3D556%2C505&f=1&nofb=1&ipt=eea8e633e503539aa63ae13582816aa8bf7689e74e30947b4973c1b0805d0b05&ipo=images",
+        "price": 3.25,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": [
+            {
+                "type": "sirop",
+                "value": "chocolat",
+                "fee": 0.2
+            }
+        ]
+    },
+    {
+        "name": "Thé noir",
+        "tags": ["Robuste", "Classique"],
+        "description": "Thé noir intense pour une dose d'énergie",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.masculin.com%2Fwp-content%2Fuploads%2Fsites%2F2%2F2021%2F12%2Fdecouvrir-conseils.jpg&f=1&nofb=1&ipt=f89bacaefb766cbfdb448e808a8b1e4a05030349f219c8fe9480b3ce4cbedb1d&ipo=images",
+        "price": 1.0,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": []
+    },
+    {
+        "name": "Chai Latte",
+        "tags": ["Épicé", "Crémeux"],
+        "description": "Un mélange de thé et d'épices avec du lait",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.allrecipes.com%2Fthmb%2FPa9Fumfnlk8qU-weROSvTrR9JXA%3D%2F1500x0%2Ffilters%3Ano_upscale()%3Amax_bytes(150000)%3Astrip_icc()%2F8102028-3f0aa81a74514adfb1389b2f4e53e1e9.jpg&f=1&nofb=1&ipt=54aac794516cb6b2254904e7bb62e6dc0797ed604f0954c72acef495fd8bbdc7&ipo=images",
+        "price": 3.0,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": []
+    },
+    {
+        "name": "Infusion de gingembre",
+        "tags": ["Apaisant", "Digestif"],
+        "description": "Infusion chaude au gingembre, idéale pour la digestion",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.bonheuretsante.fr%2Fwp-content%2Fuploads%2F2017%2F10%2FDepositphotos_56477997_m-2015-min.jpg&f=1&nofb=1&ipt=92a53ae649e746320bad3e0c11a9d697cd47f4bed77cf664806d2e2b2d5b0f2e&ipo=images",
+        "price": 2.0,
+        "in_stock": true,
+        "category": "Boissons chaudes",
+        "options": []
+    },
+    {
+        "name": "Limonade maison",
+        "tags": ["Acidulé", "Rafraîchissant"],
+        "description": "Limonade fraîchement pressée",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.cuisinethermomix.com%2Fwp-content%2Fuploads%2F2019%2F07%2FLimonade-maison-1068x968.jpg&f=1&nofb=1&ipt=23a065ea4d61b31167022f74d5be646dd930d73c3415eebd236f52ac5817f5d5&ipo=images",
+        "price": 1.5,
+        "in_stock": true,
+        "category": "Boissons froides",
+        "options": []
+    },
+    {
+        "name": "Smoothie aux baies",
+        "tags": ["Antioxydants", "Vitaminé"],
+        "description": "Smoothie riche en fruits rouges et baies",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fdinerauzoo.com%2Fwp-content%2Fuploads%2F2020%2F09%2FRecette-de-smoothie-aux-baies-melangees.jpg&f=1&nofb=1&ipt=bdf7bf64cc6a8e4f1d2b7bcebd61bbc8bebbd1141dff2139a64e58e1b3b0f7f4&ipo=images",
+        "price": 3.0,
+        "in_stock": true,
+        "category": "Boissons froides",
+        "options": []
+    },    
+    {
+        "name": "Iced Matcha",
+        "tags": ["Rafraîchissant", "Énergisant"],
+        "description": "Thé matcha glacé avec une touche de miel",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.organicauthority.com%2F.image%2Ft_share%2FMTU5NDk1NTU4MDQwMzMxODY0%2Fshutterstock_431091712.jpg&f=1&nofb=1&ipt=7fe25bcd4002dffd6f1cfafebe5db6a8e1e9faa85844af30b44dce52c6ad91ae&ipo=images",
+        "price": 3.5,
+        "in_stock": true,
+        "category": "Boissons froides",
+        "options": []
+    },
+    {
+        "name": "Soda au gingembre",
+        "tags": ["Piquant", "Rafraîchissant"],
+        "description": "Boisson gazeuse au gingembre fait maison",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.boblechef.com%2Fwp-content%2Fuploads%2F2015%2F03%2Fbob-le-chef-recette-ginger-beer.jpg&f=1&nofb=1&ipt=ad5a89aa37f3da9f6c21d7708801a29e22727986cc602dc22bf942fac18c8b92&ipo=images",
+        "price": 1.75,
+        "in_stock": true,
+        "category": "Boissons froides",
+        "options": []
+    },
+    {
+        "name": "Noix mélangées",
+        "tags": ["Sain", "Énergétique"],
+        "description": "Un mélange de noix assorties, parfait pour l'énergie",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi1.wp.com%2Ffodmapsanscompromis.com%2Fwp-content%2Fuploads%2F2017%2F05%2Fnoixmelangees.jpg%3Ffit%3D1200%252C900&f=1&nofb=1&ipt=269c293b6b30a0ca372dcc2b5654543fdd09f9bd13251215a1ee9adffcb776a4&ipo=images",
+        "price": 1.75,
+        "in_stock": true,
+        "category": "Collations",
+        "options": []
+    },
+    {
+        "name": "Chips de légumes",
+        "tags": ["Croustillant", "Léger"],
+        "description": "Chips variées faites de légumes",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1.bp.blogspot.com%2F-A-GxkwSL9mA%2FWrO9N51dcQI%2FAAAAAAAAcsI%2FNY793Wbo-_kXmlKAOLwU_d15_LMXgN9JQCLcBGAs%2Fs1600%2FChips%252Bde%252Blegumes.jpg&f=1&nofb=1&ipt=4e3d7b46523612d4ea025cb0ecae15e5d0dc7ab82851f3c1024e4c6176e7e75a&ipo=images",
+        "price": 1.25,
+        "in_stock": true,
+        "category": "Collations",
+        "options": []
+    },
+    {
+        "name": "Fruits séchés",
+        "tags": ["Sain", "Sucre naturel"],
+        "description": "Un mélange de fruits séchés, naturellement sucrés",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F4%2F4f%2FDry_fruit.jpg&f=1&nofb=1&ipt=1f392a827bd58de315ff45a7663629fe02c19c198bf094cffa4e45b66bad8b69&ipo=images",
+        "price": 1.5,
+        "in_stock": true,
+        "category": "Collations",
+        "options": []
+    },
+    {
+        "name": "Yogurt grec",
+        "tags": ["Onctueux", "Protéiné"],
+        "description": "Yogurt grec nature avec option de miel ou de noix",
+        "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.tasteofhome.com%2Fwp-content%2Fuploads%2F2018%2F05%2Fshutterstock_518824723.jpg%3Fw%3D1200&f=1&nofb=1&ipt=2e803323c9438c98fb59723ebd1d2bd103afe105fac58f2fd8c4637a5d64f910&ipo=images",
+        "price": 2.0,
+        "in_stock": true,
+        "category": "Collations",
+        "options": [
+            {
+                "type": "extra",
+                "value": "miel",
+                "fee": 0.2
+            },
+            {
+                "type": "extra",
+                "value": "noix",
+                "fee": 0.3
+            }
+        ]
     }
+
 ]
