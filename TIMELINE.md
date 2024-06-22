@@ -68,17 +68,23 @@
 
 ### Observations
 
-### Ressources
+### Ressources -->
 
 ## Semaine 8 (2024-06-21)
 
 ### Objectifs
+- Créer des tests unitaires.
+- Débugger le code.
+- Créer une base de données pour les recommendations.
+- Début du front-end.
 
+<!--
 ### Réalisations
 
 ### Observations
 
-### Ressources -->
+### Ressources
+-->
 
 ## Semaine 7 (2024-06-14)
 
