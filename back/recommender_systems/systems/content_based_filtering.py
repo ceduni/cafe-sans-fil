@@ -2,7 +2,7 @@
 from app.models.user_model import User
 from app.models.cafe_model import MenuItem, Cafe
 from typing import List, Dict, str
-import back.recommender_systems.utils.utilitaries as Utilitaries
+import recommender_systems.utils.utilitaries as Utilitaries
 import numpy as np
 from collections import Counter
 

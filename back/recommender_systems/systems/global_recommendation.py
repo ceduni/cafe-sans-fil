@@ -1,7 +1,7 @@
 ### Algorithme 4.4 ###
 from datetime import datetime
 from app.models.cafe_model import Cafe, MenuItem
-import back.recommender_systems.utils.utilitaries as Utilitaries
+import recommender_systems.utils.utilitaries as Utilitaries
 from typing import List
 
 # Recommand foods to all the users based on the time and the most liked foods.

@@ -1,12 +1,12 @@
 # Ce fichier contient le code des algorithmes de la section 2 du document
 #   "Logique" du wiki.
 from typing import List, Any, Tuple, Union
-from back.app.models.cafe_model import MenuItem, Cafe
-from back.app.models.user_model import User
-from back.app.models.order_model import Order, OrderedItem
-from back.app.services.cafe_service import CafeService
-from back.app.services.order_service import OrderService
-from back.app.services.user_service import UserService
+from app.models.cafe_model import MenuItem, Cafe
+from app.models.user_model import User
+from app.models.order_model import Order, OrderedItem
+from app.services.cafe_service import CafeService
+from app.services.order_service import OrderService
+from app.services.user_service import UserService
 import uuid
 
 #TODO

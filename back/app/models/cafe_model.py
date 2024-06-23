@@ -115,12 +115,14 @@ class MenuItem(BaseModel):
     in_stock: bool = Field(False, description="Availability status of the menu item.")
     category: Indexed(str) = Field(..., description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="List of options available for the menu item.")
+    '''
     diets: List[str] = Field(..., description="List of diets in which the food is eaten.")
     allergens: List[str] = Field(..., description="List of allergens contained in the item.")
     likes: List[str] = Field(..., description="Liste contanant l'id des utilisateurs ayant aimé cet item.")
     barecode: str = Field(..., description="Food's barecode.")
     nutritional_informations: Dict[str, float] = Field(..., description="Dictionnary of the nutritive values of an item.")
     health_score: DecimalAnnotation = Field(..., description="Food's health score.")
+    '''
 
     def __init__(self, **data):
         super().__init__(**data)

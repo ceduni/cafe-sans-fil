@@ -1,5 +1,5 @@
 ### Ce fichier contient les scripts qui permettront de créer des catégories de repas ###
-from back.app.models.cafe_model import MenuItem
+from app.models.cafe_model import MenuItem
 from recommender_systems.utils import utilitaries as Utilitaries
 
 import asyncio

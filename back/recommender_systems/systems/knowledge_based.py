@@ -1,8 +1,8 @@
 ### Algorithme 4.3 ###
-from back.app.models.cafe_model import MenuItem, Cafe
-from back.app.models.user_model import User, DietProfile
+from app.models.cafe_model import MenuItem, Cafe
+from app.models.user_model import User, DietProfile
 from typing import List, Dict
-import back.recommender_systems.utils.utilitaries as Utilitaries
+import recommender_systems.utils.utilitaries as Utilitaries
 import numpy as np
 
 # This method creates clusters based on the user preferences.

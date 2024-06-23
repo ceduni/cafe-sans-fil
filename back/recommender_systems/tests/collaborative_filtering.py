@@ -1,4 +1,4 @@
-from systems import collaborative_filtering as CB
+from recommender_systems.systems import collaborative_filtering as CB
 from app.models.user_model import User
 from typing import List
 
@@ -10,3 +10,5 @@ def test_main_1(user: User):
 # Test cases for more than 1 user.
 def test_main_2(users: List[User], user: User):
     pass
+
+test_main_1()
