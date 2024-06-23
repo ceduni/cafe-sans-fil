@@ -16,30 +16,36 @@ export class ProductRoutes {
         this.init();
     }
 
-    public getSales(req: Request, res: Response, next: NextFunction){
-        const productID:string = req.params.id;
+    public async getSales(req: Request, res: Response, next: NextFunction){
+        
         try{
-            const num = this.productService.getSales(productID);
-            const resNumber = parseInt(num, 10);
-            //  req.flash('info',`this is the number of sales for product  ${productID}`);
-            res.status(201)
-            .send(
-                {
-                    message:'Success',
-                    status: res.status,
-                    NumSales: resNumber
-
-                });
+            let product:string = req.params.productName;
+            console.log("this is the product:",product);
+            
+            const sales = await this.productService.getSales(product);
+            res.status(200).send({
+                message: 'Success',
+                Sales: sales,
+            });
+           
         }
         catch(err){
-            console.log(err);
+            console.log('Error in the getSales:',err);
+            res.status(500).send({
+                message: 'Internal Server Error',
+                error: err,
+            });
         }
 
     }
+  
+            //  req.flash('info',`this is the number of sales for product  ${productID}`);
+
 
 
     init() {
-        this._router.get('/sales/:id',this.getSales.bind(this));
+        this._router.get('/sales',this.getSales.bind(this));
+        this._router.get('/sales/:productName',this.getSales.bind(this));
     }
 
     public get router(): Router{

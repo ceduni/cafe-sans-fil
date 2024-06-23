@@ -13,9 +13,14 @@ export class MainController {
         this.app = express();
         this.PORT = process.env.PORT || 3000;
         this.productRoute = new ProductRoutes();
-        this.getSales();
+        this.init();
         
         // this.router = Router()
+
+    }
+
+    private init(){
+        this.getSales();
 
     }
 
