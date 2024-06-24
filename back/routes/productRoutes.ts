@@ -20,9 +20,7 @@ export class ProductRoutes {
         
         try{
             let product:string = req.params.productName;
-            console.log("this is the product:",product);
-            
-            const sales = await this.productService.getSales(product);
+            const sales = await this.productService.getSales(product); 
             res.status(200).send({
                 message: 'Success',
                 Sales: sales,
@@ -38,14 +36,35 @@ export class ProductRoutes {
         }
 
     }
-  
-            //  req.flash('info',`this is the number of sales for product  ${productID}`);
+
+    public async getSalesByCategory(req: Request, res: Response, next: NextFunction){
+        try {
+            let category:string = req.params.category
+            const sales = await this.productService.getSalesByCategory(category);
+            res.status(200).send({
+                message:'Success',
+                Sales:sales,
+            })
+        } catch (err) {
+            console.log('Error in the getSalesByCategory:',err);
+            res.status(500).send({
+                message: 'Internal Server Error',
+                error: err,
+            });
+            
+        }
+
+    }
+
+
 
 
 
     init() {
         this._router.get('/sales',this.getSales.bind(this));
         this._router.get('/sales/:productName',this.getSales.bind(this));
+        this._router.get('/sales/category/:category',this.getSalesByCategory.bind(this));
+        
     }
 
     public get router(): Router{

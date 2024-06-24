@@ -3,9 +3,11 @@ import { Collection, Document } from 'mongodb';
 
 export class ProductService {
     
+    
     public static readonly DB_NAME = 'sales';
 
     public constructor() {}
+
     /**
      * 
      * @param product the product we want the sales 
@@ -14,12 +16,10 @@ export class ProductService {
     public async getSales(productName?:string): Promise<Document[]> {
         const database: Database = await Database.getInstance(ProductService.DB_NAME);
         const salesCollection: Collection<Document> = database.getCollection<Document>('sales');
-        
         try {
+            
             const query = productName ? { name:productName } : {};
-            console.log(query);
             const salesData = await salesCollection.find(query).toArray();
-
             return salesData; 
         } catch (err) {
             console.error('Error fetching sales data:', err);
@@ -28,4 +28,30 @@ export class ProductService {
             await database.close();
         }
     }
+
+    /**
+     * this method fetches all sales of a paticular category from the database
+     * 
+     * @param category the category wanted by the user of function  
+     * @returns returns the a list of all sales of the category
+     */
+    public async getSalesByCategory(category: string): Promise<Document[]> {
+
+        let database: Database = await Database.getInstance(ProductService.DB_NAME);
+        const salesCollection: Collection<Document> = database.getCollection<Document>('sales');
+        try {
+            
+            const salesData = await salesCollection.find({ category:category} ).toArray();
+            return salesData; 
+        } catch (err) {
+            console.error('Error fetching sales data:', err);
+            return [];
+        } finally {
+            await database.close();
+        }
+
+
+        
+    }
+
 }

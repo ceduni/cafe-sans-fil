@@ -4,10 +4,10 @@ class Database {
     private static instance: Database;
     private client: MongoClient;
     private db: Db;
-    private readonly uri = 'mongodb+srv://cafe:sans-fil@cluster0.ti5co91.mongodb.net/sales?retryWrites=true&w=majority';
-
+    private static readonly  URI = 'mongodb+srv://cafe:sans-fil@cluster0.ti5co91.mongodb.net/sales?retryWrites=true&w=majority';
+    private static _connectionFlag:boolean=false;
     private constructor(dbName: string) {
-        this.client = new MongoClient(this.uri);
+        this.client = new MongoClient(Database.URI);;
         this.db = this.client.db(dbName);
     }
 
@@ -15,31 +15,50 @@ class Database {
         if (!Database.instance) {
             Database.instance = new Database(dbName);
             await Database.instance.connect();
-        } else {
-            console.log("Reusing existing database instance");
+        }
+        if(!Database._connectionFlag){
+            await Database.instance.connect();
         }
         return Database.instance;
     }
 
-    private async connect() {
-        try {
-            console.log('Attempting to connect to MongoDB...');
-            await this.client.connect();
-            console.log('Connected to MongoDB');
-        } catch (error) {
-            console.error('Connection to MongoDB failed:', error);
-            // Re-throw the error so that it can be caught and handled in getInstance
-            throw error;
+    public async connect() {
+        if(!Database._connectionFlag){
+            try {
+                await this.client.connect();
+                Database._connectionFlag = true;
+                console.log('Connected to MongoDB');
+            } catch (error) {
+                console.error('Error connecting to MongoDB:', error);
+            }
+
         }
+        
     }
 
     public getCollection<T extends Document>(name: string): Collection<T> {
+        if (!Database._connectionFlag) {
+            throw new Error('Client is not connected');
+        }
         return this.db.collection<T>(name);
     }
 
     public async close() {
-        await this.client.close();
-        console.log('Disconnected from MongoDB');
+        if (Database._connectionFlag) {
+            try {
+                await this.client.close();
+                Database._connectionFlag = false;
+                console.log('Disconnected from MongoDB');
+            } catch (error) {
+                console.error('Failed to disconnect from MongoDB:', error);
+            }
+        }
+    }
+
+  
+
+    public get connectionFlag(): boolean {
+        return Database._connectionFlag;
     }
 }
 
