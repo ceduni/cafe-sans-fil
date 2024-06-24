@@ -59,8 +59,10 @@ export class ProductRoutes {
 
 
 
-
-    init() {
+    /**
+     * this method initializes all the product routes
+     */
+    private init():void {
         this._router.get('/sales',this.getSales.bind(this));
         this._router.get('/sales/:productName',this.getSales.bind(this));
         this._router.get('/sales/category/:category',this.getSalesByCategory.bind(this));

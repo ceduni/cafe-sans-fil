@@ -16,5 +16,28 @@ const salesSchema = new mongoose.Schema({
             required: true 
           }
 });
+const orderSchema = new mongoose.Schema({
+  product: { 
+           type: String, 
+           required: true 
+          },
+  category: { 
+            type: String, 
+            required: true 
+          },
+  date: { 
+        type: Date,
+        required: true 
+    },
+  time:{ 
+         type:Date,
+         Default:Date.now,
+         require : true
+       }
+
+});
  const Sale = mongoose.model('Sale',salesSchema);
- module.exports = Sale;
+ const Order = mongoose.model('Order',orderSchema);
+ module.exports = {Sale,Order};
+
+

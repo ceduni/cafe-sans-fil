@@ -32,7 +32,7 @@ export class MainController {
 
     public   listen(){
         this.app.listen(this.PORT, () =>{
-            console.log(`Server is running on port ${this.PORT}`);
+            console.log(`the server is running on http://localhost:${this.PORT}`);
         });
 
     }
