@@ -252,3 +252,20 @@
 
 - Réalisation du diagramme de classe
 - Réalisation Schéma de requêtes
+
+## Semaine 7 (2024-06-17)
+
+### Objectifs
+
+- Début de l'implémentation du dashborad de l'application
+
+### Réalisations
+
+- Initialisation du back-end et du front-end de l'application
+  (dossier app et back)
+- Implémentation des principaux éléments du dashbord sur l'écran
+  d'acceuil et accès au différents onglets de l'application
+
+### Resources
+
+- Modèle pour l'histogramme : (https://www.youtube.com/watch?v=8j6iw33bJU0)
