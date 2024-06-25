@@ -1,0 +1,93 @@
+import 'package:app/article.dart';
+import 'package:app/benevole.dart';
+import 'package:app/dashboard.dart';
+import 'package:app/evenement.dart';
+import 'package:app/horaire.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: RootPage(),
+    );
+  }
+}
+
+class RootPage extends StatefulWidget {
+  const RootPage({super.key});
+
+  @override
+  State<RootPage> createState() => _RootPageState();
+}
+
+class _RootPageState extends State<RootPage> {
+  int currentPage = 2;
+  List<Widget> pages = const [
+    // barre de navigation
+    Benevole(),
+    Evenement(),
+    Dashboard(),
+    Horaire(),
+    Article(),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: pages[currentPage], //const Dashboard(),
+      bottomNavigationBar: NavigationBar(
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(
+              Icons.volunteer_activism,
+              color: Colors.white,
+            ),
+            label: 'Bénévole',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.event,
+              color: Colors.white,
+            ),
+            label: 'Evènement',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.dashboard,
+              color: Colors.white,
+            ),
+            label: 'Dashbord',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.access_time,
+              color: Colors.white,
+            ),
+            label: 'Horaire',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.article,
+              color: Colors.white,
+            ),
+            label: 'Article',
+          ),
+        ],
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPage = index;
+          });
+        },
+        selectedIndex: currentPage,
+        backgroundColor: Colors.blue,
+      ),
+    );
+  }
+}
