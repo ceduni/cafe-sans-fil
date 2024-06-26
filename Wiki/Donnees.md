@@ -54,107 +54,28 @@ description de comment ces données peuvent être obtenus.
 **Users recommendations**
 ```
 {
-    "user_id": {
-        "cafe_slug": [
-            {
-                "barecode": "String",
-                "item_id": "UUID",
-                "health_score": "Decimal128",
-                "time": "String",
-                "likes": ["String"],
-                "diet": ["String"],
-                "allergens": ["String"],
-                "nutritionnal_information": {
-                    "protein": "Decimal128",
-                    "lipids": "Decimal128",
-                    "carbohydrates": "Decimal128",
-                    "fiber": "Decimal128",
-                    "vitamins": "Decimal128",
-                    "sugar": "Decimal128",
-                    "sodium": "Decimal128",
-                    "energy_per_100g": "Decimal128",
-                    "saturated fatty acids": "Decimal128",
-                }
-            }
-        ],
-    },
-
-    "healthy_recommendations": [
-        "cafe_slug": [
-            {
-                "barecode": "String",
-                "item_id": "UUID",
-                "health_score": "Decimal128",
-                "time": "String",
-                "likes": ["String"],
-                "diet": ["String"],
-                "allergens": ["String"],
-                "nutritionnal_information": {
-                    "protein": "Decimal128",
-                    "lipids": "Decimal128",
-                    "carbohydrates": "Decimal128",
-                    "fiber": "Decimal128",
-                    "vitamins": "Decimal128",
-                    "sugar": "Decimal128",
-                    "sodium": "Decimal128",
-                    "energy_per_100g": "Decimal128",
-                    "saturated fatty acids": "Decimal128",
-                }
-            }
-        ]
+    "users": [
+        {
+            "user_id": "UUID",
+            "recommendations": [
+                {
+                    "cafe_id": "UUID",
+                    "items_id": ["UUID"]
+                },
+            ]
+        },
     ]
 }
 ```
 
-**Public recommendations**
+**Public recommendations & Bot recommendations**
 ```
 {
-    "cafe_slug": [
+    "recommendations": [
         {
-            "barecode": "String",
-            "item_id": "UUID",
-            "health_score": "Decimal128",
-            "time": "String",
-            "likes": ["String"],
-            "diet": ["String"],
-            "allergens": ["String"],
-            "nutritionnal_information": {
-                "protein": "Decimal128",
-                "lipids": "Decimal128",
-                "carbohydrates": "Decimal128",
-                "fiber": "Decimal128",
-                "vitamins": "Decimal128",
-                "sugar": "Decimal128",
-                "sodium": "Decimal128",
-                "energy_per_100g": "Decimal128",
-                "saturated fatty acids": "Decimal128",
-            }
+            "cafe_id": "UUID",
+            "items_id": ["UUID"]
         }
-    ],
-
-    "healthy_recommendations": [
-        "cafe_slug": [
-            {
-                "barecode": "String",
-                "item_id": "UUID",
-                "health_score": "Decimal128",
-                "time": "String",
-                "likes": ["String"],
-                "diet": ["String"],
-                "allergens": ["String"],
-                "nutritionnal_information": {
-                    "protein": "Decimal128",
-                    "lipids": "Decimal128",
-                    "carbohydrates": "Decimal128",
-                    "fiber": "Decimal128",
-                    "vitamins": "Decimal128",
-                    "sugar": "Decimal128",
-                    "sodium": "Decimal128",
-                    "energy_per_100g": "Decimal128",
-                    "saturated fatty acids": "Decimal128",
-                }
-            }
-        ]
     ]
 }
 ```
