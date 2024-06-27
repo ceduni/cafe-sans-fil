@@ -12,7 +12,6 @@ from app.schemas.cafe_schema import (
 )
 from app.models.user_model import User
 
-
 class CafeService:
     """
     Service class that provides methods for CRUD operations and search functionality
