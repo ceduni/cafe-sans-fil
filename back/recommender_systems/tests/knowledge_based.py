@@ -1,6 +1,6 @@
 import pytest
 from back.app.models.cafe_model import Cafe, MenuItem
-from back.app.models.user_model import User, DietProfile, Allergen
+from back.app.models.user_model import User, DietProfile
 
 
 import back.recommender_systems.systems.knowledge_based as KB 

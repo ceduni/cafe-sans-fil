@@ -31,31 +31,26 @@ def items_slugs(items: List[MenuItem]) -> List[str]:
     return list(map(lambda x: x.slug, items))
 
 # This method takes a list of orders ids and return a list of all the items
-#   contained in these orders.
-async def list_items(orders_ids: List[str], action: str) -> Union[List[MenuItem], List[str]]:
-    items: list[MenuItem] = []
+#   (slugs of the items) contained in these orders.
+async def list_items(orders_ids: List[str]) -> List[str]:
     all_slugs: list[str] = []
     for id in orders_ids:
         order: Order = await OrderService.retrieve_order(uuid.UUID(id))
-        cafe_slug: str = order.cafe_slug
         ordered_items: list[OrderedItem] = order.items     
         slugs: list[str] = []       
         for item in ordered_items:
             slugs.append(item.item_slug)
         all_slugs.extend(slugs)
-        items.extend(await get_items_from_slugs(slugs, cafe_slug))
-            
-    if action == "slugs":
-        return all_slugs
-    elif action == "items":
-        return items
+    return all_slugs
 
-async def get_items_from_slugs(slugs: List[str], cafe_slug: str) -> List[MenuItem]:
-    items: list[MenuItem] = []
+# Takes a list of item slugs and a cafe slug and returns a list of slugs of
+#   items sold in this cafe.
+async def filter_items_by_cafe(slugs: List[str], cafe_slug: str) -> List[str]:
+    items: list[str] = []
     for slug in slugs:
         retrived_item: MenuItem = await CafeService.retrieve_menu_item(cafe_slug, slug)
-        if retrived_item not in items:
-            items.append(retrived_item) if retrived_item != None else None
+        if retrived_item != None:
+            items.append(retrived_item.slug) if retrived_item.slug not in items else None
     return items
 
 # This method takes a user and a cafe as parameters and return

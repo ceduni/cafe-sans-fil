@@ -47,12 +47,16 @@ def remove_cluster(chosen_clusters: Dict[str, List[MenuItem]], clusters: Dict[st
 async def main(clusters: Dict[str, List[MenuItem]], user: User, cafe: Cafe) -> List[str]:
     recommendations: list[MenuItem] = []
     items_not_bought: np.array[MenuItem] = np.array(await Utilitaries.meal_not_consumed(cafe, user))
+
     cafe_items: list[MenuItem] = cafe.menu_items
     # Number of clusters.
     if len(cafe_items) > 50:
-        k: int = len(cafe_items)//2
+        k: int = len(cafe_items)//3
     else:
         k: int = len(cafe_items)
+
+    if len(items_not_bought) == 0:
+        return user.likes[:k]
 
     # Find the k clusters with the most likes.
     favorit_clusters: list[list[MenuItem]] = []
