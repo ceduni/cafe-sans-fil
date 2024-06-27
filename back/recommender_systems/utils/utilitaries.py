@@ -19,15 +19,51 @@ def regroup_by_cluster(items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
         groups[item.cluster].append(item)
     return groups
     
-
 # Check if a values is duplicated in a list.
 def is_duplicated(element: Any, list: List[Any]) -> bool:
     counts = Counter(list)
     return counts[element] > 1
 
-#TODO
-def health_score():
-    pass
+# Calculate the nutriscore of an item
+def health_score(item: MenuItem) -> str:
+    nutri_info: dict[str, float] = item.nutritional_informations
+
+    # Negative points
+    energy_points = min(max(int(nutri_info["energy"] / 335), 0), 10)
+    sugar_points = min(max(int(nutri_info["sugars"] / 4.5), 0), 10)
+    saturated_fat_points = min(max(int(nutri_info["saturated_fat"] / 1), 0), 10)
+    sodium_points = min(max(int(nutri_info["sodium"] / 90), 0), 10)
+    negative_points = energy_points + sugar_points + saturated_fat_points + sodium_points
+
+    # Positive points
+    fiber_points = min(max(int(nutri_info["fiber"] / 0.9), 0), 5)
+    protein_points = min(max(int(nutri_info["protein"] / 1.6), 0), 5)
+    if nutri_info["percentage_fruit_vegetables_nuts"]:
+        fruit_vegetables_nuts_points = min(max(int(nutri_info["percentage_fruit_vegetables_nuts"] / 40), 0), 5)
+        positive_points = fiber_points + protein_points + fruit_vegetables_nuts_points
+    else:
+        fruit_vegetables_nuts_points = 0
+        positive_points = fiber_points + protein_points
+
+    # Total score
+    if fruit_vegetables_nuts_points < 5:
+        score = negative_points - positive_points
+    else:
+        score = negative_points - fiber_points - protein_points
+
+    # Nutri-Score
+    if score <= -1:
+        nutriscore = 'A'
+    elif score <= 2:
+        nutriscore = 'B'
+    elif score <= 10:
+        nutriscore = 'C'
+    elif score <= 18:
+        nutriscore = 'D'
+    else:
+        nutriscore = 'E'
+
+    return nutriscore
 
 def reshape(A: List[Any], B: List[Any]) -> Tuple[List[Any]]:
     if len(A) == len(B):

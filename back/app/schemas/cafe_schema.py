@@ -77,6 +77,8 @@ class MenuItemUpdate(BaseModel):
         }
     })
 
+    #TODO: Add new fields
+
     @field_validator('price')
     @classmethod
     def validate_price(cls, price):

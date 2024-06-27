@@ -8,10 +8,6 @@ from app.services.user_service import UserService
 from collections import Counter
 import uuid
 
-#TODO
-def assign_health_score():
-    pass
-
 # Get all items
 async def get_all_items() -> List[MenuItem]:
     query_params = {

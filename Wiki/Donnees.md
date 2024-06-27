@@ -29,6 +29,7 @@ description de comment ces données peuvent être obtenus.
         "sodium": "Decimal128",
         "energy_per_100g": "Decimal128",
         "saturated fatty acids": "Decimal128",
+        "percentage_fruit_vegetables_nuts": "Decimal128",
     }
 }
 ```
