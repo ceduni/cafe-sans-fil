@@ -4,6 +4,7 @@ from app.models.cafe_model import MenuItem, Cafe
 from app.schemas.cafe_schema import MenuItemUpdate
 import asyncio
 
+# Update the health score of each item in the database.
 def update_items_health_score() -> None:
     all_cafe: list[Cafe] = asyncio.run( DButils.get_all_cafe() )
     for cafe in all_cafe:
@@ -15,4 +16,3 @@ def update_items_health_score() -> None:
                 "health_score": score
             }
             asyncio.run( CafeService.update_menu_item(cafe_slug, item.slug, MenuItemUpdate(**item_data)) )
-            

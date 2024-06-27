@@ -18,6 +18,7 @@ async def _run_bot_recommendations() -> Dict[str, List[str]]:
     bot_recommendations: dict[str, list[str]] = HB.main(all_cafe)
     return bot_recommendations
 
+# Update bot's recommendations in the database
 def update_bot_recommendations() -> None:
     recommendations: dict[str, list[str]] = asyncio.run( _run_bot_recommendations() )
     for cafe_slug in recommendations:

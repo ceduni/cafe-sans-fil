@@ -11,6 +11,13 @@ from collections import Counter
 from typing import List, Dict
 import uuid
 
+# Take a list of cafe and an item and return a list of cafe selling the item.
+def find_cafe_by_item(cafe_list: List[Cafe], item: MenuItem) -> List[Cafe]:
+    return [ cafe for cafe in cafe_list if item in cafe.menu_items ]
+
+def find_indices(input_list, value):
+    return [i for i, x in enumerate(input_list) if x == value]
+
 def regroup_by_cluster(items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
     groups: dict[str, list[MenuItem]] = {}
     for item in items:
@@ -19,11 +26,6 @@ def regroup_by_cluster(items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
         groups[item.cluster].append(item)
     return groups
     
-# Check if a values is duplicated in a list.
-def is_duplicated(element: Any, list: List[Any]) -> bool:
-    counts = Counter(list)
-    return counts[element] > 1
-
 # Calculate the nutriscore of an item
 def health_score(item: MenuItem) -> str:
     nutri_info: dict[str, float] = item.nutritional_informations
