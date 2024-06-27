@@ -1,5 +1,7 @@
 import 'package:app/bar%20graph/my_bar_graph.dart';
 import 'package:app/financial_data_row.dart';
+import 'package:app/modeles/sale.dart';
+import 'package:app/services/productService.dart';
 import 'package:app/side_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,20 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  Future<List<Sale>>? salesFuture;
+  
+    @override
+    void initState(){
+      super.initState();
+      try{
+        salesFuture = ProductService(baseUrl: 'http://localhost:3000/api/v1/cafe/sales').fetchSales();
+      }
+      catch(e){
+        print('faild to fetch sales $e');
+
+      }
+
+    }
   @override
   Widget build(BuildContext context) {
     List<double> wSummary = [
@@ -20,11 +36,14 @@ class _DashboardState extends State<Dashboard> {
       874,
       900,
     ];
+  
     return Scaffold(
         drawer: const Sidebar(),
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: const Text('Dashborad'),
         ),
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -34,8 +53,9 @@ class _DashboardState extends State<Dashboard> {
                     height: 150,
                     width: 150,
                     child: Image.asset(
-                      'images/ToreFractionLogo.jpg',
+                      'images/logo.png',
                       fit: BoxFit.cover,
+                      
                     ),
                   ),
                 ),
@@ -45,10 +65,10 @@ class _DashboardState extends State<Dashboard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    child: const Column(
+                    child:  Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           'CA :',
                           style: TextStyle(
                             fontSize: 18.0,
@@ -56,42 +76,48 @@ class _DashboardState extends State<Dashboard> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 10.0),
-                        Text(
-                          '1395.78 CAD',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
+                        const SizedBox(height: 10.0),
+                        
+                        FutureBuilder<List<Sale>>(
+                          future: salesFuture, 
+                          builder: (context,snapshot){
+                            if(snapshot.hasError){
+                              return Text("Error:${snapshot.error}");
+                            }
+                            else if(snapshot.hasData){
+                              return Text("${snapshot.data!.length}");
+                            }
+                            else{
+                              return const Text("No data available");
+                            }
+
+                          }
+                          )
                       ],
                     ),
                   ),
                   const SizedBox(width: 70.0),
-                  Container(
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Nbrs de ventes :',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Nbrs de ventes :',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(height: 10.0),
-                        Text(
-                          '129',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        '129',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),

@@ -9,6 +9,7 @@ class Benevole extends StatelessWidget {
     return Scaffold(
       drawer: const Sidebar(),
       appBar: AppBar(
+        
         title: const Text('Bénévole'),
       ),
     );

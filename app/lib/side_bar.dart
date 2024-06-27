@@ -6,26 +6,51 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: ListView(
+      backgroundColor: const Color.fromARGB(255, 138, 199, 249),
+      child: ListView(
       padding: EdgeInsets.zero,
       children: const [
         SizedBox(height: 100),
         ListTile(
-          leading: Icon(Icons.person),
-          title: Text('Profile'),
+          leading: Icon(
+            Icons.person,
+            color: Colors.white,
+            ),
+          title: Text(
+                    'Profile',
+                    style: TextStyle(color:Colors.white),
+                    ),
         ),
         ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('Paramètre'),
+          leading: Icon(
+            Icons.settings,
+            color: Colors.white,
+            ),
+          title: Text(
+                      'Paramètre',
+                      style: TextStyle(color:Colors.white),
+                      ),
         ),
         ListTile(
-          leading: Icon(Icons.notifications),
-          title: Text('Notification'),
+          leading: Icon(
+                    Icons.notifications,
+                    color: Colors.white,
+                    ),
+          title: Text(
+                      'Notification',
+                      style: TextStyle(color:Colors.white),
+                      ),
         ),
         SizedBox(height: 300),
         ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('Déconnexion'),
+          leading: Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                      ),
+          title: Text(
+            'Déconnexion',
+            style: TextStyle(color:Colors.white),
+            ),
         ),
       ],
     ));
