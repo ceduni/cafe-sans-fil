@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from uuid import UUID, uuid4
 from beanie import Document, Indexed, DecimalAnnotation
 from pydantic import BaseModel
@@ -19,7 +19,7 @@ different from the API data interchange models.
 class DietProfile(BaseModel):
     diets: Optional[List[str]] = Field(None, description="User diets.")
     food_categories: Optional[List[str]] = Field(None, description="Categories of foods preferred by the user.")
-    prefered_nutrients: Optional[List[str]] = Field(None, description="User preferes nutrients.")
+    prefered_nutrients: Optional[List[str]] = Field(None, description="User's favorite nutrients.")
     allergens: Optional[dict[str, int]] = Field(None, description="User allergens. {Key= allergen name: Value= danger level}")
 
 class User(Document):
@@ -38,7 +38,6 @@ class User(Document):
     likes: List[str] # Contains slugs of the foods liked by the user.
     order_history: List[str] # Contains orders ids.
     visited_cafe: List[str] # Contains visited cafe ids.
-    recommendations: List[str] # Contains recommended items.
     '''
 
     # Hidden from out

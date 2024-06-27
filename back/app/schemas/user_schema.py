@@ -1,6 +1,6 @@
 from pydantic import field_validator, ConfigDict, BaseModel, EmailStr, Field
 from uuid import UUID
-from typing import Optional
+from typing import Optional, List
 import re
 
 """
