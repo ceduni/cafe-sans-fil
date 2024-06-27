@@ -11,6 +11,12 @@ from typing import List, Dict
 
 #TODO
 # Find the recommendations for all users.
+# Dictionnary recommendations structure:
+# {
+#   "user_id": {
+#          "cafe_slug": ["item_id",],
+#    },
+# }
 async def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
     users: list[User] = asyncio.run(DButils.get_all_users())
     list_cafe: list[Cafe] = asyncio.run(DButils.get_all_cafe())
