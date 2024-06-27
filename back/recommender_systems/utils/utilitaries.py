@@ -1,13 +1,29 @@
 # Ce fichier contient le code des algorithmes de la section 2 du document
 #   "Logique" du wiki.
-from typing import List, Any, Tuple, Union
+from typing import List, Any, Tuple
 from app.models.cafe_model import MenuItem, Cafe
 from app.models.user_model import User
 from app.models.order_model import Order, OrderedItem
 from app.services.cafe_service import CafeService
 from app.services.order_service import OrderService
 from app.services.user_service import UserService
+from collections import Counter
+from typing import List, Dict
 import uuid
+
+def regroup_by_cluster(items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
+    groups: dict[str, list[MenuItem]] = {}
+    for item in items:
+        if item.cluster not in groups:
+            groups[item.cluster] = []
+        groups[item.cluster].append(item)
+    return groups
+    
+
+# Check if a values is duplicated in a list.
+def is_duplicated(element: Any, list: List[Any]) -> bool:
+    counts = Counter(list)
+    return counts[element] > 1
 
 #TODO
 def health_score():
@@ -71,45 +87,3 @@ async def meal_not_consumed(cafe: Cafe, user: User) -> List[MenuItem]:
             meal_not_consumed.append(item)
 
     return meal_not_consumed
-
-# Get all items
-async def get_all_items() -> List[MenuItem]:
-    query_params = {
-        "cafe_id_or_slug": None,
-        "page": 1,
-        "limit": 40,
-        "sort_by": "nothing"
-    }
-    items: list[MenuItem] = await CafeService.list_menu_items(**query_params)
-    return items
-
-# Get all cafe
-async def get_all_cafe() -> List[Cafe]:
-    query_params = {
-        "page": 1,
-        "limit": 40,
-        "sort_by": "name"
-    }
-    cafes: list[Cafe] = await CafeService.list_cafes(**query_params)
-    return cafes
-
-# Get all users
-async def get_all_users() -> List[User]:
-    filters = {
-        "page": 1,
-        "limit": 20,
-        "sort_by": "last_name"
-    }
-    dict_users: list[dict[str, Any]] = await UserService.list_users(**filters)
-    users: list[User] = []
-    for u in dict_users:
-        users.append(User(
-            id= u['user_id'],
-            email= u["email"],
-            matricule= u["matricule"],
-            username= u["username"],
-            first_name= u["first_name"],
-            last_name= u["last_name"],
-            photo_url= u["photo_url"],
-        ))
-    return users

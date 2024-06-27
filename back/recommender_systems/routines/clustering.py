@@ -1,11 +1,10 @@
 ### Ce fichier contient les scripts qui permettront de créer des catégories de repas ###
 from app.models.cafe_model import MenuItem
-from recommender_systems.utils import utilitaries as Utilitaries
+from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
 
 import asyncio
 
-from collections import Counter
-from typing import List, Dict, Any
+from typing import List, Dict
 
 import numpy as np
 from sklearn.cluster import KMeans
@@ -18,17 +17,12 @@ def numeric_foods(items: List[MenuItem]) -> List[List[float]]:
         infos: list[float] = list(item.nutritional_informations.values())
         data.append(infos)
     return data
-    
-# Check if a values is duplicated in a list.
-def is_duplicated(element: Any, list: List[Any]) -> bool:
-    counts = Counter(list)
-    return counts[element] > 1
 
 # Create clusters based on the labels got from kmeans.
 # It assumes that the items in the 'items' and 'data' lists in the method 'clustering'
 #   have the same indexing: items[i] equiv data[i].
 def create_clusters(labels: np.array, items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
-    clusters = {}
+    clusters: dict[str, list[MenuItem]] = {}
     for label, item in zip(labels, items):
         if label not in clusters:
             clusters[label] = []
@@ -38,7 +32,7 @@ def create_clusters(labels: np.array, items: List[MenuItem]) -> Dict[str, List[M
 # Create clusters using k-means algorithm.
 # Create clusters from all the foods available in all cafe.
 def clusters() -> Dict[str, List[MenuItem]]:
-    items: list[MenuItem] = asyncio.run(Utilitaries.get_all_items())
+    items: list[MenuItem] = asyncio.run(DButils.get_all_items())
     data: list[list[float]] = numeric_foods(items)
     n: int = len(data)
 
@@ -52,7 +46,7 @@ def clusters() -> Dict[str, List[MenuItem]]:
         kmeans: KMeans = KMeans(n_clusters=i, random_state=42)
         scores.append(silhouette_score(normalized_data, kmeans.fit_predict(normalized_data)))
     max_score: float = max(scores)
-    if is_duplicated(max_score, scores):
+    if Utilitaries.is_duplicated(max_score, scores):
         #TODO: Define an action to do to
         print("You need to choose")
     k: int = scores.index(max_score) + 1
@@ -63,6 +57,7 @@ def clusters() -> Dict[str, List[MenuItem]]:
     clusters = create_clusters(kmeans.labels_, items)
     return clusters
 
+# Update item's cluster in the database.
 #TODO
-def assign_health_score(items: List[MenuItem]) -> List[MenuItem]:
+def update_item_cluster():
     pass

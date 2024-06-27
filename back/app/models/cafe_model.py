@@ -117,6 +117,7 @@ class MenuItem(BaseModel):
     options: List[MenuItemOption] = Field(..., description="List of options available for the menu item.")
     
     '''
+    cluster: str = Field(..., description="String representing the cluster where the item belongs.")
     diets: List[str] = Field(..., description="List of diets in which the food is eaten.")
     allergens: List[str] = Field(..., description="List of allergens contained in the item.")
     likes: List[str] = Field(..., description="Liste contanant l'id des utilisateurs ayant aimé cet item.")

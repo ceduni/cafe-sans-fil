@@ -11,7 +11,7 @@ from collections import Counter
 # Note: The 'n_likes' indexing is the same indexing as 'clusters' dictionnary key's.
 def favorite_cluster(clusters: Dict[str, List[MenuItem]], user: User) -> Dict[str, List[MenuItem]]:
     n_likes: list[int] = []
-    res: dict[str, list[MenuItem]] = []
+    res: dict[str, list[MenuItem]] = {}
     # Get the number of likes per cluster.
     for key in clusters:
         tmp: list[MenuItem] = []
@@ -44,11 +44,12 @@ def remove_cluster(chosen_clusters: Dict[str, List[MenuItem]], clusters: Dict[st
 
 # Content based filtering algorithm.
 # Recommend food based on the user habits.
-async def main(clusters: Dict[str, List[MenuItem]], user: User, cafe: Cafe) -> List[str]:
+async def main(user: User, cafe: Cafe) -> List[str]:
     recommendations: list[MenuItem] = []
     items_not_bought: np.array[MenuItem] = np.array(await Utilitaries.meal_not_consumed(cafe, user))
-
     cafe_items: list[MenuItem] = cafe.menu_items
+    clusters: dict[str, list[MenuItem]] = Utilitaries.regroup_by_cluster(cafe_items)
+
     # Number of clusters.
     if len(cafe_items) > 50:
         k: int = len(cafe_items)//3

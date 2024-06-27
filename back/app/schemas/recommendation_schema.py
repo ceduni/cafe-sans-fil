@@ -15,7 +15,7 @@ Note: These models are for API data interchange related to users and not direct 
 # ----------------------------------------------
 
 class RecommendationOut(BaseModel):
-    recommendations: List[Dict[str, str | List[str]]] = Field(..., description="Recommendations for each cafe.")
+    recommendations: Dict[str, str | List[str]] = Field(..., description="Recommendations for each cafe.")
     model_config = ConfigDict(json_schema_extra={
         "exemple": {
             "recommendations":  ['cheeseburger', "Cheeseburger Spécial"]
@@ -23,7 +23,7 @@ class RecommendationOut(BaseModel):
     })
 
 class RecommendationUpdate(BaseModel):
-    recommendations: Optional[List[Dict[str, str | List[str]]]] = Field(..., description="Recommendations for each cafe.")
+    recommendations: Optional[Dict[str, str | List[str]]] = Field(..., description="Recommendations for each cafe.")
     model_config = ConfigDict(json_encoders={
         "exemple": {
             "recommendations":  ["cheeseburger", "Cheeseburger Spécial"]
