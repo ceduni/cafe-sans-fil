@@ -4,6 +4,6 @@ const server = new MainController();
 
 server.listen();
 
-server.getIndex('/api/v1/cafe');
+server.getIndex('/api/v1/');
 
 
