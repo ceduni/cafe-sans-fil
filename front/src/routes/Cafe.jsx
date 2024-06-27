@@ -17,6 +17,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import classNames from "classnames";
+import Recommendations from "@/components/Recommendations";
 
 const Cafe = () => {
   const { id: cafeSlug } = useParams();
@@ -114,6 +115,8 @@ const Cafe = () => {
             )
         )}
       </Container>
+
+      {/*<Recommendations cafeSlug={cafeSlug} />*/}
 
       <Container className="pt-12 border-t border-gray-200">
         <h2 className=" text-4xl text-center font-bold text-gray-900 tracking-wide">Menu</h2>
