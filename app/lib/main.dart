@@ -14,9 +14,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: const Color.fromARGB(255, 138, 199, 249),
+      ),
       debugShowCheckedModeBanner: false,
-      home: RootPage(),
+      home: const RootPage(),
     );
   }
 }
@@ -86,7 +90,7 @@ class _RootPageState extends State<RootPage> {
           });
         },
         selectedIndex: currentPage,
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(255, 138, 199, 249),
       ),
     );
   }

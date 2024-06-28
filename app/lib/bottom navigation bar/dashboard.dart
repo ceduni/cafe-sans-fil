@@ -14,7 +14,6 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    //List<double> wSummary = [1500, 499, 1900, 874, 900];
     return Scaffold(
         drawer: const Sidebar(),
         appBar: AppBar(
@@ -24,7 +23,7 @@ class _DashboardState extends State<Dashboard> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Center(
+              /* Center(
                 child: ClipRect(
                   child: SizedBox(
                     height: 150,
@@ -35,7 +34,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
-              ),
+              ),*/
               const SizedBox(height: 30.0),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,

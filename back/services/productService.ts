@@ -35,8 +35,7 @@ export class ProductService {
      * @param category the category wanted by the user of function  
      * @returns returns the a list of all sales of the category
      */
-    public async getSalesByCategory(category: string): Promise<Document[]> {
-
+    public async getSalesByCategory(category?: string): Promise<Document[]> {
         let database: Database = await Database.getInstance(ProductService.DB_NAME);
         const salesCollection: Collection<Document> = database.getCollection<Document>('sales');
         try {

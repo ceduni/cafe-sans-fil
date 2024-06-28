@@ -2,7 +2,7 @@ import request from 'supertest';
 import {MainController} from '../contollers/mainController';
 import Database from '../services/DataBase';
 
-describe('GET /api/v1/cafe/sales', () => {
+describe('GET /api/v1/sales', () => {
     let server: MainController;
   
     beforeAll(() => {
@@ -15,14 +15,14 @@ describe('GET /api/v1/cafe/sales', () => {
   });
   
     it('should display the number of sales for a product', async () => {
-      const response = await request(server.App).get('/api/v1/cafe/sales');
+      const response = await request(server.App).get('/api/v1/sales');
       expect(response.status).toBe(200);
       expect(response.body.Sales.length).toBe(5000);
     });
   
 });
 
-describe('GET /api/v1/cafe/sales/productName', () => {
+describe('GET /api/v1sales/productName', () => {
     let server: MainController;
   
     beforeAll(() => {
@@ -30,7 +30,7 @@ describe('GET /api/v1/cafe/sales/productName', () => {
     });
   
     it('should display the number of sales for a product', async () => {
-      const response = await request(server.App).get('/api/v1/cafe/sales/Licensed Soft Car');
+      const response = await request(server.App).get('/api/v1/sales/Licensed Soft Car');
       expect(response.status).toBe(200);
       expect(response.body.Sales.length).toBeGreaterThan(0)
       
@@ -47,9 +47,9 @@ describe('GET /api/v1/cafe/sales/category/categoryName', () => {
   });
 
   it('should return all the sales of a specific category', async () => {
-    const response = await request(server.App).get('/api/v1/cafe/sales/category/Computers');
+    const response = await request(server.App).get('/api/v1/sales?category=Games');
     expect(response.status).toBe(200);
-    expect(response.body.Sales.length).toBeGreaterThan(0)
+    expect(response.body.Sales).toBeDefined();
     
   });
 

@@ -20,11 +20,24 @@ export class ProductRoutes {
         
         try{
             let product:string = req.params.productName;
-            const sales = await this.productService.getSales(product); 
-            res.status(200).send({
-                message: 'Success',
-                Sales: sales,
-            });
+            let category = req.query.category as string;
+            if(category){
+                const sales = await this.productService.getSalesByCategory(category); 
+                res.status(200).send({
+                    message: 'Success',
+                    Sales: sales,
+                });
+                
+            }
+            else{
+                const sales = await this.productService.getSales(product); 
+                res.status(200).send({
+                    message: 'Success',
+                    Sales: sales,
+                });
+                
+            }
+           
            
         }
         catch(err){
@@ -37,25 +50,7 @@ export class ProductRoutes {
 
     }
 
-    public async getSalesByCategory(req: Request, res: Response, next: NextFunction){
-        try {
-            let category:string = req.params.category
-            const sales = await this.productService.getSalesByCategory(category);
-            res.status(200).send({
-                message:'Success',
-                Sales:sales,
-            })
-        } catch (err) {
-            console.log('Error in the getSalesByCategory:',err);
-            res.status(500).send({
-                message: 'Internal Server Error',
-                error: err,
-            });
-            
-        }
-
-    }
-
+    
 
 
 
@@ -65,10 +60,9 @@ export class ProductRoutes {
     private init():void {
         this._router.get('/sales',this.getSales.bind(this));
         this._router.get('/sales/:productName',this.getSales.bind(this));
-        this._router.get('/sales/category/:category',this.getSalesByCategory.bind(this));
+        
         
     }
-
     public get router(): Router{
         return this._router;
     }

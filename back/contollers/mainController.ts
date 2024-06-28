@@ -44,7 +44,7 @@ export class MainController {
 
     public getSales(){
         // console.log(`this is my Routes ${this.productRoute.router}`);
-        this.app.use('/api/v1/cafe',this.productRoute.router)
+        this.app.use('/api/v1',this.productRoute.router)
         
     }
     /**
