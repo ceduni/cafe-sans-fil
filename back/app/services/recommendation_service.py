@@ -1,8 +1,8 @@
 from typing import List
 from app.schemas.recommendation_schema import ItemRecommendationUpdate, CafeRecommendationUpdate
-from app.models.user_recommendation_model import UserRecommendation
-from app.models.public_recommendation_model import PublicRecommendation
-from app.models.bot_recommendation_model import BotRecommendation
+from app.models.recommendations.user_recommendation_model import UserRecommendation
+from app.models.recommendations.public_recommendation_model import PublicRecommendation
+from app.models.recommendations.bot_recommendation_model import BotRecommendation
 from app.models.cafe_recommendation_model import CafeRecommendation
 
 class RecommendationService:
