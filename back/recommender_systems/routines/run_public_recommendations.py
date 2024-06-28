@@ -1,7 +1,7 @@
 from recommender_systems.systems import global_recommendation as GR
 from app.models.cafe_model import Cafe
 from app.services.recommendation_service import RecommendationService
-from app.schemas.recommendation_schema import RecommendationUpdate
+from app.schemas.recommendation_schema import ItemRecommendationUpdate
 from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
 import asyncio
 from typing import List, Dict
@@ -28,4 +28,4 @@ def update_public_recommendations() -> None:
         data = {
             "recommendations": recommendations[cafe_slug]
         }
-        asyncio.run( RecommendationService.update_public_recommendations(cafe_slug, RecommendationUpdate(**data)) )
+        asyncio.run( RecommendationService.update_public_recommendations(cafe_slug, ItemRecommendationUpdate(**data)) )

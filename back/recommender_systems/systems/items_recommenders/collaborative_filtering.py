@@ -19,8 +19,8 @@ async def main(users: List[User], user: User) -> List[str]:
         if n_users > 1 and users[0].id != user.id:
             users.remove(user)
             S: set = set(users)
-            items_in_orders: list[str] = await Utilitaries.list_items(user.order_history)
-            user_list: list[set[str]] = [set(user.likes), set(items_in_orders), set(user.visited_cafe)]
+            items_in_orders: list[str] = await Utilitaries.list_items(Utilitaries.get_user_orders(user))
+            user_list: list[set[str]] = [set(user.likes), set(items_in_orders), set(Utilitaries.get_visited_cafe(user))]
 
             for u in S:
                 other_items_in_orders: list[str] = await Utilitaries.list_items(u.order_history)

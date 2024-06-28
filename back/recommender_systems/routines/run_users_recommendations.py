@@ -3,7 +3,7 @@ from recommender_systems.systems import content_based_filtering as CBF
 from recommender_systems.systems import knowledge_based as KBR
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
-from app.schemas.recommendation_schema import RecommendationUpdate
+from app.schemas.recommendation_schema import ItemRecommendationUpdate
 from app.services.recommendation_service import RecommendationService
 from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
 import asyncio
@@ -54,4 +54,4 @@ def update_users_recommendations() -> None:
             data = {
                 "recommendations": recommendations[user_id][cafe_slug]
             }
-            asyncio.run( RecommendationService.update_user_recommendations(user_id, cafe_slug, RecommendationUpdate(**data)) )
+            asyncio.run( RecommendationService.update_user_recommendations(user_id, cafe_slug, ItemRecommendationUpdate(**data)) )

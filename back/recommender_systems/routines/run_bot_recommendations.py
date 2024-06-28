@@ -1,7 +1,7 @@
 from recommender_systems.systems import health_bot as HB
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
-from app.schemas.recommendation_schema import RecommendationUpdate
+from app.schemas.recommendation_schema import ItemRecommendationUpdate
 from app.services.recommendation_service import RecommendationService
 from recommender_systems.utils import db_utils as DButils
 from typing import List, Dict
@@ -25,4 +25,4 @@ def update_bot_recommendations() -> None:
         data = {
             "recommendations": recommendations[cafe_slug]
         }
-        asyncio.run( RecommendationService.update_bot_recommendations(cafe_slug, RecommendationUpdate(**data)) )
+        asyncio.run( RecommendationService.update_bot_recommendations(cafe_slug, ItemRecommendationUpdate(**data)) )

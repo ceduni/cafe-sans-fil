@@ -1,7 +1,7 @@
 from beanie import Document, Indexed
 from typing import List
 from back.app.models.user_recommendation_model import Item
-from pydantic import field_validator, BaseModel, Field
+from pydantic import BaseModel, Field
 from uuid import UUID
 
 """

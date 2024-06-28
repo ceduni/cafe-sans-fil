@@ -14,6 +14,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import uuid
 
+#TODO
+def get_visited_cafe(user: User):
+    pass
+
+#TODO
+def get_user_orders(user: User) -> List[str]:
+    pass
+
 async def users_similarity(u: User, v: User) -> float:
     u_list: list[list[str]] = [u.likes, await list_items(u.order_history), u.visited_cafe]
     v_list: list[list[str]] = [v.likes, await list_items(v.order_history), v.visited_cafe]
