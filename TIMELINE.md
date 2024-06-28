@@ -58,13 +58,16 @@
 
 ### Observations
 
-### Ressources
+### Ressources-->
 
 ## Semaine 9 (2024-06-28)
 
 ### Objectifs
+- Modifier l'algorithme de recommendations publique (prendre en compte les items les plus achetés).
+- Considérer la distance de [levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance#:~:text=The%20Levenshtein%20distance%20between%20two,defined%20the%20metric%20in%201965.) pour les mesure de similarité.
+- Rajouter les tests unitaires.
 
-### Réalisations
+<!--### Réalisations
 
 ### Observations
 
@@ -78,13 +81,12 @@
 - Créer une base de données pour les recommendations.
 - Début du front-end.
 
-<!--
 ### Réalisations
-
-### Observations
-
-### Ressources
--->
+- Ajout de système de recommendations pour les cafés.
+- Ajout d'un tableau pour les recommendations des utilisateurs et des cafés.
+- Ajout des points d'accès dans l'API pour les recommendations.
+- Ajout de ``models``, ``schemas`` et ``services`` pour les recommendations dans le backend.
+- Regénération des données de tests avec les nouveaux attributs.
 
 ## Semaine 7 (2024-06-14)
 
@@ -93,7 +95,6 @@
 - Mise à jour des attributs des repas et des utilisateurs pour la base de données.
 - Modifier la base de données.
 - Implémenter les algorithmes de recommandation.
-- Créer des tests unitaires.
 
 ### Réalisations
 - Mise à jour des <a href="https://cafe-sans-fil-recommendation-diagrams.netlify.app/" target="_blank">diagrammes</a>.</li>

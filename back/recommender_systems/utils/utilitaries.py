@@ -87,6 +87,7 @@ def health_score(item: MenuItem) -> str:
     else:
         nutriscore = 'E'
 
+    #TODO: just return the score
     return nutriscore
 
 def reshape(A: List[Any], B: List[Any]) -> Tuple[List[Any]]:

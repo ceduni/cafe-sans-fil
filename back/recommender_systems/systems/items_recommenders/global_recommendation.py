@@ -27,6 +27,8 @@ def main(cafe: Cafe) -> List[str]:
         most_likes.append(cafe_items[index])
         likes.remove(max_likes)
 
+    #TODO: Check with purchase. Trier par quantité d'achat et de likes.
+
     #TODO Recommand items based on the time of the day. 
     #   Should be done after nutritionist advice.
 
