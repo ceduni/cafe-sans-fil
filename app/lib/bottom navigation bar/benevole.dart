@@ -1,4 +1,4 @@
-import 'package:app/side_bar.dart';
+import 'package:app/side%20bar/side_bar.dart';
 import 'package:flutter/material.dart';
 
 class Benevole extends StatelessWidget {
@@ -10,6 +10,7 @@ class Benevole extends StatelessWidget {
       drawer: const Sidebar(),
       appBar: AppBar(
         title: const Text('Bénévole'),
+        surfaceTintColor: Colors.blue,
       ),
     );
   }

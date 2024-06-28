@@ -1,4 +1,4 @@
-import 'package:app/side_bar.dart';
+import 'package:app/side%20bar/side_bar.dart';
 import 'package:flutter/material.dart';
 
 class Evenement extends StatelessWidget {
@@ -10,6 +10,7 @@ class Evenement extends StatelessWidget {
       drawer: const Sidebar(),
       appBar: AppBar(
         title: const Text('Evènement'),
+        surfaceTintColor: Colors.blue,
       ),
     );
   }

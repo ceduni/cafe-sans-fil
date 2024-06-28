@@ -1,6 +1,7 @@
-import 'package:app/bar%20graph/my_bar_graph.dart';
-import 'package:app/financial_data_row.dart';
-import 'package:app/side_bar.dart';
+import 'package:app/graph%20components/Color%20list%20chart/color_list_chart.dart';
+import 'package:app/graph%20components/financial_data_row.dart';
+import 'package:app/graph%20components/histogram/custom_bar_chart.dart';
+import 'package:app/side%20bar/side_bar.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -13,17 +14,12 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    List<double> wSummary = [
-      1500,
-      499,
-      1900,
-      874,
-      900,
-    ];
+    //List<double> wSummary = [1500, 499, 1900, 874, 900];
     return Scaffold(
         drawer: const Sidebar(),
         appBar: AppBar(
           title: const Text('Dashborad'),
+          surfaceTintColor: Colors.blue,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -41,57 +37,53 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               const SizedBox(height: 30.0),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'CA :',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'CA :',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(height: 10.0),
-                        Text(
-                          '1395.78 CAD',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        '1395.78 CAD',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
                   ),
-                  const SizedBox(width: 70.0),
-                  Container(
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Nbrs de ventes :',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  SizedBox(width: 70.0),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Nbrs de ventes :',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(height: 10.0),
-                        Text(
-                          '129',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        '129',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
@@ -132,11 +124,38 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(
                 height: 35.0,
               ),
-              SizedBox(
+              const SizedBox(
                 // Histogram
                 width: 350,
                 height: 200,
-                child: MyBarGraph(weeklySummary: wSummary),
+                child: CustomBarChart(
+                  allValues: [
+                    [150.0, 400.0],
+                    [234.0, 345.0],
+                    [150.0, 400.0],
+                    [234.0, 345.0],
+                    [234.0, 345.0],
+                    [234.0, 345.0],
+                    [234.0, 345.0],
+                    [234.0, 345.0],
+                  ],
+                  type: 0,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Column(
+                children: [
+                  FinancialDataRow(
+                    title: 'Chiffres d\'affaires sur la période :',
+                    value: '999999,59 CAD ',
+                  ),
+                  FinancialDataRow(
+                    title: 'Bénéfices sur la période :',
+                    value: '123500,34 CAD ',
+                  ),
+                ],
               ),
               Container(
                 //Alerts titles
@@ -173,18 +192,18 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
               ),
-              const Column(
-                children: [
-                  FinancialDataRow(
-                    title: 'Chiffres d\'affaires sur la période :',
-                    value: '200000,59 CAD ',
-                  ),
-                  FinancialDataRow(
-                    title: 'Bénéfices sur la période :',
-                    value: '123500,34 CAD ',
-                  ),
-                ],
-              ),
+              Column(children: [
+                ColorListChart(
+                  allValues: const {
+                    'lait': 395000,
+                    'pain': 300070,
+                    'hot-dog': 343222,
+                    'pizza': 450000,
+                    'burger': 389900
+                  },
+                  unity: 'CAD',
+                ),
+              ]),
             ],
           ),
         ));

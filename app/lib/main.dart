@@ -1,8 +1,8 @@
-import 'package:app/article.dart';
-import 'package:app/benevole.dart';
-import 'package:app/dashboard.dart';
-import 'package:app/evenement.dart';
-import 'package:app/horaire.dart';
+import 'package:app/bottom%20navigation%20bar/article.dart';
+import 'package:app/bottom%20navigation%20bar/benevole.dart';
+import 'package:app/bottom%20navigation%20bar/dashboard.dart';
+import 'package:app/bottom%20navigation%20bar/evenement.dart';
+import 'package:app/bottom%20navigation%20bar/horaire.dart';
 import 'package:flutter/material.dart';
 
 void main() {
