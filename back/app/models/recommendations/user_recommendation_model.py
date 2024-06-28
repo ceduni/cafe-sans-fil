@@ -22,3 +22,4 @@ class UserRecommendation(Document):
 class Item(BaseModel):
     slug: Indexed(str, unique=True) = Field(None, description="URL-friendly slug for the menu item.")
     health_score: str = Field(None, description="Health score of the item.")
+    cluster: str = Field(..., description="String representing the cluster where the item belongs.")

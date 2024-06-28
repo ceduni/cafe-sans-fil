@@ -117,13 +117,11 @@ class MenuItem(BaseModel):
     options: List[MenuItemOption] = Field(..., description="List of options available for the menu item.")
     
     '''
-    cluster: str = Field(..., description="String representing the cluster where the item belongs.")
     diets: List[str] = Field(..., description="List of diets in which the food is eaten.")
     allergens: List[str] = Field(..., description="List of allergens contained in the item.")
     likes: List[str] = Field(..., description="Liste contanant l'id des utilisateurs ayant aimé cet item.")
     barecode: str = Field(None, description="Food's barecode.")
     nutritional_informations: Dict[str, float] = Field(..., description="Dictionnary of the nutritive values of an item.")
-    health_score: DecimalAnnotation = Field(..., description="Food's health score.")
     '''
 
     def __init__(self, **data):
