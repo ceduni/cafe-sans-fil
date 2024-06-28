@@ -1,4 +1,4 @@
-from recommender_systems.systems import health_bot as HB
+from recommender_systems.systems.items_recommenders import health_bot as HB
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.schemas.recommendation_schema import ItemRecommendationUpdate

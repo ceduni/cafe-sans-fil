@@ -1,4 +1,4 @@
-from recommender_systems.systems import global_recommendation as GR
+from recommender_systems.systems.items_recommenders import global_recommendation as GR
 from app.models.cafe_model import Cafe
 from app.services.recommendation_service import RecommendationService
 from app.schemas.recommendation_schema import ItemRecommendationUpdate

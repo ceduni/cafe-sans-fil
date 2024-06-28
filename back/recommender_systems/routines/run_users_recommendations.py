@@ -1,6 +1,6 @@
-from recommender_systems.systems import collaborative_filtering as CF
-from recommender_systems.systems import content_based_filtering as CBF
-from recommender_systems.systems import knowledge_based as KBR
+from recommender_systems.systems.items_recommenders import collaborative_filtering as CF
+from recommender_systems.systems.items_recommenders import content_based_filtering as CBF
+from recommender_systems.systems.items_recommenders import knowledge_based as KBR
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.schemas.recommendation_schema import ItemRecommendationUpdate
