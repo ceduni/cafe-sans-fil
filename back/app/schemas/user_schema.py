@@ -2,6 +2,7 @@ from pydantic import field_validator, ConfigDict, BaseModel, EmailStr, Field
 from uuid import UUID
 from typing import Optional, List
 import re
+from app.models.user_model import DietProfile
 
 """
 This module defines the Pydantic-based schemas for user operations in the Café application. 
@@ -63,6 +64,8 @@ class UserUpdate(BaseModel):
     first_name: Optional[str] = Field(None, min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="New first name to update.")
     last_name: Optional[str] = Field(None, min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="New last name to update.")
     photo_url: Optional[str] = Field(None, min_length=10, max_length=755, description="New URL for the user's profile photo.")
+    diet_profile: Optional[DietProfile] = Field(None, description="New user's diet profile.")
+
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "email": "john.doe@umontreal.ca",
@@ -71,7 +74,22 @@ class UserUpdate(BaseModel):
             "password": "Password123",
             "first_name": "John",
             "last_name": "Doe",
-            "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg"
+            "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
+            "diet_profile": {
+                "diet": "Vegetarian",
+                "food_categories": ["Vegetarian"],
+                "prefered_nutrients": ["Calories", "Protein", "Carbohydrates", "Fats"],
+                "allergens": {
+                    "Gluten": 0,
+                    "Dairy": 0,
+                    "Peanuts": 0,
+                    "Tree Nuts": 0,
+                    "Soy": 0,
+                    "Wheat": 0,
+                    "Fish": 0,
+                    "Shellfish": 0
+                }
+            }
         }
     })
 
@@ -103,6 +121,7 @@ class UserOut(BaseModel):
     first_name: str = Field(..., description="First name of the user.")
     last_name: str = Field(..., description="Last name of the user.")
     photo_url: Optional[str] = Field(None, description="URL of the user's profile photo.")
+    diet_profile: Optional[DietProfile] = Field(None, description="User's diet profile.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "user_id": "123e4567-e89b-12d3-a456-426614174000",
@@ -112,6 +131,21 @@ class UserOut(BaseModel):
             "first_name": "John",
             "last_name": "Doe",
             "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
+            "diet_profile": {
+                "diet": "Vegetarian",
+                "food_categories": ["Vegetarian"],
+                "prefered_nutrients": ["Calories", "Protein", "Carbohydrates", "Fats"],
+                "allergens": {
+                    "Gluten": 0,
+                    "Dairy": 0,
+                    "Peanuts": 0,
+                    "Tree Nuts": 0,
+                    "Soy": 0,
+                    "Wheat": 0,
+                    "Fish": 0,
+                    "Shellfish": 0
+                }
+            }
         }
     })
 
