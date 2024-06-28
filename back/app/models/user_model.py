@@ -31,12 +31,7 @@ class User(Document):
     first_name: Indexed(str)
     last_name: Indexed(str)
     photo_url: Optional[str] = None
-    
-    '''
-    # New fields
-    diet_profile: DietProfile
-    likes: List[str] # Contains slugs of the items liked by the user.
-    '''
+    diet_profile: Optional[DietProfile] = None
 
     # Hidden from out
     failed_login_attempts: int = Field(default=0)

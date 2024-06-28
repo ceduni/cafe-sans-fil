@@ -1,5 +1,6 @@
 from app.schemas.user_schema import UserAuth, UserUpdate
 from app.services.user_service import UserService
+from app.models.user_model import DietProfile
 import json
 from tqdm import tqdm
 import pymongo
@@ -39,6 +40,9 @@ async def create_users(num_users):
                     photo_urls[i] if random.random() <= 1.00 else None
                 )  # chance of having a photo
 
+                diet_profile = generate_diet_profile()
+                likes = []
+
                 user_data = UserAuth(
                     email=email,
                     matricule=matricule,
@@ -50,6 +54,13 @@ async def create_users(num_users):
                 )
 
                 user = await UserService.create_user(user_data)
+
+                user_update = UserUpdate(
+                    diet_profile=diet_profile,
+                    likes=likes,
+                )
+                await UserService.update_user(user.username, user_update)
+
                 user_usernames.append(user.username)
                 break
             except pymongo.errors.DuplicateKeyError:
@@ -70,6 +81,19 @@ async def create_users(num_users):
     user_usernames[0] = cafesansfil_matricule
     return user_usernames
 
+def generate_diet_profile():
+    diets = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free"]
+    food_categories = ["Grilled Cheese", "Boissons chaudes", "Boissons froides", "Collations"]
+    nutrients = ["Protein", "Fiber", "Vitamins", "Minerals", "Carbohydrates"]
+    allergens = ["Peanuts", "Tree Nuts", "Dairy", "Soy", "Wheat", "Fish", "Shellfish"]
+
+    diet_profile = DietProfile(
+        diets=random.sample(diets, random.randint(0, len(diets))),
+        food_categories=random.sample(food_categories, random.randint(0, len(food_categories))),
+        prefered_nutrients=random.sample(nutrients, random.randint(0, len(nutrients))),
+        allergens={allergen: random.randint(1, 5) for allergen in random.sample(allergens, random.randint(0, len(allergens)))}
+    )
+    return diet_profile
 
 # This function is used to normalize the first_name and last_name to be used as a password
 # Example: "Éric" -> "Eric"

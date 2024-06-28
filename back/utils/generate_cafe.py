@@ -1,4 +1,5 @@
 import json
+from uuid import uuid4
 from app.models.cafe_model import (
     Cafe,
     MenuItem,
@@ -61,6 +62,11 @@ async def create_cafes(usernames):
         for item in menu_items_data:
             item_copy = item.copy()
             item_copy["in_stock"] = random.random() < 0.80
+            item_copy["diets"] = random_diets()
+            item_copy["allergens"] = random_allergens()
+            item_copy["likes"] = random_likes(usernames)
+            item_copy["barecode"] = random_barecode()
+            item_copy["nutritional_informations"] = random_nutritional_info()
             randomized_menu_items.append(MenuItem(**item_copy))
 
         cafe = Cafe(
@@ -243,3 +249,27 @@ def random_additional_info():
         additional_infos.append(additional_info.model_dump())
 
     return additional_infos
+
+def random_diets():
+    diets = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free"]
+    return random.sample(diets, random.randint(0, len(diets)))
+
+def random_allergens():
+    allergens = ["Peanuts", "Tree Nuts", "Dairy", "Soy", "Wheat", "Fish", "Shellfish"]
+    return random.sample(allergens, random.randint(0, len(allergens)))
+
+def random_likes(usernames):
+    likes_count = random.randint(0, len(usernames) // 2)
+    return random.sample(usernames, likes_count)
+
+def random_barecode():
+    return str(uuid4())
+
+def random_nutritional_info():
+    nutritional_info = {
+        "calories": random.uniform(50, 500),
+        "protein": random.uniform(1, 20),
+        "fat": random.uniform(1, 20),
+        "carbohydrates": random.uniform(1, 50),
+    }
+    return nutritional_info
