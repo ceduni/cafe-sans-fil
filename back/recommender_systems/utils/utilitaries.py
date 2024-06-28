@@ -9,7 +9,21 @@ from app.services.order_service import OrderService
 from app.services.user_service import UserService
 from collections import Counter
 from typing import List, Dict
+from sklearn.metrics import jaccard_score
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 import uuid
+
+async def users_similarity(u: User, v: User) -> float:
+    u_list: list[list[str]] = [u.likes, await list_items(u.order_history), u.visited_cafe]
+    v_list: list[list[str]] = [v.likes, await list_items(v.order_history), v.visited_cafe]
+    J: list[float] = []
+    for i in range(0, len(v_list)):
+        resized_array: tuple[list[str]] = reshape(u_list[i], v_list[i])
+        j: float = jaccard_score(np.array(resized_array[0]), np.array(resized_array[1]), average="weighted")
+        J.append(j)
+    score: float = sum(J)
+    return score
 
 # Take a list of cafe and an item and return a list of cafe selling the item.
 def find_cafe_by_item(cafe_list: List[Cafe], item: MenuItem) -> List[Cafe]:

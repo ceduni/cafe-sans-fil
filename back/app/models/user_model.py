@@ -35,9 +35,9 @@ class User(Document):
     '''
     # New fields
     diet_profile: DietProfile
-    likes: List[str] # Contains slugs of the foods liked by the user.
+    likes: List[str] # Contains slugs of the items liked by the user.
     order_history: List[str] # Contains orders ids.
-    visited_cafe: List[str] # Contains visited cafe ids.
+    visited_cafe: List[str] # Contains visited cafe slugs.
     '''
 
     # Hidden from out
