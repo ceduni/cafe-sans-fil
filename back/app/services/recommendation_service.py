@@ -3,7 +3,7 @@ from app.schemas.recommendation_schema import ItemRecommendationUpdate, CafeReco
 from app.models.recommendations.user_recommendation_model import UserRecommendation
 from app.models.recommendations.public_recommendation_model import PublicRecommendation
 from app.models.recommendations.bot_recommendation_model import BotRecommendation
-from app.models.cafe_recommendation_model import CafeRecommendation
+from app.models.recommendations.cafe_recommendation_model import CafeRecommendation
 
 class RecommendationService:
 

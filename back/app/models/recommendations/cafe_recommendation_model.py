@@ -1,6 +1,6 @@
 from beanie import Document, Indexed
 from typing import List
-from back.app.models.cafe_recommendation_model import Cafe
+from back.app.models.recommendations.cafe_recommendation_model import Cafe
 from pydantic import BaseModel, Field
 from uuid import UUID, uuid4
 
