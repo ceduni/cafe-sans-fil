@@ -11,7 +11,7 @@ def update_items_health_score() -> None:
         cafe_slug = cafe.slug
         items: list[MenuItem] = cafe.menu_items
         for item in items:
-            score: str = Utilitaries.health_score(item)
+            score: float = Utilitaries.health_score(item)
             item_data = {
                 "health_score": score
             }

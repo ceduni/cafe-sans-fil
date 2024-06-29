@@ -34,4 +34,3 @@ def main(action: str) -> None:
             RunBotRec.update_bot_recommendations()
             RunScoreUpdate.update_items_health_score()
             RunCafeRec.update_cafe_recommendations()
-

@@ -106,12 +106,17 @@ class MenuItemOption(BaseModel):
 
 class NutritionInfo(BaseModel):
     calories: Optional[DecimalAnnotation] = Field(None, description="Calories in the item.")
-    fat: Optional[DecimalAnnotation] = Field(None, description="Fat content in the item.")
+    lipid: Optional[DecimalAnnotation] = Field(None, description="Lipid content in the item.")
     protein: Optional[DecimalAnnotation] = Field(None, description="Protein content in the item.")
     carbohydrates: Optional[DecimalAnnotation] = Field(None, description="Carbohydrate content in the item.")
     sugar: Optional[DecimalAnnotation] = Field(None, description="Sugar content in the item.")
-    salt: Optional[DecimalAnnotation] = Field(None, description="Salt content in the item.")
-    
+    sodium: Optional[DecimalAnnotation] = Field(None, description="Salt content in the item.")
+    fiber: Optional[DecimalAnnotation] = Field(None, description="Fiber content in the item.")
+    vitamins: Optional[DecimalAnnotation] = Field(None, description="Vitamins content in the item.")
+    saturated_fat: Optional[DecimalAnnotation] = Field(None, description="Saturated fat content in the item.")
+    percentage_fruit_vegetables_nuts: Optional[DecimalAnnotation] = Field(None, description="Percentage on fruits, vegetables and nuts in the item.")
+
+
 class MenuItem(BaseModel):
     item_id: UUID = Field(default_factory=uuid4, description="Unique identifier of the menu item.")
     name: Indexed(str, unique=True) = Field(..., description="Name of the menu item.")
@@ -125,7 +130,7 @@ class MenuItem(BaseModel):
     options: List[MenuItemOption] = Field(..., description="List of options available for the menu item.")
     diets: List[str] = Field(..., description="List of diets in which the food is eaten.")
     allergens: List[str] = Field(..., description="List of allergens contained in the item.")
-    likes: List[str] = Field(..., description="Liste contanant l'id des utilisateurs ayant aimé cet item.")
+    likes: List[str] = Field(..., description="List containing the ids of the users that liked this item.")
     barecode: str = Field(None, description="Food's barecode.")
     nutritional_informations: NutritionInfo = Field(..., description="Dictionnary of the nutritive values of an item.")
 

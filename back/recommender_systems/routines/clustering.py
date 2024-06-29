@@ -12,11 +12,24 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
+from app.models.cafe_model import NutritionInfo
 
 def _numeric_foods(items: List[MenuItem]) -> List[List[float]]:
     data: list[list[float]] = []
     for item in items:
-        infos: list[float] = list(item.nutritional_informations.values())
+        item_infos: NutritionInfo = item.nutritional_informations
+        infos: list[float] = [
+            item_infos.calories, 
+            item_infos.lipid,
+            item_infos.protein,
+            item_infos.carbohydrates,
+            item_infos.sugar,
+            item_infos.sodium,
+            item_infos.fiber,
+            item_infos.vitamins,
+            item_infos.saturated_fat,
+            item_infos.percentage_fruit_vegetables_nuts,
+        ]
         data.append(infos)
     return data
 
