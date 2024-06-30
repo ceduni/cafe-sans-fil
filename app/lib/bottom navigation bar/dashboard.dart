@@ -3,6 +3,7 @@ import 'package:app/graph%20components/financial_data_row.dart';
 import 'package:app/graph%20components/histogram/custom_bar_chart.dart';
 import 'package:app/side%20bar/side_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -17,7 +18,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
         drawer: const Sidebar(),
         appBar: AppBar(
-          title: const Text('Dashborad'),
+          title: Text(AppLocalizations.of(context)!.pagesTitles_dashboardTitle),
           surfaceTintColor: Colors.blue,
         ),
         body: SingleChildScrollView(
@@ -36,22 +37,22 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),*/
               const SizedBox(height: 30.0),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'CA :',
-                        style: TextStyle(
+                        AppLocalizations.of(context)!.turnover_text,
+                        style: const TextStyle(
                           fontSize: 18.0,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10.0),
-                      Text(
+                      const SizedBox(height: 10.0),
+                      const Text(
                         '1395.78 CAD',
                         style: TextStyle(
                           fontSize: 20.0,
@@ -61,20 +62,20 @@ class _DashboardState extends State<Dashboard> {
                       )
                     ],
                   ),
-                  SizedBox(width: 70.0),
+                  const SizedBox(width: 70.0),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Nbrs de ventes :',
-                        style: TextStyle(
+                        AppLocalizations.of(context)!.sales_numbers_text,
+                        style: const TextStyle(
                           fontSize: 18.0,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10.0),
-                      Text(
+                      const SizedBox(height: 10.0),
+                      const Text(
                         '129',
                         style: TextStyle(
                           fontSize: 20.0,
@@ -91,9 +92,9 @@ class _DashboardState extends State<Dashboard> {
                 //sell's evolution title
                 padding: const EdgeInsets.all(20.0),
                 alignment: Alignment.topLeft,
-                child: const Text(
-                  'Évolutions des ventes',
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.evolution_of_sales_title,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -133,9 +134,8 @@ class _DashboardState extends State<Dashboard> {
                     [234.0, 345.0],
                     [150.0, 400.0],
                     [234.0, 345.0],
-                    [234.0, 345.0],
-                    [234.0, 345.0],
-                    [234.0, 345.0],
+                    [234.0, 375.0],
+                    [234.0, 505.0],
                     [234.0, 345.0],
                   ],
                   type: 0,
@@ -144,14 +144,16 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(
                 height: 20,
               ),
-              const Column(
+              Column(
                 children: [
                   FinancialDataRow(
-                    title: 'Chiffres d\'affaires sur la période :',
-                    value: '999999,59 CAD ',
+                    title: AppLocalizations.of(context)!
+                        .turnover_over_the_period_text,
+                    value: '999,59 CAD ',
                   ),
                   FinancialDataRow(
-                    title: 'Bénéfices sur la période :',
+                    title: AppLocalizations.of(context)!
+                        .profits_over_the_period_text,
                     value: '123500,34 CAD ',
                   ),
                 ],
@@ -160,9 +162,9 @@ class _DashboardState extends State<Dashboard> {
                 //Alerts titles
                 padding: const EdgeInsets.all(20.0),
                 alignment: Alignment.topLeft,
-                child: const Text(
-                  'Alertes',
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.alerts_title,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -182,9 +184,9 @@ class _DashboardState extends State<Dashboard> {
                 //sells by category title
                 padding: const EdgeInsets.all(20.0),
                 alignment: Alignment.topLeft,
-                child: const Text(
-                  'Ventes par catégories (CA)',
-                  style: TextStyle(
+                child: Text(
+                  ' ${AppLocalizations.of(context)!.profits_over_the_period_text} (${AppLocalizations.of(context)!.turnover_text})',
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,

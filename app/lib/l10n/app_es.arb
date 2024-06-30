@@ -1,0 +1,23 @@
+{
+  "pagesTitles_dashboardTitle": "Panel de control",
+  "pagesTitles_volunteerTitle": "Voluntario",
+  "pagesTitles_articleTitle": "Artículo",
+  "pagesTitles_eventTitle": "Evento",
+  "pagesTitles_hourlyTitle": "Cada hora",
+  "bottomNavigationBar_dashboardButtonText": "Pan. de cont.",
+  "bottomNavigationBar_volunteerButtonText": "Voluntario",
+  "bottomNavigationBar_articleButtonText": "Artículo",
+  "bottomNavigationBar_eventButtonText": "Evento",
+  "bottomNavigationBar_hourlyButtonText": "Cada hora",
+  "sidebar_profile": "Perfil",
+  "sidebar_setting": "Configuración",
+  "sidebar_notification": "Notificación",
+  "sidebar_logOut": "Cerrar sesión",
+  "turnover_text": "facturación",
+  "sales_numbers_text": "Números de ventas",
+  "evolution_of_sales_title": "Evolución de las ventas",
+  "turnover_over_the_period_text": "Facturación durante el período",
+  "profits_over_the_period_text": "Beneficios durante el período",
+  "alerts_title": "Alertas",
+  "sales_by_category_title": "Ventas por categoría"
+}

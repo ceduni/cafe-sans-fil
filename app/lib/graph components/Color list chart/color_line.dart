@@ -20,8 +20,8 @@ class ColorLine extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(width: 40),
         Container(
           height: 18,
           width: 18,
@@ -40,32 +40,28 @@ class ColorLine extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 10),
-        Row(
-          children: [
-            Container(
-              width: screenWidth / 3,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '$name ',
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        const SizedBox(width: 5),
+        Container(
+          width: screenWidth / 3,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '$name ',
+            style: const TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
             ),
-            const SizedBox(width: 10),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '$value $unity ($percent %)',
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          ),
+        ),
+        Container(
+          width: screenWidth / 2.1,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '$value $unity ($percent %)',
+            style: const TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
             ),
-          ],
+          ),
         ),
         const SizedBox(height: 35),
       ],

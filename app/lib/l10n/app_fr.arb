@@ -1,0 +1,23 @@
+{
+  "pagesTitles_dashboardTitle": "Tableau de bord",
+  "pagesTitles_volunteerTitle": "Bénévole",
+  "pagesTitles_articleTitle": "Article",
+  "pagesTitles_eventTitle": "Événement",
+  "pagesTitles_hourlyTitle": "Horaire",
+  "bottomNavigationBar_dashboardButtonText": "Tabl. de bord",
+  "bottomNavigationBar_volunteerButtonText": "Bénévole",
+  "bottomNavigationBar_articleButtonText": "Article",
+  "bottomNavigationBar_eventButtonText": "Événement",
+  "bottomNavigationBar_hourlyButtonText": "Horaire",
+  "sidebar_profile": "Profile",
+  "sidebar_setting": "Paramètre",
+  "sidebar_notification": "Notification",
+  "sidebar_logOut": "Déconnexion",
+  "turnover_text": "Chiffre d'affaires",
+  "sales_numbers_text": "Nombrs de ventes",
+  "evolution_of_sales_title": "Évolution des ventes",
+  "turnover_over_the_period_text": "Chiffre d'affaires sur la période",
+  "profits_over_the_period_text": "Bénéfices sur la période",
+  "alerts_title": "Alertes",
+  "sales_by_category_title": "Ventes par catégorie"
+}

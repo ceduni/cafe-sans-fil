@@ -3,7 +3,10 @@ import 'package:app/bottom%20navigation%20bar/benevole.dart';
 import 'package:app/bottom%20navigation%20bar/dashboard.dart';
 import 'package:app/bottom%20navigation%20bar/evenement.dart';
 import 'package:app/bottom%20navigation%20bar/horaire.dart';
+import 'package:app/side%20bar/setting%20options/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:app/l10n/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,13 +18,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: const Color.fromARGB(255, 138, 199, 249),
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const RootPage(),
-    );
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: const Color.fromARGB(255, 138, 199, 249),
+        ),
+        supportedLocales: L10n.all,
+        locale: const Locale('en'), //en, fr or es  language
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        debugShowCheckedModeBanner: false,
+        home: const RootPage(),
+        routes: {
+          '/settings': (context) => const SettingsPage(),
+        });
   }
 }
 
@@ -47,41 +55,46 @@ class _RootPageState extends State<RootPage> {
     return Scaffold(
       body: pages[currentPage], //const Dashboard(),
       bottomNavigationBar: NavigationBar(
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.volunteer_activism,
               color: Colors.white,
             ),
-            label: 'Bénévole',
+            label: AppLocalizations.of(context)!
+                .bottomNavigationBar_volunteerButtonText,
           ),
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.event,
               color: Colors.white,
             ),
-            label: 'Evènement',
+            label: AppLocalizations.of(context)!
+                .bottomNavigationBar_eventButtonText,
           ),
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.dashboard,
               color: Colors.white,
             ),
-            label: 'Dashbord',
+            label: AppLocalizations.of(context)!
+                .bottomNavigationBar_dashboardButtonText,
           ),
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.access_time,
               color: Colors.white,
             ),
-            label: 'Horaire',
+            label: AppLocalizations.of(context)!
+                .bottomNavigationBar_hourlyButtonText,
           ),
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.article,
               color: Colors.white,
             ),
-            label: 'Article',
+            label: AppLocalizations.of(context)!
+                .bottomNavigationBar_articleButtonText,
           ),
         ],
         onDestinationSelected: (int index) {

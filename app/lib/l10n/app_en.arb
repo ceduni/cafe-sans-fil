@@ -1,0 +1,86 @@
+{
+  "pagesTitles_dashboardTitle": "Dashboard",
+  "@pagesTitles_dashboardTitle": {
+    "description": "Title of the dashboard page"
+  },
+  "pagesTitles_volunteerTitle": "Volunteer",
+  "@pagesTitles_volunteerTitle": {
+    "description": "Title of the volunteer page"
+  },
+  "pagesTitles_articleTitle": "Article",
+  "@pagesTitles_articleTitle": {
+    "description": "Title of the article page"
+  },
+  "pagesTitles_eventTitle": "Event",
+  "@pagesTitles_eventTitle": {
+    "description": "Title of the event page"
+  },
+  "pagesTitles_hourlyTitle": "Hourly",
+  "@pagesTitles_hourlyTitle": {
+    "description": "Title of the hourly page"
+  },
+  "bottomNavigationBar_dashboardButtonText": "Dashboard",
+  "@bottomNavigationBar_dashboardButtonText": {
+    "description": "Text for the dashboard button in the bottom navigation bar"
+  },
+  "bottomNavigationBar_volunteerButtonText": "Volunteer",
+  "@bottomNavigationBar_volunteerButtonText": {
+    "description": "Text for the volunteer button in the bottom navigation bar"
+  },
+  "bottomNavigationBar_articleButtonText": "Article",
+  "@bottomNavigationBar_articleButtonText": {
+    "description": "Text for the article button in the bottom navigation bar"
+  },
+  "bottomNavigationBar_eventButtonText": "Event",
+  "@bottomNavigationBar_eventButtonText": {
+    "description": "Text for the event button in the bottom navigation bar"
+  },
+  "bottomNavigationBar_hourlyButtonText": "Hourly",
+  "@bottomNavigationBar_hourlyButtonText": {
+    "description": "Text for the hourly button in the bottom navigation bar"
+  },
+  "sidebar_profile": "Profile",
+  "@sidebar_profile": {
+    "description": "Label for the profile section in the sidebar menu"
+  },
+  "sidebar_setting": "Setting",
+  "@sidebar_setting": {
+    "description": "Label for the settings section in the sidebar menu"
+  },
+  "sidebar_notification": "Notification",
+  "@sidebar_notification": {
+    "description": "Label for the notification option in the sidebar menu"
+  },
+  "sidebar_logOut": "Logout",
+  "@sidebar_logOut": {
+    "description": "Label for the logout option in the sidebar menu"
+  },
+  "turnover_text": "Turnover",
+  "@turnover_text": {
+    "description": "Label for displaying the turnover amount"
+  },
+  "sales_numbers_text": "Sales numbers",
+  "@sales_numbers_text": {
+    "description": "Label for displaying the number of sales"
+  },
+  "evolution_of_sales_title": "Evolution of sales",
+  "@evolution_of_sales_title": {
+    "description": "Title for the section showing the evolution of sales over time"
+  },
+  "turnover_over_the_period_text": "Turnover over the period",
+  "@turnover_over_the_period_text": {
+    "description": "Label for displaying turnover over a specific period"
+  },
+  "profits_over_the_period_text": "Profits over the period",
+  "@profits_over_the_period_text": {
+    "description": "Label for displaying profits over a specific period"
+  },
+  "alerts_title": "Alerts",
+  "@alerts_title": {
+    "description": "Title for the section showing alerts"
+  },
+  "sales_by_category_title": "Sales by category",
+  "@sales_by_category_title": {
+    "description": "Title for the section displaying sales categorized by different categories"
+  }
+}

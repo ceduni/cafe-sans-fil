@@ -1,5 +1,6 @@
 import 'package:app/side%20bar/side_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class Benevole extends StatelessWidget {
   const Benevole({super.key});
@@ -9,7 +10,7 @@ class Benevole extends StatelessWidget {
     return Scaffold(
       drawer: const Sidebar(),
       appBar: AppBar(
-        title: const Text('Bénévole'),
+        title: Text(AppLocalizations.of(context)!.pagesTitles_volunteerTitle),
         surfaceTintColor: Colors.blue,
       ),
     );
