@@ -15,10 +15,10 @@ export class ProductService {
      */
     public async getSales(productName?:string): Promise<Document[]> {
         const database: Database = await Database.getInstance(ProductService.DB_NAME);
-        const salesCollection: Collection<Document> = database.getCollection<Document>('sales');
+        const salesCollection: Collection<Document> = database.getCollection<Document>('orders');
         try {
-            
-            const query = productName ? { name:productName } : {};
+            const query = productName ? {"items.item_slug":productName} : {};
+            console.log("Query:",query);
             const salesData = await salesCollection.find(query).toArray();
             return salesData; 
         } catch (err) {
@@ -37,7 +37,7 @@ export class ProductService {
      */
     public async getSalesByCategory(category?: string): Promise<Document[]> {
         let database: Database = await Database.getInstance(ProductService.DB_NAME);
-        const salesCollection: Collection<Document> = database.getCollection<Document>('sales');
+        const salesCollection: Collection<Document> = database.getCollection<Document>('orders');
         try {
             
             const salesData = await salesCollection.find({ category:category} ).toArray();
