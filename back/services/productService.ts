@@ -1,56 +1,64 @@
 import Database from './DataBase';
 import { Collection, Document } from 'mongodb';
+import OrdersModel, {Orders} from '../src/models/OrdersModel'
+import { promises } from 'dns';
 
 export class ProductService {
     
+    private  database: Database | undefined;
+    private collection: Collection<Document>|undefined;
     
     public static readonly DB_NAME = 'sales';
 
     public constructor() {}
 
+   
+
     /**
      * 
-     * @param product the product we want the sales 
+     * @param product the product we want from an order
      * @returns return all the sales if the product names isn't specified else the sales of a
      */
-    public async getSales(productName?:string): Promise<Document[]> {
-        const database: Database = await Database.getInstance(ProductService.DB_NAME);
-        const salesCollection: Collection<Document> = database.getCollection<Document>('orders');
+    public async getSales(collection:string,productName?:string): Promise<OrdersModel[]> {
+         this.database = await Database.getInstance(ProductService.DB_NAME);
+         this.collection = this.database.getCollection<Document>(collection);
         try {
             const query = productName ? {"items.item_slug":productName} : {};
-            console.log("Query:",query);
-            const salesData = await salesCollection.find(query).toArray();
-            return salesData; 
+            const salesData = await this.collection.find(query).toArray();
+            const salesModel = salesData.map(doc => OrdersModel.fromDocument(doc as any));
+            return salesModel ; 
         } catch (err) {
             console.error('Error fetching sales data:', err);
             return [];
-        } finally {
-            await database.close();
+        } 
+        finally {
+            await this.database.close();
         }
     }
 
-    /**
-     * this method fetches all sales of a paticular category from the database
-     * 
-     * @param category the category wanted by the user of function  
-     * @returns returns the a list of all sales of the category
+   /**
+     * Fetches all stock items from the database.
+     * @returns A promise that resolves to an array of stock items.
      */
-    public async getSalesByCategory(category?: string): Promise<Document[]> {
-        let database: Database = await Database.getInstance(ProductService.DB_NAME);
-        const salesCollection: Collection<Document> = database.getCollection<Document>('orders');
+   public async getStock(collection:string): Promise<Document[]> {
+        this.database = await Database.getInstance(ProductService.DB_NAME);
         try {
             
-            const salesData = await salesCollection.find({ category:category} ).toArray();
-            return salesData; 
+            console.log("this is next");
+            this.collection= this.database.getCollection<Document>(collection);
+            const stock: Document[] = await this.collection.find().toArray();
+            console.log('Stock data:', stock);
+           
+            return stock;
         } catch (err) {
-            console.error('Error fetching sales data:', err);
+            console.error('Error fetching stock data:', err);
+            await this.database.close();
             return [];
-        } finally {
-            await database.close();
-        }
-
-
-        
+        } 
     }
 
+   
+
 }
+
+

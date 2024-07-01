@@ -1,6 +1,6 @@
 const { faker } = require('@faker-js/faker'); // Correct import
 const mongoose = require('mongoose');
-const {Sale,Order} = require('./model'); // Ensure this path is correct and the model is named appropriately
+const {Sale,Order,Stock} = require('./model'); // Ensure this path is correct and the model is named appropriately
 
 async function seedData(){
     const uri = 'mongodb+srv://cafe:sans-fil@cluster0.ti5co91.mongodb.net/sales?retryWrites=true&w=majority';
@@ -16,11 +16,12 @@ async function seedData(){
     });
 
     //const fakeSales = seedSalesData();
-    const fakeOrders = seedOrdersData(seed_count);
+    //const fakeOrders = seedOrdersData(seed_count);
     //console.log(fakeOrders);
+    const  stock = seedStock(seed_count);
     const seedDB = async () => {
         //await Sale.insertMany(fakeSales);
-        await Order.insertMany(fakeOrders);
+        await Stock.insertMany(stock);
     }
 
     seedDB().then(() => {
@@ -57,6 +58,21 @@ function seedOrdersData(count){
     console.log(orders);
     return orders;
     
+}
+
+function seedStock(count){
+    const stockData = [];
+    for (let i = 0; i < count; i++) {
+        stockData.push(
+            {
+                stock_id: faker.datatype.uuid(),
+                item_name: faker.commerce.productName(),
+                category: faker.commerce.department(),
+                quantity: faker.datatype.number({ min: 1, max: 100 })
+            }
+        )
+    }
+    return stockData;
 }
 
 

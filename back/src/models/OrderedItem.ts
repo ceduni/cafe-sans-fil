@@ -1,15 +1,17 @@
 import { error } from "console";
 
-export class OrderedItems{
-    private type:string;
-    private value:string;
-    private fee:number;
+export class OrderedItem{
+   public itemPrice: number;
+   public itemSlug: string;
+   public options: { fee: number; type: string; value: string }[];
+   public quantity: number;
 
-    public constructor(type:string,value:string,fee:number){
-        this.type = type;
-        this.value = value;
-        this.fee = fee;
-    }
+   constructor(itemPrice: number, itemSlug: string, options: { fee: number; type: string; value: string }[], quantity: number) {
+    this.itemPrice = itemPrice;
+    this.itemSlug = itemSlug;
+    this.options = options;
+    this.quantity = quantity;
+}
 
     public static  validateFee(fee:number){
         if(fee < 0.0){
