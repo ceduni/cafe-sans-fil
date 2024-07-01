@@ -264,8 +264,28 @@
 - Initialisation du back-end et du front-end de l'application
   (dossier app et back)
 - Implémentation des principaux éléments du dashbord sur l'écran
-  d'acceuil et accès au différents onglets de l'application
+  d'acceuil et accès au différents onglets de l'application (logo,
+  histogramme, bar de navigation et drawer)
 
 ### Resources
 
 - Modèle pour l'histogramme : (https://www.youtube.com/watch?v=8j6iw33bJU0)
+
+## Semaine 8 (2024-06-24)
+
+### Objectifs
+
+- Suite de l'implémentation du dashborad de l'application
+
+### Réalisations
+
+- Utilisation de la librairie intl permettant la traduction de
+  l'application dans diverses langues (dossier l10n)
+- Fin de l'implémentation des composantes du dashborad (color
+  chart list pour une vue intuitive des ventes pas catégorie,
+  revisite du code pour l'histogramme)
+
+### Resources
+
+- Code de base pour l'histogramme (bar chart sample 4): (https://github.com/imaNNeo/fl_chart)
+- Créer une application Multilingue: (https://www.youtube.com/watch?v=6UV4bIHauZQ)
