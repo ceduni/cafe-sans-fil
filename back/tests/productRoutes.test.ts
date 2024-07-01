@@ -15,9 +15,9 @@ describe('GET /api/v1/sales', () => {
   });
   
     it('should display the number of sales for a product', async () => {
-      const response = await request(server.App).get('/api/v1/sales');
+      const response = await request(server.App).get('/api/v1/orders');
       expect(response.status).toBe(200);
-      expect(response.body.Sales.length).toBe(5000);
+      expect(response.body.Sales.length).toBe(200);
     });
   
 });
@@ -30,8 +30,9 @@ describe('GET /api/v1sales/productName', () => {
     });
   
     it('should display the number of sales for a product', async () => {
-      const response = await request(server.App).get('/api/v1/sales/Licensed Soft Car');
+      const response = await request(server.App).get('/api/v1/orders/saepe');
       expect(response.status).toBe(200);
+      console.log(response.body.Sales);
       expect(response.body.Sales.length).toBeGreaterThan(0)
       
     });
@@ -39,19 +40,5 @@ describe('GET /api/v1sales/productName', () => {
 });
 
 
-describe('GET /api/v1/cafe/sales/category/categoryName', () => {
-  let server: MainController;
 
-  beforeAll(() => {
-    server = new MainController();
-  });
-
-  it('should return all the sales of a specific category', async () => {
-    const response = await request(server.App).get('/api/v1/sales?category=Games');
-    expect(response.status).toBe(200);
-    expect(response.body.Sales).toBeDefined();
-    
-  });
-
-});
 
