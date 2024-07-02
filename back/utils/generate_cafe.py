@@ -23,7 +23,6 @@ import random
 
 random.seed(42)
 
-
 async def create_cafes(usernames):
     cafe_menu_items_slug_dict = {}
     testAccounts = []
@@ -248,7 +247,7 @@ def random_additional_info():
         )
         additional_infos.append(additional_info.model_dump())
 
-    return additional_infos
+    return []
 
 def random_diets():
     diets = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free"]
@@ -269,7 +268,13 @@ def random_nutritional_info():
     nutritional_info = {
         "calories": random.uniform(50, 500),
         "protein": random.uniform(1, 20),
-        "fat": random.uniform(1, 20),
+        "lipid": random.uniform(1, 20),
         "carbohydrates": random.uniform(1, 50),
+        "saturated_fat": random.uniform(1, 20),
+        "sodium": random.uniform(50, 500),
+        "sugar": random.uniform(1, 20),
+        "fiber": random.uniform(1, 20),
+        "percentage_fruit_vegetables_nuts": random.uniform(0, 100),
+        "vitamins": random.uniform(0, 100),
     }
     return nutritional_info

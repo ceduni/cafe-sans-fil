@@ -18,7 +18,7 @@ from utils.generate_order import create_orders
 Script to generate data for the Test DB.
 It can also be used to generate data for other DB.
 """
-MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"
+MONGO_DB_NAME = settings.MONGO_DB_NAME
 print(f"Generating data for {MONGO_DB_NAME}")
 
 
