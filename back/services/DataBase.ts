@@ -4,7 +4,7 @@ class Database {
     private static instance: Database;
     private client: MongoClient;
     private db: Db;
-    private static readonly  URI = 'mongodb+srv://cafe:sans-fil@cluster0.ti5co91.mongodb.net/sales?retryWrites=true&w=majority';
+    private static readonly  URI = "dodo";
     private static _connectionFlag:boolean=false;
     private constructor(dbName: string) {
         this.client = new MongoClient(Database.URI);
