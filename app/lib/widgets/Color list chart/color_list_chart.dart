@@ -1,4 +1,4 @@
-import 'package:app/graph%20components/Color%20list%20chart/color_line.dart';
+import 'package:app/widgets/Color%20list%20chart/color_line.dart';
 import 'package:flutter/material.dart';
 
 class ColorListChart extends StatelessWidget {

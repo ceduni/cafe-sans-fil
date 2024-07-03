@@ -1,7 +1,7 @@
-import 'package:app/graph%20components/Color%20list%20chart/color_list_chart.dart';
-import 'package:app/graph%20components/financial_data_row.dart';
-import 'package:app/graph%20components/histogram/custom_bar_chart.dart';
-import 'package:app/side%20bar/side_bar.dart';
+import 'package:app/screens/side%20bar/side_bar.dart';
+import 'package:app/widgets/Color%20list%20chart/color_list_chart.dart';
+import 'package:app/widgets/financial_data_row.dart';
+import 'package:app/widgets/histogram/custom_bar_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 

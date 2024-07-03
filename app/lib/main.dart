@@ -1,10 +1,10 @@
 import 'package:app/provider/language_provider.dart';
-import 'package:app/bottom%20navigation%20bar/article.dart';
-import 'package:app/bottom%20navigation%20bar/benevole.dart';
-import 'package:app/bottom%20navigation%20bar/dashboard.dart';
-import 'package:app/bottom%20navigation%20bar/evenement.dart';
-import 'package:app/bottom%20navigation%20bar/horaire.dart';
-import 'package:app/side%20bar/setting%20options/settings_page.dart';
+import 'package:app/screens/main%20screens/article.dart';
+import 'package:app/screens/main%20screens/benevole.dart';
+import 'package:app/screens/main%20screens/dashboard.dart';
+import 'package:app/screens/main%20screens/evenement.dart';
+import 'package:app/screens/main%20screens/horaire.dart';
+import 'package:app/screens/setting%20options/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
