@@ -9,7 +9,7 @@ class Sidebar extends StatelessWidget {
     TextStyle style = const TextStyle(color: Colors.white);
     return Drawer(
       child: Container(
-        color: Colors.blue,
+        color: const Color.fromARGB(255, 138, 199, 249),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [

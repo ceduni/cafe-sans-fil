@@ -11,7 +11,7 @@ class Horaire extends StatelessWidget {
       drawer: const Sidebar(),
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.pagesTitles_eventTitle),
-        surfaceTintColor: Colors.blue,
+        surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
       ),
     );
   }

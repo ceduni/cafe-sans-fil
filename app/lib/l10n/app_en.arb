@@ -82,5 +82,13 @@
   "sales_by_category_title": "Sales by category",
   "@sales_by_category_title": {
     "description": "Title for the section displaying sales categorized by different categories"
+  },
+  "select_language_text": "Select Language",
+  "@select_language_text": {
+    "description": "Label for language selection button in setting"
+  },
+  "choose_period": "Choose Period",
+  "@choose_period": {
+    "description": "Label for selecting a time period in the app"
   }
 }

@@ -19,7 +19,7 @@ class _DashboardState extends State<Dashboard> {
         drawer: const Sidebar(),
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.pagesTitles_dashboardTitle),
-          surfaceTintColor: Colors.blue,
+          surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -107,16 +107,16 @@ class _DashboardState extends State<Dashboard> {
                 width: 300,
                 height: 30,
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: const Color.fromARGB(255, 138, 199, 249),
                   borderRadius: BorderRadius.circular(30),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(5),
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Choisir période',
-                      style: TextStyle(color: Colors.white),
+                      AppLocalizations.of(context)!.choose_period,
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -176,7 +176,7 @@ class _DashboardState extends State<Dashboard> {
                 width: 350,
                 height: 200,
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: const Color.fromARGB(255, 138, 199, 249),
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
@@ -185,7 +185,7 @@ class _DashboardState extends State<Dashboard> {
                 padding: const EdgeInsets.all(20.0),
                 alignment: Alignment.topLeft,
                 child: Text(
-                  ' ${AppLocalizations.of(context)!.profits_over_the_period_text} (${AppLocalizations.of(context)!.turnover_text})',
+                  ' ${AppLocalizations.of(context)!.sales_by_category_title} (${AppLocalizations.of(context)!.turnover_text})',
                   style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,

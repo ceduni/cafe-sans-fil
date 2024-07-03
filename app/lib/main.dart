@@ -1,3 +1,4 @@
+import 'package:app/provider/language_provider.dart';
 import 'package:app/bottom%20navigation%20bar/article.dart';
 import 'package:app/bottom%20navigation%20bar/benevole.dart';
 import 'package:app/bottom%20navigation%20bar/dashboard.dart';
@@ -7,9 +8,17 @@ import 'package:app/side%20bar/setting%20options/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LanguageProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,19 +26,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          brightness: Brightness.light,
-          primaryColor: const Color.fromARGB(255, 138, 199, 249),
-        ),
-        supportedLocales: L10n.all,
-        locale: const Locale('en'), //en, fr or es  language
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        debugShowCheckedModeBanner: false,
-        home: const RootPage(),
-        routes: {
-          '/settings': (context) => const SettingsPage(),
-        });
+    return Consumer<LanguageProvider>(
+      builder: (context, languageProvider, child) {
+        return MaterialApp(
+          theme: ThemeData(
+            brightness: Brightness.light,
+            primaryColor: const Color.fromARGB(255, 138, 199, 249),
+          ),
+          supportedLocales: L10n.all,
+          locale: languageProvider.getactualLanguage(), //en, fr or es  language
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          debugShowCheckedModeBanner: false,
+          home: const RootPage(),
+          routes: {
+            '/settings': (context) => const SettingsPage(),
+          },
+        );
+      },
+    );
   }
 }
 

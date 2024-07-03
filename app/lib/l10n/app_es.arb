@@ -19,5 +19,7 @@
   "turnover_over_the_period_text": "Facturación durante el período",
   "profits_over_the_period_text": "Beneficios durante el período",
   "alerts_title": "Alertas",
-  "sales_by_category_title": "Ventas por categoría"
+  "sales_by_category_title": "Ventas por categoría",
+  "select_language_text": "Seleccionar idioma",
+  "choose_period": "Elige el período"
 }

@@ -19,5 +19,7 @@
   "turnover_over_the_period_text": "Chiffre d'affaires sur la période",
   "profits_over_the_period_text": "Bénéfices sur la période",
   "alerts_title": "Alertes",
-  "sales_by_category_title": "Ventes par catégorie"
+  "sales_by_category_title": "Ventes par catégorie",
+  "select_language_text": "Sélectionner la langue",
+  "choose_period": "Choisissez la période"
 }

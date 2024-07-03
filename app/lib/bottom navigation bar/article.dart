@@ -11,7 +11,7 @@ class Article extends StatelessWidget {
       drawer: const Sidebar(),
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.pagesTitles_articleTitle),
-        surfaceTintColor: Colors.blue,
+        surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
       ),
     );
   }
