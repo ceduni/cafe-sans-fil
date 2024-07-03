@@ -254,7 +254,7 @@ def random_diets():
     return random.sample(diets, random.randint(0, len(diets)))
 
 def random_allergens():
-    allergens = ["Peanuts", "Tree Nuts", "Dairy", "Soy", "Wheat", "Fish", "Shellfish"]
+    allergens = ["Peanuts", "Tree Nuts", "Dairy", "Soy", "Wheat", "Fish", "Shellfish", "lactose", "gluten"]
     return random.sample(allergens, random.randint(0, len(allergens)))
 
 def random_likes(usernames):
