@@ -2,12 +2,14 @@ import request from 'supertest';
 import {MainController} from '../contollers/mainController';
 import Database from '../services/DataBase';
 
-describe('GET /api/v1/sales', () => {
-    let server: MainController;
+let server: MainController;
+beforeAll(() => {
+  server = new MainController();
+});
+
+describe('GET /api/v1/orders', () => {
+    
   
-    beforeAll(() => {
-      server = new MainController();
-    });
 
     afterAll(async () => {
       const database = await Database.getInstance('sales');
@@ -22,23 +24,30 @@ describe('GET /api/v1/sales', () => {
   
 });
 
-describe('GET /api/v1sales/productName', () => {
-    let server: MainController;
-  
-    beforeAll(() => {
-      server = new MainController();
-    });
+describe('GET /api/v1/orders/productName', () => {
+    
   
     it('should display the number of sales for a product', async () => {
       const response = await request(server.App).get('/api/v1/orders/saepe');
       expect(response.status).toBe(200);
-      console.log(response.body.Sales);
-      expect(response.body.Sales.length).toBeGreaterThan(0)
+      expect(response.body.Sales.length).toBeGreaterThan(0);
       
     });
   
 });
 
+
+describe('GET /api/v1/stock', () => {
+ 
+
+  it('should have a 200 status code for the end point ', async () => {
+    const response = await request(server.App).get('/api/v1/stock');
+    expect(response.body.Stock.length).toBeGreaterThan(0);
+    
+  });
+
+
+});
 
 
 

@@ -4,35 +4,41 @@ class Database {
     private static instance: Database;
     private client: MongoClient;
     private db: Db;
-    private static readonly  URI = 'mongodb+srv://cafe:sans-fil@cluster0.ti5co91.mongodb.net/sales?retryWrites=true&w=majority';
+    private static readonly  URI = "dodo";
     private static _connectionFlag:boolean=false;
     private constructor(dbName: string) {
-        this.client = new MongoClient(Database.URI);;
+        this.client = new MongoClient(Database.URI);
         this.db = this.client.db(dbName);
     }
 
     public static async getInstance(dbName: string): Promise<Database> {
+        console.log("fect");
         if (!Database.instance) {
+            console.log('Creating new Database instance...');
             Database.instance = new Database(dbName);
             await Database.instance.connect();
         }
         if(!Database._connectionFlag){
+            console.log("not connected");
             await Database.instance.connect();
         }
+        console.log('returning');
         return Database.instance;
     }
 
     public async connect() {
-        if(!Database._connectionFlag){
+        
             try {
-                await this.client.connect();
+                console.log("asking for connection")
+                await this.client.connect();       
                 Database._connectionFlag = true;
+                
                 console.log('Connected to MongoDB');
             } catch (error) {
                 console.error('Error connecting to MongoDB:', error);
             }
 
-        }
+        
         
     }
 
