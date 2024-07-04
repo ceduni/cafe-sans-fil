@@ -4,6 +4,11 @@ import unittest
 # Assuming the functions allergenic_foods, diet_category_cluster, and main are defined elsewhere
 # from your_module import allergenic_foods, diet_category_cluster, main
 
+'''
+Note: The order of application of the @patch decorators (bottom to top) corresponds to the order
+in which the mocked objects are passed as arguments to the test method, from left to right.
+'''
+
 class TestKnowledgeBased(unittest.TestCase):
 
     def test_allergenic_foods(self):

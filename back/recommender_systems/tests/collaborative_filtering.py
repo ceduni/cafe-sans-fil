@@ -1,14 +1,21 @@
-from recommender_systems.systems import collaborative_filtering as CB
-from app.models.user_model import User
+import unittest
+from unittest.mock import MagicMock
 from typing import List
 
-# Test cases for 0 and 1 user.
-def test_main_1(user: User):
-    assert CB.main([], user) == user.likes
-    assert CB.main([user], user) == user.likes
+from app.models.user_model import User
+from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
 
-# Test cases for more than 1 user.
-def test_main_2(users: List[User], user: User):
+from recommender_systems.systems.items_recommenders.collaborative_filtering import *
+
+'''
+Note: The order of application of the @patch decorators (bottom to top) corresponds to the order
+in which the mocked objects are passed as arguments to the test method, from left to right.
+'''
+
+#TODO
+class TestCollaborativeFiltering(unittest.TestCase):
     pass
 
-test_main_1()
+
+if __name__ == '__main__':
+    unittest.main()

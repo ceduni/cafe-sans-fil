@@ -2,6 +2,11 @@ from recommender_systems.systems.items_recommenders.global_recommendation import
 import unittest
 from unittest.mock import patch, MagicMock
 
+'''
+Note: The order of application of the @patch decorators (bottom to top) corresponds to the order
+in which the mocked objects are passed as arguments to the test method, from left to right.
+'''
+
 class TestGlobalRecommendation(unittest.TestCase):
 
     @patch('recommender_systems.utils.db_utils.get_cafe_items')

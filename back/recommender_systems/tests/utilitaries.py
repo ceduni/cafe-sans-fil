@@ -1,6 +1,11 @@
 from recommender_systems.utils import utilitaries as Utilitaries
 import unittest
 
+'''
+Note: The order of application of the @patch decorators (bottom to top) corresponds to the order
+in which the mocked objects are passed as arguments to the test method, from left to right.
+'''
+
 class TestUtilitaries(unittest.TestCase):
 
     def test_jaccard_similarity(self):
