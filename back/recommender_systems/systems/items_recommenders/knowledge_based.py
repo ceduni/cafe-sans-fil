@@ -64,7 +64,6 @@ def filter_by_categories(categories: List[Dict[str, List[str]]], prefered_catego
 # This algorithm recommand foods based on the specifications (preferences)
 # and the allergens of the user.
 def main(actual_cafe: Cafe, user: User) -> List[str]:
-    print("Running knowledge based...")
     diet_profile: DietProfile = user['diet_profile']
     user_allergens: dict[str, int] = diet_profile['allergens']
     menu_items: list[MenuItem] = actual_cafe['menu_items']
@@ -106,8 +105,6 @@ def main(actual_cafe: Cafe, user: User) -> List[str]:
             valid_recommendations: list[str] = list( filter(lambda x: x if x not in allergenic_foods_list else None ,recommendations) )
         else:
             valid_recommendations = recommendations
-
-        print("Done!")
         return list( set(valid_recommendations) )
     except KeyError: # There is no foods satisfying the user specifications
         return []

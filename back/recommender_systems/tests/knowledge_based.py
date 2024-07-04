@@ -4,7 +4,7 @@ import unittest
 # Assuming the functions allergenic_foods, diet_category_cluster, and main are defined elsewhere
 # from your_module import allergenic_foods, diet_category_cluster, main
 
-class TestRecommendations(unittest.TestCase):
+class TestKnowledgeBased(unittest.TestCase):
 
     def test_allergenic_foods(self):
         user_allergens = {

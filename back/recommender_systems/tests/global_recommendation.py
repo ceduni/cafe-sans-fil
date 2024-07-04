@@ -2,7 +2,7 @@ from recommender_systems.systems.items_recommenders.global_recommendation import
 import unittest
 from unittest.mock import patch, MagicMock
 
-class TestMain(unittest.TestCase):
+class TestGlobalRecommendation(unittest.TestCase):
 
     @patch('recommender_systems.utils.db_utils.get_cafe_items')
     @patch('recommender_systems.utils.db_utils.get_all_orders')
@@ -13,25 +13,25 @@ class TestMain(unittest.TestCase):
         # Test case: Empty cafe items
         mock_get_cafe_items.return_value = []
         mock_most_bought_items.return_value = []
-        result = main(MagicMock(slug='test_cafe'))
+        result = main({'slug': 'test_cafe'})
         self.assertEqual(result, [])
 
         # Test case: More than 50 cafe items
-        mock_get_cafe_items.return_value = [MagicMock(slug='item1'), MagicMock(slug='item2'), MagicMock(slug='item3')]
+        mock_get_cafe_items.return_value = [{'slug': 'item1'}, {'slug': 'item2'}, {'slug': 'item3'}]
         mock_most_bought_items.return_value = ['item1', 'item2', 'item3']
         mock_most_liked_items.return_value = ['item1', 'item2']
-        mock_get_all_orders.return_value = [MagicMock(id='order1'), MagicMock(id='order2'), MagicMock(id='order3')]
-        mock_get_item.side_effect = lambda cafe_slug, item_slug: MagicMock(slug=item_slug)
-        result = main(MagicMock(slug='test_cafe'))
+        mock_get_all_orders.return_value = [{'id': 'order1'}, {'id': 'order2'}, {'id': 'order3'}]
+        mock_get_item.side_effect = lambda cafe_slug, item_slug: {'slug': item_slug}
+        result = main({'slug': 'test_cafe'})
         self.assertEqual(result, ['item1', 'item2'])
 
         # Test case: Less than or equal to 50 cafe items
-        mock_get_cafe_items.return_value = [MagicMock(slug='item1'), MagicMock(slug='item2')]
+        mock_get_cafe_items.return_value = [{'slug': 'item1'}, {'slug': 'item2'}]
         mock_most_bought_items.return_value = ['item1', 'item2', 'item3']
         mock_most_liked_items.return_value = ['item1', 'item2']
-        mock_get_all_orders.return_value = [MagicMock(slug='order1'), MagicMock(slug='order2'), MagicMock(slug='order3')]
-        mock_get_item.side_effect = lambda cafe_slug, item_slug: MagicMock(slug=item_slug)
-        result = main(MagicMock(slug='test_cafe'))
+        mock_get_all_orders.return_value = [{'id': 'order1'}, {'id': 'order2'}, {'id': 'order3'}]
+        mock_get_item.side_effect = lambda cafe_slug, item_slug: {'slug': item_slug}
+        result = main({'slug': 'test_cafe'})
         self.assertEqual(result, ['item1', 'item2'])
 
 if __name__ == '__main__':
