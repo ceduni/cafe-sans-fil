@@ -42,7 +42,7 @@ const StockSchema = new mongoose.Schema({
   category: { type: String, required: true },
   quantity: { type: Number, required: true }
 });
- const Stock = mongoose.model('Stock', StockSchema);
+ const Stock = mongoose.model('Stocks', StockSchema);
  const Sale = mongoose.model('Sale',salesSchema);
  const Order = mongoose.model('Order',orderSchema);
  module.exports = {Sale,Order,Stock};

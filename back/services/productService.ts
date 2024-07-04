@@ -1,64 +1,56 @@
 import Database from './DataBase';
-import { Collection, Document } from 'mongodb';
-import OrdersModel, {Orders} from '../src/models/OrdersModel'
-import { promises } from 'dns';
+import { Orders, OrdersModel } from '../src/models/OrdersModel';
+import { Collection } from 'mongoose';
+import {Stock,IStock} from '../src/models/StockModel';
 
 export class ProductService {
-    
-    private  database: Database | undefined;
-    private collection: Collection<Document>|undefined;
-    
+    private database: Database | undefined;
+
     public static readonly DB_NAME = 'sales';
 
     public constructor() {}
 
-   
-
     /**
-     * 
-     * @param product the product we want from an order
-     * @returns return all the sales if the product names isn't specified else the sales of a
+     * Fetches all sales from the database.
+     * @param productName Optional product name to filter sales by.
+     * @returns A promise that resolves to an array of sales.
      */
-    public async getSales(collection:string,productName?:string): Promise<OrdersModel[]> {
-         this.database = await Database.getInstance(ProductService.DB_NAME);
-         this.collection = this.database.getCollection<Document>(collection);
+    public async getSales(collection:string,productName?: string): Promise<OrdersModel[]> {
+        this.database = await Database.getInstance(ProductService.DB_NAME);
         try {
-            const query = productName ? {"items.item_slug":productName} : {};
-            const salesData = await this.collection.find(query).toArray();
-            const salesModel = salesData.map(doc => OrdersModel.fromDocument(doc as any));
-            return salesModel ; 
+            const query = productName ? { "items.item_slug": productName } : {};
+            const salesData = await Orders.find(query).exec();
+            return salesData;
         } catch (err) {
             console.error('Error fetching sales data:', err);
             return [];
         } 
-        finally {
-            await this.database.close();
+        finally{
+            this.database.close();
         }
     }
 
-   /**
-     * Fetches all stock items from the database.
+    /**
+     * Fetches stock data from the database.
      * @returns A promise that resolves to an array of stock items.
      */
-   public async getStock(collection:string): Promise<Document[]> {
+    public async getStock(): Promise<IStock[]> {
         this.database = await Database.getInstance(ProductService.DB_NAME);
+        console.log("Database connected for stock data");
         try {
-            
-            console.log("this is next");
-            this.collection= this.database.getCollection<Document>(collection);
-            const stock: Document[] = await this.collection.find().toArray();
-            console.log('Stock data:', stock);
-           
-            return stock;
+            const stockData = await Stock.find({}).exec();
+            return stockData;
         } catch (err) {
             console.error('Error fetching stock data:', err);
-            await this.database.close();
             return [];
-        } 
+        }
+        finally{
+            this.database.close();
+        }
     }
 
-   
 
+ 
 }
 
-
+export default ProductService;

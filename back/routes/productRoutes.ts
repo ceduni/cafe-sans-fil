@@ -44,7 +44,7 @@ export class ProductRoutes {
 
     public async getStock(req: Request, res: Response, next: NextFunction){
         try{
-            const stock = this.productService.getStock(this.STOCK);
+            const stock = await this.productService.getStock();
             res.status(200).send({
                 message: 'Success',
                 Stock:stock
