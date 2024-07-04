@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class ColorListChart extends StatelessWidget {
   final Map<String, double> allValues;
   final String unity;
+  final bool orderMap;
 
   final List<Color> allColors = [
     const Color(0xFF3498db), // Blue
@@ -22,6 +23,7 @@ class ColorListChart extends StatelessWidget {
     super.key,
     required this.allValues,
     required this.unity,
+    required this.orderMap,
   });
 
   @override
@@ -38,20 +40,45 @@ class ColorListChart extends StatelessWidget {
     );
   }
 
-  Row createLineChart(Map<String, double> allValue, double screenWidth) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: allValue.entries.toList().asMap().entries.map((entry) {
-        int index = entry.key;
-        double value = entry.value.value;
-        double sum = allValue.values
-            .fold(0, (previousValue, element) => previousValue + element);
-        double resize = 0.90;
-        return colorBox(
-          (value * screenWidth * resize) / (sum),
-          index,
-        );
-      }).toList(),
+  Widget createLineChart(Map<String, double> allValue, double screenWidth) {
+    Map<String, double> sortedMap = Map.fromEntries(allValue.entries.toList()
+      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+
+    List<Map<String, double>> maps = [allValue, sortedMap];
+    int orderIndex = 0;
+    if (orderMap) {
+      orderIndex = 1;
+    }
+
+    double resize = 0.90;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(100.0),
+          child: SizedBox(
+            width: screenWidth * resize,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: maps[orderIndex]
+                  .entries
+                  .toList()
+                  .asMap()
+                  .entries
+                  .map((entry) {
+                int index = entry.key;
+                double value = entry.value.value;
+                double sum = maps[orderIndex].values.fold(
+                    0, (previousValue, element) => previousValue + element);
+                return colorBox(
+                  (value * screenWidth * resize) / (sum),
+                  index,
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -65,13 +92,22 @@ class ColorListChart extends StatelessWidget {
   }
 
   Column listOfColorLine(Map<String, double> allValue) {
+    Map<String, double> sortedMap = Map.fromEntries(allValue.entries.toList()
+      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+
+    List<Map<String, double>> maps = [allValue, sortedMap];
+    int orderIndex = 0;
+    if (orderMap) {
+      orderIndex = 1;
+    }
     return Column(
-      children: allValue.entries.toList().asMap().entries.map((entry) {
+      children: maps[orderIndex].entries.toList().asMap().entries.map((entry) {
         int index = entry.key;
         String name = entry.value.key;
         double value = entry.value.value;
         int colorIndex = index % allColors.length;
-        double sum = allValue.values
+        double sum = maps[orderIndex]
+            .values
             .fold(0, (previousValue, element) => previousValue + element);
         return ColorLine(
             name: name,

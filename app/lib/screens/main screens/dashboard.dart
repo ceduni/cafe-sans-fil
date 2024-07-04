@@ -24,18 +24,18 @@ class _DashboardState extends State<Dashboard> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              /* Center(
+              Center(
                 child: ClipRect(
                   child: SizedBox(
                     height: 150,
                     width: 150,
                     child: Image.asset(
-                      'images/ToreFractionLogo.jpg',
+                      'images/logo.png',
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ),*/
+              ),
               const SizedBox(height: 30.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +46,7 @@ class _DashboardState extends State<Dashboard> {
                       Text(
                         AppLocalizations.of(context)!.turnover_text,
                         style: const TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 20.0,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
@@ -62,14 +62,14 @@ class _DashboardState extends State<Dashboard> {
                       )
                     ],
                   ),
-                  const SizedBox(width: 70.0),
+                  const SizedBox(width: 40.0),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         AppLocalizations.of(context)!.sales_numbers_text,
                         style: const TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 20,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
@@ -137,6 +137,7 @@ class _DashboardState extends State<Dashboard> {
                     [234.0, 375.0],
                     [234.0, 505.0],
                     [234.0, 345.0],
+                    [300, 600.0]
                   ],
                   type: 0,
                 ),
@@ -193,18 +194,16 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
               ),
-              Column(children: [
-                ColorListChart(
-                  allValues: const {
-                    'lait': 395000,
-                    'pain': 300070,
-                    'hot-dog': 343222,
-                    'pizza': 450000,
-                    'burger': 389900
-                  },
-                  unity: 'CAD',
-                ),
-              ]),
+              ColorListChart(
+                allValues: const {
+                  'lait': 395000,
+                  'pain': 300070,
+                  'hot-dog': 343222,
+                  'pizza': 450000,
+                },
+                unity: 'CAD',
+                orderMap: false,
+              ),
             ],
           ),
         ));
