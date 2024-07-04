@@ -1,25 +1,27 @@
 ### Algorithme 4.4 ###
-from datetime import datetime
 from app.models.cafe_model import Cafe, MenuItem
-import recommender_systems.utils.utilitaries as Utilitaries
-from app.models.order_model import Order, OrderedItem
-from app.services.order_service import OrderService
-from app.services.cafe_service import CafeService
+from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
+from app.models.order_model import Order
 from typing import List, Any
 
 # Recommand foods to all the users based on the time and the most bought/liked
 #   foods.
 #TODO: Recommand items based on the time of the day. 
 #   Should be done after nutritionist advice.
-async def main(cafe: Cafe) -> List[str]:
+def main(cafe: Cafe) -> List[str]:
     time_of_the_day: Any #TODO
-    cafe_items: list[MenuItem] = cafe.menu_items
-    filters = {
-        "page": 1,
-        "limit": 20,
-        "sort_by": "-order_number"
-    }
-    all_orders: List[Order] = OrderService.list_orders(**filters)
+    cafe_items: list[MenuItem] = DButils.get_cafe_items(cafe['slug'])
+    # filters = {
+    #     "page": 1,
+    #     "limit": 20,
+    #     "sort_by": "-order_number"
+    # }
+
+    if len(cafe_items) == 0:
+        return []
+    
+    all_orders: List[Order] = DButils.get_all_orders()
+
 
     # Number of items to recommand.
     if len(cafe_items) > 50:
@@ -32,8 +34,8 @@ async def main(cafe: Cafe) -> List[str]:
 
     menu_items: List[MenuItem] = []
     for item_slug in items:
-        menu_items.append( await CafeService.retrieve_menu_item(cafe.slug, item_slug) )
+        menu_items.append( DButils.get_item(cafe['slug'], item_slug) )
 
-    items_choice: List[MenuItem] = Utilitaries.most_liked_items(menu_items, k)
+    items_choice: List[str] = Utilitaries.most_liked_items(menu_items, k)
 
-    return Utilitaries.items_slugs(items_choice)
+    return items_choice
