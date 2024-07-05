@@ -11,7 +11,6 @@ from tqdm import tqdm
 def _run_cafe_recommendations() -> Dict[str, List[str]]:
     users: list[User] = DButils.get_all_users()
     all_cafe: list[Cafe] = DButils.get_all_cafe()
-    print(users)
     recommendations: dict[str, list[str]] = {}
     try:
         for _, user in enumerate( tqdm(users, desc="Running cafe recommendations") ):

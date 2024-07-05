@@ -2,7 +2,6 @@
 from app.models.cafe_model import MenuItem, Cafe
 from app.models.user_model import User, DietProfile
 from typing import List, Dict
-import recommender_systems.utils.utilitaries as Utilitaries
 
 # This method creates clusters based on the user preferences.
 # It takes the actual cafe as parameter and returns a dictionnary

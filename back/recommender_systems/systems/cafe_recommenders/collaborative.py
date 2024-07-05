@@ -24,11 +24,8 @@ def main(users: List[User], user: User) -> List[str]:
     for _ in range(n_best_users):
         max_sim: float = max(similarities)
         index: int = similarities.index(max_sim)
-        print('Max sim: ' + str(max_sim) + ' at index: ' + str(index))
         found_user: User = users[index]
-        print('Found user: ' + found_user['username'])
         visited_cafes: list[str] = DButils.get_user_visited_cafe(found_user)
-        print('Visited cafes: ' + str(visited_cafes))
         sim_users_cafes.extend( visited_cafes )
         similarities[index] = -1
 

@@ -108,7 +108,7 @@ def filter_items_by_cafe(slugs: List[str], cafe_slug: str) -> List[str]:
     items: list[str] = []
     auth_token = AuthApi.auth_login()
     for slug in slugs:
-        retrived_item = CafeApi.get_item(auth_token=auth_token , cafe_slug=cafe_slug, item_slug=slug)
+        retrived_item, _ = CafeApi.get_item(auth_token=auth_token , cafe_slug=cafe_slug, item_slug=slug)
         if retrived_item != None:
             items.append(retrived_item['slug']) if retrived_item['slug'] not in items else None
     return items

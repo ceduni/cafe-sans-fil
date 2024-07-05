@@ -14,16 +14,16 @@ def main(users: List[User], user: User) -> List[str]:
         raise ValueError('User should not be None')
     
     if n_users >= 1:
-        if n_users > 1 and users[0]['id'] != user['id']:
+        if n_users > 1 and users[0]['user_id'] != user['user_id']:
             users.remove(user) if user in users else None
             items_in_orders: list[str] = Utilitaries.list_items( DButils.get_user_orders(user) )
-            user_likes: List[str] = DButils.get_user_likes(user['id'])
+            user_likes: List[str] = DButils.get_user_likes(user['user_id'])
             user_visited_cafe: List[str] = DButils.get_user_visited_cafe(user)
             user_list: list[set[str]] = [ set(user_likes), set(items_in_orders), set(user_visited_cafe) ]
 
             for u in users:
                 other_items_in_orders: list[str] = Utilitaries.list_items( DButils.get_user_orders(u))
-                other_user_list: list[set[str]] = [set( DButils.get_user_likes(u['id']) ), set(other_items_in_orders), set( DButils.get_user_visited_cafe(u) )]
+                other_user_list: list[set[str]] = [set( DButils.get_user_likes(u['user_id']) ), set(other_items_in_orders), set( DButils.get_user_visited_cafe(u) )]
                 score: float = Utilitaries.users_similarity(user_list, other_user_list)
                 if score >= similarity_threshold:
                     u_union: set = user_list[0].union(user_list[1])
@@ -42,6 +42,6 @@ def main(users: List[User], user: User) -> List[str]:
             else:
                 return []
         else:
-            return DButils.get_user_likes(user['id'])
+            return DButils.get_user_likes(user['user_id'])
     else:
-        return DButils.get_user_likes(user['id'])
+        return DButils.get_user_likes(user['user_id'])

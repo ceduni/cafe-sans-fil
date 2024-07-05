@@ -32,7 +32,8 @@ def get_all_users() -> List[User]:
         "limit": 20,
         "sort_by": "last_name"
     }
-    users, status = UserApi.get_users(params=query_params)
+    auth_token = AuthApi.auth_login()
+    users, status = UserApi.get_users(auth_token=auth_token, params=query_params)
     return users
 
 #------------------------
@@ -46,8 +47,10 @@ def get_user_orders(user: User) -> List[str]:
         "limit": 40,
         "sort_by": "name"
     }
-    orders: List[Order] = OrderApi.get_user_orders(user['username'], params)
-    return list(map(lambda x: x['id'], orders))
+    auth_token = AuthApi.auth_login()
+    orders, _ = OrderApi.get_user_orders(auth_token=auth_token, username=user['username'], params=params)
+    print(orders)
+    return list(map(lambda x: x['order_id'], orders))
 
 def get_all_orders(auth_token) -> List[str]:
     params = {
@@ -56,7 +59,6 @@ def get_all_orders(auth_token) -> List[str]:
         "sort_by": "name"
     }
     orders, _ = OrderApi.get_orders(auth_token=auth_token, params=params)
-
     return orders
 
 def get_order_items(order_id: str) -> List[str]:
@@ -92,7 +94,8 @@ def get_cafe_items(cafe_slug: str) -> List[MenuItem]:
     return response
 
 def get_item(cafe_slug: str, item_slug: str) -> MenuItem:
-    response, _ = CafeApi.get_item(cafe_slug, item_slug)
+    auth_token = AuthApi.auth_login()
+    response, _ = CafeApi.get_item(auth_token=auth_token, cafe_slug=cafe_slug, item_slug=item_slug)
     return response
 
 # Get all items.
@@ -116,5 +119,6 @@ def get_all_cafe() -> List[Cafe]:
         "limit": 40,
         "sort_by": "name"
     }
-    cafes, _ = CafeApi.get_cafes(params=query_params)
+    auth_token = AuthApi.auth_login()
+    cafes, _ = CafeApi.get_cafes(auth_token=auth_token, params=query_params)
     return cafes

@@ -3,8 +3,6 @@ from app.models.user_model import User
 from app.models.cafe_model import MenuItem, Cafe
 from typing import List, Dict
 from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
-import numpy as np
-from collections import Counter
 
 # Take the clusters and the actual user as parameters and return the cluster/clusters
 #  containing the most item the user liked.
@@ -59,8 +57,7 @@ def remove_cluster(chosen_clusters: Dict[str, List[MenuItem]], clusters: Dict[st
 
     return clusters
 
-def algorithm(user: User, cafe: Cafe, items_not_bought: set) -> List[str]:
-    cafe_items: list[MenuItem] = cafe['menu_items']
+def algorithm(user: User, cafe_items: list[MenuItem], items_not_bought: set) -> List[str]:
     clusters: dict[str, list[str]] = Utilitaries.regroup_by_cluster(cafe_items)
     recommendations: list[MenuItem] = []
 
@@ -89,18 +86,21 @@ def algorithm(user: User, cafe: Cafe, items_not_bought: set) -> List[str]:
 # Content based filtering algorithm.
 # Recommend food based on the user habits.
 def main(user: User, cafe: Cafe) -> List[str]:
-    if user is None or cafe is None or len(cafe['menu_items']) == 0:
+    print(cafe)
+    cafe_items = DButils.get_cafe_items(cafe['slug'])
+
+    if user is None or cafe is None or len(cafe_items) == 0:
         return []
     else:
-        user_likes = DButils.get_user_likes(user['id'])
+        user_likes = DButils.get_user_likes(user['user_id'])
         items_not_bought: set = set(Utilitaries.meal_not_consumed(cafe, user))
         # At least one item in the cafe and the user has not liked any item.
-        if len(user_likes) == 0 and len(cafe['menu_items']) > 0:
-            return Utilitaries.most_liked_items(cafe['menu_items'])
+        if len(user_likes) == 0 and len(cafe_items) > 0:
+            return Utilitaries.most_liked_items(cafe_items)
         
         elif len(items_not_bought) == 0:
             return user_likes
         
         elif len(user_likes) > 0:
-            return algorithm(user, cafe, items_not_bought)
+            return algorithm(user, cafe_items, items_not_bought)
 

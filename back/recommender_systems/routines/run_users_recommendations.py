@@ -22,7 +22,7 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
     recommendations: dict[str, dict[str, list[str]]] = {}
     try:
         for _, user in enumerate(tqdm(users, desc="Running users recommendations")):
-            if user[id] not in recommendations:
+            if user['user_id'] not in recommendations:
                 cafes: dict[str, list[str]] = {}
                 cf_recommendations: list[str] = CF.main(users, user)
                 for cafe in list_cafe:

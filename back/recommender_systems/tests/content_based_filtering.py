@@ -39,7 +39,7 @@ class TestContentBasedFiltering(unittest.TestCase):
             ],
         }
         user = {
-            'id': '1'
+            'user_id': '1'
         }
         
         with self.assertRaises(ValueError):
@@ -103,18 +103,18 @@ class TestContentBasedFiltering(unittest.TestCase):
         # User is None or/and cafe is None.
         self.assertEqual(main(None, None), [])
         self.assertEqual(main(None, {'menu_items': []}), [])
-        self.assertEqual(main({'id': 'user1'}, None), [])
+        self.assertEqual(main({'user_id': 'user1'}, None), [])
 
     # # There is no items in the cafe.
     @patch('recommender_systems.utils.db_utils.get_user_likes')
     def test_main_2(self, mock_get_user_likes):
         # No item in the cafe and the user has liked some items.
         mock_get_user_likes.return_value = ['item1', 'item2']
-        self.assertEqual(main({'id': 'user1'}, {'menu_items': []}), [])
+        self.assertEqual(main({'user_id': 'user1'}, {'menu_items': []}), [])
 
         # No item in the cafe and the user has not liked any item
         mock_get_user_likes.return_value = []
-        self.assertEqual(main({'id': 'user1'}, {'menu_items': []}), [])
+        self.assertEqual(main({'user_id': 'user1'}, {'menu_items': []}), [])
 
     # # At least one item in the cafe.
     @patch('recommender_systems.utils.utilitaries.most_liked_items')
@@ -122,7 +122,7 @@ class TestContentBasedFiltering(unittest.TestCase):
     @patch('recommender_systems.utils.utilitaries.meal_not_consumed')
     def test_main_3(self, mock_meal_not_consumed, mock_get_user_likes, mock_most_liked_items):
         # The user has not liked any item
-        user = {'id': 'user1', 'username': 'username1'}
+        user = {'user_id': 'user1', 'username': 'username1'}
         cafe = {
             'slug': 'cafe1',
             'menu_items': [{'slug': 'item1'}, 
@@ -138,7 +138,7 @@ class TestContentBasedFiltering(unittest.TestCase):
     @patch('recommender_systems.utils.db_utils.get_user_likes')
     @patch('recommender_systems.utils.utilitaries.meal_not_consumed')
     def test_main_4(self, mock_meal_not_consumed, mock_get_user_likes, mock_most_liked_items):
-        user = {'id': 'user1', 'username': 'username1'}
+        user = {'user_id': 'user1', 'username': 'username1'}
         cafe = {
             'slug': 'cafe1',
             'menu_items': [
@@ -169,7 +169,7 @@ class TestContentBasedFiltering(unittest.TestCase):
     @patch('recommender_systems.systems.items_recommenders.content_based_filtering.favorite_cluster')
     @patch('recommender_systems.systems.items_recommenders.content_based_filtering.remove_cluster')
     def test_algorithm(self, mock_remove_cluster, mock_favorite_cluster, mock_regroup_by_cluster):
-        user = {'id': 'user1', 'username': 'username1'}
+        user = {'user_id': 'user1', 'username': 'username1'}
         cafe = {
             'menu_items': [
                 {
@@ -204,6 +204,17 @@ class TestContentBasedFiltering(unittest.TestCase):
             '2': ['item3']
         }
         mock_favorite_cluster.side_effect = [
+            {
+                '0': ['item1', 'item4']
+            }, 
+            {
+                '1': ['item2', 'item5']
+            },
+            {
+                '2': ['item3']
+            }
+        ]
+        mock_remove_cluster.side_effect = [
             {
                 '0': ['item1', 'item4']
             }, 
