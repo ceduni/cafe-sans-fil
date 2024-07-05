@@ -4,7 +4,7 @@ import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import Filters from "@/components/Cafe/Filters";
 import { PAYMENT_METHODS } from "@/utils/cafe";
-import { CafeAPI, isAPIAvailable } from "@/utils/api";
+import { CafeAPI } from "@/utils/api";
 
 
 const isEmpty = (arr) => arr?.length === 0

@@ -1,3 +1,7 @@
 {
-    "title": "Home | Café sans-fil"
+    "app.name": "Café sans-fil",
+
+    "title": "Home | Café sans-fil",
+    
+    "error.404.cafe": "This coffee does not exist"
 }

@@ -16,7 +16,6 @@ async function fetchData(url, setLoading = null) {
 
     try {
         const response = await fetch(buildUrl(url));
-        console.log(response);
 
         if (!response.ok) {
             throw new Error(response.statusText);
