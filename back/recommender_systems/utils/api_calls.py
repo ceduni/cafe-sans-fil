@@ -53,9 +53,10 @@ class CafeApi:
         return r, response.status_code
     
     @staticmethod
-    def get_item(cafe_slug, item_slug, params=None, json_data=None):
+    def get_item(auth_token ,cafe_slug, item_slug, params=None, json_data=None):
+        headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
         endpoint = urljoin('http://127.0.0.1:8000', f'/api/cafes/{cafe_slug}/menu/{item_slug}')
-        response = requests.get(url=endpoint, params=params, json=json_data)
+        response = requests.get(url=endpoint, params=params, json=json_data, headers=headers)
         r = response.json()
         return r, response.status_code
     

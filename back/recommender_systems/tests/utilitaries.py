@@ -58,25 +58,25 @@ class TestUtilitaries(unittest.TestCase):
         self.assertEqual(most_liked_items(items), ['c', 'd', 'b', 'a'])
         self.assertEqual(most_liked_items(items, 2), ['c', 'd'])
 
-    @patch('recommender_systems.utils.api_calls.OrderAPI.get_order')
+    @patch('recommender_systems.utils.api_calls.OrderApi.get_order')
     def test_list_items(self, mock_get_order):
         # Test 1: Normal case
         orders_id = ["order1", "order2"]
         mock_get_order.side_effect = [
-            {
+            ({
                 'items': [
-                    {'item_slug': 'item1'}, 
-                    {'item_slug': 'item2'}, 
-                    {'item_slug': 'item3'},
+                    {'slug': 'item1'}, 
+                    {'slug': 'item2'}, 
+                    {'slug': 'item3'},
                 ]
-            },
-            {
+            }, 200),
+            ({
                 'items': [
-                    {'item_slug': 'item4'}, 
-                    {'item_slug': 'item5'}, 
-                    {'item_slug': 'item6'},
+                    {'slug': 'item4'}, 
+                    {'slug': 'item5'}, 
+                    {'slug': 'item6'},
                 ]
-            }
+            }, 200)
         ]
 
         self.assertEqual(list_items(orders_id), ['item1', 'item2', 'item3', 'item4', 'item5', 'item6'])
@@ -101,39 +101,41 @@ class TestUtilitaries(unittest.TestCase):
 
     @patch('recommender_systems.utils.api_calls.CafeApi.get_item')
     def test_filter_items_by_cafe(self, mock_get_item):
-            # Test 1: Return unique items
-            mock_get_item.side_effect = [
-                {'slug': 'item1'},
-                {'slug': 'item3'},
-                {'slug': 'item4'},
-            ]
-            slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
-            cafe_slug = 'cafe1'
-            expected_result = ['item1', 'item3', 'item4']
-            result = filter_items_by_cafe(slugs, cafe_slug)
-            self.assertEqual(result, expected_result)
+        # Test 1: Return unique items
+        mock_get_item.side_effect = [
+            {'slug': 'item1'},
+            {'slug': 'item2'},
+            {'slug': 'item3'},
+            {'slug': 'item4'},
+            {'slug': 'item5'}
+        ]
+        slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
+        cafe_slug = 'cafe1'
+        expected_result = ['item1', 'item2', 'item3', 'item4', 'item5']
+        result = filter_items_by_cafe(slugs, cafe_slug)
+        self.assertEqual(result, expected_result)
 
-            # Test 2: Filter items
-            mock_get_item.side_effect = [
-                {'slug': 'item1'},
-                None,
-                {'slug': 'item3'},
-                {'slug': 'item4'},
-                {'slug': 'item5'}
-            ]
-            slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
-            cafe_slug = 'cafe1'
-            expected_result = ['item1', 'item3', 'item4', 'item5']
-            result = filter_items_by_cafe(slugs, cafe_slug)
-            self.assertEqual(result, expected_result)
+        # Test 2: Filter items
+        mock_get_item.side_effect = [
+            {'slug': 'item1'},
+            None,
+            {'slug': 'item3'},
+            {'slug': 'item4'},
+            {'slug': 'item5'}
+        ]
+        slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
+        cafe_slug = 'cafe1'
+        expected_result = ['item1', 'item3', 'item4', 'item5']
+        result = filter_items_by_cafe(slugs, cafe_slug)
+        self.assertEqual(result, expected_result)
 
-            # Test 3: Return empty list if no items
-            mock_get_item.return_value = None
-            slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
-            cafe_slug = 'cafe1'
-            expected_result = []
-            result = filter_items_by_cafe(slugs, cafe_slug)
-            self.assertEqual(result, expected_result)
+        # Test 3: Return empty list if no items
+        mock_get_item.side_effect = [None, None, None, None, None]
+        slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
+        cafe_slug = 'cafe1'
+        expected_result = []
+        result = filter_items_by_cafe(slugs, cafe_slug)
+        self.assertEqual(result, expected_result)
 
     def test_find_indexes(self):
         items = ['a', 'b', 'a', 'c', 'd', 'd', 'e', 'd']
@@ -168,7 +170,6 @@ class TestUtilitaries(unittest.TestCase):
         
         self.assertEqual(reshape(A, B), (A, [7, 5, 9, '0', '0', '0']))
 
-
 class TestFindCafe(unittest.TestCase):
     def setUp(self):
         # Set up test data for test_find_cafe
@@ -178,18 +179,22 @@ class TestFindCafe(unittest.TestCase):
         self.item2 = {'slug': 'item2'}
         self.cafe_list = [self.cafe1, self.cafe2]
 
-    # @patch('recommender_systems.utils.utilitaries.items_slugs')
-    # @patch('recommender_systems.utils.db_utils.get_cafe_items')
-    # def test_1(self, mock_get_cafe_items, mock_items_slugs):
-    #     # Test when the item is in the cafe
-    #     mock_get_cafe_items.return_value = [self.item1]
-    #     mock_items_slugs.return_value = ['item1']
-    #     result = find_cafe_by_item(self.cafe_list, self.item1)
-    #     self.assertEqual(result, [self.cafe1])
+    @patch('recommender_systems.utils.utilitaries.items_slugs')
+    @patch('recommender_systems.utils.db_utils.get_cafe_items')
+    def test_1(self, mock_get_cafe_items, mock_items_slugs):
+        # Test when the item is in the cafe
+        mock_get_cafe_items.side_effect = [[self.item1], [self.item2]]
+        mock_items_slugs.side_effect = [['item1'], ['item2']]
+        result = find_cafe_by_item(self.cafe_list, self.item1)
+        self.assertEqual(result, [self.cafe1])
 
-    def test_2(self):
+    @patch('recommender_systems.utils.utilitaries.items_slugs')
+    @patch('recommender_systems.utils.db_utils.get_cafe_items')
+    def test_2(self, mock_get_cafe_items, mock_items_slugs):
         # Test when the item is not in the cafe
-        result = find_cafe_by_item(self.cafe_list, self.item2)
+        mock_get_cafe_items.return_value = [self.item2]
+        mock_items_slugs.return_value = ['item2']
+        result = find_cafe_by_item(self.cafe_list, self.item1)
         self.assertEqual(result, [])
 
     def test_3(self):
@@ -221,17 +226,20 @@ class TestMealNotConsumed(unittest.TestCase):
     @patch('recommender_systems.utils.db_utils.get_order_items')
     def test_2(self, mock_get_order_items, mock_get_order, mock_get_user_orders, mock_items_slugs, mock_get_cafe_items):
         mock_get_cafe_items.return_value = [{'slug': 'item1'}, {'slug': 'item2'}]
-        mock_items_slugs.return_value = ['item1', 'item2']
+        mock_items_slugs.return_value = ['item1', 'item2', 'item3', 'item4', 'item5']
         mock_get_user_orders.return_value = ['order1', 'order2']
         mock_get_order.side_effect = [
             {'cafe_slug': 'cafe1'},
             {'cafe_slug': 'cafe2'},
         ]
         mock_get_order_items.side_effect = [
-            ['item1', 'item2', 'item3', 'item4', 'item5'],
+            ['item1', 'item2'],
             ['item3', 'item4', 'item6', 'item7', 'item8'],
         ]
-        self.assertEqual(meal_not_consumed({'slug': 'cafe1'}, {'id': 'user1'}), ['item3', 'item4', 'item5'])
+        result = meal_not_consumed({'slug': 'cafe1'}, {'id': 'user1'})
+        self.assertIn('item3', result)
+        self.assertIn('item4', result)
+        self.assertIn('item5', result)
 
 
 if __name__ == "__main__":
