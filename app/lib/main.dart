@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:app/provider/language_provider.dart';
+import 'package:app/provider/period_selector_provider.dart';
 import 'package:app/screens/main%20screens/article.dart';
 import 'package:app/screens/main%20screens/benevole.dart';
 import 'package:app/screens/main%20screens/dashboard.dart';
@@ -15,6 +18,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
+        ChangeNotifierProvider(create: (context) => PeriodSelectorProvider()),
       ],
       child: const MyApp(),
     ),
