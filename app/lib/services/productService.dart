@@ -1,27 +1,30 @@
 import 'dart:convert';
+import 'package:app/modeles/OrderItem.dart';
+import 'package:app/modeles/OrderItemOption.dart';
 import 'package:http/http.dart' as http;
-import '../modeles/sale.dart';
+import '../modeles/Order.dart';
 
 class ProductService {
-  final String baseUrl;
+  final String baseUrl = "http://localhost:3000/api/v1/orders" ;
 
-  ProductService({required this.baseUrl});
+  ProductService({dynamic});
  
-  Future<List<Sale>> fetchSales() async {
+  Future<List<Order>> fetchOrders() async {
      
 
     var url = Uri.parse(baseUrl);
     var response = await http.get(url);
-    print("wait for the answer");
+    
     
     if(response.statusCode == 200){
-      print("in here");
       var jsonData = json.decode(response.body);
-      print("this is thr salesJson: ${json.decode(response.body)}");
+      
       if(jsonData['Sales']!=null){
         print("in json sales tab");
         List<dynamic> salesJson = jsonData['Sales'];
-        return salesJson.map((json) => Sale.fromJson(json)).toList();
+        List<Order> orders = salesJson.map((json) => Order.fromJson(json)).toList();
+        return orders;
+
       }
       else{
         throw Exception('Sales data is not available');
@@ -32,5 +35,13 @@ class ProductService {
     }
   }
 
-
+  
 }
+
+void main() async {
+    var productService  = new ProductService();
+    List<Order> orders = await productService.fetchOrders();
+    double turnOver = Order.turnOver(orders);
+    print(turnOver);
+    
+  }
