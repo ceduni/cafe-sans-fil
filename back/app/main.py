@@ -14,6 +14,11 @@ from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.models.order_model import Order
 
+from app.models.recommendations.user_recommendation_model import UserRecommendation
+from app.models.recommendations.public_recommendation_model import PublicRecommendation
+from app.models.recommendations.bot_recommendation_model import BotRecommendation
+from app.models.recommendations.cafe_recommendation_model import CafeRecommendation
+
 """
 Main application initialization for Café sans-fil.
 Sets up FastAPI application, CORS middleware, and initializes the database connection.
@@ -49,7 +54,9 @@ db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_beanie(
-        database=db_client[settings.MONGO_DB_NAME], document_models=[User, Cafe, Order]
+        database=db_client[settings.MONGO_DB_NAME], document_models=[User, Cafe, Order, UserRecommendation,
+                                                                      PublicRecommendation, BotRecommendation,
+                                                                        CafeRecommendation]
     )
     yield
 

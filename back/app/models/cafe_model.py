@@ -116,7 +116,6 @@ class NutritionInfo(BaseModel):
     saturated_fat: Optional[DecimalAnnotation] = Field(None, description="Saturated fat content in the item.")
     percentage_fruit_vegetables_nuts: Optional[DecimalAnnotation] = Field(None, description="Percentage on fruits, vegetables and nuts in the item.")
 
-
 class MenuItem(BaseModel):
     item_id: UUID = Field(default_factory=uuid4, description="Unique identifier of the menu item.")
     name: Indexed(str, unique=True) = Field(..., description="Name of the menu item.")
@@ -133,6 +132,9 @@ class MenuItem(BaseModel):
     likes: List[str] = Field(..., description="List containing the ids of the users that liked this item.")
     barecode: str = Field(None, description="Food's barecode.")
     nutritional_informations: NutritionInfo = Field(..., description="Dictionnary of the nutritive values of an item.")
+    cluster: str = Field(default="unclustered", description="Item cluster.")
+    health_score: float = Field(default=0, description="Item health score.")
+
 
     def __init__(self, **data):
         super().__init__(**data)

@@ -1,10 +1,7 @@
 ### Ce fichier contient les scripts qui permettront de créer des catégories de repas ###
 from app.models.cafe_model import MenuItem, Cafe
-from app.services.cafe_service import CafeService
-from app.schemas.cafe_schema import MenuItemUpdate
 from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
-
-import asyncio
+from recommender_systems.utils.api_calls import CafeApi, AuthApi
 
 from typing import List, Dict
 
@@ -14,21 +11,25 @@ from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 from app.models.cafe_model import NutritionInfo
 
+from tqdm import tqdm
+
+# Take a list of items and return a list of lists of numeric values
+#   representing the nutritional informations of each item.
 def _numeric_foods(items: List[MenuItem]) -> List[List[float]]:
     data: list[list[float]] = []
     for item in items:
-        item_infos: NutritionInfo = item.nutritional_informations
+        item_infos: NutritionInfo = item['nutritional_informations']
         infos: list[float] = [
-            item_infos.calories, 
-            item_infos.lipid,
-            item_infos.protein,
-            item_infos.carbohydrates,
-            item_infos.sugar,
-            item_infos.sodium,
-            item_infos.fiber,
-            item_infos.vitamins,
-            item_infos.saturated_fat,
-            item_infos.percentage_fruit_vegetables_nuts,
+            float(item_infos['calories']) if item_infos['calories'] else 0, 
+            float(item_infos['lipid']) if item_infos['lipid'] else 0,
+            float(item_infos['protein']) if item_infos['protein'] else 0,
+            float(item_infos['carbohydrates']) if item_infos['carbohydrates'] else 0,
+            float(item_infos['sugar']) if item_infos['sugar'] else 0,
+            float(item_infos['sodium']) if item_infos['sodium'] else 0,
+            float(item_infos['fiber']) if item_infos['fiber'] else 0,
+            float(item_infos['vitamins']) if item_infos['vitamins'] else 0,
+            float(item_infos['saturated_fat']) if item_infos['saturated_fat'] else 0,
+            float(item_infos['percentage_fruit_vegetables_nuts']) if item_infos['percentage_fruit_vegetables_nuts'] else 0,
         ]
         data.append(infos)
     return data
@@ -40,14 +41,14 @@ def _create_clusters(labels: np.array, items: List[MenuItem]) -> Dict[str, List[
     clusters: dict[str, list[MenuItem]] = {}
     for label, item in zip(labels, items):
         if label not in clusters:
-            clusters[label] = []
-        clusters[label].append(item)
+            clusters[str(label)] = []
+        clusters[str(label)].append(item)
     return clusters
 
 # Create clusters using k-means algorithm.
 # Create clusters from all the foods available in all cafe.
-async def _clusters() -> Dict[str, List[MenuItem]]:
-    items: list[MenuItem] = await DButils.get_all_items()
+def _clusters() -> Dict[str, List[MenuItem]]:
+    items: list[MenuItem] = DButils.get_all_items()
     data: list[list[float]] = _numeric_foods(items)
     n: int = len(data)
 
@@ -57,11 +58,11 @@ async def _clusters() -> Dict[str, List[MenuItem]]:
 
     # Find the best number of clusters using silhouette score.
     scores: list[float] = []
-    for i in range(2, n+1):
+    for _, i in enumerate( tqdm(range(2, n-1), desc="Creating clusters") ):
         kmeans: KMeans = KMeans(n_clusters=i, random_state=42)
         scores.append(silhouette_score(normalized_data, kmeans.fit_predict(normalized_data)))
     max_score: float = max(scores)
-    indexes: list[int] = Utilitaries.find_indices(scores, max_score)
+    indexes: list[int] = Utilitaries.find_indexes(scores, max_score)
     if len(indexes) > 1:
         k: int = scores[max(indexes)] + 1
     else: 
@@ -75,13 +76,15 @@ async def _clusters() -> Dict[str, List[MenuItem]]:
 
 # Update item's cluster in the database.
 def update_item_cluster():
-    all_cafe: list[Cafe] = asyncio.run( DButils.get_all_cafe() )
-    clusters: dict[str, list[MenuItem]] = asyncio.run( _clusters() )
-    for cluster in clusters.keys():
+    auth_token = AuthApi.auth_login()
+    all_cafe: list[Cafe] = DButils.get_all_cafe()
+    clusters: dict[str, list[MenuItem]] = _clusters()
+    for _, cluster in enumerate(tqdm(clusters.keys(), desc="Updating item's cluster")):
         for item in clusters[cluster]:
             cafes: List[Cafe] = Utilitaries.find_cafe_by_item(all_cafe, item)
             for cafe in cafes:
                 item_data = {
                     "cluster": cluster
                 }
-                asyncio.run( CafeService.update_menu_item(cafe.slug, item.slug, MenuItemUpdate(**item_data)) )
+                CafeApi.update_item(auth_token=auth_token, cafe_slug=cafe['slug'], item_slug=item['slug'], json_data=item_data) 
+

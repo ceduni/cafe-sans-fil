@@ -1,5 +1,6 @@
-from recommender_systems.utils import utilitaries as Utilitaries
+from recommender_systems.utils.utilitaries import *
 import unittest
+from unittest.mock import patch
 
 '''
 Note: The order of application of the @patch decorators (bottom to top) corresponds to the order
@@ -13,10 +14,10 @@ class TestUtilitaries(unittest.TestCase):
         B = set(['B', 'C', 'D'])
         C = set(['C', 'D', 'E'])
 
-        self.assertEqual(Utilitaries.jaccard_similarity(A, B), 0.5)
-        self.assertEqual(Utilitaries.jaccard_similarity(A, C), 0.2)
-        self.assertEqual(Utilitaries.jaccard_similarity(A, A), 1)
-        self.assertEqual(Utilitaries.jaccard_similarity(B, C), 0.5)
+        self.assertEqual(jaccard_similarity(A, B), 0.5)
+        self.assertEqual(jaccard_similarity(A, C), 0.2)
+        self.assertEqual(jaccard_similarity(A, A), 1)
+        self.assertEqual(jaccard_similarity(B, C), 0.5)
 
     def test_users_similarity(self):
         u_list = [['A', 'B', 'C'], ['B', 'C', 'D'], ['C', 'D', 'E']]
@@ -28,14 +29,14 @@ class TestUtilitaries(unittest.TestCase):
         u_list_3 = [['A', 'B', 'C'], ['B', 'C', 'D'], ['C', 'D', 'E']]
         v_list_3 = [['D', 'B', 'E'], ['A', 'C', 'E'], ['C', 'F', 'G']]
 
-        self.assertEqual(round(Utilitaries.users_similarity(u_list, v_list), 1), 3)
-        self.assertEqual(round(Utilitaries.users_similarity(u_list_2, v_list_2), 1), 0)
-        self.assertEqual(round(Utilitaries.users_similarity(u_list_3, v_list_3), 1), 0.6)
+        self.assertEqual(round(users_similarity(u_list, v_list), 1), 3)
+        self.assertEqual(round(users_similarity(u_list_2, v_list_2), 1), 0)
+        self.assertEqual(round(users_similarity(u_list_3, v_list_3), 1), 0.6)
 
     def test_sort_items_by_occurences(self):
         map = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
 
-        self.assertEqual(Utilitaries._sort_items_by_occurences(map), ['d', 'c', 'b', 'a'])
+        self.assertEqual(sort_items_by_occurences(map), ['d', 'c', 'b', 'a'])
 
     def test_most_bought_items(self):
         orders = [
@@ -44,7 +45,7 @@ class TestUtilitaries(unittest.TestCase):
             {'items': [{'item_slug': 'c'}, {'item_slug': 'd'}, {'item_slug': 'e'}]},
         ]
 
-        self.assertEqual(Utilitaries.most_bought_items(orders), ['c', 'd', 'b', 'e', 'a'])
+        self.assertEqual(most_bought_items(orders), ['c', 'd', 'b', 'e', 'a'])
 
     def test_most_liked_items(self):
         items = [
@@ -54,18 +55,36 @@ class TestUtilitaries(unittest.TestCase):
             {'slug': 'd', 'likes': ['1', '2', '3', '4', '5', '6', '7', '8', '9']},
         ]
 
-        self.assertEqual(Utilitaries.most_liked_items(items), ['c', 'd', 'b', 'a'])
-        self.assertEqual(Utilitaries.most_liked_items(items, 2), ['c', 'd'])
+        self.assertEqual(most_liked_items(items), ['c', 'd', 'b', 'a'])
+        self.assertEqual(most_liked_items(items, 2), ['c', 'd'])
 
-    #TODO
-    def test_list_items(self):
-        orders_id = [
-            "9d22e803-d98a-4071-ae48-49c35a13dd53", # acqui-de-droit, order: 1
-            "454dc4c9-8641-49c3-8c7a-d85323920900", # tore-et-fraction, order: 2
+    @patch('recommender_systems.utils.api_calls.OrderAPI.get_order')
+    def test_list_items(self, mock_get_order):
+        # Test 1: Normal case
+        orders_id = ["order1", "order2"]
+        mock_get_order.side_effect = [
+            {
+                'items': [
+                    {'item_slug': 'item1'}, 
+                    {'item_slug': 'item2'}, 
+                    {'item_slug': 'item3'},
+                ]
+            },
+            {
+                'items': [
+                    {'item_slug': 'item4'}, 
+                    {'item_slug': 'item5'}, 
+                    {'item_slug': 'item6'},
+                ]
+            }
         ]
 
-        #self.assertEqual(Utilitaries.list_items(orders_id), ["espresso", "jus-v8", "espresso-double", "latte-ou-cappucino", "gomme"])
+        self.assertEqual(list_items(orders_id), ['item1', 'item2', 'item3', 'item4', 'item5', 'item6'])
 
+        # Test 2: Empty list
+        mock_get_order.return_value = {'items': []}
+        self.assertEqual(list_items([]), [])
+        
     def test_regroup_by_cluster(self):
         items = [
             {'slug': 'a', 'cluster': '0'},
@@ -78,39 +97,52 @@ class TestUtilitaries(unittest.TestCase):
             {'slug': 'z', 'cluster': '4'},
         ]
 
-        self.assertEqual(Utilitaries.regroup_by_cluster(items), {'0': ['a', 'c'], '1': ['b', 'h'], '2': ['g'], '3': ['d', 'f'], '4': ['z']})
+        self.assertEqual(regroup_by_cluster(items), {'0': ['a', 'c'], '1': ['b', 'h'], '2': ['g'], '3': ['d', 'f'], '4': ['z']})
 
-    #TODO
-    def test_filter_items_by_cafe(self):
-        items = [
-            "le-mozza",
-            "le-marbre",
-            "espresso",
-            "espresso-double",
-        ]
+    @patch('recommender_systems.utils.api_calls.CafeApi.get_item')
+    def test_filter_items_by_cafe(self, mock_get_item):
+            # Test 1: Return unique items
+            mock_get_item.side_effect = [
+                {'slug': 'item1'},
+                {'slug': 'item3'},
+                {'slug': 'item4'},
+            ]
+            slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
+            cafe_slug = 'cafe1'
+            expected_result = ['item1', 'item3', 'item4']
+            result = filter_items_by_cafe(slugs, cafe_slug)
+            self.assertEqual(result, expected_result)
 
-        cafe_slug_1 = "acquis-de-droit"
-        cafe_slug_2 = "cafcom"
+            # Test 2: Filter items
+            mock_get_item.side_effect = [
+                {'slug': 'item1'},
+                None,
+                {'slug': 'item3'},
+                {'slug': 'item4'},
+                {'slug': 'item5'}
+            ]
+            slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
+            cafe_slug = 'cafe1'
+            expected_result = ['item1', 'item3', 'item4', 'item5']
+            result = filter_items_by_cafe(slugs, cafe_slug)
+            self.assertEqual(result, expected_result)
 
-        # self.assertEqual(Utilitaries.filter_items_by_cafe(items, cafe_slug_1), ["le-mozza", "le-marbre", "espresso", "espresso-double"])
-        # self.assertEqual(Utilitaries.filter_items_by_cafe(items, cafe_slug_2), ["le-mozza", "le-marbre", "espresso", "espresso-double"])
-
-    #TODO
-    def test_meal_not_consumed(self):
-        pass
-
-    #TODO
-    def test_find_cafe_by_item(self):
-        pass
+            # Test 3: Return empty list if no items
+            mock_get_item.return_value = None
+            slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
+            cafe_slug = 'cafe1'
+            expected_result = []
+            result = filter_items_by_cafe(slugs, cafe_slug)
+            self.assertEqual(result, expected_result)
 
     def test_find_indexes(self):
         items = ['a', 'b', 'a', 'c', 'd', 'd', 'e', 'd']
 
-        self.assertEqual(Utilitaries.find_indexes(items, 'a'), [0, 2])
-        self.assertEqual(Utilitaries.find_indexes(items, 'b'), [1])
-        self.assertEqual(Utilitaries.find_indexes(items, 'c'), [3])
-        self.assertEqual(Utilitaries.find_indexes(items, 'd'), [4, 5, 7])
-        self.assertEqual(Utilitaries.find_indexes(items, 'e'), [6])
+        self.assertEqual(find_indexes(items, 'a'), [0, 2])
+        self.assertEqual(find_indexes(items, 'b'), [1])
+        self.assertEqual(find_indexes(items, 'c'), [3])
+        self.assertEqual(find_indexes(items, 'd'), [4, 5, 7])
+        self.assertEqual(find_indexes(items, 'e'), [6])
 
     def test_health_score(self):
         item = {
@@ -128,13 +160,79 @@ class TestUtilitaries(unittest.TestCase):
             }
         }
 
-        self.assertEqual(Utilitaries.health_score(item), -6)
+        self.assertEqual(health_score(item), -6)
 
     def test_reshape(self):
         A = [1, 2, 3, 4, 5, 6]
         B = [7, 5, 9]
         
-        self.assertEqual(Utilitaries.reshape(A, B), (A, [7, 5, 9, '0', '0', '0']))
+        self.assertEqual(reshape(A, B), (A, [7, 5, 9, '0', '0', '0']))
+
+
+class TestFindCafe(unittest.TestCase):
+    def setUp(self):
+        # Set up test data for test_find_cafe
+        self.cafe1 = {'slug': 'cafe1'}
+        self.cafe2 = {'slug': 'cafe2'}
+        self.item1 = {'slug':'item1'}
+        self.item2 = {'slug': 'item2'}
+        self.cafe_list = [self.cafe1, self.cafe2]
+
+    # @patch('recommender_systems.utils.utilitaries.items_slugs')
+    # @patch('recommender_systems.utils.db_utils.get_cafe_items')
+    # def test_1(self, mock_get_cafe_items, mock_items_slugs):
+    #     # Test when the item is in the cafe
+    #     mock_get_cafe_items.return_value = [self.item1]
+    #     mock_items_slugs.return_value = ['item1']
+    #     result = find_cafe_by_item(self.cafe_list, self.item1)
+    #     self.assertEqual(result, [self.cafe1])
+
+    def test_2(self):
+        # Test when the item is not in the cafe
+        result = find_cafe_by_item(self.cafe_list, self.item2)
+        self.assertEqual(result, [])
+
+    def test_3(self):
+        # Test when the cafe list is empty
+        result = find_cafe_by_item([], self.item1)
+        self.assertEqual(result, [])
+
+    def test_4(self):
+        # Test when the item is None
+        result = find_cafe_by_item(self.cafe_list, None)
+        self.assertEqual(result, [])
+
+    def test_5(self):
+        # Test when the cafe list is None
+        result = find_cafe_by_item(None, self.item1)
+        self.assertEqual(result, [])
+
+class TestMealNotConsumed(unittest.TestCase):
+
+    def test_1(self):
+        self.assertEqual(meal_not_consumed(None, None), [])
+        self.assertEqual(meal_not_consumed(None, {'id': 'user1'}), [])
+        self.assertEqual(meal_not_consumed({'slug': 'cafe1'}, None), [])
+
+    @patch('recommender_systems.utils.db_utils.get_cafe_items')
+    @patch('recommender_systems.utils.utilitaries.items_slugs')
+    @patch('recommender_systems.utils.db_utils.get_user_orders')
+    @patch('recommender_systems.utils.db_utils.get_order')
+    @patch('recommender_systems.utils.db_utils.get_order_items')
+    def test_2(self, mock_get_order_items, mock_get_order, mock_get_user_orders, mock_items_slugs, mock_get_cafe_items):
+        mock_get_cafe_items.return_value = [{'slug': 'item1'}, {'slug': 'item2'}]
+        mock_items_slugs.return_value = ['item1', 'item2']
+        mock_get_user_orders.return_value = ['order1', 'order2']
+        mock_get_order.side_effect = [
+            {'cafe_slug': 'cafe1'},
+            {'cafe_slug': 'cafe2'},
+        ]
+        mock_get_order_items.side_effect = [
+            ['item1', 'item2', 'item3', 'item4', 'item5'],
+            ['item3', 'item4', 'item6', 'item7', 'item8'],
+        ]
+        self.assertEqual(meal_not_consumed({'slug': 'cafe1'}, {'id': 'user1'}), ['item3', 'item4', 'item5'])
+
 
 if __name__ == "__main__":
     unittest.main()

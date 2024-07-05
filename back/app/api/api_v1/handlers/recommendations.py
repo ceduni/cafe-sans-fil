@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends
-from typing import List
 from app.schemas.recommendation_schema import ItemRecommendationOut, ItemRecommendationUpdate, CafeRecommendationOut, CafeRecommendationUpdate
 from app.models.user_model import User
 from app.services.recommendation_service import RecommendationService
-from app.services.user_service import UserService
 from app.api.deps.user_deps import get_current_user
 
 
@@ -17,18 +15,20 @@ recs_router = APIRouter()
 #               User
 # --------------------------------------
 
-recs_router.get(
-    "/recommendations/item/{cafe_slug}",
+@recs_router.get(
+    "/recommendations/user/{cafe_slug}",
     response_model=ItemRecommendationOut,
     summary="🔴 Items recommended",
     description="Retrive a list of all user's recommendations in this cafe."
 )
-async def get_user_recommendations(cafe_slug: str):
-    current_user: User = Depends(get_current_user)
+async def get_user_recommendations(cafe_slug: str,
+    current_user: User = Depends(get_current_user)):
+    
+    print(current_user)
     return await RecommendationService.get_recommendations_by_id(current_user.user_id, cafe_slug)
 
-recs_router.put(
-    "/recommendations/item/{cafe_slug}",
+@recs_router.put(
+    "/recommendations/user/{cafe_slug}",
     response_model=ItemRecommendationUpdate,
     summary="🔵 Update user recommendation",
     description="Modify an existing user recommendation"
@@ -44,8 +44,8 @@ async def update_user_recommendations(
 #              Public
 # --------------------------------------
 
-recs_router.get(
-    "/recommendations/item/{cafe_slug}",
+@recs_router.get(
+    "/recommendations/public/{cafe_slug}",
     response_model=ItemRecommendationOut,
     summary="🔵 Public recommendations",
     description="Retrive a list of all public recommendations"
@@ -53,8 +53,8 @@ recs_router.get(
 async def get_public_recommendations(cafe_slug: str):
     return await RecommendationService.get_public_recommendations(cafe_slug)
 
-recs_router.put(
-    "/recommendations/item/{cafe_slug}",
+@recs_router.put(
+    "/recommendations/public/{cafe_slug}",
     response_model=ItemRecommendationUpdate,
     summary="🔵 Update public recommendation",
     description="Update an existing public recommendation"
@@ -70,8 +70,8 @@ async def update_public_recommendations(
 #               Bot
 # --------------------------------------
 
-recs_router.get(
-    "/recommendations/item/{cafe_slug}",
+@recs_router.get(
+    "/recommendations/bot/{cafe_slug}",
     response_model=ItemRecommendationOut,
     summary="🔵 Bot recommendations",
     description="Retrive a list of all bot recommendations"
@@ -79,8 +79,8 @@ recs_router.get(
 async def get_bot_recommendations(cafe_slug: str):
     return await RecommendationService.get_bot_recommendations(cafe_slug)
 
-recs_router.put(
-    "/recommendations/item/{cafe_slug}",
+@recs_router.put(
+    "/recommendations/bot/{cafe_slug}",
     response_model=ItemRecommendationUpdate,
     summary="🔵 Update bot recommendation",
     description="Update an existing bot recommendation"
@@ -96,7 +96,7 @@ async def update_bot_recommendations(
 #               Cafe
 # --------------------------------------
 
-recs_router.get(
+@recs_router.get(
     "/recommendations/cafe/{user_id}",
     response_model=CafeRecommendationOut,
     summary="🔵 Get cafe recommendation",
@@ -105,7 +105,7 @@ recs_router.get(
 async def get_user_cafe_recommendations(user_id: str):
     return await RecommendationService.get_user_cafe_recommendations(user_id)
 
-recs_router.put(
+@recs_router.put(
     "/recommendations/cafe/{user_id}",
     response_model=CafeRecommendationUpdate,
     summary="🔵 Update cafe recommendation",

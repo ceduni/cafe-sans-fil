@@ -1,4 +1,4 @@
-from pydantic import field_validator, ConfigDict, BaseModel, EmailStr, Field
+from pydantic import ConfigDict, BaseModel, Field
 from uuid import UUID
 from typing import List, Dict, Optional
 
@@ -11,11 +11,46 @@ Note: These models are for API data interchange related to users and not direct 
 """
 
 # ----------------------------------------------
+#               Cafe
+# ----------------------------------------------
+
+class CafeOut(BaseModel):
+    slug: str = Field(None, description="URL-friendly slug for the cafe.")
+    model_config = ConfigDict(json_schema_extra={
+        "slug": "tore-et-fraction"
+    })
+
+# ----------------------------------------------
+#               Item
+# ----------------------------------------------
+
+class ItemOut(BaseModel):
+    slug: str = Field(None, description="URL-friendly slug for the menu item.")
+    health_score: int = Field(None, description="Health score of the item.")
+    cluster: str = Field(..., description="String representing the cluster where the item belongs.")
+    model_config = ConfigDict(json_schema_extra={
+        "slug": "cheeseburger",
+        "health_score": 5,
+        "cluster": "0"
+    })
+
+class ItemUpdate(BaseModel):
+    slug: Optional[str] = Field(None, description="URL-friendly slug for the menu item.")
+    health_score: Optional[int] = Field(None, description="Health score of the item.")
+    cluster: Optional[str] = Field(..., description="String representing the cluster where the item belongs.")
+    model_config = ConfigDict(json_schema_extra={
+        "slug": "cheeseburger",
+        "health_score": 5,
+        "cluster": "0"
+    })
+
+
+# ----------------------------------------------
 #               Recommendations
 # ----------------------------------------------
 
 class ItemRecommendationOut(BaseModel):
-    recommendations: Dict[str, str | List[str]] = Field(..., description="Recommendations for each cafe.")
+    recommendations: List[str] = Field(..., description="Recommendations for each cafe.")
     model_config = ConfigDict(json_schema_extra={
         "exemple": {
             "recommendations":  ['cheeseburger', "Cheeseburger Spécial"]
@@ -23,8 +58,8 @@ class ItemRecommendationOut(BaseModel):
     })
 
 class ItemRecommendationUpdate(BaseModel):
-    recommendations: Optional[Dict[str, str | List[str]]] = Field(..., description="Recommendations for each cafe.")
-    model_config = ConfigDict(json_encoders={
+    recommendations: Optional[List[str]] = Field(..., description="Recommendations for each cafe.")
+    model_config = ConfigDict(json_schema_extra={
         "exemple": {
             "recommendations":  ["cheeseburger", "Cheeseburger Spécial"]
         }

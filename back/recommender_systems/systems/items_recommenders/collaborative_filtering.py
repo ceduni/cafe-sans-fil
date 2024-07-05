@@ -5,24 +5,26 @@ from typing import List
 
 # Collaborative filtering algorithm.
 # Recommand foods based on the similarity between the users.
-async def main(users: List[User], user: User) -> List[str]:
+def main(users: List[User], user: User) -> List[str]:
     recommendations: list[list[str]] = []
     similarity_threshold: float = 1
     n_users: int = len(users)
+
+    if user == None:
+        raise ValueError('User should not be None')
     
     if n_users >= 1:
-        if n_users > 1 and users[0].id != user.id:
-            users.remove(user)
-            S: set = set(users)
-            items_in_orders: list[str] = await Utilitaries.list_items( await DButils.get_user_orders(user) )
-            user_likes: List[str] = await DButils.get_user_likes(user)
-            user_visited_cafe: List[str] = await DButils.get_user_visited_cafe(user)
+        if n_users > 1 and users[0]['id'] != user['id']:
+            users.remove(user) if user in users else None
+            items_in_orders: list[str] = Utilitaries.list_items( DButils.get_user_orders(user) )
+            user_likes: List[str] = DButils.get_user_likes(user['id'])
+            user_visited_cafe: List[str] = DButils.get_user_visited_cafe(user)
             user_list: list[set[str]] = [ set(user_likes), set(items_in_orders), set(user_visited_cafe) ]
 
-            for u in S:
-                other_items_in_orders: list[str] = await Utilitaries.list_items( await DButils.get_user_orders(u))
-                other_user_list: list[set[str]] = [set( await DButils.get_user_likes(user) ), set(other_items_in_orders), set( await DButils.get_user_visited_cafe(u) )]
-                score: float = await Utilitaries.users_similarity(user_list, other_user_list)
+            for u in users:
+                other_items_in_orders: list[str] = Utilitaries.list_items( DButils.get_user_orders(u))
+                other_user_list: list[set[str]] = [set( DButils.get_user_likes(u['id']) ), set(other_items_in_orders), set( DButils.get_user_visited_cafe(u) )]
+                score: float = Utilitaries.users_similarity(user_list, other_user_list)
                 if score >= similarity_threshold:
                     u_union: set = user_list[0].union(user_list[1])
                     other_u_union: set = other_user_list[0].union(other_user_list[1])
@@ -40,6 +42,6 @@ async def main(users: List[User], user: User) -> List[str]:
             else:
                 return []
         else:
-            return await DButils.get_user_likes(user)
+            return DButils.get_user_likes(user['id'])
     else:
-        return await DButils.get_user_likes(user)
+        return DButils.get_user_likes(user['id'])

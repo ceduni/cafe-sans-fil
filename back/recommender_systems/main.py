@@ -27,10 +27,15 @@ def main(action: str) -> None:
             RunUsersRec.update_users_recommendations()
 
         case _:
-            RunUsersRec.update_users_recommendations()
-            RunPublicRec.update_public_recommendations()
-            RunBotRec.update_bot_recommendations()
+            print("Running all...")
             RunClustering.update_item_cluster()
-            RunBotRec.update_bot_recommendations()
             RunScoreUpdate.update_items_health_score()
+            RunBotRec.update_bot_recommendations()
+            RunPublicRec.update_public_recommendations()
             RunCafeRec.update_cafe_recommendations()
+            RunUsersRec.update_users_recommendations()
+
+
+if __name__ == "__main__":
+    action = sys.argv[1] if len(sys.argv) > 1 else ""
+    main(action)

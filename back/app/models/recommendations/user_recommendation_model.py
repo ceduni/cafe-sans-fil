@@ -1,8 +1,7 @@
-from beanie import Document, Indexed, DecimalAnnotation
+from beanie import Document
 from typing import List
-from back.app.models.recommendations.user_recommendation_model import Item
-from pydantic import field_validator, BaseModel, Field
-from uuid import UUID, uuid4
+from app.models.recommendations.item_model import Item
+from uuid import UUID
 
 """
 This module defines the Pydantic-based models used in the Café application for user recommendations management, 
@@ -19,7 +18,3 @@ class UserRecommendation(Document):
     cafe_slug: str
     recommendation_list: List[Item]
 
-class Item(BaseModel):
-    slug: Indexed(str, unique=True) = Field(None, description="URL-friendly slug for the menu item.")
-    health_score: int = Field(None, description="Health score of the item.")
-    cluster: str = Field(..., description="String representing the cluster where the item belongs.")

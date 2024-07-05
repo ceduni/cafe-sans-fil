@@ -2,12 +2,11 @@
 #   "Logique" du wiki.
 from typing import List, Any, Tuple
 from app.models.cafe_model import MenuItem, Cafe
-from recommender_systems.utils import db_utils as DButils
+from recommender_systems.utils import db_utils as DButils, utilitaries as Util
 from app.models.user_model import User
 from app.models.order_model import Order, OrderedItem
 from recommender_systems.utils.api_calls import *
 from typing import List, Dict, Set
-import uuid
 
 #------------------------
 #       Users
@@ -35,7 +34,7 @@ def jaccard_similarity(set1: Set, set2: Set) -> float:
 # This method take a dictionnary : { item slug: number of purchases }.
 # It returns a list of item slug sorted in descending
 #   order (most item bought to least item bought).
-def _sort_items_by_occurences(map: Dict[str, int]) -> List[str]:
+def sort_items_by_occurences(map: Dict[str, int]) -> List[str]:
     tuple_items: list[tuple[int, str]] = []
     for key in map.keys():
         tuple_items.append((map[key], key))
@@ -53,7 +52,7 @@ def most_bought_items(all_orders: List[Order]) -> List[str]:
                 items_map[item['item_slug']] = 1
             else:
                 items_map[item['item_slug']] += 1
-    return _sort_items_by_occurences(items_map)
+    return sort_items_by_occurences(items_map)
 
 # This method takes a list of items and sort those items in descending order
 #   (most liked item to least like item).
@@ -88,7 +87,6 @@ def list_items(orders_ids: List[str]) -> List[str]:
     all_slugs: list[str] = []
     for id in orders_ids:
         order, _ = OrderApi.get_order(id)
-        print(order)
         ordered_items: list[OrderedItem] = order['items']     
         slugs: list[str] = []       
         for item in ordered_items:
@@ -109,7 +107,7 @@ def regroup_by_cluster(items: List[MenuItem]) -> Dict[str, List[str]]:
 def filter_items_by_cafe(slugs: List[str], cafe_slug: str) -> List[str]:
     items: list[str] = []
     for slug in slugs:
-        retrived_item: MenuItem = CafeApi.get_item(cafe_slug, slug)
+        retrived_item, _ = CafeApi.get_item(cafe_slug, slug)
         if retrived_item != None:
             items.append(retrived_item['slug']) if retrived_item['slug'] not in items else None
     return items
@@ -117,19 +115,23 @@ def filter_items_by_cafe(slugs: List[str], cafe_slug: str) -> List[str]:
 # This method takes a user and a cafe as parameters and return
 #   a list of items not yet bought by the user in this cafe.
 def meal_not_consumed(cafe: Cafe, user: User) -> List[str]:
-    cafe_slug = cafe['slug']
-    order_history: list[str] = DButils.get_user_orders(user)
-    oredered_items_slugs: list[str] = []
-    for order_id in order_history:
-        oredered_items_slugs.extend(DButils.get_order_items(order_id))
-    
-    meal_not_consumed: list[str] = []
-    for item_slug in oredered_items_slugs:
-        item = DButils.get_item(cafe_slug, item_slug)
-        if item != None:
-            meal_not_consumed.append(item['slug'])
 
-    return meal_not_consumed
+    if cafe == None or user == None:
+        return []
+
+    cafe_slug = cafe['slug']
+    cafe_items_slugs: list[str] = Util.items_slugs( DButils.get_cafe_items(cafe_slug) )
+    order_history: list[str] = DButils.get_user_orders(user)
+
+    meal_not_consumed: list[str] = []
+
+    for order_id in order_history:
+        order = DButils.get_order(order_id)
+        if order['cafe_slug'] == cafe_slug:
+            order_items_slugs: list[str] = DButils.get_order_items(order_id)
+            meal_not_consumed.extend(list(set(cafe_items_slugs) - set(order_items_slugs)))
+
+    return list( set(meal_not_consumed) )
 
 #-----------------------
 #       Cafe
@@ -137,10 +139,15 @@ def meal_not_consumed(cafe: Cafe, user: User) -> List[str]:
 
 # Take a list of cafe and an item and return the list of cafe selling the item.
 def find_cafe_by_item(cafe_list: List[Cafe], item: MenuItem) -> List[Cafe]:
+
+    if item == None or cafe_list == None:
+        return []
+
     cafes = []
     for cafe in cafe_list:
-        items = DButils.get_cafe_items(cafe['slug'])
-        if item in items:
+        items: list[MenuItem] = DButils.get_cafe_items(cafe['slug'])
+        items_slug: list[str] = Util.items_slugs(items)
+        if item['slug'] in items_slug:
             cafes.append(cafe)
     return cafes
 

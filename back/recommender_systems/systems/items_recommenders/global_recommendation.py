@@ -3,6 +3,7 @@ from app.models.cafe_model import Cafe, MenuItem
 from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
 from app.models.order_model import Order
 from typing import List, Any
+from recommender_systems.utils.api_calls import AuthApi
 
 # Recommand foods to all the users based on the time and the most bought/liked
 #   foods.
@@ -20,7 +21,8 @@ def main(cafe: Cafe) -> List[str]:
     if len(cafe_items) == 0:
         return []
     
-    all_orders: List[Order] = DButils.get_all_orders()
+    auth_token = AuthApi.auth_login()
+    all_orders: List[Order] = DButils.get_all_orders(auth_token=auth_token)
 
 
     # Number of items to recommand.

@@ -1,8 +1,7 @@
-from beanie import Document, Indexed
+from beanie import Document
 from typing import List
-from back.app.models.recommendations.bot_recommendation_model import Item
-from pydantic import BaseModel, Field
-from uuid import UUID
+from pydantic import Field
+from app.models.recommendations.item_model import Item
 
 """
 This module defines the Pydantic-based models used in the Café application for bot recommendations management, 
@@ -18,7 +17,3 @@ class BotRecommendation(Document):
     cafe_slug: str
     recommendation_list: List[Item]
 
-class Item(BaseModel):
-    slug: Indexed(str, unique=True) = Field(None, description="URL-friendly slug for the menu item.")
-    health_score: int = Field(None, description="Health score of the item.")
-    cluster: str = Field(..., description="String representing the cluster where the item belongs.")

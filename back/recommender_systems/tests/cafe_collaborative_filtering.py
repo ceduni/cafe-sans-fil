@@ -8,7 +8,6 @@ Note: The order of application of the @patch decorators (bottom to top) correspo
 in which the mocked objects are passed as arguments to the test method, from left to right.
 '''
 
-#TODO
 class TestMainFunction(unittest.TestCase):
 
     def setUp(self):

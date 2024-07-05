@@ -73,7 +73,9 @@ class MenuItemUpdate(BaseModel):
     allergens: Optional[List[str]] = Field(None, description="Updated list of allergens for the menu item.")
     likes: Optional[List[str]] = Field(None, description="Updated list of likes for the menu item.")
     barecode: Optional[str] = Field(None, description="Updated barecode of the menu item.")
-    nutritional_information: NutritionInfo = Field(None, description="Updated nutritional information for the menu item.")
+    nutritional_information: Optional[NutritionInfo] = Field(None, description="Updated nutritional information for the menu item.")
+    cluster: Optional[str] = Field(None, description="Item cluster.")
+    health_score: Optional[float] = Field(None, description="Item health score.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "name": "Cheeseburger Spécial",
@@ -120,6 +122,8 @@ class MenuItemOut(BaseModel):
     likes: List[str] = Field(..., description="Identifier of users who like the menu item.")
     barecode: Optional[str] = Field(None, description="Barecode of the menu item.")
     nutritional_informations: NutritionInfo = Field(..., description="Nutritional information of the menu item.")
+    cluster: Optional[str] = Field(None, description="Item cluster.")
+    health_score: Optional[float] = Field(None, description="Item health score.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "item_id": "123e4567-e89b-12d3-a456-426614174000",
@@ -139,7 +143,9 @@ class MenuItemOut(BaseModel):
             "allergens": ["Peanuts", "Dairy"],
             "likes": ["20176472"],
             "barecode": "123e4567-e892-12d3-a456-426614174000",
-            "nutritional_information": {"Calories": 300, "Protein": 25, "Carbohydrates": 50, "Fats": 15}
+            "nutritional_information": {"Calories": 300, "Protein": 25, "Carbohydrates": 50, "Fats": 15},
+            "cluster": "0",
+            "health_score": 0.0
         }
     })
 

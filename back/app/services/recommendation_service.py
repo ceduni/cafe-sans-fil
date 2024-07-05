@@ -1,5 +1,4 @@
-from typing import List
-from app.schemas.recommendation_schema import ItemRecommendationUpdate, CafeRecommendationUpdate
+from app.schemas.recommendation_schema import ItemRecommendationUpdate, CafeRecommendationUpdate, ItemUpdate
 from app.models.recommendations.user_recommendation_model import UserRecommendation
 from app.models.recommendations.public_recommendation_model import PublicRecommendation
 from app.models.recommendations.bot_recommendation_model import BotRecommendation
@@ -35,9 +34,9 @@ class RecommendationService:
 
     @staticmethod
     async def update_bot_recommendations(cafe_slug: str, data: ItemRecommendationUpdate):
-        update_data = data.model_dump(exclude_unset=True)
-        recommendations = await RecommendationService.get_bot_recommendations(cafe_slug)
-        await recommendations.update(update_data)
+        recommendations = BotRecommendation(cafe_slug=cafe_slug, **data.model_dump(exclude_unset=True))
+        print(recommendations)
+        await recommendations.save()
         return recommendations
 
     @staticmethod
@@ -50,3 +49,12 @@ class RecommendationService:
         recommendations = await RecommendationService.get_user_cafe_recommendations(user_id)
         await recommendations.update(update_data)
         return recommendations
+    
+    @staticmethod
+    async def get_all_items():
+        pass
+
+    @staticmethod
+    async def update_item_cluster(item_slug: str, data: ItemUpdate):
+        pass
+

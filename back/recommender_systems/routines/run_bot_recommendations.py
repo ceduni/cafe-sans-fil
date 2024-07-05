@@ -1,11 +1,9 @@
 from recommender_systems.systems.items_recommenders import health_bot as HB
-from app.models.user_model import User
 from app.models.cafe_model import Cafe
-from app.schemas.recommendation_schema import ItemRecommendationUpdate
-from app.services.recommendation_service import RecommendationService
 from recommender_systems.utils import db_utils as DButils
 from typing import List, Dict
-import asyncio
+from recommender_systems.utils.api_calls import BotRecommenderApi, AuthApi
+from tqdm import tqdm
 
 # Dictionnary recommendations structure:
 # {
@@ -13,16 +11,18 @@ import asyncio
 #          item_slug,
 #    ],
 # }
-async def _run_bot_recommendations() -> Dict[str, List[str]]:
-    all_cafe: list[Cafe] = await DButils.get_all_cafe()
+def _run_bot_recommendations() -> Dict[str, List[str]]:
+    all_cafe: list[Cafe] = DButils.get_all_cafe()
     bot_recommendations: dict[str, list[str]] = HB.main(all_cafe)
     return bot_recommendations
 
 # Update bot's recommendations in the database
 def update_bot_recommendations() -> None:
-    recommendations: dict[str, list[str]] = asyncio.run( _run_bot_recommendations() )
-    for cafe_slug in recommendations:
+    auth_token = AuthApi.auth_login()
+    recommendations: dict[str, list[str]] = _run_bot_recommendations()
+    for _, cafe_slug in enumerate( tqdm(recommendations, desc="Updating bot recommendations") ):
         data = {
             "recommendations": recommendations[cafe_slug]
         }
-        asyncio.run( RecommendationService.update_bot_recommendations(cafe_slug, ItemRecommendationUpdate(**data)) )
+        response, status = BotRecommenderApi.update_bot_recommendations(auth_token=auth_token, cafe_slug=cafe_slug, json_data=data)
+        print(response, status)
