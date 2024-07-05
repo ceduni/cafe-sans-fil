@@ -38,22 +38,25 @@ function renderCafe(cafes) {
 }
 
 const SearchResults = ({ searchQuery, setStoredCafes, storedCafes }) => {
-    const query = normalizeQuery(searchQuery)
+    const query = normalizeQuery(searchQuery);
 
     const [isLoading, setIsLoading] = useState(true);
-    // const [cafes, setStoredCafes] = useState(null);
     const [error, setError] = useState(null);
 
     // Fetching cafe
     useEffect(() => {
+        setIsLoading(true);
         CafeAPI.search(query, setIsLoading)
             .then((data) => {
                 setStoredCafes(data);
+                setError(null);
+                setIsLoading(false);
             })
             .catch((error) => {
-                setError(error)
-            })
-    }, []);
+                setError(error);
+                setIsLoading(false);
+            });
+    }, [query, setStoredCafes]);
 
     if (error) {
         return renderError(error);
