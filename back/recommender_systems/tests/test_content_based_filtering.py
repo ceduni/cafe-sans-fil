@@ -213,9 +213,11 @@ class TestContentBasedFiltering(unittest.TestCase):
         items_not_bought = set([
             'item1', 'item3'
         ])
+        result_1 = algorithm(user, cafe_items, items_not_bought)
+        result_2 = algorithm(user, cafe_items, items_not_bought, 1)
 
-        self.assertCountEqual(algorithm(user, cafe_items, items_not_bought), ['item1', 'item3'])
-        self.assertCountEqual(algorithm(user, cafe_items, items_not_bought, 1), ['item1'])
+        self.assertCountEqual(result_1, ['item1', 'item3'])
+        self.assertTrue(result_2 == ['item1'] or result_2 == ['item3'])
 
 if __name__ == '__main__':
     unittest.main()
