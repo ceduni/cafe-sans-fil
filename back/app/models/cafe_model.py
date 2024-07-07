@@ -20,6 +20,10 @@ different from the API data interchange models.
 class Feature(str, Enum):
     ORDER = "Order"
 
+class Affiliation(BaseModel):
+    university: str = Field(..., min_length=1, description="Name of the university.")
+    faculty: str = Field(..., min_length=1, description="Name of the faculty.")
+
 class TimeBlock(BaseModel):
     start: str = Field(..., min_length=1, description="Start time in HH:mm format.")
     end: str = Field(..., min_length=1, description="End time in HH:mm format.")
@@ -71,8 +75,9 @@ class Contact(BaseModel):
         return v
 
 class SocialMedia(BaseModel):
-    platform_name: str = Field(..., min_length=1, description="Name of the social media platform.")
-    link: str = Field(..., min_length=1, description="Link to the social media profile.")
+    facebook: Optional[str] = Field(None, description="Facebook URL.")
+    instagram: Optional[str] = Field(None, description="Instagram URL.")
+    x: Optional[str] = Field(None, description="X URL.")
 
 class PaymentMethod(BaseModel):
     method: str = Field(..., min_length=1, description="Payment method used in the cafe.")
@@ -126,7 +131,7 @@ class MenuItem(BaseModel):
         if price < DecimalAnnotation(0.0):
             raise ValueError("Price must be a non-negative value.")
         return price
-    
+
 class Cafe(Document):
     cafe_id: UUID = Field(default_factory=uuid4)
     name: Indexed(str, unique=True)
@@ -134,14 +139,15 @@ class Cafe(Document):
     previous_slugs: List[str] = []
     features: List[Feature]
     description: Indexed(str)
+    logo_url: Optional[str] = None
     image_url: Optional[str] = None 
-    faculty: Indexed(str)
+    affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = None
     opening_hours: List[DayHours]
     location: Location
     contact: Contact
-    social_media: List[SocialMedia]
+    social_media: SocialMedia
     payment_methods: List[PaymentMethod]
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
@@ -161,19 +167,6 @@ class Cafe(Document):
         return existing_cafe is None
     
     async def check_for_duplicate_entries(self):
-        # Unique SocialMedia platform_name-link combinations
-        social_media_combinations = set()
-        for sm_data in self.social_media:
-            if isinstance(sm_data, dict):
-                sm = SocialMedia(**sm_data)
-            else:
-                sm = sm_data
-
-            social_media_combinations.add((sm.platform_name, sm.link))
-
-        if len(social_media_combinations) != len(self.social_media):
-            raise ValueError("Duplicate SocialMedia entries detected.")
-
         # Unique PaymentMethod methods
         payment_methods_set = set()
         for pm_data in self.payment_methods:
