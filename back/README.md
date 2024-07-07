@@ -104,7 +104,7 @@ Pour exécuter les scripts de recommendation qui se trouvent dans le dossier ``/
 
 1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
 2. Dépendement de vos besoins,
-   - Exécutez ``py -m recommender_systems.main`` pour exécuter touss les scripts.
+   - Exécutez ``py -m recommender_systems.main`` pour exécuter tous les scripts.
    - Exécutez ``py -m recommender_systems.main clustering`` pour exécuter un script en particulier.
 
 Les noms à fournir en paramètre pour exécuter chaque script peuvent être trouvé dans le fichier ``recommender_systems/main.py``.
