@@ -98,13 +98,34 @@ Pour générer des données servant à peupler la base de données, nous utiliso
 > Vous pouvez ajuster le nombre d'utilisateurs créés en modifiant cette ligne dans le script `generate_all.py`: `user_usernames = await create_users(27)`.  
 > Par défaut, les données seront générées dans `MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"`, mais vous pouvez les diriger vers votre base de données principale en modifiant le script `MONGO_DB_NAME = settings.MONGO_DB_NAME`.
 
-## Exécuter les tests
+## Exécuter les scripts de recommendation
 
+Pour exécuter les scripts de recommendation qui se trouvent dans le dossier ``/recommender_systems/routines`` tel que ``clustering``, voici les étapes à suivre:
+
+1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
+2. Dépendement de vos besoins,
+   - Exécutez ``py -m recommender_systems.main`` pour exécuter touss les scripts.
+   - Exécutez ``py -m recommender_systems.main clustering`` pour exécuter un script en particulier.
+
+Les noms à fournir en paramètre pour exécuter chaque script peuvent être trouvé dans le fichier ``recommender_systems/main.py``.
+
+## Exécuter les tests
+### Tests du backend
 Pour exécuter les tests du *Backend*, il est nécessaire d'avoir des données générées par `generate_all.py`. Voici les étapes à suivre:
 
 1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
 2. Exécutez les tests avec `pytest`.
 
+### Tests des scripts de recommendation
+Pour exécuter les tests des *algorithmes de recommendation*, il n'est pas nécéssaire d'avoir généré  des données au préalable. Voici les
+étapes à suivre:
+
+1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
+2. Exécutez les tests avec `py -m recommender_systems.tests.main`.
+
+Pour exécuter les tests pour un seule script, l'étape 1. est la même mais l'étape 2. devient :
+
+2. Exécutez les tests avec `py -m unittest recommender_systems.tests.test_*`. Remplacer `*` par le nom du fichier à exécuter.
 
 # Déploiement et Hébergement
 

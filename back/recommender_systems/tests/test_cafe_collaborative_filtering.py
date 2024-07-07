@@ -28,16 +28,16 @@ class TestMainFunction(unittest.TestCase):
             {'id': 'user3', 'username': 'username3'},
         ]
 
-    # def test_main_no_user(self):
-    #     with self.assertRaises(ValueError):
-    #         main(self.users, None)
+    def test_main_no_user(self):
+        with self.assertRaises(ValueError):
+            main(self.users, None)
 
-    # @patch('recommender_systems.utils.db_utils.get_user_visited_cafe')
-    # def test_main_no_other_users(self, mock_get_user_visited_cafe):
-    #     mock_get_user_visited_cafe.return_value = ['cafe1', 'cafe2']
+    @patch('recommender_systems.utils.db_utils.get_user_visited_cafe')
+    def test_main_no_other_users(self, mock_get_user_visited_cafe):
+        mock_get_user_visited_cafe.return_value = ['cafe1', 'cafe2']
         
-    #     result = main([], self.user)
-    #     self.assertEqual(result, ['cafe1', 'cafe2'])
+        result = main([], self.user)
+        self.assertEqual(result, ['cafe1', 'cafe2'])
 
     @patch('recommender_systems.utils.api_calls.OrderApi.get_user_orders')
     @patch('recommender_systems.utils.db_utils.get_all_items')
