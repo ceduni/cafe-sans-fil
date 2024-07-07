@@ -48,13 +48,16 @@
 
 ### Observations
 
-### Ressources
+### Ressources-->
 
 ## Semaine 10 (2024-07-05)
 
 ### Objectifs
+- Tests d'intégrations des algorithmes au backend.
+- Affichage des recommendations sur le Front-end.
+- Ajout des fonctionnalités de modification du profile dans le Front-end.
 
-### Réalisations
+<!--### Réalisations
 
 ### Observations
 
@@ -64,14 +67,18 @@
 
 ### Objectifs
 - Modifier l'algorithme de recommendations publique (prendre en compte les items les plus achetés).
-- Considérer la distance de [levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance#:~:text=The%20Levenshtein%20distance%20between%20two,defined%20the%20metric%20in%201965.) pour les mesure de similarité.
 - Rajouter les tests unitaires.
 
-<!--### Réalisations
+### Réalisations
+- Ajout des tests unitaires.
+- Mise à jour des principaux algorithme.
+- Début des tests d'intégrations.
 
 ### Observations
+- Découverte des [mocks](https://docs.python.org/3/library/unittest.mock.html) pour les tests unitaires.
 
-### Ressources -->
+### Ressources
+- [Python Unittest Mock](https://docs.python.org/3/library/unittest.mock.html)
 
 ## Semaine 8 (2024-06-21)
 
