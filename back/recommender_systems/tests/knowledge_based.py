@@ -37,6 +37,11 @@ class TestKnowledgeBased(unittest.TestCase):
         ]
 
         self.assertEqual(allergenic_foods(user_allergens, menu_items), ["test", "test4"])
+        self.assertEqual(allergenic_foods({}, menu_items), [])
+        self.assertEqual(allergenic_foods(user_allergens, []), [])
+        self.assertEqual(allergenic_foods(None, menu_items), [])
+        self.assertEqual(allergenic_foods(user_allergens, None), [])
+        self.assertEqual(allergenic_foods(None, None), [])
 
     def test_diet_category_cluster(self):
         items = [
@@ -84,6 +89,8 @@ class TestKnowledgeBased(unittest.TestCase):
             }
         }
 
+        self.assertEqual(diet_category_cluster([]), {})
+        self.assertEqual(diet_category_cluster(None), {})
         self.assertEqual(diet_category_cluster(items), expected_result)
 
     def test_main(self):
@@ -155,10 +162,14 @@ class TestKnowledgeBased(unittest.TestCase):
             }
         }
 
+        self.assertEqual(main(actual_cafe, {}), [])
+        self.assertEqual(main({}, user), [])
+        self.assertEqual(main(None, None), [])
+        self.assertEqual(main({}, {}), [])
         self.assertEqual(main(actual_cafe, user), ["test4"])
         self.assertEqual(main(actual_cafe, user_2), ["test2"])
-        self.assertEqual(sorted(main(actual_cafe, user_3)), ["test", "test3"])
-        self.assertEqual(sorted(main(actual_cafe, user_4)), ['test', 'test2', 'test3', 'test4'])
+        self.assertCountEqual(main(actual_cafe, user_3), ["test", "test3"])
+        self.assertCountEqual(main(actual_cafe, user_4), ['test', 'test2', 'test3', 'test4'])
 
 if __name__ == "__main__":
     unittest.main()

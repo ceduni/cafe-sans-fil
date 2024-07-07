@@ -12,25 +12,26 @@ def score_cafe(list_cafe: List[Cafe], user: User) -> List[Tuple[int, str]]:
         items: list[MenuItem] = DButils.get_cafe_items(cafe['slug'])
         count: int = 0
         for item in items:
-            if item['slug'] in DButils.get_user_likes(user['id']):
+            user_likes = DButils.get_user_likes_in_cafe(user['id'], items)
+            if item['slug'] in user_likes:
                 count += 1
         scored_cafes.append( (count, cafe['slug']) )
     return scored_cafes
 
-def get_best_cafe(list_cafe: List[Cafe], user: User, n_cafes: int = 1) -> List[str]:
-    scored_cafes: list[tuple[int, str]] = score_cafe(list_cafe, user)
-    sorted_cafes: list[tuple[int, str]] = sorted(scored_cafes, reverse=True)
+def get_best_cafe(list_cafe: List[Cafe], user: User, n_cafes: int = 10) -> List[str]:
+    sorted_cafes: list[tuple[int, str]] = sorted(score_cafe(list_cafe, user), reverse=True)
     if n_cafes > len(sorted_cafes):
         n_cafes = len(sorted_cafes)
     return [ sorted_cafes[i][1] for i in range(n_cafes) ]
 
 # Always return one recommendation if the user did not like any item yet.
 # Return cafe slugs.
-def main(all_cafe: List[Cafe], user: User, n_recommendation: int = 1) -> List[str]:
-    if len(DButils.get_user_likes(user['id'])) == 0:
-        if len(all_cafe) == 0:
+def main(all_cafe: List[Cafe], user: User, n_recommendation: int = 10) -> List[str]:
+    if len(DButils.get_all_user_likes(user['id'])) == 0:
+        if all_cafe is None or len(all_cafe) == 0:
             return []
-        return all_cafe[random.randint(0, len(all_cafe)-1)] # Return a random cafe
+        return all_cafe[random.randint(0, len(all_cafe)-1)]['slug'] # Return a random cafe
     else:
+        if all_cafe is None or len(all_cafe) == 0:
+            return []
         return get_best_cafe(all_cafe, user, n_recommendation)
-

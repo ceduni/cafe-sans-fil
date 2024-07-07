@@ -10,17 +10,30 @@ from recommender_systems.utils.api_calls import *
 
 # Return the slug of all cafe where the user bought at least one item.
 def get_user_visited_cafe(user: User) -> List[str]:
-    user_orders: List[Order] = get_user_orders(user)
+    params = {
+        "page": 1,
+        "limit": 40,
+        "sort_by": "name"
+    }
+    auth_token = AuthApi.auth_login()
+    user_orders, _ = OrderApi.get_user_orders(auth_token=auth_token, username=user['username'], params=params)
     visited_cafe: List[str] = []
     for order in user_orders:
         visited_cafe.append(order['cafe_slug']) if order['cafe_slug'] not in visited_cafe else None
     return visited_cafe
 
 # Return the slugs of the items liked by the user.
-def get_user_likes(user_id: str) -> List[str]:
+def get_all_user_likes(user_id: str) -> List[str]:
     all_items: List[MenuItem] = get_all_items()
     items: List[str] = []
     for item in all_items:
+        if user_id in item['likes']:
+            items.append(item['slug'])
+    return items
+
+def get_user_likes_in_cafe(user_id: str, cafe_items: List[MenuItem]) -> List[str]:
+    items = []
+    for item in cafe_items:
         if user_id in item['likes']:
             items.append(item['slug'])
     return items
@@ -33,7 +46,7 @@ def get_all_users() -> List[User]:
         "sort_by": "last_name"
     }
     auth_token = AuthApi.auth_login()
-    users, status = UserApi.get_users(auth_token=auth_token, params=query_params)
+    users, _ = UserApi.get_users(auth_token=auth_token, params=query_params)
     return users
 
 #------------------------
@@ -49,7 +62,6 @@ def get_user_orders(user: User) -> List[str]:
     }
     auth_token = AuthApi.auth_login()
     orders, _ = OrderApi.get_user_orders(auth_token=auth_token, username=user['username'], params=params)
-    print(orders)
     return list(map(lambda x: x['order_id'], orders))
 
 def get_all_orders(auth_token) -> List[str]:

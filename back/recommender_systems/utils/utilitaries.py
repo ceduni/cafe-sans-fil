@@ -14,15 +14,23 @@ from typing import List, Dict, Set
 
 # Calculate the similarity between two users using jaccard similarity.
 def users_similarity(u_list: List[List[str] | Set[str]], v_list: List[List[str] | Set[str]]) -> float:
-    J: list[float] = []
-    for i in range(0, len(v_list)):
-        resized_array: tuple[list[str]] = reshape( list(u_list[i]), list(v_list[i]) )
-        j: float = jaccard_similarity( set(resized_array[0]), set(resized_array[1]) )
-        J.append(j)
-    score: float = sum(J)
-    return score
+    try :
+        J: list[float] = []
+        for i in range(0, len(v_list)):
+            if u_list[i] == None or v_list[i] == None:
+                raise ValueError("At least one of the list contain None value.")
+            resized_array: tuple[list[str]] = reshape( list(u_list[i]), list(v_list[i]) )
+            j: float = jaccard_similarity( set(resized_array[0]), set(resized_array[1]) )
+            J.append(j)
+        score: float = sum(J)
+        return score
+    except TypeError | ValueError as e:
+        print(e)
+        return 0
 
 def jaccard_similarity(set1: Set, set2: Set) -> float:
+    if not isinstance(set1, set) or not isinstance(set2, set):
+        raise TypeError("set1 and set2 must be sets")
     intersection = len(set1.intersection(set2))
     union = len(set1.union(set2))
     return intersection / union
@@ -35,24 +43,36 @@ def jaccard_similarity(set1: Set, set2: Set) -> float:
 # It returns a list of item slug sorted in descending
 #   order (most item bought to least item bought).
 def sort_items_by_occurences(map: Dict[str, int]) -> List[str]:
-    tuple_items: list[tuple[int, str]] = []
-    for key in map.keys():
-        tuple_items.append((map[key], key))
-    sorted_items: list[tuple[int, str]] = sorted(tuple_items, reverse=True)
-    return [ item[1] for item in sorted_items ]
+    try :
+        if isinstance(map, dict) == False:
+            raise TypeError("Argument must be a dictionnary.")
+        tuple_items: list[tuple[int, str]] = []
+        for key in map.keys():
+            tuple_items.append((map[key], key))
+        sorted_items: list[tuple[int, str]] = sorted(tuple_items, reverse=True)
+        return [ item[1] for item in sorted_items ]
+    except TypeError as e:
+        print(e)
+        return []
 
 # Take a list of orders and return a list of item slug sorted in descending
 #   order (most item bought to least item bought).
 def most_bought_items(all_orders: List[Order]) -> List[str]:
-    items_map: dict[str, int] = {}
-    for order in all_orders:
-        items: List[OrderedItem] = order['items']
-        for item in items:
-            if item['item_slug'] not in items_map:
-                items_map[item['item_slug']] = 1
-            else:
-                items_map[item['item_slug']] += 1
-    return sort_items_by_occurences(items_map)
+    try :
+        if not isinstance(all_orders, list):
+            raise TypeError("Argument must be a list.")
+        items_map: dict[str, int] = {}
+        for order in all_orders:
+            items: List[OrderedItem] = order['items']
+            for item in items:
+                if item['slug'] not in items_map:
+                    items_map[item['slug']] = 1
+                else:
+                    items_map[item['slug']] += 1
+        return sort_items_by_occurences(items_map)
+    except TypeError as e:
+        print(e)
+        return []
 
 # This method takes a list of items and sort those items in descending order
 #   (most liked item to least like item).
@@ -60,21 +80,31 @@ def most_bought_items(all_orders: List[Order]) -> List[str]:
 # IF k < 0, then no size is specified so it returns all the items
 #   sorted.
 def most_liked_items(items: List[MenuItem], k: int = -1) -> List[str]:
-    if k < 0:
-        k = len(items)
+    try :
+        if not isinstance(items, list):
+            raise TypeError("First argument must be a list.")
 
-    likes: list[int] = []
-    for item in items:
-        likes.append(len(item['likes']))
-    
-    most_liked_items: list[str] = []
-    for _ in range(k):
-        max_likes = max(likes)
-        index = likes.index(max_likes)
-        most_liked_items.append(items[index]['slug'])
-        likes[index] = -1
+        if not isinstance(k, int):
+            raise TypeError("Second argument must be an integer.")
 
-    return most_liked_items
+        if k < 0:
+            k = len(items)
+
+        likes: list[int] = []
+        for item in items:
+            likes.append(len(item['likes']))
+        
+        most_liked_items: list[str] = []
+        for _ in range(k):
+            max_likes = max(likes)
+            index = likes.index(max_likes)
+            most_liked_items.append(items[index]['slug'])
+            likes[index] = -1
+
+        return most_liked_items
+    except TypeError as e:
+        print(e)
+        return []
 
 # Takes a list of items as parameter and returns a list that contains the slugs
 #   of the items.
@@ -94,12 +124,12 @@ def list_items(orders_ids: List[str]) -> List[str]:
         all_slugs.extend(slugs)
     return all_slugs
 
-def regroup_by_cluster(items: List[MenuItem]) -> Dict[str, List[str]]:
+def regroup_by_cluster(items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
     groups: dict[str, list[str]] = {}
     for item in items:
         if item['cluster'] not in groups:
             groups[item['cluster']] = []
-        groups[item['cluster']].append(item['slug'])
+        groups[item['cluster']].append(item)
     return groups
     
 # Takes a list of item slugs and a cafe slug and returns a list of slugs of
@@ -109,19 +139,24 @@ def filter_items_by_cafe(slugs: List[str], cafe_slug: str) -> List[str]:
     auth_token = AuthApi.auth_login()
     for slug in slugs:
         retrived_item, _ = CafeApi.get_item(auth_token=auth_token , cafe_slug=cafe_slug, item_slug=slug)
-        if retrived_item != None:
+        if retrived_item != None and 'details' not in retrived_item:
             items.append(retrived_item['slug']) if retrived_item['slug'] not in items else None
     return items
 
 # This method takes a user and a cafe as parameters and return
 #   a list of items not yet bought by the user in this cafe.
-def meal_not_consumed(cafe: Cafe, user: User) -> List[str]:
+def items_not_bought_in_cafe(cafe: Cafe, user: User) -> List[str]:
 
-    if cafe == None or user == None:
+    if cafe == None or user == None or len(cafe) == 0 or len(user) == 0:
         return []
 
     cafe_slug = cafe['slug']
-    cafe_items_slugs: list[str] = Util.items_slugs( DButils.get_cafe_items(cafe_slug) )
+    cafe_items: list[MenuItem] = DButils.get_cafe_items(cafe_slug)
+
+    if 'details' in cafe_items[0]: # No items in the cafe
+        return []
+    
+    cafe_items_slugs: list[str] = Util.items_slugs(cafe_items)
     order_history: list[str] = DButils.get_user_orders(user)
 
     meal_not_consumed: list[str] = []

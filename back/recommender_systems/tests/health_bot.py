@@ -9,22 +9,26 @@ in which the mocked objects are passed as arguments to the test method, from lef
 
 class TestHealthBot(unittest.TestCase):
 
-    @patch('recommender_systems.utils.utilitaries.health_score')
-    def test_sort_by_health_score(self, mock_health_score):
+    def test_sort_by_health_score(self):
         items = [
             {'slug': 'item1', 'health_score': -6},
-            {'slug': 'item2'},
+            {'slug': 'item2', 'nutritional_informations': {
+                'calories': 1000,
+                'saturated_fat': 20, 
+                'sugar': 30,
+                'sodium': 10,
+                'fiber': 4,
+                'protein': 6,
+                'percentage_fruit_vegetables_nuts': 0
+            }},
             {'slug': 'item3', 'health_score': 4}
         ]
-
-        mock_health_score.return_value = 10
 
         self.assertEqual(sort_by_health_score(items), ['item1', 'item3', 'item2'])
 
 
-    @patch('recommender_systems.utils.db_utils.get_cafe_items')
-    @patch('recommender_systems.systems.items_recommenders.health_bot.sort_by_health_score')
-    def test_main(self, mock_sort_by_health_score, mock_get_cafe_items):
+    @patch('recommender_systems.utils.api_calls.CafeApi.get_all_items')
+    def test_main(self, mock_get_all_items):
         cafe_list = [
             {'slug': 'cafe1'},
             {'slug': 'cafe2'},
@@ -49,12 +53,10 @@ class TestHealthBot(unittest.TestCase):
             {'slug': 'item9', 'health_score': -8}
         ]
 
-        mock_get_cafe_items.side_effect = [items_1, items_2, items_3]
-
-        mock_sort_by_health_score.side_effect = [
-            ['item1', 'item3', 'item2'],
-            ['item5', 'item6', 'item4'],
-            ['item9', 'item8', 'item7']
+        mock_get_all_items.side_effect = [
+            (items_1, 200),
+            (items_2, 200),
+            (items_3, 200),
         ]
 
         result = {

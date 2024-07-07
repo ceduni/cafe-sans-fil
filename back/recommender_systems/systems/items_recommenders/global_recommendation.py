@@ -12,11 +12,6 @@ from recommender_systems.utils.api_calls import AuthApi
 def main(cafe: Cafe) -> List[str]:
     time_of_the_day: Any #TODO
     cafe_items: list[MenuItem] = DButils.get_cafe_items(cafe['slug'])
-    # filters = {
-    #     "page": 1,
-    #     "limit": 20,
-    #     "sort_by": "-order_number"
-    # }
 
     if len(cafe_items) == 0:
         return []
@@ -24,9 +19,8 @@ def main(cafe: Cafe) -> List[str]:
     auth_token = AuthApi.auth_login()
     all_orders: List[Order] = DButils.get_all_orders(auth_token=auth_token)
 
-
     # Number of items to recommand.
-    if len(cafe_items) > 50:
+    if len(cafe_items) > 10:
         k: int = len(cafe_items)//2
     else:
         k: int = len(cafe_items)

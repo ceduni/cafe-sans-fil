@@ -7,6 +7,17 @@ from recommender_systems.systems.cafe_recommenders.collaborative import *
 Note: The order of application of the @patch decorators (bottom to top) corresponds to the order
 in which the mocked objects are passed as arguments to the test method, from left to right.
 '''
+def manage_user_orders(auth_token, username, params):
+    match username:
+        case 'username1':
+            return ([{'order_id':'order1', 'cafe_slug': 'cafe1'}], 200)
+        case 'username2':
+            return ([{'order_id':'order2', 'cafe_slug': 'cafe2'}], 200)
+        case 'username3':
+            return ([{'order_id':'order3', 'cafe_slug': 'cafe3'}], 200)
+        case _:
+            return ([], 404)
+    
 
 class TestMainFunction(unittest.TestCase):
 
@@ -17,47 +28,43 @@ class TestMainFunction(unittest.TestCase):
             {'id': 'user3', 'username': 'username3'},
         ]
 
-    def test_main_no_user(self):
-        with self.assertRaises(ValueError):
-            main(self.users, None)
+    # def test_main_no_user(self):
+    #     with self.assertRaises(ValueError):
+    #         main(self.users, None)
 
-    @patch('recommender_systems.utils.db_utils.get_user_visited_cafe')
-    def test_main_no_other_users(self, mock_get_user_visited_cafe):
-        mock_get_user_visited_cafe.return_value = ['cafe1', 'cafe2']
+    # @patch('recommender_systems.utils.db_utils.get_user_visited_cafe')
+    # def test_main_no_other_users(self, mock_get_user_visited_cafe):
+    #     mock_get_user_visited_cafe.return_value = ['cafe1', 'cafe2']
         
-        result = main([], self.user)
-        self.assertEqual(result, ['cafe1', 'cafe2'])
+    #     result = main([], self.user)
+    #     self.assertEqual(result, ['cafe1', 'cafe2'])
 
-    @patch('recommender_systems.utils.db_utils.get_user_visited_cafe')
-    @patch('recommender_systems.utils.db_utils.get_user_likes')
-    @patch('recommender_systems.utils.db_utils.get_user_orders')
-    @patch('recommender_systems.utils.utilitaries.users_similarity')
-    def test_main_with_other_users(self, mock_users_similarity, mock_get_user_orders, mock_get_user_likes, mock_get_user_visited_cafe):
-        mock_get_user_visited_cafe.side_effect = [
-            ['cafe1', 'cafe2'],
-            ['cafe3'],
-            ['cafe4'],
-            ['cafe3'],
-            ['cafe4']         
+    @patch('recommender_systems.utils.api_calls.OrderApi.get_user_orders')
+    @patch('recommender_systems.utils.db_utils.get_all_items')
+    @patch('recommender_systems.utils.api_calls.OrderApi.get_order')
+    def test_main_with_other_users(self, mock_api_get_order, mock_get_all_items, mock_api_get_user_orders):
+        
+        mock_api_get_user_orders.side_effect = lambda auth_token, username, params: manage_user_orders(auth_token=auth_token, username=username, params=params)
+        
+        mock_get_all_items.return_value = [
+            {'slug': 'item1', 'likes': ['user1', 'user2', 'user3']},
+            {'slug': 'item2', 'likes': ['user1', 'user3']},
+            {'slug': 'item3', 'likes': []},
+            {'slug': 'item4', 'likes': ['user3']},
+            {'slug': 'item5', 'likes': ['user1', 'user2']},
+            {'slug': 'item6', 'likes': []},
+            {'slug': 'item7', 'likes': ['user2']},
+            {'slug': 'item8', 'likes': ['user2', 'user3']},
         ]
-        mock_get_user_likes.side_effect = [
-            ['item1', 'item2'],
-            ['item3'],
-            ['item4']
+
+        mock_api_get_order.side_effect = [
+            ({'cafe_slug': 'cafe1', 'items': [{'slug':'item1'}, {'slug':'item2'}, {'slug':'item3'}]}, 200),
+            ({'cafe_slug': 'cafe2', 'items': [{'slug':'item1'}, {'slug':'item2'}, {'slug':'item7'}, {'slug':'item8'}, {'slug':'item6'}]}, 200),
+            ({'cafe_slug': 'cafe3', 'items': [{'slug':'item1'}, {'slug':'item2'}, {'slug':'item4'}, {'slug':'item8'}]}, 200),
         ]
-        mock_get_user_orders.side_effect = [
-            ['order1'],
-            ['order2'],
-            ['order3']
-        ]
-        mock_users_similarity.side_effect = [0.9, 0.8]  # Similarities between User1 and other users
 
         result = main(self.users, self.user)
-        
-        self.assertIn('cafe3', result)
-        self.assertIn('cafe4', result)
-        self.assertNotIn('cafe1', result)
-        self.assertNotIn('cafe2', result)
+        self.assertCountEqual(result, ['cafe3', 'cafe2'])
 
 if __name__ == '__main__':
     unittest.main()

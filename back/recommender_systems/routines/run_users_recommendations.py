@@ -41,7 +41,6 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
                 
                 recommendations[user['user_id']] = cafes
 
-        
         #TODO Define a proportion ofr recommendations.
 
         return recommendations

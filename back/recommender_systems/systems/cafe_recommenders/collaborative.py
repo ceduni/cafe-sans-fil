@@ -13,9 +13,12 @@ def main(users: List[User], user: User) -> List[str]:
     users.remove(user) if user in users else None
     similarities: list[float] = []
     user_visited_cafe: List[str] = DButils.get_user_visited_cafe(user)
-    user_list: list[list[str]] = [ DButils.get_user_likes(user['id']), DButils.get_user_orders(user), user_visited_cafe ]
+    user_orders: list[str] = Utilitaries.list_items(DButils.get_user_orders(user))
+    user_likes: List[str] = DButils.get_all_user_likes(user['id'])
+    user_list: list[list[str]] = [ user_likes, user_orders, user_visited_cafe ]
     for other_user in users:
-        other_user_list: list[list[str]] = [ DButils.get_user_likes(other_user['id']), DButils.get_user_orders(other_user), DButils.get_user_visited_cafe(other_user) ]
+        other_user_orders: list[str] = Utilitaries.list_items(DButils.get_user_orders(other_user))
+        other_user_list: list[list[str]] = [ DButils.get_all_user_likes(other_user['id']), other_user_orders, DButils.get_user_visited_cafe(other_user) ]
         similarities.append(Utilitaries.users_similarity(user_list, other_user_list))
     
     n_best_users: int = round(0.75*len(similarities))
@@ -29,7 +32,6 @@ def main(users: List[User], user: User) -> List[str]:
         sim_users_cafes.extend( visited_cafes )
         similarities[index] = -1
 
-    set_sim_users_cafes: set[str] = set(sim_users_cafes)
-    recommendations_set: set[str] = set_sim_users_cafes.difference(set(user_visited_cafe))
+    recommendations_set: set[str] = set(sim_users_cafes) - set(user_visited_cafe)
 
     return list(recommendations_set)
