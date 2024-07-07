@@ -6,11 +6,14 @@ from tqdm import tqdm
 # Sort items in descending order by health scores.
 def sort_by_health_score(items: List[MenuItem]) -> List[str]:
     items_tuples: list[tuple[float, MenuItem]] = []
-
-    for item in items:
-        if 'health_score' not in item:
-            item['health_score'] = Utilitaries.health_score(item)
-        items_tuples.append( (item['health_score'], item['slug']) )
+    try:
+        for item in items:
+            if 'health_score' not in item:
+                item['health_score'] = Utilitaries.health_score(item)
+            items_tuples.append( (item['health_score'], item['slug']) )
+    except KeyError | TypeError as e:
+        print(e)
+        return []
 
     sorted_items_tuples: list[tuple[float, MenuItem]] = sorted(items_tuples, reverse=False)
 

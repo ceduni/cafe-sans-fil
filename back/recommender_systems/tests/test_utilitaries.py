@@ -129,6 +129,8 @@ class TestUtilitaries(unittest.TestCase):
             ]
         }
 
+        self.assertEqual(regroup_by_cluster(None), {})
+        self.assertEqual(regroup_by_cluster([]), {})
         self.assertEqual(regroup_by_cluster(items), expected_result)
 
     @patch('recommender_systems.utils.api_calls.CafeApi.get_item')
@@ -178,6 +180,8 @@ class TestUtilitaries(unittest.TestCase):
     def test_find_indexes(self):
         items = ['a', 'b', 'a', 'c', 'd', 'd', 'e', 'd']
 
+        self.assertEqual(find_indexes([], 'a'), [])
+        self.assertEqual(find_indexes(None, 'b'), [])
         self.assertEqual(find_indexes(items, 'a'), [0, 2])
         self.assertEqual(find_indexes(items, 'b'), [1])
         self.assertEqual(find_indexes(items, 'c'), [3])
@@ -201,11 +205,14 @@ class TestUtilitaries(unittest.TestCase):
         }
 
         self.assertEqual(health_score(item), -6)
+        self.assertRaises(KeyError, lambda : health_score({}))
+        self.assertRaises(TypeError, lambda : health_score(None))
 
     def test_reshape(self):
         A = [1, 2, 3, 4, 5, 6]
         B = [7, 5, 9]
         
+        self.assertEqual(reshape(None, {}), ())
         self.assertEqual(reshape(A, B), (A, [7, 5, 9, '0', '0', '0']))
 
 class TestFindCafe(unittest.TestCase):
@@ -287,4 +294,3 @@ class TestItemsNotBoughtInCafe(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

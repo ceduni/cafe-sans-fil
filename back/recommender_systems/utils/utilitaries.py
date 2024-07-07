@@ -125,12 +125,21 @@ def list_items(orders_ids: List[str]) -> List[str]:
     return all_slugs
 
 def regroup_by_cluster(items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
-    groups: dict[str, list[str]] = {}
-    for item in items:
-        if item['cluster'] not in groups:
-            groups[item['cluster']] = []
-        groups[item['cluster']].append(item)
-    return groups
+    try:
+        if not isinstance(items, list):
+            raise TypeError("Argument must be a list.")
+        
+        if len(items) == 0:
+            return {}
+        groups: dict[str, list[str]] = {}
+        for item in items:
+            if item['cluster'] not in groups:
+                groups[item['cluster']] = []
+            groups[item['cluster']].append(item)
+        return groups
+    except TypeError as e:
+        print(e)
+        return {}
     
 # Takes a list of item slugs and a cafe slug and returns a list of slugs of
 #   items sold in this cafe.
@@ -193,10 +202,23 @@ def find_cafe_by_item(cafe_list: List[Cafe], item: MenuItem) -> List[Cafe]:
 
 # Find the indexes of an element in an array
 def find_indexes(input_list, value) -> List[int]:
-    return [i for i, x in enumerate(input_list) if x == value]
+    try:
+        if not isinstance(input_list, list):
+            raise TypeError("Argument must be a list.")
+        return [i for i, x in enumerate(input_list) if x == value]
+    except TypeError as e:
+        print(e)
+        return []
 
 # Calculate the nutriscore of an item
 def health_score(item: MenuItem) -> float:
+
+    if isinstance(item, dict) == False:
+        raise TypeError("Argument must be a dict.")
+    
+    if 'nutritional_informations' not in item:
+        raise KeyError("Item must have a 'nutritional_informations' key.")
+
     nutri_info: dict[str, float] = item['nutritional_informations']
 
     negative_points_max = 10
@@ -240,13 +262,20 @@ def health_score(item: MenuItem) -> float:
     return score
 
 def reshape(A: List[Any], B: List[Any]) -> Tuple[List[Any]]:
-    if len(A) == len(B):
-        return (A, B)
-    elif len(A) < len(B):
-        for _ in range(len(B) - len(A)):
-            A.append('0')
-        return (A, B)
-    else:
-        for _ in range(len(A) - len(B)):
-            B.append('0')
-        return (A, B)    
+    try:
+        if isinstance(A, list) == False or isinstance(B, list) == False:
+            raise TypeError("Arguments must be lists.")
+        
+        if len(A) == len(B):
+            return (A, B)
+        elif len(A) < len(B):
+            for _ in range(len(B) - len(A)):
+                A.append('0')
+            return (A, B)
+        else:
+            for _ in range(len(A) - len(B)):
+                B.append('0')
+            return (A, B)    
+    except TypeError as e:
+        print(e)
+        return ()
