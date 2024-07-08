@@ -14,7 +14,7 @@ def _run_cafe_recommendations() -> Dict[str, List[str]]:
     recommendations: dict[str, list[str]] = {}
     try:
         for _, user in enumerate( tqdm(users, desc="Running cafe recommendations") ):
-            recommendations[user['id']] = collaborative.main(users, user).extend( content_based.main(all_cafe, user) )
+            recommendations[user['user_id']] = collaborative.main(users, user).extend( content_based.main(all_cafe, user) )
         return recommendations
     except ValueError as e:
         print(e)

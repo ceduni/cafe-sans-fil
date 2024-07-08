@@ -31,6 +31,8 @@ def users_similarity(u_list: List[List[str] | Set[str]], v_list: List[List[str] 
 def jaccard_similarity(set1: Set, set2: Set) -> float:
     if not isinstance(set1, set) or not isinstance(set2, set):
         raise TypeError("set1 and set2 must be sets")
+    if len(set1) == 0 and len(set2) == 0:
+        return 0
     intersection = len(set1.intersection(set2))
     union = len(set1.union(set2))
     return intersection / union
@@ -65,10 +67,10 @@ def most_bought_items(all_orders: List[Order]) -> List[str]:
         for order in all_orders:
             items: List[OrderedItem] = order['items']
             for item in items:
-                if item['slug'] not in items_map:
-                    items_map[item['slug']] = 1
+                if item['item_slug'] not in items_map:
+                    items_map[item['item_slug']] = 1
                 else:
-                    items_map[item['slug']] += 1
+                    items_map[item['item_slug']] += 1
         return sort_items_by_occurences(items_map)
     except TypeError as e:
         print(e)
@@ -106,21 +108,23 @@ def most_liked_items(items: List[MenuItem], k: int = -1) -> List[str]:
         print(e)
         return []
 
+#TODO: Split in 2 methods
 # Takes a list of items as parameter and returns a list that contains the slugs
 #   of the items.
 def items_slugs(items: List[MenuItem]) -> List[str]:
-    return list(map(lambda x: x['slug'], items))
+    return list(map(lambda x: x['slug'] if 'slug' in x else x['item_slug'], items))
 
 # This method takes a list of orders ids and return a list of all the items
 #   (slugs of the items) contained in these orders.
 def list_items(orders_ids: List[str]) -> List[str]:
     all_slugs: list[str] = []
+    auth_token = AuthApi.auth_login()
     for id in orders_ids:
-        order, _ = OrderApi.get_order(id)
+        order, _ = OrderApi.get_order(auth_token=auth_token, order_id=id)
         ordered_items: list[OrderedItem] = order['items']     
         slugs: list[str] = []       
         for item in ordered_items:
-            slugs.append(item['slug'])
+            slugs.append(item['item_slug'])
         all_slugs.extend(slugs)
     return all_slugs
 
@@ -148,7 +152,7 @@ def filter_items_by_cafe(slugs: List[str], cafe_slug: str) -> List[str]:
     auth_token = AuthApi.auth_login()
     for slug in slugs:
         retrived_item, _ = CafeApi.get_item(auth_token=auth_token , cafe_slug=cafe_slug, item_slug=slug)
-        if retrived_item != None and 'details' not in retrived_item:
+        if retrived_item != None and 'detail' not in retrived_item:
             items.append(retrived_item['slug']) if retrived_item['slug'] not in items else None
     return items
 
@@ -171,7 +175,7 @@ def items_not_bought_in_cafe(cafe: Cafe, user: User) -> List[str]:
     meal_not_consumed: list[str] = []
 
     for order_id in order_history:
-        order = DButils.get_order(order_id)
+        order, _ = DButils.get_order(order_id)
         if order['cafe_slug'] == cafe_slug:
             order_items_slugs: list[str] = DButils.get_order_items(order_id)
             meal_not_consumed.extend(list(set(cafe_items_slugs) - set(order_items_slugs)))

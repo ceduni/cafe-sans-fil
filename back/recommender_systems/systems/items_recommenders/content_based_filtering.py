@@ -99,5 +99,3 @@ def main(user: User, cafe: Cafe, number_recommendations: int = 10) -> List[str]:
     
     elif len(user_likes) > 0:
         return algorithm(user, cafe_items, items_not_bought, number_recommendations=number_recommendations)
-
-

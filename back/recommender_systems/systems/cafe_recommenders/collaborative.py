@@ -1,6 +1,7 @@
 from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
 from app.models.user_model import User
 from typing import List
+from tqdm import tqdm
 
 def main(users: List[User], user: User) -> List[str]:
 
@@ -14,13 +15,12 @@ def main(users: List[User], user: User) -> List[str]:
     similarities: list[float] = []
     user_visited_cafe: List[str] = DButils.get_user_visited_cafe(user)
     user_orders: list[str] = Utilitaries.list_items(DButils.get_user_orders(user))
-    user_likes: List[str] = DButils.get_all_user_likes(user['id'])
+    user_likes: List[str] = DButils.get_all_user_likes(user['username'])
     user_list: list[list[str]] = [ user_likes, user_orders, user_visited_cafe ]
     for other_user in users:
         other_user_orders: list[str] = Utilitaries.list_items(DButils.get_user_orders(other_user))
-        other_user_list: list[list[str]] = [ DButils.get_all_user_likes(other_user['id']), other_user_orders, DButils.get_user_visited_cafe(other_user) ]
+        other_user_list: list[list[str]] = [ DButils.get_all_user_likes(other_user['username']), other_user_orders, DButils.get_user_visited_cafe(other_user) ]
         similarities.append(Utilitaries.users_similarity(user_list, other_user_list))
-    
     n_best_users: int = round(0.75*len(similarities))
     sim_users_cafes: list[str] = []
     

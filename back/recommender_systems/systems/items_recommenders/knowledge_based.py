@@ -1,6 +1,7 @@
 ### Algorithme 4.3 ###
 from app.models.cafe_model import MenuItem, Cafe
 from app.models.user_model import User, DietProfile
+from recommender_systems.utils import db_utils as DButils
 from typing import List, Dict
 
 # This method creates clusters based on the user preferences.
@@ -93,7 +94,7 @@ def main(actual_cafe: Cafe, user: User) -> List[str]:
 
         diet_profile: DietProfile = user['diet_profile']
         user_allergens: dict[str, int] = diet_profile['allergens']
-        menu_items: list[MenuItem] = actual_cafe['menu_items']
+        menu_items: list[MenuItem] = DButils.get_cafe_items(actual_cafe['slug'])
         allergenic_foods_list: list[str] = allergenic_foods(user_allergens, menu_items)
         clusters: dict[str, dict[str, list[MenuItem]]] = diet_category_cluster(menu_items)
         try:

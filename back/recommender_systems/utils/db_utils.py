@@ -23,11 +23,12 @@ def get_user_visited_cafe(user: User) -> List[str]:
     return visited_cafe
 
 # Return the slugs of the items liked by the user.
-def get_all_user_likes(user_id: str) -> List[str]:
+def get_all_user_likes(username: str) -> List[str]:
     all_items: List[MenuItem] = get_all_items()
+
     items: List[str] = []
     for item in all_items:
-        if user_id in item['likes']:
+        if username in item['likes']:
             items.append(item['slug'])
     return items
 
@@ -79,8 +80,9 @@ def get_order_items(order_id: str) -> List[str]:
         "limit": 40,
         "sort_by": "name"
     }
-    order = OrderApi.get_order(order_id, params)
-    items = list(map(lambda x: x['slug'], order['items']))
+    auth_token = AuthApi.auth_login()
+    order, _ = OrderApi.get_order(auth_token=auth_token, order_id=order_id, params=params)
+    items = list(map(lambda x: x['item_slug'], order['items']))
     return items
 
 def get_order(order_id: str) -> Order:
@@ -89,7 +91,8 @@ def get_order(order_id: str) -> Order:
         "limit": 40,
         "sort_by": "name"
     }
-    order = OrderApi.get_order(order_id, params)
+    auth_token = AuthApi.auth_login()
+    order = OrderApi.get_order(auth_token=auth_token, order_id=order_id, params=params)
     return order
 
 #-----------------------------
@@ -102,7 +105,7 @@ def get_cafe_items(cafe_slug: str) -> List[MenuItem]:
         "page": 1,
         "limit": 40
     }
-    response, _ = CafeApi.get_all_items(cafe_slug, query_params)
+    response, _ = CafeApi.get_all_items(cafe_slug=cafe_slug, params=query_params)
     return response
 
 def get_item(cafe_slug: str, item_slug: str) -> MenuItem:

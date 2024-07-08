@@ -75,18 +75,18 @@ class TestMain(unittest.TestCase):
     def test_main(self, mock_get_user_likes, mock_get_cafe_items, mock_get_all_user_likes):
         # Test 1: No cafes and no liked items
         mock_get_user_likes.return_value = []
-        result = main([], {'id': 'user_test'})
+        result = main([], {'user_id': 'user_test'})
         self.assertEqual(result, [])
 
         # Test 2: Some cafes and no liked items
         mock_get_user_likes.return_value = []
-        result = main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'id': 'user_test'})
+        result = main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'user_id': 'user_test'})
         self.assertNotEqual(result, [])
 
         # Test 3: Some liked items but no cafes
         mock_get_user_likes.return_value = ['item1']
         mock_get_all_user_likes.return_value = ['item1']
-        result = main([], {'id': 'user_test'})
+        result = main([], {'user_id': 'user_test'})
         self.assertEqual(result, [])
 
         # Test 4: Some liked items and some cafes
@@ -96,8 +96,11 @@ class TestMain(unittest.TestCase):
             [{'slug': 'item1', 'likes': ['user_test']}, {'slug': 'item2', 'likes': ['user_2']}],
             [{'slug': 'item3', 'likes': ['user_3']}, {'slug': 'item4', 'likes': []}]
         ]
-        result = main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'id': 'user_test'}, 1)
+        result = main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'user_id': 'user_test'}, 1)
         self.assertEqual(result, ['cafe1'])
+
+        # Test 5: User is None
+        self.assertRaises(ValueError, lambda : main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], None))
 
 if __name__ == '__main__':
     unittest.main()

@@ -7,6 +7,7 @@ from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DB
 from typing import List, Dict
 from recommender_systems.utils.api_calls import UserRecommenderApi, AuthApi
 from tqdm import tqdm
+import time
 
 #TODO
 # Find the recommendations for all users.
@@ -52,7 +53,10 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
 # Update recommendations for each user in the database.
 def update_users_recommendations() -> None:
     auth_token = AuthApi.auth_login()
+    start = time.time
     recommendations: dict[str, dict[str, list[str]]] = _run_users_recommendations()
+    end = time.time()
+    print("Time taken: ", end - start)
     if recommendations != {}:
         for _, user_id in enumerate( tqdm(recommendations.keys(), desc="Updating users recommendations") ):
             for cafe_slug in recommendations[user_id]:

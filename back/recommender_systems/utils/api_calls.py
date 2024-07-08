@@ -13,8 +13,6 @@ class AuthApi:
         return response.json()
 
 class OrderApi:
-
-    # NEEDS AUTHORIZATION
     @staticmethod
     def get_orders(auth_token, params=None, json_data=None):
         headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
@@ -32,9 +30,10 @@ class OrderApi:
         return r, response.status_code
     
     @staticmethod
-    def get_order(order_id, params=None, json_data=None):
+    def get_order(auth_token, order_id, params=None, json_data=None):
+        headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
         endpoint = urljoin('http://127.0.0.1:8000', f'/api/orders/{order_id}')
-        response = requests.get(url=endpoint, params=params, json=json_data)
+        response = requests.get(url=endpoint, params=params, json=json_data, headers=headers)
         r = response.json()
         return r, response.status_code
     
@@ -153,8 +152,9 @@ class CafeRecommenderApi:
         return r, response.status_code
     
     @staticmethod
-    def update_user_cafe_recommendations(user_id, params=None, json_data=None):
+    def update_user_cafe_recommendations(auth_token, user_id, params=None, json_data=None):
+        headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
         endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/cafe/{user_id}')
-        response = requests.put(url=endpoint, params=params, json=json_data)
+        response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
         r = response.json()
         return r, response.status_code
