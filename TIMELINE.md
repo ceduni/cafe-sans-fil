@@ -290,7 +290,7 @@
 - Code de base pour l'histogramme (bar chart sample 4): (https://github.com/imaNNeo/fl_chart)
 - Créer une application Multilingue: (https://www.youtube.com/watch?v=6UV4bIHauZQ)
 
-## Semaine 8 (2024-07-01)
+## Semaine 9 (2024-07-01)
 
 ### Objectifs
 
