@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import useApi from "@/hooks/useApi";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import NutriProfile from "@/components/NutriProfile";
 
 const Profile = () => {
   const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
@@ -33,18 +34,18 @@ const Profile = () => {
 
   const { data } = useApi(`/cafes`);
 
-  const getMemberCafes = () => {
-    const memberCafes = [];
-    data?.map((cafe) => {
-      cafe.staff.map((staff) => {
-        if (staff.username === user.username) {
-          memberCafes.push({ ...cafe, role: staff.role });
-        }
-      });
-    });
-    return memberCafes;
-  };
-  const memberCafes = getMemberCafes();
+  // const getMemberCafes = () => {
+  //   const memberCafes = [];
+  //   data?.map((cafe) => {
+  //     cafe.staff.map((staff) => {
+  //       if (staff.username === user.username) {
+  //         memberCafes.push({ ...cafe, role: staff.role });
+  //       }
+  //     });
+  //   });
+  //   return memberCafes;
+  // };
+  const memberCafes = [];
 
   // Change password
   const [passwordDetails, setPasswordDetails] = useState({
@@ -222,6 +223,12 @@ const Profile = () => {
                 </Link>
               </div>
             ))}
+          </div>
+
+          <div className="border-b border-gray-900/10 pb-12">
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Profil nutritif</h2>
+            <NutriProfile />
+            *Si vous ne retrouvez pas un de vos allergènes ou un régime dans la liste, veuillez nous contacter.*
           </div>
 
           <form onSubmit={handleChangePassword}>
