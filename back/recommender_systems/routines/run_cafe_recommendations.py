@@ -6,7 +6,6 @@ from recommender_systems.utils import db_utils as DButils
 from typing import List, Dict
 from recommender_systems.utils.api_calls import CafeRecommenderApi, AuthApi
 from tqdm import tqdm
-import time
 
 # Run cafe recommendations for all users.
 def _run_cafe_recommendations() -> Dict[str, List[str]]:
@@ -24,10 +23,7 @@ def _run_cafe_recommendations() -> Dict[str, List[str]]:
 # Update cafe recommendations for all users.
 def update_cafe_recommendations():
     auth_token = AuthApi.auth_login()
-    start = time.time()
     recommendations: dict[str, list[str]] = _run_cafe_recommendations()
-    end = time.time()
-    print("Time taken: ", f"{end - start} s")
     # if recommendations != {}:
     #     for _, user_id in enumerate( tqdm(recommendations.keys(), desc="Updating cafe recommendations") ):
     #         data = {

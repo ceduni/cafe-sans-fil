@@ -20,10 +20,7 @@ def _run_bot_recommendations() -> Dict[str, List[str]]:
 # Update bot's recommendations in the database
 def update_bot_recommendations() -> None:
     auth_token = AuthApi.auth_login()
-    start = time.time()
     recommendations: dict[str, list[str]] = _run_bot_recommendations()
-    end = time.time()
-    print("Time taken: ", f"{end - start} s")
     # for _, cafe_slug in enumerate( tqdm(recommendations, desc="Updating bot recommendations") ):
     #     data = {
     #         "recommendations": recommendations[cafe_slug]

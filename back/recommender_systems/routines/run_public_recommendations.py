@@ -24,10 +24,7 @@ def _run_public_recommendations() -> Dict[str, List[str]]:
 
 def update_public_recommendations() -> None:
     auth_token = AuthApi.auth_login()
-    start = time.time()
     recommendations: dict[str, list[str]] = _run_public_recommendations()
-    end = time.time()
-    print("Time taken: ", f"{end - start} s")
     # for _, cafe_slug in enumerate(tqdm(recommendations.keys(), desc="Updating public recommendations")):
     #     data = {
     #         "recommendations": recommendations[cafe_slug]
