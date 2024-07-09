@@ -1,20 +1,19 @@
-import useApi from '@/hooks/useApi';
 import React, { useState } from 'react';
 
 const NutriProfile = () => {
     const [activeTab, setActiveTab] = useState(1);
 
     const [diets, setDiets] = useState([
-        { text: 'Cétogène', checked: false },
-        { text: 'Méditéranéen', checked: false },
-        { text: 'Atkins', checked: false },
-        { text: 'Zone', checked: false },
-        { text: 'Végétalisme', checked: false },
-        { text: 'Weight watchers', checked: false },
-        { text: 'Veganisme', checked: false },
-        { text: 'Crudivore', checked: false },
-        { text: 'Sans lactose', checked: false },
-        { text: 'Sans gluten', checked: false },
+        { text: 'Cétogène', checked: false, description: 'Cetogenic' },
+        { text: 'Méditéranéen', checked: false, description: 'Low-Carb' },
+        { text: 'Atkins', checked: false, description: 'Atkins' },
+        { text: 'Zone', checked: false, description: 'Zone' },
+        { text: 'Végétalisme', checked: false, description: 'Vegitarian' },
+        { text: 'Weight watchers', checked: false, description: 'Weight watchers' },
+        { text: 'Veganisme', checked: false, description: 'Vegan' },
+        { text: 'Crudivore', checked: false, description: 'Crudivore' },
+        { text: 'Sans lactose', checked: false, description: 'Sans lactose' },
+        { text: 'Sans gluten', checked: false, description: 'Sans gluten' },
     ]);
 
     const [nutriPreferences, setNutriPreferences] = useState([
@@ -74,8 +73,7 @@ const NutriProfile = () => {
         setNutriPreferences(newNutriPreferences);
     };
 
-    const handleValidate = () => {
-
+    const handleSubmit = () => {
         alert("Informations sauvegardées");
     };
 
@@ -129,7 +127,10 @@ const NutriProfile = () => {
             <div className="grid grid-cols-2 gap-1">
             {diets.map((diet, index) => (
                 <div key={index} className="mb-2 flex items-center">
-                <label className="mr-2 text-gray-700 font-bold w-36 ">{diet.text}</label>
+                <label 
+                className="mr-2 text-gray-700 font-bold w-36 "
+                title={diet.description}
+                >{diet.text}</label>
                 <input
                     type="checkbox"
                     checked={diet.checked}
@@ -145,7 +146,8 @@ const NutriProfile = () => {
             <div className="grid grid-cols-2 gap-0">
                 {nutriPreferences.map((nutriPreference, index) => (
                     <div key={index} className="mb-2 flex items-center">
-                        <label className="mr-2 text-gray-700 font-bold w-32">{nutriPreference.text}</label>
+                        <label 
+                        className="mr-2 text-gray-700 font-bold w-32">{nutriPreference.text}</label>
                         <input
                         className='border border-gray-300 rounded w-16 h-8'
                         value={nutriPreference.value}
@@ -198,9 +200,9 @@ const NutriProfile = () => {
         <div className="flex justify-end mt-4">
             <button 
             className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded mr-2"
-            onClick={() => hanfleSubmit()}
+            onClick={() => handleSubmit()}
             >
-            Valider
+            Sauvegarder
             </button>
         </div>
         </div>

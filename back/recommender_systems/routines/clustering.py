@@ -86,5 +86,4 @@ def update_item_cluster():
                 item_data = {
                     "cluster": cluster
                 }
-                response, _ =CafeApi.update_item(auth_token=auth_token, cafe_slug=cafe['slug'], item_slug=item['slug'], json_data=item_data) 
-                print(response)
+                CafeApi.update_item(auth_token=auth_token, cafe_slug=cafe['slug'], item_slug=item['slug'], json_data=item_data) 

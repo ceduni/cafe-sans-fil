@@ -26,7 +26,17 @@ def main(action: str) -> None:
         case "users":
             RunUsersRec.update_users_recommendations()
 
-        case _:
+        case "preprocess":
+            RunClustering.update_item_cluster()
+            RunScoreUpdate.update_items_health_score()
+
+        case "recommenders":
+            RunBotRec.update_bot_recommendations()
+            RunPublicRec.update_public_recommendations()
+            RunCafeRec.update_cafe_recommendations()
+            RunUsersRec.update_users_recommendations()
+
+        case "all" | _:
             print("Running all...")
             RunClustering.update_item_cluster()
             RunScoreUpdate.update_items_health_score()

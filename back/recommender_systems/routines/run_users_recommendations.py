@@ -53,14 +53,14 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
 # Update recommendations for each user in the database.
 def update_users_recommendations() -> None:
     auth_token = AuthApi.auth_login()
-    start = time.time
+    start = time.time()
     recommendations: dict[str, dict[str, list[str]]] = _run_users_recommendations()
     end = time.time()
-    print("Time taken: ", end - start)
-    if recommendations != {}:
-        for _, user_id in enumerate( tqdm(recommendations.keys(), desc="Updating users recommendations") ):
-            for cafe_slug in recommendations[user_id]:
-                data = {
-                    "recommendations": recommendations[user_id][cafe_slug]
-                }
-                UserRecommenderApi.update_user_recommendations(auth_token=auth_token, user_id=user_id, cafe_slug=cafe_slug,json_data=data)
+    print("Time taken: ", f"{end - start} s")
+    # if recommendations != {}:
+    #     for _, user_id in enumerate( tqdm(recommendations.keys(), desc="Updating users recommendations") ):
+    #         for cafe_slug in recommendations[user_id]:
+    #             data = {
+    #                 "recommendations": recommendations[user_id][cafe_slug]
+    #             }
+    #             UserRecommenderApi.update_user_recommendations(auth_token=auth_token, user_id=user_id, cafe_slug=cafe_slug,json_data=data)

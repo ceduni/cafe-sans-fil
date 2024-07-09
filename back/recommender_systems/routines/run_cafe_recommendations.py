@@ -6,6 +6,7 @@ from recommender_systems.utils import db_utils as DButils
 from typing import List, Dict
 from recommender_systems.utils.api_calls import CafeRecommenderApi, AuthApi
 from tqdm import tqdm
+import time
 
 # Run cafe recommendations for all users.
 def _run_cafe_recommendations() -> Dict[str, List[str]]:
@@ -14,19 +15,22 @@ def _run_cafe_recommendations() -> Dict[str, List[str]]:
     recommendations: dict[str, list[str]] = {}
     try:
         for _, user in enumerate( tqdm(users, desc="Running cafe recommendations") ):
-            recommendations[user['user_id']] = collaborative.main(users, user).extend( content_based.main(all_cafe, user) )
+            recommendations[user['user_id']] = collaborative.main(users=users, user=user).extend( content_based.main(all_cafe=all_cafe, user=user) )
         return recommendations
     except ValueError as e:
         print(e)
-        return {}
+        return recommendations
 
 # Update cafe recommendations for all users.
 def update_cafe_recommendations():
     auth_token = AuthApi.auth_login()
+    start = time.time()
     recommendations: dict[str, list[str]] = _run_cafe_recommendations()
-    if recommendations != {}:
-        for _, user_id in enumerate( tqdm(recommendations.keys(), desc="Updating cafe recommendations") ):
-            data = {
-                "recommendations": recommendations[user_id]
-            }
-            CafeRecommenderApi.update_user_cafe_recommendations(auth_token=auth_token, user_id=user_id, json_data=data)
+    end = time.time()
+    print("Time taken: ", f"{end - start} s")
+    # if recommendations != {}:
+    #     for _, user_id in enumerate( tqdm(recommendations.keys(), desc="Updating cafe recommendations") ):
+    #         data = {
+    #             "recommendations": recommendations[user_id]
+    #         }
+    #         CafeRecommenderApi.update_user_cafe_recommendations(auth_token=auth_token, user_id=user_id, json_data=data)

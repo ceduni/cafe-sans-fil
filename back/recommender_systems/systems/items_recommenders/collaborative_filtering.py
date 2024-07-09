@@ -14,13 +14,16 @@ def main(users: List[User], user: User, similarity_threshold: float= 0.5) -> Lis
     
     if n_users >= 1:
         if n_users > 1 and users[0]['user_id'] != user['user_id']:
-            users.remove(user) if user in users else None
+            users_copy = users[:]
+            users_copy.remove(user) if user in users_copy else None
+            other_users = users_copy
+
             items_in_orders: list[str] = Utilitaries.list_items( DButils.get_user_orders(user) )
             user_likes: List[str] = DButils.get_all_user_likes(user['username'])
             user_visited_cafe: List[str] = DButils.get_user_visited_cafe(user)
             user_list: list[set[str]] = [ set(user_likes), set(items_in_orders), set(user_visited_cafe) ]
 
-            for u in users:
+            for u in other_users:
                 other_items_in_orders: list[str] = Utilitaries.list_items( DButils.get_user_orders(u))
                 other_user_list: list[set[str]] = [set( DButils.get_all_user_likes(u['username']) ), set(other_items_in_orders), set( DButils.get_user_visited_cafe(u) )]
                 score: float = Utilitaries.users_similarity(user_list, other_user_list)
