@@ -25,7 +25,6 @@ def get_user_visited_cafe(user: User) -> List[str]:
 # Return the slugs of the items liked by the user.
 def get_all_user_likes(username: str) -> List[str]:
     all_items: List[MenuItem] = get_all_items()
-
     items: List[str] = []
     for item in all_items:
         if username in item['likes']:
@@ -92,7 +91,7 @@ def get_order(order_id: str) -> Order:
         "sort_by": "name"
     }
     auth_token = AuthApi.auth_login()
-    order = OrderApi.get_order(auth_token=auth_token, order_id=order_id, params=params)
+    order, _ = OrderApi.get_order(auth_token=auth_token, order_id=order_id, params=params)
     return order
 
 #-----------------------------

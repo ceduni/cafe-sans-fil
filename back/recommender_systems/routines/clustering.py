@@ -15,7 +15,7 @@ from tqdm import tqdm
 
 # Take a list of items and return a list of lists of numeric values
 #   representing the nutritional informations of each item.
-def _numeric_foods(items: List[MenuItem]) -> List[List[float]]:
+def numeric_foods(items: List[MenuItem]) -> List[List[float]]:
     data: list[list[float]] = []
     for item in items:
         item_infos: NutritionInfo = item['nutritional_informations']
@@ -37,10 +37,20 @@ def _numeric_foods(items: List[MenuItem]) -> List[List[float]]:
 # Create clusters based on the labels got from kmeans.
 # It assumes that the items in the 'items' and 'data' lists in the method 'clustering'
 #   have the same indexing: items[i] equiv data[i].
-def _create_clusters(labels: np.array, items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
+def create_clusters(labels: np.array, items: List[MenuItem]) -> Dict[str, List[MenuItem]]:
     clusters: dict[str, list[MenuItem]] = {}
+
+    if len(items) == 0:
+        raise ValueError("Items list cannot be empty")
+
+    if len(labels) == 0:
+        clusters['0'] = []
+        for item in items:
+            clusters['0'].append(item)
+        return clusters
+
     for label, item in zip(labels, items):
-        if label not in clusters:
+        if str(label) not in clusters:
             clusters[str(label)] = []
         clusters[str(label)].append(item)
     return clusters
@@ -49,7 +59,7 @@ def _create_clusters(labels: np.array, items: List[MenuItem]) -> Dict[str, List[
 # Create clusters from all the foods available in all cafe.
 def _clusters() -> Dict[str, List[MenuItem]]:
     items: list[MenuItem] = DButils.get_all_items()
-    data: list[list[float]] = _numeric_foods(items)
+    data: list[list[float]] = numeric_foods(items)
     n: int = len(data)
 
     # Normaize the data
@@ -71,7 +81,12 @@ def _clusters() -> Dict[str, List[MenuItem]]:
     # Apply k-means
     kmeans: KMeans = KMeans(n_clusters=k, random_state=42)
     kmeans.fit(normalized_data)
-    clusters = _create_clusters(kmeans.labels_, items)
+    try:
+        clusters = create_clusters(kmeans.labels_, items)
+    except ValueError as e:
+        print(e)
+        clusters = {}
+
     return clusters
 
 # Update item's cluster in the database.

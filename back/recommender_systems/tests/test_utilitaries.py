@@ -46,9 +46,9 @@ class TestUtilitaries(unittest.TestCase):
 
     def test_most_bought_items(self):
         orders = [
-            {'items': [{'slug': 'a'}, {'slug': 'b'}, {'slug': 'c'}]},
-            {'items': [{'slug': 'b'}, {'slug': 'c'}, {'slug': 'd'}]},
-            {'items': [{'slug': 'c'}, {'slug': 'd'}, {'slug': 'e'}]},
+            {'items': [{'item_slug': 'a'}, {'item_slug': 'b'}, {'item_slug': 'c'}]},
+            {'items': [{'item_slug': 'b'}, {'item_slug': 'c'}, {'item_slug': 'd'}]},
+            {'items': [{'item_slug': 'c'}, {'item_slug': 'd'}, {'item_slug': 'e'}]},
         ]
 
         self.assertEqual(most_bought_items(orders), ['c', 'd', 'b', 'e', 'a'])
@@ -76,16 +76,16 @@ class TestUtilitaries(unittest.TestCase):
         mock_get_order.side_effect = [
             ({
                 'items': [
-                    {'slug': 'item1'}, 
-                    {'slug': 'item2'}, 
-                    {'slug': 'item3'},
+                    {'item_slug': 'item1'}, 
+                    {'item_slug': 'item2'}, 
+                    {'item_slug': 'item3'},
                 ]
             }, 200),
             ({
                 'items': [
-                    {'slug': 'item4'}, 
-                    {'slug': 'item5'}, 
-                    {'slug': 'item6'},
+                    {'item_slug': 'item4'}, 
+                    {'item_slug': 'item5'}, 
+                    {'item_slug': 'item6'},
                 ]
             }, 200)
         ]
@@ -167,9 +167,9 @@ class TestUtilitaries(unittest.TestCase):
         mock_get_item.side_effect = [
             (None, 200), 
             (None, 200),
-            ({'details': 'No items in the cafe'}, 200),
+            ({'detail': 'No items in the cafe'}, 404),
             (None, 200), 
-            ({'details': 'No items in the cafe'}, 200),
+            ({'detail': 'No items in the cafe'}, 404),
         ]
         slugs = ['item1', 'item2', 'item3', 'item4', 'item5']
         cafe_slug = 'cafe1'
@@ -288,9 +288,7 @@ class TestItemsNotBoughtInCafe(unittest.TestCase):
             ['item1', 'item2'],
         ]
         result = items_not_bought_in_cafe({'slug': 'cafe1'}, {'id': 'user1'})
-        self.assertIn('item1', result)
-        self.assertIn('item2', result)
-        self.assertIn('item5', result)
+        self.assertCountEqual(result, ['item1', 'item2', 'item5'])
 
 if __name__ == "__main__":
     unittest.main()

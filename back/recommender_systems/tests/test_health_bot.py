@@ -17,9 +17,9 @@ class TestHealthBot(unittest.TestCase):
                 'saturated_fat': 20, 
                 'sugar': 30,
                 'sodium': 10,
-                'fiber': 4,
+                'fiber': None,
                 'protein': 6,
-                'percentage_fruit_vegetables_nuts': 0
+                'percentage_fruit_vegetables_nuts': None
             }},
             {'slug': 'item3', 'health_score': 4}
         ]

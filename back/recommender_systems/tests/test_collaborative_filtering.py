@@ -26,6 +26,21 @@ class TestCollaborativeFiltering(unittest.TestCase):
             {'user_id':'user2', 'username':'username2'},
             {'user_id':'user3', 'username':'username3'}
         ]
+        self.orders = [
+            ({'cafe_slug': 'cafe1', 'items': [{'item_slug':'item1'}, {'item_slug':'item2'}, {'item_slug':'item3'}]}, 200),
+            ({'cafe_slug': 'cafe2', 'items': [{'item_slug':'item1'}, {'item_slug':'item2'}, {'item_slug':'item7'}, {'item_slug':'item8'}, {'item_slug':'item6'}]}, 200),
+            ({'cafe_slug': 'cafe3', 'items': [{'item_slug':'item1'}, {'item_slug':'item2'}, {'item_slug':'item3'}, {'item_slug':'item8'}]}, 200),
+        ]
+        self.items = [
+            {'slug': 'item1', 'likes': ['username1', 'username2', 'username3']},
+            {'slug': 'item2', 'likes': ['username1', 'username3']},
+            {'slug': 'item3', 'likes': []},
+            {'slug': 'item4', 'likes': ['username3']},
+            {'slug': 'item5', 'likes': ['username1', 'username3']},
+            {'slug': 'item6', 'likes': []},
+            {'slug': 'item7', 'likes': ['username2']},
+            {'slug': 'item8', 'likes': ['username2', 'username3']},
+        ]
 
     def test_main_no_user(self):
         with self.assertRaises(ValueError):
@@ -48,27 +63,23 @@ class TestCollaborativeFiltering(unittest.TestCase):
     def test_main_with_other_users(self, mock_api_get_order,  mock_get_all_items, mock_api_get_user_orders):
         
         mock_api_get_user_orders.side_effect = lambda auth_token, username, params: manage_user_orders(auth_token=auth_token, username=username, params=params)
-        
-        mock_get_all_items.return_value = [
-            {'slug': 'item1', 'likes': ['user1', 'user2', 'user3']},
-            {'slug': 'item2', 'likes': ['user1', 'user3']},
-            {'slug': 'item3', 'likes': []},
-            {'slug': 'item4', 'likes': ['user3']},
-            {'slug': 'item5', 'likes': ['user1', 'user2']},
-            {'slug': 'item6', 'likes': []},
-            {'slug': 'item7', 'likes': ['user2']},
-            {'slug': 'item8', 'likes': ['user2', 'user3']},
-        ]
-
-        mock_api_get_order.side_effect = [
-            ({'cafe_slug': 'cafe1', 'items': [{'slug':'item1'}, {'slug':'item2'}, {'slug':'item3'}]}, 200),
-            ({'cafe_slug': 'cafe2', 'items': [{'slug':'item1'}, {'slug':'item2'}, {'slug':'item7'}, {'slug':'item8'}, {'slug':'item6'}]}, 200),
-            ({'cafe_slug': 'cafe3', 'items': [{'slug':'item1'}, {'slug':'item2'}, {'slug':'item4'}, {'slug':'item8'}]}, 200),
-        ]
+        mock_get_all_items.return_value = self.items
+        mock_api_get_order.side_effect = self.orders
 
         result = main(self.users, self.user)
-        
-        self.assertCountEqual(result, [ 'item4', 'item6', 'item7', 'item8'])
+        self.assertCountEqual(result, ['item4', 'item8'])
+
+    @patch('recommender_systems.utils.api_calls.OrderApi.get_user_orders')
+    @patch('recommender_systems.utils.db_utils.get_all_items')
+    @patch('recommender_systems.utils.api_calls.OrderApi.get_order')
+    def test_main_with_other_users_with_similarity_threshold(self, mock_api_get_order,  mock_get_all_items, mock_api_get_user_orders):
+
+        mock_api_get_user_orders.side_effect = lambda auth_token, username, params: manage_user_orders(auth_token=auth_token, username=username, params=params)
+        mock_get_all_items.return_value = self.items
+        mock_api_get_order.side_effect = self.orders
+
+        result = main(self.users, self.user, similarity_threshold=2.7)
+        self.assertEqual(result, [])
 
 
 if __name__ == '__main__':

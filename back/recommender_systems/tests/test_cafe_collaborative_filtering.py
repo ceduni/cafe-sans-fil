@@ -27,6 +27,21 @@ class TestMainFunction(unittest.TestCase):
             {'id': 'user2', 'username': 'username2'},
             {'id': 'user3', 'username': 'username3'},
         ]
+        self.all_items = [
+            {'slug': 'item1', 'likes': ['user1', 'user2', 'user3']},
+            {'slug': 'item2', 'likes': ['user1', 'user3']},
+            {'slug': 'item3', 'likes': []},
+            {'slug': 'item4', 'likes': ['user3']},
+            {'slug': 'item5', 'likes': ['user1', 'user2']},
+            {'slug': 'item6', 'likes': []},
+            {'slug': 'item7', 'likes': ['user2']},
+            {'slug': 'item8', 'likes': ['user2', 'user3']},
+        ]
+        self.orders = [
+            ({'cafe_slug': 'cafe1', 'items': [{'item_slug':'item1'}, {'item_slug':'item2'}, {'item_slug':'item3'}]}, 200),
+            ({'cafe_slug': 'cafe2', 'items': [{'item_slug':'item1'}, {'item_slug':'item2'}, {'item_slug':'item7'}, {'item_slug':'item8'}, {'item_slug':'item6'}]}, 200),
+            ({'cafe_slug': 'cafe3', 'items': [{'item_slug':'item1'}, {'item_slug':'item2'}, {'item_slug':'item4'}, {'item_slug':'item8'}]}, 200),
+        ]
 
     def test_main_no_user(self):
         with self.assertRaises(ValueError):
@@ -46,22 +61,9 @@ class TestMainFunction(unittest.TestCase):
         
         mock_api_get_user_orders.side_effect = lambda auth_token, username, params: manage_user_orders(auth_token=auth_token, username=username, params=params)
         
-        mock_get_all_items.return_value = [
-            {'slug': 'item1', 'likes': ['user1', 'user2', 'user3']},
-            {'slug': 'item2', 'likes': ['user1', 'user3']},
-            {'slug': 'item3', 'likes': []},
-            {'slug': 'item4', 'likes': ['user3']},
-            {'slug': 'item5', 'likes': ['user1', 'user2']},
-            {'slug': 'item6', 'likes': []},
-            {'slug': 'item7', 'likes': ['user2']},
-            {'slug': 'item8', 'likes': ['user2', 'user3']},
-        ]
+        mock_get_all_items.return_value = self.all_items
 
-        mock_api_get_order.side_effect = [
-            ({'cafe_slug': 'cafe1', 'items': [{'slug':'item1'}, {'slug':'item2'}, {'slug':'item3'}]}, 200),
-            ({'cafe_slug': 'cafe2', 'items': [{'slug':'item1'}, {'slug':'item2'}, {'slug':'item7'}, {'slug':'item8'}, {'slug':'item6'}]}, 200),
-            ({'cafe_slug': 'cafe3', 'items': [{'slug':'item1'}, {'slug':'item2'}, {'slug':'item4'}, {'slug':'item8'}]}, 200),
-        ]
+        mock_api_get_order.side_effect = self.orders
 
         result = main(self.users, self.user)
         self.assertCountEqual(result, ['cafe3', 'cafe2'])

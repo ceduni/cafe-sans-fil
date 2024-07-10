@@ -151,8 +151,8 @@ def filter_items_by_cafe(slugs: List[str], cafe_slug: str) -> List[str]:
     items: list[str] = []
     auth_token = AuthApi.auth_login()
     for slug in slugs:
-        retrived_item, _ = CafeApi.get_item(auth_token=auth_token , cafe_slug=cafe_slug, item_slug=slug)
-        if retrived_item != None and 'detail' not in retrived_item:
+        retrived_item, status = CafeApi.get_item(auth_token=auth_token , cafe_slug=cafe_slug, item_slug=slug)
+        if retrived_item != None and status == 200:
             items.append(retrived_item['slug']) if retrived_item['slug'] not in items else None
     return items
 
@@ -175,7 +175,7 @@ def items_not_bought_in_cafe(cafe: Cafe, user: User) -> List[str]:
     meal_not_consumed: list[str] = []
 
     for order_id in order_history:
-        order, _ = DButils.get_order(order_id)
+        order = DButils.get_order(order_id)
         if order['cafe_slug'] == cafe_slug:
             order_items_slugs: list[str] = DButils.get_order_items(order_id)
             meal_not_consumed.extend(list(set(cafe_items_slugs) - set(order_items_slugs)))
@@ -229,17 +229,17 @@ def health_score(item: MenuItem) -> float:
     positive_points_max = 5
 
     # Negative points
-    energy_points = min(max(int( float(nutri_info["calories"]) / 335), 0), negative_points_max)
-    sugar_points = min(max(int( float(nutri_info["sugar"]) / 4.5), 0), negative_points_max)
-    saturated_fat_points = min(max(int( float(nutri_info["saturated_fat"]) / 1), 0), negative_points_max)
-    sodium_points = min(max(int( float(nutri_info["sodium"]) / 90), 0), negative_points_max)
+    energy_points = min(max(int( float(nutri_info["calories"] if nutri_info["calories"] != None else 0) / 335), 0), negative_points_max)
+    sugar_points = min(max(int( float(nutri_info["sugar"] if nutri_info["sugar"] != None else 0) / 4.5), 0), negative_points_max)
+    saturated_fat_points = min(max(int( float(nutri_info["saturated_fat"] if nutri_info["saturated_fat"] != None else 0) / 1), 0), negative_points_max)
+    sodium_points = min(max(int( float(nutri_info["sodium"] if nutri_info["sodium"] != None else 0) / 90), 0), negative_points_max)
     negative_points = energy_points + sugar_points + saturated_fat_points + sodium_points
 
     # Positive points
-    fiber_points = min(max(int( float(nutri_info["fiber"]) / 0.9), 0), positive_points_max)
-    protein_points = min(max(int( float(nutri_info["protein"]) / 1.6), 0), positive_points_max)
+    fiber_points = min(max(int( float(nutri_info["fiber"] if nutri_info["fiber"] != None else 0) / 0.9), 0), positive_points_max)
+    protein_points = min(max(int( float(nutri_info["protein"] if nutri_info["protein"] != None else 0) / 1.6), 0), positive_points_max)
     if nutri_info["percentage_fruit_vegetables_nuts"]:
-        fruit_vegetables_nuts_points = min(max(int( float(nutri_info["percentage_fruit_vegetables_nuts"]) / 40), 0), positive_points_max)
+        fruit_vegetables_nuts_points = min(max(int( float(nutri_info["percentage_fruit_vegetables_nuts"] if nutri_info["percentage_fruit_vegetables_nuts"] != None else 0) / 40), 0), positive_points_max)
         positive_points = fiber_points + protein_points + fruit_vegetables_nuts_points
     else:
         fruit_vegetables_nuts_points = 0

@@ -79,6 +79,10 @@ def filter_by_categories(categories: List[Dict[str, List[str]]], prefered_catego
                 recommendations.extend(category[prefered_category])
     return recommendations
 
+#TODO: Implement filter by nutrients preferences
+def filter_by_nutrients() -> list[str]:
+    return []
+
 # This algorithm recommand foods based on the specifications (preferences)
 # and the allergens of the user.
 def main(actual_cafe: Cafe, user: User) -> List[str]:
@@ -118,7 +122,8 @@ def main(actual_cafe: Cafe, user: User) -> List[str]:
                 categories: list[dict[str, list[str]]] = []
 
                 for diet in prefered_diets:
-                    categories.append(clusters[diet]) if diet in prefered_diets else None
+                    if diet in prefered_diets:
+                        categories.append(clusters[diet])
 
                 recommendations: list[str] = filter_by_categories(categories, prefered_categories)
             

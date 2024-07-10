@@ -53,6 +53,14 @@ class TestContentBasedFiltering(unittest.TestCase):
             {'slug': 'item10', 'likes': []}
         ], 200)
 
+        self.cafe_items = [
+            {'slug': 'item1', 'cluster': '0', 'likes': ['user1']}, 
+            {'slug': 'item2', 'cluster': '1', 'likes': ['user1']},
+            {'slug': 'item3', 'cluster': '2', 'likes': ['user5', 'user3']},
+            {'slug': 'item4', 'cluster': '0', 'likes': ['user1', 'user3']},
+            {'slug': 'item5', 'cluster': '1', 'likes': ['user6', 'user3', 'user4']}
+        ]
+
     def test_favorite_cluster(self):
         clusters = {
             '0': [
@@ -200,24 +208,28 @@ class TestContentBasedFiltering(unittest.TestCase):
         self.assertCountEqual(main(user, cafe), ['item5', 'item4', 'item3', 'item2', 'item1'])
     
     # At least one item in the cafe and the user has liked some items.
-    def test_algorithm(self):
+    def test_1_algorithm(self):
         user = self.user1
-        cafe_items = [
-            {'slug': 'item1', 'cluster': '0', 'likes': ['user1']}, 
-            {'slug': 'item2', 'cluster': '1', 'likes': ['user1']},
-            {'slug': 'item3', 'cluster': '2', 'likes': ['user5', 'user3']},
-            {'slug': 'item4', 'cluster': '0', 'likes': ['user1', 'user3']},
-            {'slug': 'item5', 'cluster': '1', 'likes': ['user6', 'user3', 'user4']}
-        ]
+        cafe_items = self.cafe_items
 
         items_not_bought = set([
             'item1', 'item3'
         ])
-        result_1 = algorithm(user, cafe_items, items_not_bought)
-        result_2 = algorithm(user, cafe_items, items_not_bought, 1)
+        result = algorithm(user, cafe_items, items_not_bought)
 
-        self.assertCountEqual(result_1, ['item1', 'item3'])
-        self.assertTrue(result_2 == ['item1'] or result_2 == ['item3'])
+        self.assertCountEqual(result, ['item1', 'item3'])
+
+    def test_2_algorithm(self):
+        user = self.user1
+        cafe_items = self.cafe_items
+
+        items_not_bought = set([
+            'item1', 'item3'
+        ])
+        result = algorithm(user, cafe_items, items_not_bought, 1)
+
+        self.assertTrue(result == ['item1'] or result == ['item3'])
+
 
 if __name__ == '__main__':
     unittest.main()

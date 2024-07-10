@@ -21,7 +21,7 @@ class TestMain(unittest.TestCase):
         # No items liked by the user
         mock_get_cafe_items.return_value = [{'slug': 'item1', 'likes': []}, {'slug': 'item2', 'likes': ['user_2']}]
         mock_get_user_likes.return_value = []
-        result = score_cafe([{'slug': 'cafe1'}], {'id': 'user_test'})
+        result = score_cafe([{'slug': 'cafe1'}], {'user_id': 'user_test'})
         self.assertEqual(result, [(0, 'cafe1')])
 
         # Test with cafes and some liked items
@@ -30,7 +30,7 @@ class TestMain(unittest.TestCase):
             [{'slug': 'item1', 'likes': ['user_test']}, {'slug': 'item4', 'likes': []}]
         ]
         mock_get_user_likes.return_value = ['item1']
-        result = score_cafe([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'id': 'user_test'})
+        result = score_cafe([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'user_id': 'user_test'})
         self.assertEqual(result, [(0, 'cafe1'), (1, 'cafe2')])
 
         # Test with no likes for some cafes
@@ -39,7 +39,7 @@ class TestMain(unittest.TestCase):
             [{'slug': 'item2', 'likes': ['user_test']}, {'slug': 'item4', 'likes': []}]
         ]
         mock_get_user_likes.return_value = ['item2']
-        result = score_cafe([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'id': 'user_test'})
+        result = score_cafe([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'user_id': 'user_test'})
         self.assertEqual(result, [(1, 'cafe1'), (1, 'cafe2')])
         
     @patch('recommender_systems.systems.cafe_recommenders.content_based.score_cafe')
@@ -69,26 +69,33 @@ class TestMain(unittest.TestCase):
         result = get_best_cafe([], {'id': 'user_test'}, 5)
         self.assertEqual(result, [])
 
-    @patch('recommender_systems.utils.db_utils.get_all_user_likes')
-    @patch('recommender_systems.utils.db_utils.get_cafe_items')
     @patch('recommender_systems.utils.db_utils.get_user_likes_in_cafe')
-    def test_main(self, mock_get_user_likes, mock_get_cafe_items, mock_get_all_user_likes):
+    def test_main_1(self, mock_get_user_likes):
         # Test 1: No cafes and no liked items
         mock_get_user_likes.return_value = []
-        result = main([], {'user_id': 'user_test'})
+        result = main([], {'user_id': 'user_test', 'username': 'username_test'})
         self.assertEqual(result, [])
 
+    @patch('recommender_systems.utils.db_utils.get_user_likes_in_cafe')
+    def test_main_2(self, mock_get_user_likes):
         # Test 2: Some cafes and no liked items
         mock_get_user_likes.return_value = []
-        result = main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'user_id': 'user_test'})
+        result = main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'user_id': 'user_test', 'username': 'username_test'})
         self.assertNotEqual(result, [])
 
+    @patch('recommender_systems.utils.db_utils.get_all_user_likes')
+    @patch('recommender_systems.utils.db_utils.get_user_likes_in_cafe')
+    def test_main_3(self, mock_get_user_likes, mock_get_all_user_likes):
         # Test 3: Some liked items but no cafes
         mock_get_user_likes.return_value = ['item1']
         mock_get_all_user_likes.return_value = ['item1']
-        result = main([], {'user_id': 'user_test'})
+        result = main([], {'user_id': 'user_test', 'username': 'username_test'})
         self.assertEqual(result, [])
 
+    @patch('recommender_systems.utils.db_utils.get_all_user_likes')
+    @patch('recommender_systems.utils.db_utils.get_cafe_items')
+    @patch('recommender_systems.utils.db_utils.get_user_likes_in_cafe')
+    def test_main_4(self, mock_get_user_likes, mock_get_cafe_items, mock_get_all_user_likes):
         # Test 4: Some liked items and some cafes
         mock_get_all_user_likes.return_value = ['item1']
         mock_get_user_likes.return_value = ['item1']
@@ -96,11 +103,13 @@ class TestMain(unittest.TestCase):
             [{'slug': 'item1', 'likes': ['user_test']}, {'slug': 'item2', 'likes': ['user_2']}],
             [{'slug': 'item3', 'likes': ['user_3']}, {'slug': 'item4', 'likes': []}]
         ]
-        result = main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'user_id': 'user_test'}, 1)
+        result = main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], {'user_id': 'user_test', 'username': 'username_test'}, 1)
         self.assertEqual(result, ['cafe1'])
 
+    def test_main_5(self):
         # Test 5: User is None
         self.assertRaises(ValueError, lambda : main([{'slug': 'cafe1'}, {'slug': 'cafe2'}], None))
 
+    
 if __name__ == '__main__':
     unittest.main()
