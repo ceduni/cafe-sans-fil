@@ -1,10 +1,12 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
 import Switch from "@/components/CustomSwitch";
 import { PAYMENT_METHODS } from "@/utils/cafe";
+import { useAuth } from "@/hooks/useAuth";
+
 
 const filterTypes = [
   {
@@ -20,6 +22,7 @@ const filterTypes = [
 
 const Filters = ({ filters, setFilters, cafes }) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
 
   const generatedSortOptions = cafes
     ? [
@@ -45,6 +48,17 @@ const Filters = ({ filters, setFilters, cafes }) => {
     }
     return shortPavillon;
   };
+
+  const [displayRecCafeButton, setDisplayRecCafeButton] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setDisplayRecCafeButton(true);
+    } else {
+      setDisplayRecCafeButton(false);
+    }
+  }, [isLoggedIn]);
+
 
   return (
     <>
@@ -129,12 +143,23 @@ const Filters = ({ filters, setFilters, cafes }) => {
         <div className="flex items-baseline justify-end border-b border-gray-200 pb-6">
           <div className="flex items-center select-none">
             <div className="flex items-center sm:mr-8 mr-4">
+              {displayRecCafeButton && 
+                <Switch
+                  checked={filters.recommendations}
+                  onChange={(e) => setFilters({ ...filters, recommendations: e })}
+                  label="Cafés recommandés"
+                />
+              }
+            </div>
+
+            <div className="flex items-center sm:mr-8 mr-4">
               <Switch
                 checked={filters.openOnly}
                 onChange={(e) => setFilters({ ...filters, openOnly: e })}
                 label="Ouvert"
               />
             </div>
+
 
             <Menu as="div" className="relative inline-block text-left">
               <div>

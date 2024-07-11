@@ -4,6 +4,7 @@ import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import Filters from "@/components/Cafe/Filters";
 import { useEffect, useState } from "react";
 import { PAYMENT_METHODS, isCafeActuallyOpen } from "@/utils/cafe";
+import getCurrentUser from "@/utils/users";
 
 const CafeList = ({ setStoredCafes, storedCafes }) => {
   const [filters, setFilters] = useState({
@@ -12,15 +13,33 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
     takesCash: false,
     takesCreditCard: false,
     takesDebitCard: false,
+    recommendations: false,
   });
 
   const { data, isLoading, error } = useApi("/cafes");
+
+  const checkUserStatus = async () => {
+    const currentUser = getCurrentUser();
+    if (currentUser.user_id) {
+      return currentUser.user_id;
+    }
+    return "";
+  };
+
+  const { recommendationsData, isloading, errors } = useApi(`/recommendations/cafe/${checkUserStatus()}`);
+  const [recommendations, setRecommendations] = useState(["cafekine"]);
 
   useEffect(() => {
     if (data) {
       setStoredCafes(data);
     }
+
+    if (recommendationsData) {
+      setRecommendations(recommendationsData);
+    }
+
   }, [data, setStoredCafes]);
+  
 
   if (error) {
     return <div className="mt-20 mb-36"><EmptyState type="error" error={error} /></div>;
@@ -36,7 +55,8 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
         : true) &&
       (filters.takesDebitCard
         ? cafe.payment_methods.some((method) => method.method === PAYMENT_METHODS.DEBIT_CARD)
-        : true)
+        : true) &&
+      (filters.recommendations ? recommendations.includes(cafe.slug) : true)
   );
 
   if (isLoading && storedCafes.length === 0) {
