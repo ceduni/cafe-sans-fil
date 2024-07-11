@@ -215,6 +215,23 @@ class TestUtilitaries(unittest.TestCase):
         self.assertEqual(reshape(None, {}), ())
         self.assertEqual(reshape(A, B), (A, [7, 5, 9, '0', '0', '0']))
 
+    def test_sort_by_health_score(self):
+        items = [
+            {'slug': 'item1', 'health_score': -6},
+            {'slug': 'item2', 'nutritional_informations': {
+                'calories': 1000,
+                'saturated_fat': 20, 
+                'sugar': 30,
+                'sodium': 10,
+                'fiber': None,
+                'protein': 6,
+                'percentage_fruit_vegetables_nuts': None
+            }},
+            {'slug': 'item3', 'health_score': 4}
+        ]
+
+        self.assertEqual(sort_by_health_score(items), ['item1', 'item3', 'item2'])
+
 class TestFindCafe(unittest.TestCase):
     def setUp(self):
         # Set up test data for test_find_cafe

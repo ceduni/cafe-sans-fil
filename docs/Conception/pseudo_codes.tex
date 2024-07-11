@@ -42,8 +42,7 @@
     \State \textbf{\textit{Jaccard($L_1[1...n]$,$L_2[1...m]$):}}
     \State \hspace{0.5cm} $union \leftarrow L_1 \cup L_2$
     \State \hspace{0.5cm} $inter \leftarrow L_1 \cap L_2$
-    \State \hspace{0.5cm} $sim \leftarrow inter/union$
-    \State \hspace{0.5cm} \textbf{retourner} sim.length
+    \State \hspace{0.5cm} \textbf{retourner} $inter.length/union.length$
     \end{algorithmic}
 \end{algorithm}
 
@@ -70,12 +69,12 @@
     \caption{Collaborative filtering}
     \begin{algorithmic}[1]
         \Statex \textbf{Description:} Recommandations basé sur les similarités entre utilisateurs.
-        \Statex \textbf{Entrée:} Liste des utilisateurs de l'application ($U$), utilisateur actuel ($u$)
+        \Statex \textbf{Entrée:} Liste des utilisateurs de l'application ($U$), utilisateur ($u$)
         \Statex \textbf{Sortie:} Liste $L$ des recommandations
         \State \textbf{\textit{Algorithme(U[1...n], u):}}
         \State \hspace{0.5cm} $L \leftarrow [vide]$
         \State \hspace{0.5cm} $\tau \leftarrow$ seuil de similarité 
-        \State \hspace{0.5cm} $S_{n\times 1} \leftarrow$ sous ensemble aléatoire de $U$ t.q $u \notin S$
+        \State \hspace{0.5cm} $S \leftarrow U.retirer(u)$
         \State \hspace{0.5cm} $L_u \leftarrow$ [[u.likes], [u.repas\_consommés], [u.cafés\_visités]]
         \State \hspace{0.5cm} \textbf{Pour chaque} utilisateur $x\in S_{n\times 1}$
         \State \hspace{1cm} $L_x \leftarrow$ [[x.likes], [x.repas\_consommés], [x.cafés\_visités]]
@@ -85,7 +84,7 @@
         \State \hspace{1.5cm} $J.ajouter(j)$
         \State \hspace{1cm} $score \leftarrow sum(J)$
         \State \hspace{1cm} \textbf{Si} $score \geq \tau$:
-        \State \hspace{1.5cm} $L \leftarrow (L_u[0] \cup L_u[1]) \backslash [(L_x[0] \cup L_x[1]) \cap (L_u[0] \cup L_u[1])]$
+        \State \hspace{1.5cm} $L \leftarrow (L_x[0] \cup L_x[1]) \backslash (L_u[0] \cup L_u[1])$
         \State \hspace{1cm} $S.retirer(x)$
         \State \hspace{0.5cm} \textbf{retourner} $L$
     \end{algorithmic}
@@ -94,32 +93,21 @@
 \begin{algorithm}
     \caption{Content based filtering}
     \begin{algorithmic}[1]
-        \Statex \textbf{Description:} Recommandations basé sur les habitudes de l'utilisateur.
-        \Statex \textbf{Entrée:} Liste des clusters ($C$), utilisateur actuel ($u$)
+        \Statex \textbf{Description:} Recommandations basé sur les habitudes de consommation de l'utilisateur.
+        \Statex \textbf{Entrée:} Menu du cafe ($M$), utilisateur ($u$)
         \Statex \textbf{Sortie:} Liste $L$ des recommandations
-        \State \textbf{\textit{Algorithme(C[[1...n],[1...m],...k], u):}}
+        \State \textbf{\textit{Algorithme(M[1...n], u):}}
         \State \hspace{0.5cm} $L \leftarrow [vide]$
-        \State \hspace{0.5cm} $P \leftarrow$ repas pas encore achetés (Algorithme 1)
-        \State \hspace{0.5cm} $\tau,k \leftarrow$ seuil de similarité, nombre de clusters
-        \State \hspace{0.5cm} $n \leftarrow R.length$
-        \State \hspace{0.5cm} $c_1 \leftarrow cluster\_favoris(C, u)$
-        \State \hspace{0.5cm} $C \leftarrow C.retirer(c_1)$
-        \State \hspace{0.5cm} $c_2 \leftarrow cluster\_favoris(C, u)$
-        \State \hspace{0.5cm} $r_1, r_2 \leftarrow$ repas aléatoire aimé par $u$ et qui se trouvent dans $c_1$ et $c_2$
-        \State \hspace{0.5cm} $R \leftarrow [r_1, r_2]$
-        \State \hspace{0.5cm} \textbf{Pour} $i \in [0,1]$:
-        \State \hspace{1cm} $X \leftarrow [vide]$ 
-        \State \hspace{1cm} $X.inserer(one\_hot(R[i]))$
-        \State \hspace{1cm} \textbf{Pour} chaque repas $p \in P$:
-        \State \hspace{1.5cm} $X.inserer(one\_hot(p))$
-        \State \hspace{1cm} $V \leftarrow [empty]$
-        \State \hspace{1cm} \textbf{Pour} $j \in [1, X.length]$:
-        \State \hspace{1.5cm} $V.inserer(Jaccard(X[0], X[j]))$
-        \State \hspace{1cm} \textbf{Pour} $\_ \in [0, k]$:
-        \State \hspace{1.5cm} $i \leftarrow V.index\_du\_max$
-        \State \hspace{1.5cm} L.inserer(P[i])
-        \State \hspace{1.5cm} $V.retirer(V[i])$ si $V$ n'est pas vide
-        \State \hspace{0.5cm} \textbf{retourner L}
+        \State \hspace{0.5cm} $P \leftarrow$ Items pas encore achetés (\textbf{\textit{Algorithme 1}})
+        \State \hspace{0.5cm} $clusters \leftarrow regrouper\_par\_cluster(M)$
+        \State \hspace{0.5cm} $cf \leftarrow [vide]$
+        \State \hspace{0.5cm} \textbf{Tant que} cf.length $<$ clusters.length:
+        \State \hspace{1cm} $c \leftarrow cluster\_favoris(C, u)$
+        \State \hspace{1cm} $cf.inserer(c)$
+        \State \hspace{1cm} $C \leftarrow C.retirer(c)$
+        \State \hspace{0.5cm} \textbf{Pour chaque} cluster $c$ $\in cf$:
+        \State \hspace{1cm} $L.ajouter(P \cap c)$
+        \State \hspace{0.5cm} \textbf{retourner} L
         \\
 --------------------------------------------------------------------------------------------------------------------
         \State \textbf{\textit{cluster\_favoris(C[[1...n],[1...m],...k], u)}:}
@@ -132,6 +120,16 @@
         \State \hspace{1cm} $L.ajouter(tmp.length)$
         \State \hspace{0.5cm} $i \leftarrow L.index\_du\_max$
         \State \hspace{0.5cm} \textbf{retourner} $C[i]$
+        \\
+--------------------------------------------------------------------------------------------------------------------
+		\State \textbf{\textit{regrouper\_par\_cluster(M)}}:
+		\State \hspace{0.5cm} $groupes \leftarrow \{vide\}$
+		\State \hspace{0.5cm} \textbf{Pour chaque} item $\in M$:
+		\State \hspace{1cm} \textbf{Si} $item.cluster \notin groupes$:
+		\State \hspace{1.5cm} $groupes[item.cluster] = [vide]$
+		\State \hspace{1cm} $groupes[item.cluster].inserer(item)$
+		\State \hspace{0.5cm} \textbf{retourner} groupes 
+		
     \end{algorithmic}
 \end{algorithm}
 
@@ -145,18 +143,18 @@
         \State \hspace{0.5cm} $A \leftarrow u.liste\_allergens$
         \State \hspace{0.5cm} $allergenes \leftarrow repas\_allergens(A)$
         \State \hspace{0.5cm} $P \leftarrow u.preferences$
-        \State \hspace{0.5cm} $R \leftarrow clusters(M)$ // Algorithme 3
+        \State \hspace{0.5cm} $R \leftarrow clusters(M)$ // \textbf{\textit{Algorithme 3}}
         \State \hspace{0.5cm} $E[0...n] \leftarrow$ récupérer les bons repas en fonction du régime (P[0]) et des
         \State \hspace{0.5cm} catégories (P[1]) spécifiées par l'utilisateur
-        \State \hspace{0.5cm} \textbf{retourner} les $k$ repas de $E$ possédant la plus grande densité nutritionnelle basé sur
-        \State \hspace{0.5cm} le nutriment spécifié par l'utilisateur (P[2])\\
+        \State \hspace{0.5cm} \textbf{retourner} E
+        \\
 --------------------------------------------------------------------------------------------------------------------
-        \State \textbf{\textit{repas\_allergenes(A[1...n]):}}
+        \State \textbf{\textit{repas\_allergenes(A[1...n], M[1...m]):}}
         \State \hspace{0.5cm} $L \leftarrow [vide]$
         \State \hspace{0.5cm} \textbf{Pour chaque} repas $r\in M$:
         \State \hspace{1cm} \textbf{Si} $r.allergens \cap A \neq \emptyset$:
         \State \hspace{1.5cm} $L$.inserer(r)
-        \State \hspace{0.5cm} Trier les repas de $L$ en fonction du niveau de gravité
+        %\State \hspace{0.5cm} Trier les repas de $L$ en fonction du niveau de gravité
         \State \hspace{0.5cm} \textbf{retourner} $L$
     \end{algorithmic}
 \end{algorithm}
@@ -164,24 +162,26 @@
 \begin{algorithm}
     \caption{Recommandation globale}
     \begin{algorithmic}[1]
-        \Statex \textbf{Description:} Recommandations à tout les utilisateurs en fonction de la journée et basé sur les repas les plus aimés.
+        \Statex \textbf{Description:} Recommandations à tout les utilisateurs.
         \Statex \textbf{Entrée:} Liste des repas du menu ($M$)
         \Statex \textbf{Sortie:} Liste des recommandations
         \State \textbf{\textit{Algorithme(M[1...n]):}}
-        \State \hspace{0.5cm} $t \leftarrow$ heure de la journée
         \State \hspace{0.5cm} $k \leftarrow$ nombre de repas à recommander
-        \State \hspace{0.5cm} $T \leftarrow [vide]$
-        \State \hspace{0.5cm} $R \leftarrow [vide]$
-        \State \hspace{0.5cm} \textbf{Pour chaque} repas $m \in M$:
-        \State \hspace{1cm} $T.inserer(m.nombre\_likes)$
-        \State \hspace{0.5cm} \textbf{Pour} $i \in [0, k]$:
-        \State \hspace{1cm} $i \leftarrow T.index\_du\_max$
-        \State \hspace{1cm} $R.inserer(M[i])$
-        \State \hspace{1cm} $T.retirer(T[i])$
-        \State \hspace{0.5cm} $I_1, I_2, I_3 \leftarrow [vide], [vide], [vide]$
-        \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in R$:
-        \State \hspace{1cm} Rajouter le repas $r$ dans la bonne liste en fonction de $r.times$
-        \State \hspace{0.5cm} En fonction de la valeur de $t$, retourner le bon ensemble ($I_1$, $I_2$, $I_3$)
+        \State \hspace{0.5cm} $I \leftarrow$ items les plus achetés
+        \State \hspace{0.5cm} \textbf{retourner} $items\_plus\_aimes(I,k)$
+        \\
+--------------------------------------------------------------------------------------------------------------------
+	\State \textbf{\textit{items\_plus\_aimes(I[1...n],k))}}:
+	\State \hspace{0.5cm} $likes \leftarrow [vide]$
+	\State \hspace{0.5cm} $res \leftarrow [vide]$
+	\State \hspace{0.5cm} \textbf{Pour chaque} $item \in I$:
+	\State \hspace{1cm} likes.insérer(item.likes.length)
+	\State \hspace{0.5cm} \textbf{Pour} $i \leftarrow 0$ à $k$
+	\State \hspace{1cm} $max\_like \leftarrow max(likes)$
+	\State \hspace{1cm} $index \leftarrow likes.index(max\_likes)$ 
+	\State \hspace{1cm} $res.inserer(I[index])$
+	\State \hspace{1cm} $likes[index] \leftarrow -1$
+	\State \hspace{0.5cm} \textbf{retourner} $res$
     \end{algorithmic}
 \end{algorithm}
 \end{document}

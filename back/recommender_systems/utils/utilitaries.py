@@ -265,6 +265,27 @@ def health_score(item: MenuItem) -> float:
 
     return score
 
+# Sort items in ascending order by health scores.
+def sort_by_health_score(items: List[MenuItem]) -> List[str]:
+    items_tuples: list[tuple[float, MenuItem]] = []
+    try:
+        for item in items:
+            if 'health_score' not in item:
+                item['health_score'] = health_score(item)
+            items_tuples.append( (item['health_score'], item['slug']) )
+    except KeyError | TypeError as e:
+        print(e)
+        return []
+
+    sorted_items_tuples: list[tuple[float, MenuItem]] = sorted(items_tuples, reverse=False)
+
+    sorted_items: List[str] = []
+    
+    for item_tuple in sorted_items_tuples:
+        sorted_items.append(item_tuple[1])
+
+    return sorted_items
+
 def reshape(A: List[Any], B: List[Any]) -> Tuple[List[Any]]:
     try:
         if isinstance(A, list) == False or isinstance(B, list) == False:

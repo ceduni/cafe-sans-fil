@@ -8,25 +8,6 @@ in which the mocked objects are passed as arguments to the test method, from lef
 '''
 
 class TestHealthBot(unittest.TestCase):
-
-    def test_sort_by_health_score(self):
-        items = [
-            {'slug': 'item1', 'health_score': -6},
-            {'slug': 'item2', 'nutritional_informations': {
-                'calories': 1000,
-                'saturated_fat': 20, 
-                'sugar': 30,
-                'sodium': 10,
-                'fiber': None,
-                'protein': 6,
-                'percentage_fruit_vegetables_nuts': None
-            }},
-            {'slug': 'item3', 'health_score': 4}
-        ]
-
-        self.assertEqual(sort_by_health_score(items), ['item1', 'item3', 'item2'])
-
-
     @patch('recommender_systems.utils.api_calls.CafeApi.get_all_items')
     def test_main(self, mock_get_all_items):
         cafe_list = [
