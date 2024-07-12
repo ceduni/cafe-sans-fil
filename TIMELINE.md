@@ -38,13 +38,15 @@
 
 ### Observations
 
-### Ressources
+### Ressources -->
 
 ## Semaine 11 (2024-07-12)
 
 ### Objectifs
+- Affichage des recommendations sur le Front-end.
+- Ajouter la description des différents régimes alimentaires.
 
-### Réalisations
+<!--### Réalisations
 
 ### Observations
 
@@ -57,11 +59,13 @@
 - Affichage des recommendations sur le Front-end.
 - Ajout des fonctionnalités de modification du profile dans le Front-end.
 
-<!--### Réalisations
+### Réalisations
+- Algorithmes fonctionnels intégrés au backend.
+- Fonctionnalitée de filtrage par cafés recommendés ajoutée.
+- Fonctionnalitée de modification du profile nutritif ajouté au Front-end ainsi que la mise à jour de la base de données.
 
 ### Observations
-
-### Ressources-->
+- Difficulté au niveau de l'ajout de nouvelles collection dans la base de données.
 
 ## Semaine 9 (2024-06-28)
 
