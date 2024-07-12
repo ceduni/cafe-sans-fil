@@ -1,42 +1,39 @@
 import React, { useEffect, useState } from "react";
-import InfoModal from "@/components/InfoModal";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import getCurrentUser from "@/utils/users";
+import Diet from "@/components/Diet";
 
 const NutriProfile = () => {
-    
-
-
-    const [activeTab, setActiveTab] = useState(1);
+    const [activeTab, setActiveTab] = useState(0);
+    const [disableSubmit, setDisableSubmit] = useState(true);
+    const [openModalIndex, setOpenModalIndex] = useState(null);
 
     const [diets, setDiets] = useState([
-        { text: 'Cétogène', checked: false, description: '' },
-        { text: 'Méditéranéen', checked: false, description: '' },
-        { text: 'Atkins', checked: false, description: '' },
-        { text: 'Zone', checked: false, description: '' },
-        { text: 'Végétalisme', checked: false, description: '' },
-        { text: 'Weight watchers', checked: false, description: '' },
-        { text: 'Veganisme', checked: false, description: '' },
-        { text: 'Crudivore', checked: false, description: '' },
-        { text: 'Sans lactose', checked: false, description: '' },
-        { text: 'Sans gluten', checked: false, description: '' },
+        { text: 'Cétogène', checked: false, description: 'La diète cétogène, souvent utilisée dans un contexte de perte de poids, est un régime faible en glucides et élevé en gras.' },
+        { text: 'Méditéranéen', checked: false, description: 'Riche en légumes, fruits, grains entiers, huile d’olive, légumineuses, noix, graines, poisson et fruits de mer, le régime méditerranéen fait place à la volaille, aux œufs et aux produits laitiers. Il est pauvre en viande rouge et en aliments sucrés.' },
+        { text: 'Atkins', checked: false, description: 'Atkins' },
+        { text: 'Zone', checked: false, description: 'Zone' },
+        { text: 'Végétalisme', checked: false, description: 'Végétalisme' },
+        { text: 'Weight watchers', checked: false, description: 'Weight watchers' },
+        { text: 'Veganisme', checked: false, description: 'Veganisme' },
+        { text: 'Crudivore', checked: false, description: 'Crudivore' },
+        { text: 'Sans lactose', checked: false, description: 'Sans lactose' },
+        { text: 'Sans gluten', checked: false, description: 'Sans gluten' },
     ]);
 
-    const [displayInfoModal, setDisplayInfoModal] = useState(false);
-
-    const [nutriPreferences, setNutriPreferences] = useState([
-        { text: "Calories", value: 0 },
-        { text: "Proteins", value: 0 },
-        { text: "Carbohydrates", value: 0 },
-        { text: "Lipids", value: 0 },
-        { text: "Saturated fat", value: 0 },
-        { text: "Sodium", value: 0 },
-        { text: "Sugar", value: 0 },
-        { text: "Fiber", value: 0 },
-        { text: "VItamins", value: 0 },
-        { text: "Fruit-légumes-Noix", value: 0 },
-    ]);
+    // const [nutriPreferences, setNutriPreferences] = useState([
+    //     { text: "Calories", value: 0 },
+    //     { text: "Proteins", value: 0 },
+    //     { text: "Carbohydrates", value: 0 },
+    //     { text: "Lipids", value: 0 },
+    //     { text: "Saturated fat", value: 0 },
+    //     { text: "Sodium", value: 0 },
+    //     { text: "Sugar", value: 0 },
+    //     { text: "Fiber", value: 0 },
+    //     { text: "VItamins", value: 0 },
+    //     { text: "Fruit-légumes-Noix", value: 0 },
+    // ]);
 
     const [categories, setCategories] = useState([
         { text: "Grilled Cheese", checked: false },
@@ -53,6 +50,14 @@ const NutriProfile = () => {
     const [selectedAllergens, setSelectedAllergens] = useState(
         allergensList.map(allergen => ({ text: allergen, checked: false }))
     );
+
+    const handleOpenModal = (index) => {
+        setOpenModalIndex(index);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModalIndex(null);
+    };
 
     const handleTabChange = (index) => {
         setActiveTab(index);
@@ -84,16 +89,6 @@ const NutriProfile = () => {
     //     newNutriPreferences[index].value = event.target.value;
     //     setNutriPreferences(newNutriPreferences);
     // };
-
-    const handleButtonInfoClick = () => {
-        setDisplayInfoModal(true);
-      };
-
-    const handleCloseModal = () => {
-        setDisplayInfoModal(false);
-    };
-
-    const [disableSubmit, setDisableSubmit] = useState(true);
 
     const updateUser = async (payload) => {
         const currentUser = await getCurrentUser();
@@ -216,30 +211,17 @@ const NutriProfile = () => {
         {activeTab === 0 && (
             <div className="grid grid-cols-2 gap-1">
             {diets.map((diet, index) => (
-                <div key={index} className="mb-2 flex items-center">
-                    <button
-                        className="w-5 h-5 pr flex items-center justify-center bg-blue-300 text-white rounded-full hover:bg-blue-600"
-                        onClick={handleButtonInfoClick}
-                    >
-                        i
-                    </button>
-                    <InfoModal 
-                    isOpen={displayInfoModal} 
-                    onClose={handleCloseModal}
-                    >
-                        <p>{diet.description}</p>
-                    </InfoModal>
-                    <label 
-                    className="mr-2 pl-2 text-gray-700 font-bold w-36 "
-                    title={diet.description}
-                    >{diet.text}</label>
-                    <input
-                        type="checkbox"
-                        checked={diet.checked}
-                        onChange={() => handleDietsCheckboxChange(index)}
-                        className="mr-2 align-middle"
-                    />
-                </div>
+                <Diet
+                key={index}
+                index={index}
+                openModalIndex={openModalIndex}
+                handleOpenModal={handleOpenModal}
+                handleCloseModal={handleCloseModal}
+                handleDietsCheckboxChange={handleDietsCheckboxChange}
+                name={diet.text}
+                description={diet.description}
+                checked={diet.checked}
+                />
             ))}
             </div>
         )}
