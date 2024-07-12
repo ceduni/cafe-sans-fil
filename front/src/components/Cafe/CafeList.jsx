@@ -5,6 +5,7 @@ import Filters from "@/components/Cafe/Filters";
 import { useEffect, useState } from "react";
 import { PAYMENT_METHODS, isCafeActuallyOpen } from "@/utils/cafe";
 import getCurrentUser from "@/utils/users";
+import { useAuth } from "@/hooks/useAuth";
 
 const CafeList = ({ setStoredCafes, storedCafes }) => {
   const [filters, setFilters] = useState({
@@ -17,13 +18,16 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
   });
 
   const { data, isLoading, error } = useApi("/cafes");
+  const { isLoggedIn } = useAuth();
 
   const checkUserStatus = async () => {
-    const currentUser = getCurrentUser();
-    if (currentUser.user_id) {
-      return currentUser.user_id;
+    if (isLoggedIn) {
+      const currentUser = await getCurrentUser();
+      if (currentUser.user_id) {
+        return currentUser.user_id;
+      }
+      return "";
     }
-    return "";
   };
 
   const { recommendationsData, isloading, errors } = useApi(`/recommendations/cafe/${checkUserStatus()}`);

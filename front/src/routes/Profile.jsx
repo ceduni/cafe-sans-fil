@@ -95,6 +95,7 @@ const Profile = () => {
     }
   };
 
+
   useEffect(() => {
     if (isConfirmingDelete) {
       const timer = setTimeout(() => setIsConfirmingDelete(false), 5000);
