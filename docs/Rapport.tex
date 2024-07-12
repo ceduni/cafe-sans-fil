@@ -1,0 +1,263 @@
+\documentclass[11pt]{article}
+
+\usepackage[french]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{blindtext}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{array}
+\usepackage{comment}
+
+\graphicspath{ {figures/} }
+
+\title{Your Paper}
+\author{You}
+
+\begin{document}
+\setlength\parindent{0pt}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+            
+        \Huge
+        \textbf{Café sans fil: \\Système de recommandation}
+            
+        \vspace{0.5cm}
+        \LARGE
+        Rapport de projet dans le cadre du cours: \\IFT 3150 - Projet d'informatique
+
+        \vspace{3cm}
+        
+        \includegraphics[width=0.4\textwidth]{image_cafe.png}
+
+        \vspace{2cm}
+            
+        \textbf{Auteur:} Bio Samir Gbian (20250793)
+
+        \vspace{0.5cm}
+
+        \textbf{Superviseur:} Louis-Edouard LAFONTANT
+            
+        \vfill
+                    
+        \Large
+        Department d'Informatique et de Recherche Opérationnelle (DIRO)\\
+        Université de montréal\\
+        Date
+            
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+\listoffigures
+
+\newpage
+\section{Introduction}
+\textbf{Contexte:}\\
+Afin d'améliorer le service des cafés étudiants de l'Université de Montréal (UdeM), le projet Café sans-fil a été initié au trimestre d'automne 2023 durant lequel furent construits l'infrastructure backend et un premier prototype de l'application. Le projet a été poursuivi au trimestre d'hiver durant lequel l'application fut évaluée et enrichi par l'ajout d'éléments à caractères sociaux tel que les évènements, reflétant mieux la nature sociale des cafés étudiants. Le lancement de la plateforme est prévue pour la fin de cet été, intégrant le travail réalisé à l'hiver et des améliorations mineures additionnelles.\\
+
+\textbf{Problématique:}\\
+Cependant, faute d'exploitation des données fournis entre autre par les utilisateurs, l'expérience utilisateur actuelle manque grandement de personnalisation, impactant la satisfaction client. En effet, si un étudiant possède certaines restrictions ou préférences alimentaires ou des allergies, la plateforme ne l'aide nullement à satisfaire ses exigences (critères), résultant sur un plus lourd travail de recherche, pouvant décourager certains.
+Cette lacune a aussi des conséquences sur les cafés, impactant les ventes et la fidélisation des clients ainsi que la prise de décision en vue d'une quelconque amélioration de leurs services et du menu. En effet, sans analyse de données, il est difficile pour les gérants d'optimiser le menu ou les services pour éviter des pertes et mieux répondre aux clients du café.\\
+
+\textbf{Proposition:}\\
+En réponse aux problèmes énoncés, ce projet vise à mettre en place un système de recommandation utilisant les données fournies par les utilisateurs. Pour créer un moyen efficace de collecte et d'analyse de données nécessaire au système de recommandation, nous envisageons enrichir la plateforme avec de nouvelles fonctionnalités permettant aux utilisateurs de communiquer leurs préférences et réagir avec plus de choix aux propositions des cafés.
+
+\newpage
+\section{Exigences et Analyse}
+
+\newpage
+\section{Conception}
+
+\newpage
+\section{Implémentation}
+
+
+\newpage
+\section{Tests et résultats}
+
+\newpage
+\section{Conclusion}
+
+\newpage
+\section{Références}
+
+\newpage
+\section{Annexe}
+\subsection{Pseudo codes des algorithmes de recommandation}
+
+\subsubsection{Méthodes utilitaires}
+\begin{algorithm}
+    \caption{Repas pas encore consommés}
+    \begin{algorithmic}[1]
+    \Statex \textbf{Entrée:} Menu du restaurant ($M$), utilisateur actuel ($u$)
+    \Statex \textbf{Sortie:} Liste de repas
+    \State \textbf{\textit{Algorithme(M[1...n], u)}}
+    \State \hspace{0.5cm} $L \leftarrow u.historique\_achat$
+    \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in L$
+    \State \hspace{1cm} \textbf{Si} $r \in M$:
+    \State \hspace{1.5cm} $M.retirer(r)$
+    \State \hspace{0.5cm} \textbf{retourner} $M$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Mesure similarité: Jaccard}
+    \begin{algorithmic}[1]
+    \Statex \textbf{Entrée:} Deux listes ou ensembles ($L_1, L_2$)
+    \Statex \textbf{Sortie:} Nombre décimal représentant la similarité
+    \State \textbf{\textit{Jaccard($L_1[1...n]$,$L_2[1...m]$):}}
+    \State \hspace{0.5cm} $union \leftarrow L_1 \cup L_2$
+    \State \hspace{0.5cm} $inter \leftarrow L_1 \cap L_2$
+    \State \hspace{0.5cm} \textbf{retourner} $inter.length/union.length$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Clusters en fontion des préférences de l'utilisateur}
+    \begin{algorithmic}[1]
+    \Statex \textbf{Entrée:} Menu du restaurant ($M$)
+    \Statex \textbf{Sortie:} Liste des régimes contenant les catégories de repas
+    \State \textbf{\textit{clusters(M[1...n])}}
+    \State \hspace{0.5cm} // Nous avons k régimes différents et p catégories de repas
+    \State \hspace{0.5cm} $R \leftarrow [[0...n]...k]$
+    \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in M$:
+    \State \hspace{1cm} mettre le repas dans un ensemble en fonction de son régime
+    \State \hspace{1cm} rajouter les différents régimes de repas à $R$
+    \State \hspace{0.5cm} \textbf{Pour chaque} régime $T[1...\ell] \in R$ 
+    \State \hspace{1cm} mettre chaque repas du même régime dans une catégorie 
+    \State \hspace{0.5cm} \textbf{retourner} $R[[[0...n]...p]...k]$
+    \end{algorithmic}
+\end{algorithm}
+
+\newpage
+\subsubsection{Algorithmes principales}
+\begin{algorithm}
+    \caption{Collaborative filtering}
+    \begin{algorithmic}[1]
+        \Statex \textbf{Description:} Recommandations basé sur les similarités entre utilisateurs.
+        \Statex \textbf{Entrée:} Liste des utilisateurs de l'application ($U$), utilisateur ($u$)
+        \Statex \textbf{Sortie:} Liste $L$ des recommandations
+        \State \textbf{\textit{Algorithme(U[1...n], u):}}
+        \State \hspace{0.5cm} $L \leftarrow [vide]$
+        \State \hspace{0.5cm} $\tau \leftarrow$ seuil de similarité 
+        \State \hspace{0.5cm} $S \leftarrow U.retirer(u)$
+        \State \hspace{0.5cm} $L_u \leftarrow$ [[u.likes], [u.repas\_consommés], [u.cafés\_visités]]
+        \State \hspace{0.5cm} \textbf{Pour chaque} utilisateur $x\in S_{n\times 1}$
+        \State \hspace{1cm} $L_x \leftarrow$ [[x.likes], [x.repas\_consommés], [x.cafés\_visités]]
+        \State \hspace{1cm} $J \leftarrow [vide]$
+        \State \hspace{1cm} \textbf{Pour} $i \leftarrow 0$ à $L_x.length$
+        \State \hspace{1.5cm} $j \leftarrow Jaccard(L_u[i], L_x[i])$
+        \State \hspace{1.5cm} $J.ajouter(j)$
+        \State \hspace{1cm} $score \leftarrow sum(J)$
+        \State \hspace{1cm} \textbf{Si} $score \geq \tau$:
+        \State \hspace{1.5cm} $L \leftarrow (L_x[0] \cup L_x[1]) \backslash (L_u[0] \cup L_u[1])$
+        \State \hspace{1cm} $S.retirer(x)$
+        \State \hspace{0.5cm} \textbf{retourner} $L$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Content based filtering}
+    \begin{algorithmic}[1]
+        \Statex \textbf{Description:} Recommandations basé sur les habitudes de consommation de l'utilisateur.
+        \Statex \textbf{Entrée:} Menu du cafe ($M$), utilisateur ($u$)
+        \Statex \textbf{Sortie:} Liste $L$ des recommandations
+        \State \textbf{\textit{Algorithme(M[1...n], u):}}
+        \State \hspace{0.5cm} $L \leftarrow [vide]$
+        \State \hspace{0.5cm} $P \leftarrow$ Items pas encore achetés (\textbf{\textit{Algorithme 1}})
+        \State \hspace{0.5cm} $clusters \leftarrow regrouper\_par\_cluster(M)$
+        \State \hspace{0.5cm} $cf \leftarrow [vide]$
+        \State \hspace{0.5cm} \textbf{Tant que} cf.length $<$ clusters.length:
+        \State \hspace{1cm} $c \leftarrow cluster\_favoris(C, u)$
+        \State \hspace{1cm} $cf.inserer(c)$
+        \State \hspace{1cm} $C \leftarrow C.retirer(c)$
+        \State \hspace{0.5cm} \textbf{Pour chaque} cluster $c$ $\in cf$:
+        \State \hspace{1cm} $L.ajouter(P \cap c)$
+        \State \hspace{0.5cm} \textbf{retourner} L
+        \\
+--------------------------------------------------------------------------------------------------------------------
+        \State \textbf{\textit{cluster\_favoris(C[[1...n],[1...m],...k], u)}:}
+        \State \hspace{0.5cm} $L \leftarrow [empty]$
+        \State \hspace{0.5cm} \textbf{Pour chaque} cluster $c[1...n] \in C$:
+        \State \hspace{1cm} $tmp \leftarrow [empty]$
+        \State \hspace{1cm} \textbf{Pour chaque} repas $r \in c[1...n]$: 
+        \State \hspace{2cm} \textbf{SI} $u \in r.likes$:
+        \State \hspace{2.5cm} $tmp.ajouter(r)$
+        \State \hspace{1cm} $L.ajouter(tmp.length)$
+        \State \hspace{0.5cm} $i \leftarrow L.index\_du\_max$
+        \State \hspace{0.5cm} \textbf{retourner} $C[i]$
+        \\
+--------------------------------------------------------------------------------------------------------------------
+		\State \textbf{\textit{regrouper\_par\_cluster(M)}}:
+		\State \hspace{0.5cm} $groupes \leftarrow \{vide\}$
+		\State \hspace{0.5cm} \textbf{Pour chaque} item $\in M$:
+		\State \hspace{1cm} \textbf{Si} $item.cluster \notin groupes$:
+		\State \hspace{1.5cm} $groupes[item.cluster] = [vide]$
+		\State \hspace{1cm} $groupes[item.cluster].inserer(item)$
+		\State \hspace{0.5cm} \textbf{retourner} groupes 
+		
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Knowledge based filtering}
+    \begin{algorithmic}[1]
+        \Statex \textbf{Description:} Recommandations basé sur les spécifications de l'utilisateur.
+        \Statex \textbf{Entrée:} Utilisateur actuel ($u$), Liste des repas du menu ($M$)
+        \Statex \textbf{Sortie:} Liste des recommandations.
+        \State \textbf{\textit{Algorithme(M[1...n], u):}}
+        \State \hspace{0.5cm} $A \leftarrow u.liste\_allergens$
+        \State \hspace{0.5cm} $allergenes \leftarrow repas\_allergens(A)$
+        \State \hspace{0.5cm} $P \leftarrow u.preferences$
+        \State \hspace{0.5cm} $R \leftarrow clusters(M)$ // \textbf{\textit{Algorithme 3}}
+        \State \hspace{0.5cm} $E[0...n] \leftarrow$ récupérer les bons repas en fonction du régime (P[0]) et des
+        \State \hspace{0.5cm} catégories (P[1]) spécifiées par l'utilisateur
+        \State \hspace{0.5cm} \textbf{retourner} E
+        \\
+--------------------------------------------------------------------------------------------------------------------
+        \State \textbf{\textit{repas\_allergenes(A[1...n], M[1...m]):}}
+        \State \hspace{0.5cm} $L \leftarrow [vide]$
+        \State \hspace{0.5cm} \textbf{Pour chaque} repas $r\in M$:
+        \State \hspace{1cm} \textbf{Si} $r.allergens \cap A \neq \emptyset$:
+        \State \hspace{1.5cm} $L$.inserer(r)
+        %\State \hspace{0.5cm} Trier les repas de $L$ en fonction du niveau de gravité
+        \State \hspace{0.5cm} \textbf{retourner} $L$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Recommandation globale}
+    \begin{algorithmic}[1]
+        \Statex \textbf{Description:} Recommandations à tout les utilisateurs.
+        \Statex \textbf{Entrée:} Liste des repas du menu ($M$)
+        \Statex \textbf{Sortie:} Liste des recommandations
+        \State \textbf{\textit{Algorithme(M[1...n]):}}
+        \State \hspace{0.5cm} $k \leftarrow$ nombre de repas à recommander
+        \State \hspace{0.5cm} $I \leftarrow$ items les plus achetés
+        \State \hspace{0.5cm} \textbf{retourner} $items\_plus\_aimes(I,k)$
+        \\
+--------------------------------------------------------------------------------------------------------------------
+	\State \textbf{\textit{items\_plus\_aimes(I[1...n],k))}}:
+	\State \hspace{0.5cm} $likes \leftarrow [vide]$
+	\State \hspace{0.5cm} $res \leftarrow [vide]$
+	\State \hspace{0.5cm} \textbf{Pour chaque} $item \in I$:
+	\State \hspace{1cm} likes.insérer(item.likes.length)
+	\State \hspace{0.5cm} \textbf{Pour} $i \leftarrow 0$ à $k$
+	\State \hspace{1cm} $max\_like \leftarrow max(likes)$
+	\State \hspace{1cm} $index \leftarrow likes.index(max\_likes)$ 
+	\State \hspace{1cm} $res.inserer(I[index])$
+	\State \hspace{1cm} $likes[index] \leftarrow -1$
+	\State \hspace{0.5cm} \textbf{retourner} $res$
+    \end{algorithmic}
+\end{algorithm}
+
+\end{document}
