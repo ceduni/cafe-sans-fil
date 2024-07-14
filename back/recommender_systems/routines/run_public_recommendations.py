@@ -15,7 +15,7 @@ import time
 def _run_public_recommendations() -> Dict[str, List[str]]:
     all_cafe: list[Cafe] = DButils.get_all_cafe()
     public_recommendations: dict[str, list[str]] = {}
-    for _, cafe in enumerate(tqdm(all_cafe, desc="Running public recommendations")):
+    for _, cafe in enumerate(tqdm(all_cafe, desc="Finding public recommendations")):
         cafe_slug = cafe['slug']
         if cafe_slug not in public_recommendations:
             public_recommendations[cafe_slug] = []

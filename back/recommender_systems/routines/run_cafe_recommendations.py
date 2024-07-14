@@ -13,7 +13,7 @@ def _run_cafe_recommendations() -> Dict[str, List[str]]:
     all_cafe: list[Cafe] = DButils.get_all_cafe()
     recommendations: dict[str, list[str]] = {}
     try:
-        for _, user in enumerate( tqdm(users, desc="Running cafe recommendations") ):
+        for _, user in enumerate( tqdm(users, desc="Finding cafe recommendations") ):
             recommendations[user['user_id']] = collaborative.main(users=users, user=user).extend( content_based.main(all_cafe=all_cafe, user=user) )
         return recommendations
     except ValueError as e:

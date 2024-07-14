@@ -2,7 +2,7 @@ from recommender_systems.systems.items_recommenders import collaborative_filteri
 from recommender_systems.systems.items_recommenders import content_based_filtering as CBF
 from recommender_systems.systems.items_recommenders import knowledge_based as KBR
 from app.models.user_model import User
-from app.models.cafe_model import Cafe
+from app.models.cafe_model import Cafe, MenuItem
 from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
 from typing import List, Dict
 from recommender_systems.utils.api_calls import UserRecommenderApi, AuthApi
@@ -22,9 +22,9 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
     list_cafe: list[Cafe] = DButils.get_all_cafe()
     recommendations: dict[str, dict[str, list[str]]] = {}
     try:
-        for _, user in enumerate(tqdm(users, desc="Running users recommendations")):
+        for _, user in enumerate(tqdm(users, desc="Finding users recommendations")):
             if user['user_id'] not in recommendations:
-                cafes: dict[str, list[str]] = {}
+                cafes_recommendations: dict[str, list[str]] = {}
                 cf_recommendations: list[str] = CF.main(users, user)
                 for cafe in list_cafe:
                     cafe_slug: str = cafe['slug']
@@ -33,22 +33,42 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
                     content_based: list[str] = Utilitaries.filter_items_by_cafe(CBF.main(user, cafe), cafe_slug)
                     knowledge_based: list[str] = Utilitaries.filter_items_by_cafe(KBR.main(cafe, user), cafe_slug)
 
-                    if cafe_slug not in cafes:
-                        cafes[cafe_slug] = []
+                    if cafe_slug not in cafes_recommendations:
+                        cafes_recommendations[cafe_slug] = []
 
-                    cafes[cafe_slug].extend(collab_filtering)
-                    cafes[cafe_slug].extend(content_based)
-                    cafes[cafe_slug].extend(knowledge_based)
+                    list_items_recommended = []
+
+                    list_items_recommended.extend(collab_filtering)
+                    list_items_recommended.extend(content_based)
+                    list_items_recommended.extend(knowledge_based)
+
+                    cafes_recommendations[cafe_slug] = list( set(list_items_recommended) )
                 
-                recommendations[user['user_id']] = cafes
+                recommendations[user['user_id']] = cafes_recommendations
 
         #TODO Define a proportion ofr recommendations.
 
-        return recommendations
+        sorted_recommendations: dict[str, dict[str, list[str]]] = _sort_recommendations(recommendations)
+
+        return sorted_recommendations
 
     except ValueError as e:
         print(e)
         return {}
+    
+def _sort_recommendations(recommendations: Dict[str, Dict[str, List[str]]]) -> Dict[str, Dict[str, List[str]]]:
+    sorted_recommendations: dict[str, dict[str, list[str]]] = {}
+    for _, user in enumerate(tqdm(recommendations.keys(), desc="Sorting recommendations")):
+        cafes_sorted: dict[str, list[str]] = {}
+        for cafe_slug in recommendations[user].keys():
+            items: list[MenuItem] = []
+            for item_slug in recommendations[user][cafe_slug]:
+                items.append( DButils.get_item(cafe_slug, item_slug) )
+            cafes_sorted[cafe_slug] = Utilitaries.sort_by_health_score(items)
+
+        sorted_recommendations[user] = cafes_sorted
+
+    return sorted_recommendations
 
 # Update recommendations for each user in the database.
 def update_users_recommendations() -> None:

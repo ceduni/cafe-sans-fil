@@ -94,7 +94,7 @@ def update_item_cluster():
     auth_token = AuthApi.auth_login()
     all_cafe: list[Cafe] = DButils.get_all_cafe()
     clusters: dict[str, list[MenuItem]] = _clusters()
-    for _, cluster in enumerate(tqdm(clusters.keys(), desc="Updating item's cluster")):
+    for _, cluster in enumerate(tqdm(clusters.keys(), desc="Updating items clusters")):
         for item in clusters[cluster]:
             cafes: List[Cafe] = Utilitaries.find_cafe_by_item(all_cafe, item)
             for cafe in cafes:

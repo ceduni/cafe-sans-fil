@@ -1,4 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import (
+    APIRouter,
+    HTTPException,
+    status,
+    Depends,
+)
 from app.schemas.recommendation_schema import ItemRecommendationOut, ItemRecommendationUpdate, CafeRecommendationOut, CafeRecommendationUpdate
 from app.models.user_model import User
 from app.services.recommendation_service import RecommendationService
@@ -77,7 +82,13 @@ async def update_public_recommendations(
     description="Retrive a list of all bot recommendations"
 )
 async def get_bot_recommendations(cafe_slug: str):
-    return await RecommendationService.get_bot_recommendations(cafe_slug)
+    recs = await RecommendationService.get_bot_recommendations(cafe_slug)
+    if not recs:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Recommendation not found"
+        )
+    return recs
 
 @recs_router.put(
     "/recommendations/bot/{cafe_slug}",
@@ -103,7 +114,13 @@ async def update_bot_recommendations(
     description="Get an existing cafe recommendation"
 )
 async def get_user_cafe_recommendations(user_id: str):
-    return await RecommendationService.get_user_cafe_recommendations(user_id)
+    recs = await RecommendationService.get_user_cafe_recommendations(user_id)
+    if not recs:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Recommendation not found"
+        )
+    return recs
 
 @recs_router.put(
     "/recommendations/cafe/{user_id}",
@@ -115,4 +132,12 @@ async def update_user_cafe_recommendations(
         data: CafeRecommendationUpdate,
         user_id: str
 ):
-    return await RecommendationService.update_user_cafe_recommendations(user_id, data)
+    try:
+        return await RecommendationService.update_user_cafe_recommendations(user_id, data)
+    except ValueError as e:
+        error_message = str(e)
+        if error_message == "Recommendation not found":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, 
+                detail=error_message
+            )

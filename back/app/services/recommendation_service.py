@@ -47,7 +47,10 @@ class RecommendationService:
     async def update_user_cafe_recommendations(user_id: str, data: CafeRecommendationUpdate):
         update_data = data.model_dump(exclude_unset=True)
         recommendations = await RecommendationService.get_user_cafe_recommendations(user_id)
-        await recommendations.update(update_data)
+        if recommendations:
+            await recommendations.update(update_data)
+        else:
+            raise ValueError("Recommendation not found")
         return recommendations
     
     @staticmethod
