@@ -22,7 +22,6 @@ const filterTypes = [
 
 const Filters = ({ filters, setFilters, cafes }) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const { isLoggedIn } = useAuth();
 
   const generatedSortOptions = cafes
     ? [
@@ -48,18 +47,7 @@ const Filters = ({ filters, setFilters, cafes }) => {
     }
     return shortPavillon;
   };
-
-  const [displayRecCafeButton, setDisplayRecCafeButton] = useState(false);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      setDisplayRecCafeButton(true);
-    } else {
-      setDisplayRecCafeButton(false);
-    }
-  }, [isLoggedIn]);
-
-
+ 
   return (
     <>
       {/* Mobile filter dialog */}
@@ -142,16 +130,6 @@ const Filters = ({ filters, setFilters, cafes }) => {
       <div>
         <div className="flex items-baseline justify-end border-b border-gray-200 pb-6">
           <div className="flex items-center select-none">
-            <div className="flex items-center sm:mr-8 mr-4">
-              {displayRecCafeButton && 
-                <Switch
-                  checked={filters.recommendations}
-                  onChange={(e) => setFilters({ ...filters, recommendations: e })}
-                  label="Cafés recommandés"
-                />
-              }
-            </div>
-
             <div className="flex items-center sm:mr-8 mr-4">
               <Switch
                 checked={filters.openOnly}

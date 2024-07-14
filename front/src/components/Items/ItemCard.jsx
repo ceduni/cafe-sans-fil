@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductView from "@/components/Items/ProductView";
 import { useCart } from "react-use-cart";
 import toast from "react-hot-toast";
@@ -7,6 +7,10 @@ import { formatPrice, getIdFromSelectedOptions } from "@/utils/cart";
 import classNames from "classnames";
 import { OUT_OF_STOCK_TEXT } from "@/utils/items";
 import EditItemView from "@/components/Items/EditItemView";
+import getCurrentUser from "@/utils/users";
+import { useAuth } from "@/hooks/useAuth";
+import AllergenSticker from "../AllergenSticker";
+import { ALLERGEN_II, ALLERGEN_III } from "@/utils/items";
 
 const ItemCard = ({ item, cafeSlug, edit, onItemUpdate }) => {
   const [itemPreviewOpen, setItemPreviewOpen] = useState(false);
@@ -14,6 +18,11 @@ const ItemCard = ({ item, cafeSlug, edit, onItemUpdate }) => {
 
   const [selectedOptions, setSelectedOptions] = useState({});
   const [itemFinalPrice, setItemFinalPrice] = useState(item.price);
+
+  const [isAllergenic, setIsAllergenic] = useState(false);
+  const [level, setLevel] = useState(2);
+
+  const { isLoggedIn } = useAuth();
 
   const { addItem } = useCart();
   const handleAddToCart = async (e, setIsAddingToCart) => {
@@ -32,6 +41,21 @@ const ItemCard = ({ item, cafeSlug, edit, onItemUpdate }) => {
     toast.success(`${item.name} a été ajouté au panier`);
     setIsAddingToCart(false);
   };
+
+  useEffect(() => {
+    const checkIsAllergenic = async () => {
+      if (!isLoggedIn) return;
+      const currentUser = await getCurrentUser();
+      const userAllergens = currentUser.diet_profile.allergens;
+      const res = item.allergens.filter((allergen) => userAllergens[allergen] ? allergen : null);
+      const levels = res.map((allergen) => userAllergens[allergen]);
+      if (levels.length > 0) {
+        setLevel(Math.max(...levels));
+        setIsAllergenic(true);
+      }
+    };
+    checkIsAllergenic()
+  }, [])
 
   return (
     <>
@@ -75,6 +99,13 @@ const ItemCard = ({ item, cafeSlug, edit, onItemUpdate }) => {
               {OUT_OF_STOCK_TEXT}
             </div>
           )}
+          <div className="relative w-32 p-0">
+            {
+              isLoggedIn && isAllergenic && (
+                <AllergenSticker level={level} />
+              )
+            }
+          </div>
         </div>
         <h3 className={classNames("mt-4 font-semibold tracking-tight text-gray-800", { "opacity-60": !item.in_stock })}>
           {item.name || "Sans nom"}

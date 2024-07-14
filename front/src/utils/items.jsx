@@ -1,5 +1,7 @@
 export const IN_STOCK_TEXT = "En stock";
 export const OUT_OF_STOCK_TEXT = "Épuisé";
+export const ALLERGEN_II = "Allergène 2";
+export const ALLERGEN_III = "Allergène 3";
 
 // On récupère les catégories de produits proposées par le café, sans doublons
 export const getCafeCategories = (menuItems) => {
