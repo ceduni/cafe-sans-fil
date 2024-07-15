@@ -14,12 +14,13 @@
   "sidebar_notification": "Notification",
   "sidebar_logOut": "Déconnexion",
   "turnover_text": "Chiffre d'affaires",
-  "sales_numbers_text": "Nombrs de ventes",
+  "sales_numbers_text": "Nombres de ventes",
   "evolution_of_sales_title": "Évolution des ventes",
   "turnover_over_the_period_text": "Chiffre d'affaires sur la période",
-  "profits_over_the_period_text": "Bénéfices sur la période",
+  "profits_over_the_period_text": "Bénéfices ",
   "alerts_title": "Alertes",
   "sales_by_category_title": "Ventes par catégorie",
   "select_language_text": "Sélectionner la langue",
-  "choose_period": "Choisissez la période"
+  "choose_period": "Choisissez la période",
+  "low_quantity":"Produit en faible quantié"
 }

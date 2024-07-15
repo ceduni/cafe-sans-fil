@@ -1,4 +1,8 @@
 import 'package:app/modeles/Order.dart';
+import 'package:app/modeles/Stock.dart';
+import 'package:app/screens/main screens/FlashMessage.dart';
+import 'package:app/screens/main%20screens/FlashingText.dart';
+import 'package:app/services/stockService.dart';
 import 'package:app/provider/period_selector_provider.dart';
 import 'package:app/screens/side%20bar/side_bar.dart';
 import 'package:app/services/productService.dart';
@@ -7,8 +11,11 @@ import 'package:app/widgets/financial_data_row.dart';
 import 'package:app/widgets/histogram/custom_bar_chart.dart';
 import 'package:app/widgets/period_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
+
+//import 'flash_message.dart'; // Import the FlashMessage widget
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -41,26 +48,36 @@ class _DashboardState extends State<Dashboard> {
   double augProfit = 0.0;
 
   final ProductService productService = ProductService();
+  final StockService stockService = StockService();
   double turnOver = 0.0;
   int salesNumbers = 0;
+  List<Stock> lowStocks = [];
+  List<Stock> stocks = [];
 
   @override
   void initState() {
     super.initState();
-    fetchOrders();
+    fetch();
     calculateTurnOverAndProfit();
   }
 
-  Future<void> fetchOrders() async {
+  Future<void> fetch() async {
     try {
       List<Order> fetchedOrders = await productService.fetchOrders();
+      stocks = await stockService.getStocks();
+      
+
       setState(() {
         orders = fetchedOrders;
         turnOver = Order.turnOver(orders);
         salesNumbers = Order.numOfOrder(orders);
+        lowStocks = Stock.lowQuantity(stocks);
         isLoading = false;
         calculateTurnOverAndProfit();
       });
+
+      // Show flash message if product quantity is low
+      checkProductQuantities();
     } catch (error) {
       setState(() {
         isLoading = false;
@@ -80,15 +97,47 @@ class _DashboardState extends State<Dashboard> {
       augTurnOver = Order.turnOverDate(orders, 8);
 
       janProfit = Order.calculateProfit(janTurnOver);
-      print(janProfit);
       febProfit = Order.calculateProfit(febTurnOver);
-      print(febProfit);
       marProfit = Order.calculateProfit(marTurnOver);
       aprProfit = Order.calculateProfit(aprTurnOver);
       mayProfit = Order.calculateProfit(mayTurnOver);
       junProfit = Order.calculateProfit(junTurnOver);
       julProfit = Order.calculateProfit(julTurnOver);
       augProfit = Order.calculateProfit(augTurnOver);
+    });
+  }
+
+  void checkProductQuantities() {
+    
+    
+      for (Stock stock in lowStocks) {
+       // Example condition for low stock
+        showFlashMessage(context, 'Le Product ${stock.itemName} a une quantite faible en stock!');
+   
+     }
+    
+    
+  }
+
+  void showFlashMessage(BuildContext context, String message) {
+    OverlayState? overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 50,
+        left: 0,
+        right: 0,
+        child: Material(
+          color: Colors.transparent,
+          child: FlashMessage(message: message),
+        ),
+      ),
+    );
+
+    overlayState.insert(overlayEntry);
+
+    // Remove the flash message after 3 seconds
+    Future.delayed(Duration(seconds: 5), () {
+      overlayEntry.remove();
     });
   }
 
@@ -117,169 +166,269 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.turnover_text,
-                            style: const TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 10.0),
-                          Text(
-                            '${turnOver.toStringAsFixed(2)} CAD',
-                            style: const TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 40.0),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.sales_numbers_text,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 10.0),
-                          Text(
-                            '$salesNumbers',
-                            style: const TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 30.0),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      AppLocalizations.of(context)!.evolution_of_sales_title,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: 300,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 138, 199, 249),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
+                  const SizedBox(height: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          AppLocalizations.of(context)!.choose_period,
-                          style: const TextStyle(color: Colors.white),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.lightBlue[100],
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.turnover_text,
+                                  style: const TextStyle(
+                                    fontSize: 15.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  softWrap: true,
+                                ),
+                                const SizedBox(height: 10.0),
+                                Text(
+                                  '${turnOver.toStringAsFixed(2)} CAD',
+                                  style: const TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        const PeriodSelector(),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.lightBlue[100],
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.profits_over_the_period_text,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  softWrap: true,
+                                ),
+                                const SizedBox(height: 10.0),
+                                // -- profit --
+                                Text(
+                                  '${Order.calculateProfit(Order.turnOver(orders, startDate: context.watch<PeriodSelectorProvider>().getFormattedStartDate(), endDate: context.watch<PeriodSelectorProvider>().getFormattedEndDate()))}',
+                                  style: const TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  Text(
-                    'Période : ${context.watch<PeriodSelectorProvider>().getFormattedStartDate()} - ${context.watch<PeriodSelectorProvider>().getFormattedEndDate()}',
+                  const SizedBox(height: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlue[100],
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                           // -------------------Date selector------------------------------
+                          Container(
+                            alignment: Alignment.center,
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 138, 199, 249),
+                                borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.choose_period,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                const PeriodSelector(),
+                              ],
+                            ),
+                          ),
+                          // -------------------Date selector text ------------------------------
+                          const SizedBox(height: 10),
+                          Text(
+                            'Période : ${context.watch<PeriodSelectorProvider>().getFormattedStartDate()} - ${context.watch<PeriodSelectorProvider>().getFormattedEndDate()}',
+                            softWrap: true,
+                          ),
+                          // ---- histogram ----
+                          SizedBox(
+                            height: 211,
+                            child: CustomBarChart(
+                              allValues: [
+                                [janProfit, janTurnOver],
+                                [febProfit, febTurnOver],
+                                [marProfit, marTurnOver],
+                                [aprProfit, aprTurnOver],
+                                [mayProfit, mayTurnOver],
+                                [junProfit, junTurnOver],
+                                [julProfit, julTurnOver],
+                                [augProfit, augTurnOver],
+                              ],
+                              type: 0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 35.0),
-                  SizedBox(
-                    width: 350,
-                    height: 200,
-                    child: CustomBarChart(
-                      allValues: [
-                        [janProfit, janTurnOver],
-                        [febProfit, febTurnOver],
-                        [marProfit, marTurnOver],
-                        [aprProfit, aprTurnOver],
-                        [mayProfit, mayTurnOver],
-                        [junProfit, junTurnOver],
-                        [julProfit, julTurnOver],
-                        [augProfit, augTurnOver],
+                  const SizedBox(height: 10.0),
+                  // -------------------Alerts------------------------------   
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+        
+                    child: Container(
+                      width: double.infinity,
+                      height: 200,
+                      padding: const EdgeInsets.all(20.0),
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlue[100],
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.alerts_title,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          ...lowStocks.map((stock) =>  Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5.0),
+                            child: FlashingText(
+                              text: 'Product ${stock.itemName} is low in stock with quantity ${stock.quantity}',
+                            ),
+                            )).toList(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // -------------------sells by category ------------------------------
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                    
+                      //padding: const EdgeInsets.only(top: 20.0, ),
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlue[100],
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              
+                              children: [
+                                Text(
+                                  '${AppLocalizations.of(context)!.sales_by_category_title} ',
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                ),
+                                Text(
+                                  '(${AppLocalizations.of(context)!.turnover_text})',
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                  ),
+                            ),
+                              ],
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 10),
+                           SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              width: MediaQuery.of(context).size.width * 0.9,
+                             child: ColorListChart(
+                                allValues: const {
+                                  'lait': 39500,
+                                  'pain': 300070,
+                                  'hot-dog': 343222,
+                                  'pizza': 450000,
+                                },
+                                unity: 'CAD',
+                                orderMap: false,
+                              ),
+                           ),
                       ],
-                      type: 0,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Column(
-                    children: [
-                      FinancialDataRow(
-                        title: AppLocalizations.of(context)!
-                            .turnover_over_the_period_text,
-                        value:
-                            '${Order.turnOver(orders, startDate: context.watch<PeriodSelectorProvider>().getFormattedStartDate(), endDate: context.watch<PeriodSelectorProvider>().getFormattedEndDate()).toStringAsFixed(2)} CAD',
-                      ),
-                      FinancialDataRow(
-                        title: AppLocalizations.of(context)!
-                            .profits_over_the_period_text,
-                        value:
-                            '${Order.calculateProfit(Order.turnOver(orders, startDate: context.watch<PeriodSelectorProvider>().getFormattedStartDate(), endDate: context.watch<PeriodSelectorProvider>().getFormattedEndDate()))}',
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      AppLocalizations.of(context)!.alerts_title,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
                       ),
                     ),
                   ),
-                  Container(
-                    width: 350,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 138, 199, 249),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      '${AppLocalizations.of(context)!.sales_by_category_title} (${AppLocalizations.of(context)!.turnover_text})',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  ColorListChart(
-                    allValues: const {
-                      'lait': 39500,
-                      'pain': 300070,
-                      'hot-dog': 343222,
-                      'pizza': 450000,
-                    },
-                    unity: 'CAD',
-                    orderMap: false,
-                  ),
+                 
                 ],
               ),
             ),

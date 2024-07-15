@@ -50,7 +50,7 @@ class ColorListChart extends StatelessWidget {
       orderIndex = 1;
     }
 
-    double resize = 0.90;
+    double resize = 0.85;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

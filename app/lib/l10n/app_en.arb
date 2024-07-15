@@ -1,5 +1,5 @@
 {
-  "pagesTitles_dashboardTitle": "Dashboard",
+  "pagesTitles_dashboardTitle": "DashBoard",
   "@pagesTitles_dashboardTitle": {
     "description": "Title of the dashboard page"
   },
@@ -90,5 +90,9 @@
   "choose_period": "Choose Period",
   "@choose_period": {
     "description": "Label for selecting a time period in the app"
+  },
+  "low_quantity":"product is low in stock",
+  "@low_quantity": {
+    "description": "Label to display alert"
   }
 }

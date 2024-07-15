@@ -58,7 +58,7 @@ class ColorLine extends StatelessWidget {
           child: Text(
             '$value $unity ($percent %)',
             style: const TextStyle(
-              fontSize: 16.0,
+              fontSize: 15.4,
               fontWeight: FontWeight.bold,
             ),
           ),
