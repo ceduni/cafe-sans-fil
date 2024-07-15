@@ -300,3 +300,14 @@
 ### Réalisations
 
 - Début de l'implémentation des end points bénévole et horaire
+
+## Semaine 10 (2024-07-08)
+
+### Objectifs
+
+- Connecter le dashbord au back-end
+- Implémenter les end points bénévole et horaire
+
+### Réalisations
+
+- fin de l'implémentation des end points bénévole et horaire (connection avec les collections users, shifts et cafes)
