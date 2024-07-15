@@ -15,23 +15,17 @@ export class MainController {
   public constructor() {
     this.app = express();
     this.PORT = process.env.PORT || 3000;
+
     this.productRoute = new ProductRoutes();
     this.userRoute = new UserRoutes();
     this.shiftRoute = new ShiftRoutes();
     this.cafeRoute = new CafeRoutes();
 
     this.init();
-
-    // this.router = Router()
   }
 
   private init() {
-    this.getSales();
-
-    // Middleware
-    // this.app.use(bodyParser.json());
-
-    // Routes
+    this.getAllRoutes();
   }
 
   public getIndex(path: string): void {
@@ -51,7 +45,7 @@ export class MainController {
    * @returns
    */
 
-  public getSales() {
+  public getAllRoutes() {
     // console.log(`this is my Routes ${this.productRoute.router}`);
     this.app.use("/api/v1", this.productRoute.router);
     this.app.use("/api/v1", this.cafeRoute.router);
