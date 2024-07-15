@@ -1,3 +1,5 @@
+import 'package:app/modeles/Stock.dart';
+
 import 'OrderItem.dart';
 
 
@@ -59,24 +61,39 @@ class Order{
 
 
   static double  turnOver(List<Order> orders, {String startDate = "date", String endDate = "Date"}){
-    double sum = 0;
-    if(startDate == "date" || endDate == "Date" ){
-        for( Order o in orders){
-        sum += o.totalPrice;
-      }
-    }
-    else {
-      DateTime start = parseDate(startDate);
-      DateTime end = parseDate(endDate);
-       for( Order o in orders){
-        if(isDateInRange(o.createdAt, start, end)){
-          sum += o.totalPrice;
-        }
-      }
+          print("IN TURNOVER");
+          double sum = 0;
+          if(startDate == "date" || endDate == "Date" ){
+              print("IN IF");
+              DateTime startfallSemester = DateTime(DateTime.now().year,9,15);
+              DateTime endfallSemester = DateTime(DateTime.now().year,12,31);
 
-    }
-    return double.parse(sum.toStringAsFixed(4));
+              DateTime startWinterSemester = DateTime(DateTime.now().year,1,15);
+              DateTime endWinterSemester = DateTime(DateTime.now().year,4,31);
+
+            for( Order o in orders){
+              if(isDateInRange(o.createdAt, startfallSemester, DateTime.now()) || isDateInRange(o.createdAt, startWinterSemester, DateTime.now())){
+                sum += o.totalPrice;
+              }
+            }
+
+
+          }  
+          else {
+            print("IN ELSE");
+            DateTime start = parseDate(startDate);
+            DateTime end = parseDate(endDate);
+            for( Order o in orders){
+              if(isDateInRange(o.createdAt, start, end)){
+                sum += o.totalPrice;
+              }
+            }
+
+          }
+          return double.parse(sum.toStringAsFixed(4));
   }
+
+ 
 /// this function return a turnover of a given month
 /// given a list of orders and a month
   static double turnOverDate(List<Order> orders, int month){
@@ -113,6 +130,26 @@ class Order{
     return turnOver - 500 ;
   }
 
+  static Map<String,dynamic> revenueByCategory(List<Order> orders, List<Stock> stock){
+    Map<String,dynamic> revenue = {};
+    for(Order o in orders){
+      for(OrderItem item in o.items){
+        for(Stock s in stock){
+          if(item.itemSlug == s.itemName){
+            if(revenue.containsKey(s.category)){
+              revenue[s.category] += item.itemPrice;
+            }
+            else{
+              revenue[s.category] = item.itemPrice;
+            }
+          }
+        }
+      }
+    }
+    return revenue;
+    
+  }
+
   
  @override
   String toString() {
@@ -133,3 +170,4 @@ class Order{
 
   
 }
+

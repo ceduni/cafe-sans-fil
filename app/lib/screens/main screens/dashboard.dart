@@ -53,10 +53,12 @@ class _DashboardState extends State<Dashboard> {
   int salesNumbers = 0;
   List<Stock> lowStocks = [];
   List<Stock> stocks = [];
+  Map<String, dynamic> revenueByCategory = {};
 
   @override
   void initState() {
     super.initState();
+    print("Fetching data");
     fetch();
     calculateTurnOverAndProfit();
   }
@@ -64,14 +66,25 @@ class _DashboardState extends State<Dashboard> {
   Future<void> fetch() async {
     try {
       List<Order> fetchedOrders = await productService.fetchOrders();
+      print("Fetched orders: ${fetchedOrders.length}");
       stocks = await stockService.getStocks();
+      print("Fetched stocks: ${stocks.length}");
+      revenueByCategory = Order.revenueByCategory(fetchedOrders, stocks);
+
+      //String startDate = context.watch<PeriodSelectorProvider>().getFormattedStartDate();
+      //String endDate = context.watch<PeriodSelectorProvider>().getFormattedEndDate();
+      //print("Start date: $startDate, End date: $endDate");
+      
       
 
       setState(() {
         orders = fetchedOrders;
-        turnOver = Order.turnOver(orders);
+        turnOver = Order.turnOver(orders,startDate: 'date', endDate: 'Date');
+        print(turnOver);
         salesNumbers = Order.numOfOrder(orders);
+        
         lowStocks = Stock.lowQuantity(stocks);
+        
         isLoading = false;
         calculateTurnOverAndProfit();
       });
@@ -136,13 +149,19 @@ class _DashboardState extends State<Dashboard> {
     overlayState.insert(overlayEntry);
 
     // Remove the flash message after 3 seconds
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       overlayEntry.remove();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    String startDate = context.watch<PeriodSelectorProvider>().getFormattedStartDate();
+    String endDate = context.watch<PeriodSelectorProvider>().getFormattedEndDate();
+    
+    if(startDate != endDate){
+      turnOver = Order.turnOver(orders, startDate: startDate, endDate: endDate);
+    }
     return Scaffold(
       drawer: const Sidebar(),
       appBar: AppBar(
@@ -200,14 +219,26 @@ class _DashboardState extends State<Dashboard> {
                                   softWrap: true,
                                 ),
                                 const SizedBox(height: 10.0),
-                                Text(
-                                  '${turnOver.toStringAsFixed(2)} CAD',
-                                  style: const TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                                // -- turnover --
+                                if(startDate != endDate)
+                                    Text(
+                                      '${turnOver.toStringAsFixed(2)} CAD',
+                                      style: const TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                else
+                                  Text(
+                                    '${turnOver.toStringAsFixed(2)} CAD',
+                                    style: const TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
+                                
                               ],
                             ),
                           ),
@@ -243,7 +274,7 @@ class _DashboardState extends State<Dashboard> {
                                 const SizedBox(height: 10.0),
                                 // -- profit --
                                 Text(
-                                  '${Order.calculateProfit(Order.turnOver(orders, startDate: context.watch<PeriodSelectorProvider>().getFormattedStartDate(), endDate: context.watch<PeriodSelectorProvider>().getFormattedEndDate()))}',
+                                  '${Order.calculateProfit(turnOver).toStringAsFixed(2)} CAD',
                                   style: const TextStyle(
                                     fontSize: 20.0,
                                     color: Colors.black,
@@ -414,11 +445,9 @@ class _DashboardState extends State<Dashboard> {
                               height: MediaQuery.of(context).size.height * 0.3,
                               width: MediaQuery.of(context).size.width * 0.9,
                              child: ColorListChart(
-                                allValues: const {
-                                  'lait': 39500,
-                                  'pain': 300070,
-                                  'hot-dog': 343222,
-                                  'pizza': 450000,
+                                allValues: {
+                                  for (var entry in revenueByCategory.entries)
+                                    entry.key: entry.value,
                                 },
                                 unity: 'CAD',
                                 orderMap: false,
