@@ -1,21 +1,25 @@
-import express, {
-  Application,
-  NextFunction,
-  Router,
-  Request,
-  Response,
-} from "express";
+import express, { Application } from "express";
 import { ProductRoutes } from "../routes/productRoutes";
+import { UserRoutes } from "../routes/userRoutes";
+import { CafeRoutes } from "../routes/cafeRoutes";
+import { ShiftRoutes } from "../routes/shiftRoutes";
 
 export class MainController {
   private app: Application;
   private readonly PORT;
   private productRoute: ProductRoutes;
+  private userRoute: UserRoutes;
+  private shiftRoute: ShiftRoutes;
+  private cafeRoute: CafeRoutes;
 
   public constructor() {
     this.app = express();
     this.PORT = process.env.PORT || 3000;
     this.productRoute = new ProductRoutes();
+    this.userRoute = new UserRoutes();
+    this.shiftRoute = new ShiftRoutes();
+    this.cafeRoute = new CafeRoutes();
+
     this.init();
 
     // this.router = Router()
@@ -23,6 +27,11 @@ export class MainController {
 
   private init() {
     this.getSales();
+
+    // Middleware
+    // this.app.use(bodyParser.json());
+
+    // Routes
   }
 
   public getIndex(path: string): void {
@@ -45,6 +54,9 @@ export class MainController {
   public getSales() {
     // console.log(`this is my Routes ${this.productRoute.router}`);
     this.app.use("/api/v1", this.productRoute.router);
+    this.app.use("/api/v1", this.cafeRoute.router);
+    this.app.use("/api/v1", this.userRoute.router);
+    this.app.use("/api/v1", this.shiftRoute.router);
   }
   /**
    * this method will call the Productcontroller class to
