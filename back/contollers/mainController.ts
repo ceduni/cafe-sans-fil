@@ -3,10 +3,12 @@ import { ProductRoutes } from "../routes/productRoutes";
 import { UserRoutes } from "../routes/userRoutes";
 import { CafeRoutes } from "../routes/cafeRoutes";
 import { ShiftRoutes } from "../routes/shiftRoutes";
+import { Database } from "../src/database/DataBase";
 
 export class MainController {
   private app: Application;
   private readonly PORT;
+  private database: Database;
   private productRoute: ProductRoutes;
   private userRoute: UserRoutes;
   private shiftRoute: ShiftRoutes;
@@ -15,6 +17,9 @@ export class MainController {
   public constructor() {
     this.app = express();
     this.PORT = process.env.PORT || 3000;
+    this.database = new Database(
+      "mongodb+srv://cafe:sans-fil@cluster0.ti5co91.mongodb.net/sales?retryWrites=true&w=majority"
+    );
 
     this.productRoute = new ProductRoutes();
     this.userRoute = new UserRoutes();
@@ -25,6 +30,7 @@ export class MainController {
   }
 
   private init() {
+    this.database.connect();
     this.getAllRoutes();
   }
 
@@ -40,8 +46,11 @@ export class MainController {
     });
   }
 
+  public async closeDatabaseConnection() {
+    await this.database.disconnect();
+  }
+
   /**
-   *
    * @returns
    */
 

@@ -24,9 +24,10 @@ export class UserRoutes {
     return this._router;
   }
 
-  public async getUser(req: Request, res: Response): Promise<void> {
+  public async getUser(req: Request, res: Response) {
     try {
       const users = await this.userService.getUser();
+
       res.status(200).send({
         message: "Success",
         Users: users,
@@ -40,7 +41,7 @@ export class UserRoutes {
     }
   }
 
-  public async getUserByEmail(req: Request, res: Response): Promise<void> {
+  public async getUserByEmail(req: Request, res: Response) {
     try {
       const email = req.params.email;
       const user: IUser | null = await this.userService.getUserByEmail(email);
@@ -57,7 +58,7 @@ export class UserRoutes {
     }
   }
 
-  public async getUserByMatricule(req: Request, res: Response): Promise<void> {
+  public async getUserByMatricule(req: Request, res: Response) {
     try {
       const matricule = req.params.matricule;
       const user: IUser | null = await this.userService.getUserByMatricule(

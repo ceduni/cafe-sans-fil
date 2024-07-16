@@ -1,21 +1,20 @@
-import {MainController} from '../contollers/mainController';
-import request from 'supertest';
+import { MainController } from "../contollers/mainController";
+import request from "supertest";
 
-describe('Get /', () => {
-    let server: MainController;
+describe("Get /", () => {
+  let server: MainController;
 
-    beforeAll(() => {
+  afterAll(async () => {
+    await server.closeDatabaseConnection();
+  });
 
-        server = new MainController();
-        server.getIndex('/');
+  beforeAll(() => {
+    server = new MainController();
+    server.getIndex("/");
+  });
 
-    });
-
-
-    it('should respond with a 200 status ', async () => {
-        const response = await request(server.App).get('/');
-        expect(response.status).toBe(200);
-    });
-
+  it("should respond with a 200 status ", async () => {
+    const response = await request(server.App).get("/");
+    expect(response.status).toBe(200);
+  });
 });
-
