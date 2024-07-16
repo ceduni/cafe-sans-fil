@@ -60,13 +60,13 @@ class RootPage extends StatefulWidget {
 
 class _RootPageState extends State<RootPage> {
   int currentPage = 2;
-  List<Widget> pages = const [
+  List<Widget> pages =  [
     // barre de navigation
     Benevole(),
-    Evenement(),
-    Dashboard(),
-    Horaire(),
-    Article(),
+    const Evenement(),
+    const Dashboard(),
+    const Horaire(),
+    const Article(),
   ];
   @override
   Widget build(BuildContext context) {
