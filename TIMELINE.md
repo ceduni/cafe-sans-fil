@@ -258,6 +258,8 @@
 ### Objectifs
 
 - Début de l'implémentation du dashborad de l'application
+- Debut de l'implementation des endpoints du dashboard 
+- creation de la base de donnees avec des donnee fictive.
 
 ### Réalisations
 
@@ -266,6 +268,8 @@
 - Implémentation des principaux éléments du dashbord sur l'écran
   d'acceuil et accès au différents onglets de l'application (logo,
   histogramme, bar de navigation et drawer)
+- creation de la base de donnees avec des donnee 
+- implementation des premier endPoint.
 
 ### Resources
 
@@ -276,6 +280,8 @@
 ### Objectifs
 
 - Suite de l'implémentation du dashborad de l'application
+- Suite et fin des endpoints du dashboard
+- Modification de basedonnee (collection Orders) 
 
 ### Réalisations
 
@@ -284,6 +290,8 @@
 - Fin de l'implémentation des composantes du dashborad (color
   chart list pour une vue intuitive des ventes pas catégorie,
   revisite du code pour l'histogramme)
+- Modification de basedonnee (collection Orders) 
+- Suite et fin des endpoints du dashboard
 
 ### Resources
 
@@ -296,18 +304,25 @@
 
 - Connecter le dashbord au back-end
 - Implémenter les end points bénévole et horaire
+- Implementation de la page benevole 
 
 ### Réalisations
 
 - Début de l'implémentation des end points bénévole et horaire
+- Suite de l'implementation de l'implementation du dashboard
 
 ## Semaine 10 (2024-07-08)
 
 ### Objectifs
 
 - Connecter le dashbord au back-end
+- modification de UI pour une vue plus belle 
 - Implémenter les end points bénévole et horaire
+- Implementation de la page benevole
 
 ### Réalisations
 
-- fin de l'implémentation des end points bénévole et horaire (connection avec les collections users, shifts et cafes)
+- Fin de l'implémentation des end points bénévole et horaire (connection avec les collections users, shifts et cafes)
+- suite de l'implementation de l'implementation du dashboard
+- Debut de implementation de la page benvole
+
