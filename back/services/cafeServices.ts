@@ -54,6 +54,14 @@ export class CafeService {
       return [];
     }
   }
+
+  public async addVolunteerToCafeBy(cafe_name: string, matricule: string) {
+    /* {
+        "_id": "6696877b77e4709670766eaf",
+        "username": "20140716",
+        "role": "Admin"
+      } */
+  }
 }
 
 export default CafeService;

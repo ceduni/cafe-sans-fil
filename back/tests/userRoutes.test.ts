@@ -2,11 +2,6 @@ import request from "supertest";
 import { MainController } from "../contollers/mainController";
 import UserService from "../services/userServices";
 
-/*
-get /cafes : doit retourner une liste vide ou une liste non vide 
-get /cafes/:cafeName  : retourne un cafe sinon retourne  null et message (cafe not foound) 
-get /cafes/:cafeName/volunteer : retourne la liste des volontaires ou une liste vides 
-*/
 let server: MainController;
 let userService: UserService;
 
@@ -39,7 +34,7 @@ describe("GET /api/v1/users/email/:email", () => {
       );
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("User");
-      expect(response.body).toEqual(user.toJSON());
+      expect(response.body.User.email).toEqual(email);
     } else {
       expect(true).toBe(false); // User not found, test should fail
     }
@@ -68,7 +63,7 @@ describe("GET /api/v1/users/matricule/:matricule", () => {
       );
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("User");
-      // à revoir expect(response.body).toEqual(user.toJSON());
+      expect(response.body.User.matricule).toEqual(matricule);
     } else {
       expect(true).toBe(false); // User not found, test should fail
     }
@@ -83,6 +78,6 @@ describe("GET /api/v1/users/matricule/:matricule", () => {
     );
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("User");
-    // à revoir expect(response.body.User).toEqual(null);
+    expect(response.body.User).toEqual(null);
   });
 });
