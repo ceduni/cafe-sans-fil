@@ -61,8 +61,9 @@ async def create_cafes(usernames):
         for item in menu_items_data:
             item_copy = item.copy()
             item_copy["in_stock"] = random.random() < 0.80
-            item_copy["diets"] = random_diets()
-            item_copy["allergens"] = random_allergens()
+            #item_copy["diets"] = random_diets()
+            #item_copy["allergens"] = random_allergens()
+            item_copy["ingredients"] = random_ingredients()
             item_copy["likes"] = random_likes(usernames)
             item_copy["barecode"] = random_barecode()
             item_copy["nutritional_informations"] = random_nutritional_info()
@@ -249,13 +250,13 @@ def random_additional_info():
 
     return []
 
-def random_diets():
-    diets = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free"]
-    return random.sample(diets, random.randint(0, len(diets)))
+# def random_diets():
+#     diets = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free"]
+#     return random.sample(diets, random.randint(0, len(diets)))
 
-def random_allergens():
-    allergens = ["Peanuts", "Tree Nuts", "Dairy", "Soy", "Wheat", "Fish", "Shellfish", "lactose", "gluten"]
-    return random.sample(allergens, random.randint(0, len(allergens)))
+# def random_allergens():
+#     allergens = ["Peanuts", "Tree Nuts", "Dairy", "Soy", "Wheat", "Fish", "Shellfish", "lactose", "gluten"]
+#     return random.sample(allergens, random.randint(0, len(allergens)))
 
 def random_likes(usernames):
     likes_count = random.randint(0, len(usernames) // 2)
@@ -266,15 +267,44 @@ def random_barecode():
 
 def random_nutritional_info():
     nutritional_info = {
-        "calories": random.uniform(50, 500),
-        "protein": random.uniform(1, 20),
-        "lipid": random.uniform(1, 20),
-        "carbohydrates": random.uniform(1, 50),
-        "saturated_fat": random.uniform(1, 20),
-        "sodium": random.uniform(50, 500),
-        "sugar": random.uniform(1, 20),
-        "fiber": random.uniform(1, 20),
-        "percentage_fruit_vegetables_nuts": random.uniform(0, 100),
-        "vitamins": random.uniform(0, 100),
+        "calories": random.uniform(500, 3000),
+        "proteins": random.uniform(0, 50000),
+        "lipids": random.uniform(0, 78000),
+        "carbohydrates": random.uniform(0, 350000),
+        "saturated_fat": random.uniform(0, 30000),
+        "sodium": random.uniform(0, 3000),
+        "sugar": random.uniform(0, 50000),
+        "fiber": random.uniform(0, 30000),
+        "calcium": random.uniform(0, 2000),
+        "potassium": random.uniform(0, 1000),
+        "Magnesium": random.uniform(0, 500),
+        "iron": random.uniform(0, 20),
+        "zinc": random.uniform(1, 20),
+        "vitaminA": random.uniform(0, 100),
+        "vitaminC": random.uniform(0, 100),
+        "vitaminD": random.uniform(0, 100),
+        "vitaminE": random.uniform(0, 100),
+        "vitaminK": random.uniform(0, 100),
+        "vitaminB6": random.uniform(0, 100),
+        "vitaminB12": random.uniform(0, 100)
     }
     return nutritional_info
+
+def random_ingredients():
+    ingredients = [
+        "Lait",
+        "Oeuf",
+        "Poisson",
+        "Viande",
+        "Sucre",
+        "Pain",
+        "Fruits",
+        "Levure",
+        "Cafe",
+        "The",
+        "Coca",
+        "Cafeine",
+        "Chocolat",
+        "Yaourt"
+    ]
+    return random.sample(ingredients, random.randint(1, len(ingredients)))

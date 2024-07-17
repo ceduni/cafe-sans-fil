@@ -8,6 +8,36 @@ in which the mocked objects are passed as arguments to the test method, from lef
 '''
 
 class TestUtilitaries(unittest.TestCase):
+    def setUp(self) -> None:
+        self.diet_1 = {
+            "name": "diet1",
+            "description": "Gluten-free",
+            "forbidden_foods": ["tomate", "miel", "poisson"]
+        }
+
+        self.diet_2 = {
+            "name": "diet2",
+            "description": "Vegetarian",
+            "forbidden_foods": ["viande", "lait", "oeuf", "poisson"]
+        }
+
+        self.diet_3 = {
+            "name": "diet3",
+            "description": "Nut-free",
+            "forbidden_foods": ["porc", "ble", "alcool", "beurre"]
+        }
+
+        self.item_1 = {
+            'ingredients': ['pain', 'fraise'],
+        }
+
+        self.item_2 = {
+            'ingredients': ['viande', 'oeuf'],
+        }
+
+        self.item_3 = {
+            'ingredients': ['viande', 'tomate', 'alcool'],
+        }
 
     def test_jaccard_similarity(self):
         A = set(['A', 'B', 'C'])
@@ -231,6 +261,11 @@ class TestUtilitaries(unittest.TestCase):
         ]
 
         self.assertEqual(sort_by_health_score(items), ['item1', 'item3', 'item2'])
+
+    def test_find_item_diets_for_user(self):
+        self.assertCountEqual(find_item_diets_for_user(self.item_1, [self.diet_1, self.diet_2, self.diet_3]), ['diet1', 'diet2', 'diet3'])
+        self.assertCountEqual(find_item_diets_for_user(self.item_2, [self.diet_1, self.diet_2, self.diet_3]), ['diet1', 'diet3'])
+        self.assertCountEqual(find_item_diets_for_user(self.item_3, [self.diet_1, self.diet_2, self.diet_3]), [])
 
 class TestFindCafe(unittest.TestCase):
     def setUp(self):

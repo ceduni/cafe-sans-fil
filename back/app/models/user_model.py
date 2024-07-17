@@ -17,10 +17,9 @@ different from the API data interchange models.
 """
 
 class DietProfile(BaseModel):
-    diets: Optional[List[str]] = Field(None, description="User diets.")
-    food_categories: Optional[List[str]] = Field(None, description="Categories of foods preferred by the user.")
-    prefered_nutrients: Optional[List[str]] = Field(None, description="User's favorite nutrients.")
-    allergens: Optional[dict[str, int]] = Field(None, description="User allergens. {Key= allergen name: Value= danger level}")
+    diets: Optional[List[Dict[str, str | List[str]]]] = Field(None, description="User diets.")
+    prefered_nutrients: Optional[Dict[str, int]] = Field(None, description="User's favorite nutrients.")
+    allergens: Optional[Dict[str, int]] = Field(None, description="User allergens. {Key= allergen name: Value= danger level}")
 
 class User(Document):
     user_id: UUID = Field(default_factory=uuid4)

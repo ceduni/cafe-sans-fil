@@ -1,146 +1,145 @@
 ### Algorithme 4.3 ###
 from app.models.cafe_model import MenuItem, Cafe
 from app.models.user_model import User, DietProfile
-from recommender_systems.utils import db_utils as DButils
-from typing import List, Dict
+from recommender_systems.utils import db_utils as DButils, utilitaries as Utils
+import math
+from typing import List, Dict, Any
 
-# This method creates clusters based on the user preferences.
-# It takes the actual cafe as parameter and returns a dictionnary
-#
-#{
-# "diet": {
-#       "category_name": [items],
-#   },
-#}
-def diet_category_cluster(items: List[MenuItem]) -> Dict[str, Dict[str, List[str]]]:
+# This method regroups the list of items based on there diets.
+def regroup_by_diet(items: List[MenuItem], user_diets: List[Dict[str, str | list[MenuItem]]]) -> Dict[str, List[MenuItem]]:
     try:
-        if isinstance(items, list) == False or len(items) == 0:
-            raise TypeError("Argument must be a list of MenuItem")
-
-        clusters: dict[str, dict[str, list[str]]] = {}
-        for item in items:
-            diets: list[str] = item['diets']
-            if len(diets) > 0:
-                for diet in diets:
-                    if diet not in clusters:
-                        clusters[diet] = []
-                        clusters[diet].append(item)
-                    else:
-                        clusters[diet].append(item)
-            else:
-                clusters["no_diet"] = []
-                clusters["no_diet"].append(item)
-
-        diets: list[str] = list(clusters.keys())
-        for diet in diets:
-            items: list[str] = clusters[diet]
-            categories: dict[str, list[str]] = {}
-            for item in items:
-                if item['category'] not in categories:
-                    categories[item['category']] = []
-                categories[item['category']].append(item['slug'])
-            clusters[diet] = categories
+        if isinstance(items, list) == False:
+            raise TypeError("Argument must be a list.")
         
-        return clusters
+        if len(items) == 0 or len(user_diets) == 0:
+            return {}
+        
+        groups: dict[str, list[str]] = {}
+        for item in items:
+            item_diets: list[str] = Utils.find_item_diets_for_user(item, user_diets) # List of uer's diets where the item can be eaten
+            for diet in item_diets:
+                if diet not in groups:
+                    groups[diet] = []
+                groups[diet].append(item)
+
+        return groups
     except TypeError as e:
         print(e)
         return {}
 
-# This method takes the list of the user allergens and return the items slugs
-#  containing at least one of those allergens.
-def allergenic_foods(user_allergens: Dict[str, int], menu: List[MenuItem]) -> List[str]:
-    try:
-        if isinstance(user_allergens, dict) == False:
-            raise TypeError("Argument1 must be a dictionnary.")
-        
-        if isinstance(menu, list) == False:
-            raise TypeError("Argument2 must be a list.")
-        
-        if user_allergens == {} or len(menu) == 0:
-            return []
-        allergenic_items: list[str] = []
-        set_user_allergens: set = set( list(user_allergens.keys()) )
-        for item in menu:
-            if len(item['allergens']) > 0:
-                item_allergens: set = set(item['allergens'])
-                if len(set_user_allergens.intersection(item_allergens)) != 0:
-                    allergenic_items.append(item['slug'])
-        return allergenic_items
-
-    except TypeError as e:
-        print(e)
+# Return a list containing only items that contains at most level 1 allergens.
+def remove_allergenic_items(items: List[MenuItem], user_allergens: Dict[str, int]) -> List[str]:
+    result: set[str] = set()
+    if len(user_allergens) == 0 and len(items) != 0:
+        return list( map(lambda x: x['slug'], items) )
+    
+    if len(items) == 0:
         return []
+    
+    allergens: set[str] = set()
 
-def filter_by_categories(categories: List[Dict[str, List[str]]], prefered_categories: List[str]) -> list[str]:
-    recommendations: list[str] = []
-    for category in categories:
-        for prefered_category in prefered_categories:
-            if prefered_category in category:
-                recommendations.extend(category[prefered_category])
-    return recommendations
+    for allergen, level in zip(user_allergens.keys(), user_allergens.values()):
+        if level >= 2:
+            allergens.add(allergen)
 
-#TODO: Implement filter by nutrients preferences
-def filter_by_nutrients() -> list[str]:
-    return []
+    for item in items:
+        if len( set(item['ingredients']) & allergens ) == 0:
+            result.add(item['slug'])
+
+    return list(result)
+
+def _get_valid_items(items: List[MenuItem], user_prefered_nutrients: dict[str, int]) -> list[MenuItem]:
+    valid_items: set[str] = set()
+
+    for nutrient, level in zip(user_prefered_nutrients.keys(), user_prefered_nutrients.values()):
+        nutrient_dv: float = Utils.get_nutrient_daily_value(nutrient)
+
+        low_bound: float = 0
+        high_bound: float = 0
+
+        if level == 1:
+            low_bound, high_bound = 0, 90
+
+        elif level == 2:
+            low_bound, high_bound = 90, 110
+
+        elif level == 3:
+            low_bound, high_bound = 110, math.inf
+
+        else:
+            raise ValueError("Level must be between 1 and 3")
+
+        valid_items_for_nutrient: list[str] = []
+        for item in items:
+            percentage_dv = (item['nutritional_informations'][nutrient] / nutrient_dv) * 100
+            if low_bound <= percentage_dv < high_bound:
+                valid_items_for_nutrient.append(item)
+
+        valid_items_for_nutrient_set = set(map(lambda x: x['slug'] ,valid_items_for_nutrient))
+
+        if len(valid_items) == 0:
+            valid_items = valid_items_for_nutrient_set
+
+        valid_items = valid_items.intersection(valid_items_for_nutrient_set)
+
+    result: list[MenuItem] = []
+    for item_slug in valid_items:
+        result.extend( list( filter(lambda x: x['slug'] == item_slug, items) ) )
+
+    return result
+
+def _validate_inputs(actual_cafe: Dict[str, Any], user: Dict[str, Any]) -> None:
+    """Validates the inputs for the main function."""
+    if isinstance(actual_cafe, dict) == False:
+        raise TypeError("Argument 1 must be a Dict")
+    
+    if isinstance(user, dict) == False:
+        raise TypeError("Argument 2 must be a Dict")
+    
+    if 'menu_items' not in actual_cafe.keys():
+        raise KeyError("Arguments actual_cafe must have a 'menu_items' key")
+    
+    if 'diet_profile' not in user.keys():
+        raise KeyError("Argument user must have a 'diet_profile' key")
 
 # This algorithm recommand foods based on the specifications (preferences)
 # and the allergens of the user.
 def main(actual_cafe: Cafe, user: User) -> List[str]:
-    try:
-        if isinstance(actual_cafe, dict) == False:
-            raise TypeError("Argument 1 must be a Dict.")
+
+    _validate_inputs(actual_cafe, user)
+    
+    menu_items: list[MenuItem] = actual_cafe['menu_items']
+    user_diets: list[dict[str, str | list[str]]] = user['diet_profile']['diets']
+    user_prefered_nutrients: dict[str, int] = user['diet_profile']['prefered_nutrients']
+
+    # No diets and no nutrients specified
+    if not user_diets and not user_prefered_nutrients:
+        return remove_allergenic_items(menu_items, user['diet_profile']['allergens'])
+    
+    # Only nutrients specified
+    if not user_diets and user_prefered_nutrients: # Only nutrients specified
+        valid_items: list[MenuItem] = _get_valid_items(menu_items, user_prefered_nutrients)
+        return remove_allergenic_items(valid_items, user['diet_profile']['allergens'])
+    
+    # Only diets specified
+    if user_diets and not user_prefered_nutrients: # Only diet specified
+        items_clustered: dict[str, list[MenuItem]] = regroup_by_diet(menu_items, user_diets)
+        all_clusterd_items: list[MenuItem] = list(items_clustered.values())
+        all_clusterd_items_merged: list[MenuItem] = []
         
-        if isinstance(user, dict) == False:
-            raise TypeError("Argument 2 must be a Dict.")
-        
-        if len(actual_cafe) == 0 or len(user) == 0:
-            return []
+        for cluster in all_clusterd_items:
+            all_clusterd_items_merged.extend(cluster)
 
-        diet_profile: DietProfile = user['diet_profile']
-        user_allergens: dict[str, int] = diet_profile['allergens']
-        menu_items: list[MenuItem] = DButils.get_cafe_items(actual_cafe['slug'])
-        allergenic_foods_list: list[str] = allergenic_foods(user_allergens, menu_items)
-        clusters: dict[str, dict[str, list[MenuItem]]] = diet_category_cluster(menu_items)
-        try:
-            prefered_diets: list[str] = diet_profile['diets']
-            prefered_categories: list[str] = diet_profile['food_categories']
+        return remove_allergenic_items(all_clusterd_items_merged, user['diet_profile']['allergens'])
 
-            if len(prefered_diets) > 0 and len(prefered_categories) == 0: # Diets prefered but no categories
-                categories: list[dict[str, list[str]]] = []
-                recommendations: list[str] = []
-                for diet in prefered_diets:
-                    categories.append(clusters[diet]) if diet in prefered_diets else None
-                for category in categories:
-                    for key in category.keys():
-                        recommendations.extend(category[key])
+    # Both nutrients and diets specified
+    items_clustered: dict[str, list[MenuItem]] = regroup_by_diet(menu_items, user_diets)
+    all_clusterd_items: list[MenuItem] = list(items_clustered.values())
+    all_clusterd_items_merged: list[MenuItem] = []
+    
+    for cluster in all_clusterd_items:
+        all_clusterd_items_merged.extend(cluster)
 
-            elif len(prefered_diets) == 0 and len(prefered_categories) > 0: # No diets prefered but categories prefered
-                categories: list[dict[str, list[str]]] = list( clusters.values() )
-                recommendations: list[str] = filter_by_categories(categories, prefered_categories)
+    valid_items: list[MenuItem] = _get_valid_items(all_clusterd_items_merged, user_prefered_nutrients)
 
-            elif len(prefered_diets) > 0 and len(prefered_categories) > 0: # Diets and categories prefered
-                categories: list[dict[str, list[str]]] = []
-
-                for diet in prefered_diets:
-                    if diet in prefered_diets:
-                        categories.append(clusters[diet])
-
-                recommendations: list[str] = filter_by_categories(categories, prefered_categories)
-            
-            else: # No specifications
-                recommendations: list[str] = []
-                for diet in clusters.keys():
-                    categories: dict[str, list[str]] = clusters[diet]
-                    for category in categories.keys():
-                        recommendations.extend(categories[category])
-
-            if len(allergenic_foods_list) > 0:
-                valid_recommendations: list[str] = list( filter(lambda x: x if x not in allergenic_foods_list else None ,recommendations) )
-            else:
-                valid_recommendations = recommendations
-            return list( set(valid_recommendations) )
-        except KeyError: # There is no foods satisfying the user specifications
-            return []
-    except TypeError as e:
-        print(e)
-        return []
+    return remove_allergenic_items(valid_items, user['diet_profile']['allergens'])

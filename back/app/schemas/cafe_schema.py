@@ -26,6 +26,7 @@ class MenuItemCreate(BaseModel):
     in_stock: bool = Field(..., description="Availability status of the menu item.")
     category: str = Field(..., min_length=1, max_length=50, description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
+    ingredients: List[str] = Field(..., description="List of ingredients in the menu item.")
     diets: List[str] = Field(..., description="List of diets in which the food is eaten.")
     allergens: List[str] = Field(..., description="List of allergens contained in the item.")
     barecode: Optional[str] = Field(None, description="Food's barecode.")
@@ -46,8 +47,9 @@ class MenuItemCreate(BaseModel):
                 {"type": "ingrédients", "value": "tomate", "fee": 0},
                 {"type": "ingrédients", "value": "fromage", "fee": 0}
             ],
-            "diets": ["Vegetarian"],
-            "allergens": ["Peanuts", "Dairy"],
+            "ingredients": ["milk", "cheese", "bread"],
+            #"diets": ["Vegetarian"],
+            #"allergens": ["Peanuts", "Dairy"],
             "barecode": "123e4567-e892-12d3-a456-426614174000",
             "nutritional_information": {"Calories": 300, "Protein": 25, "Carbohydrates": 50, "Fats": 15}
         }
@@ -69,6 +71,7 @@ class MenuItemUpdate(BaseModel):
     in_stock: Optional[bool] = Field(None, description="Updated availability status of the menu item.")
     category: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated category of the menu item.")
     options: Optional[List[MenuItemOption]] = Field(None, description="Updated options for the menu item.")
+    ingredients: Optional[List[str]] = Field(None, description="Updated list of ingredients for the menu item.")
     diets: Optional[List[str]] = Field(None, description="Updated list of diets for the menu item.")
     allergens: Optional[List[str]] = Field(None, description="Updated list of allergens for the menu item.")
     likes: Optional[List[str]] = Field(None, description="Updated list of likes for the menu item.")
@@ -89,8 +92,9 @@ class MenuItemUpdate(BaseModel):
                 {"type": "épice", "value": "piquant", "fee": 0.75},
                 {"type": "supplément", "value": "bacon", "fee": 1.0}
             ],
-            "diets": ["Vegetarian"],
-            "allergens": ["Peanuts", "Dairy"],
+            "ingredients": ["milk", "cheese", "bread"],
+            #"diets": ["Vegetarian"],
+            #"allergens": ["Peanuts", "Dairy"],
             "likes": ["20176472"],
             "barecode": "123e4567-e892-12d3-a456-426614174000",
             "nutritional_information": {"Calories": 300, "Protein": 25, "Carbohydrates": 50, "Fats": 15}
@@ -117,6 +121,7 @@ class MenuItemOut(BaseModel):
     in_stock: bool = Field(..., description="Availability status of the menu item.")
     category: str = Field(..., description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
+    ingredients: List[str] = Field(..., description="Ingredients associated with the menu item.")
     diets: List[str] = Field(..., description="Diets associated with the menu item.")
     allergens: List[str] = Field(..., description="Allergens associated with the menu item.")
     likes: List[str] = Field(..., description="Identifier of users who like the menu item.")
@@ -139,8 +144,9 @@ class MenuItemOut(BaseModel):
                 {"type": "taille", "value": "moyen", "fee": 0.0},
                 {"type": "sans oignon", "value": "oui", "fee": 0.0}
             ],
-            "diets": ["Vegetarian"],
-            "allergens": ["Peanuts", "Dairy"],
+            "ingredients": ["milk", "cheese", "bread"],
+            #"diets": ["Vegetarian"],
+            #"allergens": ["Peanuts", "Dairy"],
             "likes": ["20176472"],
             "barecode": "123e4567-e892-12d3-a456-426614174000",
             "nutritional_information": {"Calories": 300, "Protein": 25, "Carbohydrates": 50, "Fats": 15},
@@ -246,7 +252,8 @@ class CafeCreate(BaseModel):
                         {"type": "ingrédients", "value": "laitue", "fee": 0},
                         {"type": "ingrédients", "value": "tomate", "fee": 0},
                         {"type": "ingrédients", "value": "fromage", "fee": 0}
-                    ]
+                    ],
+                    "ingredients": ["milk", "cheese", "bread"]
                 },
                 {
                     "name": "Chicken Caesar Salad",
@@ -256,7 +263,8 @@ class CafeCreate(BaseModel):
                     "price": 7.99,
                     "in_stock": False,
                     "category": "Salads",
-                    "options": []
+                    "options": [],
+                    "ingredients": ["milk", "cheese", "bread"],
                 }
             ],
             "additional_info": [
@@ -396,7 +404,8 @@ class CafeOut(BaseModel):
                         {"type": "ingrédients", "value": "laitue", "fee": 0},
                         {"type": "ingrédients", "value": "tomate", "fee": 0},
                         {"type": "ingrédients", "value": "fromage", "fee": 0}
-                    ]
+                    ],
+                    "ingredients": ["eggs", "tomato", "cheese"]
                 },
                 {
                     "item_id": "123e4567-e89b-12d3-a456-426614174002",
@@ -408,7 +417,8 @@ class CafeOut(BaseModel):
                     "price": 7.99,
                     "in_stock": False,
                     "category": "Salads",
-                    "options": []
+                    "options": [],
+                    "ingredients": ["chicken", "lettuce"]
                 }
             ],
             "additional_info": [

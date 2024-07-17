@@ -182,6 +182,19 @@ def items_not_bought_in_cafe(cafe: Cafe, user: User) -> List[str]:
 
     return list( set(meal_not_consumed) )
 
+# Find the diets where an item can be.
+def find_item_diets_for_user(item: MenuItem, user_diets: List[Dict[str, str | List[str]]]) -> List[str]:
+    diets: list[str] = []
+    try:
+        for diet in user_diets:
+            intersection: set[str] = set(item['ingredients']).intersection(set(diet['forbidden_foods']))
+            if len(intersection) == 0:
+                diets.append(diet['name'])
+        return diets
+    except KeyError as e:
+        print(e)
+        return []
+
 #-----------------------
 #       Cafe
 #-----------------------
@@ -304,3 +317,35 @@ def reshape(A: List[Any], B: List[Any]) -> Tuple[List[Any]]:
     except TypeError as e:
         print(e)
         return ()
+
+# The values are in mg except for calories.
+def get_nutrient_daily_value(nutrient: str) -> float:
+    try:
+        values = {
+            'calories': 2000,
+            'calcium': 1300,
+            'potassium': 800,
+            'zinc': 11,
+            'Magnesium': 420,
+            'iron': 18,
+            'lipids': 78000,
+            'fiber': 28000,
+            'sugar': 50000,
+            'carbhydrates': 275000,
+            'sodium': 2300,
+            'saturated_fat': 20000,
+            'proteins': 50000,
+            'vitaminA': 0.9,
+            'vitaminC': 90,
+            'vitaminD': 0.02,
+            'vitaminE': 15,
+            'vitaminK': 0.12,
+            'vitaminB6': 1.7,
+            'vitaminB12': 0.0024,
+        }
+
+        return values[nutrient]
+
+    except KeyError as e:
+        print(e)
+        return 0

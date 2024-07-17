@@ -76,9 +76,19 @@ class UserUpdate(BaseModel):
             "last_name": "Doe",
             "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
             "diet_profile": {
-                "diets": ["Vegetarian"],
-                "food_categories": ["Vegetarian"],
-                "prefered_nutrients": ["Calories", "Protein", "Carbohydrates", "Fats"],
+                "diets": [
+                    {
+                        "name": "vegan",
+                        "description": "Description of the vegan diet.",
+                        "forbidden_foods": ["lait", "oeuf"],
+                    },
+                ],
+                "prefered_nutrients": {
+                    "Calories": 0,
+                    "Protein": 0,
+                    "Carbohydrates": 0,
+                    "Fats": 0
+                }, 
                 "allergens": {
                     "Gluten": 0,
                     "Dairy": 0,
@@ -132,9 +142,19 @@ class UserOut(BaseModel):
             "last_name": "Doe",
             "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
             "diet_profile": {
-                "diets": ["Vegetarian"],
-                "food_categories": ["Vegetarian"],
-                "prefered_nutrients": ["Calories", "Protein", "Carbohydrates", "Fats"],
+                "diets": [
+                    {
+                        "name": "vegan",
+                        "description": "Description of the vegan diet.",
+                        "forbidden_foods": ["lait", "oeuf"],
+                    },
+                ],
+                "prefered_nutrients": {
+                    "Calories": 0,
+                    "Protein": 0,
+                    "Carbohydrates": 0,
+                    "Fats": 0
+                }, 
                 "allergens": {
                     "Gluten": 0,
                     "Dairy": 0,
