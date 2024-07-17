@@ -1,5 +1,5 @@
 import request from "supertest";
-import { MainController } from "../contollers/mainController";
+import { MainController } from "../../contollers/mainController";
 
 let server: MainController;
 beforeAll(() => {

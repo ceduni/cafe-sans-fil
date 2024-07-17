@@ -14,9 +14,9 @@ export class ShiftRoutes {
   }
 
   private init() {
-    this._router.get("/Shifts", this.getShift.bind(this));
+    this._router.get("/shifts", this.getShift.bind(this));
     this._router.get(
-      "/Shifts/matricule/:matricule",
+      "/shifts/matricule/:matricule",
       this.getShiftByMatricule.bind(this)
     );
   }
@@ -44,12 +44,11 @@ export class ShiftRoutes {
   public async getShiftByMatricule(req: Request, res: Response): Promise<void> {
     try {
       const matricule = req.params.matricule;
-      const shift: IShift | null = await this.ShiftService.getShiftsByMatricule(
-        matricule
-      );
+      const shifts: IShift | null =
+        await this.ShiftService.getShiftsByMatricule(matricule);
       res.status(200).send({
         message: "Success",
-        Shifts_Vonlunteer: shift,
+        shifts: shifts,
       });
     } catch (err) {
       console.log("Error in the getShiftByMatricule:", err);

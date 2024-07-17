@@ -65,7 +65,7 @@ export class CafeRoutes {
         await this.cafeService.getCafesVonlunteer(cafeName);
       res.status(200).send({
         message: "Success",
-        cafes_Vonlunteer: cafesVonlunteer,
+        volunteers: cafesVonlunteer,
       });
     } catch (err) {
       console.log("Error in the getCafesVonlunteer:", err);
