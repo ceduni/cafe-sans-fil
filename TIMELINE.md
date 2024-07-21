@@ -28,13 +28,16 @@
 
 ### Observations
 
-### Ressources
+### Ressources-->
 
 ## Semaine 12 (2024-07-19)
 
 ### Objectifs
+- Afficher les recommendations sur le Front-end.
+- Modifier les préférences nutritives dans la base de donnée.
+- Trier les items de la page principal en fonction du score santé.
 
-### Réalisations
+<!--### Réalisations
 
 ### Observations
 
@@ -43,14 +46,20 @@
 ## Semaine 11 (2024-07-12)
 
 ### Objectifs
-- Affichage des recommendations sur le Front-end.
+- Améliorer le profile utilisateur et la page d'acceuil.
 - Ajouter la description des différents régimes alimentaires.
 
-<!--### Réalisations
+### Réalisations
+- Modification de tout le profile utilisateur.
+- Mise à jour du profile nutritif:
+    - Ajout des descriptions pour les régimes alimentaires.
+    - Ajout d'une barre de navigation pour tout le profile.
+    - Ajout d'une fonctionnalitée de création de régime alimentaire.
+- Version 1 de la modification de la page d'acceuil: ajout d'une section pour les recommandations.
+- Ajout d'une vignette indiquant qu'un item contient des allergènes.
 
-### Observations
-
-### Ressources-->
+### Ressources
+- [Daily value nutrition](https://www.fda.gov/food/nutrition-facts-label/daily-value-nutrition-and-supplement-facts-labels)
 
 ## Semaine 10 (2024-07-05)
 
@@ -62,7 +71,7 @@
 ### Réalisations
 - Algorithmes fonctionnels intégrés au backend.
 - Fonctionnalitée de filtrage par cafés recommendés ajoutée.
-- Fonctionnalitée de modification du profile nutritif ajouté au Front-end ainsi que la mise à jour de la base de données.
+- Fonctionnalitée de modification du profile nutritif ajouté au Front-end.
 
 ### Observations
 - Difficulté au niveau de l'ajout de nouvelles collection dans la base de données.
