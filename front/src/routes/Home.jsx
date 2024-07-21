@@ -1,15 +1,33 @@
 import Container from "@/components/Container";
 import { Helmet } from "react-helmet-async";
 import SearchBar from "@/components/Search/SearchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CafeList from "@/components/Cafe/CafeList";
 import SearchResults from "@/components/Search/SearchResults";
+import { useAuth } from "@/hooks/useAuth";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const isSearching = searchQuery.length > 0;
-
   const [storedCafes, setStoredCafes] = useState([]);
+
+  const { isLoggedIn } = useAuth();
+  const [recommendedCafes, setRecommendedCafes] = useState([]);
+
+  const getRecommendedCafes = async () => {
+    if (isLoggedIn && storedCafes) {
+      // const currentUser = await getCurrentUser();
+      // const currentUserRecommendations = useApi(`/recommendations/cafe/${currentUser.user_id}`);
+      const currentUserRecommendations = ["cafekine", "la-planck", "lintermed", "pill-pub"];
+      const filteredCafes = storedCafes.filter((cafe) => currentUserRecommendations.includes(cafe.slug));
+      // console.log(filteredCafes);
+      setRecommendedCafes(filteredCafes);
+    }
+  };
+
+  useEffect(() => {
+    getRecommendedCafes();
+  }, [storedCafes]);
 
   return (
     <>
@@ -27,9 +45,18 @@ const Home = () => {
         </div>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </Container>
+      { isLoggedIn && <div>
+        <Container>
+          <h2 className="text-2xl sm:text-3xl text-zinc-800 font-secondary text-opacity-90 leading-7">Recommandations</h2>
+          {(!isSearching && <CafeList setStoredCafes={setRecommendedCafes} storedCafes={recommendedCafes} shouldRecommend={true} />) || (
+            <SearchResults searchQuery={searchQuery} storedCafes={recommendedCafes} />
+          )}
+        </Container>
+      </div>}
       <main>
         <Container>
-          {(!isSearching && <CafeList setStoredCafes={setStoredCafes} storedCafes={storedCafes} />) || (
+          <h2 className="text-2xl sm:text-3xl text-zinc-800 font-secondary text-opacity-90 leading-7">Tous les cafés</h2>
+          {(!isSearching && <CafeList setStoredCafes={setStoredCafes} storedCafes={storedCafes} shouldRecommend={false} />) || (
             <SearchResults searchQuery={searchQuery} storedCafes={storedCafes} />
           )}
         </Container>
