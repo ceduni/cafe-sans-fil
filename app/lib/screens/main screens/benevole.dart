@@ -60,14 +60,14 @@ class _BenevoleState extends State<Benevole> {
               itemCount: volunteers1.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(3.0),
                   child: Column(
                     children: [
                       ListTile(
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(volunteers1[index].image),
                         ),
-                        title: Text("${volunteers1[index].firstName} ${volunteers1[index].lastName}") ,
+                        title: Text("${volunteers1[index].firstName} ") ,
                         subtitle: const Text("volunteer"),
                         onTap: () {
                           // Open the volunteer details page
