@@ -1,47 +1,39 @@
 import 'dart:convert';
-import 'package:app/modeles/OrderItem.dart';
-import 'package:app/modeles/OrderItemOption.dart';
+import 'package:app/modeles/Order%20models/OrderItem.dart';
+import 'package:app/modeles/Order%20models/OrderItemOption.dart';
 import 'package:http/http.dart' as http;
-import '../modeles/Order.dart';
+import '../modeles/Order models/Order.dart';
 
 class ProductService {
-  final String baseUrl = "http://localhost:3000/api/v1/orders" ;
+  final String baseUrl = "http://Localhost:3000/api/v1/orders";
 
   ProductService({dynamic});
- 
-  Future<List<Order>> fetchOrders() async {
-     
 
+  Future<List<Order>> fetchOrders() async {
     var url = Uri.parse(baseUrl);
     var response = await http.get(url);
-    
-    
-    if(response.statusCode == 200){
+
+    if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
-      
-      if(jsonData['Sales']!=null){
+
+      if (jsonData['Sales'] != null) {
         print("in json sales tab");
         List<dynamic> salesJson = jsonData['Sales'];
-        List<Order> orders = salesJson.map((json) => Order.fromJson(json)).toList();
+        List<Order> orders =
+            salesJson.map((json) => Order.fromJson(json)).toList();
         return orders;
-
-      }
-      else{
+      } else {
         throw Exception('Sales data is not available');
       }
-    }
-    else{
+    } else {
       throw Exception('Failed to load sales from $baseUrl');
     }
   }
-
-  
 }
 
 void main() async {
-    var productService  = new ProductService();
-    List<Order> orders = await productService.fetchOrders();
-    double turnOver = Order.turnOver(orders);
-    int len = Order.numOfOrder(orders);
-    
-  }
+  var productService = new ProductService();
+  List<Order> orders = await productService.fetchOrders();
+  double turnOver = Order.turnOver(orders);
+  int len = Order.numOfOrder(orders);
+}

@@ -1,44 +1,40 @@
 import 'OrderItemOption.dart';
 
-
 class OrderItem {
-  final  double itemPrice;
+  final double itemPrice;
   final String itemSlug;
   final List<OrderItemOption> options;
   final int quantity;
 
   OrderItem(
-    {
-      required this.itemPrice,
+      {required this.itemPrice,
       required this.itemSlug,
       required this.options,
-      required this.quantity
-    }
-  );
+      required this.quantity});
 
-
-  factory OrderItem.fromJson(Map<String,dynamic> json){
+  factory OrderItem.fromJson(Map<String, dynamic> json) {
     var optionsFromJson = json['options'] as List;
-    List<OrderItemOption> optionsList  = optionsFromJson.map((option) => OrderItemOption.fromJson(option)).toList();
+    List<OrderItemOption> optionsList = optionsFromJson
+        .map((option) => OrderItemOption.fromJson(option))
+        .toList();
 
     return OrderItem(
-        itemPrice: (json['item_price']as num).toDouble(),
+        itemPrice: (json['item_price'] as num).toDouble(),
         itemSlug: json['item_slug'],
         options: optionsList,
-        quantity: json['quantity']
-      );
+        quantity: json['quantity']);
   }
 
-  Map<String,dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     return {
-      'item_price':itemPrice,
-      'item_slug':itemSlug,
-      'options':options.map((option) => option.toJson()).toList(),
-      'quantity':quantity
+      'item_price': itemPrice,
+      'item_slug': itemSlug,
+      'options': options.map((option) => option.toJson()).toList(),
+      'quantity': quantity
     };
   }
 
-   @override
+  @override
   String toString() {
     return '''
     {
@@ -49,5 +45,4 @@ class OrderItem {
     }
     ''';
   }
-
 }

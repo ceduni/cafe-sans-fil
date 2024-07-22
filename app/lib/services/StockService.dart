@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:app/modeles/Stock.dart';
 import 'package:http/http.dart' as http;
-class StockService {
 
-  final String baseUrl = "http://localhost:3000/api/v1/stock";
+class StockService {
+  final String baseUrl = "http://Localhost:3000/api/v1/stock";
 
   StockService({dynamic});
 
@@ -17,7 +17,8 @@ class StockService {
 
       if (jsonData['Stock'] != null) {
         List<dynamic> stocksJson = jsonData['Stock'];
-        List<Stock> stocks = stocksJson.map((json) => Stock.fromJson(json)).toList();
+        List<Stock> stocks =
+            stocksJson.map((json) => Stock.fromJson(json)).toList();
         return stocks;
       } else {
         throw Exception('Stock data is not available');

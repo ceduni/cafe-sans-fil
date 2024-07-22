@@ -149,8 +149,10 @@ class AnnualChartState extends State<CustomBarChart> {
       List<List<double>> allValue, double barsWidth, double barsSpace) {
     return allValue.asMap().entries.map((entry) {
       int index = entry.key;
-      double valueLow = entry.value[0];
-      double valueHigh = entry.value[1];
+      double valueLow = entry.value.reduce(
+          (value, element) => value < element ? value : element); //minimum
+      double valueHigh = entry.value.reduce(
+          (value, element) => value > element ? value : element); //maximum
 
       return BarChartGroupData(
         x: index,
