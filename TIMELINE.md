@@ -258,7 +258,7 @@
 ### Objectifs
 
 - Début de l'implémentation du dashborad de l'application
-- Debut de l'implementation des endpoints du dashboard 
+- Debut de l'implementation des endpoints du dashboard
 - creation de la base de donnees avec des donnee fictive.
 
 ### Réalisations
@@ -268,7 +268,7 @@
 - Implémentation des principaux éléments du dashbord sur l'écran
   d'acceuil et accès au différents onglets de l'application (logo,
   histogramme, bar de navigation et drawer)
-- creation de la base de donnees avec des donnee 
+- creation de la base de donnees avec des donnee
 - implementation des premier endPoint.
 
 ### Resources
@@ -281,7 +281,7 @@
 
 - Suite de l'implémentation du dashborad de l'application
 - Suite et fin des endpoints du dashboard
-- Modification de basedonnee (collection Orders) 
+- Modification de basedonnee (collection Orders)
 
 ### Réalisations
 
@@ -290,7 +290,7 @@
 - Fin de l'implémentation des composantes du dashborad (color
   chart list pour une vue intuitive des ventes pas catégorie,
   revisite du code pour l'histogramme)
-- Modification de basedonnee (collection Orders) 
+- Modification de basedonnee (collection Orders)
 - Suite et fin des endpoints du dashboard
 
 ### Resources
@@ -304,7 +304,7 @@
 
 - Connecter le dashbord au back-end
 - Implémenter les end points bénévole et horaire
-- Implementation de la page benevole 
+- Implementation de la page benevole
 
 ### Réalisations
 
@@ -316,7 +316,7 @@
 ### Objectifs
 
 - Connecter le dashbord au back-end
-- modification de UI pour une vue plus belle 
+- modification de UI pour une vue plus belle
 - Implémenter les end points bénévole et horaire
 - Implementation de la page benevole
 
@@ -326,3 +326,15 @@
 - suite de l'implementation de l'implementation du dashboard
 - Debut de implementation de la page benvole
 
+## Semaine 11 (2024-07-15)
+
+### Objectifs
+
+- Connecter le dashbord au back-end
+- modification de UI pour une vue plus belle
+- Implementation de la page benevole
+
+### Réalisations
+
+- Suite de l'implémentation du dashboardboard : histogramme, graph
+  coloré et chiffre du dashboard conforme a la base de données.
