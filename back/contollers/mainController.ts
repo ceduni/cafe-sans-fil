@@ -31,7 +31,9 @@ export class MainController {
 
   private init() {
     this.database.connect();
+    this.app.use(express.json());
     this.getAllRoutes();
+    
   }
 
   public getIndex(path: string): void {
