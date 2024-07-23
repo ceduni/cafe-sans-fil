@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:app/modeles/Order%20models/OrderItem.dart';
-import 'package:app/modeles/Order%20models/OrderItemOption.dart';
 import 'package:http/http.dart' as http;
 import '../modeles/Order models/Order.dart';
 
@@ -31,6 +29,7 @@ class ProductService {
   }
 }
 
+/*
 void main() async {
   var productService = new ProductService();
 
@@ -40,3 +39,4 @@ void main() async {
   print(turnOver);
   int len = Order.numOfOrder(orders);
 }
+*/

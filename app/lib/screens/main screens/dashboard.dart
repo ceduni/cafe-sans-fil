@@ -1,18 +1,12 @@
 import 'dart:ffi';
 
-import 'package:app/modeles/Order%20models/Order.dart';
-import 'package:app/modeles/Stock.dart';
 import 'package:app/provider/order_provider.dart';
-import 'package:app/screens/main screens/FlashMessage.dart';
-import 'package:app/screens/main%20screens/FlashingText.dart';
-import 'package:app/services/stockService.dart';
-import 'package:app/provider/period_selector_provider.dart';
+import 'package:app/provider/stock_provider.dart';
 import 'package:app/screens/side%20bar/side_bar.dart';
-import 'package:app/services/productService.dart';
 import 'package:app/widgets/Color%20list%20chart/color_list_chart.dart';
+import 'package:app/widgets/alert_notification_widget.dart';
 import 'package:app/widgets/histogram/custom_bar_chart.dart';
-import 'package:app/widgets/period_selector.dart';
-import 'package:app/widgets/year_picker_widget.dart';
+import 'package:app/widgets/Date%20selector/year_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
@@ -26,23 +20,7 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class NotificationItem {
-  final String title;
-  final String subtitle;
-
-  NotificationItem(this.title, this.subtitle);
-}
-
 class _DashboardState extends State<Dashboard> {
-  final ProductService productService = ProductService();
-  final StockService stockService = StockService();
-  List<Stock> lowStocks = [];
-  List<Stock> stocks = [];
-  Map<String, dynamic> revenueByCategory = {};
-  List<Order> orders = [];
-  bool isLoading = true;
-  double turnOver = 0.0;
-  int salesNumbers = 0;
   @override
   void initState() {
     super.initState();
@@ -50,62 +28,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> fetch() async {
+    if (!mounted) return;
     await Provider.of<OrderProvider>(context, listen: false).fetchOrders();
-
-    try {
-      List<Order> fetchedOrders = await productService.fetchOrders();
-      print("Fetched orders: ${fetchedOrders.length}");
-      stocks = await stockService.getStocks();
-      print("Fetched stocks: ${stocks.length}");
-      revenueByCategory = Order.revenueByCategory(fetchedOrders, stocks);
-
-      setState(() {
-        orders = fetchedOrders;
-        turnOver = Order.turnOver(orders, startDate: 'date', endDate: 'Date');
-        print(turnOver);
-        salesNumbers = Order.numOfOrder(orders);
-        lowStocks = Stock.lowQuantity(stocks);
-
-        isLoading = false;
-      });
-
-      // Show flash message if product quantity is low
-      checkProductQuantities();
-    } catch (error) {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  void checkProductQuantities() {
-    for (Stock stock in lowStocks) {
-      // Example condition for low stock
-      showFlashMessage(context,
-          'Le Product ${stock.itemName} a une quantite faible en stock!');
-    }
-  }
-
-  void showFlashMessage(BuildContext context, String message) {
-    OverlayState? overlayState = Overlay.of(context);
-    OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: 50,
-        left: 0,
-        right: 0,
-        child: Material(
-          color: Colors.transparent,
-          child: FlashMessage(message: message),
-        ),
-      ),
-    );
-
-    overlayState.insert(overlayEntry);
-
-    // Remove the flash message after 3 seconds
-    Future.delayed(const Duration(seconds: 5), () {
-      overlayEntry.remove();
-    });
+    await Provider.of<StockProvider>(context, listen: false).fetchStock();
   }
 
   @override
@@ -116,11 +41,14 @@ class _DashboardState extends State<Dashboard> {
           title: Text(AppLocalizations.of(context)!.pagesTitles_dashboardTitle),
           surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
         ),
-        body: Consumer<OrderProvider>(builder: (context, orderProvider, child) {
-          if (orderProvider.isLoading) {
+        body: Consumer2<OrderProvider, StockProvider>(
+            builder: (context, orderProvider, stockProvider, child) {
+          if (orderProvider.isLoading || stockProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (orderProvider.hasError) {
-            return Center(child: Text('Error: ${orderProvider.errorMessage}'));
+          } else if (orderProvider.hasError || stockProvider.hasError) {
+            return Center(
+                child: Text(
+                    'Error: ${orderProvider.errorMessage ?? stockProvider.errorMessage}'));
           } else {
             return SingleChildScrollView(
               child: Column(
@@ -140,47 +68,14 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   // ----------- Notification ------------
                   Container(
-                    padding: const EdgeInsets.all(16.0),
-                    child: PopupMenuButton<NotificationItem>(
-                      onSelected: (NotificationItem result) {
-                        // Action à effectuer lors de la sélection d'un élément
-                        print('Selected: ${result.title}');
-                      },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<NotificationItem>>[
-                        PopupMenuItem<NotificationItem>(
-                          value: NotificationItem(
-                              'Notification 1', 'You have a new message'),
-                          child: const ListTile(
-                            leading: Icon(Icons.message),
-                            title: Text('Notification 1'),
-                            subtitle: Text('You have a new message'),
-                          ),
-                        ),
-                        PopupMenuItem<NotificationItem>(
-                          value: NotificationItem(
-                              'Notification 2', 'Your order has been shipped'),
-                          child: const ListTile(
-                            leading: Icon(Icons.local_shipping),
-                            title: Text('Notification 2'),
-                            subtitle: Text('Your order has been shipped'),
-                          ),
-                        ),
-                        PopupMenuItem<NotificationItem>(
-                          value: NotificationItem(
-                              'Notification 3', 'Update available'),
-                          child: const ListTile(
-                            leading: Icon(Icons.update),
-                            title: Text('Notification 3'),
-                            subtitle: Text('Update available'),
-                          ),
-                        ),
-                      ],
-                      icon: Icon(Icons.notifications),
-                    ),
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: AlertNotificationWidget(
+                        popupMenuItem:
+                            context.watch<StockProvider>().lowStocksAlertsList),
                   ),
 
-                  const SizedBox(height: 20.0),
+                  // ----------- Turnover ------------
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
@@ -214,7 +109,7 @@ class _DashboardState extends State<Dashboard> {
                                   softWrap: true,
                                 ),
                                 const SizedBox(height: 10.0),
-                                // -- turnover --
+                                // -- turnover value --
                                 Text(
                                   '${context.watch<OrderProvider>().turnOver.toStringAsFixed(2)} CAD',
                                   style: const TextStyle(
@@ -228,6 +123,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                         const SizedBox(width: 16),
+                        // ----------- Profit ------------
                         Expanded(
                           child: Container(
                             padding: const EdgeInsets.all(16),
@@ -257,7 +153,7 @@ class _DashboardState extends State<Dashboard> {
                                   softWrap: true,
                                 ),
                                 const SizedBox(height: 10.0),
-                                // -- profit --
+                                // -- profit value --
                                 Text(
                                   '${context.watch<OrderProvider>().profit.toStringAsFixed(2)} CAD',
                                   style: const TextStyle(
@@ -317,10 +213,20 @@ class _DashboardState extends State<Dashboard> {
                         children: [
                           // -------------------Date selector text ------------------------------
                           const SizedBox(height: 10),
-                          Text(
-                            'Période : ${context.watch<PeriodSelectorProvider>().getFormattedStartDate()} - ${context.watch<PeriodSelectorProvider>().getFormattedEndDate()}',
+                          /* Text(
+                            //'Periode : ${context.watch<OrderProvider>().currentYear}',
+                            // 'Période : ${context.watch<PeriodSelectorProvider>().getFormattedStartDate()} - ${context.watch<PeriodSelectorProvider>().getFormattedEndDate()}',
                             softWrap: true,
+                          ),*/
+                          const Text(
+                            ' Chiffres d\'affaires et bénéfices sur la période',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
                           ),
+                          const SizedBox(height: 10.0),
                           // ---- histogram ----
                           SizedBox(
                             height: 211,

@@ -8,13 +8,13 @@ class OrderService {
 
   Future<List<Order>> fetchOrders() async {
     var url = Uri.parse(baseUrl);
-    var response = await http.get(url);
+    var response = await http.get(url).timeout(const Duration(seconds: 10));
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
 
       if (jsonData['Sales'] != null) {
-        print("in json sales tab");
+        print("Order Service : json fetching");
         List<dynamic> salesJson = jsonData['Sales'];
         List<Order> orders =
             salesJson.map((json) => Order.fromJson(json)).toList();
@@ -70,8 +70,6 @@ class OrderService {
   List<List<double>> getTurnOverAndProfitForAYear(
       List<Order> orders, int year, String cafeName) {
     List<Order> filteredOrders = getOrderByCafeName(orders, cafeName);
-
-    print(filteredOrders.length);
 
     List<List<double>> turnOverAndProfitList = [];
 

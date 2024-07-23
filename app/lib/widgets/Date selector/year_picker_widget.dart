@@ -1,12 +1,10 @@
 import 'package:app/provider/order_provider.dart';
-import 'package:app/provider/period_selector_provider.dart';
-import 'package:app/screens/main%20screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class YearPickerWidget extends StatefulWidget {
-  final int initialYear = 2022;
-  final int firstYear = 2022;
+  final int initialYear = DateTime.now().year;
+  final int firstYear = 2023;
   final int lastYear = DateTime.now().year;
 
   YearPickerWidget();
@@ -21,7 +19,7 @@ class _YearPickerWidgetState extends State<YearPickerWidget> {
   @override
   void initState() {
     super.initState();
-    _selectedYear = widget.initialYear;
+    _selectedYear = DateTime.now().year;
   }
 
   Widget styleButton({required String text}) {
@@ -64,7 +62,7 @@ class _YearPickerWidgetState extends State<YearPickerWidget> {
           });
         }
       },
-      child: styleButton(text: 'Selected Year: ${_selectedYear!}'),
+      child: styleButton(text: 'Année selectionnée : ${_selectedYear!}'),
     );
   }
 }

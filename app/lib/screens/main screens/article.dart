@@ -20,11 +20,10 @@ class _ArticleState extends State<Article> {
   Future<void> fetch() async {
     // Fetch the stocks from the database
     try {
-      List<Stock> stock = await stockService.getStocks();
+      List<Stock> stock = await stockService.fetchStocks();
       setState(() {
         stocks = stock;
       });
-     
     } catch (e) {
       // ignore: avoid_print
       print(e);
@@ -49,57 +48,54 @@ class _ArticleState extends State<Article> {
                   color: const Color.fromARGB(255, 138, 199, 249),
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
-                     BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3),
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ]),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    // --- Menu btn ---
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 138, 199, 249),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        padding: const EdgeInsets.only(
+                            top: 12, bottom: 12.0, left: 50.0, right: 50.0),
                       ),
-
-                  ]
-                  
-                ), 
-              child:  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:[
-                  // --- Menu btn ---
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 138, 199, 249),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      padding: const EdgeInsets.only(top: 12, bottom:12.0, left:50.0 , right:50.0),
-                    ) ,
-                    onPressed: (){},
-                     child: const Text(
-                                    'Menu',
-                                    style:TextStyle(
-                                      color:  Colors.white ,
-                                    )),
-                  )
-                  // -- stock btn --
-                  ,ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      padding: const EdgeInsets.only(top: 12, bottom:12.0, left:50.0 , right:50.0),
-                    ) ,
-                    onPressed: () {
-                      fetch();
-                    },
-                     child: const Text(
-                            'Stock',
-                            style: TextStyle(
-                              color:  Color.fromARGB(255, 138, 199, 249) ,
-                            ),
-                          )
-                  )
-                ]
-                
-              ),
+                      onPressed: () {},
+                      child: const Text('Menu',
+                          style: TextStyle(
+                            color: Colors.white,
+                          )),
+                    )
+                    // -- stock btn --
+                    ,
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          padding: const EdgeInsets.only(
+                              top: 12, bottom: 12.0, left: 50.0, right: 50.0),
+                        ),
+                        onPressed: () {
+                          fetch();
+                        },
+                        child: const Text(
+                          'Stock',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 138, 199, 249),
+                          ),
+                        ))
+                  ]),
             ),
             const SizedBox(height: 20),
             ListView.builder(
@@ -113,7 +109,6 @@ class _ArticleState extends State<Article> {
                 );
               },
             )
-
           ],
         ),
       ),

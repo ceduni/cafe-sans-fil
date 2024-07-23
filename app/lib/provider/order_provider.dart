@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 
 class OrderProvider with ChangeNotifier {
   List<Order> _Orders = [];
+  String cafeName = "Tore et fraction";
   double turnOver = 0.0;
   double profit = 0.0;
   List<List<double>> valueForHistogram = [];
   Map<String, double> valueForColorChart = {};
-  int _currentYear = 2023;
+  int _currentYear = DateTime.now().year;
   bool _isLoading = false;
   String? _errorMessage;
-  String cafeName = "Tore et fraction";
 
   get Orders => _Orders;
   get isLoading => _isLoading;
@@ -36,7 +36,7 @@ class OrderProvider with ChangeNotifier {
           ? OrderService().calculateTurnOverForACafeForAYear(
               _Orders, _currentYear, cafeName)
           : 0.0;
-      profit = turnOver - 500.0;
+      profit = turnOver * 0.9;
       valueForHistogram = OrderService()
           .getTurnOverAndProfitForAYear(_Orders, _currentYear, cafeName);
       valueForColorChart = OrderService()
@@ -75,7 +75,7 @@ class OrderProvider with ChangeNotifier {
   void updateTurnOverAndProfit(int year) {
     turnOver = OrderService()
         .calculateTurnOverForACafeForAYear(_Orders, _currentYear, cafeName);
-    profit = turnOver - 500.0;
+    profit = turnOver * 0.9;
     notifyListeners();
   }
 }

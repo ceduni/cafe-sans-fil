@@ -1,10 +1,6 @@
-
-
-
 import 'dart:convert';
 
-class Stock{
-
+class Stock {
   final String id;
   final String itemName;
   final String category;
@@ -36,10 +32,11 @@ class Stock{
     };
   }
 
-  static List<Stock> lowQuantity( List<Stock>stocks) {
+  static List<Stock> lowQuantity(List<Stock> stocks) {
     List<Stock> lowStocks = [];
     for (Stock stock in stocks) {
-      if (stock.quantity < 10) { // Example condition for low stock
+      if (stock.quantity < 10) {
+        // Example condition for low stock
         lowStocks.add(stock);
       }
     }

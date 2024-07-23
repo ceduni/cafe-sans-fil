@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:app/modeles/Stock.dart';
+import 'package:app/screens/main%20screens/FlashMessage.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class StockService {
@@ -8,9 +10,9 @@ class StockService {
 
   StockService({dynamic});
 
-  Future<List<Stock>> getStocks() async {
+  Future<List<Stock>> fetchStocks() async {
     var url = Uri.parse(baseUrl);
-    var response = await http.get(url);
+    var response = await http.get(url).timeout(const Duration(seconds: 10));
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
@@ -27,12 +29,61 @@ class StockService {
       throw Exception('Failed to load stock from $baseUrl');
     }
   }
-}
 
+  List<List<String>> getLowStocksAlerts(List<Stock> stocks) {
+    List<List<String>> alerts = [];
+    String lowStockMessage;
+
+    for (Stock stock in stocks) {
+      // Example condition for low stock
+
+      if (stock.quantity < 10) {
+        lowStockMessage =
+            'Le Product ${stock.itemName} a une quantite faible en stock!';
+        List<String> alert = [stock.itemName, lowStockMessage];
+        alerts.add(alert);
+      }
+    }
+    return alerts;
+  }
+
+/*
 void main() async {
   var stockService = new StockService();
-  List<Stock> stocks = await stockService.getStocks();
+  List<Stock> stocks = await stockService.fetchStocks();
   print(stocks);
   List<Stock> lowStocks = Stock.lowQuantity(stocks);
   print(lowStocks);
+}
+*/
+
+  void checkProductQuantities(List<Stock> lowStocks, BuildContext context) {
+    for (Stock stock in lowStocks) {
+      // Example condition for low stock
+      showFlashMessage(context,
+          'Le Product ${stock.itemName} a une quantite faible en stock!');
+    }
+  }
+
+  void showFlashMessage(BuildContext context, String message) {
+    OverlayState? overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 50,
+        left: 0,
+        right: 0,
+        child: Material(
+          color: Colors.transparent,
+          child: FlashMessage(message: message),
+        ),
+      ),
+    );
+
+    overlayState.insert(overlayEntry);
+
+    // Remove the flash message after 3 seconds
+    Future.delayed(const Duration(seconds: 5), () {
+      overlayEntry.remove();
+    });
+  }
 }
