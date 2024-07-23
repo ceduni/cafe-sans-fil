@@ -20,18 +20,17 @@ class OrderItem {
   });
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
-    print(json);
     var optionsFromJson = json['options'] as List;
     List<OrderItemOption> optionsList = optionsFromJson
         .map((option) => OrderItemOption.fromJson(option))
         .toList();
-      print(" this is what i wanted ${json['item_name']}");
+
     return OrderItem(
       
       itemName: json['item_name'],
       itemSlug: json['item_slug'],
       itemImageUrl: json['item_image_url'],
-      itemPrice: json['item_price'],
+      itemPrice: (json['item_price']as num).toDouble(),
       quantity: json['quantity'],
       options: optionsList,
     );

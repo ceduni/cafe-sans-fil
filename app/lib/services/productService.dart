@@ -35,7 +35,7 @@ void main() async {
   var productService = new ProductService();
   
   List<Order> orders = await productService.fetchOrders();
-  print(orders);
   double turnOver = Order.turnOver(orders);
+  print(turnOver);
   int len = Order.numOfOrder(orders);
 }

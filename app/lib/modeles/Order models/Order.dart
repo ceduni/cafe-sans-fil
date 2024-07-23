@@ -46,7 +46,7 @@ class Order {
       cafeImageUrl: json['cafe_image_url'],
       userUsername: json['user_username'],
       items: itemsList,
-      totalPrice: json['total_price'],
+      totalPrice: (json['total_price'] as num).toDouble(),
       status: json['status'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),   
