@@ -1,4 +1,5 @@
-import { Orders} from "../src/models/OrdersModel";
+
+import {Ordes} from "../src/models/OrdeModel";
 import { Stock, IStock } from "../src/models/StockModel";
 
 export class ProductService {
@@ -15,7 +16,7 @@ export class ProductService {
     try {
       const query = productName ? { "items.item_name": productName } : {};
       console.log("query", query);
-      const salesData = await Orders.find(query).exec();
+      const salesData = await Ordes.find(query).exec();
       return salesData;
     } 
     catch (err) {
@@ -40,7 +41,7 @@ export class ProductService {
 
   public async addOrder(order: any):Promise<{message:string}> {
     try {
-      const newOrder = new  Orders(order);
+      const newOrder = new  Ordes(order);
       await newOrder.save();
       return { message: "Order added successfully" };
     } catch (err) {

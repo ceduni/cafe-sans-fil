@@ -3,26 +3,34 @@ import 'package:app/modeles/Stock.dart';
 import 'OrderItem.dart';
 
 class Order {
-  final String cafeSlug;
-  final DateTime createdAt;
-  final List<OrderItem> items;
   final String orderId;
   final int orderNumber;
-  final String status;
-  final double totalPrice;
-  final DateTime updatedAt;
+  final String cafeName;
+  final String cafeSlug;
+  final String cafeImageUrl;
   final String userUsername;
+  final List<OrderItem> items;
+  final double totalPrice;
+  final String status;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  
 
   Order({
-    required this.cafeSlug,
-    required this.createdAt,
-    required this.items,
     required this.orderId,
     required this.orderNumber,
-    required this.status,
-    required this.totalPrice,
-    required this.updatedAt,
+    required this.cafeName,
+    required this.cafeSlug,
+    required this.cafeImageUrl,
     required this.userUsername,
+    required this.items,
+    required this.totalPrice,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+    
+    
+  
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
@@ -31,30 +39,35 @@ class Order {
         itemsFromJson.map((i) => OrderItem.fromJson(i)).toList();
 
     return Order(
-      cafeSlug: json['cafe_slug'],
-      createdAt: DateTime.parse(json['created_at']),
-      items: itemsList,
       orderId: json['order_id'],
       orderNumber: json['order_number'],
-      status: json['status'],
-      totalPrice: json['total_price'].toDouble(),
-      updatedAt: DateTime.parse(json['updated_at']),
+      cafeName: json['cafe_name'],
+      cafeSlug: json['cafe_slug'],
+      cafeImageUrl: json['cafe_image_url'],
       userUsername: json['user_username'],
+      items: itemsList,
+      totalPrice: json['total_price'],
+      status: json['status'],
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),   
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'cafe_slug': cafeSlug,
-      'created_at': createdAt.toIso8601String(),
-      'items': items.map((item) => item.toJson()).toList(),
       'order_id': orderId,
       'order_number': orderNumber,
-      'status': status,
-      'total_price': totalPrice,
-      'updated_at': updatedAt.toIso8601String(),
+      'cafe_name': cafeName,
+      'cafe_slug': cafeSlug,
+      'cafe_image_url': cafeImageUrl,
       'user_username': userUsername,
+      'items': items.map((item) => item.toJson()).toList(),
+      'total_price': totalPrice,
+      'status': status,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
     };
+    
   }
 
   static double turnOver(List<Order> orders,
@@ -147,15 +160,17 @@ class Order {
   String toString() {
     return '''
     {
-      "cafe_slug": "$cafeSlug",
-      "created_at": "${createdAt.toIso8601String()}",
-      "items": ${items.map((item) => item.toString()).toList()},
       "order_id": "$orderId",
       "order_number": $orderNumber,
-      "status": "$status",
+      "cafe_name": "$cafeName",
+      "cafe_slug": "$cafeSlug",
+      "cafe_image_url": "$cafeImageUrl",
+      "user_username": "$userUsername",
+      "items": ${items.map((item) => item.toString()).toList()},
       "total_price": $totalPrice,
-      "updated_at": "${updatedAt.toIso8601String()}",
-      "user_username": "$userUsername"
+      "status": "$status",
+      "created_at": "$createdAt",
+      "updated_at": "$updatedAt"
     }
     ''';
   }

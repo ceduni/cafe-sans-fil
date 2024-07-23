@@ -1,36 +1,50 @@
 import 'OrderItemOption.dart';
 
 class OrderItem {
-  final double itemPrice;
+  final String itemName;
   final String itemSlug;
-  final List<OrderItemOption> options;
+  final String itemImageUrl;
+  final double itemPrice;
   final int quantity;
+  final List<OrderItemOption> options;
+  
 
-  OrderItem(
-      {required this.itemPrice,
-      required this.itemSlug,
-      required this.options,
-      required this.quantity});
+  OrderItem({
+
+    required this.itemName,
+    required this.itemSlug,
+    required this.itemImageUrl,
+    required this.itemPrice,
+    required this.quantity,
+    required this.options,
+  });
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
+    print(json);
     var optionsFromJson = json['options'] as List;
     List<OrderItemOption> optionsList = optionsFromJson
         .map((option) => OrderItemOption.fromJson(option))
         .toList();
-
+      print(" this is what i wanted ${json['item_name']}");
     return OrderItem(
-        itemPrice: (json['item_price'] as num).toDouble(),
-        itemSlug: json['item_slug'],
-        options: optionsList,
-        quantity: json['quantity']);
+      
+      itemName: json['item_name'],
+      itemSlug: json['item_slug'],
+      itemImageUrl: json['item_image_url'],
+      itemPrice: json['item_price'],
+      quantity: json['quantity'],
+      options: optionsList,
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'item_price': itemPrice,
+      'item_name': itemName,
       'item_slug': itemSlug,
+      'item_image_url': itemImageUrl,
+      'item_price': itemPrice,
+      'quantity': quantity,
       'options': options.map((option) => option.toJson()).toList(),
-      'quantity': quantity
     };
   }
 

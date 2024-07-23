@@ -43,7 +43,7 @@ const OrderedItemSchema: Schema = new Schema({
 }, { _id: false });
 
 // Schema for the order
-const OrderSchema: Schema = new Schema({
+const OrdeSchema: Schema = new Schema({
   order_id: { type: String, required: true, default: uuidv4 },
   order_number: { type: Number, required: true },
   cafe_name: { type: String, required: true },
@@ -58,6 +58,6 @@ const OrderSchema: Schema = new Schema({
 });
 
 // Create the model for orders
-const CafeOrders: Model<IOrder> = mongoose.model<IOrder>('cafeorders', OrderSchema);
+const Ordes: Model<IOrder> = mongoose.model<IOrder>('cafe_orders', OrdeSchema);
 
-export {CafeOrders, IOrder, IOrderedItem };
+export {Ordes, IOrder, IOrderedItem };
