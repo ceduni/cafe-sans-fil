@@ -51,11 +51,14 @@ class OrderItem {
   String toString() {
     return '''
     {
-      "item_price": $itemPrice,
+      "item_name": "$itemName",
       "item_slug": "$itemSlug",
-      "options": ${options.map((option) => option.toString()).toList()},
-      "quantity": $quantity
+      "item_image_url": "$itemImageUrl",
+      "item_price": $itemPrice,
+      "quantity": $quantity,
+      "options": $options
     }
-    ''';
+    '''
+    ;
   }
 }
