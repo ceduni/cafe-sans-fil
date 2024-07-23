@@ -12,6 +12,7 @@ import 'package:app/services/productService.dart';
 import 'package:app/widgets/Color%20list%20chart/color_list_chart.dart';
 import 'package:app/widgets/histogram/custom_bar_chart.dart';
 import 'package:app/widgets/period_selector.dart';
+import 'package:app/widgets/year_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
@@ -137,7 +138,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                   ),
-                  // ----------- logo ------------
+                  // ----------- Notification ------------
                   Container(
                     padding: const EdgeInsets.all(16.0),
                     child: PopupMenuButton<NotificationItem>(
@@ -289,7 +290,8 @@ class _DashboardState extends State<Dashboard> {
                           AppLocalizations.of(context)!.choose_period,
                           style: const TextStyle(color: Colors.white),
                         ),
-                        PeriodSelector(),
+                        // const PeriodSelector(),
+                        YearPickerWidget(),
                       ],
                     ),
                   ),
@@ -420,14 +422,13 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           const SizedBox(height: 10),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.3,
                             width: MediaQuery.of(context).size.width * 0.9,
                             child: ColorListChart(
                               allValues: context
                                   .watch<OrderProvider>()
                                   .valueForColorChart,
                               unity: 'CAD',
-                              orderMap: false,
+                              orderMap: true,
                             ),
                           ),
                         ],

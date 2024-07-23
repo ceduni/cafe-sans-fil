@@ -10,9 +10,10 @@ class OrderProvider with ChangeNotifier {
   double profit = 0.0;
   List<List<double>> valueForHistogram = [];
   Map<String, double> valueForColorChart = {};
-  int _currentYear = 2024;
+  int _currentYear = 2023;
   bool _isLoading = false;
   String? _errorMessage;
+  String cafeName = "Tore et fraction";
 
   get Orders => _Orders;
   get isLoading => _isLoading;
@@ -32,14 +33,14 @@ class OrderProvider with ChangeNotifier {
     try {
       _Orders = await OrderService().fetchOrders();
       turnOver = _Orders.isNotEmpty
-          ? OrderService()
-              .calculateTurnOverForACafeAllTime(_Orders, "Bauch - Pacocha")
+          ? OrderService().calculateTurnOverForACafeForAYear(
+              _Orders, _currentYear, cafeName)
           : 0.0;
       profit = turnOver - 500.0;
-      valueForHistogram = OrderService().getTurnOverAndProfitForAYear(
-          _Orders, _currentYear, "Bauch - Pacocha");
-      valueForColorChart = OrderService().getTurnOverByCategoryForACafe(
-          _Orders, _currentYear, "Bauch - Pacocha");
+      valueForHistogram = OrderService()
+          .getTurnOverAndProfitForAYear(_Orders, _currentYear, cafeName);
+      valueForColorChart = OrderService()
+          .getTurnOverByCategoryForACafe(_Orders, _currentYear, cafeName);
       _isLoading = false;
     } catch (e) {
       // Handle error
@@ -51,11 +52,30 @@ class OrderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setYearForHistogram(int year) {
-    if (year < 2019 || year > DateTime.now().year) {
+  void setCurrentYear(int year) {
+    if (year < 2023 || year > DateTime.now().year) {
     } else {
       _currentYear = year;
       notifyListeners();
     }
+  }
+
+  void updateHistogramData(int year) {
+    valueForHistogram = OrderService()
+        .getTurnOverAndProfitForAYear(_Orders, _currentYear, cafeName);
+    notifyListeners();
+  }
+
+  void updateColorChartData(int year) {
+    valueForColorChart = OrderService()
+        .getTurnOverByCategoryForACafe(_Orders, _currentYear, cafeName);
+    notifyListeners();
+  }
+
+  void updateTurnOverAndProfit(int year) {
+    turnOver = OrderService()
+        .calculateTurnOverForACafeForAYear(_Orders, _currentYear, cafeName);
+    profit = turnOver - 500.0;
+    notifyListeners();
   }
 }

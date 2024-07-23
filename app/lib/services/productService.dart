@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../modeles/Order models/Order.dart';
 
 class ProductService {
-  final String baseUrl = "http://Localhost:3000/api/v1/orders";
+  final String baseUrl = "http://192.168.2.17:3000/api/v1/orders";
 
   ProductService({dynamic});
 
@@ -33,7 +33,7 @@ class ProductService {
 
 void main() async {
   var productService = new ProductService();
-  
+
   List<Order> orders = await productService.fetchOrders();
   print(orders);
   double turnOver = Order.turnOver(orders);

@@ -4,7 +4,7 @@ import 'package:app/modeles/Order%20models/OrderItem.dart';
 import 'package:http/http.dart' as http;
 
 class OrderService {
-  final String baseUrl = "http://Localhost:3000/api/v1/orders";
+  final String baseUrl = "http://192.168.2.17:3000/api/v1/orders";
 
   Future<List<Order>> fetchOrders() async {
     var url = Uri.parse(baseUrl);
@@ -49,8 +49,12 @@ class OrderService {
     return double.parse(turnOver.toStringAsFixed(4));
   }
 
-  double calculateTurnOverForACafeAllTime(List<Order> orders, String cafeSlug) {
-    List<Order> filteredOrders = getOrderByCafeSlug(orders, cafeSlug);
+  double calculateTurnOverForACafeForAYear(
+      List<Order> orders, int year, String cafeName) {
+    List<Order> filteredOrders = getOrderByCafeName(orders, cafeName);
+    filteredOrders =
+        getOrderOverAPeriod(filteredOrders, DateTime(year), DateTime(year + 1));
+
     double turnOver = 0.0;
     for (Order order in filteredOrders) {
       turnOver += order.totalPrice;
@@ -64,8 +68,8 @@ class OrderService {
   }
 
   List<List<double>> getTurnOverAndProfitForAYear(
-      List<Order> orders, int year, String cafeSlug) {
-    List<Order> filteredOrders = getOrderByCafeSlug(orders, cafeSlug);
+      List<Order> orders, int year, String cafeName) {
+    List<Order> filteredOrders = getOrderByCafeName(orders, cafeName);
 
     print(filteredOrders.length);
 
@@ -89,8 +93,8 @@ class OrderService {
   }
 
   Map<String, double> getTurnOverByCategoryForACafe(
-      List<Order> orders, int year, String cafeSlug) {
-    List<Order> filteredOrders = getOrderByCafeSlug(orders, cafeSlug);
+      List<Order> orders, int year, String cafeName) {
+    List<Order> filteredOrders = getOrderByCafeName(orders, cafeName);
     filteredOrders = getOrderOverAPeriod(
         filteredOrders, DateTime(year, 1, 1), DateTime(year, 12, 31));
 
@@ -98,13 +102,12 @@ class OrderService {
 
     for (Order order in filteredOrders) {
       for (OrderItem item in order.items) {
-        if (turnOverByCategory.containsKey(item.options[0].type)) {
-          turnOverByCategory[item.options[0].type] =
-              turnOverByCategory[item.options[0].type]! +
+        if (turnOverByCategory.containsKey(item.itemName)) {
+          turnOverByCategory[item.itemName] =
+              turnOverByCategory[item.itemName]! +
                   item.itemPrice * item.quantity;
         } else {
-          turnOverByCategory[item.options[0].type] =
-              item.itemPrice * item.quantity;
+          turnOverByCategory[item.itemName] = item.itemPrice * item.quantity;
         }
       }
     }
@@ -113,8 +116,8 @@ class OrderService {
   }
 
   List<List<double>> getTurnOverAndProfitForAMonth(
-      List<Order> orders, int year, int month, String cafeSlug) {
-    List<Order> filteredOrders = getOrderByCafeSlug(orders, cafeSlug);
+      List<Order> orders, int year, int month, String cafeName) {
+    List<Order> filteredOrders = getOrderByCafeName(orders, cafeName);
     List<List<double>> turnOverAndProfitList = [];
 
     for (DateTime date in getAllDaysOfMonth(year, month)) {
@@ -131,10 +134,10 @@ class OrderService {
     return turnOverAndProfitList;
   }
 
-  List<Order> getOrderByCafeSlug(List<Order> orders, String cafeSlug) {
+  List<Order> getOrderByCafeName(List<Order> orders, String cafeName) {
     List<Order> filteredOrders = [];
     for (Order order in orders) {
-      if (order.cafeSlug == cafeSlug) {
+      if (order.cafeName == cafeName) {
         filteredOrders.add(order);
       }
     }

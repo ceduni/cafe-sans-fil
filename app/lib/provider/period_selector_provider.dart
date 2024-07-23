@@ -1,6 +1,3 @@
-import 'package:app/widgets/month_year_picker.dart';
-import 'package:app/widgets/period_selector.dart';
-import 'package:app/widgets/year_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -8,6 +5,7 @@ class PeriodSelectorProvider extends ChangeNotifier {
   DateTime _selectedStartDate =
       DateTime.now().subtract(const Duration(days: 1));
   DateTime _selectedEndDate = DateTime.now();
+
   int _monthPicked = DateTime.now().month;
   int _yearPicked = DateTime.now().year;
 

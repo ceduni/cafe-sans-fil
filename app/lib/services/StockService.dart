@@ -4,7 +4,7 @@ import 'package:app/modeles/Stock.dart';
 import 'package:http/http.dart' as http;
 
 class StockService {
-  final String baseUrl = "http://Localhost:3000/api/v1/stock";
+  final String baseUrl = "http://192.168.2.17:3000/api/v1/stock";
 
   StockService({dynamic});
 
