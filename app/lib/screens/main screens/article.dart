@@ -3,7 +3,6 @@ import 'package:app/provider/stock_provider.dart';
 import 'package:app/screens/side%20bar/side_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
-import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
 
 class Article extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:app/modeles/Order%20models/OrderItem.dart';
 import 'package:http/http.dart' as http;
 
 class OrderService {
-  final String baseUrl = "http://192.168.2.17:3000/api/v1/orders";
+  final String baseUrl = "http://10.51.241.61:3000/api/v1/orders";
 
   Future<List<Order>> fetchOrders() async {
     var url = Uri.parse(baseUrl);
@@ -96,16 +96,42 @@ class OrderService {
     filteredOrders = getOrderOverAPeriod(
         filteredOrders, DateTime(year, 1, 1), DateTime(year, 12, 31));
 
+    Map<String, String> categoriser = {
+      "Latte ou Cappuccino": "Boissons Chaudes",
+      "Chocolat chaud": "Boissons Chaudes",
+      "Espresso Double": "Boissons Chaudes",
+      "Espresso": "Boissons Chaudes",
+      "Thé": "Boissons Chaudes",
+      "Café régulier": "Boissons Chaudes",
+      "Barre de chocolat": "Snacks",
+      "Barre Spécial K": "Snacks",
+      "Gomme": "Snacks",
+      "Barre Kirkland": "Snacks",
+      "Brookside": "Snacks",
+      "Barre Val Nature": "Snacks",
+      "LE BRIE": "Vins",
+      "LE MOZZA": "Vins",
+      "LE BLANC": "Vins",
+      "LE MARBRÉ": "Vins",
+      "Coca-Cola": "Boissons Froides",
+      "Perrier": "Boissons Froides",
+      "Jus V8": "Boissons Froides",
+      "Arizona": "Autres"
+    };
+
     Map<String, double> turnOverByCategory = {};
 
     for (Order order in filteredOrders) {
       for (OrderItem item in order.items) {
-        if (turnOverByCategory.containsKey(item.itemName)) {
-          turnOverByCategory[item.itemName] =
-              turnOverByCategory[item.itemName]! +
-                  item.itemPrice * item.quantity;
-        } else {
-          turnOverByCategory[item.itemName] = item.itemPrice * item.quantity;
+        String? category = categoriser[item.itemName];
+
+        if (category != null) {
+          if (turnOverByCategory.containsKey(category)) {
+            turnOverByCategory[category] =
+                turnOverByCategory[category]! + item.itemPrice * item.quantity;
+          } else {
+            turnOverByCategory[category] = item.itemPrice * item.quantity;
+          }
         }
       }
     }

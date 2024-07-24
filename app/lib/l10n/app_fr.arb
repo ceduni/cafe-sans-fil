@@ -23,7 +23,7 @@
   "choose_period": "Choisissez la période",
   "low_quantity": "Produit en faible quantié",
   "year_selected": "Année select.",
-  "turnovers_and_Profits_over_the_period": "Chiffre d'affaires et benefices sur la periode",
+  "turnovers_and_Profits_text": "Chiffre d'affaires et benefices",
   "low_stock_message": "Le Produit {itemName} a une quantite faible en stock!",
   "volunteer_text": "Bénévole",
   "quantity_text": "Quantité"

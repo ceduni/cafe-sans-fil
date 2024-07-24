@@ -63,9 +63,7 @@ class _YearPickerWidgetState extends State<YearPickerWidget> {
           });
         }
       },
-      child: styleButton(
-          text:
-              ' ${AppLocalizations.of(context)!.year_selected} : ${_selectedYear!}'),
+      child: styleButton(text: '${_selectedYear!}'),
     );
   }
 }

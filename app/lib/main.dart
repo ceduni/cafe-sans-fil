@@ -65,11 +65,10 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  int currentPage = 2;
+  int currentPage = 1;
   List<Widget> pages = [
     // barre de navigation
     const Benevole(),
-    const Evenement(),
     const Dashboard(),
     const Horaire(),
     const Article(),
@@ -87,14 +86,6 @@ class _RootPageState extends State<RootPage> {
             ),
             label: AppLocalizations.of(context)!
                 .bottomNavigationBar_volunteerButtonText,
-          ),
-          NavigationDestination(
-            icon: const Icon(
-              Icons.event,
-              color: Colors.white,
-            ),
-            label: AppLocalizations.of(context)!
-                .bottomNavigationBar_eventButtonText,
           ),
           NavigationDestination(
             icon: const Icon(

@@ -95,9 +95,9 @@
   "@year_selected": {
     "description": "Label for displaying the selected year"
   },
-  "turnovers_and_Profits_over_the_period": "Turnovers and profits over the period",
-  "@turnovers_and_Profits_over_the_period": {
-    "description": "Label for displaying turnover and profits over a specific period"
+  "turnovers_and_Profits_text": "Turnovers and profits",
+  "@turnovers_and_Profits_text": {
+    "description": "Label for displaying turnover and profits"
   },
   "low_stock_message": "The Product {itemName} has a reasonable quantity in stock!",
   "@low_stock_message": {

@@ -40,6 +40,15 @@ class _DashboardState extends State<Dashboard> {
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.pagesTitles_dashboardTitle),
           surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: AlertNotificationWidget(
+                listOfProductsName:
+                    context.watch<StockProvider>().lowStockProcductName,
+              ),
+            ),
+          ],
         ),
         body: Consumer2<OrderProvider, StockProvider>(
             builder: (context, orderProvider, stockProvider, child) {
@@ -53,8 +62,8 @@ class _DashboardState extends State<Dashboard> {
             return SingleChildScrollView(
               child: Column(
                 children: [
+                  // ----------- logo ------------
                   Center(
-                    // ----------- logo ------------
                     child: ClipRect(
                       child: SizedBox(
                         height: 150,
@@ -66,15 +75,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                   ),
-                  // ----------- Notification ------------
-                  Container(
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: AlertNotificationWidget(
-                        listOfProductsName: context
-                            .watch<StockProvider>()
-                            .lowStockProcductName),
-                  ),
+                  const SizedBox(height: 20.0),
 
                   // ----------- Turnover ------------
                   Padding(
@@ -112,7 +113,7 @@ class _DashboardState extends State<Dashboard> {
                                 const SizedBox(height: 10.0),
                                 // -- turnover value --
                                 Text(
-                                  '${context.watch<OrderProvider>().turnOver.toStringAsFixed(2)} CAD',
+                                  '${context.watch<OrderProvider>().turnOver.toStringAsFixed(2)} \$',
                                   style: const TextStyle(
                                     fontSize: 20.0,
                                     color: Colors.black,
@@ -155,7 +156,7 @@ class _DashboardState extends State<Dashboard> {
                                 const SizedBox(height: 10.0),
                                 // -- profit value --
                                 Text(
-                                  '${context.watch<OrderProvider>().profit.toStringAsFixed(2)} CAD',
+                                  '${context.watch<OrderProvider>().profit.toStringAsFixed(2)} \$',
                                   style: const TextStyle(
                                     fontSize: 20.0,
                                     color: Colors.black,
@@ -184,7 +185,10 @@ class _DashboardState extends State<Dashboard> {
                       children: [
                         Text(
                           AppLocalizations.of(context)!.choose_period,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold),
                         ),
                         // const PeriodSelector(),
                         YearPickerWidget(),
@@ -219,7 +223,8 @@ class _DashboardState extends State<Dashboard> {
                             softWrap: true,
                           ),*/
                           Text(
-                            '${AppLocalizations.of(context)!.turnovers_and_Profits_over_the_period}',
+                            AppLocalizations.of(context)!
+                                .turnovers_and_Profits_text,
                             style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -327,13 +332,14 @@ class _DashboardState extends State<Dashboard> {
                             ),
                           ),
                           const SizedBox(height: 10),
+                          // -------------------Color list chart ----------------------------
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.9,
                             child: ColorListChart(
                               allValues: context
                                   .watch<OrderProvider>()
                                   .valueForColorChart,
-                              unity: 'CAD',
+                              unity: '\$',
                               orderMap: true,
                             ),
                           ),

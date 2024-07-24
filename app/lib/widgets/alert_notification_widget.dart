@@ -47,13 +47,13 @@ class _AlertNotificationWidgetState extends State<AlertNotificationWidget> {
         IconButton(
           icon: const Icon(
             Icons.notifications,
-            size: 25,
+            size: 30,
           ),
           onPressed: () {
             // Afficher le menu de notifications
             showMenu(
               context: context,
-              position: const RelativeRect.fromLTRB(150.0, 150.0, 0.0, 0.0),
+              position: const RelativeRect.fromLTRB(150.0, 50.0, 0.0, 0.0),
               color: Colors.white,
               items: <PopupMenuEntry<NotificationItem>>[
                 ...createPopupMenuItems(),
