@@ -35,83 +35,83 @@ class _ArticleState extends State<Article> {
           } else {
             return Padding(
               padding: const EdgeInsets.all(16.0),
-              child: ListView(
+              child: Column(
                 children: [
                   Container(
                     padding: const EdgeInsets.all(20.0),
                     decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 138, 199, 249),
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3),
-                          ),
-                        ]),
+                      color: const Color.fromARGB(255, 138, 199, 249),
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          // --- Menu btn ---
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 138, 199, 249),
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              padding: const EdgeInsets.only(
-                                  top: 12,
-                                  bottom: 12.0,
-                                  left: 50.0,
-                                  right: 50.0),
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        // --- Menu btn ---
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(255, 138, 199, 249),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
                             ),
-                            onPressed: () {},
-                            child: const Text('Menu',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                )),
-                          )
-                          // -- stock btn --
-                          ,
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                padding: const EdgeInsets.only(
-                                    top: 12,
-                                    bottom: 12.0,
-                                    left: 50.0,
-                                    right: 50.0),
-                              ),
-                              onPressed: () {
-                                fetch();
-                              },
-                              child: const Text(
-                                'Stock',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 138, 199, 249),
-                                ),
-                              ))
-                        ]),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12.0,
+                              horizontal: 50.0,
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: const Text(
+                            'Menu',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        // --- Stock btn ---
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12.0,
+                              horizontal: 50.0,
+                            ),
+                          ),
+                          onPressed: fetch,
+                          child: const Text(
+                            'Stock',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 138, 199, 249),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: (context.watch<StockProvider>().Stocks).length,
-                    itemBuilder: (context, index) {
-                      Stock stock =
-                          (context.watch<StockProvider>().Stocks)[index];
-                      return ListTile(
-                        title: Text(stock.itemName),
-                        subtitle: Text(
-                            '${AppLocalizations.of(context)!.quantity_text}: ${stock.quantity}'),
-                      );
-                    },
-                  )
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: stockProvider.Stocks.length,
+                      itemBuilder: (context, index) {
+                        Stock stock = stockProvider.Stocks[index];
+                        return ListTile(
+                          title: Text(stock.itemName),
+                          subtitle: Text(
+                            '${AppLocalizations.of(context)!.quantity_text}: ${stock.quantity}',
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             );

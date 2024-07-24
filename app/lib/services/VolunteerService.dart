@@ -4,7 +4,7 @@ import 'package:app/modeles/Volunteer.dart';
 
 class VolunteerService {
   final String baseUrl =
-      "http://10.51.241.61:3000/api/v1/cafes/Tore et fraction/volunteer";
+      "http://10.51.252.166:3000/api/v1/cafes/Tore et fraction/volunteer";
 
   VolunteerService({dynamic});
 
