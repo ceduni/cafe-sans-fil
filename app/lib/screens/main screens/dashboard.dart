@@ -11,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
 
-//import 'flash_message.dart'; // Import the FlashMessage widget
-
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
@@ -28,9 +26,11 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> fetch() async {
+    await context.read<OrderProvider>().fetchOrders();
     if (!mounted) return;
-    await Provider.of<OrderProvider>(context, listen: false).fetchOrders();
-    await Provider.of<StockProvider>(context, listen: false).fetchStock();
+
+    await context.read<StockProvider>().fetchStock();
+    if (!mounted) return;
   }
 
   @override
@@ -71,8 +71,9 @@ class _DashboardState extends State<Dashboard> {
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: AlertNotificationWidget(
-                        popupMenuItem:
-                            context.watch<StockProvider>().lowStocksAlertsList),
+                        listOfProductsName: context
+                            .watch<StockProvider>()
+                            .lowStockProcductName),
                   ),
 
                   // ----------- Turnover ------------
@@ -143,8 +144,7 @@ class _DashboardState extends State<Dashboard> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  AppLocalizations.of(context)!
-                                      .profits_over_the_period_text,
+                                  AppLocalizations.of(context)!.profits_text,
                                   style: const TextStyle(
                                     fontSize: 15,
                                     color: Colors.black,
@@ -218,12 +218,12 @@ class _DashboardState extends State<Dashboard> {
                             // 'Période : ${context.watch<PeriodSelectorProvider>().getFormattedStartDate()} - ${context.watch<PeriodSelectorProvider>().getFormattedEndDate()}',
                             softWrap: true,
                           ),*/
-                          const Text(
-                            ' Chiffres d\'affaires et bénéfices sur la période',
-                            style: TextStyle(
+                          Text(
+                            '${AppLocalizations.of(context)!.turnovers_and_Profits_over_the_period}',
+                            style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                              fontSize: 14,
                             ),
                           ),
                           const SizedBox(height: 10.0),

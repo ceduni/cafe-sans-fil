@@ -4,7 +4,7 @@
   "pagesTitles_articleTitle": "Article",
   "pagesTitles_eventTitle": "Événement",
   "pagesTitles_hourlyTitle": "Horaire",
-  "bottomNavigationBar_dashboardButtonText": "Tabl. de bord",
+  "bottomNavigationBar_dashboardButtonText": "T. de bord",
   "bottomNavigationBar_volunteerButtonText": "Bénévole",
   "bottomNavigationBar_articleButtonText": "Article",
   "bottomNavigationBar_eventButtonText": "Événement",
@@ -14,13 +14,15 @@
   "sidebar_notification": "Notification",
   "sidebar_logOut": "Déconnexion",
   "turnover_text": "Chiffre d'affaires",
+  "profits_text": "Bénéfices",
   "sales_numbers_text": "Nombres de ventes",
   "evolution_of_sales_title": "Évolution des ventes",
-  "turnover_over_the_period_text": "Chiffre d'affaires sur la période",
-  "profits_over_the_period_text": "Bénéfices ",
   "alerts_title": "Alertes",
   "sales_by_category_title": "Ventes par catégorie",
   "select_language_text": "Sélectionner la langue",
   "choose_period": "Choisissez la période",
-  "low_quantity":"Produit en faible quantié"
+  "low_quantity": "Produit en faible quantié",
+  "year_selected": "Année select.",
+  "turnovers_and_Profits_over_the_period": "Chiffre d'affaires et benefices sur la periode",
+  "low_stock_message": "Le Produit {itemName} a une quantite faible en stock!"
 }

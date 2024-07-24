@@ -8,7 +8,7 @@ class OrderService {
 
   Future<List<Order>> fetchOrders() async {
     var url = Uri.parse(baseUrl);
-    var response = await http.get(url).timeout(const Duration(seconds: 10));
+    var response = await http.get(url).timeout(const Duration(seconds: 25));
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);

@@ -55,10 +55,6 @@
   "@sidebar_logOut": {
     "description": "Label for the logout option in the sidebar menu"
   },
-  "turnover_text": "Turnover",
-  "@turnover_text": {
-    "description": "Label for displaying the turnover amount"
-  },
   "sales_numbers_text": "Sales numbers",
   "@sales_numbers_text": {
     "description": "Label for displaying the number of sales"
@@ -67,11 +63,11 @@
   "@evolution_of_sales_title": {
     "description": "Title for the section showing the evolution of sales over time"
   },
-  "turnover_over_the_period_text": "Turnover over the period",
+  "turnover_text": "Turnover",
   "@turnover_over_the_period_text": {
     "description": "Label for displaying turnover over a specific period"
   },
-  "profits_over_the_period_text": "Profits over the period",
+  "profits_text": "Profits",
   "@profits_over_the_period_text": {
     "description": "Label for displaying profits over a specific period"
   },
@@ -91,8 +87,20 @@
   "@choose_period": {
     "description": "Label for selecting a time period in the app"
   },
-  "low_quantity":"product is low in stock",
+  "low_quantity": "product is low in stock",
   "@low_quantity": {
     "description": "Label to display alert"
+  },
+  "year_selected": "Year selected",
+  "@year_selected": {
+    "description": "Label for displaying the selected year"
+  },
+  "turnovers_and_Profits_over_the_period": "Turnovers and profits over the period",
+  "@turnovers_and_Profits_over_the_period": {
+    "description": "Label for displaying turnover and profits over a specific period"
+  },
+  "low_stock_message": "The Product {itemName} has a reasonable quantity in stock!",
+  "@low_stock_message": {
+    "description": "Message to display when a product is low in stock"
   }
 }

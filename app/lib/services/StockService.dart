@@ -12,7 +12,7 @@ class StockService {
 
   Future<List<Stock>> fetchStocks() async {
     var url = Uri.parse(baseUrl);
-    var response = await http.get(url).timeout(const Duration(seconds: 10));
+    var response = await http.get(url).timeout(const Duration(seconds: 25));
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
@@ -30,17 +30,13 @@ class StockService {
     }
   }
 
-  List<List<String>> getLowStocksAlerts(List<Stock> stocks) {
-    List<List<String>> alerts = [];
-    String lowStockMessage;
+  List<String> getLowStocksProductsNames(List<Stock> stocks) {
+    List<String> alerts = [];
 
     for (Stock stock in stocks) {
       // Example condition for low stock
-
       if (stock.quantity < 10) {
-        lowStockMessage =
-            'Le Product ${stock.itemName} a une quantite faible en stock!';
-        List<String> alert = [stock.itemName, lowStockMessage];
+        String alert = stock.itemName;
         alerts.add(alert);
       }
     }

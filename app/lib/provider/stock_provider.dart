@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class StockProvider with ChangeNotifier {
   List<Stock> _Stocks = [];
-  List<List<String>> lowStocksAlerts = [];
+  List<String> lowStockProcductName = [];
 
   String cafeName = "Tore et fraction";
   bool _isLoading = false;
@@ -16,7 +16,7 @@ class StockProvider with ChangeNotifier {
   get isLoading => _isLoading;
   get errorMessage => _errorMessage;
   bool get hasError => _errorMessage != null && _errorMessage!.isNotEmpty;
-  List<List<String>> get lowStocksAlertsList => lowStocksAlerts;
+  List<String> get lowStockProcductNameList => lowStockProcductName;
 
   StockProvider() {
     fetchStock();
@@ -26,7 +26,7 @@ class StockProvider with ChangeNotifier {
     _isLoading = true;
     try {
       _Stocks = await StockService().fetchStocks();
-      lowStocksAlerts = StockService().getLowStocksAlerts(_Stocks);
+      lowStockProcductName = StockService().getLowStocksProductsNames(_Stocks);
       _isLoading = false;
     } catch (e) {
       // Handle error

@@ -11,7 +11,7 @@ class Horaire extends StatelessWidget {
     return Scaffold(
       drawer: const Sidebar(),
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.pagesTitles_eventTitle),
+        title: Text(AppLocalizations.of(context)!.pagesTitles_hourlyTitle),
         surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
       ),
     );
