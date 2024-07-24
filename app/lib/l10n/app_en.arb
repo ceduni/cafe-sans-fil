@@ -102,5 +102,13 @@
   "low_stock_message": "The Product {itemName} has a reasonable quantity in stock!",
   "@low_stock_message": {
     "description": "Message to display when a product is low in stock"
+  },
+  "volunteer_text": "Volunteer",
+  "@volunteer_text": {
+    "description": "volunteer text"
+  },
+  "quantity_text": "Quantity",
+  "@quantity_text": {
+    "description": "quantity text"
   }
 }

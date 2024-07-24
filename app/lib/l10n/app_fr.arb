@@ -24,5 +24,7 @@
   "low_quantity": "Produit en faible quantié",
   "year_selected": "Année select.",
   "turnovers_and_Profits_over_the_period": "Chiffre d'affaires et benefices sur la periode",
-  "low_stock_message": "Le Produit {itemName} a une quantite faible en stock!"
+  "low_stock_message": "Le Produit {itemName} a une quantite faible en stock!",
+  "volunteer_text": "Bénévole",
+  "quantity_text": "Quantité"
 }

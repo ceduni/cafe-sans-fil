@@ -65,7 +65,8 @@ class _BenevoleState extends State<Benevole> {
                           ),
                           title: Text(
                               "${(context.read<VolunteerProvider>().Volunteers)[index].firstName} "),
-                          subtitle: const Text("volunteer"),
+                          subtitle: Text(
+                              '${AppLocalizations.of(context)!.volunteer_text}'),
                           onTap: () {
                             // Open the volunteer details page
                           },
