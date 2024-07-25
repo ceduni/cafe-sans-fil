@@ -7,6 +7,7 @@ import 'package:app/widgets/Color%20list%20chart/color_list_chart.dart';
 import 'package:app/widgets/alert_notification_widget.dart';
 import 'package:app/widgets/histogram/custom_bar_chart.dart';
 import 'package:app/widgets/Date%20selector/year_picker_widget.dart';
+import 'package:app/widgets/histogram_legend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
@@ -242,6 +243,20 @@ class _DashboardState extends State<Dashboard> {
                               type: 0,
                             ),
                           ),
+                          // ---- legend for histogram ----
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              HistogramLegend(
+                                  title: AppLocalizations.of(context)!
+                                      .turnover_text,
+                                  color: const Color(0xFF1abc9c)),
+                              HistogramLegend(
+                                  title: AppLocalizations.of(context)!
+                                      .profits_text,
+                                  color: const Color(0xFF3498db)),
+                            ],
+                          )
                         ],
                       ),
                     ),

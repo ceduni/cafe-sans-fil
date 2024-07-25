@@ -8,7 +8,6 @@ import 'package:app/provider/volunteer_provider.dart';
 import 'package:app/screens/main%20screens/article.dart';
 import 'package:app/screens/main%20screens/benevole.dart';
 import 'package:app/screens/main%20screens/dashboard.dart';
-import 'package:app/screens/main%20screens/evenement.dart';
 import 'package:app/screens/main%20screens/horaire.dart';
 import 'package:app/screens/setting%20options/settings_page.dart';
 import 'package:flutter/material.dart';

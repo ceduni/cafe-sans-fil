@@ -4,7 +4,7 @@ import 'package:app/modeles/Order%20models/OrderItem.dart';
 import 'package:http/http.dart' as http;
 
 class OrderService {
-  final String baseUrl = "http://10.51.252.166:3000/api/v1/orders";
+  final String baseUrl = "http://10.51.241.61:3000/api/v1/orders";
 
   Future<List<Order>> fetchOrders() async {
     var url = Uri.parse(baseUrl);
