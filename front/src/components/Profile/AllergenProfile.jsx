@@ -1,7 +1,6 @@
 import CustomRadio from "@/components/Profile/CustomRadio";
 
-const AllergenProfile = ({ selectedAllergens, setSelectedAllergens, setDisableSubmit }) => {
-
+const AllergenProfile = ({ selectedAllergens, setSelectedAllergens, setDisableSubmit, allergensNames }) => {
     return (
         <div className="border-b border-gray-900/10 pb-12 py-5">
             <h2 className="text-2xl font-semibold leading-7 text-gray-900">Allergènes</h2>
@@ -14,6 +13,9 @@ const AllergenProfile = ({ selectedAllergens, setSelectedAllergens, setDisableSu
                             initElements={selectedAllergens}
                             setElements={setSelectedAllergens}
                             setDisableSubmit={setDisableSubmit}
+                            initialColors={["bg-red-300", "bg-red-400", "bg-red-500"]}
+                            onClickColors={["bg-red-600", "bg-red-600", "bg-red-600"]}
+                            index={allergensNames.includes(allergen.name) ? allergen.value : null}
                         />
                     </div>
                 ))}

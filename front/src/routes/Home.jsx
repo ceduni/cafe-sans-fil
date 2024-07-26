@@ -5,20 +5,38 @@ import { useEffect, useState } from "react";
 import CafeList from "@/components/Cafe/CafeList";
 import SearchResults from "@/components/Search/SearchResults";
 import { useAuth } from "@/hooks/useAuth";
+import useApi from "@/hooks/useApi";
+import getCurrentUser from "@/utils/users";
+import Filters from "@/components/Cafe/Filters";
+import RecommendedCafeList from "@/components/Cafe/RecommendedCafeList";
+
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const isSearching = searchQuery.length > 0;
   const [storedCafes, setStoredCafes] = useState([]);
-
   const { isLoggedIn } = useAuth();
   const [recommendedCafes, setRecommendedCafes] = useState([]);
+  const [shouldRecommend, setShouldRecommend] = useState(true);
+  const { data, isLoading, error } = useApi("/cafes");
+  //const currentUserRecommendations = useApi(`/recommendations/cafe/${currentUser.user_id}`);
+  const currentUserRecommendations = ["cafekine", "la-planck", "lintermed", "pill-pub"];
+  const [currentUserDiets, setCurrentUserDiets] = useState([]);
+
+
+
+  const [filters, setFilters] = useState({
+    openOnly: false,
+    pavillon: "Tous les pavillons",
+    takesCash: false,
+    takesCreditCard: false,
+    takesDebitCard: false,
+    cafeSellingDietProductOnly: false,
+  });
+
 
   const getRecommendedCafes = async () => {
     if (isLoggedIn && storedCafes) {
-      // const currentUser = await getCurrentUser();
-      // const currentUserRecommendations = useApi(`/recommendations/cafe/${currentUser.user_id}`);
-      const currentUserRecommendations = ["cafekine", "la-planck", "lintermed", "pill-pub"];
       const filteredCafes = storedCafes.filter((cafe) => currentUserRecommendations.includes(cafe.slug));
       // console.log(filteredCafes);
       setRecommendedCafes(filteredCafes);
@@ -28,6 +46,28 @@ const Home = () => {
   useEffect(() => {
     getRecommendedCafes();
   }, [storedCafes]);
+
+
+  useEffect(() => {
+    if (filters.cafeSellingDietProductOnly || filters.takesCash || 
+      filters.takesCreditCard || filters.takesDebitCard || filters.openOnly || filters.pavillon !== "Tous les pavillons") {
+      setShouldRecommend(false);
+    } else {
+      setShouldRecommend(true);
+    }
+  }, [filters]);
+  
+
+  useEffect(() => {
+    const currUserDiets = async () => {
+      const currentUser = await getCurrentUser();
+      setCurrentUserDiets(currentUser.diet_profile?.diets);
+    }
+
+    if (isLoggedIn) {
+      currUserDiets();
+    }
+  }, []);
 
   return (
     <>
@@ -45,18 +85,34 @@ const Home = () => {
         </div>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </Container>
-      { isLoggedIn && <div>
+
+      <Filters filters={filters} setFilters={setFilters} cafes={storedCafes} isLoggedIn={isLoggedIn} />
+      
+      { isLoggedIn && !isSearching && shouldRecommend && 
+      <div>
         <Container>
           <h2 className="text-2xl sm:text-3xl text-zinc-800 font-secondary text-opacity-90 leading-7">Recommandations</h2>
-          {(!isSearching && <CafeList setStoredCafes={setRecommendedCafes} storedCafes={recommendedCafes} shouldRecommend={true} />) || (
-            <SearchResults searchQuery={searchQuery} storedCafes={recommendedCafes} />
-          )}
+          <RecommendedCafeList 
+            recommendedCafes={recommendedCafes} 
+            isLoading={isLoading} 
+          />
         </Container>
+
       </div>}
       <main>
         <Container>
           <h2 className="text-2xl sm:text-3xl text-zinc-800 font-secondary text-opacity-90 leading-7">Tous les cafés</h2>
-          {(!isSearching && <CafeList setStoredCafes={setStoredCafes} storedCafes={storedCafes} shouldRecommend={false} />) || (
+          {(!isSearching && 
+            <CafeList 
+              data={data} 
+              isLoading={isLoading} 
+              error={error} 
+              setStoredCafes={setStoredCafes} 
+              storedCafes={storedCafes} 
+              shouldRecommend={false} 
+              currentUserDiets={currentUserDiets} 
+              filters={filters} 
+            />) || (
             <SearchResults searchQuery={searchQuery} storedCafes={storedCafes} />
           )}
         </Container>

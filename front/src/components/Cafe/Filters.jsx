@@ -20,7 +20,7 @@ const filterTypes = [
   },
 ];
 
-const Filters = ({ filters, setFilters, cafes }) => {
+const Filters = ({ filters, setFilters, cafes, isLoggedIn }) => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const generatedSortOptions = cafes
@@ -130,6 +130,15 @@ const Filters = ({ filters, setFilters, cafes }) => {
       <div>
         <div className="flex items-baseline justify-end border-b border-gray-200 pb-6">
           <div className="flex items-center select-none">
+
+            {isLoggedIn && (<div className="flex items-center sm:mr-8 mr-4">
+              <Switch
+                checked={filters.cafeSellingDietProductOnly}
+                onChange={(e) => setFilters({ ...filters, cafeSellingDietProductOnly: e })}
+                label="Régime"
+              />
+            </div>)}
+
             <div className="flex items-center sm:mr-8 mr-4">
               <Switch
                 checked={filters.openOnly}
@@ -137,7 +146,6 @@ const Filters = ({ filters, setFilters, cafes }) => {
                 label="Ouvert"
               />
             </div>
-
 
             <Menu as="div" className="relative inline-block text-left">
               <div>

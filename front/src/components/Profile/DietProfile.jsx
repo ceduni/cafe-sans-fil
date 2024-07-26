@@ -1,4 +1,4 @@
-import Diet from "@/components/Diet";
+import Diet from "@/components/Profile/Diet";
 import AddDietCard from "@/components/Profile/AddDietCard";
 
 
@@ -37,6 +37,9 @@ const DietProfile = ({ diets, setDiets, setDisableSubmit }) => {
                         description={diet.description}
                         checked={diet.checked}
                         isStarter={diet.isStarter}
+                        forbiddenFoods={diet.forbiddenFoods}
+                        diets={diets}
+                        setDiets={setDiets}
                     />
                 ))}
                 <AddDietCard

@@ -1,7 +1,14 @@
 import Input from "@/components/Input";
-
+import DeleteConfirmation from "@/components/Profile/DeleteConfirmation";
+import { useState } from "react";
 
 const OtherProfileAction = ({ passwordDetails, setPasswordDetails, handleChangePassword, isSubmitting, handleDeleteClick, isConfirmingDelete }) => {
+
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const handleDeleteConfirmation = () => {
+        setShowDeleteConfirmation(!showDeleteConfirmation);
+    }
+
     return (
         <>
             <div className="space-y-12">
@@ -87,14 +94,30 @@ const OtherProfileAction = ({ passwordDetails, setPasswordDetails, handleChangeP
                 <h2 className="text-xl font-semibold leading-7 text-gray-900">Actions supplémentaires</h2>
                 <p className="mt-1 text-md leading-6 text-gray-600">Ces actions sont irréversibles.</p>
 
-                <button
+                {/* <button
                 onClick={handleDeleteClick}
                 className={`mt-10 w-64 rounded-md px-3 py-2 text-md font-semibold shadow-sm ${
                 isConfirmingDelete ? "bg-red-600 hover:bg-red-500 text-white" : "bg-red-600 hover:bg-red-500 text-white"
                 } focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600`}>
                 {isConfirmingDelete ? "Confirmez la suppression" : "Supprimer votre compte"}
+                </button> */}
+                
+                <button
+                onClick={handleDeleteConfirmation}
+                className={`mt-10 w-64 rounded-md px-3 py-2 text-md font-semibold shadow-sm bg-red-600 hover:bg-red-500 text-white`}
+                >
+                    Supprimer votre compte
                 </button>
             </div>
+
+            {showDeleteConfirmation && (
+                <DeleteConfirmation
+                isModalOpen={showDeleteConfirmation}
+                setIsModalOpen={setShowDeleteConfirmation}
+                handleDeleteClick={handleDeleteClick}
+                />
+            )}
+
         </>
     );
 };

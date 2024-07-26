@@ -2,7 +2,7 @@ import Input from "@/components/Input";
 import Avatar from "@/components/Avatar";
 import { Link } from "react-router-dom";
 
-const PersonnalInfoProfile = ({ user, userFullName, userDetails, memberCafes, setUserDetails, handleSubmit }) => {
+const AccountParameters = ({ user, userFullName, userDetails, memberCafes, setUserDetails, handleSubmit }) => {
     return (
         <>
             <div className="border-b border-gray-900/10 pb-12">
@@ -125,4 +125,4 @@ const PersonnalInfoProfile = ({ user, userFullName, userDetails, memberCafes, se
     );
 }
 
-export default PersonnalInfoProfile;
+export default AccountParameters;

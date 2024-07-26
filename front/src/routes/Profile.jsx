@@ -13,7 +13,7 @@ const Profile = () => {
   const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
   const userFullName = user ? user.first_name + " " + user.last_name : "";
 
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(localStorage.getItem("activeTab") || 0);
 
   const [userDetails, setUserDetails] = useState({
     photo_url: user?.photo_url,
@@ -87,15 +87,23 @@ const Profile = () => {
   // Delete account
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
+  // const handleDeleteClick = () => {
+  //   if (isConfirmingDelete) {
+  //     onAccountDelete();
+  //   } else {
+  //     setIsConfirmingDelete(true);
+  //   }
+  // };
+
   const handleDeleteClick = () => {
-    if (isConfirmingDelete) {
+    const deleteToast = toast.loading("Suppression en cours...");
       onAccountDelete();
-    } else {
-      setIsConfirmingDelete(true);
-    }
+    toast.success("Votre compte a été supprimé");
+    toast.dismiss(deleteToast);
   };
 
   const handleTabChange = (index) => {
+    localStorage.setItem("activeTab", index);
     setActiveTab(index);
   }
 
