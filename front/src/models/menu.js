@@ -7,13 +7,13 @@ export class CafeMenu {
 
 export class CafeMenuItem {
     constructor(data) {
-        this.name = data.blocks;
+        this.name = data.name;
         this.tags = data.tags;
         this.description = data.description;
         this.available = data.in_stock;
         this.category = data.category;
         this.image = data.image_url;
-        this.price = data.price;
+        this.price = Number(data.price);
         this.options = data.options;
     }
 }

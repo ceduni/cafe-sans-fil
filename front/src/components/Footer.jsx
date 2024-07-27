@@ -18,14 +18,14 @@ const Footer = () => {
                         </p>
                     </div>
                     <a className="underline block" href="https://discord.com/channels/1143019940501274634/1199491803901075506" rel='noreferrer' target="_blank">
-                        Signalez un problème ou faites une suggestion
+                        Rejoignez nous sur Discord
                     </a>
-                    {/* <a
+                    <a
                         href="mailto:louis.edouard.lafontant@umontreal.ca"
                         className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-all inline-flex items-center max-w-xs gap-4 sm:max-w-none">
                         <QuestionMarkCircleIcon className="h-5 w-5 text-gray-500" />
-                        <span className="text-left">Vous êtes gérant d'un café? Contactez&nbsp;nous</span>
-                    </a> */}
+                        <span className="text-left">Vous êtes gérant d'un café étudiant? Ajoutez&nbsp;votre café</span>
+                    </a>
                     <p className="font-medium">&copy; 2024 Café sans-fil</p>
                 </div>
             </div>

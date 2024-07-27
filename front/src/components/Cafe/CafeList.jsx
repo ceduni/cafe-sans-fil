@@ -110,6 +110,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
     }, []);
 
     if (error) {
+        console.trace(error);
         return renderError(error);
     }
 

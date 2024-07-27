@@ -9,5 +9,7 @@
     "payment.credit": "Carte de crédit",
     "payment.debit": "Carte de débit",
 
+    "alt.cafe_logo": "Logo du café",
+
     "error.404.cafe": "Ce café n'existe pas"
 }

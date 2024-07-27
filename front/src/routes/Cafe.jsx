@@ -4,10 +4,18 @@ import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { CafeAPI } from "@/utils/api";
 import EmptyState from "@/components/EmptyState";
-import LogoInstagram from "@/assets/icons/logo-instagram.svg";
-import LogoFacebook from "@/assets/icons/logo-facebook.svg";
-import LogoX from "@/assets/icons/logo-x.svg";
+import SocialLink from "@/components/Cafe/SocialLink";
+import CafeIdentification from "@/components/CafeIdentification/CafeIdentification";
+import PaymentType from "@/components/Cafe/PaymentType";
+import CafeMenu from "@/components/CafeMenu/Menu";
+import CafeEvent from "@/components/CafeAnnouncement/CafeEvent";
+import '@/assets/styles/cafe.css';
 
+const _lst = Object.entries;
+
+function renderMenuSection() {
+    return <span>Hello</span>
+}
 
 const Cafe = () => {
     const { t } = useTranslation();
@@ -21,12 +29,12 @@ const Cafe = () => {
 
     // Fetching cafe
     useEffect(() => {
-        CafeAPI.find(id, setIsLoading)
+        CafeAPI.get(id, setIsLoading)
             .then((data) => {
                 setCafe(data);
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
                 setError(error)
             })
     }, []);
@@ -43,42 +51,45 @@ const Cafe = () => {
         return <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8 animate-pulse duration-100"></div>
     }
 
-
     return (
         <>
             <Helmet>{cafe?.name && <title>{cafe.name} | {APP_NAME}</title>}</Helmet>
             <header className={`relative h-[400px] flex items-end justify-between overflow-hidden;`} style={{ background: `url(${cafe.image}) center / cover no-repeat` }}>
                 <div className="cafe-brand">
-                    <img className="cafe-logo" src="assets/logo_tore_fraction.jpg" alt="Logo du café" />
-                        <ul className="bare-list socials">
-                            <li className="social">
-                                <a href="https://twitter.com" target="_blank">
-                                    <img className="social-img" src={LogoX} alt="Logo de X (Twitter)" />
-                                </a>
-                            </li>
-                            <li className="social">
-                                <a href="https://www.facebook.com/CafeToreetFraction" target="_blank">
-                                    <img className="social-img" src={LogoFacebook} alt="Logo de facebook" />
-                                </a>
-                            </li>
-                            <li className="social">
-                                <a href="https://www.instagram.com" target="_blank">
-                                    <img className="social-img" src={LogoInstagram} alt="Logo de instagram" />
-                                </a>
-                            </li>
-                        </ul>
+                    <img className="cafe-logo" src={cafe?.logo} alt={t("alt.cafe_logo")} />
+                    <ul className="bare-list socials">
+                        {_lst(cafe?.socials).map(([key, value]) => (
+                            <SocialLink platform={key} url={value} />
+                        ))}
+                    </ul>
                 </div>
             </header>
-            <section className="grid gap-[1vw] mt-6 px-[2vw] pb-6 lg:grid-cols-[1.5fr_1fr] lg:grid-rows-[auto_1fr]">
+            <section className="main-body">
                 <div className="menu-section">
+                    <div>
+                        <h2 className="text-center my-0 text-3xl font-bold">Menu</h2>
+                    </div>
+                    {/* <div className="accepted-payments">
+                        {cafe?.paymentMethods.map((p) => (
+                            <PaymentType name={p.method} />
+                        ))}
+                    </div> */}
+                    <CafeMenu items={cafe?.menu} />
+                </div>
+                <div className="cafe-identification">
+                    <CafeIdentification cafe={cafe} />
+                </div>
+                <div className="cafe-communication">
 
                 </div>
-                <div className="cafe-identi">
-
-                </div>
-                <div className="menu-section">
-
-                </div>
+            </section>
+            <section className="cafe-event">
+                <h3 className="title">Tableau d'affichage</h3>
+                <ul className="bare-list grid-content">
+                    {_lst(cafe?.socials).map(([key, value]) => (
+                        <CafeEvent platform={key} url={value} />
+                    ))}
+                </ul>
             </section>
         </>
     );
