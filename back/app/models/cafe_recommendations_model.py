@@ -1,6 +1,6 @@
 from beanie import Document
-from typing import List
-from app.models.recommendations.item_model import Item
+from pydantic import BaseModel, Field
+from typing import List, Dict
 from uuid import UUID
 
 """
@@ -13,8 +13,13 @@ Note: These models are intended for direct database interactions related to user
 different from the API data interchange models.
 """
 
-class UserRecommendation(Document):
-    user_id: UUID
-    cafe_slug: str
-    recommendation_list: List[Item]
+class Item(BaseModel):
+    slug: str = Field(..., description="URL-friendly slug for the menu item.")
+    health_score: int = Field(..., description="Health score of the item.")
+    cluster: str = Field(..., description="String representing the cluster where the item belongs.")
 
+class CafeForRecommendation(Document):
+    slug: str
+    health_score: float
+    bot_recommendations: List[Item]
+    public_recommendations: List[Item]

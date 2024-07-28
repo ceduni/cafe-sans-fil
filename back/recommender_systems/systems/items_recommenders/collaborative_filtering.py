@@ -25,7 +25,11 @@ def main(users: List[User], user: User, similarity_threshold: float= 0.5) -> Lis
 
             for u in other_users:
                 other_items_in_orders: list[str] = Utilitaries.list_items( DButils.get_user_orders(u))
-                other_user_list: list[set[str]] = [set( DButils.get_all_user_likes(u['username']) ), set(other_items_in_orders), set( DButils.get_user_visited_cafe(u) )]
+                other_user_list: list[set[str]] = [
+                    set( DButils.get_all_user_likes(u['username']) ), 
+                    set(other_items_in_orders), 
+                    set( DButils.get_user_visited_cafe(u) )
+                ]
                 score: float = Utilitaries.users_similarity(user_list, other_user_list)
                 if score >= similarity_threshold:
                     u_union: set = user_list[0].union(user_list[1])

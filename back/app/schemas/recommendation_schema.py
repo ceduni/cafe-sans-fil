@@ -1,6 +1,6 @@
 from pydantic import ConfigDict, BaseModel, Field
-from uuid import UUID
-from typing import List, Dict, Optional
+from pymongo import MongoClient
+from typing import List, Optional
 
 """
 This module defines the Pydantic-based schemas for user recommendations. 
@@ -11,76 +11,93 @@ Note: These models are for API data interchange related to users and not direct 
 """
 
 # ----------------------------------------------
-#               Cafe
-# ----------------------------------------------
-
-class CafeOut(BaseModel):
-    slug: str = Field(None, description="URL-friendly slug for the cafe.")
-    model_config = ConfigDict(json_schema_extra={
-        "slug": "tore-et-fraction"
-    })
-
-# ----------------------------------------------
 #               Item
 # ----------------------------------------------
 
 class ItemOut(BaseModel):
-    slug: str = Field(None, description="URL-friendly slug for the menu item.")
-    health_score: int = Field(None, description="Health score of the item.")
+    slug: str = Field(..., description="URL-friendly slug for the menu item.")
+    health_score: int = Field(..., description="Health score of the item.")
     cluster: str = Field(..., description="String representing the cluster where the item belongs.")
     model_config = ConfigDict(json_schema_extra={
-        "slug": "cheeseburger",
-        "health_score": 5,
-        "cluster": "0"
+        "exemple": {
+            "slug": "cheeseburger",
+            "health_score": 5,
+            "cluster": "0"
+        }
     })
 
 class ItemUpdate(BaseModel):
     slug: Optional[str] = Field(None, description="URL-friendly slug for the menu item.")
     health_score: Optional[int] = Field(None, description="Health score of the item.")
-    cluster: Optional[str] = Field(..., description="String representing the cluster where the item belongs.")
+    cluster: Optional[str] = Field(None, description="String representing the cluster where the item belongs.")
     model_config = ConfigDict(json_schema_extra={
-        "slug": "cheeseburger",
-        "health_score": 5,
-        "cluster": "0"
+        "exemple": {
+            "slug": "cheeseburger",
+            "health_score": 5,
+            "cluster": "0"
+        }
     })
-
 
 # ----------------------------------------------
-#               Recommendations
+#               Cafe
 # ----------------------------------------------
 
-class ItemRecommendationOut(BaseModel):
-    recommendations: List[str] = Field(..., description="Recommendations for each cafe.")
+class CafeOut(BaseModel):
+    slug: str = Field(..., description="URL-friendly slug for the cafe.")
+    health_score: float = Field(..., description="Score of the cafe.")
+    bot_recommendations: List[ItemOut] = Field(..., description="List of recommended items in this cafe.")
+    public_recommendations: List[ItemOut] = Field(..., description="List of recommended items in this cafe.")
     model_config = ConfigDict(json_schema_extra={
         "exemple": {
-            "recommendations":  ['cheeseburger', "Cheeseburger Spécial"]
+            "slug": "tore-et-fraction",
+            "health_score": 5,
+            "bot_recommendations": [
+                {
+                    "slug": "cheeseburger",
+                    "health_score": 5,
+                    "cluster": "0"
+                },
+            ],
+            "public_recommendations": [
+                {
+                    "slug": "cheeseburger",
+                    "health_score": 5,
+                    "cluster": "0"
+                },
+            ]
         }
     })
 
-class ItemRecommendationUpdate(BaseModel):
-    recommendations: Optional[List[str]] = Field(..., description="Recommendations for each cafe.")
+class CafeShortOut(BaseModel):
+    slug: str = Field(..., description="URL-friendly slug for the cafe.")
+    health_score: float = Field(..., description="Score of the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "exemple": {
-            "recommendations":  ["cheeseburger", "Cheeseburger Spécial"]
+            "slug": "tore-et-fraction",
+            "health_score": 5
         }
     })
 
-class CafeRecommendationOut(BaseModel):
-    user_id: UUID = Field(..., description="id of the user receiving the recommendations.")
-    recommendations: List[str] = Field(..., description="List of cafe slugs recommended to the user.")
+class CafeUpdate(BaseModel):
+    health_score: Optional[float] = Field(None, description="Score of the cafe.")
+    bot_recommendations: Optional[List[ItemOut]] = Field(..., description="List of recommended items in this cafe.")
+    public_recommendations: Optional[List[ItemOut]] = Field(..., description="List of recommended items in this cafe.")
     model_config = ConfigDict(json_schema_extra={
         "exemple": {
-            "user_id": "4bd4d340-e2b0-404f-a8b6-7af8eef33411",
-            "recommendations": ["tore-et-fraction"]
-        }
-    })
-
-class CafeRecommendationUpdate(BaseModel):
-    user_id: Optional[UUID] = Field(..., description="id of the user receiving the recommendations.")
-    recommendations: Optional[List[str]] = Field(..., description="List of cafe slugs recommended to the user.")
-    model_config = ConfigDict(json_schema_extra={
-        "exemple": {
-            "user_id": "4bd4d340-e2b0-404f-a8b6-7af8eef33411",
-            "recommendations": ["tore-et-fraction"]
+            "health_score": 5,
+            "bot_recommendations": [
+                {
+                    "slug": "cheeseburger",
+                    "health_score": 5,
+                    "cluster": "0"
+                },
+            ],
+            "public_recommendations": [
+                {
+                    "slug": "cheeseburger",
+                    "health_score": 5,
+                    "cluster": "0"
+                },
+            ]
         }
     })

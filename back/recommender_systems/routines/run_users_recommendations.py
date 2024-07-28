@@ -22,22 +22,23 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
     list_cafe: list[Cafe] = DButils.get_all_cafe()
     recommendations: dict[str, dict[str, list[str]]] = {}
     for _, user in enumerate(tqdm(users, desc="Finding users recommendations")):
-        if user['user_id'] not in recommendations:
+        if user['user_id'] not in recommendations and user['username'] == '7802085':
             cafes_recommendations: dict[str, list[str]] = {}
-            cf_recommendations: list[str] = CF.main(users, user)
+            #cf_recommendations: list[str] = CF.main(users, user)
             for cafe in list_cafe:
                 cafe_slug: str = cafe['slug']
                 # Personnal recommendations.
-                collab_filtering: list[str] = Utilitaries.filter_items_by_cafe(cf_recommendations, cafe_slug)
+                # collab_filtering: list[str] = Utilitaries.filter_items_by_cafe(cf_recommendations, cafe_slug)
                 
-                try:
-                    content_based: list[str] = Utilitaries.filter_items_by_cafe(CBF.main(user, cafe), cafe_slug)
-                except ValueError:
-                    print(f"Error for user: {user['username']} in content based algorithm.")
-                    content_based: list[str] = []
+                # try:
+                #     content_based: list[str] = Utilitaries.filter_items_by_cafe(CBF.main(user, cafe), cafe_slug)
+                # except ValueError:
+                #     print(f"Error for user: {user['username']} in content based algorithm.")
+                #     content_based: list[str] = []
 
                 try:
                     knowledge_based: list[str] = Utilitaries.filter_items_by_cafe(KBR.main(cafe, user), cafe_slug)
+                    print("knowledge_based:", knowledge_based) if len(knowledge_based) < 20 else None
                 except KeyError | ValueError:
                     print(f"Error for user: {user['username']} in knowledge based algorithm.")
                     knowledge_based: list[str] = []
@@ -47,8 +48,8 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
 
                 list_items_recommended = []
 
-                list_items_recommended.extend(collab_filtering)
-                list_items_recommended.extend(content_based)
+                # list_items_recommended.extend(collab_filtering)
+                # list_items_recommended.extend(content_based)
                 list_items_recommended.extend(knowledge_based)
 
                 cafes_recommendations[cafe_slug] = list( set(list_items_recommended) )

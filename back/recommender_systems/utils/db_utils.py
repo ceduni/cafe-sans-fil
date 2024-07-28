@@ -42,7 +42,7 @@ def get_user_likes_in_cafe(user_id: str, cafe_items: List[MenuItem]) -> List[str
 def get_all_users() -> List[User]:
     query_params = {
         "page": 1,
-        "limit": 20,
+        "limit": 70,
         "sort_by": "last_name"
     }
     auth_token = AuthApi.auth_login()

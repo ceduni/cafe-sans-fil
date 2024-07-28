@@ -7,6 +7,7 @@ from app.models.user_model import User
 from app.models.order_model import Order, OrderedItem
 from recommender_systems.utils.api_calls import *
 from typing import List, Dict, Set
+import statistics
 
 #------------------------
 #       Users
@@ -182,18 +183,21 @@ def items_not_bought_in_cafe(cafe: Cafe, user: User) -> List[str]:
 
     return list( set(meal_not_consumed) )
 
+#TODO: Update tests
 # Find the diets where an item can be.
 def find_item_diets_for_user(item: MenuItem, user_diets: List[Dict[str, str | List[str]]]) -> List[str]:
     diets: list[str] = []
     try:
         for diet in user_diets:
-            intersection: set[str] = set(item['ingredients']).intersection(set(diet['forbidden_foods']))
-            if len(intersection) == 0:
-                diets.append(diet['name'])
+            if diet['checked'] == True:
+                intersection: set[str] = set(item['ingredients']).intersection(set(diet['forbidden_foods']))
+                if len(intersection) == 0:
+                    diets.append(diet['name'])
         return diets
     except KeyError as e:
         print(e)
         return []
+
 
 #-----------------------
 #       Cafe
@@ -212,6 +216,15 @@ def find_cafe_by_item(cafe_list: List[Cafe], item: MenuItem) -> List[Cafe]:
         if item['slug'] in items_slug:
             cafes.append(cafe)
     return cafes
+
+#TODO: Add tests
+def calculate_cafe_health_score(cafe: Cafe) -> float:
+    items = DButils.get_cafe_items(cafe['slug'])
+    items_health_scores: list[float] = []
+    for item in items:
+        items_health_scores.append(health_score(item))
+
+    return statistics.mean(items_health_scores)
 
 #-----------------------
 #       Others
@@ -250,19 +263,11 @@ def health_score(item: MenuItem) -> float:
 
     # Positive points
     fiber_points = min(max(int( float(nutri_info["fiber"] if nutri_info["fiber"] != None else 0) / 0.9), 0), positive_points_max)
-    protein_points = min(max(int( float(nutri_info["protein"] if nutri_info["protein"] != None else 0) / 1.6), 0), positive_points_max)
-    if nutri_info["percentage_fruit_vegetables_nuts"]:
-        fruit_vegetables_nuts_points = min(max(int( float(nutri_info["percentage_fruit_vegetables_nuts"] if nutri_info["percentage_fruit_vegetables_nuts"] != None else 0) / 40), 0), positive_points_max)
-        positive_points = fiber_points + protein_points + fruit_vegetables_nuts_points
-    else:
-        fruit_vegetables_nuts_points = 0
-        positive_points = fiber_points + protein_points
+    protein_points = min(max(int( float(nutri_info["proteins"] if nutri_info["proteins"] != None else 0) / 1.6), 0), positive_points_max)
+    positive_points = fiber_points + protein_points
 
     # Total score
-    if fruit_vegetables_nuts_points < 5:
-        score = negative_points - positive_points
-    else:
-        score = negative_points - fiber_points - protein_points
+    score = negative_points - positive_points
 
     # Nutri-Score
     #if score <= -1:

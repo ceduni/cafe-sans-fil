@@ -69,8 +69,15 @@ class CafeApi:
         r = response.json()
         return r, response.status_code
     
+    @staticmethod
+    def update_cafe(auth_token, cafe_slug, params=None, json_data=None):
+        headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
+        endpoint = urljoin('http://127.0.0.1:8000', f'/api/cafes/{cafe_slug}')
+        response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
+        r = response.json()
+        return r, response.status_code
+    
 class UserApi:
-    # NEEDS AUTHORIZATION
     @staticmethod
     def get_users(auth_token, params=None, json_data=None):
         headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
@@ -132,6 +139,7 @@ class BotRecommenderApi:
         headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
         endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/bot/{cafe_slug}')
         response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
+        print(response)
         r = response.json()
         return r, response.status_code
     
@@ -158,3 +166,4 @@ class CafeRecommenderApi:
         response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
         r = response.json()
         return r, response.status_code
+    

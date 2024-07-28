@@ -78,17 +78,18 @@ class UserUpdate(BaseModel):
             "diet_profile": {
                 "diets": [
                     {
-                        "name": "vegan",
-                        "description": "Description of the vegan diet.",
-                        "forbidden_foods": ["lait", "oeuf"],
+                        "name": "Vegan",
+                        "description": "Vegan food is food that does not contain meat, fish, eggs, milk, or dairy products.",
+                        "forbidden_foods": ["meat", "fish", "eggs", "milk", "dairy"],
+                        "valid_cafes": ["le-mozza", "acquis-de-droit"],
+                        "checked": True
                     },
                 ],
                 "prefered_nutrients": {
-                    "Calories": 0,
-                    "Protein": 0,
-                    "Carbohydrates": 0,
-                    "Fats": 0
-                }, 
+                    "carbohydrates": 1,
+                    "proteins": 3,
+                    "saturated_fat": 2
+                },
                 "allergens": {
                     "Gluten": 0,
                     "Dairy": 0,
@@ -102,6 +103,32 @@ class UserUpdate(BaseModel):
             }
         }
     })
+    # model_config = ConfigDict(json_schema_extra={
+    #     "example": {
+    #         "email": "john.doe@umontreal.ca",
+    #         "matricule": "20303216",
+    #         "username": "johndoe",
+    #         "password": "Password123",
+    #         "first_name": "John",
+    #         "last_name": "Doe",
+    #         "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
+    #         "diet_profile": {
+    #             "diet": "Vegetarian",
+    #             "prefered_nutrients": ["vitamins", "proteins", "carbohydrates"],
+    #             "food_categories": {"grilleed cheese", "colLations"},
+    #             "allergens": {
+    #                 "Gluten": 0,
+    #                 "Dairy": 0,
+    #                 "Peanuts": 0,
+    #                 "Tree Nuts": 0,
+    #                 "Soy": 0,
+    #                 "Wheat": 0,
+    #                 "Fish": 0,
+    #                 "Shellfish": 0
+    #             }
+    #         }
+    #     }
+    # })
 
     @field_validator('username')
     @classmethod
@@ -144,17 +171,18 @@ class UserOut(BaseModel):
             "diet_profile": {
                 "diets": [
                     {
-                        "name": "vegan",
-                        "description": "Description of the vegan diet.",
-                        "forbidden_foods": ["lait", "oeuf"],
-                    },
+                        "name": "Vegan",
+                        "description": "Vegan food is food that does not contain meat, fish, eggs, milk, or dairy products.",
+                        "forbidden_foods": ["meat", "fish", "eggs", "milk", "dairy"],
+                        "valid_cafes": ["le-mozza", "acquis-de-droit"],
+                        "checked": False
+                    }
                 ],
                 "prefered_nutrients": {
-                    "Calories": 0,
-                    "Protein": 0,
-                    "Carbohydrates": 0,
-                    "Fats": 0
-                }, 
+                    "carbohydrates": 1,
+                    "proteins": 3,
+                    "saturated_fat": 2
+                },
                 "allergens": {
                     "Gluten": 0,
                     "Dairy": 0,

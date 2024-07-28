@@ -9,7 +9,7 @@ import unicodedata
 
 """
 This module defines the Pydantic-based models used in the Café application for cafe management,
-which are specifically designed for database interaction via the Beanie ODM 
+which are specifically designed for database interaction via the Beanie ODM
 (Object Document Mapper) for MongoDB. These models detail the structure, relationships, 
 and constraints of the cafe-related data stored in the database.
 
@@ -113,6 +113,8 @@ class NutritionInfo(BaseModel):
     sodium: Optional[DecimalAnnotation] = Field(None, description="Salt content in the item.")
     fiber: Optional[DecimalAnnotation] = Field(None, description="Fiber content in the item.")
     saturated_fat: Optional[DecimalAnnotation] = Field(None, description="Saturated fat content in the item.")
+    # vitamins: Optional[DecimalAnnotation] = Field(None, description="Vitamins content in the item.")
+    #percentage_fruit_vegetables_nuts: Optional[DecimalAnnotation] = Field(None, description="Percentage on fruits, vegetables and nuts in the item.")
     zinc: Optional[DecimalAnnotation] = Field(None, description="Zinc content in the item.")
     iron: Optional[DecimalAnnotation] = Field(None, description="Iron content in the item.")
     calcium: Optional[DecimalAnnotation] = Field(None, description="Calcium content in the item.")
@@ -177,6 +179,7 @@ class Cafe(Document):
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
     menu_items: List[MenuItem]
+    health_score: float = Field(default=0, description="Cafe health score.")
     
     def __init__(self, **data):
         super().__init__(**data)

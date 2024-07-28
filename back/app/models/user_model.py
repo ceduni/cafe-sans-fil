@@ -1,6 +1,6 @@
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict
 from uuid import UUID, uuid4
-from beanie import Document, Indexed, DecimalAnnotation
+from beanie import Document, Indexed
 from pydantic import BaseModel
 from pydantic import EmailStr, Field
 from datetime import datetime
@@ -16,8 +16,19 @@ Note: These models are intended for direct database interactions related to user
 different from the API data interchange models.
 """
 
+class Diet(BaseModel):
+    name: Optional[str] = Field(None, description="Diet name.")
+    description: Optional[str] = Field(None, description="Diet description.")
+    forbidden_foods: Optional[List[str]] = Field(None, description="List of forbidden foods.")
+    valid_cafes: Optional[List[str]] = Field(None, description="List of cafes that can offer items from this diet.")
+    checked: Optional[bool] = Field(None, description="Indicates if the diet has been selected by the user.")
+
 class DietProfile(BaseModel):
-    diets: Optional[List[Dict[str, str | List[str]]]] = Field(None, description="User diets.")
+    # diets: Optional[List[str]] = Field(None, description="User diets.")
+    # food_categories: Optional[List[str]] = Field(None, description="Categories of foods preferred by the user.")
+    # prefered_nutrients: Optional[List[str]] = Field(None, description="User's favorite nutrients.")
+    # allergens: Optional[dict[str, int]] = Field(None, description="User allergens. {Key= allergen name: Value= danger level}")
+    diets: Optional[List[Diet]] = Field(None, description="User diets.")
     prefered_nutrients: Optional[Dict[str, int]] = Field(None, description="User's favorite nutrients.")
     allergens: Optional[Dict[str, int]] = Field(None, description="User allergens. {Key= allergen name: Value= danger level}")
 

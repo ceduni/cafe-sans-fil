@@ -52,7 +52,7 @@ def _get_valid_items(items: List[MenuItem], user_prefered_nutrients: dict[str, i
     valid_items: set[str] = set()
 
     for nutrient, level in zip(user_prefered_nutrients.keys(), user_prefered_nutrients.values()):
-        nutrient_dv: float = Utils.get_nutrient_daily_value(nutrient)
+        nutrient_dv: float = Utils.get_nutrient_daily_value(nutrient.lower())
 
         low_bound: float = 0
         high_bound: float = 0
@@ -71,7 +71,8 @@ def _get_valid_items(items: List[MenuItem], user_prefered_nutrients: dict[str, i
 
         valid_items_for_nutrient: list[str] = []
         for item in items:
-            percentage_dv = (item['nutritional_informations'][nutrient] / nutrient_dv) * 100
+
+            percentage_dv = ( float( item['nutritional_informations'][nutrient.lower()] ) / nutrient_dv ) * 100
             if low_bound <= percentage_dv < high_bound:
                 valid_items_for_nutrient.append(item)
 
@@ -95,26 +96,30 @@ def _validate_inputs(actual_cafe: Dict[str, Any], user: Dict[str, Any]) -> None:
     
     if isinstance(user, dict) == False:
         raise TypeError("Argument 2 must be a Dict")
-    
-    if 'menu_items' not in actual_cafe.keys():
-        raise KeyError("Arguments actual_cafe must have a 'menu_items' key")
+
+    if 'slug' not in actual_cafe.keys():
+        raise KeyError("Argument actual_cafe must have a 'slug' attribute")
     
     if 'diet_profile' not in user.keys():
-        raise KeyError("Argument user must have a 'diet_profile' key")
+        raise KeyError("Argument user must have a 'diet_profile' attribute")
 
+#TODO: Update tests.
 # This algorithm recommand foods based on the specifications (preferences)
 # and the allergens of the user.
 def main(actual_cafe: Cafe, user: User) -> List[str]:
 
     _validate_inputs(actual_cafe, user)
     
-    menu_items: list[MenuItem] = actual_cafe['menu_items']
+    menu_items: list[MenuItem] = DButils.get_cafe_items(actual_cafe['slug'])
     user_diets: list[dict[str, str | list[str]]] = user['diet_profile']['diets']
     user_prefered_nutrients: dict[str, int] = user['diet_profile']['prefered_nutrients']
 
+    
+
     # No diets and no nutrients specified
     if not user_diets and not user_prefered_nutrients:
-        return remove_allergenic_items(menu_items, user['diet_profile']['allergens'])
+        recs: list[str] = remove_allergenic_items(menu_items, user['diet_profile']['allergens'])
+        return recs if len(recs) <= len(menu_items) else []
     
     # Only nutrients specified
     if not user_diets and user_prefered_nutrients: # Only nutrients specified

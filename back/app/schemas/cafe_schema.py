@@ -27,8 +27,8 @@ class MenuItemCreate(BaseModel):
     category: str = Field(..., min_length=1, max_length=50, description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
     ingredients: List[str] = Field(..., description="List of ingredients in the menu item.")
-    diets: List[str] = Field(..., description="List of diets in which the food is eaten.")
-    allergens: List[str] = Field(..., description="List of allergens contained in the item.")
+    #diets: List[str] = Field(..., description="List of diets in which the food is eaten.")
+    #allergens: List[str] = Field(..., description="List of allergens contained in the item.")
     barecode: Optional[str] = Field(None, description="Food's barecode.")
     nutritional_informations: NutritionInfo = Field(..., description="Dictionnary of the nutritive values of an item.")
     model_config = ConfigDict(json_schema_extra={
@@ -51,7 +51,7 @@ class MenuItemCreate(BaseModel):
             #"diets": ["Vegetarian"],
             #"allergens": ["Peanuts", "Dairy"],
             "barecode": "123e4567-e892-12d3-a456-426614174000",
-            "nutritional_information": {"Calories": 300, "Protein": 25, "Carbohydrates": 50, "Fats": 15}
+            "nutritional_information": {"calories": 300, "proteins": 25, "carbohydrates": 50, "sodium": 15}
         }
     })
 
@@ -72,8 +72,8 @@ class MenuItemUpdate(BaseModel):
     category: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated category of the menu item.")
     options: Optional[List[MenuItemOption]] = Field(None, description="Updated options for the menu item.")
     ingredients: Optional[List[str]] = Field(None, description="Updated list of ingredients for the menu item.")
-    diets: Optional[List[str]] = Field(None, description="Updated list of diets for the menu item.")
-    allergens: Optional[List[str]] = Field(None, description="Updated list of allergens for the menu item.")
+    #diets: Optional[List[str]] = Field(None, description="Updated list of diets for the menu item.")
+    #allergens: Optional[List[str]] = Field(None, description="Updated list of allergens for the menu item.")
     likes: Optional[List[str]] = Field(None, description="Updated list of likes for the menu item.")
     barecode: Optional[str] = Field(None, description="Updated barecode of the menu item.")
     nutritional_information: Optional[NutritionInfo] = Field(None, description="Updated nutritional information for the menu item.")
@@ -97,7 +97,7 @@ class MenuItemUpdate(BaseModel):
             #"allergens": ["Peanuts", "Dairy"],
             "likes": ["20176472"],
             "barecode": "123e4567-e892-12d3-a456-426614174000",
-            "nutritional_information": {"Calories": 300, "Protein": 25, "Carbohydrates": 50, "Fats": 15}
+            "nutritional_information": {"calories": 300, "proteins": 25, "carbohydrates": 50, "sodium": 15}
         }
     })
 
@@ -122,8 +122,8 @@ class MenuItemOut(BaseModel):
     category: str = Field(..., description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
     ingredients: List[str] = Field(..., description="Ingredients associated with the menu item.")
-    diets: List[str] = Field(..., description="Diets associated with the menu item.")
-    allergens: List[str] = Field(..., description="Allergens associated with the menu item.")
+    #diets: List[str] = Field(..., description="Diets associated with the menu item.")
+    #allergens: List[str] = Field(..., description="Allergens associated with the menu item.")
     likes: List[str] = Field(..., description="Identifier of users who like the menu item.")
     barecode: Optional[str] = Field(None, description="Barecode of the menu item.")
     nutritional_informations: NutritionInfo = Field(..., description="Nutritional information of the menu item.")
@@ -149,7 +149,7 @@ class MenuItemOut(BaseModel):
             #"allergens": ["Peanuts", "Dairy"],
             "likes": ["20176472"],
             "barecode": "123e4567-e892-12d3-a456-426614174000",
-            "nutritional_information": {"Calories": 300, "Protein": 25, "Carbohydrates": 50, "Fats": 15},
+            "nutritional_information": {"calories": 300, "proteins": 25, "carbohydrates": 50, "sodium": 15},
             "cluster": "0",
             "health_score": 0.0
         }
@@ -207,6 +207,7 @@ class CafeCreate(BaseModel):
     additional_info: List[AdditionalInfo] = Field(..., description="Additional information about the cafe.")
     staff: List[StaffMember] = Field(..., description="Staff members of the cafe.")
     menu_items: List[MenuItemCreate] = Field(..., description="Menu items offered by the cafe.")
+    health_score: Optional[float] = Field(None, description="Health score of the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "name": "Café Central",
@@ -253,7 +254,8 @@ class CafeCreate(BaseModel):
                         {"type": "ingrédients", "value": "tomate", "fee": 0},
                         {"type": "ingrédients", "value": "fromage", "fee": 0}
                     ],
-                    "ingredients": ["milk", "cheese", "bread"]
+                    "ingredients": ["milk", "cheese", "bread"],
+                    "nutritional_information": {"calories": 300, "proteins": 25, "carbohydrates": 50, "sodium": 15},
                 },
                 {
                     "name": "Chicken Caesar Salad",
@@ -265,8 +267,10 @@ class CafeCreate(BaseModel):
                     "category": "Salads",
                     "options": [],
                     "ingredients": ["milk", "cheese", "bread"],
+                    "nutritional_information": {"calories": 300, "proteins": 25, "carbohydrates": 50, "sodium": 15},
                 }
             ],
+            "health_score": 4.5,
             "additional_info": [
                 {
                     "type": "promo",
@@ -292,6 +296,7 @@ class CafeUpdate(BaseModel):
     social_media: Optional[List[SocialMedia]] = Field(None, description="Updated social media profiles of the cafe.")
     payment_methods: Optional[List[PaymentMethod]] = Field(None, description="Updated payment methods accepted at the cafe.")
     additional_info: Optional[List[AdditionalInfo]] = Field(None, description="Updated additional information about the cafe.")
+    health_score : Optional[float] = Field(None, description="Updated health score of the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "name": "Café Central",
@@ -326,7 +331,8 @@ class CafeUpdate(BaseModel):
                     "start": datetime.now() - timedelta(hours=5),
                     "end": datetime.now() + timedelta(minutes=30)
                 }
-            ]
+            ],
+            "health_score": 0.8
         }
     })
 
@@ -349,6 +355,7 @@ class CafeOut(BaseModel):
     additional_info: List[AdditionalInfo] = Field(..., description="Additional information about the cafe.")
     staff: List[StaffMember] = Field(..., description="Staff members of the cafe.")
     menu_items: List[MenuItemOut] = Field(..., description="Menu items offered by the cafe.")
+    health_score : float = Field(..., description="Health score of the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
@@ -405,7 +412,8 @@ class CafeOut(BaseModel):
                         {"type": "ingrédients", "value": "tomate", "fee": 0},
                         {"type": "ingrédients", "value": "fromage", "fee": 0}
                     ],
-                    "ingredients": ["eggs", "tomato", "cheese"]
+                    "ingredients": ["milk", "cheese", "bread"],
+                    "nutritional_information": {"calories": 300, "proteins": 25, "carbohydrates": 50, "sodium": 15},
                 },
                 {
                     "item_id": "123e4567-e89b-12d3-a456-426614174002",
@@ -418,9 +426,11 @@ class CafeOut(BaseModel):
                     "in_stock": False,
                     "category": "Salads",
                     "options": [],
-                    "ingredients": ["chicken", "lettuce"]
+                    "ingredients": ["milk", "cheese", "bread"],
+                    "nutritional_information": {"calories": 300, "proteins": 25, "carbohydrates": 50, "sodium": 15},
                 }
             ],
+            "health_score": 8.5,
             "additional_info": [
                 {
                     "type": "promo",
@@ -447,6 +457,7 @@ class CafeShortOut(BaseModel):
     location: Location = Field(..., description="Location details of the cafe.")
     payment_methods: List[PaymentMethod] = Field(..., description="Payment methods accepted at the cafe.")
     additional_info: List[AdditionalInfo] = Field(..., description="Additional information about the cafe.")
+    health_score: float = Field(..., description="Health score of the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
@@ -478,7 +489,8 @@ class CafeShortOut(BaseModel):
                     "start": datetime.now() - timedelta(hours=5),
                     "end": datetime.now() + timedelta(minutes=30)
                 }
-            ]
+            ],
+            "health_score": 8.5
         }
     })
 

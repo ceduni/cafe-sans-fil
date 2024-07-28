@@ -6,12 +6,6 @@ from recommender_systems.utils.api_calls import BotRecommenderApi, AuthApi
 from tqdm import tqdm
 import time
 
-# Dictionnary recommendations structure:
-# {
-#   "cafe_slug": [
-#          item_slug,
-#    ],
-# }
 def _run_bot_recommendations() -> Dict[str, List[str]]:
     all_cafe: list[Cafe] = DButils.get_all_cafe()
     bot_recommendations: dict[str, list[str]] = HB.main(all_cafe)
@@ -21,6 +15,7 @@ def _run_bot_recommendations() -> Dict[str, List[str]]:
 def update_bot_recommendations() -> None:
     auth_token = AuthApi.auth_login()
     recommendations: dict[str, list[str]] = _run_bot_recommendations()
+    print("Recommendations: ", recommendations)
     for _, cafe_slug in enumerate( tqdm(recommendations, desc="Updating bot recommendations") ):
         data = {
             "recommendations": recommendations[cafe_slug]

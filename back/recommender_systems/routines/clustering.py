@@ -21,15 +21,25 @@ def numeric_foods(items: List[MenuItem]) -> List[List[float]]:
         item_infos: NutritionInfo = item['nutritional_informations']
         infos: list[float] = [
             float(item_infos['calories']) if item_infos['calories'] else 0, 
-            float(item_infos['lipid']) if item_infos['lipid'] else 0,
-            float(item_infos['protein']) if item_infos['protein'] else 0,
+            float(item_infos['lipids']) if item_infos['lipid'] else 0,
+            float(item_infos['proteins']) if item_infos['protein'] else 0,
             float(item_infos['carbohydrates']) if item_infos['carbohydrates'] else 0,
             float(item_infos['sugar']) if item_infos['sugar'] else 0,
             float(item_infos['sodium']) if item_infos['sodium'] else 0,
             float(item_infos['fiber']) if item_infos['fiber'] else 0,
-            float(item_infos['vitamins']) if item_infos['vitamins'] else 0,
             float(item_infos['saturated_fat']) if item_infos['saturated_fat'] else 0,
-            float(item_infos['percentage_fruit_vegetables_nuts']) if item_infos['percentage_fruit_vegetables_nuts'] else 0,
+            float(item_infos['zinc']) if item_infos['zinc'] else 0,
+            float(item_infos['iron']) if item_infos['iron'] else 0,
+            float(item_infos['calcium']) if item_infos['calcium'] else 0,
+            float(item_infos['potassium']) if item_infos['potassium'] else 0,
+            float(item_infos['magnesium']) if item_infos['magnesium'] else 0,
+            float(item_infos['vitaminA']) if item_infos['vitaminA'] else 0,
+            float(item_infos['vitaminC']) if item_infos['vitaminC'] else 0,
+            float(item_infos['vitaminD']) if item_infos['vitaminD'] else 0,
+            float(item_infos['vitaminE']) if item_infos['vitaminE'] else 0,
+            float(item_infos['vitaminK']) if item_infos['vitaminK'] else 0,
+            float(item_infos['vitaminB6']) if item_infos['vitaminB6'] else 0,
+            float(item_infos['vitaminB12']) if item_infos['vitaminB12'] else 0,
         ]
         data.append(infos)
     return data

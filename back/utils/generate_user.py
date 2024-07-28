@@ -81,65 +81,72 @@ async def create_users(num_users):
     user_usernames[0] = cafesansfil_matricule
     return user_usernames
 
+# def generate_diet_profile():
+#     diets = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free"]
+#     food_categories = ["Grilled Cheese", "Boissons chaudes", "Boissons froides", "Collations"]
+#     nutrients = ["Protein", "Fiber", "Vitamins", "Minerals", "Carbohydrates"]
+#     allergens = ["Peanuts", "Tree Nuts", "Dairy", "Soy", "Wheat", "Fish", "Shellfish"]
+
+#     diet_profile = DietProfile(
+#         diets=random.sample(diets, random.randint(0, len(diets))),
+#         food_categories=random.sample(food_categories, random.randint(0, len(food_categories))),
+#         prefered_nutrients=random.sample(nutrients, random.randint(0, len(nutrients))),
+#         allergens={allergen: random.randint(1, 5) for allergen in random.sample(allergens, random.randint(0, len(allergens)))}
+#     )
+#     return diet_profile
 def generate_diet_profile():
+    cafes = ["le-mozza", "pill-pub", "cafekine", "la-planck", "acquis-de-droit", "cafcom", "tore-et-fraction", "cafe-anthropologie",
+            "cafe-beagel", "holocene", "la-brunante", "la-retenue"]
     diets = [
         {
-            "name": "vegan",
-            "description": "Description of the vegan diet.",
-            "forbidden_foods": ["lait", "oeuf", "poisson", "viande"],
+            "name": "Végétarien",
+            "description": "Le végétarisme est une pratique alimentaire qui consiste à ne pas consommer de viande, de poisson, d'œufs, de lait ou de produits laitiers.",
+            "forbidden_foods": ["viande", "poisson", "œuf", "lait", "miel"],
+            "valid_cafes": random.sample(cafes, random.randint(0, len(cafes))),
+            "checked": True,
         },
         {
-            "name": "vegetarien",
-            "description": "Description of the vegetarian diet.",
-            "forbidden_foods": ["viande", "lait", "oeuf", "poisson"],
+            "name": "Végan",
+            "description": "Le véganisme est une pratique alimentaire qui consiste à ne pas consommer de viande, de poisson, d'œufs, de lait ou de produits laitiers.",
+            "forbidden_foods": ["viande", "poisson", "œuf", "lait"],
+            "valid_cafes": random.sample(cafes, random.randint(0, len(cafes))),
+            "checked": False,
         },
         {
-            "name": "sans-lactose",
-            "description": "Description of the gluten-free diet.",
-            "forbidden_foods": ["lait", "oeuf"],
+            "name": "Sans Gluten",
+            "description": "Le sans-gluten est une pratique alimentaire qui consiste à ne pas consommer de gluten.",
+            "forbidden_foods": ["ble", "pain", "croissant", "chocolatine"],
+            "valid_cafes": random.sample(cafes, random.randint(0, len(cafes))),
+            "checked": True,
         },
         {
-            "name": "sans-gluten",
-            "description": "Description of the dairy-free cuisine.",
-            "forbidden_foods": ["ble", "pain"],
+            "name": "Sans Lait",
+            "description": "Le sans-lait est une pratique alimentaire qui consiste à ne pas consommer de produits laitiers.",
+            "forbidden_foods": ["lait", "fromage", "œuf"],
+            "valid_cafes": random.sample(cafes, random.randint(0, len(cafes))),
+            "checked": False,
         },
         {
-            "name": "mediterranen",
-            "description": "Description of the nut-free cuisine.",
-            "forbidden_foods": ["viande", "sucre", "alcohol", "beurre"],
+            "name": "Sans Huile de Colza",
+            "description": "Le sans-huile de colza est une pratique alimentaire qui consiste à ne pas consommer d'huile de colza.",
+            "forbidden_foods": ["arachides", "huile de colza"],
+            "valid_cafes": random.sample(cafes, random.randint(0, len(cafes))),
+            "checked": True,
         },
     ]
-    nutrients = [
-        {
-            "Calories": random.randint(1, 3),
-            "Proteins": random.randint(1, 3),
-            "Carbohydrates": random.randint(1, 3),
-            "lipids": random.randint(1, 3)
-        },
-        {
-            "vitaminA": random.randint(1, 3),
-            "vitaminB": random.randint(1, 3),
-            "vitaminC": random.randint(1, 3),
-            "vitaminB12": random.randint(1, 3)
-        },
-        {
-            "vitaminD": random.randint(1, 3),
-            "vitaminE": random.randint(1, 3),
-            "vitaminK": random.randint(1, 3),
-            "vitaminB6": random.randint(1, 3)
-        },
-        {
-            "saturated_fat": random.randint(1, 3),
-            "sodium": random.randint(1, 3),
-            "fiber": random.randint(1, 3),
-            "percentage_fruit_vegetables_nuts": random.randint(1, 3)
-        }
-    ]
-    allergens = ["Noix", "Soja", "Poisson", "fruit", "lait", "Levure", "The", "Coca", "Cafeine", "Chocolat", "Yaourt"]
+
+    nutrients = ["proteins", "fiber", "vitaminA", "vitaminC", "vitaminE", "vitaminD", "vitaminK", "vitaminB6", "vitaminB12", 
+                 "minerals", "carbohydrates", "saturated_fat", "sodium", "lipids"]
+    
+    allergens = ["lactose", "poisson", "oeuf", "soja", "crustacés", "fruits-de-mer", "arachides", "noix", "huile de colza"]
+
     diet_profile = DietProfile(
-        diets=random.sample(diets, random.randint(0, len(diets))),
-        prefered_nutrients=random.sample(nutrients, 1)[0],
-        allergens={allergen: random.randint(1, 3) for allergen in random.sample(allergens, random.randint(0, len(allergens)))}
+        # diets=random.sample(diets, random.randint(0, len(diets))),
+        diets=[],
+        # prefered_nutrients={nutrient: random.randint(1, 3) for nutrient in random.sample(nutrients, random.randint(0, len(nutrients)))},
+        prefered_nutrients={},
+        # allergens={allergen: random.randint(1, 3) for allergen in random.sample(allergens, random.randint(0, len(allergens)))}
+        allergens={}
     )
     return diet_profile
 
