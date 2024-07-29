@@ -18,13 +18,14 @@
 
 ### Observations
 
-### Ressources
+### Ressources -->
 
 ## Semaine 13 (2024-07-26)
 
 ### Objectifs
-
-### Réalisations
+- Ajout de nouvelles collections pour les recommendations.
+- Afficher les recommendations sur le Front-end.
+<!-- ### Réalisations
 
 ### Observations
 
@@ -33,15 +34,14 @@
 ## Semaine 12 (2024-07-19)
 
 ### Objectifs
-- Afficher les recommendations sur le Front-end.
 - Modifier les préférences nutritives dans la base de donnée.
 - Trier les items de la page principal en fonction du score santé.
 
-<!--### Réalisations
-
-### Observations
-
-### Ressources -->
+### Réalisations
+- Ajout d'une routine pour assigner des cafés à des régimes alimentaires.
+- Modification des préférences nutritives dans la base de données.
+- Ajout d'une routine pour assigner les score au cafés.
+- Tri des cafés de la base de données en fonction du score santé.
 
 ## Semaine 11 (2024-07-12)
 
