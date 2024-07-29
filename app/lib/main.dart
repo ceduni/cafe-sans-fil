@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:app/provider/language_provider.dart';
 import 'package:app/provider/order_provider.dart';
 import 'package:app/provider/period_selector_provider.dart';
+import 'package:app/provider/shift_provider.dart';
 import 'package:app/provider/stock_provider.dart';
 import 'package:app/provider/volunteer_provider.dart';
 import 'package:app/screens/main%20screens/article.dart';
@@ -23,6 +24,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => PeriodSelectorProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
         ChangeNotifierProvider(create: (context) => StockProvider()),
+        ChangeNotifierProvider(create: (context) => ShiftProvider()),
         ChangeNotifierProvider(create: (context) => VolunteerProvider()),
       ],
       child: const MyApp(),
