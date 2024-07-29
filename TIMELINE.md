@@ -338,3 +338,21 @@
 
 - Suite de l'implémentation du dashboardboard : histogramme, graph
   coloré et chiffre du dashboard conforme a la base de données.
+
+## Semaine 12(2024-07-22)
+
+### Objectifs
+
+- Avoir une première version stable pour l'application
+- Implementation de la page horaire
+- Amélioration en continue des pages bénévole, dashboard et Stock
+
+### Réalisations
+
+- Fin de l'implémentation du dashboard + améliorations graphiques
+  (ajouts de notifications, légende pour l'histogramme, changement
+  de devise, mise à jour de la traduction de l'application).
+- Début de l'implémentation de la page horaire (connection de la
+  base de données shifts au front end).
+- Présentation de la 1ere version stable de l'application et test
+  sur les smartphones android et ios.
