@@ -1,5 +1,6 @@
 from recommender_systems.utils import db_utils as DButils, utilitaries as Utils
 from recommender_systems.utils.api_calls import CafeApi, AuthApi
+from recommender_systems.utils.api_calls import BotRecommenderApi
 from tqdm import tqdm
 
 def update_cafes_health_score() -> None:
@@ -10,5 +11,5 @@ def update_cafes_health_score() -> None:
         data = {
             "health_score": cafe_score
         }
-        response, status =CafeApi.update_cafe(auth_token=auth_token, cafe_slug=cafe['slug'], json_data=data)
-        print(" " + str(status))
+        # CafeApi.update_cafe(auth_token=auth_token, cafe_slug=cafe['slug'], json_data=data)
+        BotRecommenderApi.update_bot_recommendations(cafe_slug=cafe['slug'], json_data=data)

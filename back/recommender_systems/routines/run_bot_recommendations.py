@@ -15,10 +15,19 @@ def _run_bot_recommendations() -> Dict[str, List[str]]:
 def update_bot_recommendations() -> None:
     auth_token = AuthApi.auth_login()
     recommendations: dict[str, list[str]] = _run_bot_recommendations()
-    print("Recommendations: ", recommendations)
     for _, cafe_slug in enumerate( tqdm(recommendations, desc="Updating bot recommendations") ):
+        cafe_recommendations = recommendations[cafe_slug]
+        recs_for_update = list( 
+            map(
+                lambda rec: {
+                        "slug": rec,
+                        "health_score": 0,
+                        "cluster": "unclustered"
+                    }, cafe_recommendations
+            )
+        )
         data = {
-            "recommendations": recommendations[cafe_slug]
+            "slug": cafe_slug,
+            "bot_recommendations": recs_for_update
         }
-        response, status = BotRecommenderApi.update_bot_recommendations(auth_token=auth_token, cafe_slug=cafe_slug, json_data=data)
-        print(response, status)
+        BotRecommenderApi.update_bot_recommendations(auth_token=auth_token, cafe_slug=cafe_slug, json_data=data)

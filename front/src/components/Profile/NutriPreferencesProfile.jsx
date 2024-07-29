@@ -2,7 +2,6 @@ import CustomRadio from "@/components/Profile/CustomRadio";
 import { useState } from "react";
 
 const NutriPreferences = ({ nutriPreferences, setNutriPreferences, setDisableSubmit, preferencesNames }) => {
-
     const handleNutriPreferences = (index, event) => {
         const newNutriPreferences = nutriPreferences.slice();
         newNutriPreferences[index].value = event.target.value;

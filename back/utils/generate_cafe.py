@@ -35,24 +35,24 @@ async def create_cafes(usernames):
 
     for index, cafe_info in enumerate(tqdm(cafes_data, desc="Creating cafes")):
         # Make cafesansfil Admin in First Cafe (For Test)
-        if index == 0:
-            staff = await random_staff_members(
-                usernames, cafe_info["name"], testAccounts, first_user_admin=True
-            )
-        # Don't make cafesansfil a Staff in second and last Cafe (For Test)
-        elif index == 1:
-            staff = await random_staff_members(
-                usernames, cafe_info["name"], testAccounts, exclude_first_user=True
-            )
-        elif index == len(cafes_data) - 1:
-            staff = await random_staff_members(
-                usernames, cafe_info["name"], testAccounts, exclude_first_user=True
-            )
-        # Randomly choose staff
-        else:
-            staff = await random_staff_members(
-                usernames, cafe_info["name"], testAccounts
-            )
+        # if index == 0:
+        staff = await random_staff_members(
+            usernames, cafe_info["name"], testAccounts, first_user_admin=True
+        )
+        # # Don't make cafesansfil a Staff in second and last Cafe (For Test)
+        # elif index == 1:
+        #     staff = await random_staff_members(
+        #         usernames, cafe_info["name"], testAccounts, exclude_first_user=True
+        #     )
+        # elif index == len(cafes_data) - 1:
+        #     staff = await random_staff_members(
+        #         usernames, cafe_info["name"], testAccounts, exclude_first_user=True
+        #     )
+        # # Randomly choose staff
+        # else:
+        #     staff = await random_staff_members(
+        #         usernames, cafe_info["name"], testAccounts
+        #     )
 
         is_open, status_message = random_open_status_message()
 

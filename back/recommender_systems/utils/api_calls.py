@@ -139,8 +139,8 @@ class BotRecommenderApi:
         headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
         endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/bot/{cafe_slug}')
         response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
-        print(response)
         r = response.json()
+        print(r, response.status_code)
         return r, response.status_code
     
 class CafeRecommenderApi:

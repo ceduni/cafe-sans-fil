@@ -1,5 +1,4 @@
 from pydantic import ConfigDict, BaseModel, Field
-from pymongo import MongoClient
 from typing import List, Optional
 
 """

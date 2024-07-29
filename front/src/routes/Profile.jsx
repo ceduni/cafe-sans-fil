@@ -12,7 +12,6 @@ import OtherProfileAction from "@/components/Profile/OtherProfileAction";
 const Profile = () => {
   const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
   const userFullName = user ? user.first_name + " " + user.last_name : "";
-
   const [activeTab, setActiveTab] = useState(localStorage.getItem("activeTab") || 0);
 
   const [userDetails, setUserDetails] = useState({
@@ -163,12 +162,7 @@ const Profile = () => {
         )}
 
         {activeTab === 1 && (
-          <NutriProfile
-            user={user}
-            userDetails={userDetails}
-            setUserDetails={setUserDetails}
-            handleSubmit={handleSubmit}
-          />
+          <NutriProfile />
         )}
 
         {activeTab === 2 && (

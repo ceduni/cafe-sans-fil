@@ -114,8 +114,6 @@ def main(actual_cafe: Cafe, user: User) -> List[str]:
     user_diets: list[dict[str, str | list[str]]] = user['diet_profile']['diets']
     user_prefered_nutrients: dict[str, int] = user['diet_profile']['prefered_nutrients']
 
-    
-
     # No diets and no nutrients specified
     if not user_diets and not user_prefered_nutrients:
         recs: list[str] = remove_allergenic_items(menu_items, user['diet_profile']['allergens'])

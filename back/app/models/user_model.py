@@ -22,6 +22,8 @@ class Diet(BaseModel):
     forbidden_foods: Optional[List[str]] = Field(None, description="List of forbidden foods.")
     valid_cafes: Optional[List[str]] = Field(None, description="List of cafes that can offer items from this diet.")
     checked: Optional[bool] = Field(None, description="Indicates if the diet has been selected by the user.")
+    is_starter: Optional[bool] = Field(None, description="Indicates if the diet should appear for all the users.")
+    desired_foods: Optional[List[str]] = Field(None, description="List of desired foods.")
 
 class DietProfile(BaseModel):
     # diets: Optional[List[str]] = Field(None, description="User diets.")

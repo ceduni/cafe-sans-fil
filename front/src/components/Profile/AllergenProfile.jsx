@@ -1,4 +1,5 @@
 import CustomRadio from "@/components/Profile/CustomRadio";
+import { useEffect } from "react";
 
 const AllergenProfile = ({ selectedAllergens, setSelectedAllergens, setDisableSubmit, allergensNames }) => {
     return (
@@ -13,8 +14,8 @@ const AllergenProfile = ({ selectedAllergens, setSelectedAllergens, setDisableSu
                             initElements={selectedAllergens}
                             setElements={setSelectedAllergens}
                             setDisableSubmit={setDisableSubmit}
-                            initialColors={["bg-red-300", "bg-red-400", "bg-red-500"]}
-                            onClickColors={["bg-red-600", "bg-red-600", "bg-red-600"]}
+                            initialColors={["bg-red-200", "bg-red-300", "bg-red-400"]}
+                            onClickColors={["bg-red-700", "bg-red-700", "bg-red-700"]}
                             index={allergensNames.includes(allergen.name) ? allergen.value : null}
                         />
                     </div>

@@ -82,7 +82,9 @@ class UserUpdate(BaseModel):
                         "description": "Vegan food is food that does not contain meat, fish, eggs, milk, or dairy products.",
                         "forbidden_foods": ["meat", "fish", "eggs", "milk", "dairy"],
                         "valid_cafes": ["le-mozza", "acquis-de-droit"],
-                        "checked": True
+                        "checked": True,
+                        "is_starter": True,
+                        "desired_foods": ["meat", "fish", "eggs", "milk", "dairy"]
                     },
                 ],
                 "prefered_nutrients": {
@@ -175,7 +177,9 @@ class UserOut(BaseModel):
                         "description": "Vegan food is food that does not contain meat, fish, eggs, milk, or dairy products.",
                         "forbidden_foods": ["meat", "fish", "eggs", "milk", "dairy"],
                         "valid_cafes": ["le-mozza", "acquis-de-droit"],
-                        "checked": False
+                        "checked": False,
+                        "is_starter": False,
+                        "desired_foods": ["meat", "fish", "eggs", "milk", "dairy"]
                     }
                 ],
                 "prefered_nutrients": {

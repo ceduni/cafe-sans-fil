@@ -13,7 +13,7 @@ const DietProfile = ({ diets, setDiets, setDisableSubmit }) => {
     const onDeleteDiet = (index) => {
         const newDiets = diets.slice();
         newDiets.splice(index, 1);
-        localStorage.setItem("updatedDiets", JSON.stringify(newDiets));
+        //localStorage.setItem("diets", JSON.stringify(newDiets));
         setDiets(newDiets);
         setDisableSubmit(false);
     };
@@ -36,10 +36,11 @@ const DietProfile = ({ diets, setDiets, setDisableSubmit }) => {
                         name={diet.name}
                         description={diet.description}
                         checked={diet.checked}
-                        isStarter={diet.isStarter}
-                        forbiddenFoods={diet.forbiddenFoods}
+                        isStarter={diet.is_starter}
+                        forbidden_foods={diet.forbidden_foods}
                         diets={diets}
                         setDiets={setDiets}
+                        desired_foods={diet.desired_foods}
                     />
                 ))}
                 <AddDietCard

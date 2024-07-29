@@ -23,3 +23,6 @@ class CafeForRecommendation(Document):
     health_score: float
     bot_recommendations: List[Item]
     public_recommendations: List[Item]
+
+    class Settings:
+        name = "cafes for recommendations"

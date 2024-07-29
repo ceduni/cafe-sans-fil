@@ -28,7 +28,7 @@ const CustomRadio = ({ name, initElements, setElements, setDisableSubmit, initia
   }, [index]);
   
   return (
-    <div className="flex">
+    <div className="flex rounded">
       <button
         key={1}
         onClick={() => handleButtonClick(1)}

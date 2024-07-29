@@ -3,13 +3,61 @@ import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
+import { 
+  DEFAULT_NUTRI_PROFILE, 
+  ALLERGENS_LIST,
+  NUTRI_PREFERENCES_LIST,
+  NUTRI_PREFERENCES_LIST_EN,
+  NUTRI_NAME_CONVERTER_EN_TO_FR
+} from "@/utils/nutriProfile";
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
   const [refreshToken, setRefreshToken] = useLocalStorage("refreshToken", null);
   const [user, setUser] = useLocalStorage("user", null);
+  const [diets, setDiets] = useLocalStorage("diets", DEFAULT_NUTRI_PROFILE);
+  const [nutriPreferences, setNutriPreferences] = useLocalStorage("nutriPreferences", NUTRI_PREFERENCES_LIST);
+  const [selectedAllergens, setSelectedAllergens] = useLocalStorage("allergens", ALLERGENS_LIST.map(allergen => ({ name: allergen, value: null })));
   const navigate = useNavigate();
+
+  const formatSelectedAllergens = (allergenList) => {
+    const keys = Object.keys(allergenList);
+    const values = Object.values(allergenList);
+    const newSelectedAllergens = ALLERGENS_LIST.map((allergen) => {
+        if (keys.includes(allergen)) {
+          const allergenIndex = keys.indexOf(allergen)
+          return { name: allergen, value: values[allergenIndex] }
+        } else {
+          return { name: allergen, value: null }
+        }
+    })
+    return newSelectedAllergens
+  }
+
+  const formatNutriPreferences = (nutriList) => {
+    const keys = Object.keys(nutriList);
+    const values = Object.values(nutriList);
+    const newNutriPreferences = NUTRI_PREFERENCES_LIST_EN.map((nutri) => {
+        if (keys.includes(nutri.name)) {
+          const nutriIndex = keys.indexOf(nutri.name)
+          return { name: NUTRI_NAME_CONVERTER_EN_TO_FR[nutri.name], value: values[nutriIndex] }
+        } else {
+          return { name: NUTRI_NAME_CONVERTER_EN_TO_FR[nutri.name], value: null }
+        }
+    })
+    return newNutriPreferences
+  }
+
+  const setInitValues = async () => {
+    const currentUser = await getCurrentUser();
+    if (currentUser) {
+        !currentUser.diet_profile.diets || currentUser.diet_profile.diets.length === 0 ? setDiets(DEFAULT_NUTRI_PROFILE) : setDiets(currentUser.diet_profile.diets);
+        currentUser.diet_profile.prefered_nutrients && Object.keys(currentUser.diet_profile.prefered_nutrients).length > 0 ? setNutriPreferences(formatNutriPreferences(currentUser.diet_profile.prefered_nutrients)) : setNutriPreferences(NUTRI_PREFERENCES_LIST);
+        currentUser.diet_profile.allergens && Object.keys(currentUser.diet_profile.allergens).length > 0 ? setSelectedAllergens(formatSelectedAllergens(currentUser.diet_profile.allergens)) : setSelectedAllergens(ALLERGENS_LIST.map(allergen => ({ name: allergen, value: null })));
+    }
+  }
 
   const login = async (email, password) => {
     try {
@@ -58,7 +106,8 @@ export const AuthProvider = ({ children }) => {
       toast.success("Vous êtes connecté");
       setAccessToken(token.access_token);
       setRefreshToken(token.refresh_token);
-
+      localStorage.setItem("isLoggedOut", false);
+      await setInitValues();
       navigate("/");
       setUser(await getCurrentUser());
     } else {
@@ -130,7 +179,6 @@ export const AuthProvider = ({ children }) => {
       toast.success("Votre compte a été créé");
       setAccessToken(token.access_token);
       setRefreshToken(token.refresh_token);
-
       navigate("/");
       setUser(await getCurrentUser());
     } else {
@@ -179,6 +227,10 @@ export const AuthProvider = ({ children }) => {
     setTimeout(() => {
       toast.dismiss(toastId);
       toast.success("Vous êtes déconnecté");
+      localStorage.setItem("isLoggedOut", true);
+      localStorage.removeItem("diets");
+      localStorage.removeItem("allergens");
+      localStorage.removeItem("nutriPreferences");
       setAccessToken(null);
       setRefreshToken(null);
       setUser(null);
