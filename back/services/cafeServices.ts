@@ -2,6 +2,7 @@ import { CafeModel, ICafe } from "../src/models/DatabaseModels/cafeModel";
 import { IUser, UserModel } from "../src/models/DatabaseModels/userModel";
 
 export class CafeService {
+ 
   public constructor() {}
   public async getCafe(): Promise<ICafe[]> {
     try {
@@ -62,6 +63,66 @@ export class CafeService {
         "role": "Admin"
       } */
   }
+
+
+  /**
+   * this function add a volunteer to the list of a staff in a specific cafe
+   * @param cafeName 
+   * @param matricule 
+   * @param role 
+   * @returns 
+   */
+  public async addVolunteer(cafeName: string, matricule: string, role: string): Promise<{ message: string }> {
+    try {
+      const cafe: ICafe | null = await CafeModel.findOne({ name: cafeName });
+      if (!cafe) {
+        return Promise.resolve({ message: "Cafe not found" });
+      }
+      else { 
+        for (let i = 0; i < cafe.staff.length; i++) {
+          if (cafe.staff[i].username === matricule) {
+            return Promise.resolve({ message: "User already exists" });
+          }
+        }
+        
+        cafe.staff.push({ username: matricule, role: role });
+        await cafe.save();
+        return Promise.resolve({ message: "Success" });
+      }
+    } catch (error) {
+      console.error(error);
+      return Promise.resolve({ message: "Error occur" });
+    }
+  }
+
+  public async deleteVolunteer(cafeName: string, matricule: string): Promise<{ message: string }> {
+    try {
+      const cafe: ICafe | null = await CafeModel.findOne({ name: cafeName });
+      if (!cafe) {
+        return Promise.resolve({ message: "Cafe not found" });
+      }
+      else {
+        for (let i = 0; i < cafe.staff.length; i++) {
+          if (cafe.staff[i].username === matricule) {
+            cafe.staff.splice(i, 1);
+            await cafe.save();
+            return Promise.resolve({ message: "User was deleted successfully" });
+          }
+        }
+        return Promise.resolve({ message: "User not found" });
+      }
+    } catch (error) {
+      console.error(error);
+      return Promise.resolve({ message: "Error occur" });
+    }
+
+
+  }
 }
+
+
+
+
+
 
 export default CafeService;

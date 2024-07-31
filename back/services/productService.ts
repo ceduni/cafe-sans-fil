@@ -12,10 +12,9 @@ export class ProductService {
    * @returns A promise that resolves to an array of sales.
    */
   public async getSales(productName?: string): Promise<any[]> {
-    console.log(" in the productServices class");
     try {
       const query = productName ? { "items.item_name": productName } : {};
-      console.log("query", query);
+      
       const salesData = await Ordes.find(query).exec();
       return salesData;
     } 

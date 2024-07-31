@@ -28,7 +28,7 @@ describe("GET /api/v1/orders/productName", () => {
 
 describe("GET /api/v1/stock", () => {
   it("should have a 200 status code for the end point ", async () => {
-    const response = await request(server.App).get("/api/v1/stock");
+    const response = await request(server.App).get("/api/v1/stocks");
     expect(response.status).toBe(200); // Check if the status code is 200
     expect(response.body).toHaveProperty("Stock"); // Check if the Stock property exists
     expect(response.body.Stock.length).toBeGreaterThan(0); // Check if the Stock array is not empty
