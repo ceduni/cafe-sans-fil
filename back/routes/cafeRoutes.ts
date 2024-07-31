@@ -20,10 +20,28 @@ export class CafeRoutes {
       this.getCafesVonlunteer.bind(this)
     );
     this._router.post("/cafes/:cafeName/", this.addVolunteer.bind(this));
+    this._router.delete("/cafes/:cafeName/:matricule", this.deleteVolunteer.bind(this));
   }
 
   public get router(): Router {
     return this._router;
+  }
+
+  public async deleteVolunteer(req: Request, res: Response): Promise<void> {
+    try {
+      const cafeName = req.params.cafeName;
+      const matricule = req.params.matricule;
+      const message = await this.cafeService.deleteVolunteer(cafeName, matricule);
+      res.status(200).send({
+        message: message.message,
+      });
+    } catch (error) {
+      console.log("Error in the deleteVolunteer:", error);
+      res.status(500).send({
+        message: "Internal Server Error",
+        error: error,
+      });
+    }
   }
 
   public async getCafe(req: Request, res: Response): Promise<void> {
