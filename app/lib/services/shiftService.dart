@@ -5,7 +5,7 @@ import 'package:app/modeles/Shift.dart';
 import 'package:time_planner/time_planner.dart';
 
 class ShiftService {
-  final String baseUrl = "http://192.168.2.17:3000/api/v1/shifts";
+  final String baseUrl = "http://172.21.112.1:3000/api/v1/shifts";
 
   ShiftService({dynamic});
 

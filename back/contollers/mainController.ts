@@ -18,7 +18,7 @@ export class MainController {
     this.app = express();
     this.PORT = process.env.PORT || 3000;
     this.database = new Database(
-      "mongodb+srv://cafe:sans-fil@cluster0.ti5co91.mongodb.net/sales?retryWrites=true&w=majority"
+      "mongodb+srv://cafesansfil:cafesansfil@cluster0.lhfxwrd.mongodb.net/cafesansfilmobilenew?retryWrites=true&w=majority"
     );
 
     this.productRoute = new ProductRoutes();

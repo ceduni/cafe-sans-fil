@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class StockService {
-  final String baseUrl = "http://192.168.2.17:3000/api/v1/stock";
+  final String baseUrl = "http://172.21.112.1:3000/api/v1/stocks";
 
   StockService({dynamic});
 

@@ -1,7 +1,6 @@
 import { NextFunction, Router, Request, Response } from "express";
 import { ProductService } from "../services/productService";
 
-
 export class ProductRoutes {
   getOrders(id: any): number {
     throw new Error("Method not implemented.");
@@ -72,13 +71,12 @@ export class ProductRoutes {
    * this method initializes all the product routes
    */
   private init(): void {
-    // orders 
+    // orders
     this._router.get("/orders", this.getSales.bind(this));
     this._router.post("/orders", this.addOrder.bind(this));
 
     this._router.get("/orders/:productName", this.getSales.bind(this));
-    this._router.get("/stock", this.getStock.bind(this));
-    
+    this._router.get("/stocks", this.getStock.bind(this));
   }
   public get router(): Router {
     return this._router;
