@@ -1,4 +1,5 @@
 import 'package:app/provider/volunteer_provider.dart';
+import 'package:app/screens/others%20screens/add_benevole.dart';
 import 'package:app/screens/side%20bar/side_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
@@ -83,7 +84,8 @@ class _BenevoleState extends State<Benevole> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add a new volunteer
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => const AddBenevole()));
         },
         backgroundColor: const Color.fromARGB(255, 138, 199, 249),
         child: const Icon(
