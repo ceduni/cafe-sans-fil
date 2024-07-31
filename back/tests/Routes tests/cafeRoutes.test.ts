@@ -56,3 +56,18 @@ describe("GET /api/v1/cafes/:cafeName/volunteer", () => {
     }
   });
 });
+
+
+describe("POST /api/v1/cafes/:cafeName/", () => {
+  it("should return a list of volunteers by cafe name", async () => {
+    const response = await request(server.App).post(
+      `/api/v1/cafes/Café-In/`
+    ).send({
+      userName: "20026633",
+      Role: "Bénévole"
+    }); 
+    expect(response.body.message).toBe("User already exists");
+    
+  });
+});
+

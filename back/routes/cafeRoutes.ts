@@ -19,6 +19,7 @@ export class CafeRoutes {
       "/cafes/:cafeName/volunteer",
       this.getCafesVonlunteer.bind(this)
     );
+    this._router.post("/cafes/:cafeName/", this.addVolunteer.bind(this));
   }
 
   public get router(): Router {
@@ -34,6 +35,26 @@ export class CafeRoutes {
       });
     } catch (error) {
       console.log("Error in the getCafe:", error);
+      res.status(500).send({
+        message: "Internal Server Error",
+        error: error,
+      });
+    }
+  }
+
+
+  public async addVolunteer(req: Request, res: Response): Promise<void> {
+    try {
+      console.log("this is the body:", req.body);
+      const cafeName:string = req.params.cafeName;
+      const userName:string = req.body.userName;
+      const Role:string = req.body.Role;
+      const message = await this.cafeService.addVolunteer(cafeName, userName, Role);
+      res.status(200).send({
+        message: message.message,
+      });
+    } catch (error) {
+      console.log("Error in the addVolunteer:", error);
       res.status(500).send({
         message: "Internal Server Error",
         error: error,
