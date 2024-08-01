@@ -43,17 +43,8 @@ async def list_users(
     filters = dict(request.query_params)
     return await UserService.list_users(**filters)
 
-
-@user_router.get(
-    "/users/{username}",
-    response_model=UserOut,
-    summary="🔵 Get User",
-    description="Retrieve detailed information about a specific user.",
-)
-async def get_user(
-    username: str = Path(..., description="The username of the user"),
-    current_user: User = Depends(get_current_user),
-):
+@user_router.get("/users/{username}", response_model=UserOut, summary="🔵 Get User", description="Retrieve detailed information about a specific user.")
+async def get_user(username: str = Path(..., description="The username of the user")):
     user = await UserService.get_user_by_username(username)
     if not user:
         raise HTTPException(

@@ -9,6 +9,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "react-use-cart";
 import classNames from "classnames";
 
+import SearchBar from "@/components/Search/SearchBar";
+import { useNavigate } from 'react-router-dom';
+
 const routes = {
   home: "/",
   login: "/login",
@@ -23,12 +26,19 @@ const avatarNavigation = [
 ];
 
 const Navbar = () => {
+  let navigate = useNavigate();
+  
   const { isLoggedIn, onLogout, user } = useAuth();
   const userFullName = user ? user.first_name + " " + user.last_name : "";
 
   const [cartOpen, setCartOpen] = useState(false);
 
   const { totalItems, emptyCart } = useCart();
+
+  
+  const handleSearch= (query) => {
+    navigate(`/?search=${query}`);
+  };
 
   const handleLogout = () => {
     emptyCart();
@@ -54,7 +64,12 @@ const Navbar = () => {
                     </Link>
                   </div>
 
-                  <div className="ml-auto flex items-center">
+                  {/* SearchBar */}
+                  <div className="flex-1 max-w-xl mx-auto">
+                      <SearchBar onSearch={handleSearch} />
+                  </div>
+
+                  <div className="flex items-center">
                     {isLoggedIn ? (
                       <Menu as="div" className="relative ml-3">
                         <div className="flex items-center justify-center">

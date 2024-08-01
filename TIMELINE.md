@@ -1,4 +1,89 @@
 # 📅 Suivi
+## Phase 2
+
+### Semaine 16 (2024-04-24)
+
+- **Tâches en Cours** :
+  - Peaufinement des nouvelles fonctionnalités introduites dans les dernières semaines, y compris les composants d'annonces et d'événements.
+
+### Semaine 15 (2024-04-17)
+
+- **Tâches Réalisées** :
+  - Ajout des composants "annonces" et "événements" dans le backend et frontend pour le développement du segment social.
+  - Modification de l'image des cafés et ajout d'une boîte de description dans le frontend pour améliorer la présentation et l'information disponible sur les cafés.
+
+### Semaine 14 (2024-04-10)
+
+- **Tâches en Cours** :
+  - Intégration du nouveau modèle de menu dans l'application, en alignement avec le nouveau modèle.
+  - Modification du placement des images des réseaux sociaux et de l'image principale du café pour améliorer l'expérience utilisateur et l'engagement sur la plateforme.
+
+### Semaine 13 (2024-04-03)
+
+- **Tâches Réalisées** :
+  - Finalisation de l'intégration de la recherche par tag et item. Cette étape cruciale permet aux utilisateurs de naviguer plus efficacement à travers l'application en utilisant des filtres spécifiques.
+ 
+- **Objectifs** :
+  - Début du développement de la nouvelle version du café,basée sur le prototype choisi précédemment. Ceci inlcus l'intégration des fonctionnalités et améliorations décidées en collaboration avec le gérant.
+
+### Semaine 11 (2024-03-20) et semaine 12 (2024-03-27)
+
+- **Implémentation de la Recherche dans le Backend** : Intégration réussie de la fonctionnalité de recherche par item et tag.
+- **Tests via API** : Validation de la nouvelle fonctionnalité à travers des tests avec une API temporaire.
+- **Intégration Frontend-Backend** : Travail en cours sur l'implémentation réelle de la fonctionnalité de recherche dans l'application pour permettre au frontend d'appeler le backend.
+
+
+### Semaine 10 (2024-03-13)
+- **Discussion sur les Mécanismes de Recherches** : Discussion sur l'intégration d'un schéma de "search" dans le backend, spécifiquement conçu pour améliorer la fonctionnalité de recherche par item/tag.
+- **Difficulté** : Identification de l'efficacité de créer un composant 'search' spécifique pour encapsuler toutes les fonctionnalités liées à la recherche. Cette réalisation permet une meilleure modularité et facilité de maintenance du code.
+
+
+### Semaine 9
+> Semaine de relâche, pas de réunion
+
+### Semaine 7 (2024-02-21) et semaine 8 (2024-02-28) 
+- **Création de Trois Nouveaux Prototypes** : Développement de trois nouvelles versions différentes du prototype pour tester diverses améliorations et intégrations basées sur les retours et objectifs précédents.
+- **Sélection du Prototype avec un Gérant de Café** :
+Discussion avec le gérant d'un des cafés pour choisir le prototype le plus adapté à ses besoins et préférences, assurant ainsi une collaboration étroite avec les partenaires de l'application.
+
+
+### Semaine 5 (2024-02-07) et semaine 6 (2024-02-14)
+
+#### Objectifs de la semaine 
+
+- **Amélioration de la Recherche** : Permettre la recherche de cafés par item pour une expérience utilisateur plus ciblée.
+
+#### Tâches effectuées
+- **Ajustement de Prototypes** : Nouvelle incorporation de fonctionnalités et améliorations.
+
+
+### Semaine 4 (2024-01-31)
+#### Objectifs de la semaine 
+
+- **Création de Prototypes** : Modifier les pages des cafés en intégrant l'élément "événement" et en améliorant l'affichage des éléments de la page, conformément aux nouvelles exigences identifiées..
+
+#### Tâches effectuées
+- **Détermination des nouvelles exigences de l'application** : Organisation, classification et analyse détaillée des feedbacks (bugs, suggestions d'amélioration, commentaires sur l'interface utilisateur, etc...).
+
+
+### Semaine 3 (2024-01-24)
+
+#### Objectifs de la semaine 
+
+- **Détermination des nouvelles exigences de l'application** : Organisation, classification et analyse détaillée des feedbacks (bugs, suggestions d'amélioration, commentaires sur l'interface utilisateur, etc...).
+
+#### Tâches effectuées
+
+- **Evaluation de l'application** : Récolte des réponses/feedbacks des testeurs.
+- **Segment Social** : Identification des idées pour l'engagement et l'amélioration de l'expérience globale.
+
+
+### Semaine 1 et 2 (2024-01-10 à 2024-01-19)
+
+- **Evaluation de l'application** : Envoi d'un formulaire d'enquête aux testeurs.
+- **Segment social** : Lancement de la réflexion sur le segment social de l'application.
+
+## Phase 1
 
 <!-- ## Semaine 15 (2024-08-09)
 

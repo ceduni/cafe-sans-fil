@@ -1,0 +1,12 @@
+.input {
+    display: block;
+    width: 100%;
+    font-size: 1.4em;
+    padding: 8px 12px; padding-left: 48px;
+    border-radius: 180px;
+    font-weight: 800;
+    /* text-align: center; */
+    color: #555;
+    border-color: #e5e4e2;
+}
+

@@ -1,0 +1,264 @@
+.cafe-brand {
+    display: flex;
+    place-items: center;
+    align-items: flex-end;
+}
+
+    .cafe-brand .cafe-logo {
+         height: 180px;
+    }
+
+    .cafe-brand .socials {
+         display: flex;
+         padding-bottom: 12px;
+    }
+
+    .cafe-brand .social {
+         display: flex;
+         place-items: center;
+         height: 36px;
+         margin-left: 8px;
+         border-radius: 4px;
+         padding: 6px;
+         background-color: #e5e4e2;
+         border-radius: 50%;
+    }
+
+    .cafe-brand .social-img {
+         height: 25px;
+         width: 25px;
+         object-fit: cover;
+    }
+
+    
+.main-body {
+     display: grid;
+     grid-template-areas:
+          'info'
+          'menu'
+          'comm'
+          'event';
+     /* grid-template-columns: minmax(600px, 50%); */
+     gap: 1vw;
+     margin-top: 24px;
+     padding-left: 2vw; padding-right: 2vw; padding-bottom: 24px;
+}
+
+
+@media screen and (min-width: 65em) {
+     .main-body {
+          grid-template-areas:
+          'menu info'
+          'menu comm'
+          'event event';
+          /* grid-template-columns: repeat(2, 1fr); */
+          grid-template-columns: 1.5fr 1fr;
+          grid-template-rows: auto 1fr;
+          /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+     }
+}
+
+    
+/*
+  MENU SECTION
+----------------------------------------------------------------------*/
+
+.menu-section {
+     grid-area: menu;
+     position: relative;
+     min-width: 50%;
+     padding: 12px;
+     background-color: #f5f5f5;
+     border-radius: 12px;
+}
+
+
+.menu-section .accepted-payments {
+     display: flex; flex-wrap: wrap;
+     margin-top: 6px;
+}
+
+.menu-section .accepted-payment {
+     display: flex;
+     place-items: center;
+     margin-right: 6px;
+     margin-bottom: 6px;
+     color: #555;
+}
+
+.menu-section .accepted-payment-icon {
+     height: 18px;
+     margin-right: 2px;
+}
+
+
+
+/*
+------------------------------------------------------------------------------------*/
+
+.cafe-event {
+     grid-area: event;
+     margin-top: 12px;
+     padding: 30px 3%;
+     background-color: #e5e4e2;
+}
+
+     .cafe-event .title {
+          font-size: 1.4em;
+          font-weight: 800;
+          text-align: center;
+          color: #fff;
+          margin: -54px auto 24px;
+          background-color: #4F59B3;
+          padding: 12px;
+          border-radius: 180px;
+          width: 90%; max-width: 320px;
+     }
+
+     .cafe-event .grid-content {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: 1rem;
+     }
+
+
+     
+.card-container {
+     margin-bottom: 18px;
+     display: grid;
+     grid-template-areas:
+          'venue info'
+          'media media'
+          'action action';
+     grid-template-columns: minmax(150px, 1fr) 3fr;
+     padding: 12px;
+     width: 100%;
+     background-color: #f5f5f5;
+     line-height: 1.95em;
+     border-radius: 6px;
+     box-shadow: inset 0 1px 2px -1px #555;
+}
+
+.photo-container {
+     grid-area: venue;
+     display: flex; flex-direction: column;
+     font-size: 1em;
+     text-align: center;
+     justify-content: center;
+     align-items: center;
+     width: 140px;
+}
+
+.card-container.paid .event-date {
+     background-color: #c53a45;
+}
+
+.event-date {
+     display: flex; flex-direction: column; place-items: center; justify-content: center;
+     width: 96px;
+     height: 96px;
+     font-weight: 600;
+     font-size: 1em;
+     border-radius: 6px;
+     color: #fff;
+     background-color: rgb(48, 110, 191);
+}
+     
+     .event-date .hour { margin-top: 6px; font-weight: 400; }
+
+.event-venue {
+     margin-top: 12px;
+     padding: 4px 1%;
+     font-weight: 500;
+     font-size: 0.9em;
+     border-radius: 180px;
+     background-color: #e5e4e2;
+}
+
+.event-fees {
+     display: flex; flex-direction: column;
+     text-align: left;
+     font-size: 0.9em;
+     font-weight: 500;
+     margin-top: 6px;
+}
+
+     @media screen and (min-width: 44em) {
+          .event-date {
+               width: 96px;
+               height: 96px;
+               border-radius: 6px;
+          }
+     }
+
+.info-container {
+     grid-area: info;
+     font-size: 1em;
+}
+
+.event-name {
+     font-weight: bold;
+     font-size: 1.2em;
+     margin-top: 0;
+     margin-bottom: 6px;
+}
+
+.event-media {
+     grid-area: media;
+     margin-top: 12px;
+     overflow: hidden;
+     max-height: 300px;
+     box-shadow: inset 0 -2px 1px #555;
+}
+
+.event-image {
+     grid-area: media;
+     width: 100%;
+     object-fit: cover;
+     border-radius: 12px;
+}
+
+.event-actions {
+     grid-area: action;
+     width: 100%;
+     display: flex; justify-content: flex-end;
+     margin-top: 6px;
+}
+
+     .event-actions .btn-icon {
+          height: 36px;
+          width: 36px;
+          background-color: #999;
+          border-radius: 50%;
+          padding: 8px;
+          fill: #ffffff;
+          background-color: #444;
+          transition: .2s;
+     }
+
+     .btn-action--support .btn-icon:hover {
+          background-color: #2472fc;
+     }
+
+     .btn-action--attend .btn-icon:hover {
+          background-color: #ED2839;
+     }
+
+     .cafe-event .card-container {
+          box-shadow: none;
+     }
+     .cafe-event .event-media {
+          box-shadow: none;
+     }
+
+     @media screen and (min-width: 54em) {
+          .cafe-event .grid-content {
+               grid-template-columns: repeat(2, 1fr);
+          }
+     }
+
+     @media screen and (min-width: 76em) {
+          .cafe-event .grid-content {
+               grid-template-columns: repeat(3, 1fr);
+          }
+     }

@@ -686,73 +686,11 @@ async def get_sales_report(
 #               Search
 # --------------------------------------
 
-
-@cafe_router.get(
-    "/search",
-    summary="Search for Cafes and Menu Items",
-    description="Search across cafes and their menu items with a given query.",
-)
-async def search(
-    request: Request,
-    query: str = Query(..., description="Search query for cafes or menu items"),
-):
-    """
-    Search for Cafes and Menu Items.
-
-    This function performs a search across cafes and their menu items with a given query.
-
-    Args:
-        - request: Request - The HTTP request object.
-        - query: str - Search query for cafes or menu items.
-
-    Returns:
-        The search results for cafes and menu items.
-    """
-    filters = dict(request.query_params)
-    filters.pop("query", None)
-    return await CafeService.search_cafes_and_items(query, **filters)
-
-
-# --------------------------------------
-#               Import
-# --------------------------------------
-
-
-@cafe_router.post(
-    "/import",
-    summary="Import Menu Items",
-    description="Import menu items from a JSON file. JSON must be an array of objects, with each object containing a unique menu item slug and the item's data.",
-)
-async def import_menu_items(cafe_slug: str, file: UploadFile):
-    """
-    Import Menu Items.
-
-    Import menu items from a JSON file. JSON must be an array of objects, with each object containing a unique menu item slug and the item's data.
-
-    Args:
-        - cafe_slug: str - The slug of the cafe to import menu items to.
-        - file: UploadFile - The JSON file containing the menu items to import.
-
-    Returns:
-        A dictionary containing the message "Menu items imported successfully".
-    """
-    json_data = (await file.read()).decode()
-    menu_items = json.loads(json_data)
-    for menu_item in menu_items:
-        if (
-            "item_slug" not in menu_item
-            or "item_data" not in menu_item
-            or "name" not in menu_item["item_data"]
-            or "price" not in menu_item["item_data"]
-        ):
-            print("Error importing menu item: JSON is not in the expected format")
-            continue
-        try:
-            await CafeService.update_menu_item(
-                cafe_slug,
-                menu_item["item_slug"],
-                MenuItemUpdate(**menu_item["item_data"]),
-            )
-        except ValueError as e:
-            print(f"Error importing menu item: {e}")
-    return {"message": "Menu items imported successfully"}
+# @cafe_router.get("/search", summary="Search for Cafes and Menu Items", description="Search across cafes and their menu items with a given query.")
+# async def search(
+#     request: Request,
+#     query: str = Query(..., description="Search query for cafes or menu items"),
+# ):
+#     filters = dict(request.query_params)
+#     filters.pop('query', None)
+#     return await CafeService.search_cafes_and_items(query, **filters)

@@ -1,0 +1,171 @@
+
+.cafe-identification {
+    grid-area: info;
+
+    position: relative;
+    display: flex; flex-direction: column;
+    padding: 24px 3%;
+    font-size: 12px;
+    color: #f5f5f5;
+    backdrop-filter: blur(3px);
+    border-radius: 8px;
+    background-color: #332E2C;
+    box-shadow: -1px 0 2px -1px #000;
+    z-index: 5;
+}
+
+    .cafe-name {
+         font-size: 2em;
+         font-weight: 800;
+         margin: 0;
+         margin-bottom: 2px;
+    }
+
+    .cafe-location {
+         display: flex;
+         place-items: center;
+         font-size: 1.3em;
+         margin-bottom: 6px;
+         font-weight: 500;
+    }
+
+    .cafe-identification__header {
+         display: flex;
+         margin-top: 12px; margin-bottom: 6px;
+         place-items: center;
+    }
+
+         .cafe-identification__header .clock-icon {
+              height: 18px;
+              width: 18px;
+              color: #fff;
+         }
+
+         .cafe-identification__header .email-icon {
+              height: 30px;
+              width: 30px;
+              color: #fff;
+              padding: 6px;
+              border-radius: 50%;
+              background-color: #111;
+              box-shadow: 0 1px 1px #000;
+         }
+
+    .opening-hours {
+         display: flex; flex-direction: column;
+         margin-top: 6px;
+         padding: 12px;
+         width: 320px;
+         border-radius: 4px;
+         background-color: #111;
+    }
+
+    .op-hour {
+         margin-bottom: 8px;
+    }
+
+         .op-hour.active {
+              font-weight: bold;
+         }
+
+    .btn-volunteer {
+         margin-left: 6px;
+         padding: 6px 12px;
+         color: #fff;
+         font-size: 1.2em;
+         background-color: #ED2839;
+         border-radius: 180px;
+    }
+    
+    .caret-icon {
+         height: 18px;
+         width: 18px;
+         color: #fff;
+    }
+
+    .cafe-identification .title {
+         font-size: 2em;
+         font-weight: bold;
+         margin: 0;
+         font-size: 1.8em;
+         text-transform: lowercase;
+    }
+         .cafe-identification .title::first-letter {
+              font-size: 1.35em;
+         }
+
+    .cafe-identification .appliances {
+         display: flex;
+         flex-wrap: wrap;
+    }
+    
+         .cafe-identification .appliance {
+              padding: 4px 6px;
+              font-size: 1.3em;
+              margin-right: 6px;
+              margin-bottom: 3px;
+              border-radius: 2px;
+              color: #fff;
+              background-color: #555;
+         }
+
+    .cafe-identification .team-members {
+         display: flex;
+    }
+
+    .cafe-identification .team-member {
+         display: flex;
+         flex-direction: column;
+         place-items: center;
+    }
+
+    .cafe-identification .team-volunteer {
+         position: relative;
+         display: flex; flex-direction: column;
+         place-items: center;
+         justify-content: center;
+         margin-left: 42px;
+         height: 96px;
+         width: 96px;
+         border: 6px dotted #c53a45;
+         border-radius: 50%;
+         font-size: 1.2em;
+    }
+    .cafe-identification .team-volunteer:before {
+         content: "+";
+         position: absolute;
+         left: -48px;
+         font-size: 4em;
+    }
+
+    .cafe-identification .team-volunteer .num {
+         font-size: 1.5em;
+         font-weight: 800;
+    }
+
+    .cafe-identification .team-member:not(:first-child) {
+         margin-left: 12px;
+         z-index: 1;
+    }
+
+    .cafe-identification .team-member-photo {
+         display: block;
+         height: 84px;
+         width: 84px;
+         border-radius: 50%;
+         object-fit: cover;
+    }
+
+    .cafe-identification .team-member-name {
+         margin-top: 2px;
+         font-size: 1.1em;
+         font-weight: 300;
+         margin: 0;
+    }
+
+    .cafe-identification .team-member-role {
+         font-weight: 500;
+         font-size: 0.9em;
+    }
+
+

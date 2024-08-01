@@ -1,0 +1,395 @@
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="assets/logo_min.png" />
+    
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<!-- Inter font -->
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+    <title>Tore et Fraction | Café sans-fil</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="effect.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="page-header">
+        <nav>
+            <img class="header-logo" src="assets/logo_text.png" alt="Café sans-fil" />
+        </nav>
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="28" height="28" viewBox="0 0 72 72" class="search-icon">
+            <path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path>
+        </svg>
+        <input type="search" class="page-title" placeholder="Tore et Fraction">
+        <div class="header-session">
+            <div class="header-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path></svg>
+            </div>
+            <span class="header-user">
+                <img src="https://yt3.googleusercontent.com/-CFTJHU7fEWb7BYEb6Jh9gm1EpetvVGQqtof0Rbh-VQRIznYYKJxCaqv_9HeBcmJmIsp2vOO9JU=s900-c-k-c0x00ffffff-no-rj"
+                    alt="">
+            </span>
+        </div>
+    </header>
+
+    <main id="app">
+        <!-- https://codepen.io/crazeddd/pen/abPZWOm pour les publications -->
+        <header class="cafe-header">
+            <div class="status">
+                <i class="status-icon"></i>
+                <span class="status-text">Ouvert &bull; <strong>Ferme à 18:00</strong></span>
+            </div>
+            <div class="cafe-brand">
+                <img class="cafe-logo" src="assets/logo_tore_fraction.jpg" alt="Logo du café">
+                <ul class="bare-list socials">
+                    <li class="social">
+                        <a href="https://twitter.com" target="_blank">
+                            <img class="social-img" src="assets/logo-x.svg" alt="Logo de X (Twitter)">
+                        </a>
+                    </li>
+                    <li class="social">
+                        <a href="https://www.facebook.com/CafeToreetFraction" target="_blank">
+                            <img class="social-img" src="assets/logo-facebook.svg" alt="Logo de facebook">
+                        </a>
+                    </li>
+                    <li class="social">
+                        <a href="https://www.instagram.com" target="_blank">
+                            <img class="social-img" src="assets/logo-instagram.svg" alt="Logo de instagram"></a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <section class="main-body">
+            <div class="menu-section">
+                <h2 class="section-title">Menu</h2>
+                <div class="accepted-payments">
+                    <div class="accepted-payment">
+                        <span style="font-size: 20px; margin: 0 7px;">  · </span>
+                        <svg class="accepted-payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z"></path>
+                            <path fill-rule="evenodd"
+                                d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="bare">Carte de débit <strong>(min 8.00 $)</strong></p>
+                    </div>
+                    
+                    <div class="accepted-payment">
+                        <span style="font-size: 20px; margin: 0 7px;">  · </span>
+                        <svg class="accepted-payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4 text-gray-500">
+                            <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z"></path>
+                            <path fill-rule="evenodd"
+                                d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="bare">Carte de crédit <strong>(min 5.00 $)</strong></p>
+                    </div>
+                </div>
+
+                <div class="content-wrapper">
+                    <div id="menu" class="menu"></div>
+                </div>
+            </div>
+
+            <!-- evenement et publications -->
+            <div class="cafe-identification">
+                <h3 class="cafe-name">Tore et Fraction</h3>
+                <div class="cafe-location-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon-small">
+                        <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+                    </svg>
+                    <p class="bare cafe-location">
+                        Pavillon André-Aisenstadt, local AA-1221
+                    </p>
+                </div>
+                <!-- <div class="cafe-hours">
+                    <div class="horaire">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="18" height="18" fill="currentColor" class="clock-icon" viewBox="0 0 18 18">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
+                        </svg>
+                        <p> <strong>Horaire</strong></p>
+                    </div>
+                    <ul class="hours-list">
+                        <li><span class="day">Lundi:</span> <span class="time">08:00 - 12:00, 13:00 - 16:00</span></li>
+                        <li><span class="day">Mardi:</span> <span class="time">09:00 - 12:00, 13:00 - 16:00</span></li>
+                        <li><span class="day">Mercredi:</span> <span class="time">08:00 - 17:00</span></li>
+                        <li><span class="day">Jeudi:</span> <span class="time">10:00 - 17:00</span></li>
+                        <li><span class="day">Vendredi:</span> <span class="time">09:00 - 12:00, 13:00 - 17:00</span></li>
+                    </ul>
+                </div>
+                 -->
+
+                 <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <strong>Horaire</strong>
+                            <button class="btn clock-icon-button" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                 <!-- Icône d'horloge -->
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                
+                        <!-- Contenu collapsible -->
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <!-- Votre liste des heures -->
+                                <ul class="hours-list">
+                                    <li><span class="day">Lundi:</span> <span class="time">08:00 - 12:00, 13:00 - 16:00</span></li>
+                                    <li><span class="day">Mardi:</span> <span class="time">09:00 - 12:00, 13:00 - 16:00</span></li>
+                                    <li><span class="day">Mercredi:</span> <span class="time">08:00 - 17:00</span></li>
+                                    <li><span class="day">Jeudi:</span> <span class="time">10:00 - 17:00</span></li>
+                                    <li><span class="day">Vendredi:</span> <span class="time">09:00 - 12:00, 13:00 - 17:00</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="bare">Café 100% bénévoles, vue du coucher de soleil magnifique, on remplit votre tasse
+                    pour 0,50$.</p>
+
+                <h3 class="title">Appareils</h3>
+                <ul class="bare-list appliances">
+                    <li class="appliance">Micro-ondes</li>
+                    <li class="appliance">Presse panini</li>
+                    <li class="appliance">Machine à café</li>
+                </ul>
+
+                <div class="contact-staff">
+                    <!-- <button class="md-trigger" id="md-trigger"> -->
+                    <h3 class="title">Staff</h3>
+                    <button><svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="23" height="23" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                    </svg></button>
+                </div>
+                <ul class="bare-list team-members">
+                    <li class="team-member">
+                        <img class="team-member-photo"
+                        src="https://tse4.mm.bing.net/th?id=OIP.UGlKxiZQylR3CnJIXSbFIAHaLL&pid=Api&f=1&ipt=1afd981963c9f8942c9bb36c06e79b63af6ab5c38ede9ac8b8cfc4eb516ac97d&ipo=images">
+                        <div class="team-member-info">
+                            <h3 class="team-member-name">Jeremy</h3>
+                            <span class="team-member-role">Gérant</span>
+                        </div>
+                    </li>
+                    <li class="team-member">
+                        <img class="team-member-photo"
+                        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F1040881%2Fpexels-photo-1040881.jpeg%3Fauto%3Dcompress%26cs%3Dtinysrgb%26h%3D650%26w%3D940&f=1&nofb=1&ipt=660b452f4c0466f7128d71cd60ef464d75d20ed4b0d2dcfb9338f861a0e2e9be&ipo=images">
+                        <div class="team-member-info">
+                            <h3 class="team-member-name">Simon</h3>
+                            <span class="team-member-role">Gérant</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="cafe-communication">
+                <div class="notification-wrapper">
+                    <svg class="notification-icon" viewBox="0 0 512 512" xml:space="preserve"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M381.7 225.9c0-97.6-52.5-130.8-101.6-138.2l.1-1.6c0-12.3-10.9-22.1-24.2-22.1s-23.8 9.8-23.8 22.1l.1 1.6c-49.2 7.5-102 40.8-102 138.4 0 113.8-28.3 126-66.3 158h384c-37.8-32.1-66.3-44.4-66.3-158.2M256.2 448a52 52 0 0 0 51.7-43H204.5c2.8 23.1 24.9 43 51.7 43" />
+                    </svg>
+                </div>
+                <div class="tab-container">
+                    <div class="tab active" onclick="openTab('posts')">Annonces</div>
+                    <div class="tab" onclick="openTab('events')">Événements</div>
+                </div>
+                <div class="tab-body">
+                    <div id="posts" class="tab-content active">
+                        <div class="post">
+                            <div class="post-header">
+                                <h3 class="post-title">Distribution de Chocolat Gratuit</h3>
+                                <span class="post-date">Il y a 4 jours</span>
+                            </div>
+
+                            <p class="post-content">
+                                <span class="post-author">Tore et Fraction:</span> Pour égayer votre journée,
+                                passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour
+                                tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses
+                                café
+                            </p>
+                        </div>
+
+                        <div class="post">
+                            <div class="post-header">
+                                <h3 class="post-title">Soirée Saint-Valentin au Café Campus!</h3>
+                                <span class="post-date">Il y a 10 jours</span>
+                            </div>
+                            <p class="post-content">
+                                <span class="post-author">Tore et Fraction:</span>
+                                Rejoignez-nous pour une soirée romantique pleine de surprises et de douceur. 
+                                Amenez votre valentin(e) ou venez rencontrer votre âme sœur. Musique douce, ambiance chaleureuse et boissons spéciales vous attendent ce 14 février.
+                            </p>
+                        </div>
+                    </div>
+                    <div id="events" class="tab-content">
+                        <div class="card-container">
+                            <div class="photo-container">
+                                <div class="event-date" id="valentin">
+                                    <span class="day">14</span>
+                                    <span class="month">Février</span>
+                                    <span class="hour">19h30</span>
+                                </div>
+                                <div class="image">
+                                    <img src="https://c.tadst.com/gfx/750w/valentines-day-heart-hands.jpg">
+                                </div>
+                            </div>
+                            <div class="info-container">
+                                <h3 class="event-name">
+                                    Saint-Valentin
+                                </h3>
+                                <div class="event-location">
+                                    Photo Booth de couple !
+                                    <p class="location-content" style="font-size: 10px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                </div>
+                            </div>
+                            <div class="attendance">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-people" viewBox="0 0 18 18">
+                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                                </svg>
+                                <span>Je participe</span>
+                            </div>        
+                        </div>
+                        <div class="card-container">
+                            <div class="photo-container">
+                                <div class="event-date">
+                                    <span class="day">10</span>
+                                    <span class="month">Mars</span>
+                                    <span class="hour">19h30</span>
+                                </div>
+                                <div class="image">
+                                    <img src="https://media.istockphoto.com/id/1340670567/vector/karaoke-night-neon-sign-on-dark-background.jpg?s=612x612&w=0&k=20&c=aJmMhvP30sKuQLnjKkAMABJzv8ZVi6rVdV4TfoXofGU=">
+                                </div>
+                            </div>
+                            <div class="info-container">
+                                <h3 class="event-name">
+                                    Soiree karaoke
+                                </h3>
+                                <div class="event-location">
+                                    Faites-sortir votre inner Star !
+                                </div>
+                                <p class="location-content" style="font-size: 10px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                            <div class="attendance">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-people" viewBox="0 0 18 18">
+                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                                </svg>
+                                <span>Je participe</span>
+                            </div> 
+                        </div>
+                        <div class="card-container">
+                            <div class="photo-container">
+                                <div class="event-date">
+                                    <span class="day">2</span>
+                                    <span class="month">Mai</span>
+                                    <span class="hour">17h30</span>
+                                </div>
+                                <div class="image"><img src="https://images.squarespace-cdn.com/content/v1/55bf77a8e4b07377face9bcc/1510185974246-S3CK13SZHV2UGS6UEJI5/gamenight.jpg?format=300w"></div>
+                            </div>
+                            <div class="info-container">
+                                <h3 class="event-name">
+                                    Soirée Verité
+                                </h3>
+                                <div class="event-location">
+                                    Viens ! C'est l'heure de la vérité...
+                                </div>
+                                <p class="location-content" style="font-size: 10px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                            <div class="attendance">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-people" viewBox="0 0 18 18">
+                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                                </svg>
+                                <span>Je participe</span>
+                            </div> 
+                        </div>
+                        <div class="card-container">
+                            <div class="photo-container">
+                                <div class="event-date">
+                                    <span class="day">22</span>
+                                    <span class="month">Mai</span>
+                                    <span class="hour">12h30</span>
+                                </div>
+                                <div class="image"><img src="https://0701.static.prezi.com/preview/v2/2td7zsmxe3nc2jz26we3yfrdu76jc3sachvcdoaizecfr3dnitcq_3_0.png"></div>
+                            </div>
+                            <div class="info-container">
+                                <h3 class="event-name">
+                                    De-Stress Fest
+                                </h3>
+                                <div class="event-location">
+                                    De-stress before finals with puppies!
+                                </div>
+                                <p class="location-content" style="font-size: 10px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                            <div class="attendance">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-people" viewBox="0 0 18 18">
+                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                                </svg>
+                                <span>Je participe</span>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+
+    <!-- mail-contactez-nous -->
+    <div class="md-modal md-effect-1" id="modal-1">
+        <div class="md-content">
+            <h3>Contactez-nous</h3>
+            <div>
+                <!-- <p>This is a modal window. You can do the following things with it:</p> -->
+                <div class="mailcontainer">
+                    <form target="_blank" action="https://formsubmit.co/tonemail@gmail.com" method="POST">
+                        <div class="form-group">
+                            <div class="form-row">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Taper votre message..." class="form-control" name="message" rows="10"
+                                required></textarea>
+                        </div>
+                        <div class="dflex ">
+                            <button class="md-close btn btn-primary btn-lg" id="md-close">Fermer</button>
+                            <button type="submit" class="btn btn-lg btn-primary" id="send">Envoyer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="md-overlay"></div><!-- the overlay element -->
+
+    <script src="script.js"></script>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

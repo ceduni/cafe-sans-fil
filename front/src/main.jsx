@@ -16,11 +16,17 @@ import {
   StaffList,
   SalesReport,
   EditMenu,
-} from "@/routes";
+  EditEvent,
+  EditNews,
+} 
+from "@/routes";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
 import { LoggedInOnly, LoggedOutOnly } from "@/helpers/ProtectedRoute";
+import i18n from "./i18n";
+import { I18nextProvider } from "react-i18next";
+import { setRoot } from "./utils/globals";
 
 const router = createBrowserRouter([
   {
@@ -112,6 +118,26 @@ const router = createBrowserRouter([
           </LoggedInOnly>
         ),
       },
+
+     
+      {
+        path: "/cafes/:id/edit/events",
+        element: (
+          <LoggedInOnly>
+            <EditEvent/>
+          </LoggedInOnly>
+        ),
+      },
+
+      {
+        path: "/cafes/:id/edit/announcements",
+        element: (
+          <LoggedInOnly>
+            <EditNews/>
+          </LoggedInOnly>
+        ),
+      },
+
       {
         path: "/cafes/:id/sales-report",
         element: (
@@ -124,10 +150,15 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const root = document.getElementById("root");
+setRoot(root);
+
+ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <HelmetProvider>
-      <RouterProvider router={router} />
+      <I18nextProvider i18n={i18n}>
+        <RouterProvider router={router} />
+      </I18nextProvider>
     </HelmetProvider>
   </React.StrictMode>
 );

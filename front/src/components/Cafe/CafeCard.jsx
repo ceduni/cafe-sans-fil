@@ -3,54 +3,34 @@ import OpenIndicator from "@/components/Cafe/OpenIndicator";
 import Card from "@/components/Card";
 import { displayCafeLocation, shouldDisplayInfo } from "@/utils/cafe";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
-import getCurrentUser from "@/utils/users";
-import { useAuth } from "@/hooks/useAuth";
 
-const CafeCard = ({ cafe, recommendations }) => {
-  const [isRecommended, setIsRecommended] = useState(false);
-  const { isLoggedIn } = useAuth();
-
-  useEffect(() => {
-    const checkIsRecommended = async () => {
-      //const currentUser = await getCurrentUser();
-      //const { recommendationsData, isloading, errors } = useApi(`/recommendations/cafe/${currentUser.username}`);
-      //setRecommendations(recommendationsData);
-      if (recommendations ? recommendations.includes(cafe.slug) : false) {
-        setIsRecommended(true)
-      }
-    };
-
-    checkIsRecommended()
-  
-  }, [])
-
+/**
+ * A component representing a cafe card.
+ * 
+ * @param {Object} props - The component props.
+ * @param {Cafe} props.cafe - The cafe object containing information about the cafe.
+ * @returns {JSX.Element} - The JSX element representing the cafe card.
+ */
+const CafeCard = ({ cafe }) => {
   return (
     <Link
       to={`/cafes/${cafe.slug}`}
+      state={cafe}
       className="contents select-none"
       onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
       <Card>
-        <Card.Image src={cafe.image_url} alt={cafe.name} />
-        {/* <div className="relative w-min p-4 rounded-lg">
-          {
-            isLoggedIn && isRecommended && (
-              <div className="absolute top-0 left-0 text-green-500 bg-white opacity-90 px-3 py-1 rounded-md font-bold">
-                Recommendé
-              </div>
-            )
-          }
-        </div> */}
+        <Card.Image src={cafe.image} alt={cafe.name} />
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>
           <Card.Header.Subtitle>{displayCafeLocation(cafe.location)}</Card.Header.Subtitle>
           <OpenIndicator
-            isOpen={cafe.is_open}
-            openingHours={cafe.opening_hours}
-            statusMessage={cafe.status_message}
+            isOpen={cafe.closed}
+            isActuallyOpen={cafe.isOpen()}
+            openingHours={cafe.openingHours}
+            statusMessage={cafe.status}
             size="xs"
           />
-          {cafe.additional_info && cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
+          {/* {cafe.additional_info && cafe.additional_info[0]?.value && shouldDisplayInfo(cafe.additional_info[0]) && (
             <div
               className="mt-4 px-4 animate-text bg-sky-200 rounded-full flex items-center justify-center gap-2 w-fit"
               role="alert">
@@ -59,7 +39,7 @@ const CafeCard = ({ cafe, recommendations }) => {
               </span>
               <ChevronRightIcon className="w-4 h-4 flex-shrink-0 opacity-75" />
             </div>
-          )}
+          )} */}
         </Card.Header>
       </Card>
     </Link>

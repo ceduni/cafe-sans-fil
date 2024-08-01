@@ -1,7 +1,11 @@
 import classNames from "classnames";
 
-const Container = ({ children, className }) => {
-  return <div className={classNames("mx-auto px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
+
+export const Container = ({ children, className, bare = false }) => {
+  if (bare) {
+    return <div className={className}>{children}</div>;
+  }
+  return <div className={classNames("px-4 sm:px-6 lg:px-8", className)}>{children}</div>;
 };
 
 export default Container;

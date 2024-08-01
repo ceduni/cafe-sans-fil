@@ -493,4 +493,3 @@ class CafeShortOut(BaseModel):
             "health_score": 8.5
         }
     })
-

@@ -1,6 +1,6 @@
 import Container from "@/components/Container";
 import useApi from "@/hooks/useApi";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "@/components/Input";
 import { getUserFromUsername } from "@/utils/getFromId";
 import { CheckIcon } from "@heroicons/react/24/solid";

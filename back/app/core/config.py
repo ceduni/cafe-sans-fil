@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     MONGO_DB_NAME: str = config("MONGO_DB_NAME", cast=str)
 
     # Mail
+    SENDGRID_API_KEY: str = config("SENDGRID_API_KEY", cast=str)
     # Disable email sending because of Render blocking SMTP requests
     # MAIL_USERNAME: str = config("MAIL_USERNAME", cast=str)
     # MAIL_PASSWORD: str = config("MAIL_PASSWORD", cast=str)

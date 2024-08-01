@@ -1,0 +1,9 @@
+{
+    "app.name": "Café sans-fil",
+
+    "title": "Home | Café sans-fil",
+
+    "alt.cafe_logo": "Cafe logo",
+    
+    "error.404.cafe": "This coffee does not exist"
+}
