@@ -1,4 +1,3 @@
-from recommender_systems.systems.items_recommenders import health_bot as HB
 from app.models.cafe_model import Cafe
 from recommender_systems.utils import utilitaries as Utils
 from typing import List, Dict
