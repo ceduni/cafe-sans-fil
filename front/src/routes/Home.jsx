@@ -18,12 +18,11 @@ const Home = () => {
   const { isLoggedIn } = useAuth();
   const [recommendedCafes, setRecommendedCafes] = useState([]);
   const [shouldRecommend, setShouldRecommend] = useState(true);
+  const { user: currentUser } = useAuth();
   const { data, isLoading, error } = useApi("/cafes");
-  //const currentUserRecommendations = useApi(`/recommendations/cafe/${currentUser.user_id}`);
-  const currentUserRecommendations = ["cafekine", "la-planck", "lintermed", "pill-pub"];
+  const { data: currentUserRecommendations, isLoading2, error2 } = useApi(`/recommendations/cafes_recommendations/${currentUser ? currentUser.user_id : ""}`);
+  //const currentUserRecommendations = ["cafekine", "la-planck", "lintermed", "pill-pub"];
   const [currentUserDiets, setCurrentUserDiets] = useState([]);
-
-
 
   const [filters, setFilters] = useState({
     openOnly: false,
@@ -35,18 +34,27 @@ const Home = () => {
   });
 
 
-  const getRecommendedCafes = async () => {
+  useEffect(() => {
+    if (isLoggedIn && !isLoading2 && currentUserRecommendations) {
+      getRecommendedCafes();
+    }
+  }, [currentUserRecommendations, storedCafes]);
+
+  const getRecommendedCafes = () => {
     if (isLoggedIn && storedCafes) {
       const filteredCafes = storedCafes.filter((cafe) => currentUserRecommendations.includes(cafe.slug));
-      // console.log(filteredCafes);
-      setRecommendedCafes(filteredCafes);
+      const sortedCafes = filteredCafes.sort((cafe1, cafe2) => {
+        if (cafe1.health_score > cafe2.health_score) {
+          return -1;
+        } else if (cafe1.health_score < cafe2.health_score) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+      setRecommendedCafes(sortedCafes);
     }
   };
-
-  useEffect(() => {
-    getRecommendedCafes();
-  }, [storedCafes]);
-
 
   useEffect(() => {
     if (filters.cafeSellingDietProductOnly || filters.takesCash || 
@@ -60,7 +68,6 @@ const Home = () => {
 
   useEffect(() => {
     const currUserDiets = async () => {
-      const currentUser = await getCurrentUser();
       setCurrentUserDiets(currentUser.diet_profile?.diets);
     }
 
@@ -95,6 +102,7 @@ const Home = () => {
           <RecommendedCafeList 
             recommendedCafes={recommendedCafes} 
             isLoading={isLoading} 
+            error={error2}
           />
         </Container>
 
@@ -112,6 +120,7 @@ const Home = () => {
               shouldRecommend={false} 
               currentUserDiets={currentUserDiets} 
               filters={filters} 
+              recommendations={currentUserRecommendations}
             />) || (
             <SearchResults searchQuery={searchQuery} storedCafes={storedCafes} />
           )}

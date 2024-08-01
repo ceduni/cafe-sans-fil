@@ -1,5 +1,5 @@
 import Diet from "@/components/Profile/Diet";
-import AddDietCard from "@/components/Profile/AddDietCard";
+import AddDietButton from "@/components/Profile/AddDietButton";
 
 
 const DietProfile = ({ diets, setDiets, setDisableSubmit }) => {
@@ -26,7 +26,7 @@ const DietProfile = ({ diets, setDiets, setDisableSubmit }) => {
                 Régimes alimentaire
             </h2>
 
-            <div className="grid grid-cols-4 gap-y-12 w-10/12 py-5">
+            <div className="grid grid-cols-5 gap-y-6 gap-x-10 py-5">
                 {diets.map((diet, index) => (
                     <Diet
                         key={index}
@@ -43,7 +43,7 @@ const DietProfile = ({ diets, setDiets, setDisableSubmit }) => {
                         desired_foods={diet.desired_foods}
                     />
                 ))}
-                <AddDietCard
+                <AddDietButton
                     diets={diets}
                     setDiets={setDiets}
                 />

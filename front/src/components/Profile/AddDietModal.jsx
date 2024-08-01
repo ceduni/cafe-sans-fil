@@ -19,23 +19,6 @@ const AddDietModal = ({ isOpen, setIsOpen, diets, setDiets }) => {
     const [forbiddenFoods, setForbiddenFoods] = useState([]);
     const [desiredFoods, setDesiredFoods] = useState([]);
 
-    // const calculateValidCafes = () => {
-    //     console.log(data)
-    //     const validCafes = data.filter(
-    //         (cafe) => {
-    //             const result = cafe.menu_items.filter(
-    //                 (item) => {
-    //                     const setItem = new Set(item.ingredients);
-    //                     return newDiet.forbidden_foods.some((ingredient) => setItem.has(ingredient));
-    //                 }
-    //             )
-    //             return result.length < cafe.menu_items.length;
-    //         }
-    //     )
-    //     console.log(validCafes.length)
-    //     return validCafes.length;
-    // };
-
     const toggleModal = () => {
         setIsOpen(!isOpen);
     };

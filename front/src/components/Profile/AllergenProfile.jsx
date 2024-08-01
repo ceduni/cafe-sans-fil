@@ -5,10 +5,10 @@ const AllergenProfile = ({ selectedAllergens, setSelectedAllergens, setDisableSu
     return (
         <div className="border-b border-gray-900/10 pb-12 py-5">
             <h2 className="text-2xl font-semibold leading-7 text-gray-900">Allergènes</h2>
-            <div className="grid grid-cols-2 gap-1 py-5">
+            <div className="grid grid-cols-4 gap-x-12 py-5">
                 {selectedAllergens.map((allergen, index) => (
                     <div key={index} className="mb-2 flex items-center">
-                        <label className="mr-2 text-gray-700 font-bold w-36">{allergen.name}</label>
+                        <label className="text-gray-700 font-bold w-28">{allergen.name}</label>
                         <CustomRadio
                             name={allergen.name}
                             initElements={selectedAllergens}

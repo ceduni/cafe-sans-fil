@@ -128,21 +128,21 @@ const Profile = () => {
       <div className="w-full p-4">
         <div className="flex text-xl border-b border-gray-200 mb-4">
           <button 
-          className={`py-2 px-4 ${activeTab === 0 ? 'border-b-2 border-blue-500': ''}`}
+          className={`py-2 px-4 ${activeTab === 0 ? 'border-b-2 border-blue-500 bg-blue-200 rounded shadow-md': ''}`}
           onClick={() => handleTabChange(0)}
           >
             Informations Personnels
           </button>
 
           <button 
-          className={`py-2 px-4 ${activeTab === 1 ? 'border-b-2 border-blue-500': ''}`}
+          className={`py-2 px-4 ${activeTab === 1 ? 'border-b-2 border-blue-500 bg-blue-200 rounded shadow-md': ''}`}
           onClick={() => handleTabChange(1)}
           >
             Profile nutritif
           </button>
 
           <button 
-          className={`py-2 px-4 ${activeTab === 2 ? 'border-b-2 border-blue-500': ''}`}
+          className={`py-2 px-4 ${activeTab === 2 ? 'border-b-2 border-blue-500 bg-blue-200 rounded shadow-md': ''}`}
           onClick={() => handleTabChange(2)}
           >
             Paramètres de compte

@@ -2,6 +2,7 @@ import getCurrentUser from "@/utils/users";
 import { useEffect, useState } from "react";
 import EditDietModal from "@/components/Profile/EditDietModal";
 
+
 const Diet = ({ index, handleDietsCheckboxChange, onDeleteDiet, name, description, checked, isStarter, forbidden_foods, diets, setDiets, desired_foods }) => {
     const [numberValidCafes, setNumberValidCafes] = useState(0);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -25,7 +26,7 @@ const Diet = ({ index, handleDietsCheckboxChange, onDeleteDiet, name, descriptio
     return (
         <>
             <button 
-                className="w-full max-w-md p-4 border-2 flex-col justify-start hover:border-gray-400 border-gray-300 bg-gray-100 rounded-md"
+                className="w-full max-w-lg p-4 border-2 flex-col justify-start hover:border-gray-400 hover:shadow-md border-gray-300 bg-gray-100 rounded-md"
                 onClick={handleDietClick}
             >
                 <div>
@@ -65,7 +66,7 @@ const Diet = ({ index, handleDietsCheckboxChange, onDeleteDiet, name, descriptio
                         onDeleteDiet(index);
                     }}
                     >
-                        supprimer
+                        Supprimer
                     </button>
                 </div>}
             </button>

@@ -9,7 +9,7 @@ const TagInput = ({ tags, setTags }) => {
         )
     }
     const handleKeyDown = (event) => {
-        if (event.key === ',' || event.key === 'Enter') {
+        if (event.key === ',' || event.key === 'Enter' || event.key === ' ' || event.key === 'Tab') {
             event.preventDefault();
             if (inputValue.trim() !== '') {
                 setTags([...tags, inputValue.trim()]);

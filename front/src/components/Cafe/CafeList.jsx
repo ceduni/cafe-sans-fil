@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { PAYMENT_METHODS, isCafeActuallyOpen } from "@/utils/cafe";
 import getCurrentUser from "@/utils/users";
 
-const CafeList = ({ data, isLoading, error, storedCafes, setStoredCafes, shouldRecommend, currentUserDiets, filters }) => {
+const CafeList = ({ data, isLoading, error, storedCafes, setStoredCafes, shouldRecommend, currentUserDiets, filters, recommendations }) => {
   // const [filters, setFilters] = useState({
   //   openOnly: false,
   //   pavillon: "Tous les pavillons",
@@ -72,7 +72,7 @@ const CafeList = ({ data, isLoading, error, storedCafes, setStoredCafes, shouldR
 
       <div className="grid animate-fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8">
         {sortedCafes.map((cafe) => (
-          <CafeCard cafe={cafe} key={cafe.slug} />
+          <CafeCard cafe={cafe} key={cafe.slug} recommendations={recommendations} />
         ))}
       </div>
     </div>

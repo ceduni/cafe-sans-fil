@@ -11,11 +11,11 @@ const NutriPreferences = ({ nutriPreferences, setNutriPreferences, setDisableSub
     return (
         <div className="border-b border-gray-900/10 pb-12 py-5">
             <h2 className="text-2xl font-semibold leading-7 text-gray-900">Préférences nutritives</h2>
-            <div className="grid grid-cols-3 gap-0 py-5">
+            <div className="grid grid-cols-4 gap-x-12 py-5">
                 {nutriPreferences.map((nutriPreference, index) => (
                     <div key={index} className="mb-2 flex items-center">
                         <label 
-                            className="mr-2 text-gray-700 font-bold w-32"
+                            className="mr-2 text-gray-700 font-bold w-28"
                         >{nutriPreference.name}</label>
                         <CustomRadio 
                             name={nutriPreference.name}

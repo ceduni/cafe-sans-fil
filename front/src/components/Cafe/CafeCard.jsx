@@ -7,17 +7,16 @@ import { useEffect, useState } from "react";
 import getCurrentUser from "@/utils/users";
 import { useAuth } from "@/hooks/useAuth";
 
-const CafeCard = ({ cafe }) => {
+const CafeCard = ({ cafe, recommendations }) => {
   const [isRecommended, setIsRecommended] = useState(false);
   const { isLoggedIn } = useAuth();
-  const [recommendations, setRecommendations] = useState(["cafekine", "la-planck", "lintermed", "pill-pub"]);
 
   useEffect(() => {
     const checkIsRecommended = async () => {
       //const currentUser = await getCurrentUser();
       //const { recommendationsData, isloading, errors } = useApi(`/recommendations/cafe/${currentUser.username}`);
       //setRecommendations(recommendationsData);
-      if (recommendations.includes(cafe.slug)) {
+      if (recommendations ? recommendations.includes(cafe.slug) : false) {
         setIsRecommended(true)
       }
     };
@@ -33,15 +32,15 @@ const CafeCard = ({ cafe }) => {
       onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
       <Card>
         <Card.Image src={cafe.image_url} alt={cafe.name} />
-          <div className="relative w-min p-4 rounded-lg">
-            {
-              isLoggedIn && isRecommended && (
-                <div className="absolute top-0 left-0 text-green-500 bg-white opacity-90 px-3 py-1 rounded-md font-bold">
-                  Recommendé
-                </div>
-              )
-            }
-          </div>
+        {/* <div className="relative w-min p-4 rounded-lg">
+          {
+            isLoggedIn && isRecommended && (
+              <div className="absolute top-0 left-0 text-green-500 bg-white opacity-90 px-3 py-1 rounded-md font-bold">
+                Recommendé
+              </div>
+            )
+          }
+        </div> */}
         <Card.Header>
           <Card.Header.Title>{cafe.name}</Card.Header.Title>
           <Card.Header.Subtitle>{displayCafeLocation(cafe.location)}</Card.Header.Subtitle>
