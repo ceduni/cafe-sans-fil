@@ -1,7 +1,7 @@
 ### Ce fichier contient les scripts qui permettront de créer des catégories de repas ###
 from app.models.cafe_model import MenuItem, Cafe
 from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DButils
-from recommender_systems.utils.api_calls import CafeApi, AuthApi
+from recommender_systems.utils.api_calls import CafeApi, AuthApi, RecommendationsApi
 
 from typing import List, Dict
 
@@ -21,8 +21,8 @@ def numeric_foods(items: List[MenuItem]) -> List[List[float]]:
         item_infos: NutritionInfo = item['nutritional_informations']
         infos: list[float] = [
             float(item_infos['calories']) if item_infos['calories'] else 0, 
-            float(item_infos['lipids']) if item_infos['lipid'] else 0,
-            float(item_infos['proteins']) if item_infos['protein'] else 0,
+            float(item_infos['lipids']) if item_infos['lipids'] else 0,
+            float(item_infos['proteins']) if item_infos['proteins'] else 0,
             float(item_infos['carbohydrates']) if item_infos['carbohydrates'] else 0,
             float(item_infos['sugar']) if item_infos['sugar'] else 0,
             float(item_infos['sodium']) if item_infos['sodium'] else 0,
@@ -33,13 +33,13 @@ def numeric_foods(items: List[MenuItem]) -> List[List[float]]:
             float(item_infos['calcium']) if item_infos['calcium'] else 0,
             float(item_infos['potassium']) if item_infos['potassium'] else 0,
             float(item_infos['magnesium']) if item_infos['magnesium'] else 0,
-            float(item_infos['vitaminA']) if item_infos['vitaminA'] else 0,
-            float(item_infos['vitaminC']) if item_infos['vitaminC'] else 0,
-            float(item_infos['vitaminD']) if item_infos['vitaminD'] else 0,
-            float(item_infos['vitaminE']) if item_infos['vitaminE'] else 0,
-            float(item_infos['vitaminK']) if item_infos['vitaminK'] else 0,
-            float(item_infos['vitaminB6']) if item_infos['vitaminB6'] else 0,
-            float(item_infos['vitaminB12']) if item_infos['vitaminB12'] else 0,
+            float(item_infos['vitamina']) if item_infos['vitamina'] else 0,
+            float(item_infos['vitaminc']) if item_infos['vitaminc'] else 0,
+            float(item_infos['vitamind']) if item_infos['vitamind'] else 0,
+            float(item_infos['vitamine']) if item_infos['vitamine'] else 0,
+            float(item_infos['vitamink']) if item_infos['vitamink'] else 0,
+            float(item_infos['vitaminb6']) if item_infos['vitaminb6'] else 0,
+            float(item_infos['vitaminb12']) if item_infos['vitaminb12'] else 0,
         ]
         data.append(infos)
     return data
@@ -106,9 +106,19 @@ def update_item_cluster():
     clusters: dict[str, list[MenuItem]] = _clusters()
     for _, cluster in enumerate(tqdm(clusters.keys(), desc="Updating items clusters")):
         for item in clusters[cluster]:
-            cafes: List[Cafe] = Utilitaries.find_cafe_by_item(all_cafe, item)
-            for cafe in cafes:
+            # cafes: List[Cafe] = Utilitaries.find_cafe_by_item(all_cafe, item)
+            # for cafe in cafes:
+            _, status = RecommendationsApi.get_item(item_id=item['item_id'])
+            if status != 200:
+                item_data = {
+                    "item_id": item['item_id'],
+                    "slug": item['slug'],
+                    "health_score": 100,
+                    "cluster": cluster
+                }
+            else:
                 item_data = {
                     "cluster": cluster
                 }
-                CafeApi.update_item(auth_token=auth_token, cafe_slug=cafe['slug'], item_slug=item['slug'], json_data=item_data) 
+            # CafeApi.update_item(auth_token=auth_token, cafe_slug=cafe['slug'], item_slug=item['slug'], json_data=item_data) 
+            RecommendationsApi.update_items_health_score(auth_token=auth_token, item_id=item['item_id'], json_data=item_data)

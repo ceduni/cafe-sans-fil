@@ -52,6 +52,7 @@ def _get_valid_items(items: List[MenuItem], user_prefered_nutrients: dict[str, i
     valid_items: set[str] = set()
 
     for nutrient, level in zip(user_prefered_nutrients.keys(), user_prefered_nutrients.values()):
+        print(nutrient)
         nutrient_dv: float = Utils.get_nutrient_daily_value(nutrient.lower())
 
         low_bound: float = 0
@@ -121,7 +122,11 @@ def main(actual_cafe: Cafe, user: User) -> List[str]:
     
     # Only nutrients specified
     if not user_diets and user_prefered_nutrients: # Only nutrients specified
-        valid_items: list[MenuItem] = _get_valid_items(menu_items, user_prefered_nutrients)
+        try:
+            valid_items: list[MenuItem] = _get_valid_items(menu_items, user_prefered_nutrients)
+        except ValueError as e:
+            print(e)
+            return []
         return remove_allergenic_items(valid_items, user['diet_profile']['allergens'])
     
     # Only diets specified
@@ -143,6 +148,9 @@ def main(actual_cafe: Cafe, user: User) -> List[str]:
     for cluster in all_clusterd_items:
         all_clusterd_items_merged.extend(cluster)
 
-    valid_items: list[MenuItem] = _get_valid_items(all_clusterd_items_merged, user_prefered_nutrients)
-
+    try:
+        valid_items: list[MenuItem] = _get_valid_items(all_clusterd_items_merged, user_prefered_nutrients)
+    except ValueError as e:
+        print(e)
+        return []
     return remove_allergenic_items(valid_items, user['diet_profile']['allergens'])

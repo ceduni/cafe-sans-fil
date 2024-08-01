@@ -1,5 +1,6 @@
 from beanie import Document
-from typing import List
+from pydantic import BaseModel, Field
+from uuid import UUID
 
 """
 This module defines the Pydantic-based models used in the Café application for user recommendations management, 
@@ -11,10 +12,11 @@ Note: These models are intended for direct database interactions related to user
 different from the API data interchange models.
 """
 
-class CafeForRecommendation(Document):
+class Item(Document):
+    item_id: UUID
     slug: str
-    health_score: float
-    public_recommendations: List[str]
+    health_score: int
+    cluster: str
 
     class Settings:
-        name = "cafes for recommendations"
+        name = "items"

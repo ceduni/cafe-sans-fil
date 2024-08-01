@@ -4,7 +4,7 @@ from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from recommender_systems.utils import db_utils as DButils
 from typing import List, Dict
-from recommender_systems.utils.api_calls import CafeRecommenderApi, AuthApi
+from recommender_systems.utils.api_calls import CafeRecommenderApi, AuthApi, RecommendationsApi, UserApi
 from tqdm import tqdm
 
 # Run cafe recommendations for all users.
@@ -14,7 +14,8 @@ def _run_cafe_recommendations() -> Dict[str, List[str]]:
     recommendations: dict[str, list[str]] = {}
     try:
         for _, user in enumerate( tqdm(users, desc="Finding cafe recommendations") ):
-            recommendations[user['user_id']] = collaborative.main(users=users, user=user).extend( content_based.main(all_cafe=all_cafe, user=user) )
+            if user['first_name'] == "Tom":
+                recommendations[user['username']] = content_based.main(all_cafe=all_cafe, user=user) # collaborative.main(users=users, user=user).extend( )
         return recommendations
     except ValueError as e:
         print(e)
@@ -24,9 +25,21 @@ def _run_cafe_recommendations() -> Dict[str, List[str]]:
 def update_cafe_recommendations():
     auth_token = AuthApi.auth_login()
     recommendations: dict[str, list[str]] = _run_cafe_recommendations()
-    # if recommendations != {}:
-    #     for _, user_id in enumerate( tqdm(recommendations.keys(), desc="Updating cafe recommendations") ):
-    #         data = {
-    #             "recommendations": recommendations[user_id]
-    #         }
-    #         CafeRecommenderApi.update_user_cafe_recommendations(auth_token=auth_token, user_id=user_id, json_data=data)
+    print(recommendations)
+    if recommendations != {}:
+        for _, username in enumerate( tqdm(recommendations.keys(), desc="Updating cafe recommendations") ):
+            user = DButils.get_user(username)
+            _, status = RecommendationsApi.get_user(user_id=user["user_id"])
+            if status != 200:
+                data = {
+                    "user_id": user['user_id'],
+                    "username": username,
+                    "cafe_recommendations": recommendations[username],
+                    "personnal_recommendations": []
+                }
+            else:
+                data = {
+                    "cafe_recommendations": recommendations[username],
+                }
+            #CafeRecommenderApi.update_user_cafe_recommendations(auth_token=auth_token, user_id=user.user_id, json_data=data)
+            RecommendationsApi.update_user_cafe_recommendations(auth_token=auth_token, user_id=user['user_id'], json_data=data)

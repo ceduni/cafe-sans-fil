@@ -14,6 +14,7 @@ from app.api.deps.user_deps import get_current_user
 # from app.core.mail import send_registration_mail, send_reset_password_mail, is_test_email
 from app.core.security import create_access_token
 from app.core.config import settings
+from recommender_systems.routines.missing_items import find_items_not_in_diets
 
 """
 This module defines the API routes related to user management in the application.
@@ -141,7 +142,6 @@ async def delete_user(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
     return {"msg": f"User {username} has been deleted."}
-
 
 # --------------------------------------
 #               Reset Password

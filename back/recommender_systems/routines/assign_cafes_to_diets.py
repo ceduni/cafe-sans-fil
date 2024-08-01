@@ -16,25 +16,18 @@ def find_cafes_selling_diet_products(diet: Dict[str, str | List[str]], cafe_list
                 result.add(cafe['slug'])
                 break
 
-    updated_diet = {
-        'name': diet['name'],
-        'description': diet['description'],
-        'forbidden_foods': diet['forbidden_foods'],
-        'valid_cafes': list(result),
-        'checked': diet['checked'],
-    }
+    return list(result)
 
-    return updated_diet
-
-def main():
-    all_cafes = DButils.get_all_cafe()
-    all_users = DButils.get_all_users()
-    for _, user in enumerate(tqdm(all_users, desc="Assigning cafes to user diets")):
-        diet_list = user['diet_profile']['diets']
-        for i in range(len(diet_list)):
-            updated_diet = find_cafes_selling_diet_products(diet_list[i], all_cafes)
-            diet_list[i] = updated_diet
+# def main():
+#     all_cafes = DButils.get_all_cafe()
+#     all_users = DButils.get_all_users()
+#     result = {}
+#     for _, user in enumerate(tqdm(all_users, desc="Assigning cafes to user diets")):
+#         result[user['username']] = user['username']
+#         for i in range(len(diet_list)):
+#             updated_diet = find_cafes_selling_diet_products(diet_list[i], all_cafes)
+#             diet_list[i] = updated_diet
         
-        user['diet_profile']['diets'] = diet_list
+#         user['diet_profile']['diets'] = diet_list
 
-        UserApi.update_user(auth_token=AuthApi.auth_login(), username=user['username'], json_data=user)
+#         UserApi.update_user(auth_token=AuthApi.auth_login(), username=user['username'], json_data=user)

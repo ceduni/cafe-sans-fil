@@ -38,6 +38,11 @@ def get_user_likes_in_cafe(user_id: str, cafe_items: List[MenuItem]) -> List[str
             items.append(item['slug'])
     return items
 
+def get_user(username: str) -> User:
+    auth_token = AuthApi.auth_login()
+    user, _ = UserApi.get_user(auth_token=auth_token, username=username)
+    return user
+
 # Get all users.
 def get_all_users() -> List[User]:
     query_params = {

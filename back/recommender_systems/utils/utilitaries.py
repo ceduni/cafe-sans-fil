@@ -4,6 +4,7 @@ from typing import List, Any, Tuple
 from app.models.cafe_model import MenuItem, Cafe
 from recommender_systems.utils import db_utils as DButils, utilitaries as Util
 from app.models.user_model import User
+from app.models.cafe_model import NutritionInfo
 from app.models.order_model import Order, OrderedItem
 from recommender_systems.utils.api_calls import *
 from typing import List, Dict, Set
@@ -25,7 +26,7 @@ def users_similarity(u_list: List[List[str] | Set[str]], v_list: List[List[str] 
             J.append(j)
         score: float = sum(J)
         return score
-    except TypeError | ValueError as e:
+    except (TypeError, ValueError) as e:
         print(e)
         return 0
 
@@ -197,8 +198,7 @@ def find_item_diets_for_user(item: MenuItem, user_diets: List[Dict[str, str | Li
     except KeyError as e:
         print(e)
         return []
-
-
+    
 #-----------------------
 #       Cafe
 #-----------------------
@@ -242,7 +242,6 @@ def find_indexes(input_list, value) -> List[int]:
 
 # Calculate the nutriscore of an item
 def health_score(item: MenuItem) -> float:
-
     if isinstance(item, dict) == False:
         raise TypeError("Argument must be a dict.")
     
@@ -291,7 +290,7 @@ def sort_by_health_score(items: List[MenuItem]) -> List[str]:
             if 'health_score' not in item:
                 item['health_score'] = health_score(item)
             items_tuples.append( (item['health_score'], item['slug']) )
-    except KeyError | TypeError as e:
+    except (KeyError, TypeError) as e:
         print(e)
         return []
 
@@ -336,17 +335,17 @@ def get_nutrient_daily_value(nutrient: str) -> float:
             'lipids': 78000,
             'fiber': 28000,
             'sugar': 50000,
-            'carbhydrates': 275000,
+            'carbohydrates': 275000,
             'sodium': 2300,
             'saturated_fat': 20000,
             'proteins': 50000,
-            'vitaminA': 0.9,
-            'vitaminC': 90,
-            'vitaminD': 0.02,
-            'vitaminE': 15,
-            'vitaminK': 0.12,
-            'vitaminB6': 1.7,
-            'vitaminB12': 0.0024,
+            'vitamina': 0.9,
+            'vitaminc': 90,
+            'vitamind': 0.02,
+            'vitamine': 15,
+            'vitamink': 0.12,
+            'vitaminb6': 1.7,
+            'vitaminb12': 0.0024,
         }
 
         return values[nutrient]
@@ -354,3 +353,43 @@ def get_nutrient_daily_value(nutrient: str) -> float:
     except KeyError as e:
         print(e)
         return 0
+    
+def health_score_for_object(item: MenuItem) -> float:
+    nutri_info: NutritionInfo = item.nutritional_informations
+
+    negative_points_max = 10
+    positive_points_max = 5
+
+    # Negative points
+    energy_points = min(max(int( float(nutri_info.calories if nutri_info.calories != None else 0) / 335), 0), negative_points_max)
+    sugar_points = min(max(int( float(nutri_info.sugar if nutri_info.sugar != None else 0) / 4.5), 0), negative_points_max)
+    saturated_fat_points = min(max(int( float(nutri_info.saturated_fat if nutri_info.saturated_fat != None else 0) / 1), 0), negative_points_max)
+    sodium_points = min(max(int( float(nutri_info.sodium if nutri_info.sodium != None else 0) / 90), 0), negative_points_max)
+    negative_points = energy_points + sugar_points + saturated_fat_points + sodium_points
+
+    # Positive points
+    fiber_points = min(max(int( float(nutri_info.fiber if nutri_info.fiber != None else 0) / 0.9), 0), positive_points_max)
+    protein_points = min(max(int( float(nutri_info.proteins if nutri_info.proteins != None else 0) / 1.6), 0), positive_points_max)
+    positive_points = fiber_points + protein_points
+
+    # Total score
+    score = negative_points - positive_points
+
+def sort_by_health_score_for_objects(items: List[MenuItem]) -> List[str]:
+    items_tuples: list[tuple[float, MenuItem]] = []
+    try:
+        for item in items:
+            item.health_score = health_score_for_object(item)
+            items_tuples.append( (item.health_score, item.slug) )
+    except (KeyError, TypeError) as e:
+        print(e)
+        return []
+
+    sorted_items_tuples: list[tuple[float, MenuItem]] = sorted(items_tuples, reverse=False)
+
+    sorted_items: List[str] = []
+    
+    for item_tuple in sorted_items_tuples:
+        sorted_items.append(item_tuple[1])
+
+    return sorted_items

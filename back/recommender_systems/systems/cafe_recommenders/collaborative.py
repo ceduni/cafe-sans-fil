@@ -2,6 +2,7 @@ from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DB
 from app.models.user_model import User
 from typing import List
 
+# TODO: Check why the algorithm returns None
 def main(users: List[User], user: User) -> List[str]:
 
     if user is None:

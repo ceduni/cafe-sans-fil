@@ -16,6 +16,7 @@ from app.models.order_model import Order
 
 from app.models.cafe_recommendations_model import CafeForRecommendation
 from app.models.user_recommendations_model import UserRecommendation
+from app.models.item_model import Item
 
 
 """
@@ -53,7 +54,7 @@ db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_beanie(
-        database=db_client[settings.MONGO_DB_NAME], document_models=[User, Cafe, Order, CafeForRecommendation, UserRecommendation]
+        database=db_client[settings.MONGO_DB_NAME], document_models=[User, Cafe, Order, CafeForRecommendation, UserRecommendation, Item]
     )
     yield
 
