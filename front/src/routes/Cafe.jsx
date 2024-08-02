@@ -74,7 +74,7 @@ const Cafe = () => {
                             <PaymentType name={p.method} />
                         ))}
                     </div> */}
-                    <CafeMenu items={cafe?.menu} />
+                    <CafeMenu items={cafe?.menu} cafeSlug={cafe?.slug} />
                 </div>
                 <div className="cafe-identification">
                     <CafeIdentification cafe={cafe} />

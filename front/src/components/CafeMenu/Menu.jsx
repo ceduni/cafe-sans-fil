@@ -1,15 +1,18 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { getRoot } from '@/utils/globals';
-
+import { PublicRecommendationAPI } from '@/utils/api';
 import './styles.css'
 import GroupBox from './MenuGroup';
 
+function renderError(error) {
+    return <div className="mt-20 mb-36"><EmptyState type="error" error={error} /></div>;
+  }
 
-const CafeMenu = ({ items: menuItems }) => {
+const CafeMenu = ({ items: menuItems, cafeSlug }) => {
     const [activeGroup, setActiveGroup] = useState(null);
     const [activeItem, setActiveItem] = useState(null);
     const menuElement = useRef(null);
-
+    const [publicRecommendation, setPublicRecommendation] = useState([]);
     const categories = [...new Set(menuItems.map(item => item.category))];
 
 
@@ -62,8 +65,34 @@ const CafeMenu = ({ items: menuItems }) => {
         }
     });
 
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        PublicRecommendationAPI.get(cafeSlug)
+            .then((data) => {
+                setPublicRecommendation(menuItems.filter((item) => data.includes(item.slug)));
+            })
+            .catch((error) => {
+                setError(error);
+            })
+    }, []);
+
+    if (error) {
+        console.trace(error);
+        return renderError(error);
+      }
+
     return (
         <div ref={menuElement} className="menu">
+            <GroupBox
+                category='Produits recommendés'
+                items={publicRecommendation}
+                onClick={handleGroupClick}
+                onItemClick={handleItemClick}
+                activeItem={activeItem}
+                setActiveItem={setActiveItem}
+
+            ></GroupBox>
             {categories.map((category, index) => (
                 <GroupBox
                     key={index}

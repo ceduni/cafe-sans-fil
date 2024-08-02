@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
-import Filters from "@/components/Cafe/Filters";
 import { PAYMENT_METHODS } from "@/utils/cafe";
 import { CafeAPI } from "@/utils/api";
 
@@ -62,12 +60,11 @@ function renderEmpty() {
  * @param {*} setFilters 
  * @returns 
  */
-function renderCafe(cafes, filters, setFilters) {
+function renderCafe(cafes, filters) {
     const filteredData = cafes.filter((cafe) => filterCafe(cafe, filters));
 
     return (
         <div className="relative bottom-4 xl:bottom-2">
-            <Filters filters={filters} setFilters={setFilters} cafes={cafes} />
 
             {isEmpty(filteredData) && (
                 <div className="mt-20 mb-36">
@@ -84,17 +81,7 @@ function renderCafe(cafes, filters, setFilters) {
     );
 }
 
-const CafeList = ({ setStoredCafes, storedCafes }) => {
-    const { t } = useTranslation();
-
-    const [filters, setFilters] = useState({
-        openOnly: false,
-        pavillon: t("select.all"),
-        takesCash: false,
-        takesCreditCard: false,
-        takesDebitCard: false,
-    });
-
+const CafeList = ({ setStoredCafes, storedCafes, filters }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -118,7 +105,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
         return renderEmpty();
     }
 
-    return renderCafe(storedCafes, filters, setFilters);
+    return renderCafe(storedCafes, filters);
 };
 
 export default CafeList;

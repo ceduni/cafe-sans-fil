@@ -7,6 +7,7 @@ export class CafeMenu {
 
 export class CafeMenuItem {
     constructor(data) {
+        this.slug = data.slug;
         this.name = data.name;
         this.tags = data.tags;
         this.description = data.description;

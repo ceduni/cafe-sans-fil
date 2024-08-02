@@ -1,4 +1,5 @@
 import { Cafe, CafeMenu, CafeMenuItem, Order, User, Event } from "@/models";
+import { UserRecommendation } from "@/models/userRecommendation";
 
 const testing = false;
 const buildUrl = (url) => {
@@ -164,6 +165,20 @@ export const OrderAPI = {
             const result = await fetchData(`/orders`, setLoading);
             return result.map(orderData => new Order(orderData));
         }
+    }
+}
+
+export const UserCafeRecommendationAPI = {
+    get: async function(userID, setLoading = null, cancel = false) {
+        const result = await fetchData(`/recommendations/cafes_recommendations/${userID}`, setLoading).then();
+        return result;
+    }
+}
+
+export const PublicRecommendationAPI = {
+    get: async function (cafeSlug, setLoading = null, cancel = false) {
+        const result = await fetchData(`/recommendations/public/${cafeSlug}`, setLoading).then();
+        return result;
     }
 }
 
