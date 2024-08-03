@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:app/config.dart';
 import 'package:app/modeles/Order%20models/Order.dart';
 import 'package:app/modeles/Order%20models/OrderItem.dart';
 import 'package:http/http.dart' as http;
 
 class OrderService {
-  final String baseUrl = "http://172.21.112.1:3000/api/v1/orders";
+  final String baseUrl = "${Config.baseUrl}/orders";
 
   Future<List<Order>> fetchOrders() async {
     var url = Uri.parse(baseUrl);

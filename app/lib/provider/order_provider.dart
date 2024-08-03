@@ -1,12 +1,13 @@
 import 'dart:ffi';
 
+import 'package:app/config.dart';
 import 'package:app/modeles/Order%20models/Order.dart';
 import 'package:app/services/orderService.dart';
 import 'package:flutter/material.dart';
 
 class OrderProvider with ChangeNotifier {
   List<Order> _Orders = [];
-  String cafeName = "Tore et fraction";
+  String cafeName = Config.cafeName;
   double turnOver = 0.0;
   double profit = 0.0;
   List<List<double>> valueForHistogram = [];

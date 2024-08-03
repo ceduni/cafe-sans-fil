@@ -1,3 +1,4 @@
+import 'package:app/config.dart';
 import 'package:app/modeles/Shift.dart';
 import 'package:app/services/shiftService.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,7 @@ import 'package:time_planner/time_planner.dart';
 
 class ShiftProvider with ChangeNotifier {
   List<Shift> _shifts = [];
-  String cafeName = "Tore et fraction";
+  String cafeName = Config.cafeName;
   List<TimePlannerTask> shiftsPlanToDisplay = [];
   bool _isLoading = false;
   String? _errorMessage;

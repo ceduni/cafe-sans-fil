@@ -102,8 +102,8 @@ const LocationSchema: Schema = new Schema({
 
 const ContactSchema: Schema = new Schema({
   email: { type: String, required: true },
-  phone_number: { type: String, required: true },
-  website: { type: String, required: true },
+  phone_number: { type: String, required: false },
+  website: { type: String, required: false },
 });
 
 const SocialMediaSchema: Schema = new Schema({

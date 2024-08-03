@@ -37,7 +37,8 @@ class _HoraireState extends State<Horaire> {
         builder: (context, shiftProvider, child) {
           if (shiftProvider.isLoading) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                  color: Color.fromARGB(255, 138, 199, 249)),
             );
           } else if (shiftProvider.hasError) {
             return Center(

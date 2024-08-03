@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:app/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/modeles/Volunteer.dart';
 
 class VolunteerService {
-  final String baseUrl =
-      "http://172.21.112.1:3000/api/v1/cafes/Tore et fraction/volunteer";
+  final String baseUrl = "${Config.baseUrl}/cafes/${Config.cafeName}/volunteer";
 
   VolunteerService({dynamic});
 
@@ -32,5 +32,23 @@ class VolunteerService {
     } else {
       throw Exception('Failed to load volunteers from $baseUrl');
     }
+  }
+
+  Future<String> postVolunteer(
+      String cafeName, String matricule, String role) async {
+    String message = "";
+    final url = Uri.parse('${Config.baseUrl}/cafes/$cafeName/volunteer');
+    final headers = {"Content-Type": "application/json"};
+    final body = jsonEncode({"userName": matricule, "Role": role});
+    final response = await http.post(url, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseJson = jsonDecode(response.body);
+      print(responseJson);
+      message = responseJson['message'];
+      message = 'Success: $message';
+    } else {
+      message = 'Failed: ${response.statusCode}';
+    }
+    return message;
   }
 }

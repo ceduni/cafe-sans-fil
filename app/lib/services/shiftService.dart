@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/modeles/Shift.dart';
 import 'package:time_planner/time_planner.dart';
 
 class ShiftService {
-  final String baseUrl = "http://172.21.112.1:3000/api/v1/shifts";
+  final String baseUrl = "${Config.baseUrl}/shifts";
 
   ShiftService({dynamic});
 

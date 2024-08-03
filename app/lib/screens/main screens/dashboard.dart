@@ -54,7 +54,9 @@ class _DashboardState extends State<Dashboard> {
         body: Consumer2<OrderProvider, StockProvider>(
             builder: (context, orderProvider, stockProvider, child) {
           if (orderProvider.isLoading || stockProvider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator(
+                    color: Color.fromARGB(255, 138, 199, 249)));
           } else if (orderProvider.hasError || stockProvider.hasError) {
             return Center(
                 child: Text(

@@ -1,29 +1,31 @@
 import 'dart:ffi';
-
 import 'package:app/config.dart';
-import 'package:app/modeles/Volunteer.dart';
-import 'package:app/services/volunteerService.dart';
+import 'package:app/modeles/Cafe.dart';
+import 'package:app/services/CafeService.dart';
 import 'package:flutter/material.dart';
 
-class VolunteerProvider with ChangeNotifier {
-  List<Volunteer> _Volunteers = [];
+class CafeProvider with ChangeNotifier {
   String cafeName = Config.cafeName;
   bool _isLoading = false;
   String? _errorMessage;
+  var _Cafe;
 
-  get Volunteers => _Volunteers;
+  get Cafe => _Cafe;
   get isLoading => _isLoading;
   get errorMessage => _errorMessage;
   bool get hasError => _errorMessage != null && _errorMessage!.isNotEmpty;
 
-  VolunteerProvider() {
-    fetchVolunteer();
+  CafeProvider() {
+    fetchCafe();
   }
 
-  Future<void> fetchVolunteer() async {
+  List<MenuItem> get getMenuItems => _Cafe?.menuItems ?? [];
+
+  Future<void> fetchCafe() async {
     _isLoading = true;
     try {
-      _Volunteers = await VolunteerService().fetchVolunteers();
+      _Cafe = await CafeService().fetchCafeByName(cafeName);
+
       _isLoading = false;
     } catch (e) {
       // Handle error

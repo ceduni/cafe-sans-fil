@@ -19,8 +19,14 @@ export class CafeRoutes {
       "/cafes/:cafeName/volunteer",
       this.getCafesVonlunteer.bind(this)
     );
-    this._router.post("/cafes/:cafeName/", this.addVolunteer.bind(this));
-    this._router.delete("/cafes/:cafeName/:matricule", this.deleteVolunteer.bind(this));
+    this._router.post(
+      "/cafes/:cafeName/volunteer",
+      this.addVolunteer.bind(this)
+    );
+    this._router.delete(
+      "/cafes/:cafeName/:matricule",
+      this.deleteVolunteer.bind(this)
+    );
   }
 
   public get router(): Router {
@@ -31,7 +37,10 @@ export class CafeRoutes {
     try {
       const cafeName = req.params.cafeName;
       const matricule = req.params.matricule;
-      const message = await this.cafeService.deleteVolunteer(cafeName, matricule);
+      const message = await this.cafeService.deleteVolunteer(
+        cafeName,
+        matricule
+      );
       res.status(200).send({
         message: message.message,
       });
@@ -60,14 +69,17 @@ export class CafeRoutes {
     }
   }
 
-
   public async addVolunteer(req: Request, res: Response): Promise<void> {
     try {
       console.log("this is the body:", req.body);
-      const cafeName:string = req.params.cafeName;
-      const userName:string = req.body.userName;
-      const Role:string = req.body.Role;
-      const message = await this.cafeService.addVolunteer(cafeName, userName, Role);
+      const cafeName: string = req.params.cafeName;
+      const userName: string = req.body.userName;
+      const Role: string = req.body.Role;
+      const message = await this.cafeService.addVolunteer(
+        cafeName,
+        userName,
+        Role
+      );
       res.status(200).send({
         message: message.message,
       });

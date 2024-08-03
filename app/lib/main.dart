@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:app/provider/cafe_provider.dart';
 import 'package:app/provider/language_provider.dart';
 import 'package:app/provider/order_provider.dart';
 import 'package:app/provider/period_selector_provider.dart';
@@ -26,6 +27,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => StockProvider()),
         ChangeNotifierProvider(create: (context) => ShiftProvider()),
         ChangeNotifierProvider(create: (context) => VolunteerProvider()),
+        ChangeNotifierProvider(create: (context) => CafeProvider()),
       ],
       child: const MyApp(),
     ),

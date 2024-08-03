@@ -1,4 +1,7 @@
+import 'package:app/services/VolunteerService.dart';
 import 'package:flutter/material.dart';
+
+import '../../config.dart';
 
 class AddBenevole extends StatefulWidget {
   const AddBenevole({super.key});
@@ -8,9 +11,9 @@ class AddBenevole extends StatefulWidget {
 }
 
 class _AddBenevoleState extends State<AddBenevole> {
+  bool _isLoading = false;
   String selectedOption = 'Bénévole';
   final List<String> options = ['Bénévole', 'Admin'];
-
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -117,8 +120,46 @@ class _AddBenevoleState extends State<AddBenevole> {
             buttonPadding: EdgeInsets.symmetric(horizontal: 16.0),
             children: [
               ElevatedButton(
-                onPressed: () {
-                  print("benevole added : " + _controller.text);
+                onPressed: () async {
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  try {
+                    String message = await VolunteerService().postVolunteer(
+                        Config.cafeName, _controller.text, selectedOption);
+
+                    // pop up message
+                    print(message);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.blue,
+                        content: Text(message,
+                            style: const TextStyle(color: Colors.white)),
+                        duration:
+                            const Duration(seconds: 4), // Durée du SnackBar
+                      ),
+                    );
+                  } catch (e) {
+                    print("Failed to post volunteer: $e");
+                    // pop up message
+                    if (!mounted) {
+                      return;
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Failed to post volunteer: $e",
+                            style: const TextStyle(color: Colors.white)),
+                        duration: const Duration(seconds: 4),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.red, // Durée du SnackBar
+                      ),
+                    );
+                  } finally {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue, // Couleur de fond du bouton
@@ -135,6 +176,8 @@ class _AddBenevoleState extends State<AddBenevole> {
               ),
             ],
           ),
+
+          if (_isLoading) const Center(child: CircularProgressIndicator()),
 
           // delete text button
           ButtonBar(

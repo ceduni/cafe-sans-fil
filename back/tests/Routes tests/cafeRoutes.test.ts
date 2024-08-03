@@ -57,24 +57,23 @@ describe("GET /api/v1/cafes/:cafeName/volunteer", () => {
   });
 });
 
-
-describe("POST /api/v1/cafes/:cafeName/", () => {
+describe("POST /api/v1/cafes/:cafeName/volunteer", () => {
   it("should add a volunteer to the list of a specific cafe ", async () => {
-    const response = await request(server.App).post(
-      `/api/v1/cafes/Acquis de droit/`
-    ).send({
-      userName: "20151109",
-      Role: "Bénévole"
-    }); 
+    const response = await request(server.App)
+      .post(`/api/v1/cafes/Acquis de droit`)
+      .send({
+        userName: "20151109",
+        Role: "Bénévole",
+      });
     expect(response.body.message).toBe("User already exists");
-    
   });
 });
 
-describe("DELETE /api/v1/cafes/:cafeName/", () => {
+describe("DELETE /api/v1/cafes/:cafeName/:matricule", () => {
   it("should delete a specific volunteer from a specific list of volunteer in a cafe ", async () => {
-    const response = await request(server.App).delete(`/api/v1/cafes/Acquis de droit/20201552`);
+    const response = await request(server.App).delete(
+      `/api/v1/cafes/Acquis de droit/20201552`
+    );
     expect(response.body.message).toBe("User not found");
   });
 });
-

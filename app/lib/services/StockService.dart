@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:app/config.dart';
 import 'package:app/modeles/Stock.dart';
 import 'package:app/screens/main%20screens/FlashMessage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class StockService {
-  final String baseUrl = "http://172.21.112.1:3000/api/v1/stocks";
+  final String baseUrl = "${Config.baseUrl}/stocks";
 
   StockService({dynamic});
 

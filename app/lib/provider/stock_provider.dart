@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:app/config.dart';
 import 'package:app/modeles/Stock.dart';
 import 'package:app/services/StockService.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ class StockProvider with ChangeNotifier {
   List<Stock> _Stocks = [];
   List<String> lowStockProcductName = [];
 
-  String cafeName = "Tore et fraction";
+  String cafeName = Config.cafeName;
   bool _isLoading = false;
   String? _errorMessage;
 
