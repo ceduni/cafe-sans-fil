@@ -1,3 +1,4 @@
+import 'package:app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
@@ -9,7 +10,7 @@ class Sidebar extends StatelessWidget {
     TextStyle style = const TextStyle(color: Colors.white);
     return Drawer(
       child: Container(
-        color: const Color.fromARGB(255, 138, 199, 249),
+        color: Config.specialBlue,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [

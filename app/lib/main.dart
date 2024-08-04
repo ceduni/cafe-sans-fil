@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:app/config.dart';
 import 'package:app/provider/cafe_provider.dart';
 import 'package:app/provider/language_provider.dart';
 import 'package:app/provider/order_provider.dart';
@@ -121,7 +122,7 @@ class _RootPageState extends State<RootPage> {
           });
         },
         selectedIndex: currentPage,
-        backgroundColor: const Color.fromARGB(255, 138, 199, 249),
+        backgroundColor: Config.specialBlue,
       ),
     );
   }

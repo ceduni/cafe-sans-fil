@@ -1,3 +1,4 @@
+import 'package:app/config.dart';
 import 'package:app/modeles/Cafe.dart';
 import 'package:app/modeles/Stock.dart';
 import 'package:app/provider/cafe_provider.dart';
@@ -68,7 +69,7 @@ class _ArticleState extends State<Article> {
                         height: 50,
                         child: Center(
                           child: CircularProgressIndicator(
-                            color: const Color.fromARGB(255, 138, 199, 249),
+                            color: Config.specialBlue,
                             value: loadingProgress.expectedTotalBytes != null
                                 ? loadingProgress.cumulativeBytesLoaded /
                                     (loadingProgress.expectedTotalBytes ?? 1)
@@ -96,14 +97,13 @@ class _ArticleState extends State<Article> {
       drawer: const Sidebar(),
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.pagesTitles_articleTitle),
-        surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
+        surfaceTintColor: Config.specialBlue,
       ),
       body: Consumer2<StockProvider, CafeProvider>(
         builder: (context, stockProvider, cafeProvider, child) {
           if (stockProvider.isLoading || cafeProvider.isLoading) {
-            return const Center(
-                child: CircularProgressIndicator(
-                    color: Color.fromARGB(255, 138, 199, 249)));
+            return Center(
+                child: CircularProgressIndicator(color: Config.specialBlue));
           } else if (stockProvider.hasError || cafeProvider.hasError) {
             return Center(
                 child: Text(
@@ -116,7 +116,7 @@ class _ArticleState extends State<Article> {
                   Container(
                     padding: const EdgeInsets.all(20.0),
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 138, 199, 249),
+                      color: Config.specialBlue,
                       borderRadius: BorderRadius.circular(10.0),
                       boxShadow: [
                         BoxShadow(
@@ -143,7 +143,7 @@ class _ArticleState extends State<Article> {
                             ),
                             backgroundColor: isButtonASelected
                                 ? Colors.white
-                                : const Color.fromARGB(255, 138, 199, 249),
+                                : Config.specialBlue,
                           ),
                           onPressed: () {
                             setState(() {
@@ -153,7 +153,7 @@ class _ArticleState extends State<Article> {
                           child: Text('Menu',
                               style: TextStyle(
                                   color: isButtonASelected
-                                      ? const Color.fromARGB(255, 138, 199, 249)
+                                      ? Config.specialBlue
                                       : Colors.white)),
                         ),
                         // --- Stock btn ---
@@ -168,7 +168,7 @@ class _ArticleState extends State<Article> {
                               horizontal: 50.0,
                             ),
                             backgroundColor: isButtonASelected
-                                ? const Color.fromARGB(255, 138, 199, 249)
+                                ? Config.specialBlue
                                 : Colors.white,
                           ),
                           onPressed: () {
@@ -181,7 +181,7 @@ class _ArticleState extends State<Article> {
                             style: TextStyle(
                                 color: isButtonASelected
                                     ? Colors.white
-                                    : const Color.fromARGB(255, 138, 199, 249)),
+                                    : Config.specialBlue),
                           ),
                         )
                       ],

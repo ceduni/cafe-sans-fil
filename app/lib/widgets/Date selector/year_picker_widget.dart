@@ -1,7 +1,7 @@
+import 'package:app/config.dart';
 import 'package:app/provider/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class YearPickerWidget extends StatefulWidget {
   final int initialYear = DateTime.now().year;
@@ -32,8 +32,8 @@ class _YearPickerWidgetState extends State<YearPickerWidget> {
       ),
       child: Text(
         text,
-        style: const TextStyle(
-          color: Color.fromARGB(255, 138, 199, 249), // Couleur du texte
+        style: TextStyle(
+          color: Config.specialBlue, // Couleur du texte
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),

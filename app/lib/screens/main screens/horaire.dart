@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:app/config.dart';
 import 'package:app/provider/shift_provider.dart';
 import 'package:app/screens/side%20bar/side_bar.dart';
 import 'package:app/widgets/time_planner_widget.dart';
@@ -31,14 +32,15 @@ class _HoraireState extends State<Horaire> {
       drawer: const Sidebar(),
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.pagesTitles_hourlyTitle),
-        surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
+        surfaceTintColor: Config.specialBlue,
       ),
       body: Consumer<ShiftProvider>(
         builder: (context, shiftProvider, child) {
           if (shiftProvider.isLoading) {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(
-                  color: Color.fromARGB(255, 138, 199, 249)),
+                color: Config.specialBlue,
+              ),
             );
           } else if (shiftProvider.hasError) {
             return Center(

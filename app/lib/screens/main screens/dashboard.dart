@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:app/config.dart';
 import 'package:app/provider/order_provider.dart';
 import 'package:app/provider/stock_provider.dart';
 import 'package:app/screens/side%20bar/side_bar.dart';
@@ -40,7 +39,7 @@ class _DashboardState extends State<Dashboard> {
         drawer: const Sidebar(),
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.pagesTitles_dashboardTitle),
-          surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
+          surfaceTintColor: Config.specialBlue,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
@@ -54,9 +53,8 @@ class _DashboardState extends State<Dashboard> {
         body: Consumer2<OrderProvider, StockProvider>(
             builder: (context, orderProvider, stockProvider, child) {
           if (orderProvider.isLoading || stockProvider.isLoading) {
-            return const Center(
-                child: CircularProgressIndicator(
-                    color: Color.fromARGB(255, 138, 199, 249)));
+            return Center(
+                child: CircularProgressIndicator(color: Config.specialBlue));
           } else if (orderProvider.hasError || stockProvider.hasError) {
             return Center(
                 child: Text(
@@ -90,7 +88,7 @@ class _DashboardState extends State<Dashboard> {
                           child: Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: Colors.lightBlue[100],
+                              color: Config.specialBlueLighter,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
@@ -133,7 +131,7 @@ class _DashboardState extends State<Dashboard> {
                           child: Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: Colors.lightBlue[100],
+                              color: Config.specialBlueLighter,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
@@ -180,7 +178,7 @@ class _DashboardState extends State<Dashboard> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 138, 199, 249),
+                      color: Config.specialBlue,
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Row(
@@ -205,7 +203,7 @@ class _DashboardState extends State<Dashboard> {
                       padding: const EdgeInsets.all(16),
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.lightBlue[100],
+                        color: Config.specialBlueLighter,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
@@ -272,7 +270,7 @@ class _DashboardState extends State<Dashboard> {
                       height: 200,
                       padding: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
-                        color: Colors.lightBlue[100],
+                        color: Config.specialBlueLighter,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
@@ -313,7 +311,7 @@ class _DashboardState extends State<Dashboard> {
                     child: Container(
                       //padding: const EdgeInsets.only(top: 20.0, ),
                       decoration: BoxDecoration(
-                        color: Colors.lightBlue[100],
+                        color: Config.specialBlueLighter,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(

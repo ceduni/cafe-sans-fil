@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:app/config.dart';
 import 'package:app/modeles/Volunteer.dart';
 import 'package:app/services/volunteerService.dart';

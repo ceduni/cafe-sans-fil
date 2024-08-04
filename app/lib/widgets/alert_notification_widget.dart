@@ -1,3 +1,4 @@
+import 'package:app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
@@ -30,9 +31,7 @@ class _AlertNotificationWidgetState extends State<AlertNotificationWidget> {
         value: NotificationItem(item, notificationText),
         child: ListTile(
           leading: const Icon(Icons.article),
-          title: Text(item,
-              style:
-                  const TextStyle(color: Color.fromARGB(255, 138, 199, 249))),
+          title: Text(item, style: TextStyle(color: Config.specialBlue)),
           tileColor: Colors.white,
           subtitle: Text(notificationText),
         ),

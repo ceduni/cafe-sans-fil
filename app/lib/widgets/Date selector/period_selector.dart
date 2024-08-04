@@ -1,3 +1,4 @@
+import 'package:app/config.dart';
 import 'package:app/provider/period_selector_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,8 +53,8 @@ class _PeriodSelectorState extends State<PeriodSelector> {
       ),
       child: Text(
         text,
-        style: const TextStyle(
-          color: Color.fromARGB(255, 138, 199, 249), // Couleur du texte
+        style: TextStyle(
+          color: Config.specialBlue, // Couleur du texte
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),

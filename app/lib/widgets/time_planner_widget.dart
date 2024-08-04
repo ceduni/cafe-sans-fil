@@ -1,3 +1,4 @@
+import 'package:app/config.dart';
 import 'package:app/provider/shift_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,7 @@ class _TimePlannerWidgetState extends State<TimePlannerWidget> {
       setState(() {
         tasks.add(
           TimePlannerTask(
-            color: Colors.blueAccent,
+            color: Config.specialBlue,
             dateTime: TimePlannerDateTime(
               day: _selectedDay,
               hour: _startHour,

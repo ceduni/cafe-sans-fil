@@ -2,7 +2,6 @@ import 'package:app/config.dart';
 import 'package:app/provider/volunteer_provider.dart';
 import 'package:app/screens/others%20screens/add_benevole.dart';
 import 'package:app/screens/side%20bar/side_bar.dart';
-import 'package:app/services/cafeService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
@@ -40,14 +39,13 @@ class _BenevoleState extends State<Benevole> {
       drawer: const Sidebar(),
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.pagesTitles_volunteerTitle),
-        surfaceTintColor: const Color.fromARGB(255, 138, 199, 249),
+        surfaceTintColor: Config.specialBlue,
       ),
       body: Consumer<VolunteerProvider>(
         builder: (context, volunteerProvider, child) {
           if (volunteerProvider.isLoading) {
-            return const Center(
-                child: CircularProgressIndicator(
-                    color: Color.fromARGB(255, 138, 199, 249)));
+            return Center(
+                child: CircularProgressIndicator(color: Config.specialBlue));
           } else if (volunteerProvider.hasError) {
             return Center(
                 child: Text('Error: ${volunteerProvider.errorMessage}'));
@@ -91,7 +89,7 @@ class _BenevoleState extends State<Benevole> {
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => const AddBenevole()));
         },
-        backgroundColor: const Color.fromARGB(255, 138, 199, 249),
+        backgroundColor: Config.specialBlue,
         child: const Icon(
           Icons.add_outlined,
           color: Colors.white,

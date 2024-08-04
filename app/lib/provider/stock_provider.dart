@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:app/config.dart';
 import 'package:app/modeles/Stock.dart';
 import 'package:app/services/StockService.dart';
