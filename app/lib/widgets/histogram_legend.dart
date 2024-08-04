@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HistogramLegend extends StatelessWidget {
-  String title;
-  Color color;
+  final String title;
+  final Color color;
   HistogramLegend({super.key, required this.title, required this.color});
 
   @override

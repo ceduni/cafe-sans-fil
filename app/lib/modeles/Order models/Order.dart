@@ -14,7 +14,6 @@ class Order {
   final String status;
   final DateTime createdAt;
   final DateTime updatedAt;
-  
 
   Order({
     required this.orderId,
@@ -28,9 +27,6 @@ class Order {
     required this.status,
     required this.createdAt,
     required this.updatedAt,
-    
-    
-  
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
@@ -49,7 +45,7 @@ class Order {
       totalPrice: (json['total_price'] as num).toDouble(),
       status: json['status'],
       createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),   
+      updatedAt: DateTime.parse(json['updated_at']),
     );
   }
 
@@ -67,9 +63,9 @@ class Order {
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
-    
   }
 
+/*
   static double turnOver(List<Order> orders,
       {String startDate = "date", String endDate = "Date"}) {
     print("IN TURNOVER");
@@ -100,7 +96,7 @@ class Order {
     }
     return double.parse(sum.toStringAsFixed(4));
   }
-
+*/
   /// this function return a turnover of a given month
   /// given a list of orders and a month
   static double turnOverDate(List<Order> orders, int month) {
