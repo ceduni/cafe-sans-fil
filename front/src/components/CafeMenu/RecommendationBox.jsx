@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Item from './MenuItem';
 import { isNull } from '@/utils/helpers';
@@ -9,26 +9,26 @@ function isChildOf(targetElement, ancestorSelector) {
 }
 
 
-const GroupBox = ({ category, items, onClick, onItemClick, activeItem, setActiveItem, isRecommendation }) => {
+const RecommendationBox = ({ category, items, onItemClick, activeItem, setActiveItem }) => {
     const groupBoxElement = useRef(null);
 
     const handleClick = (event) => {
         const target = event.target;
-
-        if (groupBoxElement.current) {
-            onClick(groupBoxElement.current);
-
-            if (activeItem && !isChildOf(target, '.group-item')) {
-                activeItem.classList.remove("active")
-                setActiveItem(null);
-            }
+        if (activeItem && !isChildOf(target, '.group-item')) {
+            activeItem.classList.remove("active")
+            setActiveItem(null);
         }
-
     };
 
-    if (items.length === 0 && isRecommendation) {
+    useEffect(() => {
+        if (groupBoxElement.current) {
+            groupBoxElement.current.classList.add('active')
+        }
+    }, []);
+
+    if (items.length === 0) {
         return (
-            <div className="group-box" ref={groupBoxElement} data-index={category.index} onClick={handleClick} tabIndex={0}>
+            <div className="group-box" ref={groupBoxElement} data-index={category.index} tabIndex={0}>
                 <h4 className="group-box-title">{category}</h4>
                 <div className="group-box-items">
                 <h2 className="text-lg font-semibold text-gray-500">Aucune recommendation n'a été trouvée...</h2>
@@ -49,17 +49,16 @@ const GroupBox = ({ category, items, onClick, onItemClick, activeItem, setActive
     );
 };
 
-GroupBox.propTypes = {
+RecommendationBox.propTypes = {
     // category: PropTypes.shape({
     //     index: PropTypes.number.isRequired,
     //     name: PropTypes.string.isRequired,
     // }).isRequired,
     category: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onClick: PropTypes.func.isRequired,
     onItemClick: PropTypes.func.isRequired,
     activeItem: PropTypes.object.isRequired,
     setActiveItem: PropTypes.func.isRequired,
 };
 
-export default GroupBox;
+export default RecommendationBox;

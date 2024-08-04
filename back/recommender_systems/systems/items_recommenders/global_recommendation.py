@@ -19,12 +19,6 @@ def main(cafe: Cafe) -> List[str]:
     auth_token = AuthApi.auth_login()
     all_orders: List[Order] = DButils.get_all_orders(auth_token=auth_token)
 
-    # Number of items to recommand.
-    if len(cafe_items) > 10:
-        k: int = len(cafe_items)//2
-    else:
-        k: int = len(cafe_items)
-
     # Most bought items
     items: List[str] = Utilitaries.most_bought_items(all_orders)
 
@@ -32,6 +26,6 @@ def main(cafe: Cafe) -> List[str]:
     for item_slug in items:
         menu_items.append( DButils.get_item(cafe['slug'], item_slug) )
 
-    items_choice: List[str] = Utilitaries.most_liked_items(menu_items, k)
+    items_choice: List[str] = Utilitaries.most_liked_items(menu_items, 5)
 
     return items_choice

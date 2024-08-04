@@ -330,7 +330,7 @@ def get_nutrient_daily_value(nutrient: str) -> float:
             'calcium': 1300,
             'potassium': 800,
             'zinc': 11,
-            'Magnesium': 420,
+            'magnesium': 420,
             'iron': 18,
             'lipids': 78000,
             'fiber': 28000,

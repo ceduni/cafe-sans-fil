@@ -1,5 +1,4 @@
 import { Cafe, CafeMenu, CafeMenuItem, Order, User, Event } from "@/models";
-import { UserRecommendation } from "@/models/userRecommendation";
 
 const testing = false;
 const buildUrl = (url) => {
@@ -170,14 +169,21 @@ export const OrderAPI = {
 
 export const UserCafeRecommendationAPI = {
     get: async function(userID, setLoading = null, cancel = false) {
-        const result = await fetchData(`/recommendations/cafes_recommendations/${userID}`, setLoading).then();
+        const result = await fetchData(`/recommendations/cafes_recommendations/${userID}`, setLoading);
         return result;
     }
 }
 
 export const PublicRecommendationAPI = {
     get: async function (cafeSlug, setLoading = null, cancel = false) {
-        const result = await fetchData(`/recommendations/public/${cafeSlug}`, setLoading).then();
+        const result = await fetchData(`/recommendations/public/${cafeSlug}`, setLoading);
+        return result;
+    }
+}
+
+export const PersonnnalRecommendationAPI = {
+    get: async function(userID, cafeSlug, setIsLoading = null, cancel = false) {
+        const result = await fetchData(`/recommendations/user/${userID}/${cafeSlug}`, setIsLoading);
         return result;
     }
 }

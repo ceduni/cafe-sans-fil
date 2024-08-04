@@ -14,6 +14,7 @@
 ## Semaine 14 (2024-08-02)
 
 ### Objectifs
+- Régler les derniers bugs.
 - Compléter la docummentation et le rapport.
 
 <!-- ### Réalisations

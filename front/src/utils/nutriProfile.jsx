@@ -44,7 +44,7 @@ export const NUTRI_PREFERENCES_LIST = [
     { name: "Sodium", value: null },
     { name: "Sucre", value: null },
     { name: "Fibres", value: null },
-    { name: "zinc", value: null },
+    { name: "Zinc", value: null },
     { name: "Fer", value: null },
     { name: "Calcium", value: null },
     { name: "Magnésium", value: null },

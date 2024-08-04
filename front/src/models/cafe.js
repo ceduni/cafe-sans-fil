@@ -18,6 +18,9 @@ export class Cafe {
         if(data.menu_items) {
             this.menu = data.menu_items.map(x => new CafeMenuItem(x));
         }
+        if (data.health_score){
+            this.healthScore = data.health_score;
+        }
         // this.announcements = data.announcements.map(x => new Announcement(x));
     }
 

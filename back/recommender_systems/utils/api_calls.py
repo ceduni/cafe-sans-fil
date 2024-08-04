@@ -102,62 +102,6 @@ class UserApi:
         r = response.json()
         return r, response.status_code
     
-class UserRecommenderApi:
-    @staticmethod
-    def get_user_recommendations(cafe_slug, params=None, json_data=None):
-        endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/user/{cafe_slug}')
-        response = requests.get(url=endpoint, params=params, json=json_data)
-        r = response.json()
-        return r, response.status_code
-    
-    @staticmethod
-    def update_user_recommendations(auth_token, cafe_slug, params=None, json_data=None):
-        headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
-        endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/user/{cafe_slug}')
-        response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
-        r = response.json()
-        return r, response.status_code
-    
-class BotRecommenderApi:
-    @staticmethod
-    def get_bot_recommendations(cafe_slug, params=None, json_data=None):
-        endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/bot/{cafe_slug}')
-        response = requests.get(url=endpoint, params=params, json=json_data)
-        r = response.json()
-        return r, response.status_code
-    
-    @staticmethod
-    def update_bot_recommendations(auth_token, cafe_slug, params=None, json_data=None):
-        headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
-        endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/bot/{cafe_slug}')
-        response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
-        r = response.json()
-        return r, response.status_code
-    
-class CafeRecommenderApi:
-    @staticmethod
-    def get_cafe_recommendations(cafe_slug, params=None, json_data=None):
-        endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/cafe/{cafe_slug}')
-        response = requests.get(url=endpoint, params=params, json=json_data)
-        r = response.json()
-        return r, response.status_code
-    
-    @staticmethod
-    def update_cafe_recommendations(auth_token, cafe_slug, params=None, json_data=None):
-        headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
-        endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/cafe/{cafe_slug}')
-        response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
-        r = response.json()
-        return r, response.status_code
-    
-    @staticmethod
-    def update_user_cafe_recommendations(auth_token, user_id, params=None, json_data=None):
-        headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
-        endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/cafe/{user_id}')
-        response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
-        r = response.json()
-        return r, response.status_code
-    
 class RecommendationsApi:
     @staticmethod
     def get_cafe(cafe_slug):
@@ -245,5 +189,16 @@ class RecommendationsApi:
         headers = {"Authorization": f"Bearer {auth_token['access_token']}"}
         endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/cafes_recommendations/{user_id}')
         response = requests.put(url=endpoint, params=params, json=json_data, headers=headers)
+        r = response.json()
+        return r, response.status_code
+    
+    #---------------------------------------
+    #          Bot recommendation
+    #---------------------------------------
+
+    @staticmethod
+    def get_bot_recommendations(cafe_slug, params=None, json_data=None):
+        endpoint = urljoin('http://127.0.0.1:8000', f'/api/recommendations/bot/{cafe_slug}')
+        response = requests.get(url=endpoint, params=params, json=json_data)
         r = response.json()
         return r, response.status_code

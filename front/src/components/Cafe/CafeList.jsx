@@ -63,17 +63,27 @@ function renderEmpty() {
 function renderCafe(cafes, filters) {
     const filteredData = cafes.filter((cafe) => filterCafe(cafe, filters));
 
+    const sortedData = filteredData.sort((a, b) => {
+        if (a.health_score > b.health_score) {
+            return -1;
+        }
+        if (a.health_score < b.health_score) {
+            return 1;
+        }
+        return 0;
+    });
+
     return (
         <div className="relative bottom-4 xl:bottom-2">
 
-            {isEmpty(filteredData) && (
+            {isEmpty(sortedData) && (
                 <div className="mt-20 mb-36">
                     <EmptyState name="café" />
                 </div>
             )}
 
             <div className="grid animate-fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8">
-                {filteredData.map((cafe) => (
+                {sortedData.map((cafe) => (
                     <CafeCard cafe={cafe} key={cafe.slug} />
                 ))}
             </div>

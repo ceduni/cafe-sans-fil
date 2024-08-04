@@ -52,7 +52,6 @@ def _get_valid_items(items: List[MenuItem], user_prefered_nutrients: dict[str, i
     valid_items: set[str] = set()
 
     for nutrient, level in zip(user_prefered_nutrients.keys(), user_prefered_nutrients.values()):
-        print(nutrient)
         nutrient_dv: float = Utils.get_nutrient_daily_value(nutrient.lower())
 
         low_bound: float = 0

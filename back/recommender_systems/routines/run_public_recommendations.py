@@ -17,7 +17,6 @@ def _run_public_recommendations() -> Dict[str, List[str]]:
     public_recommendations: dict[str, list[str]] = {}
     for _, cafe in enumerate(tqdm(all_cafe, desc="Finding public recommendations")):
         cafe_slug = cafe['slug']
-        # if cafe_slug in ["acquis-de-droit"]:
         if cafe_slug not in public_recommendations:
             public_recommendations[cafe_slug] = []
         public_recommendations[cafe_slug].extend( Utilitaries.filter_items_by_cafe(GR.main(cafe), cafe_slug) )

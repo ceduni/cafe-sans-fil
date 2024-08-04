@@ -7,7 +7,7 @@ from recommender_systems.utils import utilitaries as Utilitaries, db_utils as DB
 from typing import List, Dict
 from recommender_systems.utils.api_calls import RecommendationsApi, AuthApi
 from tqdm import tqdm
-import time
+import random
 
 
 def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
@@ -17,12 +17,12 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
     for _, user in enumerate(tqdm(users, desc="Finding users recommendations")):
         if user['username'] not in recommendations and user['username'] == '7802085':
             cafes_recommendations: dict[str, list[str]] = {}
-            cf_recommendations: list[str] = CF.main(users, user)
+            # cf_recommendations: list[str] = CF.main(users, user)
             for cafe in list_cafe:
                 cafe_slug: str = cafe['slug']
                 # Personnal recommendations.
-                collab_filtering: list[str] = Utilitaries.filter_items_by_cafe(cf_recommendations, cafe_slug)
-                content_based: list[str] = Utilitaries.filter_items_by_cafe(CBF.main(user, cafe), cafe_slug)
+                # collab_filtering: list[str] = Utilitaries.filter_items_by_cafe(cf_recommendations, cafe_slug)
+                # content_based: list[str] = Utilitaries.filter_items_by_cafe(CBF.main(user, cafe), cafe_slug)
                 knowledge_based: list[str] = Utilitaries.filter_items_by_cafe(KBR.main(cafe, user), cafe_slug)
 
                 if cafe_slug not in cafes_recommendations:
@@ -30,8 +30,8 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
 
                 list_items_recommended = []
 
-                list_items_recommended.extend(collab_filtering)
-                list_items_recommended.extend(content_based)
+                # list_items_recommended.extend(collab_filtering)
+                # list_items_recommended.extend(content_based)
                 list_items_recommended.extend(knowledge_based)
 
                 cafes_recommendations[cafe_slug] = list( set(list_items_recommended) )
@@ -63,16 +63,31 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
 def update_users_recommendations() -> None:
     auth_token = AuthApi.auth_login()
     recommendations: dict[str, dict[str, list[str]]] = _run_users_recommendations()
+    all_bot_recommendations = {}
     if recommendations != {}:
         for _, username in enumerate( tqdm(recommendations.keys(), desc="Updating users recommendations") ):
             user = DButils.get_user(username=username)
             _, status = RecommendationsApi.get_user(user_id=user["user_id"])
             personnal_recommendations: list[dict[str, list[str]]] = []
             for cafe_slug in recommendations[username]:
+                if cafe_slug not in all_bot_recommendations:
+                    bot_recommendations, _ = RecommendationsApi.get_bot_recommendations(cafe_slug=cafe_slug)
+                    all_bot_recommendations[cafe_slug] = bot_recommendations
+
+                bot_recommendations = all_bot_recommendations[cafe_slug]
+                
+                merged_recommendation = []
+                merged_recommendation.extend(recommendations[username][cafe_slug])
+                merged_recommendation.extend(bot_recommendations)
+                merged_recommendation = list( set(merged_recommendation) )
+
+                random.shuffle( merged_recommendation )
+                final_recommedation = random.sample(merged_recommendation, 5)
+
                 personnal_recommendations.append(
                     {
                         "cafe_slug": cafe_slug,
-                        "recommendation": recommendations[username][cafe_slug]
+                        "recommendation": final_recommedation
                     }
                 )
 

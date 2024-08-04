@@ -8,6 +8,7 @@ import SocialLink from "@/components/Cafe/SocialLink";
 import CafeIdentification from "@/components/CafeIdentification/CafeIdentification";
 import PaymentType from "@/components/Cafe/PaymentType";
 import CafeMenu from "@/components/CafeMenu/Menu";
+import RecommendationMenu from "@/components/CafeMenu/RecommendationMenu";
 import CafeEvent from "@/components/CafeAnnouncement/CafeEvent";
 import '@/assets/styles/cafe.css';
 
@@ -67,14 +68,23 @@ const Cafe = () => {
             <section className="main-body">
                 <div className="menu-section">
                     <div>
-                        <h2 className="text-center my-0 text-3xl font-bold">Menu</h2>
+                        <div>
+                            <h2 className="text-center my-0 text-3xl font-bold">Recommendations</h2>
+                        </div>
+                        <RecommendationMenu cafeSlug={cafe?.slug} menuItems={cafe?.menu} />
                     </div>
-                    {/* <div className="accepted-payments">
-                        {cafe?.paymentMethods.map((p) => (
-                            <PaymentType name={p.method} />
-                        ))}
-                    </div> */}
-                    <CafeMenu items={cafe?.menu} cafeSlug={cafe?.slug} />
+
+                    <div className="mt-8">
+                        <div>
+                            <h2 className="text-center my-0 text-3xl font-bold">Menu</h2>
+                        </div>
+                        {/* <div className="accepted-payments">
+                            {cafe?.paymentMethods.map((p) => (
+                                <PaymentType name={p.method} />
+                            ))}
+                        </div> */}
+                        <CafeMenu items={cafe?.menu} />
+                    </div>
                 </div>
                 <div className="cafe-identification">
                     <CafeIdentification cafe={cafe} />

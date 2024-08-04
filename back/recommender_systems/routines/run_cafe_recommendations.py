@@ -4,7 +4,7 @@ from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from recommender_systems.utils import db_utils as DButils
 from typing import List, Dict
-from recommender_systems.utils.api_calls import CafeRecommenderApi, AuthApi, RecommendationsApi, UserApi
+from recommender_systems.utils.api_calls import AuthApi, RecommendationsApi
 from tqdm import tqdm
 
 # Run cafe recommendations for all users.
@@ -14,8 +14,13 @@ def _run_cafe_recommendations() -> Dict[str, List[str]]:
     recommendations: dict[str, list[str]] = {}
     try:
         for _, user in enumerate( tqdm(users, desc="Finding cafe recommendations") ):
+            user_recommendations = []
             if user['first_name'] == "Tom":
-                recommendations[user['username']] = content_based.main(all_cafe=all_cafe, user=user) # collaborative.main(users=users, user=user).extend( )
+                content_based_recs: list[str] = content_based.main(all_cafe=all_cafe, user=user)
+                collab_based_recs: list[str] = collaborative.main(users=users, user=user)
+                user_recommendations.extend(content_based_recs)
+                user_recommendations.extend(collab_based_recs)
+                recommendations[user['username']] = list( set(user_recommendations) )
         return recommendations
     except ValueError as e:
         print(e)

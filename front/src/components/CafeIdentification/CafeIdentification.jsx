@@ -3,7 +3,7 @@ import {Cafe} from '@/models/cafe';
 import './styles.css'
 
 const CafeIdentification = ({ cafe }) => {
-    console.log(cafe);
+    //console.log(cafe);
   return (
     <>
         <h3 className="cafe-name">{cafe.name}</h3>

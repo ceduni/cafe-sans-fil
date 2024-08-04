@@ -11,7 +11,7 @@ function renderError(error) {
 function renderEmpty() {
   return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8 animate-pulse duration-100">
-          {Array.from({ length: 20 }).map((_, i) => (
+          {Array.from({ length: 4 }).map((_, i) => (
               <CafeCardLoading key={i} />
           ))}
       </div>
@@ -30,17 +30,19 @@ const RecommendedCafeList = ({ storedCafes, filters }) => {
 
   const [recommendedCafes, setRecommendedCafes] = useState([]);
   const { isLoggedIn } = useAuth()
-  const [isLoading, setIsLoading] = useState(true);
+  //const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    UserCafeRecommendationAPI.get(isLoggedIn.user_id, setIsLoading)
+    if (isLoggedIn) {
+      UserCafeRecommendationAPI.get(isLoggedIn.user_id)
       .then((data) => {
         setRecommendedCafes(getRecommendedCafes(storedCafes, data));
       })
       .catch((error) => {
         setError(error)
       });
+    }
   }, [storedCafes]);
 
 
@@ -49,18 +51,18 @@ const RecommendedCafeList = ({ storedCafes, filters }) => {
     return renderError(error);
   }
 
-  if (isLoading && recommendedCafes.length === 0) {
-    return renderEmpty();
-  }
+  // if (isLoading && recommendedCafes.length === 0) {
+  //   return renderEmpty();
+  // }
 
   const bestCafes = recommendedCafes.length > 4 ? recommendedCafes.slice(0, 4) : recommendedCafes;
   
   return (
       !filters.openOnly && !filters.takesCash && !filters.takesCreditCard && !filters.takesDebitCard &&
       <>
-        <h1 className="text-3xl font-bold text-gray-900">Recommendations</h1>
+        { isLoggedIn && <h1 className="text-3xl font-bold text-gray-900">Recommendations</h1> }
         <div className="grid animate-fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8">
-            { bestCafes.length > 0 ? (
+            { bestCafes.length > 0 && isLoggedIn ? (
               bestCafes.map((cafe) => (
               <CafeCard cafe={cafe} key={cafe.slug} />))
               )
