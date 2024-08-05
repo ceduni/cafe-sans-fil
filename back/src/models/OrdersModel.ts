@@ -1,5 +1,5 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+import mongoose, { Document, Schema, Model } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 // Interface for the ordered items
 interface IOrderedItem {
@@ -27,20 +27,23 @@ interface IOrder extends Document {
 }
 
 // Schema for the ordered items
-const OrderedItemSchema: Schema = new Schema({
-  item_name: { type: String, required: true },
-  item_slug: { type: String, required: true },
-  item_image_url: { type: String, required: true },
-  quantity: { type: Number, required: true },
-  item_price: { type: Number, required: true },
-  options: [
-    {
-      fee: { type: Number },
-      type: { type: String },
-      value: { type: String },
-    },
-  ],
-}, { _id: false });
+const OrderedItemSchema: Schema = new Schema(
+  {
+    item_name: { type: String, required: true },
+    item_slug: { type: String, required: true },
+    item_image_url: { type: String, required: true },
+    quantity: { type: Number, required: true },
+    item_price: { type: Number, required: true },
+    options: [
+      {
+        fee: { type: Number },
+        type: { type: String },
+        value: { type: String },
+      },
+    ],
+  },
+  { _id: false }
+);
 
 // Schema for the order
 const OrderSchema: Schema = new Schema({
@@ -58,6 +61,9 @@ const OrderSchema: Schema = new Schema({
 });
 
 // Create the model for orders
-const CafeOrders: Model<IOrder> = mongoose.model<IOrder>('cafeorders', OrderSchema);
+const CafeOrders: Model<IOrder> = mongoose.model<IOrder>(
+  "cafeorders",
+  OrderSchema
+);
 
-export {CafeOrders, IOrder, IOrderedItem };
+export { CafeOrders, IOrder, IOrderedItem };

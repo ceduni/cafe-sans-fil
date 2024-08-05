@@ -356,3 +356,16 @@
   base de données shifts au front end).
 - Présentation de la 1ere version stable de l'application et test
   sur les smartphones android et ios.
+
+## Semaine 13(2024-07-29)
+
+### Objectifs
+
+- Rédaction du rapport
+- Amélioration en continue des pages bénévoles, horaire et Stock
+
+### Réalisations
+
+- Affichage du menu pour le cafe
+- Ajout de la fonctionnalité d'ajout d'un bénévole (front et back)
+- Début rédaction du rapport.

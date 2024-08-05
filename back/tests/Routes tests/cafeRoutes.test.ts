@@ -60,7 +60,7 @@ describe("GET /api/v1/cafes/:cafeName/volunteer", () => {
 describe("POST /api/v1/cafes/:cafeName/volunteer", () => {
   it("should add a volunteer to the list of a specific cafe ", async () => {
     const response = await request(server.App)
-      .post(`/api/v1/cafes/Acquis de droit`)
+      .post(`/api/v1/cafes/Acquis de droit/volunteer`)
       .send({
         userName: "20151109",
         Role: "Bénévole",
