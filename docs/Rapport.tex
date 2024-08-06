@@ -2,20 +2,51 @@
 
 \usepackage[french]{babel}
 \usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[utf8]{inputenc}
 \usepackage{blindtext}
+\usepackage{svg}
+\usepackage{amssymb}
 \usepackage{titlesec}
 \usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
 \usepackage{graphicx}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
 \usepackage{array}
 \usepackage{comment}
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
 
 \graphicspath{ {figures/} }
 
-\title{Your Paper}
+\title{Rapport}
 \author{You}
 
 \begin{document}
@@ -26,7 +57,7 @@
         \vspace*{1cm}
             
         \Huge
-        \textbf{Café sans fil: \\Système de recommandation}
+        \textbf{Café sans-fil: \\Système de recommandation}
             
         \vspace{0.5cm}
         \LARGE
@@ -49,7 +80,7 @@
         \Large
         Department d'Informatique et de Recherche Opérationnelle (DIRO)\\
         Université de montréal\\
-        Date
+        9 août 2024
             
     \end{center}
 \end{titlepage}
@@ -59,42 +90,318 @@
 \newpage
 \listoffigures
 
+\lstlistoflistings
+
 \newpage
 \section{Introduction}
-\textbf{Contexte:}\\
+\subsection{Contexte}
 Afin d'améliorer le service des cafés étudiants de l'Université de Montréal (UdeM), le projet Café sans-fil a été initié au trimestre d'automne 2023 durant lequel furent construits l'infrastructure backend et un premier prototype de l'application. Le projet a été poursuivi au trimestre d'hiver durant lequel l'application fut évaluée et enrichi par l'ajout d'éléments à caractères sociaux tel que les évènements, reflétant mieux la nature sociale des cafés étudiants. Le lancement de la plateforme est prévue pour la fin de cet été, intégrant le travail réalisé à l'hiver et des améliorations mineures additionnelles.\\
 
-\textbf{Problématique:}\\
+\subsection{Problématique}
 Cependant, faute d'exploitation des données fournis entre autre par les utilisateurs, l'expérience utilisateur actuelle manque grandement de personnalisation, impactant la satisfaction client. En effet, si un étudiant possède certaines restrictions ou préférences alimentaires ou des allergies, la plateforme ne l'aide nullement à satisfaire ses exigences (critères), résultant sur un plus lourd travail de recherche, pouvant décourager certains.
 Cette lacune a aussi des conséquences sur les cafés, impactant les ventes et la fidélisation des clients ainsi que la prise de décision en vue d'une quelconque amélioration de leurs services et du menu. En effet, sans analyse de données, il est difficile pour les gérants d'optimiser le menu ou les services pour éviter des pertes et mieux répondre aux clients du café.\\
 
-\textbf{Proposition:}\\
+\subsection{Proposition}
 En réponse aux problèmes énoncés, ce projet vise à mettre en place un système de recommandation utilisant les données fournies par les utilisateurs. Pour créer un moyen efficace de collecte et d'analyse de données nécessaire au système de recommandation, nous envisageons enrichir la plateforme avec de nouvelles fonctionnalités permettant aux utilisateurs de communiquer leurs préférences et réagir avec plus de choix aux propositions des cafés.
 
 \newpage
-\section{Exigences et Analyse}
 
+\section{Système de recommendation}
+\subsection{Introduction et définition}
+À l'ère numérique actuelle, la vaste quantité d'informations et de choix disponibles peut être écrasante pour les utilisateurs, qu'ils naviguent en ligne pour acheter des produits, choisir un film à regarder ou sélectionner un restaurant pour dîner. Les systèmes de recommandation sont devenus des outils essentiels pour aider les utilisateurs à naviguer dans cette abondance d'options en leur suggérant des éléments qui correspondent à leurs préférences et à leurs besoins. Ces systèmes sont largement utilisés dans divers secteurs, tels que le commerce en ligne, le divertissement et les réseaux sociaux, où ils jouent un rôle crucial dans l'amélioration de l'expérience utilisateur et le renforcement de l'engagement.\\
+
+Ainsi, un système de recommandation est une application logicielle qui prédit et suggère des éléments aux utilisateurs en fonction de leurs préférences, comportements et interactions. Ces éléments peuvent varier, allant des produits, services et contenus aux connexions sociales, voire aux expériences. L'objectif principal d'un système de recommandation est de filtrer de grandes quantités de données et de fournir des recommandations personnalisées qui sont les plus pertinentes pour l'utilisateur individuel.
+Les systèmes de recommandation fonctionnent grâce à différentes techniques, telles que le filtrage collaboratif, le filtrage basé sur le contenu et les approches hybrides qui combinent plusieurs méthodes qui sont présentées dans la sous section suivante.
+
+
+\subsection{Discussion des algorithmes}
+\label{2.2}
+Dans cette section, je présente les principaux algorithmes de recommendation. Pour chacun de ces algorithmes nous verront comment il fonctionne ainsi que ses points fort et ses points faibles.
+\subsubsection{Filtrage collaboratif}
+Le filtrage collaboratif est une technique de recommandation qui repose sur l'idée que les utilisateurs ayant montré des préférences similaires dans le passé auront des préférences similaires à l'avenir. L'algorithme peut être divisé en deux sous-catégories principales : le filtrage collaboratif basé sur les utilisateurs (user-based) et le filtrage collaboratif basé sur les éléments (item-based).\\
+
+\textbf{Filtrage collaboratif basé sur les utilisateurs}
+
+L'idée derrière le filtrage collaboratif basé sur les utilisateurs est de recommander à un utilisateur des éléments qui ont été appréciés par des utilisateurs similaires. La similarité entre les utilisateurs peut être mesurée par des techniques telles que la corrélation de Pearson (voir à l'annexe 8.1.1) ou le cosinus de l'angle entre les vecteurs d'attributs des utilisateurs (voir annexe 8.1.2) ou encore la similarité jaccard:
+\begin{equation}
+Jaccard(x, y) = \frac{\sum_{i = 1}^n X[i] \land Y[i]}{\sum_{i = 1}^n X[i] \vee Y[i]}
+\end{equation}
+\label{jaccard}
+
+où $\text{Jaccard}(x, y)$ est la similarité entre l'utilisateur $x$ et l'utilisateur $y$. $X$ correspond à une liste d'attribut propre à l'utilisateur $x$ et $Y$ correspond à une liste d'attribut propre à l'utilisateur $y$. Ainsi, la similarité est calculé en prenant le quotient entre le nombre d'attributs que les deux utilisateurs ont en commun et le nombre total d'attributs.\\
+
+\textbf{Filtrage collaboratif basé sur les éléments}
+
+Le filtrage collaboratif basé sur les éléments recommande des éléments similaires à ceux qu'un utilisateur a déjà appréciés. La similarité entre les éléments peut être calculée de manière analogue à la similarité entre les utilisateurs, en utilisant des mesures comme la corrélation ou la distance cosinus ou la similarité jaccard.\\
+
+Cet algorithme fait partie des algorithmes les plus utilisés pour effectuer des recommendations. Il est souvent utilisé pour faire des recommendation de films (sur Netflix par exemple) à des utilisateurs basé sur le profile des personnes amis et/ou similaire à l'utilisateur à qui les recommendations sont faites. Il est également présent dans les recommendation faite au niveau des réseaux sociaux comme instagram, X(Twitter), TikTok etc.
+
+\subsubsection{Filtrage basé sur le contenu}
+Le filtrage basé sur le contenu repose sur les caractéristiques des éléments eux-mêmes pour effectuer des recommandations. Donc, il n'a besoin que des informations liées à l'utilisateur (historique de visionnage ou d'achat, items aimés...). L'idée est de recommander à l'utilisateur des éléments similaires à ceux qu'il a déjà appréciés en se basant sur les attributs des éléments.
+
+Par exemple, dans un système de recommandation de films, on pourrait représenter chaque film par un vecteur de caractéristiques ou d'attribut (comme le genre, les acteurs, le réalisateur, etc.). Le système recommande alors des films similaires à ceux que l'utilisateur a déjà notés positivement, en utilisant des mesures de similarité.
+
+\subsubsection{Recommendation basé sur les connaissances}
+Les systèmes de recommandation basés sur les connaissances utilisent des informations explicites sur les préférences et les besoins des utilisateurs pour faire des recommandations. Contrairement au filtrage collaboratif ou au filtrage basé sur le contenu, qui dépendent des données historiques d'utilisation, les systèmes basés sur les connaissances utilisent des règles ou des contraintes spécifiques pour effectuer des recommandations.\\
+
+Par exemple, un système de recommandation de voitures pourrait utiliser des informations sur les besoins spécifiques d'un utilisateur (comme la taille de la voiture, le budget, et les préférences en matière de carburant) pour recommander des voitures adaptées.\\
+
+L'une des approches les plus courantes est la correspondance entre les caractéristiques de l'utilisateur et celles des éléments, en utilisant des règles définies par les experts du domaine. Par exemple, si un utilisateur indique qu'il a un budget limité et préfère une voiture économique, le système recommandera des voitures correspondant à ces critères.
+
+\subsubsection{Avantages et Inconvénients}
+
+Chaque méthode de recommandation a ses propres avantages et inconvénients. Le filtrage collaboratif est puissant mais souffre du problème de démarrage à froid (cold start), où il est difficile de faire des recommandations pour de nouveaux utilisateurs ou de nouveaux éléments. Le filtrage basé sur le contenu peut contourner ce problème, mais il peut parfois être trop restrictif, ne recommandant que des éléments très similaires à ceux déjà appréciés par l'utilisateur. Les systèmes basés sur les connaissances, bien qu'ils puissent fournir des recommandations très pertinentes, nécessitent une connaissance experte et peuvent être difficiles à maintenir à grande échelle.
+
+\subsubsection{Systèmes hybrides}
+Un système de recommandation hybride combine plusieurs approches de recommandation pour améliorer la qualité et la précision des recommandations. Contrairement aux systèmes de recommandation purement collaboratifs ou basés sur le contenu, les systèmes hybrides utilisent des techniques variées pour exploiter les forces et compenser les faiblesses de chaque méthode individuelle. Un exemple de système hybrique serait un système qui intégrerait les algorithmes de filtrage collaboratif, filtrage basé sur le contenu et filtrage basé sur les connaissances. \\
+
+Cela permettrait de réduire le problème de démarage à froid tout en faisant des recommendations qui ne sont pas trop restrictifs. Un tel système aura aussi la possibilité de faire des recommendation basé sur les préférences de l'utilisateur.\\
+
+En combinant plusieurs sources d'informations, les systèmes hybrides peuvent fournir une couverture plus large des éléments recommandés, augmentant ainsi la diversité des recommandations proposées aux utilisateurs.\\
+
+Cependant, la mise en œuvre d'un système hybride peut être plus complexe en raison de la nécessité de gérer et d'intégrer différentes techniques de recommandation. Ce type de système peut-être plus difficile à optimiser en raison des différentes combinaisons possible d'algorithmes. Elle peuvent être également couteuse en terme de calcul et de stockage.
+
+
+%\subsubsection{Autre algorithmes}
+
+%\textbf{Recommendation basé sur des models}
+
+%\textbf{Recommendation basé sur la diffusion}
+
+%\subsection{Exemples}
 
 \newpage
 \section{Conception}
+Dans cette section, je présenterai comment chacun des algorithmes de recommendation est intégré à l'application web \textit{Café sans-fil}. La figure ci-dessous présente une vue haut niveau des différents algorithmes de recommendations. Chaque diagrammes (représentant un algorithme) sera présenté dans les section suivantes. Le pseudo code décrivant plus spéciquement les algorithmes se trouve à \hyperref[annexe]{\textit{l'annexe}}.
+\begin{figure}[h]
+%\includegraphics[scale=0.3]{Pipeline.jpg}
+%\includesvg[scale=0.3]{Pipeline.drawio.svg}
+\includegraphics[scale=0.3]{Pipeline.drawio.png} 
+\caption{Architecture des algorithmes}
+\end{figure}
+
+\subsection{Recommendation public (globales) d'items}
+Les recommendations publiques s'addressent à toute la communauté étudiante ainsi que les professeurs. Elles se basent sur les items les plus aimés (likés) et les items les plus achetés par l'ensemble des utilisateurs. Ces recommendations sont affichées à titre indicatif pour l'utilisateur dans le sens où il pourra savoir, de façon global, qu'est-ce que les autres utilisateurs apprécient.\\
+
+Cet algorithme fonctionne principalement par filtrage. En effet, pour un menu donné (un ensemble d'items), un premier filtrage est éffectué en conservant uniquement les items possédent le plus grand nombre de likes. Ensuite, parmi les items les plus aimés, un second filtrage est effectué pour conserver les items les plus achetés. Le nombre d'items conservé est limité à 10 pour ne pas surchargé l'interface au niveau du front-end.
+
+\subsection{Recommendation personnelles}
+Les recommendation personnelles, contrairement aux recommendations publiques, s'addressent individuellement à chaque utilisateur. Elles sont basé sur les trois algorithmes qui ont été présentés plus haut, à la \hyperref[2.2]{\textit{section 2.2}}. Les recommendation personnelles peuvent être spérés en deux types: recommendations personnelles et recommendation personnelles de cafés. Le système recommendation personnelle d'items recommende des items aux utilisateurs en utilisant les trois algorithmes de recommendations mentionné plus haut. La recommendation des cafés est effectué de la même mannière pour le filtrage collaboratif à la seule différence que les \textit{output} des recommendations sont des cafés. Par contre, elle difère au niveau du filtrage basé sur le contenu et les recommendations basé sur les connaissance ne sont pas utilisé pour les cafés.
+
+\subsubsection{Filtrage collaboratif (CF)}
+Dans le contexte de \textit{Café sans-fil}, l'algorithme de filtrage collaboratif se base sur la similarité entre un utilisateur et tous les les autres. La similarité entre deux utilisateur est calculée en utilisant \hyperref[jaccard]{\textit{la similarité jaccard}}. Les caractéristiques utilisés au niveau pour pouvoir calculer cette similarité sont : les différents items aimés par l'utilisateur, les différents items achetés et les différents cafés visités par l'utilisateur. Ces caractéristiques ont été choisis puisqu'elles représentent bien les habitudes de consommation propre à chaque utilisateur. Ainsi, une fois la similarité calculé en se basant sur ce vecteur d'attribut, seule les utilisateurs possédant une similarité supérieur à un certain seuil seront retenus. Le seuil de similarité est fixé à 60\% pour les données de tests mais ce dernier sera ajusté une fois que les algorithmes seront déployés sur de vrais de données.\\
+
+Ensuite, si un item acheté par un utilisateur sélectionné n'a pas encore été acheté par l'utilisateur à qui les recommendations seront effectuées, un score (la similarité entre les deux utilisateurs) est attribué à cet item. Dans le cas de la recommendation des cafés, le score sera attributé au café.
+
+\subsubsection{Filtrage basé sur le contenu}
+Toujours dans le contexte de \textit{Café sans-fil}, la recommendation basé sur le contenu, pour les items, se base sur les groupes d'items les plus aimés ainsi que la similarité entre les items. En effet, dans le prétraitement des données, les items sont regroupé en fonction de leur similarité (grace à l'algorithme de clustering \textit{KMeans}). À chaque cluster est attribué un score représentant le nombre d'items aimés par l'utilisateur dans ce cluster. Ainsi, les clusters possédant un nombre de like plus élevé correspondent aux clusters favoris de l'utilisateur. Enuiste, pour chaque cluster favoris, on attribut un score aux items de ce cluster que l'utilisateur n'a pas encore acheté. Le score attribué à ces items correspond au score du cluster.\\
+
+Au niveau des cafés, il n'y a pas de clustering. Seule les cafés possédant le plus d'items aimé par l'utilisateur sont retourné. Dans ce cas, le score représente le nombre d'items aimé par l'utilisateur dans un café.
+
+\subsubsection{Recommendation basé sur les connaissances}
+Comme les recommendations globales, les recommendations basé sur les connaissances fonctionnent par filtrage. Une interface utilisateur (profile nutritionnel) a été rajouté dans le but de récupérer les préférences nutritionnels de l'utilisateur. Cette interface est présenté plus en détails dans la \hyperref[implementation]{\textit{section 4}}. Ainsi, à travers l'interface, il est possible de récupérer divers préférences de l'utilisateur tel que le(s) régime(s) alimentaire(s) qu'il pratique, ses préférences nutritives et ses allergies. Ensuite, avec ces informations, les items du menu seront filtré en conservant uniquement les items pouvant être consommés dans le régime alimentaire choisi par l'utilisateur. Ensuite, un second filtrage est appliqué par dessus le premier pour conserver uniquement les items qui respectent les préférences de l'utilisateur. Enfin, si parmi les items choisis, certains comtiennent des éléments allergènes de niveau 2 ou 3, ils sont retirés de la liste.
+
+\subsubsection{Robot de recommendation santé}
+Le robot de recommendation santé est un concept qui a pour but d'intégrer des items santé dans les recommendations des utilisateurs et aussi dans les recommendations publiques. Donc, les items sont triés en ordre croissant de leur score santé (plus le score santé est bas, plus l'item est santé) puis les items les plus santé sont mélangé aux recommendations. Cela permettra d'encourager la communauté étudiante à consommer d'avantage des produits santé.
+
+\subsection{Score santé}
+Les recommendations ne sont pas uniquement faites aux utilisateurs en se basant sur leur préférences et habitudes de consommation. En effet, chaque item possède un score santé représentant à quel point cet item est bon pour la santé des utilisateurs. Le score utilisé est le \textit{Nutri-score}.\\
+
+\textbf{Nutri-score}\\
+
+Le Nutri-Score est un système d'étiquetage nutritionnel visant à fournir une évaluation globale de la qualité nutritionnelle des aliments et boissons.\\
+
+Il est basé sur un algorithme qui calcule un score nutritionnel global pour chaque produit. Ce score est déterminé en prenant en compte plusieurs critères nutritionnels, tels que :\\
+
+\begin{itemize}
+    \item[$\circ$] Éléments favorables : Les nutriments et composés bénéfiques pour la santé, tels que les fibres, les protéines, et les fruits et légumes. Plus la présence de ces éléments est élevée, plus le score est favorable.\\
+    
+    \item[$\circ$] Éléments défavorables : Les nutriments et composés potentiellement nocifs, comme les acides gras saturés, les sucres ajoutés et le sel. Plus la présence de ces éléments est élevée, plus le score est défavorable.\\
+\end{itemize}
+
+Le score final est calculé en soustrayant le total des points obtenus pour les éléments défavorables du total des points obtenus pour les éléments favorables. Lorsque le score est affiché aux consommateurs, ce dernier est ensuite converti en une lettre allant de \textbf{A} (meilleure qualité nutritionnelle) à \textbf{E} (moins bonne qualité nutritionnelle). Cependant, dans le projet, puisque ce score n'est pas afficher au grand publique, il est concervé en valeur décimal dans le but de faciliter les calculs effectuer plus tard.\\
+
+\textbf{Pourquoi le Nutri-score ?}\\
+
+Plusieurs raisons justifient le choix de ce score:\\
+
+\begin{itemize}
+
+    \item[$\circ$] Standardisation : Le Nutri-Score offre un standard uniforme pour l'évaluation nutritionnelle, ce qui permet une comparaison cohérente entre différents produits, indépendamment des variations dans les étiquetages ou les allégations marketing.\\
+
+    \item[$\circ$] Support pour les politiques de santé publique : En fournissant une information nutritionnelle transparente et accessible, le Nutri-Score soutient les initiatives de santé publique visant à réduire les maladies liées à l'alimentation et à promouvoir une meilleure santé globale.
+\end{itemize}
+
 
 \newpage
 \section{Implémentation}
-
+\label{implementation}
+\subsection{Spécification}
+\subsection{Illustration}
 
 \newpage
-\section{Tests et résultats}
+\section{Évaluation}
+Pour s'assurer du bon fonctionnement des algorithmes intégrés à l'application web, des tests ont été éffectués tout au long du dévellopement. Les tests encourus sont divisés en 2 catégories:\\
+
+\begin{itemize}
+	\item[$\bullet$] \textbf{Tests fonctionnels (à la boite noire)}: Ils vérifient la conformité du code aux exigences en évaluant si les sorties correspondent aux attentes pour des entrées données, sans se soucier des détails internes du programme.\\
+	
+	\item[$\bullet$] \textbf{Tests d'utilisabilité}: Ils permettent de déterminer dans quelle mesure un produit ou un service (généralement une interface utilisateur ou un site web) est facile à utiliser pour les utilisateurs réels. Ces tests sont conçus pour identifier les problèmes d'utilisabilité, recueillir des données qualitatives et quantitatives, et améliorer l'expérience utilisateur.\\
+\end{itemize}
+
+Pour vérifier, valider et s'assurer que l'ajout des nouveaux endpoints ne cause pas de changements non désiré au niveau de l'application, une série de test unitaires et des tests d’intégrations ont été effectué. 
+
+\subsection{Tests}
+J'ai choisi d'utiliser la librairie \textit{unittest} de Python pour effectuer des tests unitaires en raison de sa simplicité d'utilisation et parce que je l'avais déjà utilisée précédemment.
+
+\subsubsection{Tests unitaires}
+Un total de 75 tests unitaires ont été effectués. Environ 63 tests unitaires ont été créés pour s'assurer du bon fonctionnement des algorithmes et environ 12 tests unitaires ont été rajoués pour s'assurer du bon fonctionnement des nouveaux endpoints de l'api. Les tests des api sont structuré comme dans la version ceux qui étaient précédement présent.\\
+
+Les tests des algorithmes sont structurés comme suit :
+\begin{enumerate}
+	\item Chaque script contenant les tests d'un algorithme est subdivisé en \textit{class}. Chaque \textit{class} contient les différents tests correspondant à une méthode intermédiare utilisé dans l'algorithme. Ainsi, chaque méthode dans la \textit{class} s'assure de tester d'une ou de plus manière la fonction à tester. L'algorithme possède aussi une \textit{class} contenant ses tests. Si des méthodes intermédiaires ne nécéssitent qu'un seule cas de test, ces dernières sont inclusent dans la même \textit{class} de test que l'algorithme princiapale.
+	
+	\item Dans le but de controller le mieux possible l'environement de test, les mocks sont utilisés pour éviter de biaiser le fonctionnement des algorithmes. Ainsi, ces derniers sont utilisés uniquement sur les méthodes faisant appel à l'API. Cela permet de s'assurer que si un test échoue, l'erreur est uniquement lié à l'algorithme lui même ou à son implémentation et non à un problème au niveau de l'API.
+	
+	\item Chaque \textit{class} de test contient, si nécessaire, une méthode \textit{setUp} qui permet d'initialiser les objets utilisés par plusieurs tests. Si un objet spécifique est requis pour faire un test et qu'il n'est requis que pour ce test, il est rajouté uniquement dans la méthode test.
+	
+	\item Les tests unitaires suivent le style \textbf{AAA}: \textbf{Arrange} (section du test initialisant les objets utilisé par la méthode à tester), \textbf{Act} (section où l’on invoque la méthode testée avec les paramètres créés précédemment) et \textbf{Assert} (section vérifiant que la méthode produit le comportement désiré).\\
+\end{enumerate}
+
+La figure ci-dessous est un test unitaire vérifiant que l'algorithme de filtrage basé sur le contenu retourne bien les items qu'il devrait retourner dans le cas où un utilisateur a déjà acheté tous les items d'un café.
+
+\begin{lstlisting}[language=Python, caption=Méthode setUp]
+class TestContentBasedFiltering(unittest.TestCase):
+
+    def setUp(self):
+        self.user1 = {'user_id': 'user1', 'username': 'username1'}
+        self.cafes = [
+            # Cafe1 doesn't contain user2
+            {
+                'slug': 'cafe1',
+                'menu_items': [
+                    {'slug': 'item1', 'likes': []}, 
+                    {'slug': 'item2', 'likes': ['user1']},
+                    {'slug': 'item3', 'likes': ['user5', 'user3']},
+                    {'slug': 'item4', 'likes': ['user1', 'user3']},
+                    {'slug': 'item5', 'likes': ['user6', 'user3', 'user4']}
+                ]
+            }, 
+
+            # Cafe2 doesn't contain user1
+            {
+                'slug': 'cafe2',
+                'menu_items': [
+                    {'slug': 'item6', 'likes': ['user3', 'user2']}, 
+                    {'slug': 'item7', 'likes': ['user7', 'user3', 'user4']},
+                    {'slug': 'item8', 'likes': ['user2', 'user3']},
+                    {'slug': 'item9', 'likes': ['user2', 'user4', 'user5', 'user6']},
+                    {'slug': 'item10', 'likes': []}
+                ]
+            }
+        ]
+
+        self.all_items = ([
+            {'slug': 'item1', 'likes': []}, 
+            {'slug': 'item2', 'likes': ['user1']},
+            {'slug': 'item3', 'likes': ['user2', 'user3']},
+            {'slug': 'item4', 'likes': ['user1', 'user3']},
+            {'slug': 'item5', 'likes': ['user2', 'user3', 'user4']},
+            {'slug': 'item6', 'likes': ['user1', 'user2']}, 
+            {'slug': 'item7', 'likes': ['user1', 'user3', 'user4']},
+            {'slug': 'item8', 'likes': ['user2', 'user3']},
+            {'slug': 'item9', 'likes': ['user1', 'user4', 'user5', 'user6']},
+            {'slug': 'item10', 'likes': []}
+        ], 200)
+
+        self.cafe_items = [
+            {'slug': 'item1', 'cluster': '0', 'likes': ['user1']}, 
+            {'slug': 'item2', 'cluster': '1', 'likes': ['user1']},
+            {'slug': 'item3', 'cluster': '2', 'likes': ['user5', 'user3']},
+            {'slug': 'item4', 'cluster': '0', 'likes': ['user1', 'user3']},
+            {'slug': 'item5', 'cluster': '1', 'likes': ['user6', 'user3', 'user4']}
+        ]
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=Test unitaire test\_main\_4 content based filtering]
+class TestContentBasedFiltering(unittest.TestCase):
+    # autres methodes de la classe
+    
+    @patch('recommender_systems.utils.api_calls.CafeApi.get_all_items')
+    @patch('recommender_systems.utils.db_utils.get_user_likes_in_cafe')
+    @patch('recommender_systems.utils.utilitaries.items_not_bought_in_cafe')
+    def test_main_4(self, mock_items_not_bought_in_cafe, mock_get_user_likes, mock_api_get_all_items):
+        # ARRANGE: Recuperation des objets de la methode setUP
+        user = self.user1
+        cafe = self.cafes[0]
+
+        # Mock d'un appel de l'API
+        mock_api_get_all_items.return_value = ([
+            {'slug': 'item1', 'likes': []}, 
+            {'slug': 'item2', 'likes': ['user1']},
+            {'slug': 'item3', 'likes': ['user5', 'user3']},
+            {'slug': 'item4', 'likes': ['user1', 'user3']},
+            {'slug': 'item5', 'likes': ['user6', 'user3', 'user4']}
+        ], 200)
+
+        # Mocking
+        mock_items_not_bought_in_cafe.return_value = set()
+        mock_get_user_likes.return_value = ['item2', 'item4']
+        
+        # ACT et ASSERT
+        self.assertCountEqual(main(user, cafe), ['item2', 'item4'])
+
+        # Mocking
+        mock_get_user_likes.return_value = []
+        mock_items_not_bought_in_cafe.return_value = set()
+
+        # ACT et ASSERT
+        self.assertCountEqual(main(user, cafe), ['item5', 'item4', 'item3', 'item2', 'item1'])
+
+    # autres methodes de la classe
+\end{lstlisting}
+
+\subsubsection{Tests d'utilisatbilité}
+Une fois une première version de l'interface pour le profile nutritif complété, des test d'utilisabilité ont été effectués. En effet, durant une foire au projet qui a eu lieu le jeudi 25 juillet, il a été possible de récolter des retours des autres étudiants du cours ce qui a permit d'améliorer la présentation de l'interface utilisateur ainsi que l'expérience utilisateur du profile.\\
+
+De plus, j'ai présenté l'application à certains membres de ma famille qui ne sont pas très familiers avec les outils informatiques dans le but de recevoir des retours plus diversifié. Les commentaires reçus ont été très pertinent pour améliorer l'expréience utilisateur de l'interface initiale.\\
+
+Un commentaire souvent revenu est le manque d'animation dans le profile. Cela fera objet d'améliorations futurs.
+
+\subsection{Discussion}
 
 \newpage
 \section{Conclusion}
+
+\newpage
+\section{Remerciement}
 
 \newpage
 \section{Références}
 
 \newpage
 \section{Annexe}
-\subsection{Pseudo codes des algorithmes de recommandation}
+\subsection{Autres mesures de similarité}
+\subsubsection{Corrélation de Pearson}
+Soit $u$ et $v$ deux utilisateurs. 
+\begin{equation}
+\rho(u, v) = \frac{\sum_{i \in I_{uv}} (r_{u,i} - \overline{r}_u)(r_{v,i} - \overline{r}_v)}{\sqrt{\sum_{i \in I_{uv}} (r_{u,i} - \overline{r}_u)^2}\sqrt{\sum_{i \in I_{uv}} (r_{v,i} - \overline{r}_v)^2}}
+\end{equation}
 
+où $\rho(u, v)$ est la similarité entre l'utilisateur $u$ et l'utilisateur $v$, $r_{u,i}$ est la note de l'utilisateur $u$ pour l'élément $i$, et $I_{uv}$ est l'ensemble des éléments évalués par les deux utilisateurs $u$ et $v$.
+
+\subsubsection{Similarité cosinus}
+Soit $u$ et $v$ deux utilisateurs. 
+\begin{equation}
+cos(X, Y) = \frac{\langle X, Y \rangle}{||X|| ||Y||}
+\end{equation}
+
+où $cos(X, Y)$ est la similarité entre le vecteur d'attributs $X$ de l'utilisateur $x$ et le vecteur d'attributs $Y$ de l'utilisateur $y$.
+
+
+\newpage
+\subsection{Pseudo codes des algorithmes de recommandation}
+\label{annexe}
 \subsubsection{Méthodes utilitaires}
 \begin{algorithm}
     \caption{Repas pas encore consommés}
@@ -260,5 +567,7 @@ En réponse aux problèmes énoncés, ce projet vise à mettre en place un syst�
 	\State \hspace{0.5cm} \textbf{retourner} $res$
     \end{algorithmic}
 \end{algorithm}
+
+
 
 \end{document}

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const AllergenProfile = ({ selectedAllergens, setSelectedAllergens, setDisableSubmit, allergensNames }) => {
     return (
         <div className="border-b border-gray-900/10 pb-12 py-5">
-            <h2 className="text-2xl font-semibold leading-7 text-gray-900">Allergènes</h2>
+            <h2 className="text-2xl font-semibold leading-7 text-gray-900">Allèrgies</h2>
             <div className="grid grid-cols-4 gap-x-12 py-5">
                 {selectedAllergens.map((allergen, index) => (
                     <div key={index} className="mb-2 flex items-center">

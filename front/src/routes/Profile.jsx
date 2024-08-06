@@ -138,7 +138,7 @@ const Profile = () => {
           className={`py-2 px-4 ${activeTab === 1 ? 'border-b-2 border-blue-500 bg-blue-200 rounded shadow-md': ''}`}
           onClick={() => handleTabChange(1)}
           >
-            Profile nutritif
+            Profile nutritionnel
           </button>
 
           <button 
