@@ -6,10 +6,6 @@ import CafeList from "@/components/Cafe/CafeList";
 import SearchResults from "@/components/Search/SearchResults";
 import { useSearchParams } from 'react-router-dom';
 
-const TX = {
-    HEAD_TITLE: 'title',
-    HOME_TITLE: 'home.title',
-}
 
 const Home = () => {
     const { t } = useTranslation();
@@ -24,7 +20,7 @@ const Home = () => {
     return (
         <>
             <Helmet>
-                <title>{t(TX.HEAD_TITLE)}</title>
+                <title>{t('title')}</title>
             </Helmet>
             <main className="pt-10 pb-[3.25rem] sm:py-10 space-y-6">
                 <Container>

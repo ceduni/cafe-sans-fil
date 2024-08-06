@@ -89,7 +89,7 @@ const CafeList = ({ setStoredCafes, storedCafes }) => {
 
     const [filters, setFilters] = useState({
         openOnly: false,
-        pavillon: t("select.all"),
+        pavillon: t("home.select_all"),
         takesCash: false,
         takesCreditCard: false,
         takesDebitCard: false,
