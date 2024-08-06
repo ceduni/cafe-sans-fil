@@ -162,9 +162,12 @@ En combinant plusieurs sources d'informations, les systèmes hybrides peuvent fo
 Cependant, la mise en œuvre d'un système hybride peut être plus complexe en raison de la nécessité de gérer et d'intégrer différentes techniques de recommandation. Ce type de système peut-être plus difficile à optimiser en raison des différentes combinaisons possible d'algorithmes. Elle peuvent être également couteuse en terme de calcul et de stockage.
 
 
-%\subsubsection{Autre algorithmes}
+\subsubsection{Autre algorithmes}
 
-%\textbf{Recommendation basé sur des models}
+\textbf{Recommendation basé sur des models}\\
+Un système de recommandation basé sur les modèles est un type de système de recommendation qui fournit des recommandations personnalisées aux utilisateurs en utilisant des modèles d’apprentissage automatique (réseaux de neurones, classification Bayésienne, machines à vecteurs de support) pour prédire une note qu’un utilisateur attribuerait à un article ou des items qu'un utilisateur aimerait par exemple. Après que le modèle a été entraîné, l’article avec le plus grand score est recommandé à l’utilisateur.
+
+Une sous-catégorie des systèmes de recommandation basés sur les modèles est le filtrage collaboratif basé sur les modèles. Il utilise des modèles pour prédire l’évaluation par les utilisateurs des éléments non notés. Il existe deux grands types de filtrage collaboratif par article : les modèles binaires qui se basent uniquement sur le fait qu’un utilisateur ait acheté/sélectionné/coché ou non un bien donné, et les modèles avec évaluations où les utilisateurs sont invités à noter les différents produits.
 
 %\textbf{Recommendation basé sur la diffusion}
 
@@ -188,7 +191,7 @@ Cet algorithme fonctionne principalement par filtrage. En effet, pour un menu do
 \subsection{Recommandations Personnalisées}
 Contrairement aux recommandations publiques, les recommandations personnalisées sont spécifiquement adaptées à chaque utilisateur. Elles s’appuient sur les trois algorithmes présentés précédemment dans la \hyperref[2.2]{\textit{section 2.2}}. Les recommandations personnalisées se déclinent en deux catégories : les recommandations d'items et les recommandations de cafés. Le système de recommandations d'items suggère des articles aux utilisateurs en utilisant les trois algorithmes mentionnés. Pour les recommandations de cafés, le filtrage collaboratif est utilisé de manière similaire, à la différence que les \textit{outputs} des recommandations sont des cafés. Cependant, le filtrage basé sur le contenu est partiellement appliqué aux café alors que les recommandations basées sur les connaissances ne sont pas appliqués aux cafés.
 
-\subsubsection{Filtrage Collaboratif (CF)}
+\subsubsection{Filtrage Collaboratif}
 Dans le cadre de \textit{Café sans-fil}, l'algorithme de filtrage collaboratif repose sur la similarité entre un utilisateur et les autres. La similarité entre deux utilisateurs est calculée en utilisant la \hyperref[jaccard]{\textit{similarité Jaccard}}. Les caractéristiques utilisées pour évaluer cette similarité incluent : les items aimés par l'utilisateur, les items achetés, et les cafés visités. Ces caractéristiques ont été sélectionnées car elles reflètent fidèlement les habitudes de consommation propres à chaque utilisateur. Une fois la similarité calculée sur la base de ce vecteur d'attributs, seuls les utilisateurs présentant une similarité supérieure à un certain seuil sont retenus. Ce seuil est fixé à 60\% pour les données de test, mais il sera ajusté lors du déploiement sur des données réelles.\
 
 Si un item acheté par un utilisateur sélectionné n'a pas encore été acheté par l'utilisateur cible, un score (correspondant à la similarité entre les deux utilisateurs) est attribué à cet item. Pour les recommandations de cafés, ce score est attribué au café.
@@ -249,13 +252,13 @@ Pour s'assurer du bon fonctionnement des algorithmes intégrés à l'application
 	\item[$\bullet$] \textbf{Tests d'utilisabilité}: Ils permettent de déterminer dans quelle mesure un produit ou un service (généralement une interface utilisateur ou un site web) est facile à utiliser pour les utilisateurs réels. Ces tests sont conçus pour identifier les problèmes d'utilisabilité, recueillir des données qualitatives et quantitatives, et améliorer l'expérience utilisateur.\\
 \end{itemize}
 
-Pour vérifier, valider et s'assurer que l'ajout des nouveaux endpoints ne cause pas de changements non désiré au niveau de l'application, une série de test unitaires et des tests d’intégrations ont été effectué. 
+Pour vérifier et valider que l'ajout de nouveaux endpoints ne provoque pas de changements indésirables dans l'application, une série de tests unitaires et de tests d'intégration a été réalisée.
 
 \subsection{Tests}
-J'ai choisi d'utiliser la librairie \textit{unittest} de Python pour effectuer des tests unitaires en raison de sa simplicité d'utilisation et parce que je l'avais déjà utilisée précédemment.
+La librairie \textit{unittest} de Python a été choisie pour effectuer les tests unitaires en raison de sa simplicité d'utilisation et de mon expérience antérieure avec cet outil.
 
 \subsubsection{Tests unitaires}
-Un total de 75 tests unitaires ont été effectués. Environ 63 tests unitaires ont été créés pour s'assurer du bon fonctionnement des algorithmes et environ 12 tests unitaires ont été rajoués pour s'assurer du bon fonctionnement des nouveaux endpoints de l'api. Les tests des api sont structuré comme dans la version ceux qui étaient précédement présent.\\
+Un total de 75 tests unitaires ont été réalisés. Environ 63 tests ont été créés pour garantir le bon fonctionnement des algorithmes, et 12 autres pour vérifier le bon fonctionnement des nouveaux endpoints de l'API. Les tests API sont structurés de manière cohérente avec ceux déjà en place.\\
 
 Les tests des algorithmes sont structurés comme suit :
 \begin{enumerate}
@@ -362,13 +365,58 @@ class TestContentBasedFiltering(unittest.TestCase):
 \end{lstlisting}
 
 \subsubsection{Tests d'utilisatbilité}
-Une fois une première version de l'interface pour le profile nutritif complété, des test d'utilisabilité ont été effectués. En effet, durant une foire au projet qui a eu lieu le jeudi 25 juillet, il a été possible de récolter des retours des autres étudiants du cours ce qui a permit d'améliorer la présentation de l'interface utilisateur ainsi que l'expérience utilisateur du profile.\\
+Une fois une première version de l'interface pour le profil nutritionnel complétée, des tests d'utilisabilité ont été réalisés. Lors d'une foire aux projets qui s'est tenue le jeudi 25 juillet, il a été possible de recueillir des retours de la part des autres étudiants, ce qui a permis d'améliorer la présentation de l'interface utilisateur ainsi que l'expérience utilisateur du profil.\
 
-De plus, j'ai présenté l'application à certains membres de ma famille qui ne sont pas très familiers avec les outils informatiques dans le but de recevoir des retours plus diversifié. Les commentaires reçus ont été très pertinent pour améliorer l'expréience utilisateur de l'interface initiale.\\
+De plus, j'ai présenté l'application à certains membres de ma famille peu familiers avec les outils informatiques, dans le but d'obtenir des retours plus diversifiés. Ces commentaires ont été très pertinents pour améliorer l'expérience utilisateur de l'interface initiale.\
 
-Un commentaire souvent revenu est le manque d'animation dans le profile. Cela fera objet d'améliorations futurs.
+Un commentaire fréquemment revenu concernait le manque d'animations dans le profil, qui sera une piste d'amélioration pour l'avenir.
 
 \subsection{Discussion}
+Cette section est dédiée à effectuer des remarques et critiques sur les algorithmes. Les critiques seront effectués par rapport à l'optimalité (complexité et Scalabilité) et la robustesse de l'algorithme. Puisque les algorithmes de recommendation des cafés sont très similaires aux algorithmes de recommendations personnelles, les critiques de ces dernières sont aussi valables pour les cafés.
+
+\subsubsection{Filtrage collaboratif}
+\begin{itemize}
+	\item[$\bullet$] \textbf{Complexité temporelle:} Cet algorithme calcule la similarité entre l'utilisateur cible et tous les autres utilisateurs, ce qui peut entraîner une complexité de l'ordre de $O(n \times m)$, où $n$ est le nombre d'utilisateurs et $m$ est le nombre d'attributs comparés. Bien que cette approche soit fonctionnelle pour des jeux de données de taille modérée, elle devient peu optimale lorsque le nombre d'utilisateurs augmente significativement. Pour des systèmes à grande échelle comme l'\textit{UdeM} (l'université contient environ 67000 étudiants !), cela pourrait ralentir les performances, nécessitant potentiellement des techniques de réduction de la dimensionnalité comme les méthodes \textit{PCA} et \textit{MDS} pour réduire les nombre d'éléments à comparer lors du calcul de la similarité tout en conservant le plus d'information dans les données. L'utilisation des méthodes de clustering comme \textit{KMeans} pour regrouper les utilisateurs permettrait aussi d'améliorer sinificativement l'efficacité.\\
+	
+	\item[$\bullet$] \textbf{Scalabilité:} Comme mentionné précédement, cet algorithme peut rencontrer des difficultés à s'adapter à un grand nombre d'utilisateurs ou de données en raison de la nécessité de calculer des similarités entre chaque paire d'utilisateurs. Dans les cas où le nombre d'utilisateurs est très élevé, des approches alternatives comme le filtrage collaboratif basé sur des modèles (qui se trouve dans la famille des recommendations basé sur les models) seraient plus efficaces.\\
+	
+	\item[$\bullet$] \textbf{Robustesse:} Les différents scénarios possibles sont pris en compte par l'algorithme mais une meilleure gestion des erreurs et des exceptions, notamment en ajoutant des logs plus détaillés, améliorerait sa robustesse et faciliterait le débugage.\\
+	
+	\item[$\bullet$] \textbf{Réutilisabilité:} L'algorithme est étroitement couplé avec des appels à des utilitaires spécifiques, ce qui pourrait limiter sa réutilisabilité dans d'autres contextes ou projets. Une approche consistant à abstraire ces dépendances rendrait l'algorithme plus modulaire et adaptable à différents environnements ou bases de données.\\
+	
+	\item[$\bullet$] \textbf{Extensibilité:} L'algorithme pourrait être plus flexible en permettant l'utilisation de différentes métriques de similarité ou en adaptant dynamiquement le seuil de similarité en fonction des besoins spécifiques de l'utilisateur ou du contexte.\\
+	
+\end{itemize}
+
+En somme, pour une portentille amélioration de l'algorithme, il faudrait donc diminuer la dépendance de l'algorithme à d'autres modules de l'application, utiliser des méthodes de clustering ou de réduction de dimentionnalité pour augmenter son éfficacité et afficher des logs plus détaillés pour faciliter la maintenance des algorithmes.
+
+\subsubsection{Filtrage basé sur le contenu}
+
+\begin{itemize}
+	\item[$\bullet$] \textbf{Complexité temporelle:} L'algorithme regroupe les items en clusters et itère sur ces derniers pour trouver ceux que l'utilisateur a le plus appréciés. La complexité de cette opération dépend du nombre de clusters et d'items par cluster. Similairement à l'algorithme de filtrage collaboratif, cette méthode pourrait rencontrer des problèmes de performance lorsque le nombre de clusters ou d'items est très élevé. L'utilisation d'une approche de pré-traitement, comme l'indexation inversée, pourrait potentiellement réduire les coûts de recherche.\\
+	
+	\item[$\bullet$] \textbf{Scalabilité:} Le processus de sélection des clusters les plus appréciés pourrait être optimisé en pré-calculant et en stockant les résultats des préférences de l'utilisateur, plutôt que de les recalculer à chaque exécution de l'algorithme. Donc, il serait plus efficade de créer une routine qui calculerait les clsuters favoris de l'utilisateur et qui les mettrait à jour dans la base de données.\\
+	
+	\item[$\bullet$] \textbf{Robustesse:} Comme pour le filtrage collaboratif, l'ajout de logs plus détaillés permettront faciliteront le débugage et augmentront la robustesse de l'algorithme.\\
+
+	\item[$\bullet$] \textbf{Réutilisabilité:} L'algorithme est assez spécifique dans l'ensemble même si certaines composantes (script pour trouver les clusters favoris par exemple) peuvent être réutilisés dans d'autres contextes.\\
+		
+\end{itemize}
+
+En somme, l'utilisation d'indexage inversé, la réduction de la dépendance de l'algorithem avec d'autres modules de l'application ainsi l'ajout de meilleurs logs pour le débugage seraient des modifications qui améliorerait l'algorithme dans son ensemble.
+
+\subsubsection{Filtrage basé sur les connaissances}
+
+\begin{itemize}
+	\item[$\bullet$] \textbf{Complexité temporelle et scalabilité:} La complexité temporelle est de l'ordre de $O(n \times m \times k)$ dans le pire cas (l'utilisateur spécifie des préférences nutrives et des régimes alimentaires) où $n$ est le nombre d'items, $m$, le nombre de régimes alimentaire et $k$, le nombre de filtrages appliqués. Cet algorithme est acceptable avec une quantité faible ou moyenne de données mais, lorsque le nombre de données est élevé, la perfommance de l'algorithme pourrait significativement diminuer en raison des multiples filtrages qui sont appliqués. L'algorithme pourrait être amélioré en utilisant d'avantages des structures de données appropriées (les ensembles et dictionnaires), en évitant les calculs répétitifs (comme les comparaisons redondantes) et en réduisant le nombre d'opérations coûteuses.\\
+		
+	\item[$\bullet$] \textbf{Robustesse et réutilisatbilité :} Les commentaires faites aux algorithmes précédents s'appliquent aussi à cet algorithme.\\
+	
+	\item[$\bullet$] \textbf{Extensibilité:} Le point fort de cet algorithme serait son extensibilité en ce sens qu'il est très facile de rajouter de nouveaux filtres. Cependant, il serait quand même plus inérressant pour facilité l'ajout de nouveaux filtres, de regrouper les différents filtres dans un script différent de celui de l'algorithme.\\
+	
+\end{itemize}
+
+En résumé, cet algorithme souffre des même problème de robustesse et de réutilisabilité que les autres algorithme en ce sens qu'il dépend beaucoup trop des modules spécifiques à l'application web \textit{Café sans-fil}. L'algorithmes serait donc plus optimal dans l'ensemble en réduisant la dépendance avec d'autres modules de l'application et en ajoutant de meilleurs logs pour le débugage.
 
 \newpage
 \section{Conclusion}
