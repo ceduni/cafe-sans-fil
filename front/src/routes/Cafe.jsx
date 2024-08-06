@@ -8,14 +8,12 @@ import SocialLink from "@/components/Cafe/SocialLink";
 import CafeIdentification from "@/components/CafeIdentification/CafeIdentification";
 import PaymentType from "@/components/Cafe/PaymentType";
 import CafeMenu from "@/components/CafeMenu/Menu";
-import CafeEvent from "@/components/CafeAnnouncement/CafeEvent";
+import CafeAnnouncement from "@/components/CafeAnnouncement/CafeAnnouncement";
+import CafePost from "@/components/CafeAnnouncement/CafePost";
 import '@/assets/styles/cafe.css';
 
 const _lst = Object.entries;
 
-function renderMenuSection() {
-    return <span>Hello</span>
-}
 
 const Cafe = () => {
     const { t } = useTranslation();
@@ -41,7 +39,7 @@ const Cafe = () => {
 
     if (error) {
         if (error.status === 404) {
-            throw new Response("Not found", { status: 404, statusText: t("error.404.cafe") });
+            throw new Response("Not found", { status: 404, statusText: t("error.404.cafe_not_found") });
         }
 
         return <EmptyState type="error" error={error} />;
@@ -58,8 +56,8 @@ const Cafe = () => {
                 <div className="cafe-brand">
                     <img className="cafe-logo" src={cafe?.logo} alt={t("alt.cafe_logo")} />
                     <ul className="bare-list socials">
-                        {_lst(cafe?.socials).map(([key, value]) => (
-                            <SocialLink platform={key} url={value} />
+                        {_lst(cafe?.socials).map(([key, value], index) => (
+                            <SocialLink key={index} platform={key} url={value} />
                         ))}
                     </ul>
                 </div>
@@ -80,14 +78,21 @@ const Cafe = () => {
                     <CafeIdentification cafe={cafe} />
                 </div>
                 <div className="cafe-communication">
-
+                    <div>
+                        <h2 className="text-center my-0 text-3xl font-bold">Annonces</h2>
+                    </div>
+                    <ul className="bare-list posts">
+                        {cafe?.announcements.map((value, index) => (
+                            <CafeAnnouncement  key={index} announcement={value} />
+                        ))}
+                    </ul>
                 </div>
             </section>
             <section className="cafe-event">
-                <h3 className="title">Tableau d'affichage</h3>
+                <h3 className="title">{t("cafe.bulletin_board.title")}</h3>
                 <ul className="bare-list grid-content">
-                    {_lst(cafe?.socials).map(([key, value]) => (
-                        <CafeEvent platform={key} url={value} />
+                    {cafe?.announcements.map((value) => (
+                        <CafePost  key={value.id} post={value} />
                     ))}
                 </ul>
             </section>

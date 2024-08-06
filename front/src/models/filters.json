@@ -1,6 +1,6 @@
 {
     "CASH": {
         "type": "Y/N",
-        "label": "payment.cash"
+        "label": "payment_method.cash"
     }
 }

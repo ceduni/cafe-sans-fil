@@ -1,9 +1,17 @@
 {
     "app.name": "Café sans-fil",
-
     "title": "Home | Café sans-fil",
 
-    "alt.cafe_logo": "Cafe logo",
+    "home.title": "Student café",
+    "home.select_all": "All pavillons",
+
+    "cafe.bulletin_board.title": "Bulletin board", 
+
+    "payment_method.cash": "Cash",
+    "payment_method.credit_card": "Credit Card",
+    "payment_method.debit_card": "Debit Card",
+
+    "alt.cafe_logo": "Café logo",
     
-    "error.404.cafe": "This coffee does not exist"
+    "error.404.cafe_not_found": "This café does not exist"
 }

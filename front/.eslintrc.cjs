@@ -1,6 +1,9 @@
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
+  globals: {
+    APP_NAME: 'readonly',
+  },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
@@ -18,4 +21,5 @@ module.exports = {
     ],
     "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
   },
+  
 }

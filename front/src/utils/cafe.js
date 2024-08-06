@@ -107,7 +107,7 @@ export const getNextOpeningTime = (openingHours) => {
 };
 
 export const PAYMENT_METHODS = {
-    CASH: trad("payment.cash", "Argent comptant"),
-    CREDIT_CARD: trad("payment.credit", "Carte de crédit"),
-    DEBIT_CARD: trad("payment.debit", "Carte de débit"),
+    CASH: trad("payment_method.cash", "Argent comptant"),
+    CREDIT_CARD: trad("payment_method.credit", "Carte de crédit"),
+    DEBIT_CARD: trad("payment_method.debit", "Carte de débit"),
 };

@@ -64,6 +64,16 @@ const CafeMenu = ({ items: menuItems }) => {
 
     return (
         <div ref={menuElement} className="menu">
+              <GroupBox
+                    key="0"
+                    category="Produits recommandés"
+                    open={true}
+                    activeItem={activeItem}
+                    setActiveItem={setActiveItem}
+                    items={menuItems.filter((item) => item.category === categories[0])}
+                    onClick={handleGroupClick}
+                    onItemClick={handleItemClick}
+                />
             {categories.map((category, index) => (
                 <GroupBox
                     key={index}

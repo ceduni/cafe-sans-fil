@@ -122,7 +122,7 @@ export const UserAPI = {
      * @returns {Promise<User[]>} - A promise that resolves with an array of User objects.
      */
     get: async function (id, setLoading = null, cancel = false) {
-        const result = await fetchData(`/users/${id}`, setLoading).then();
+        const result = await fetchData(`/users/${id}`, setLoading);
         return new User(result);
     },
     /**
@@ -146,7 +146,7 @@ export const OrderAPI = {
      * @returns {Promise<Order[]>} - A promise that resolves with an array of Order objects.
      */
     get: async function (id, setLoading = null, cancel = false) {
-        const result = await fetchData(`/orders/${id}`, setLoading).then();
+        const result = await fetchData(`/orders/${id}`, setLoading);
         return new Order(result);
     },
     /**
@@ -176,7 +176,7 @@ export const EventAPI = {
      * @returns {Promise<Order[]>} - A promise that resolves with an array of Event objects.
      */
     get: async function (id, setLoading = null, cancel = false) {
-        const result = await fetchData(`/events/${id}`, setLoading).then();
+        const result = await fetchData(`/events/${id}`, setLoading);
         return new Event(result);
     },
     /**

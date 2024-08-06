@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const CafePost = ({ post }) => {
-    const { cafe, title, date, content, tags, likes } = post;
+    // const { cafe, title, date, content, tags, likes } = post;
 
     const [reactions, setReactions] = useState(18);
     const [hasReacted, setHasReacted] = useState(false);
@@ -16,32 +16,42 @@ const CafePost = ({ post }) => {
     };
 
     return (
-        <div className="post">
-            <div className="post-header">
-                <h3 className="post-title">{title}</h3>
-                <span className="post-date" title="Publié il y a 4 jours">
-                    <svg className="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path></svg>
-                    4 jours
-                </span>
-            </div>
-
-            <p className="post-content">
-                <span className="post-author">{cafe.name}:</span> {content}
-            </p>
-            <div className="post-footer">
-                <ul className="bare-list post-tags">
-                    {tags.map((tag) => (
-                        <li className="post-tag">tag</li>
-                    ))}
-                </ul>
-
-                <div className="post-reactions">
-                    <button className="btn btn-reaction" onClick={handleReaction}>
-                        <svg className="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></svg>
-                        {reactions}
-                    </button>
+        <div className="card-container">
+            <div className="photo-container">
+                <div className="event-date">
+                    <span className="day">14</span>
+                    <span className="month">Février</span>
+                    <span className="hour">19h30</span>
+                </div>
+                <div className="event-venue">
+                    <span>7077 Ave du Parc</span>
+                    <span>Agora du 5e etage</span>
                 </div>
             </div>
+            <div className="info-container">
+                <h3 className="event-name">
+                    Saint-Valentin
+                </h3>
+                <div className="event-description">
+                    Plongez dans l'atmosphère romantique de la Saint-Valentin avec une soirée spécialement conçue pour célébrer l'amour sous toutes ses formes. 
+                    Que vous soyez en couple, célibataire ou simplement en quête d'une bonne soirée entre amis, cette soirée est faite pour vous !
+                </div>
+            </div>
+            <div className="event-media">
+                <img className="event-image" src="assets/valentin.jpg" alt="" />
+            </div>
+            {/* <div className="event-actions">
+                <button className="btn-action btn-action--support">
+                    <svg className="btn-icon" stroke="currentColor" stroke-width="0" viewBox="0 0 576 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M275.3 250.5c7 7.4 18.4 7.4 25.5 0l108.9-114.2c31.6-33.2 29.8-88.2-5.6-118.8-30.8-26.7-76.7-21.9-104.9 7.7L288 36.9l-11.1-11.6C248.7-4.4 202.8-9.2 172 17.5c-35.3 30.6-37.2 85.6-5.6 118.8l108.9 114.2zm290 77.6c-11.8-10.7-30.2-10-42.6 0L430.3 402c-11.3 9.1-25.4 14-40 14H272c-8.8 0-16-7.2-16-16s7.2-16 16-16h78.3c15.9 0 30.7-10.9 33.3-26.6 3.3-20-12.1-37.4-31.6-37.4H192c-27 0-53.1 9.3-74.1 26.3L71.4 384H16c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h356.8c14.5 0 28.6-4.9 40-14L564 377c15.2-12.1 16.4-35.3 1.3-48.9z"></path>
+                    </svg>
+                </button>
+                <button className="btn-action btn-action--attend">
+                    <svg className="btn-icon" stroke="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M429.58 209.08c-15.06-6.62-32.38 1.31-38.5 17.62L356 312h-11.27V80c0-17.6-13.3-32-29.55-32-16.26 0-29.55 14.4-29.55 32v151.75l-14.78.25V32c0-17.6-13.3-32-29.55-32s-29.55 14.4-29.55 32v199.75L197 232V64c0-17.6-13.3-32-29.55-32-16.26 0-29.55 14.4-29.55 32v183.75l-14.8.25V128c0-17.6-13.3-32-29.55-32S64 110.4 64 128v216c0 75.8 37.13 168 169 168 40.8 0 79.42-7 100.66-21a121.41 121.41 0 0 0 33.72-33.31 138 138 0 0 0 16-31.78l62.45-175.14c6.17-16.31-1.19-35.06-16.25-41.69z"></path>
+                    </svg>
+                </button>
+            </div> */}
         </div>
     );
 };

@@ -1,5 +1,8 @@
 import { CafeMenuItem } from "./menu";
 
+const isAdmin = (user) => user.role === "Admin";
+const isVolunteer = (user) => user.role === "Bénévole";
+
 export class Cafe {
     constructor(data) {
         this.id = data.cafe_id;
@@ -15,10 +18,14 @@ export class Cafe {
         this.location = new Location(data.location);
         this.openingHours = data.opening_hours.map(x => new OpeningHour(x));
         this.paymentMethods = data.payment_methods.map(x => new Payment(x));
-        if(data.menu_items) {
+        this.announcements = data.additional_info;
+
+        if (data.menu_items) {
             this.menu = data.menu_items.map(x => new CafeMenuItem(x));
         }
-        // this.announcements = data.announcements.map(x => new Announcement(x));
+        if (data.staff) {
+            this.staff = data.staff
+        }
     }
 
     isOpen() {
@@ -43,19 +50,15 @@ export class Cafe {
             return currentTime >= startMinutes && currentTime <= endMinutes;
         });
     }
+
+    get managers() {
+        return this.staff.filter(x => isAdmin(x))
+    }
+    get volunteers() {
+        return this.staff.filter(x => isVolunteer(x))
+    }
 }
 
-
-// class Social {
-//     constructor(data) {
-//         this.name = data.platform_name;
-//         this.url = data.link;
-//     }
-
-//     get logo() {
-//         return Logo[this.name.toLowerCase()];
-//     }
-// }
 
 class OpeningHour {
     constructor(data) {

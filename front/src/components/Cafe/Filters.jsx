@@ -25,7 +25,7 @@ const Filters = ({ filters, setFilters, cafes }) => {
 
   const generatedSortOptions = cafes
     ? [
-        { name: t("select.all") },
+        { name: t("home.select_all") },
         ...cafes
           .map((cafe) => cafe.location.pavillon)
           .filter((value, index, self) => self.indexOf(value) === index) // On retire les doublons
