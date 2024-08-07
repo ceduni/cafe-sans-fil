@@ -10,7 +10,7 @@ const NutriPreferences = ({ nutriPreferences, setNutriPreferences, setDisableSub
 
     return (
         <div className="border-b border-gray-900/10 pb-12 py-5">
-            <h2 className="text-2xl font-semibold leading-7 text-gray-900">Préférences nutritives</h2>
+            <h2 className="text-2xl font-semibold leading-7 text-gray-900">Préférences nutritionnelles</h2>
             <div className="grid grid-cols-4 gap-x-12 py-5">
                 {nutriPreferences.map((nutriPreference, index) => (
                     <div key={index} className="mb-2 flex items-center">
