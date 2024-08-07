@@ -87,7 +87,6 @@
 
 \tableofcontents
 
-\newpage
 \listoffigures
 
 \lstlistoflistings
@@ -208,7 +207,7 @@ Tout comme les recommandations globales, les recommandations basées sur les con
 Le robot de recommandation santé est conçu pour intégrer des items sains dans les recommandations personnalisées et publiques. Les items sont triés par ordre croissant de leur score santé (plus le score est bas, plus l'item est sain) et les items les plus sains sont ensuite intégrés aux recommandations. Cela vise à encourager la communauté étudiante à consommer davantage de produits sains.
 
 \subsection{Score santé}
-Les recommendations ne sont pas uniquement faites aux utilisateurs en se basant sur leur préférences et habitudes de consommation. En effet, chaque item possède un score santé représentant à quel point cet item est bon pour la santé des utilisateurs. Le score utilisé est le \textit{Nutri-score}.\\
+Les recommendations ne sont pas uniquement faites aux utilisateurs en se basant sur leur préférences et habitudes de consommation. En effet, chaque item possède un score santé représentant à quel point cet item est bon pour la santé des utilisateurs. Ensuite, en prenant la moyenne arithmétique du score des items d'un café, on attribut un score café aux cafés. Le score utilisé pour les items est le \textit{Nutri-score}.\\
 
 \textbf{Nutri-score}\\
 
@@ -240,9 +239,65 @@ Plusieurs raisons justifient le choix de ce score:\\
 \section{Implémentation}
 \label{implementation}
 \subsection{Spécification}
+Cette section présente principalement les détails techniques de l'implémentation (principalement backend) propre au projet.
+
+\subsubsection{Technologies}
+Les technologies utilisés sont les même que celles qui était déjà présente dans l'application web à savoir :\\
+
+\begin{itemize}
+	\item[$\bullet$] \textbf{Python} pour sa popularité pour le fait qu'il possèdes plusieurs librairies facilitant le dévellopement.\\
+
+	\item[$\bullet$] \textbf{MongoDB} pour la gestion de la base de données en rainson de sa flexibilitée et sa capacité à gérer la diversité.\\
+	
+	\item[$\bullet$] \textbf{FastAPI} pour le dévellopement de l'interface de programmation principalement en raison de ses performances élevées et sa facilité d'utilisation.\\
+	
+	\item[$\bullet$] \textbf{ReactJS} pour le dévellopement front-end (\hyperref[profileNutritionnel]{\textit{profil nutritionnel}}) em raison de sa popularité, la capacité de dévelloper des applications SPA(Single Page Application) ainsi que sa modularité.\\
+	
+	\item[$\bullet$] \textbf{TailwindCSS} pour le design de l'interface en raison de sa légereté.\\
+\end{itemize}
+
+Deux nouvelles librairies ont été rajouté dans le projet à savoir \textit{numpy} et \textit{sklearn}. C'est librairies sont utilisé pour effectuer le clustering des items. Nous avons choisie choisi la librairie \textit{sklearn} car elle est l'une des plus populaire pour effectuer du clustering. De plus, elle possède précisément les méthodes dont nous avons besoin. La pluspart des méthodes de \textit{sklearn} qui sont utilisées retournent des listes de type \textit{np.array} (numpy array) donc, l'utilisation de la librairie \textit{numpy} est nécessaire pour pouvoir utiliser \textit{sklearn}.
+
+\subsubsection{Fonctionnement}
+Il n'y a pas d'ordre spécifique pour rouler les algorithmes mais, avant de les exécuter, il faudrait tout d'abord exécuter les routines pour regrouper les items (clustering des items), assigner un score santé à ces items et également assigner un score santé aux cafés. Cela est nécessaire car les algorithmes ont besoins du cluster et des score santé pour fonctionner.\\
+
+En raison du temps d'exécution assez long (à cause du manque d'optimisation présenté dans la \hyperref[discussion]{\textit{section 5.2}}), nous avons pensé temporairement retirer un algorithme (filtrage collaboratif) car, ce dernier prend le plus temps pour s'exécuter. L'algorithme sera rajouté de nouveau après qu'il ait subit quelques modifications qui sont présenté dans la \hyperref[discussion]{\textit{section 5.2}}. En appliquant cette modification, les algorithmes sont planifié être exécutés toutes les 2h environ.
+
+\subsubsection{Base de donnée}
+Une nouvelle base de données pour les recommendation a été crée. Elle contient essentiellement de nouveaux attributs propre aux recommendations:\\
+
+\begin{itemize}
+	\item[$\bullet$] \textbf{User recommendation}: Cette collection contient les recommendations personnalisés pour chaque utilisateur (recommendations d'items et de cafés) ainsi que les informations uniques à chaque utilisateur (nom d'utilisateur et identifiant).\\
+	
+	\item[$\bullet$] \textbf{Cafe for recommendation}: Cette collection contient la liste des recommendations publiques, le slug et le score santé de chaque café.\\
+	
+	\item[$\bullet$] \textbf{Items}: Cette collection contient l'identifiant, le slug, le score santé et le cluster de chaque item.\\
+\end{itemize}
+
+Au niveau de l'API, 12 endpoints ont été rajoutés pour gérer les recommendations.
+
 \subsection{Illustration}
+Les modifications apportés dans le front-end se présentes à trois niveaux: l'ajout du profile nutritionnel, l'ajout de sections pour les recommendations publiques et personnalisés et l'ajout d'une section pour les recommendations de cafés personnalisés. Toutes les interfaces présenté plus bas peuvent être vu en \hyperref[images]{\textit{annexe}}.\\
+
+\textbf{A. Profil nutritionnel}\\
+\label{profileNutritionnel}
+Le profile nutritionnel a été rajouté dans le but de pouvoir récupérer toutes les informations nécessaire pour pouvoir faire les recommendations basés sur les connaissances. Le profile est séparé en trois sections mais les préférence nutritionnelles et les allergies sont regroupées ensemble car elles sont similaires. \\
+
+\begin{enumerate}
+	\item \textbf{Régimes alimentaires}: Cette section permet à l'utilisateur de sélectionner un ou plusieurs régimes alimentaires qu'il souhaite. Initalement, trois régimes sont présents: Cétogène, Méditéranéen et Végétarien. Chaque régime possède un nom, une description (facultative), une liste d'ingrédients/aliments qui ne doivent pas être consommés dans le régime et une liste des items que l'utilisateur voudrait avoir dans le régime. Une fonctionnalité qui n'a pas pu être rajouté à temps est l'affichage du nombre de cafés dans lesquels il existe des items respectant les spécification du régime alimentaire. L'utilisateur a l'option de rajouter un nouveau régime alimentaire s'il le souhaite. Cependant, seule les régimes que ce dernier a rajouté sont éditable et supprimable. Les trois régimes affichés initalements ne sont ni éditable, ni supprimable par l'utilisateur.\\
+	
+	 \item \textbf{Préférences nutritionnelles et allergies}: La section pour les préférences nutritionnelles permet à l'utilisateur de sélectionner les nutriments qu'il souhaite retrouver dans les aliments qui lui sont recommendés et à quelle proportion ils devraient se retrouver dans l'item (faible, moyen ou élevé). La section des allergies permet à l'utilisateur de sélectionner les aliments auquels il est allergique (lait/lactose, arachide/noix etc.) et à quel degré ce dernier est allergique à ces aliments (faible, moyen, élevé).\\
+\end{enumerate}
+
+\textbf{B. Recommendation publiques et personnalisés}\\
+Pour l'affichage des recommendations publiques et personnalisés d'items, deux novelles boites ont été rajoutée dans le menu des cafés. Une boite "\textit{Pour moi}" contenant les items recommendés à l'utilisateur et une autre boite "\textit{Produits recommendés}" contenant les items recommendés à toute la communauté étudiante. La boite de recommendation personnalisée n'est visible que pour les utilisateurs qui sont connecté à l'application web.\\
+
+\textbf{C. Recommendation de cafés}\\
+L'affichage des recommendations de cafés se fait sur la page d'acceuil. En effet, une nouvelle section nommée "\textit{Recommendation}" a été rajoutée dans sur la page d'acceuil. Cette section contient les cafés qui ont été recommendés. Elle section n'est visible que pour les utilisateurs qui sont connecté à l'application web. En dessous de cette section se trouve la section "\textit{Tous les cafés}" qui contient tous les cafés de l'udem. Les cafés de cette section sont triés en fonction de leurs score santé de sorte à ce que les cafés vendant les items les plus sains soient affichés en premiers.\\
 
 \newpage
+
+
 \section{Évaluation}
 Pour s'assurer du bon fonctionnement des algorithmes intégrés à l'application web, des tests ont été éffectués tout au long du dévellopement. Les tests encourus sont divisés en 2 catégories:\\
 
@@ -372,6 +427,7 @@ De plus, j'ai présenté l'application à certains membres de ma famille peu fam
 Un commentaire fréquemment revenu concernait le manque d'animations dans le profil, qui sera une piste d'amélioration pour l'avenir.
 
 \subsection{Discussion}
+\label{discussion}
 Cette section est dédiée à effectuer des remarques et critiques sur les algorithmes. Les critiques seront effectués par rapport à l'optimalité (complexité et Scalabilité) et la robustesse de l'algorithme. Puisque les algorithmes de recommendation des cafés sont très similaires aux algorithmes de recommendations personnelles, les critiques de ces dernières sont aussi valables pour les cafés.
 
 \subsubsection{Filtrage collaboratif}
@@ -420,9 +476,20 @@ En résumé, cet algorithme souffre des même problème de robustesse et de réu
 
 \newpage
 \section{Conclusion}
+Ce rapport a présenté une approche complète pour le développement d'un système de recommandation de repas personnalisé, en tenant compte des préférences nutritionnelles, des restrictions alimentaires, et des préférences de l'utilisateur. Les différentes sections ont mis en lumière l'importance de l'intégration de multiples algorithmes, chacun étant conçu pour optimiser un aspect spécifique du processus de recommandation. L'utilisation d'algorithmes de filtrage collaboratif, de filtrage basé sur le contenu, et de recommandations basées sur la connaissance a permis de créer un système robuste capable de s'adapter aux besoins variés des utilisateurs.\\
 
-\newpage
+Les tests d'utilisabilité effectués ont permis d'affiner l'interface utilisateur, rendant le système plus intuitif et accessible. Les retours des utilisateurs ont été essentiels pour identifier des pistes d'amélioration, notamment l'intégration d'animations et d'améliorations visuelles pour enrichir l'expérience utilisateur.\\
+
+Enfin, les critiques apportées aux algorithmes, en termes de complexité, scalabilité, et robustesse, ont permis de souligner les points forts et les défis à relever dans l'avenir. L'optimalité des algorithmes, bien que satisfaisante dans le cadre actuel, pourrait bénéficier de futures optimisations pour traiter des jeux de données plus vastes et diversifiés.\\
+
+En conclusion, ce travail jette les bases d'une application de recommandation alimentaire personnalisée, avec un potentiel d'évolution et d'adaptation pour répondre aux nouvelles exigences des utilisateurs et du marché. Les prochaines étapes incluront l'amélioration continue des algorithmes et l'intégration de nouvelles fonctionnalités pour mieux servir les utilisateurs et enrichir leur expérience.
+
 \section{Remerciement}
+Il est important de mentionner que ce projet n’aurait pas vu le jour sans le support de \textbf{l’Université de 
+Montréal} et plus précisément, \textbf{Louis-Édouard LAFONTANT}, qui a supervisé et fourni une 
+précieuse aide durant le développement et \textbf{Dr. Stefan Monnier}, PhD qui chapeaute ce cours et a accepté de me 
+laisser poursuivre ce projet pendant la session.
+
 
 \newpage
 \section{Références}
@@ -446,6 +513,17 @@ cos(X, Y) = \frac{\langle X, Y \rangle}{||X|| ||Y||}
 
 où $cos(X, Y)$ est la similarité entre le vecteur d'attributs $X$ de l'utilisateur $x$ et le vecteur d'attributs $Y$ de l'utilisateur $y$.
 
+
+\newpage
+
+\newpage
+\subsection{Images de l'implémentation du front}
+\label{images}
+\subsubsection{Profil nutritionnel}
+
+\subsubsection{Recommendations personnalisés}
+
+\subsubsection{Recommendations de cafés}
 
 \newpage
 \subsection{Pseudo codes des algorithmes de recommandation}
