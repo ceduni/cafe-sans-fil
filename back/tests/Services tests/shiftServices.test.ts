@@ -1,5 +1,5 @@
-import { MainController } from "../../contollers/mainController";
-import ShiftService from "../../services/shiftServices";
+import { MainController } from "../../src/contollers/mainController";
+import ShiftService from "../../src/services/shiftServices";
 import { IShift } from "../../src/models/DatabaseModels/shiftModel";
 
 let server: MainController;

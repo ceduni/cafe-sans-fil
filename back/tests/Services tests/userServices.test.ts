@@ -1,5 +1,5 @@
-import { MainController } from "../../contollers/mainController";
-import UserService from "../../services/userServices";
+import { MainController } from "../../src/contollers/mainController";
+import UserService from "../../src/services/userServices";
 import { IUser } from "../../src/models/DatabaseModels/userModel";
 
 let server: MainController;

@@ -1,4 +1,4 @@
-import { MainController } from "../contollers/mainController";
+import { MainController } from "../src/contollers/mainController";
 import request from "supertest";
 
 describe("Get /", () => {

@@ -1,8 +1,8 @@
 import { Router, Request, Response } from "express";
 
-import { IUser } from "../src/models/DatabaseModels/userModel";
+import { IUser } from "../models/DatabaseModels/userModel";
 import ShiftService from "../services/shiftServices";
-import { IShift } from "../src/models/DatabaseModels/shiftModel";
+import { IShift } from "../models/DatabaseModels/shiftModel";
 
 export class ShiftRoutes {
   private _router: Router;

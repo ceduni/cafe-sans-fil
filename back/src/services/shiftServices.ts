@@ -1,4 +1,4 @@
-import { IShift, ShiftModel } from "../src/models/DatabaseModels/shiftModel";
+import { IShift, ShiftModel } from "../models/DatabaseModels/shiftModel";
 
 export class ShiftService {
   public constructor() {}

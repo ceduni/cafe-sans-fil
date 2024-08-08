@@ -1,9 +1,7 @@
-
-import {Ordes} from "../src/models/OrdeModel";
-import { Stock, IStock } from "../src/models/StockModel";
+import { Ordes } from "../models/OrdeModel";
+import { Stock, IStock } from "../models/StockModel";
 
 export class ProductService {
- 
   public constructor() {}
 
   /**
@@ -14,11 +12,10 @@ export class ProductService {
   public async getSales(productName?: string): Promise<any[]> {
     try {
       const query = productName ? { "items.item_name": productName } : {};
-      
+
       const salesData = await Ordes.find(query).exec();
       return salesData;
-    } 
-    catch (err) {
+    } catch (err) {
       console.error("Error fetching sales data:", err);
       return [];
     }
@@ -38,16 +35,15 @@ export class ProductService {
     }
   }
 
-  public async addOrder(order: any):Promise<{message:string}> {
+  public async addOrder(order: any): Promise<{ message: string }> {
     try {
-      const newOrder = new  Ordes(order);
+      const newOrder = new Ordes(order);
       await newOrder.save();
       return { message: "Order added successfully" };
     } catch (err) {
       console.error("Error adding order:", err);
       return { message: "Error adding order" };
     }
-    
   }
 }
 

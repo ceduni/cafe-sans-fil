@@ -1,6 +1,6 @@
 import request from "supertest";
-import { MainController } from "../../contollers/mainController";
-import UserService from "../../services/userServices";
+import { MainController } from "../../src/contollers/mainController";
+import UserService from "../../src/services/userServices";
 
 let server: MainController;
 let userService: UserService;

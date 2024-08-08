@@ -1,5 +1,5 @@
-import { CafeModel, ICafe } from "../src/models/DatabaseModels/cafeModel";
-import { IUser, UserModel } from "../src/models/DatabaseModels/userModel";
+import { CafeModel, ICafe } from "../models/DatabaseModels/cafeModel";
+import { IUser, UserModel } from "../models/DatabaseModels/userModel";
 
 export class CafeService {
   public constructor() {}

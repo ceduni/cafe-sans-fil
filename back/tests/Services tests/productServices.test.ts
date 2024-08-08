@@ -1,5 +1,5 @@
-import { MainController } from "../../contollers/mainController";
-import { ProductService } from "../../services/productService";
+import { MainController } from "../../src/contollers/mainController";
+import { ProductService } from "../../src/services/productService";
 import { IStock } from "../../src/models/StockModel";
 import { Ordes } from "../../src/models/OrdeModel";
 

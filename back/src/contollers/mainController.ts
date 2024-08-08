@@ -3,7 +3,10 @@ import { ProductRoutes } from "../routes/productRoutes";
 import { UserRoutes } from "../routes/userRoutes";
 import { CafeRoutes } from "../routes/cafeRoutes";
 import { ShiftRoutes } from "../routes/shiftRoutes";
-import { Database } from "../src/database/DataBase";
+import { Database } from "../database/DataBase";
+
+// Charger les variables d'environnement
+require("dotenv").config({ path: ".env" });
 
 export class MainController {
   private app: Application;
@@ -17,10 +20,7 @@ export class MainController {
   public constructor() {
     this.app = express();
     this.PORT = process.env.PORT || 3000;
-    this.database = new Database(
-      "mongodb+srv://cafesansfil:cafesansfil@cluster0.lhfxwrd.mongodb.net/cafesansfilmobilenew?retryWrites=true&w=majority"
-    );
-
+    this.database = new Database(`${process.env.MONGODB_URI}` || "");
     this.productRoute = new ProductRoutes();
     this.userRoute = new UserRoutes();
     this.shiftRoute = new ShiftRoutes();

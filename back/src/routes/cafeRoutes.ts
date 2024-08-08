@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { CafeService } from "../services/cafeServices";
-import { ICafe } from "../src/models/DatabaseModels/cafeModel";
-import { IUser } from "../src/models/DatabaseModels/userModel";
+import { ICafe } from "../models/DatabaseModels/cafeModel";
+import { IUser } from "../models/DatabaseModels/userModel";
 
 export class CafeRoutes {
   private _router: Router;

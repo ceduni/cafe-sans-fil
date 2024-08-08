@@ -1,6 +1,6 @@
 import request from "supertest";
-import { MainController } from "../../contollers/mainController";
-import ShiftService from "../../services/shiftServices";
+import { MainController } from "../../src/contollers/mainController";
+import ShiftService from "../../src/services/shiftServices";
 
 let server: MainController;
 let shiftService: ShiftService;

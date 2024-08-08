@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { UserService } from "../services/userServices";
-import { IUser } from "../src/models/DatabaseModels/userModel";
+import { IUser } from "../models/DatabaseModels/userModel";
 
 export class UserRoutes {
   private _router: Router;

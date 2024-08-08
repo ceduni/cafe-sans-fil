@@ -1,4 +1,4 @@
-import { IUser, UserModel } from "../src/models/DatabaseModels/userModel";
+import { IUser, UserModel } from "../models/DatabaseModels/userModel";
 
 export class UserService {
   public constructor() {}

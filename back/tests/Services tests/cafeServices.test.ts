@@ -1,8 +1,8 @@
 /*look at the file productModel.ts, productRoutes.ts, productService.ts, MainController.ts and t
 ake them  as inspiration for generate for me all the test for productServices.test.ts */
 
-import { MainController } from "../../contollers/mainController";
-import CafeService from "../../services/cafeServices";
+import { MainController } from "../../src/contollers/mainController";
+import CafeService from "../../src/services/cafeServices";
 import { ICafe } from "../../src/models/DatabaseModels/cafeModel";
 import { IUser } from "../../src/models/DatabaseModels/userModel";
 
