@@ -86,47 +86,50 @@
 
 \tableofcontents
 
-\listoffigures
+% \listoffigures
 
-\lstlistoflistings
+% \lstlistoflistings
 
 \newpage
 \section{Introduction}
 \subsection{Contexte}
-Afin d'améliorer le service des cafés étudiants de l'Université de Montréal (UdeM), le projet Café sans-fil a été initié au trimestre d'automne 2023 durant lequel furent construits l'infrastructure backend et un premier prototype de l'application. Le projet a été poursuivi au trimestre d'hiver durant lequel l'application fut évaluée et enrichi par l'ajout d'éléments à caractères sociaux tel que les évènements, reflétant mieux la nature sociale des cafés étudiants. Le lancement de la plateforme est prévue pour la fin de cet été, intégrant le travail réalisé à l'hiver et des améliorations mineures additionnelles.\\
+Afin d'améliorer le service des cafés étudiants de l'Université de Montréal (UdeM), le projet Café sans-fil a été initié au trimestre d'automne 2023 durant lequel furent construits l'infrastructure backend et un premier prototype de l'application. Le projet a été poursuivi au trimestre d'hiver durant lequel l'application fut évaluée et enrichi par l'ajout d'éléments à caractères sociaux tel que les évènements, reflétant mieux la nature sociale des cafés étudiants. \\
 
 \subsection{Problématique}
-Cependant, faute d'exploitation des données fournis entre autre par les utilisateurs, l'expérience utilisateur actuelle manque grandement de personnalisation, impactant la satisfaction client. En effet, si un étudiant possède certaines restrictions ou préférences alimentaires ou des allergies, la plateforme ne l'aide nullement à satisfaire ses exigences (critères), résultant sur un plus lourd travail de recherche, pouvant décourager certains.
+Cependant, faute d'exploitation des données fournies entre autres par les utilisateurs, l'expérience utilisateur actuelle manque grandement de personnalisation, impactant la satisfaction client. En effet, si un étudiant possède certaines restrictions ou préférences alimentaires ou des allergies, la plateforme ne l'aide nullement à satisfaire ses exigences (critères), résultant sur un plus lourd travail de recherche, pouvant décourager certains étudiants.
 Cette lacune a aussi des conséquences sur les cafés, impactant les ventes et la fidélisation des clients ainsi que la prise de décision en vue d'une quelconque amélioration de leurs services et du menu. En effet, sans analyse de données, il est difficile pour les gérants d'optimiser le menu ou les services pour éviter des pertes et mieux répondre aux clients du café.\\
 
 \subsection{Proposition}
 En réponse aux problèmes énoncés, ce projet vise à mettre en place un système de recommandation utilisant les données fournies par les utilisateurs. Pour créer un moyen efficace de collecte et d'analyse de données nécessaire au système de recommandation, nous envisageons enrichir la plateforme avec de nouvelles fonctionnalités permettant aux utilisateurs de communiquer leurs préférences et réagir avec plus de choix aux propositions des cafés.\\
 
-Ce projet est motivé par l'ajout des fonctionnalités suivantes:\\
+Les principales contributions de ce projet sont:
 
 \begin{itemize}
-	\item[$\bullet$] \textbf{Amélioration de l'expérience décisionnel du gérant}: En effet, plus il y a de données disponibles, plus nous pouvons informer le gérant des possibles améliorations à faire au niveau du menu. Une profile permettant à l'utilisateur de spécifier ses préférences permettront au gérant de savoir quel item devrait être rajoutés ou retirés du menu à long terme.\\
+	\item[$\bullet$] \textbf{Amélioration du processus décisionnel du gérant}:
+    En augmentant la quantité et la qualité des données disponibles, nous pouvons offrir au gérant des informations pertinentes pour optimiser le menu et les services de son café. 
+    Un profil utilisateur détaillant les préférences personnelles permettra au gérant de mieux comprendre et suivre l'évolution des préférences alimentaires des étudiants et y répondre avec plus de certitude.
 	
-	\item[$\bullet$] \textbf{Amélioration de la recherche d'items}: Pour un utilisateur, il peut être parfois pénible de choisir un item respectant ses préférences sans connaître tous le menu. Ainsi, l'ajout d'une fonctionnalité de recommendation facilliterait cette étape de recherche.\\
-	
+	\item[$\bullet$] \textbf{Amélioration de la recherche d'items}: 
+    Pour un utilisateur, il peut être pénible de choisir un item respectant ses préférences sans connaître tout le menu. 
+    L'ajout d'une fonctionnalité de recommandation simplifiera ce processus de recherche, rendant l'expérience plus fluide et personnalisée.\\
 \end{itemize}
 
-Cafe sans fil est un projet open source. Le code peut être retrouvé sur \href{https://github.com/ceduni/cafe-sans-fil/tree/Samir}{\textit{\underline{github}}}.
+Café Sans Fil est un projet open source en cours de développement, dont le code source est accessible sur GitHub\footnote{\url{https://github.com/ceduni/cafe-sans-fil/tree/Samir}}.
 
 
 \newpage
 
-\section{Système de recommendation}
+\section{Système de recommandations}
 \subsection{Introduction et définition}
 À l'ère numérique actuelle, la vaste quantité d'informations et de choix disponibles peut être écrasante pour les utilisateurs, qu'ils naviguent en ligne pour acheter des produits, choisir un film à regarder ou sélectionner un restaurant pour dîner. Les systèmes de recommandation sont devenus des outils essentiels pour aider les utilisateurs à naviguer dans cette abondance d'options en leur suggérant des éléments qui correspondent à leurs préférences et à leurs besoins. Ces systèmes sont largement utilisés dans divers secteurs, tels que le commerce en ligne, le divertissement et les réseaux sociaux, où ils jouent un rôle crucial dans l'amélioration de l'expérience utilisateur et le renforcement de l'engagement.\\
 
 Ainsi, un système de recommandation est une application logicielle qui prédit et suggère des éléments aux utilisateurs en fonction de leurs préférences, comportements et interactions. Ces éléments peuvent varier, allant des produits, services et contenus aux connexions sociales, voire aux expériences. L'objectif principal d'un système de recommandation est de filtrer de grandes quantités de données et de fournir des recommandations personnalisées qui sont les plus pertinentes pour l'utilisateur individuel.
-Les systèmes de recommandation fonctionnent grâce à différentes techniques, telles que le filtrage collaboratif, le filtrage basé sur le contenu et les approches hybrides qui combinent plusieurs méthodes qui sont présentées dans la sous section suivante.
+Les systèmes de recommandation fonctionnent grâce à différentes techniques, telles que le filtrage collaboratif, le filtrage basé sur le contenu et les approches hybrides qui combinent plusieurs méthodes qui sont présentées dans la sous-section suivante.
 
 
 \subsection{Algorithmes}
 \label{2.2}
-Dans cette section, je présente les principaux algorithmes de recommendation utilisés dans le cadre du projet. Pour chacun de ces algorithmes nous verront comment il fonctionne ainsi que ses points fort et ses points faibles.
+Dans cette section, je présente les principaux algorithmes de recommandation utilisés dans le cadre du projet. Pour chacun de ces algorithmes, nous verrons comment il fonctionne ainsi que ses points forts et ses points faibles.
 \subsubsection{Filtrage collaboratif}
 Le filtrage collaboratif \cite{anandhan2018social} est une technique de recommandation qui repose sur l'idée que les utilisateurs ayant montré des préférences similaires dans le passé auront des préférences similaires à l'avenir. L'algorithme peut être divisé en deux sous-catégories principales : le filtrage collaboratif basé sur les utilisateurs (user-based) et le filtrage collaboratif basé sur les éléments (item-based).\\
 
@@ -138,7 +141,7 @@ Jaccard(x, y) = \frac{\sum_{i = 1}^n X[i] \land Y[i]}{\sum_{i = 1}^n X[i] \vee Y
 \end{equation}
 \label{jaccard}
 
-où $\text{Jaccard}(x, y)$ est la similarité entre l'utilisateur $x$ et l'utilisateur $y$. $X$ correspond à une liste d'attribut propre à l'utilisateur $x$ et $Y$ correspond à une liste d'attribut propre à l'utilisateur $y$. Ainsi, la similarité est calculé en prenant le quotient entre le nombre d'attributs que les deux utilisateurs ont en commun et le nombre total d'attributs.\\
+où $\text{Jaccard}(x, y)$ est la similarité entre l'utilisateur $x$ et l'utilisateur $y$. $X$ correspond à une liste d'attribut propre à l'utilisateur $x$ et $Y$ correspond à une liste d'attribut propre à l'utilisateur $y$. Ainsi, la similarité est calculée en prenant le quotient entre le nombre d'attributs que les deux utilisateurs ont en commun et le nombre total d'attributs.\\
 
 \begin{equation}
 \rho(u, v) = \frac{\sum_{i \in I_{uv}} (r_{u,i} - \overline{r}_u)(r_{v,i} - \overline{r}_v)}{\sqrt{\sum_{i \in I_{uv}} (r_{u,i} - \overline{r}_u)^2}\sqrt{\sum_{i \in I_{uv}} (r_{v,i} - \overline{r}_v)^2}}
@@ -158,7 +161,7 @@ où $cos(X, Y)$ est la similarité entre le vecteur d'attributs $X$ de l'utilisa
 
 Le filtrage collaboratif basé sur les éléments recommande des éléments similaires à ceux qu'un utilisateur a déjà appréciés. La similarité entre les éléments peut être calculée de manière analogue à la similarité entre les utilisateurs, en utilisant des mesures comme la corrélation ou la distance cosinus ou la similarité jaccard.\\
 
-Cet algorithme fait partie des algorithmes les plus utilisés pour effectuer des recommendations. Il est souvent utilisé pour faire des recommendation de films (sur Netflix par exemple) à des utilisateurs basé sur le profile des personnes amis et/ou similaire à l'utilisateur à qui les recommendations sont faites. Il est également présent dans les recommendation faite au niveau des réseaux sociaux comme instagram, X(Twitter), TikTok. \cite{anandhan2018social}
+Cet algorithme fait partie des algorithmes les plus utilisés pour effectuer des recommandations. Il est souvent utilisé pour faire des recommandations de films (sur Netflix par exemple) à des utilisateurs basé sur le profilé des personnes amies et/ou similaire à l'utilisateur à qui les recommandations sont faites. Il est également présent dans les recommandations faites au niveau des réseaux sociaux comme Instagram, X(Twitter), TikTok. \cite{anandhan2018social}
 
 \subsubsection{Filtrage basé sur le contenu}
 Le \cite{rolanda2023content} filtrage basé sur le contenu repose sur les caractéristiques des éléments eux-mêmes pour effectuer des recommandations. Donc, il n'a besoin que des informations liées à l'utilisateur (historique de visionnage ou d'achat, items aimés...). L'idée est de recommander à l'utilisateur des éléments similaires à ceux qu'il a déjà appréciés en se basant sur les attributs des éléments.
@@ -174,29 +177,29 @@ L'une des approches les plus courantes est la correspondance entre les caractér
 
 \subsubsection{Avantages et Inconvénients}
 
-Chaque méthode de recommandation a ses propres avantages et inconvénients. Le filtrage collaboratif est puissant mais souffre du problème de démarrage à froid (cold start), où il est difficile de faire des recommandations pour de nouveaux utilisateurs ou de nouveaux éléments. Le filtrage basé sur le contenu peut contourner ce problème, mais il peut parfois être trop restrictif, ne recommandant que des éléments très similaires à ceux déjà appréciés par l'utilisateur. Les systèmes basés sur les connaissances, bien qu'ils puissent fournir des recommandations très pertinentes, nécessitent une connaissance experte et peuvent être difficiles à maintenir à grande échelle.
+Chaque méthode de recommandation a ses propres avantages et inconvénients. Le filtrage collaboratif est puissant, mais souffre du problème de démarrage à froid (cold start), où il est difficile de faire des recommandations pour de nouveaux utilisateurs ou de nouveaux éléments. Le filtrage basé sur le contenu peut contourner ce problème, mais il peut parfois être trop restrictif, ne recommandant que des éléments très similaires à ceux déjà appréciés par l'utilisateur. Les systèmes basés sur les connaissances, bien qu'ils puissent fournir des recommandations très pertinentes, nécessitent une connaissance experte et peuvent être difficiles à maintenir à grande échelle.
 
 \subsubsection{Systèmes hybrides}
-Un \cite{burke2002hybrid} système de recommandation hybride combine plusieurs approches de recommandation pour améliorer la qualité et la précision des recommandations. Contrairement aux systèmes de recommandation purement collaboratifs ou basés sur le contenu, les systèmes hybrides utilisent des techniques variées pour exploiter les forces et compenser les faiblesses de chaque méthode individuelle. Un exemple de système hybrique serait un système qui intégrerait les algorithmes de filtrage collaboratif, filtrage basé sur le contenu et filtrage basé sur les connaissances. \\
+Un \cite{burke2002hybrid} système de recommandation hybride combine plusieurs approches de recommandation pour améliorer la qualité et la précision des recommandations. Contrairement aux systèmes de recommandation purement collaboratifs ou basés sur le contenu, les systèmes hybrides utilisent des techniques variées pour exploiter les forces et compenser les faiblesses de chaque méthode individuelle. Un exemple de système hybride serait un système qui intégrerait les algorithmes de filtrage collaboratif, filtrage basé sur le contenu et filtrage basé sur les connaissances. \\
 
-Cela permettrait de réduire le problème de démarage à froid tout en faisant des recommendations qui ne sont pas trop restrictifs. Un tel système aura aussi la possibilité de faire des recommendation basé sur les préférences de l'utilisateur.\\
+Cela permettrait de réduire le problème de démarrage à froid tout en faisant des recommandations qui ne sont pas trop restrictives. Un tel système aura aussi la possibilité de faire des recommandations basées sur les préférences de l'utilisateur.\\
 
 En combinant plusieurs sources d'informations, les systèmes hybrides peuvent fournir une couverture plus large des éléments recommandés, augmentant ainsi la diversité des recommandations proposées aux utilisateurs.\\
 
-Cependant, la mise en œuvre d'un système hybride peut être plus complexe en raison de la nécessité de gérer et d'intégrer différentes techniques de recommandation. Ce type de système peut-être plus difficile à optimiser en raison des différentes combinaisons possible d'algorithmes. Elle peuvent être également couteuse en terme de calcul et de stockage.
+Cependant, la mise en œuvre d'un système hybride peut être plus complexe en raison de la nécessité de gérer et d'intégrer différentes techniques de recommandation. Ce type de système peut-être plus difficile à optimiser en raison des différentes combinaisons possibles d'algorithmes. Elles peuvent être également couteuses en termes de calcul et de stockage.
 
 
-\subsubsection{Autre algorithmes}
+\subsubsection{Autres algorithmes}
 
 \textbf{Recommendation basé sur des models}\\
-Un \cite{hrnjica2020model} système de recommandation basé sur les modèles est un type de système de recommendation qui fournit des recommandations personnalisées aux utilisateurs en utilisant des modèles d’apprentissage automatique (réseaux de neurones, classification Bayésienne, machines à vecteurs de support) pour prédire une note qu’un utilisateur attribuerait à un article ou des items qu'un utilisateur aimerait par exemple. Après que le modèle a été entraîné, l’article avec le plus grand score est recommandé à l’utilisateur.\\
+Un \cite{hrnjica2020model} système de recommandation basé sur les modèles est un type de système de recommandation qui fournit des recommandations personnalisées aux utilisateurs en utilisant des modèles d’apprentissage automatique (réseaux de neurones, classification Bayésienne, machines à vecteurs de support) pour prédire une note qu’un utilisateur attribuerait à un article ou des items qu'un utilisateur aimerait par exemple. Après que le modèle a été entraîné, l’article avec le plus grand score est recommandé à l’utilisateur.\\
 
 Une sous-catégorie des systèmes de recommandation basés sur les modèles est \cite{aditya2016comparative} le filtrage collaboratif basé sur les modèles. Il utilise des modèles pour prédire l’évaluation par les utilisateurs des éléments non notés. Il existe deux grands types de filtrage collaboratif par article : les modèles binaires qui se basent uniquement sur le fait qu’un utilisateur ait acheté/sélectionné/coché ou non un bien donné, et les modèles avec évaluations où les utilisateurs sont invités à noter les différents produits.
 
 
 \newpage
 \section{Conception}
-Dans cette section, je présenterai comment chacun des algorithmes de recommendation est intégré à l'application web \textit{Café sans-fil}. La figure ci-dessous présente une vue haut niveau des différents algorithmes de recommendations. Chaque diagramme (représentant un algorithme) sera présenté dans les sections suivantes.
+Dans cette section, je présenterai comment chacun des algorithmes de recommandation est intégré à l'application web \textit{Café sans-fil}. La figure ci-dessous présente une vue de haut niveau des différents algorithmes de recommandations. Chaque diagramme (représentant un algorithme) sera présenté dans les sections suivantes.
 \begin{figure}[h]
 %\includegraphics[scale=0.3]{Pipeline.jpg}
 %\includesvg[scale=0.3]{Pipeline.drawio.svg}
@@ -205,9 +208,9 @@ Dans cette section, je présenterai comment chacun des algorithmes de recommenda
 \end{figure}
 
 \subsection{Recommendation public (globales) d'items}
-Les recommendations publiques s'addressent à toute la communauté étudiante ainsi que les professeurs. Elles se basent sur les items les plus aimés (likés) et les items les plus achetés par l'ensemble des utilisateurs. Ces recommendations sont affichées à titre indicatif pour l'utilisateur dans le sens où il pourra savoir, de façon global, qu'est-ce que les autres utilisateurs apprécient.\\
+Les recommandations publiques s'adressent à toute la communauté étudiante ainsi que les professeurs. Elles se basent sur les items les plus aimés (likes) et les items les plus achetés par l'ensemble des utilisateurs. Ces recommandations sont affichées à titre indicatif pour l'utilisateur dans le sens où il pourra savoir, de façon global, qu'est-ce que les autres utilisateurs apprécient.\\
 
-Cet algorithme fonctionne principalement par filtrage. En effet, pour un menu donné (un ensemble d'items), un premier filtrage est éffectué en conservant uniquement les items possédent le plus grand nombre de likes. Ensuite, parmi les items les plus aimés, un second filtrage est effectué pour conserver les items les plus achetés. Le nombre d'items conservé est limité à 10 pour ne pas surchargé l'interface au niveau du front-end. Voici un pseudo code présentant le fonctionnement de l'algorithme:
+Cet algorithme fonctionne principalement par filtrage. En effet, pour un menu donné (un ensemble d'items), un premier filtrage est effectué en conservant uniquement les items possède le plus grand nombre de likes. Ensuite, parmi les items les plus aimés, un second filtrage est effectué pour conserver les items les plus achetés. Le nombre d'items conservé est limité à 10 pour ne pas surcharger l'interface au niveau du front-end. Voici un pseudo-code présentant le fonctionnement de l'algorithme:
 
 \begin{algorithm}
     \caption{Recommandation globale}
@@ -236,18 +239,18 @@ Cet algorithme fonctionne principalement par filtrage. En effet, pour un menu do
 \end{algorithm}
 
 \newpage
-\subsection{Recommandations Personnalisées}
-Contrairement aux recommandations publiques, les recommandations personnalisées sont spécifiquement adaptées à chaque utilisateur. Elles s’appuient sur les trois algorithmes présentés précédemment dans la \hyperref[2.2]{\textit{section 2.2}}. Les recommandations personnalisées se déclinent en deux catégories : les recommandations d'items et les recommandations de cafés. Le système de recommandations d'items suggère des articles aux utilisateurs en utilisant les trois algorithmes mentionnés. Pour les recommandations de cafés, le filtrage collaboratif est utilisé de manière similaire, à la différence que les \textit{outputs} des recommandations sont des cafés. Cependant, le filtrage basé sur le contenu est partiellement appliqué aux café alors que les recommandations basées sur les connaissances ne sont pas appliqués aux cafés.
+\subsection{Recommandations personnalisées}
+Contrairement aux recommandations publiques, les recommandations personnalisées sont spécifiquement adaptées à chaque utilisateur. Elles s’appuient sur les trois algorithmes présentés précédemment dans la \hyperref[2.2]{\textit{section 2.2}}. Les recommandations personnalisées se déclinent en deux catégories : les recommandations d'items et les recommandations de cafés. Le système de recommandations d'items suggère des articles aux utilisateurs en utilisant les trois algorithmes mentionnés. Pour les recommandations de cafés, le filtrage collaboratif est utilisé de manière similaire, à la différence que les \textit{outputs} des recommandations sont des cafés. Cependant, le filtrage basé sur le contenu est partiellement appliqué aux café alors que les recommandations basées sur les connaissances ne sont pas appliquées aux cafés.
 
 \subsubsection{Filtrage Collaboratif}
-Dans le cadre de \textit{Café sans-fil}, l'algorithme de filtrage collaboratif repose sur la similarité entre un utilisateur et les autres. La similarité entre deux utilisateurs est calculée en utilisant la \hyperref[jaccard]{\textit{similarité Jaccard}}. Les caractéristiques utilisées pour évaluer cette similarité incluent : les items aimés par l'utilisateur, les items achetés, et les cafés visités. Ces caractéristiques ont été sélectionnées car elles reflètent fidèlement les habitudes de consommation propres à chaque utilisateur. Une fois la similarité calculée sur la base de ce vecteur d'attributs, seuls les utilisateurs présentant une similarité supérieure à un certain seuil sont retenus. Ce seuil est fixé à 60\% pour les données de test, mais il sera ajusté lors du déploiement sur des données réelles.\
+Dans le cadre de \textit{Café sans-fil}, l'algorithme de filtrage collaboratif repose sur la similarité entre un utilisateur et les autres. La similarité entre deux utilisateurs est calculée en utilisant la \hyperref[jaccard]{\textit{similarité Jaccard}}. Les caractéristiques utilisées pour évaluer cette similarité incluent : les items aimés par l'utilisateur, les items achetés, et les cafés visités. Ces caractéristiques ont été sélectionnées, car elles reflètent fidèlement les habitudes de consommation propres à chaque utilisateur. Une fois la similarité calculée sur la base de ce vecteur d'attributs, seuls les utilisateurs présentant une similarité supérieure à un certain seuil sont retenus. Ce seuil est fixé à 60\% pour les données de test, mais il sera ajusté lors du déploiement sur des données réelles.\
 
-Si un item acheté par un utilisateur sélectionné n'a pas encore été acheté par l'utilisateur cible, un score (correspondant à la similarité entre les deux utilisateurs) est attribué à cet item. Pour les recommandations de cafés, ce score est attribué au café. Voici un pseudo code présentant le fonctionnement de l'algorithme:
+Si un item acheté par un utilisateur sélectionné n'a pas encore été acheté par l'utilisateur cible, un score (correspondant à la similarité entre les deux utilisateurs) est attribué à cet item. Pour les recommandations de cafés, ce score est attribué au café. Voici un pseudo-code présentant le fonctionnement de l'algorithme:
 
 \begin{algorithm}
     \caption{Collaborative filtering}
     \begin{algorithmic}[1]
-        \Statex \textbf{Description:} Recommandations basé sur les similarités entre utilisateurs.
+        \Statex \textbf{Description:} Recommandations basées sur les similarités entre utilisateurs.
         \Statex \textbf{Entrée:} Liste des utilisateurs de l'application ($U$), utilisateur ($u$)
         \Statex \textbf{Sortie:} Liste $L$ des recommandations
         \State \textbf{\textit{Algorithme(U[1...n], u):}}
@@ -272,7 +275,7 @@ Si un item acheté par un utilisateur sélectionné n'a pas encore été acheté
 \subsubsection{Filtrage Basé sur le Contenu}
 Dans le contexte de \textit{Café sans-fil}, les recommandations basées sur le contenu, en ce qui concerne les items, se fondent sur les groupes d'items les plus appréciés ainsi que sur la similarité entre ces items. Lors du prétraitement des données, les items sont regroupés en fonction de leur similarité à l'aide de l'algorithme de clustering \textit{KMeans}. Chaque cluster reçoit un score représentant le nombre d'items aimés par l'utilisateur dans ce cluster. Les clusters ayant le plus grand nombre de likes correspondent donc aux préférences de l'utilisateur. Ensuite, pour chaque cluster préféré, un score est attribué aux items de ce cluster que l'utilisateur n'a pas encore achetés, correspondant au score du cluster.\
 
-En ce qui concerne les cafés, aucun clustering n'est effectué. Seuls les cafés offrant le plus d'items appréciés par l'utilisateur sont proposés. Dans ce cas, le score représente le nombre d'items aimés par l'utilisateur dans un café. Le pseudo code de cet algorithme peut être retrouvé plus bas.
+En ce qui concerne les cafés, aucun clustering n'est effectué. Seuls les cafés offrant le plus d'items appréciés par l'utilisateur sont proposés. Dans ce cas, le score représente le nombre d'items aimés par l'utilisateur dans un café. Le pseudo-code de cet algorithme peut être retrouvé plus bas.
 
 \begin{algorithm}
     \caption{Content based filtering}
@@ -318,7 +321,7 @@ En ce qui concerne les cafés, aucun clustering n'est effectué. Seuls les café
 \end{algorithm}
 
 \subsubsection{Recommandations Basées sur les Connaissances}
-Tout comme les recommandations globales, les recommandations basées sur les connaissances fonctionnent par filtrage. Une interface utilisateur (profil nutritionnel) a été ajoutée pour collecter les préférences nutritionnelles des utilisateurs. Cette interface est présentée plus en détail dans la \hyperref[implementation]{\textit{section 4}}. À travers cette interface, il est possible de récupérer diverses préférences utilisateur telles que les régimes alimentaires suivis, les préférences nutritionnelles, et les allergies. Ensuite, les items du menu sont filtrés pour ne conserver que ceux compatibles avec le régime alimentaire choisi par l'utilisateur. Un second filtrage est appliqué pour respecter les autres préférences de l'utilisateur. Enfin, si certains items contiennent des allergènes de niveau 2 ou 3, ils sont retirés de la liste. Le pseudo code de cet algorithme peut être retrouvé plus bas.
+Tout comme les recommandations globales, les recommandations basées sur les connaissances fonctionnent par filtrage. Une interface utilisateur (profil nutritionnel) a été ajoutée pour collecter les préférences nutritionnelles des utilisateurs. Cette interface est présentée plus en détail dans la \hyperref[implementation]{\textit{section 4}}. À travers cette interface, il est possible de récupérer diverses préférences utilisateur telles que les régimes alimentaires suivis, les préférences nutritionnelles, et les allergies. Ensuite, les items du menu sont filtrés pour ne conserver que ceux compatibles avec le régime alimentaire choisi par l'utilisateur. Un second filtrage est appliqué pour respecter les autres préférences de l'utilisateur. Enfin, si certains items contiennent des allergènes de niveau 2 ou 3, ils sont retirés de la liste. Le pseudo-code de cet algorithme peut être retrouvé plus bas.
 
 \begin{algorithm}
     \caption{Knowledge based filtering}
@@ -350,7 +353,7 @@ Tout comme les recommandations globales, les recommandations basées sur les con
 Le robot de recommandation santé est conçu pour intégrer des items sains dans les recommandations personnalisées et publiques. Les items sont triés par ordre croissant de leur score santé (plus le score est bas, plus l'item est sain) et les items les plus sains sont ensuite intégrés aux recommandations. Cela vise à encourager la communauté étudiante à consommer davantage de produits sains.
 
 \subsection{Score santé}
-Les recommendations ne sont pas uniquement faites aux utilisateurs en se basant sur leur préférences et habitudes de consommation. En effet, chaque item possède un score santé représentant à quel point cet item est bon pour la santé des utilisateurs. Ensuite, en prenant la moyenne arithmétique du score des items d'un café, on attribut un score café aux cafés. Le score utilisé pour les items est le \textit{Nutri-score} \cite{hercberg2021nutri}. Le pseudo code peut être retrouvé plus bas.\\
+Les recommandations ne sont pas uniquement faites aux utilisateurs en se basant sur leur préférence et habitude de consommation. En effet, chaque item possède un score santé représentant à quel point cet item est bon pour la santé des utilisateurs. Ensuite, en prenant la moyenne arithmétique du score des items d'un café, on attribue un score café aux cafés. Le score utilisé pour les items est le \textit{Nutri-score} \cite{hercberg2021nutri}. Le pseudo-code peut être retrouvé plus bas.\\
 
 \textbf{Nutri-score}\\
 
@@ -364,7 +367,7 @@ Il est basé sur un algorithme qui calcule un score nutritionnel global pour cha
     \item[$\circ$] Éléments défavorables : Les nutriments et composés potentiellement nocifs, comme les acides gras saturés, les sucres ajoutés et le sel. Plus la présence de ces éléments est élevée, plus le score est défavorable.\\
 \end{itemize}
 
-Le score final est calculé en soustrayant le total des points obtenus pour les éléments défavorables du total des points obtenus pour les éléments favorables. Lorsque le score est affiché aux consommateurs, ce dernier est ensuite converti en une lettre allant de \textbf{A} (meilleure qualité nutritionnelle) à \textbf{E} (moins bonne qualité nutritionnelle). Cependant, dans le projet, puisque ce score n'est pas afficher au grand publique, il est concervé en valeur décimal dans le but de faciliter les calculs effectuer plus tard.\\
+Le score final est calculé en soustrayant le total des points obtenus pour les éléments défavorables du total des points obtenus pour les éléments favorables. Lorsque le score est affiché aux consommateurs, ce dernier est ensuite converti en une lettre allant de \textbf{A} (meilleure qualité nutritionnelle) à \textbf{E} (moins bonne qualité nutritionnelle). Cependant, dans le projet, puisque ce score n'est pas affiché au grand publique, il est conservé en valeur décimal dans le but de faciliter les calculs effectués plus tard.\\
 
 \textbf{Pourquoi le Nutri-score ?}\\
 
@@ -414,78 +417,70 @@ Plusieurs raisons justifient le choix de ce score:\\
 Cette section présente principalement les détails techniques de l'implémentation (principalement backend) propre au projet.
 
 \subsubsection{Technologies}
-Les technologies utilisés sont les même que celles qui était déjà présente dans l'application web à savoir :\\
+Les technologies employées restent inchangées par rapport à celles déjà intégrées dans l'application web:
+\textbf{Python} est utilisé pour la programmation côté serveur, \textbf{MongoDB} sert de base de données, \textbf{FastAPI} 
+est utilisé pour le développement de l'API, \textbf{ReactJS} pour le développement de l'application (frontend) et 
+\textbf{TailwindCSS} pour le style de l'application.\\
 
-\begin{itemize}
-	\item[$\bullet$] \textbf{Python} pour sa popularité pour le fait qu'il possèdes plusieurs librairies facilitant le dévellopement.\\
 
-	\item[$\bullet$] \textbf{MongoDB} pour la gestion de la base de données en rainson de sa flexibilitée et sa capacité à gérer la diversité.\\
-	
-	\item[$\bullet$] \textbf{FastAPI} pour le dévellopement de l'interface de programmation principalement en raison de ses performances élevées et sa facilité d'utilisation.\\
-	
-	\item[$\bullet$] \textbf{ReactJS} pour le dévellopement front-end (\hyperref[profileNutritionnel]{\textit{profil nutritionnel}}) em raison de sa popularité, la capacité de dévelloper des applications SPA(Single Page Application) ainsi que sa modularité.\\
-	
-	\item[$\bullet$] \textbf{TailwindCSS} pour le design de l'interface en raison de sa légereté.\\
-\end{itemize}
-
-Deux nouvelles librairies ont été rajouté dans le projet à savoir \textit{numpy} et \textit{sklearn}. C'est librairies sont utilisé pour effectuer le clustering des items. Nous avons choisie choisi la librairie \textit{sklearn} car elle est l'une des plus populaire pour effectuer du clustering. De plus, elle possède précisément les méthodes dont nous avons besoin. La pluspart des méthodes de \textit{sklearn} qui sont utilisées retournent des listes de type \textit{np.array} (numpy array) donc, l'utilisation de la librairie \textit{numpy} est nécessaire pour pouvoir utiliser \textit{sklearn}.
+Deux nouvelles librairies ont été rajoutées dans le projet à savoir \textit{numpy} et \textit{sklearn}. C'est les librairies sont utilisées pour effectuer le clustering des items. Nous avons choisie choisi la librairie \textit{sklearn} car elle est l'une des plus populaires pour effectuer du clustering. De plus, elle possède précisément les méthodes dont nous avons besoin. La plupart des méthodes de \textit{sklearn} qui sont utilisées retournent des listes de type \textit{np.array} (numpy array) donc, l'utilisation de la librairie \textit{numpy} est nécessaire pour pouvoir utiliser \textit{sklearn}.
 
 \subsubsection{Exécution}
-Dans un premier temps, il faudrait tout d'abord exécuter les routines pour regrouper les items (clustering des items), assigner un score santé à ces items et également assigner un score santé aux cafés. Cela est nécessaire car les algorithmes ont besoins du cluster et des score santé pour fonctionner. Ensuite, il n'y a pas d'ordre spécifique pour exécuter les algorithmes.\\
+Dans un premier temps, il faudrait tout d'abord exécuter les routines pour regrouper les items (clustering des items), assigner un score santé à ces items et également assigner un score santé aux cafés. Cela est nécessaire, car les algorithmes ont besoin du cluster et des score santé pour fonctionner. Ensuite, il n'y a pas d'ordre spécifique pour exécuter les algorithmes.\\
 
-En raison du temps d'exécution assez long (à cause du manque d'optimisation présenté dans la \hyperref[discussion]{\textit{section 5.2}}), nous avons pensé temporairement retirer un algorithme (filtrage collaboratif) car, ce dernier prend le plus temps pour s'exécuter. En effet, les algorithmes de filtrage collaboratifs, filtrage basé sur le contenu et filtrage basé sur les connaissances, exécutés tous ensemble, prennent approximativement 2h30 pour produire des recommendations. L'algorithme de filtrage collaboratif contribue en grande à ce temps d'exécution. Ainsi, l'algorithme sera rajouté de nouveau après qu'il ait subit quelques modifications qui sont présentés dans la \hyperref[discussion]{\textit{section 5.2}}. En appliquant cette modification, les algorithmes sont planifié être exécutés toutes les 2h environ.
+En raison du temps d'exécution assez long (à cause du manque d'optimisation présenté dans la \hyperref[discussion]{\textit{section 5.2}}), nous avons pensé temporairement retirer un algorithme (filtrage collaboratif), car, ce dernier prend le plus temps pour s'exécuter. En effet, les algorithmes de filtrage collaboratifs, filtrage basé sur le contenu et filtrage basé sur les connaissances, exécutés tous ensemble, prennent approximativement 2h30 pour produire des recommandations. L'algorithme de filtrage collaboratif contribue en grande à ce temps d'exécution. Ainsi, l'algorithme sera rajouté de nouveau après qu'il ait subi quelques modifications qui sont présentées dans la \hyperref[discussion]{\textit{section 5.2}}. En appliquant cette modification, les algorithmes sont planifiés être exécutés toutes les 2h environ.
 
-\subsubsection{Base de donnée}
-Une nouvelle base de données pour les recommendation a été crée. Elle contient essentiellement de nouveaux attributs propre aux recommendations:\\
+\subsubsection{Base de données}
+Une nouvelle base de données pour les recommandations a été créée. Elle contient essentiellement de nouveaux attributs propres aux recommandations:\\
 
 \begin{itemize}
-	\item[$\bullet$] \textbf{User recommendation}: Cette collection contient les recommendations personnalisés pour chaque utilisateur (recommendations d'items et de cafés) ainsi que les informations uniques à chaque utilisateur (nom d'utilisateur et identifiant).\\
+	\item[$\bullet$] \textbf{User recommendation}: Cette collection contient les recommandations personnalisées pour chaque utilisateur (recommandations d'items et de cafés) ainsi que les informations uniques à chaque utilisateur (nom d'utilisateur et identifiant).\\
 	
-	\item[$\bullet$] \textbf{Cafe for recommendation}: Cette collection contient la liste des recommendations publiques, le slug et le score santé de chaque café.\\
+	\item[$\bullet$] \textbf{Cafe for recommendation}: Cette collection contient la liste des recommandations publiques, le slug et le score santé de chaque café.\\
 	
 	\item[$\bullet$] \textbf{Items}: Cette collection contient l'identifiant, le slug, le score santé et le cluster de chaque item.\\
 \end{itemize}
 
 \subsubsection{API}
-Au niveau de l'API, 13 endpoints ont été rajoutés pour gérer les recommendations.\\
+Au niveau de l'API, 13 endpoints ont été rajoutés pour gérer les recommandations.\\
 
 \begin{itemize}
-	\item[$\bullet$] \textbf{Cafe et Items}: Quatre endpoints ont été rajoutés pour pouvoir récupérer et modifier les informations (score santé, recommendations publiques) des cafés et des items.\\
+	\item[$\bullet$] \textbf{Cafe et Items}: Quatre endpoints ont été rajoutés pour pouvoir récupérer et modifier les informations (score santé, recommandations publiques) des cafés et des items.\\
 	
-	\item[$\bullet$] \textbf{Users}: Cinq endpoints ont été rajoutés pour récupérer un utilisateur, ses recommendations (recommendation de cafés et d'items) et modifier les recommendations.\\
+	\item[$\bullet$] \textbf{Users}: Cinq endpoints ont été rajoutés pour récupérer un utilisateur, ses recommandations (recommandation de cafés et d'items) et modifier les recommandations.\\
 	
-	\item[$\bullet$] \textbf{Public}: Deux endpoints pour récupérer et modifier les recommendations publiques.\\
+	\item[$\bullet$] \textbf{Public}: Deux endpoints pour récupérer et modifier les recommandations publiques.\\
 	
-	\item[$\bullet$] \textbf{Bot}: Un endpoint a été rajouté pour récupérer les recommendations du robot de recommendation. Les recommendations sont calculés lors de l'appel de l'API donc, ces dernières ne sont pas stockés dans la base de données, ce qui jsutifie l'absence d'endpoints pour modifier les recommendations.\\
+	\item[$\bullet$] \textbf{Bot}: Un endpoint a été rajouté pour récupérer les recommandations du robot de recommandations. Les recommandations sont calculées lors de l'appel de l'API donc, ces dernières ne sont pas stockées dans la base de données, ce qui justifie l'absence d'endpoints pour modifier les recommandations.\\
 	
-	\item[$\bullet$] \textbf{Gérant}: Un endpoint a été rajouté pour récupérer les items désirés par les utilisateurs mais absent des cafés. \\
+	\item[$\bullet$] \textbf{Gérant}: Un endpoint a été rajouté pour récupérer les items désirés par les utilisateurs, mais absents des cafés. \\
 	
 \end{itemize}
 
 \subsection{Illustration}
-Les modifications apportés dans le front-end se présentes à trois niveaux: l'ajout du profile nutritionnel, l'ajout de sections pour les recommendations publiques et personnalisés et l'ajout d'une section pour les recommendations de cafés personnalisés. Toutes les interfaces présenté plus bas peuvent être vu en \hyperref[images]{\textit{annexe}}.\\
+Les modifications apportées dans le front-end se présentent à trois niveaux: l'ajout du profil nutritionnel, l'ajout de sections pour les recommandations publiques et personnalisées et l'ajout d'une section pour les recommandations de cafés personnalisés. Toutes les interfaces présentées plus bas peuvent être vu en \hyperref[images]{\textit{annexe}}.\\
 
 \textbf{A. Profil nutritionnel}\\
 \label{profileNutritionnel}
-Le profile nutritionnel a été rajouté dans le but de pouvoir récupérer toutes les informations nécessaire pour pouvoir faire les recommendations basés sur les connaissances. Le profile est séparé en trois sections mais les préférence nutritionnelles et les allergies sont regroupées ensemble car elles sont similaires. \\
+Le profil nutritionnel a été rajouté dans le but de pouvoir récupérer toutes les informations nécessaires pour pouvoir faire les recommandations basés sur les connaissances. Le profil est séparé en trois sections, mais les préférences nutritionnelles et les allergies sont regroupées ensemble, car elles sont similaires. \\
 
 \begin{enumerate}
-	\item \textbf{Régimes alimentaires}: Cette section permet à l'utilisateur de sélectionner un ou plusieurs régimes alimentaires qu'il souhaite. Initalement, trois régimes sont présents: Cétogène, Méditéranéen et Végétarien. Chaque régime possède un nom, une description (facultative), une liste d'ingrédients/aliments qui ne doivent pas être consommés dans le régime et une liste des items que l'utilisateur voudrait avoir dans le régime. Une fonctionnalité qui n'a pas pu être rajouté à temps est l'affichage du nombre de cafés dans lesquels il existe des items respectant les spécification du régime alimentaire. L'utilisateur a l'option de rajouter un nouveau régime alimentaire s'il le souhaite. Cependant, seule les régimes que ce dernier a rajouté sont éditable et supprimable. Les trois régimes affichés initalements ne sont ni éditable, ni supprimable par l'utilisateur.\\
+	\item \textbf{Régimes alimentaires}: Cette section permet à l'utilisateur de sélectionner un ou plusieurs régimes alimentaires qu'il souhaite. Initialement, trois régimes sont présents: Cétogène, Méditéranéen et Végétarien. Chaque régime possède un nom, une description (facultative), une liste d'ingrédients/aliments qui ne doivent pas être consommés dans le régime et une liste des items que l'utilisateur voudrait avoir dans le régime. Une fonctionnalité qui n'a pas pu être rajoutée à temps est l'affichage du nombre de cafés dans lesquels il existe des items respectant les spécifications du régime alimentaire. L'utilisateur a l'option de rajouter un nouveau régime alimentaire s'il le souhaite. Cependant, seuls les régimes que ce dernier a rajoutés sont éditables et supprimables. Les trois régimes affichés initialement ne sont ni éditables ni supprimables par l'utilisateur.\\
 	
-	 \item \textbf{Préférences nutritionnelles et allergies}: La section pour les préférences nutritionnelles permet à l'utilisateur de sélectionner les nutriments qu'il souhaite retrouver dans les aliments qui lui sont recommendés et à quelle proportion ils devraient se retrouver dans l'item (faible, moyen ou élevé). La section des allergies permet à l'utilisateur de sélectionner les aliments auquels il est allergique (lait/lactose, arachide/noix) et à quel degré ce dernier est allergique à ces aliments (faible, moyen, élevé).\\
+	 \item \textbf{Préférences nutritionnelles et allergies}: La section pour les préférences nutritionnelles permet à l'utilisateur de sélectionner les nutriments qu'il souhaite retrouver dans les aliments qui lui sont recommandés et à quelle proportion ils devraient se retrouver dans l'item (faible, moyen ou élevé). La section des allergies permet à l'utilisateur de sélectionner les aliments auquel il est allergique (lait/lactose, arachide/noix) et à quel degré ce dernier est allergique à ces aliments (faible, moyen, élevé).\\
 \end{enumerate}
 
-\textbf{B. Recommendation publiques et personnalisés}\\
-Pour l'affichage des recommendations publiques et personnalisés d'items, deux novelles boites ont été rajoutée dans le menu des cafés. Une boite "\textit{Pour moi}" contenant les items recommendés à l'utilisateur et une autre boite "\textit{Produits recommendés}" contenant les items recommendés à toute la communauté étudiante. La boite de recommendation personnalisée n'est visible que pour les utilisateurs qui sont connecté à l'application web.\\
+\textbf{B. Recommendation publique et personnalisée}\\
+Pour l'affichage des recommandations publiques et personnalisées d'items, deux nouvelles boites ont été rajoutées dans le menu des cafés. Une boite "\textit{Pour moi}" contenant les items recommandés à l'utilisateur et une autre boite "\textit{Produits recommandés}" contenant les items recommandés à toute la communauté étudiante. La boite de recommandation personnalisée n'est visible que pour les utilisateurs qui sont connectés à l'application web.\\
 
 \textbf{C. Recommendation de cafés}\\
-L'affichage des recommendations de cafés se fait sur la page d'acceuil. En effet, une nouvelle section nommée "\textit{Recommendation}" a été rajoutée dans sur la page d'acceuil. Cette section contient les cafés qui ont été recommendés. Elle section n'est visible que pour les utilisateurs qui sont connecté à l'application web. En dessous de cette section se trouve la section "\textit{Tous les cafés}" qui contient tous les cafés de l'udem. Les cafés de cette section sont triés en fonction de leurs score santé de sorte à ce que les cafés vendant les items les plus sains soient affichés en premiers.\\
+L'affichage des recommandations de cafés se fait sur la page d'acceuil. En effet, une nouvelle section nommée "\textit{Recommendation}" a été rajoutée dans sur la page d'acceuil. Cette section contient les cafés qui ont été recommandés. Elle section n'est visible que pour les utilisateurs qui sont connectés à l'application web. En dessous de cette section se trouve la section "\textit{Tous les cafés}" qui contient tous les cafés de l'UdeM. Les cafés de cette section sont triés en fonction de leurs score santé afin que les cafés vendant les items les plus sains soient affichés en premiers.\\
 
 \newpage
 
 
 \section{Évaluation}
-Pour s'assurer du bon fonctionnement des algorithmes intégrés à l'application web, des tests ont été éffectués tout au long du dévellopement. Les tests encourus sont divisés en 2 catégories:\\
+Pour s'assurer du bon fonctionnement des algorithmes intégrés à l'application web, des tests ont été effectués tout au long du développement. Les tests encourus sont divisés en 2 catégories:\\
 
 \begin{itemize}
 	\item[$\bullet$] \textbf{Tests fonctionnels (à la boite noire)}: Ils vérifient la conformité du code aux exigences en évaluant si les sorties correspondent aux attentes pour des entrées données, sans se soucier des détails internes du programme.\\
@@ -503,13 +498,13 @@ Un total de 74 tests unitaires ont été réalisés. Environ 63 tests ont été 
 
 Les tests des algorithmes sont structurés comme suit :
 \begin{enumerate}
-	\item Chaque script contenant les tests d'un algorithme est subdivisé en \textit{class}. Chaque \textit{class} contient les différents tests correspondant à une méthode intermédiare utilisé dans l'algorithme. Ainsi, chaque méthode dans la \textit{class} s'assure de tester d'une ou de plus manière la fonction à tester. L'algorithme possède aussi une \textit{class} contenant ses tests. Si des méthodes intermédiaires ne nécéssitent qu'un seule cas de test, ces dernières sont inclusent dans la même \textit{class} de test que l'algorithme princiapale.\\
+	\item Chaque script contenant les tests d'un algorithme est subdivisé en \textit{class}. Chaque \textit{class} contient les différents tests correspondant à une méthode intermédiaire utilisée dans l'algorithme. Ainsi, chaque méthode dans la \textit{class} s'assure de tester d'une ou de plus manière la fonction à tester. L'algorithme possède aussi une \textit{class} contenant ses tests. Si des méthodes intermédiaires ne nécessitent qu'un seul cas de test, ces dernières sont incluses dans la même \textit{class} de test que l'algorithme principal.\\
 	
-	\item Dans le but de controller le mieux possible l'environement de test, les mocks sont utilisés pour éviter de biaiser le fonctionnement des algorithmes. Ainsi, ces derniers sont utilisés uniquement sur les méthodes faisant appel à l'API. Cela permet de s'assurer que si un test échoue, l'erreur est uniquement lié à l'algorithme lui même ou à son implémentation et non à un problème au niveau de l'API.\\
+	\item Dans le but de contrôler le mieux possible l'environnement de test, les mocks sont utilisées pour éviter de biaiser le fonctionnement des algorithmes. Ainsi, ces derniers sont utilisés uniquement sur les méthodes faisant appel à l'API. Cela permet de s'assurer que si un test échoue, l'erreur est uniquement liée à l'algorithme lui-même ou à son implémentation et non à un problème au niveau de l'API.\\
 	
 	\item Chaque \textit{class} de test contient, si nécessaire, une méthode \textit{setUp} qui permet d'initialiser les objets utilisés par plusieurs tests. Si un objet spécifique est requis pour faire un test et qu'il n'est requis que pour ce test, il est rajouté uniquement dans la méthode test.\\
 	
-	\item Les tests unitaires suivent le style \textbf{AAA}: \textbf{Arrange} (section du test initialisant les objets utilisé par la méthode à tester), \textbf{Act} (section où l’on invoque la méthode testée avec les paramètres créés précédemment) et \textbf{Assert} (section vérifiant que la méthode produit le comportement désiré).\\
+	\item Les tests unitaires suivent le style \textbf{AAA}: \textbf{Arrange} (section du test initialisant les objets utilisés par la méthode à tester), \textbf{Act} (section où l’on invoque la méthode testée avec les paramètres créés précédemment) et \textbf{Assert} (section vérifiant que la méthode produit le comportement désiré).\\
 \end{enumerate}
 
 La figure ci-dessous est un test unitaire vérifiant que l'algorithme de filtrage basé sur le contenu retourne bien les items qu'il devrait retourner dans le cas où un utilisateur a déjà acheté tous les items d'un café.
@@ -525,9 +520,7 @@ class TestContentBasedFiltering(unittest.TestCase):
                 'menu_items': [
                     {'slug': 'item1', 'likes': []}, 
                     {'slug': 'item2', 'likes': ['user1']},
-                    {'slug': 'item3', 'likes': ['user5', 'user3']},
-                    {'slug': 'item4', 'likes': ['user1', 'user3']},
-                    {'slug': 'item5', 'likes': ['user6', 'user3', 'user4']}
+                    ...
                 ]
             }, 
 			...
@@ -545,8 +538,7 @@ class TestContentBasedFiltering(unittest.TestCase):
             {'slug': 'item1', 'likes': []}, 
             {'slug': 'item2', 'likes': ['user1']},
             {'slug': 'item3', 'likes': ['user5', 'user3']},
-            {'slug': 'item4', 'likes': ['user1', 'user3']},
-            {'slug': 'item5', 'likes': ['user6', 'user3', 'user4']}
+            ...
         ], 200)
 
         # Mocking
@@ -564,7 +556,7 @@ class TestContentBasedFiltering(unittest.TestCase):
         self.assertCountEqual(main(user, cafe), ['item5', 'item4', 'item3', 'item2', 'item1'])
 \end{lstlisting}
 
-\subsubsection{Tests d'utilisatbilité}
+\subsubsection{Tests d'utilisabilité}
 Une fois une première version de l'interface pour le profil nutritionnel complétée, des tests d'utilisabilité ont été réalisés. Lors d'une foire aux projets qui s'est tenue le jeudi 25 juillet, il a été possible de recueillir des retours de la part des autres étudiants, ce qui a permis d'améliorer la présentation de l'interface utilisateur ainsi que l'expérience utilisateur du profil.\
 
 De plus, j'ai présenté l'application à certains membres de ma famille peu familiers avec les outils informatiques, dans le but d'obtenir des retours plus diversifiés. Ces commentaires ont été très pertinents pour améliorer l'expérience utilisateur de l'interface initiale.\
@@ -573,15 +565,15 @@ Un commentaire fréquemment revenu concernait le manque d'animations dans le pro
 
 \subsection{Discussion}
 \label{discussion}
-Cette section est dédiée à effectuer des remarques et critiques sur les algorithmes. Les critiques seront effectués par rapport à l'optimalité (complexité et Scalabilité) et la robustesse de l'algorithme. Puisque les algorithmes de recommendation des cafés sont très similaires aux algorithmes de recommendations personnelles, les critiques de ces dernières sont aussi valables pour les cafés.
+Cette section est dédiée à effectuer des remarques et critiques sur les algorithmes. Les critiques seront effectuées par rapport à l'optimalité (complexité et Scalabilité) et la robustesse de l'algorithme. Puisque les algorithmes de recommandation des cafés sont très similaires aux algorithmes de recommandations personnelles, les critiques de ces dernières sont aussi valables pour les cafés.
 
 \subsubsection{Filtrage collaboratif}
 \begin{itemize}
-	\item[$\bullet$] \textbf{Complexité temporelle:} Cet algorithme calcule la similarité entre l'utilisateur cible et tous les autres utilisateurs, ce qui peut entraîner une complexité de l'ordre de $O(n \times m)$, où $n$ est le nombre d'utilisateurs et $m$ est le nombre d'attributs comparés. Bien que cette approche soit fonctionnelle pour des jeux de données de taille modérée, elle devient peu optimale lorsque le nombre d'utilisateurs augmente significativement. Pour des systèmes à grande échelle comme l'\textit{UdeM} (l'université contient environ 67000 étudiants !), cela pourrait ralentir les performances, nécessitant potentiellement des techniques de réduction de la dimensionnalité comme les méthodes \textit{PCA} et \textit{MDS} pour réduire les nombre d'éléments à comparer lors du calcul de la similarité tout en conservant le plus d'information dans les données. En effet, l'utilisation de la similarité jaccard donne des résultats précis mais cet algorithme devient moins efficace pour de large données. L'utilisation des méthodes de clustering comme \textit{KMeans} pour regrouper les utilisateurs permettrait aussi d'améliorer sinificativement l'efficacité. \\
+	\item[$\bullet$] \textbf{Complexité temporelle:} Cet algorithme calcule la similarité entre l'utilisateur cible et tous les autres utilisateurs, ce qui peut entraîner une complexité de l'ordre de $O(n \times m)$, où $n$ est le nombre d'utilisateurs et $m$ est le nombre d'attributs comparés. Bien que cette approche soit fonctionnelle pour des jeux de données de taille modérée, elle devient peu optimale lorsque le nombre d'utilisateurs augmente significativement. Pour des systèmes à grande échelle comme l'\textit{UdeM} (l'université contient environ 67000 étudiants !), cela pourrait ralentir les performances, nécessitant potentiellement des techniques de réduction de la dimensionnalité comme les méthodes \textit{PCA} et \textit{MDS} pour réduire les nombres d'éléments à comparer lors du calcul de la similarité tout en conservant le plus d'information dans les données. En effet, l'utilisation de la similarité jaccard donne des résultats précis, mais cet algorithme devient moins efficace pour de larges données. L'utilisation des méthodes de clustering comme \textit{KMeans} pour regrouper les utilisateurs permettrait aussi d'améliorer significativement l'efficacité. \\
 	
-	\item[$\bullet$] \textbf{Scalabilité:} Comme mentionné précédement, cet algorithme peut rencontrer des difficultés à s'adapter à un grand nombre d'utilisateurs ou de données en raison de la nécessité de calculer des similarités entre chaque paire d'utilisateurs. Dans les cas où le nombre d'utilisateurs est très élevé, des approches alternatives comme le filtrage collaboratif basé sur des modèles (qui se trouve dans la famille des recommendations basé sur les models) seraient plus efficaces.\\
+	\item[$\bullet$] \textbf{Scalabilité:} Comme mentionné précédemment, cet algorithme peut rencontrer des difficultés à s'adapter à un grand nombre d'utilisateurs ou de données en raison de la nécessité de calculer des similarités entre chaque paire d'utilisateurs. Dans les cas où le nombre d'utilisateurs est très élevé, des approches alternatives comme le filtrage collaboratif basé sur des modèles (qui se trouve dans la famille des recommandations basée sur les models) seraient plus efficaces.\\
 	
-	\item[$\bullet$] \textbf{Robustesse:} Les différents scénarios possibles sont pris en compte par l'algorithme mais une meilleure gestion des erreurs et des exceptions, notamment en ajoutant des logs plus détaillés, améliorerait sa robustesse et faciliterait le débugage.\\
+	\item[$\bullet$] \textbf{Robustesse:} Les différents scénarios possibles sont pris en compte par l'algorithme, mais une meilleure gestion des erreurs et des exceptions, notamment en ajoutant des logs plus détaillés, améliorerait sa robustesse et faciliterait le débogage.\\
 	
 	\item[$\bullet$] \textbf{Réutilisabilité:} L'algorithme est étroitement couplé avec des appels à des utilitaires spécifiques, ce qui pourrait limiter sa réutilisabilité dans d'autres contextes ou projets. Une approche consistant à abstraire ces dépendances rendrait l'algorithme plus modulaire et adaptable à différents environnements ou bases de données.\\
 	
@@ -589,35 +581,35 @@ Cette section est dédiée à effectuer des remarques et critiques sur les algor
 	
 \end{itemize}
 
-En somme, pour une portentille amélioration de l'algorithme, il faudrait donc diminuer la dépendance de l'algorithme à d'autres modules de l'application, utiliser des méthodes de clustering ou de réduction de dimentionnalité pour augmenter son éfficacité et afficher des logs plus détaillés pour faciliter la maintenance des algorithmes.
+En somme, pour une potentielle amélioration de l'algorithme, il faudrait donc diminuer la dépendance de l'algorithme à d'autres modules de l'application, utiliser des méthodes de clustering ou de réduction de dimensionnalité pour augmenter son efficacité et afficher des logs plus détaillés pour faciliter la maintenance des algorithmes.
 
 \subsubsection{Filtrage basé sur le contenu}
 
 \begin{itemize}
-	\item[$\bullet$] \textbf{Complexité temporelle:} L'algorithme regroupe les items en clusters et itère sur ces derniers pour trouver ceux que l'utilisateur a le plus appréciés. La complexité de cette opération dépend du nombre de clusters et d'items par cluster. Similairement à l'algorithme de filtrage collaboratif, cette méthode pourrait rencontrer des problèmes de performance lorsque le nombre de clusters ou d'items est très élevé. L'utilisation d'une approche de pré-traitement, comme l'indexation inversée, pourrait potentiellement réduire les coûts de recherche.\\
+	\item[$\bullet$] \textbf{Complexité temporelle:} L'algorithme regroupe les items en clusters et itère sur ces derniers pour trouver ceux que l'utilisateur a le plus appréciés. La complexité de cette opération dépend du nombre de clusters et d'items par cluster. Similairement à l'algorithme de filtrage collaboratif, cette méthode pourrait rencontrer des problèmes de performance lorsque le nombre de clusters ou d'items est très élevé. L'utilisation d'une approche de prétraitement, comme l'indexation inversée, pourrait potentiellement réduire les coûts de recherche.\\
 	
-	\item[$\bullet$] \textbf{Scalabilité:} Le processus de sélection des clusters les plus appréciés pourrait être optimisé en pré-calculant et en stockant les résultats des préférences de l'utilisateur, plutôt que de les recalculer à chaque exécution de l'algorithme. Donc, il serait plus efficade de créer une routine qui calculerait les clsuters favoris de l'utilisateur et qui les mettrait à jour dans la base de données.\\
+	\item[$\bullet$] \textbf{Scalabilité:} Le processus de sélection des clusters les plus appréciés pourrait être optimisé en précalculant et en stockant les résultats des préférences de l'utilisateur, plutôt que de les recalculer à chaque exécution de l'algorithme. Donc, il serait plus efficace de créer une routine qui calculerait les clusters favoris de l'utilisateur et qui les mettrait à jour dans la base de données.\\
 	
-	\item[$\bullet$] \textbf{Robustesse:} Comme pour le filtrage collaboratif, l'ajout de logs plus détaillés permettront faciliteront le débugage et augmentront la robustesse de l'algorithme.\\
+	\item[$\bullet$] \textbf{Robustesse:} Comme pour le filtrage collaboratif, l'ajout de logs plus détaillés permettront faciliteront le débogage et augmenteront la robustesse de l'algorithme.\\
 
-	\item[$\bullet$] \textbf{Réutilisabilité:} L'algorithme est assez spécifique dans l'ensemble même si certaines composantes (script pour trouver les clusters favoris par exemple) peuvent être réutilisés dans d'autres contextes.\\
+	\item[$\bullet$] \textbf{Réutilisabilité:} L'algorithme est assez spécifique dans l'ensemble même si certaines composantes (script pour trouver les clusters favoris par exemple) peuvent être réutilisées dans d'autres contextes.\\
 		
 \end{itemize}
 
-En somme, l'utilisation d'indexage inversé, la réduction de la dépendance de l'algorithem avec d'autres modules de l'application ainsi l'ajout de meilleurs logs pour le débugage seraient des modifications qui améliorerait l'algorithme dans son ensemble.
+En somme, l'utilisation d'indexage inversé, la réduction de la dépendance de l'algorithme avec d'autres modules de l'application ainsi l'ajout de meilleurs logs pour le débogage serait des modifications qui améliorerait l'algorithme dans son ensemble.
 
 \subsubsection{Filtrage basé sur les connaissances}
 
 \begin{itemize}
-	\item[$\bullet$] \textbf{Complexité temporelle et scalabilité:} La complexité temporelle est de l'ordre de $O(n \times m \times k)$ dans le pire cas (l'utilisateur spécifie des préférences nutrives et des régimes alimentaires) où $n$ est le nombre d'items, $m$, le nombre de régimes alimentaire et $k$, le nombre de filtrages appliqués. Cet algorithme est acceptable avec une quantité faible ou moyenne de données mais, lorsque le nombre de données est élevé, la perfommance de l'algorithme pourrait significativement diminuer en raison des multiples filtrages qui sont appliqués. L'algorithme pourrait être amélioré en utilisant d'avantages des structures de données appropriées (les ensembles et dictionnaires), en évitant les calculs répétitifs (comme les comparaisons redondantes) et en réduisant le nombre d'opérations coûteuses.\\
+	\item[$\bullet$] \textbf{Complexité temporelle et scalabilitée:} La complexité temporelle est de l'ordre de $O(n \times m \times k)$ dans le pire cas (l'utilisateur spécifie des préférences nutritives et des régimes alimentaires) où $n$ est le nombre d'items, $m$, le nombre de régimes alimentaires et $k$, le nombre de filtrages appliqués. Cet algorithme est acceptable avec une quantité faible ou moyenne de données, mais, lorsque le nombre de données est élevé, la performance de l'algorithme pourrait significativement diminuer en raison des multiples filtrages qui sont appliqués. L'algorithme pourrait être amélioré en utilisant davantage des structures de données appropriées (les ensembles et dictionnaires), en évitant les calculs répétitifs (comme les comparaisons redondantes) et en réduisant le nombre d'opérations coûteuses.\\
 		
-	\item[$\bullet$] \textbf{Robustesse et réutilisatbilité :} Les commentaires faites aux algorithmes précédents s'appliquent aussi à cet algorithme.\\
+	\item[$\bullet$] \textbf{Robustesse et réutilisabilité :} Les commentaires faits aux algorithmes précédents s'appliquent aussi à cet algorithme.\\
 	
-	\item[$\bullet$] \textbf{Extensibilité:} Le point fort de cet algorithme serait son extensibilité en ce sens qu'il est très facile de rajouter de nouveaux filtres. Cependant, il serait quand même plus inérressant pour facilité l'ajout de nouveaux filtres, de regrouper les différents filtres dans un script différent de celui de l'algorithme.\\
+	\item[$\bullet$] \textbf{Extensibilité:} Le point fort de cet algorithme serait son extensibilité en ce sens qu'il est très facile de rajouter de nouveaux filtres. Cependant, il serait quand même plus intéressant pour faciliter l'ajout de nouveaux filtres, de regrouper les différents filtres dans un script différent de celui de l'algorithme.\\
 	
 \end{itemize}
 
-En résumé, cet algorithme souffre des même problème de robustesse et de réutilisabilité que les autres algorithme en ce sens qu'il dépend beaucoup trop des modules spécifiques à l'application web \textit{Café sans-fil}. L'algorithmes serait donc plus optimal dans l'ensemble en réduisant la dépendance avec d'autres modules de l'application et en ajoutant de meilleurs logs pour le débugage.
+En résumé, cet algorithme souffre des mêmes problèmes de robustesse et de réutilisabilité que les autres algorithmes en ce sens qu'il dépend beaucoup trop des modules spécifiques à l'application web \textit{Café sans-fil}. L'algorithme serait donc plus optimal dans l'ensemble en réduisant la dépendance avec d'autres modules de l'application et en ajoutant de meilleurs logs pour le débogage.
 
 \section{Conclusion}
 Ce rapport a présenté une approche complète pour le développement d'un système de recommandation de repas personnalisé, en tenant compte des préférences nutritionnelles, des restrictions alimentaires, et des préférences de l'utilisateur. Les différentes sections ont mis en lumière l'importance de l'intégration de multiples algorithmes, chacun étant conçu pour optimiser un aspect spécifique du processus de recommandation. L'utilisation d'algorithmes de filtrage collaboratif, de filtrage basé sur le contenu, et de recommandations basées sur la connaissance a permis de créer un système robuste capable de s'adapter aux besoins variés des utilisateurs.\\
@@ -635,7 +627,7 @@ précieuse aide durant le développement et \textbf{Dr. Stefan Monnier}, PhD qui
 laisser poursuivre ce projet pendant la session.
 
 \newpage
-\bibliographystyle{elsarticle-harv}
+\bibliographystyle{ieeetr}
 \bibliography{references}% common bib file
 
 \section*{Annexe}
@@ -650,7 +642,7 @@ laisser poursuivre ce projet pendant la session.
 \includegraphics[scale=0.3]{images/recommendation_cafe.png} \\
 %\caption{Recommendation des cafés}
 
-\caption{Images des recommendations}
+\caption{Images des recommandations}
 \end{figure}
 
 \begin{figure}[H]
@@ -663,7 +655,7 @@ laisser poursuivre ce projet pendant la session.
 \includegraphics[scale=0.5]{images/preferences_allergenes.png} \\
 %\caption{Préférences nutionnelles et allergènes}
 
-\caption{Image du profile nutritionnel}
+\caption{Image du profil nutritionnel}
 \end{figure}
 
 \begin{figure}[H]
@@ -701,7 +693,7 @@ laisser poursuivre ce projet pendant la session.
 \end{algorithm}
 
 \begin{algorithm}[H]
-    \caption{Clusters en fontion des préférences de l'utilisateur}
+    \caption{Clusters en fonction des préférences de l'utilisateur}
     \begin{algorithmic}[1]
     \Statex \textbf{Entrée:} Menu du restaurant ($M$)
     \Statex \textbf{Sortie:} Liste des régimes contenant les catégories de repas
