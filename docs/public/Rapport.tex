@@ -64,7 +64,7 @@
 
         \vspace{3cm}
         
-        \includegraphics[width=0.4\textwidth]{image_cafe.png}
+        \includegraphics[width=0.4\textwidth]{images/image_cafe.png}
 
         \vspace{2cm}
             
@@ -132,7 +132,7 @@ où $\text{Jaccard}(x, y)$ est la similarité entre l'utilisateur $x$ et l'utili
 
 Le filtrage collaboratif basé sur les éléments recommande des éléments similaires à ceux qu'un utilisateur a déjà appréciés. La similarité entre les éléments peut être calculée de manière analogue à la similarité entre les utilisateurs, en utilisant des mesures comme la corrélation ou la distance cosinus ou la similarité jaccard.\\
 
-Cet algorithme fait partie des algorithmes les plus utilisés pour effectuer des recommendations. Il est souvent utilisé pour faire des recommendation de films (sur Netflix par exemple) à des utilisateurs basé sur le profile des personnes amis et/ou similaire à l'utilisateur à qui les recommendations sont faites. Il est également présent dans les recommendation faite au niveau des réseaux sociaux comme instagram, X(Twitter), TikTok etc.
+Cet algorithme fait partie des algorithmes les plus utilisés pour effectuer des recommendations. Il est souvent utilisé pour faire des recommendation de films (sur Netflix par exemple) à des utilisateurs basé sur le profile des personnes amis et/ou similaire à l'utilisateur à qui les recommendations sont faites. Il est également présent dans les recommendation faite au niveau des réseaux sociaux comme instagram \cite{anandhan2018social}, X(Twitter), TikTok etc.
 
 \subsubsection{Filtrage basé sur le contenu}
 Le filtrage basé sur le contenu repose sur les caractéristiques des éléments eux-mêmes pour effectuer des recommandations. Donc, il n'a besoin que des informations liées à l'utilisateur (historique de visionnage ou d'achat, items aimés...). L'idée est de recommander à l'utilisateur des éléments similaires à ceux qu'il a déjà appréciés en se basant sur les attributs des éléments.
@@ -177,7 +177,7 @@ Dans cette section, je présenterai comment chacun des algorithmes de recommenda
 \begin{figure}[h]
 %\includegraphics[scale=0.3]{Pipeline.jpg}
 %\includesvg[scale=0.3]{Pipeline.drawio.svg}
-\includegraphics[scale=0.3]{Pipeline.drawio.png} 
+\includegraphics[scale=0.3]{images/Pipeline.drawio.png} 
 \caption{Architecture des algorithmes}
 \end{figure}
 
@@ -491,6 +491,9 @@ laisser poursuivre ce projet pendant la session.
 
 
 \newpage
+\bibliographystyle{elsarticle-harv}
+\bibliography{references}% common bib file
+
 \section{Références}
 
 Abhijit, Roy (2020, Juillet 29) \textit{Introduction To Recommender Systems- 1: Content-Based Filtering And Collaborative Filtering.} Récupéré sur Médium: \url{https://towardsdatascience.com/introduction-to-recommender-systems-1-971bd274f421}\\
@@ -552,7 +555,7 @@ où $cos(X, Y)$ est la similarité entre le vecteur d'attributs $X$ de l'utilisa
 \subsection{Images de l'implémentation du front}
 \label{images}
 
-\includegraphics[scale=0.3]{images/recommendation_personnalises.png} \\
+\includegraphics[scale=0.3]{images/recommendation_personnalises.png}+ \\
 %\caption{Recommendation personnalisés et publiques}
 
 \includegraphics[scale=0.3]{images/recommendation_cafe.png} \\
