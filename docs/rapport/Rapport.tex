@@ -247,6 +247,19 @@ Dans le cadre de \textit{Café sans-fil}, l'algorithme de filtrage collaboratif 
 
 Si un item acheté par un utilisateur sélectionné n'a pas encore été acheté par l'utilisateur cible, un score (correspondant à la similarité entre les deux utilisateurs) est attribué à cet item. Pour les recommandations de cafés, ce score est attribué au café. Voici un pseudo-code présentant le fonctionnement de l'algorithme:
 
+\begin{algorithm}[H]
+    \caption{Mesure similarité: Jaccard}
+    \begin{algorithmic}[1]
+    \Statex \textbf{Entrée:} Deux listes ou ensembles ($L_1, L_2$)
+    \Statex \textbf{Sortie:} Nombre décimal représentant la similarité
+    \State \textbf{\textit{Jaccard($L_1[1...n]$,$L_2[1...m]$):}}
+    \State \hspace{0.5cm} $union \leftarrow L_1 \cup L_2$
+    \State \hspace{0.5cm} $inter \leftarrow L_1 \cap L_2$
+    \State \hspace{0.5cm} \textbf{retourner} $inter.length/union.length$
+    \end{algorithmic}
+\end{algorithm}
+
+
 \begin{algorithm}
     \caption{Collaborative filtering}
     \begin{algorithmic}[1]
@@ -276,6 +289,21 @@ Si un item acheté par un utilisateur sélectionné n'a pas encore été acheté
 Dans le contexte de \textit{Café sans-fil}, les recommandations basées sur le contenu, en ce qui concerne les items, se fondent sur les groupes d'items les plus appréciés ainsi que sur la similarité entre ces items. Lors du prétraitement des données, les items sont regroupés en fonction de leur similarité à l'aide de l'algorithme de clustering \textit{KMeans}. Chaque cluster reçoit un score représentant le nombre d'items aimés par l'utilisateur dans ce cluster. Les clusters ayant le plus grand nombre de likes correspondent donc aux préférences de l'utilisateur. Ensuite, pour chaque cluster préféré, un score est attribué aux items de ce cluster que l'utilisateur n'a pas encore achetés, correspondant au score du cluster.\
 
 En ce qui concerne les cafés, aucun clustering n'est effectué. Seuls les cafés offrant le plus d'items appréciés par l'utilisateur sont proposés. Dans ce cas, le score représente le nombre d'items aimés par l'utilisateur dans un café. Le pseudo-code de cet algorithme peut être retrouvé plus bas.
+
+\begin{algorithm}[H]
+    \caption{Repas pas encore consommés}
+    \begin{algorithmic}[1]
+    \Statex \textbf{Entrée:} Menu du restaurant ($M$), utilisateur actuel ($u$)
+    \Statex \textbf{Sortie:} Liste de repas
+    \State \textbf{\textit{Algorithme(M[1...n], u)}}
+    \State \hspace{0.5cm} $L \leftarrow u.historique\_achat$
+    \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in L$
+    \State \hspace{1cm} \textbf{Si} $r \in M$:
+    \State \hspace{1.5cm} $M.retirer(r)$
+    \State \hspace{0.5cm} \textbf{retourner} $M$
+    \end{algorithmic}
+\end{algorithm}
+
 
 \begin{algorithm}
     \caption{Content based filtering}
@@ -322,6 +350,23 @@ En ce qui concerne les cafés, aucun clustering n'est effectué. Seuls les café
 
 \subsubsection{Recommandations Basées sur les Connaissances}
 Tout comme les recommandations globales, les recommandations basées sur les connaissances fonctionnent par filtrage. Une interface utilisateur (profil nutritionnel) a été ajoutée pour collecter les préférences nutritionnelles des utilisateurs. Cette interface est présentée plus en détail dans la \hyperref[implementation]{\textit{section 4}}. À travers cette interface, il est possible de récupérer diverses préférences utilisateur telles que les régimes alimentaires suivis, les préférences nutritionnelles, et les allergies. Ensuite, les items du menu sont filtrés pour ne conserver que ceux compatibles avec le régime alimentaire choisi par l'utilisateur. Un second filtrage est appliqué pour respecter les autres préférences de l'utilisateur. Enfin, si certains items contiennent des allergènes de niveau 2 ou 3, ils sont retirés de la liste. Le pseudo-code de cet algorithme peut être retrouvé plus bas.
+
+\begin{algorithm}[H]
+    \caption{Clusters en fonction des préférences de l'utilisateur}
+    \begin{algorithmic}[1]
+    \Statex \textbf{Entrée:} Menu du restaurant ($M$)
+    \Statex \textbf{Sortie:} Liste des régimes contenant les catégories de repas
+    \State \textbf{\textit{clusters(M[1...n])}}
+    \State \hspace{0.5cm} // Nous avons k régimes différents et p catégories de repas
+    \State \hspace{0.5cm} $R \leftarrow [[0...n]...k]$
+    \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in M$:
+    \State \hspace{1cm} mettre le repas dans un ensemble en fonction de son régime
+    \State \hspace{1cm} rajouter les différents régimes de repas à $R$
+    \State \hspace{0.5cm} \textbf{Pour chaque} régime $T[1...\ell] \in R$ 
+    \State \hspace{1cm} mettre chaque repas du même régime dans une catégorie 
+    \State \hspace{0.5cm} \textbf{retourner} $R[[[0...n]...p]...k]$
+    \end{algorithmic}
+\end{algorithm}
 
 \begin{algorithm}
     \caption{Knowledge based filtering}
@@ -663,50 +708,3 @@ laisser poursuivre ce projet pendant la session.
 \caption{Image complète du profil}
 \end{figure}
  
-
-\subsection*{Méthodes utilitaires}
-\label{annexe}
-\begin{algorithm}[H]
-    \caption{Repas pas encore consommés}
-    \begin{algorithmic}[1]
-    \Statex \textbf{Entrée:} Menu du restaurant ($M$), utilisateur actuel ($u$)
-    \Statex \textbf{Sortie:} Liste de repas
-    \State \textbf{\textit{Algorithme(M[1...n], u)}}
-    \State \hspace{0.5cm} $L \leftarrow u.historique\_achat$
-    \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in L$
-    \State \hspace{1cm} \textbf{Si} $r \in M$:
-    \State \hspace{1.5cm} $M.retirer(r)$
-    \State \hspace{0.5cm} \textbf{retourner} $M$
-    \end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[H]
-    \caption{Mesure similarité: Jaccard}
-    \begin{algorithmic}[1]
-    \Statex \textbf{Entrée:} Deux listes ou ensembles ($L_1, L_2$)
-    \Statex \textbf{Sortie:} Nombre décimal représentant la similarité
-    \State \textbf{\textit{Jaccard($L_1[1...n]$,$L_2[1...m]$):}}
-    \State \hspace{0.5cm} $union \leftarrow L_1 \cup L_2$
-    \State \hspace{0.5cm} $inter \leftarrow L_1 \cap L_2$
-    \State \hspace{0.5cm} \textbf{retourner} $inter.length/union.length$
-    \end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[H]
-    \caption{Clusters en fonction des préférences de l'utilisateur}
-    \begin{algorithmic}[1]
-    \Statex \textbf{Entrée:} Menu du restaurant ($M$)
-    \Statex \textbf{Sortie:} Liste des régimes contenant les catégories de repas
-    \State \textbf{\textit{clusters(M[1...n])}}
-    \State \hspace{0.5cm} // Nous avons k régimes différents et p catégories de repas
-    \State \hspace{0.5cm} $R \leftarrow [[0...n]...k]$
-    \State \hspace{0.5cm} \textbf{Pour chaque} repas $r \in M$:
-    \State \hspace{1cm} mettre le repas dans un ensemble en fonction de son régime
-    \State \hspace{1cm} rajouter les différents régimes de repas à $R$
-    \State \hspace{0.5cm} \textbf{Pour chaque} régime $T[1...\ell] \in R$ 
-    \State \hspace{1cm} mettre chaque repas du même régime dans une catégorie 
-    \State \hspace{0.5cm} \textbf{retourner} $R[[[0...n]...p]...k]$
-    \end{algorithmic}
-\end{algorithm}
-
-\end{document}

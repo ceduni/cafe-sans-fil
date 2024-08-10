@@ -1,12 +1,16 @@
 # 📅 Suivi
 
 
-<!-- ## Semaine 15 (2024-08-09)
+## Semaine 15 (2024-08-09)
 
 ### Objectifs
+- Régler les derniers problèmes.
+- Présentation du projet.
 
-### Réalisations
-
+<!-- ### Réalisations
+- Préparation du support de présentation
+- Ajout du endpoint pour la récupération des items désirés par les utilisateurs mais absent dans les menus.
+- Ajout des score des algorithmes pour chaque item dans la base de données.
 ### Observations
 
 ### Ressources -->
@@ -14,14 +18,11 @@
 ## Semaine 14 (2024-08-02)
 
 ### Objectifs
-- Régler les derniers bugs.
 - Compléter la docummentation et le rapport.
 
-<!-- ### Réalisations
-
-### Observations
-
-### Ressources -->
+### Réalisations
+- [Rapport](https://github.com/ceduni/cafe-sans-fil/blob/Samir/docs/rapport/Rapport.pdf) complété et soumit.
+- Documentation complétée.
 
 ## Semaine 13 (2024-07-26)
 
