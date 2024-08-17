@@ -17,7 +17,7 @@
 - Compléter la docummentation et le rapport.
 
 ### Réalisations
-- [Rapport](https://github.com/ceduni/cafe-sans-fil/blob/Samir/docs/rapport/Rapport.pdf) complété et soumit.
+- [Rapport](https://github.com/ceduni/cafe-sans-fil/blob/Samir/public/Rapport_IFT_3150.pdf) complété et soumit.
 - Documentation complétée.
 
 ## Semaine 13 (2024-07-26)
