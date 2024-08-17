@@ -7,13 +7,9 @@
 - Régler les derniers problèmes.
 - Présentation du projet.
 
-<!-- ### Réalisations
+### Réalisations
 - Préparation du support de présentation
 - Ajout du endpoint pour la récupération des items désirés par les utilisateurs mais absent dans les menus.
-- Ajout des score des algorithmes pour chaque item dans la base de données.
-### Observations
-
-### Ressources -->
 
 ## Semaine 14 (2024-08-02)
 
