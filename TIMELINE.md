@@ -369,3 +369,34 @@
 - Affichage du menu pour le cafe
 - Ajout de la fonctionnalité d'ajout d'un bénévole (front et back)
 - Début rédaction du rapport.
+
+## Semaine 14(2024-08-05)
+
+### Objectifs
+
+- Rédiger un rapport qui présente en détails la réalisation du projet dans son ensemble
+
+### Réalisations
+
+- Création et révision du rapport
+- Soumission du rapport
+
+### Ressources
+
+- Lien vers le rapport : (https://drive.google.com/file/d/1zKhVvYp2ab2NK3ZIFamoi-mGk0904yTo/view?usp=sharing)
+
+## Semaine 15(2024-08-12)
+
+### Objectifs
+
+- Réaliser une présentation concise qui présente le projet dans son ensemble
+
+### Réalisations
+
+- Création et révision des diapositives
+- Présentation du projet devant le jury et des invitées
+
+### Ressources
+
+- Lien vers le powerpoint de la présentation(
+  https://docs.google.com/presentation/d/1JVgQgfx4VYFSvjNlUNyGf1XqtjXbN3MU/edit?usp=sharing&ouid=114812385411748513073&rtpof=true&sd=true)
