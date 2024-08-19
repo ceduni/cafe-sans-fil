@@ -1,9 +1,12 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import AllergenStiker from '../AllergenSticker';
+import getCurrentUser from '@/utils/users';
 
 const Item = ({ data, onClick }) => {
     const { image, name, price, description, available } = data;
     const itemElement = useRef(null);
+    const [addAllergenSticker, setAddAllergenSticker] = useState(false);
 
     const handleClick = () => {
         if (itemElement.current) {

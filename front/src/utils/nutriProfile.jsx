@@ -7,7 +7,7 @@ export const DEFAULT_NUTRI_PROFILE = [
         checked: false, 
         is_starter: true,
         visited_cafes: [],
-        desired_foods: [],
+        desired_foods: ["Poisson pané", "Oeuf sur plat"],
     },
   
     {
@@ -17,7 +17,7 @@ export const DEFAULT_NUTRI_PROFILE = [
         checked: false, 
         is_starter: true, 
         visited_cafes: [],
-        desired_foods: ["Legumes", "Fruits"],
+        desired_foods: ["Pomme", "Orange", "Banane"],
     },
   
     {

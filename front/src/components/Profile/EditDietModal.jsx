@@ -71,7 +71,7 @@ const EditDietModal = ({ isOpen, setIsOpen, diets, diet, setDiets }) => {
 
                 <div className="col-span-5">
                     <label htmlFor="name" className="block mb-2 text-lg font-medium text-gray-900 dark:text-dark">
-                        Aliments désirés
+                        Items désirés
                     </label>
                     <TagInput 
                         tags={desiredFoods}

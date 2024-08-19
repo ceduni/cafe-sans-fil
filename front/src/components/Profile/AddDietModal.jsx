@@ -9,7 +9,7 @@ const AddDietModal = ({ isOpen, setIsOpen, diets, setDiets }) => {
 
     const emptyDiet = {
         name: "",
-        checked: false,
+        checked: true,
         is_starter: false,
         description: "",
         forbidden_foods: [],

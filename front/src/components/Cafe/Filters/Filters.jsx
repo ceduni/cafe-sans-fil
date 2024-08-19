@@ -5,6 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import Switch from "@/components/CustomSwitch";
 import { PAYMENT_METHODS } from "@/utils/cafe";
+import DietFilters from "@/components/Cafe/Filters/DietFilters";
 
 const filterTypes = [
   {
@@ -130,6 +131,12 @@ const Filters = ({ filters, setFilters, cafes }) => {
       <div>
         <div className="flex items-baseline justify-end border-b border-gray-200 pb-6">
           <div className="flex items-center select-none">
+            <div className="flex items-center sm:mr-8 mr-4">
+              <DietFilters 
+                setFilters={setFilters}
+              />
+            </div>
+            
             <div className="flex items-center sm:mr-8 mr-4">
               <Switch
                 checked={filters.openOnly}

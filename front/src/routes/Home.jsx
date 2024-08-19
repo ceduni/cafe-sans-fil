@@ -6,7 +6,7 @@ import CafeList from "@/components/Cafe/CafeList";
 import SearchResults from "@/components/Search/SearchResults";
 import { useSearchParams } from 'react-router-dom';
 import RecommendedCafeList from "@/components/Cafe/RecommendedCafeList";
-import Filters from "@/components/Cafe/Filters";
+import Filters from "@/components/Cafe/Filters/Filters";
 
 
 const TX = {
@@ -30,6 +30,7 @@ const Home = () => {
         takesCash: false,
         takesCreditCard: false,
         takesDebitCard: false,
+        diets: {}
     });
 
     return (

@@ -68,7 +68,7 @@ const RecommendationMenu = ({ cafeSlug, menuItems }) => {
             />}
             {/* <h2 className="text-center my-0 text-3xl font-bold">Produit recommdés</h2> */}
             <RecommendationBox
-                category='Pour tout le monde'
+                category='Produits recommendés'
                 items={publicRecommendation}
                 onItemClick={handleItemClick}
                 activeItem={activeItem}

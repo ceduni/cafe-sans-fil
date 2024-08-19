@@ -3,6 +3,7 @@ import EmptyState from "@/components/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import { PAYMENT_METHODS } from "@/utils/cafe";
 import { CafeAPI } from "@/utils/api";
+import getCurrentUser from "@/utils/users";
 
 
 const isEmpty = (arr) => arr?.length === 0
@@ -13,8 +14,8 @@ const isEmpty = (arr) => arr?.length === 0
  * @param {*} filters 
  * @returns 
  */
-function filterCafe(cafe, filters) {
-    const { openOnly, pavillon, takesCash, takesCreditCard, takesDebitCard } = filters;
+function filterCafe(cafe, filters, userDietProfile) {
+    const { openOnly, pavillon, takesCash, takesCreditCard, takesDebitCard, diets } = filters;
 
     if (openOnly && !cafe.isOpen()) {
         return false;
@@ -36,7 +37,42 @@ function filterCafe(cafe, filters) {
         return false;
     }
 
+    if (!filterCafeByDiet(cafe, filters, userDietProfile)) {
+        return false;
+    }
+
     return true;
+}
+function filterCafeByDiet(cafe, filters, userDietProfile) {
+    if (Object.keys(filters.diets).length === 0) {
+        return true;
+    }
+
+    const validDiets = Object.keys(filters.diets).filter(
+        (diet) => filters.diets[diet]
+    );
+
+    let validDietsItems = [];
+
+    for (const validDiet of validDiets) {
+        userDietProfile.diets.forEach((diet) => {
+            if (diet.name === validDiet) {
+                validDietsItems = [
+                    ...validDietsItems,
+                    diet.desired_foods.map((item) => item.toLowerCase()),
+                ];
+            }
+        });
+    }
+
+    const itemsNameSet = new Set(cafe.menu.map((item) => item.name.toLowerCase()));
+
+    const validItems = validDietsItems.filter((dietItem) => {
+        const dietItemsSet = new Set(dietItem)
+        return itemsNameSet.intersection(dietItemsSet).size > 0;
+    });
+
+    return validItems.length === validDietsItems.length;
 }
 
 function renderError(error) {
@@ -60,8 +96,8 @@ function renderEmpty() {
  * @param {*} setFilters 
  * @returns 
  */
-function renderCafe(cafes, filters) {
-    const filteredData = cafes.filter((cafe) => filterCafe(cafe, filters));
+function renderCafe(cafes, filters, userDietProfile) {
+    const filteredData = cafes.filter((cafe) => filterCafe(cafe, filters, userDietProfile));
 
     const sortedData = filteredData.sort((a, b) => {
         if (a.health_score > b.health_score) {
@@ -94,6 +130,7 @@ function renderCafe(cafes, filters) {
 const CafeList = ({ setStoredCafes, storedCafes, filters }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [userDietProfile, setUserDietProfile] = useState(null);
 
     // Fetching cafe
     useEffect(() => {
@@ -104,7 +141,13 @@ const CafeList = ({ setStoredCafes, storedCafes, filters }) => {
             .catch((error) => {
                 setError(error)
             })
+
+        getCurrentUser().then((user) => {
+            setUserDietProfile(user.diet_profile)
+        })
+
     }, []);
+
 
     if (error) {
         console.trace(error);
@@ -115,7 +158,7 @@ const CafeList = ({ setStoredCafes, storedCafes, filters }) => {
         return renderEmpty();
     }
 
-    return renderCafe(storedCafes, filters);
+    return renderCafe(storedCafes, filters, userDietProfile);
 };
 
 export default CafeList;
