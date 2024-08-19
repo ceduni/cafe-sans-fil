@@ -81,19 +81,6 @@ async def create_users(num_users):
     user_usernames[0] = cafesansfil_matricule
     return user_usernames
 
-# def generate_diet_profile():
-#     diets = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free"]
-#     food_categories = ["Grilled Cheese", "Boissons chaudes", "Boissons froides", "Collations"]
-#     nutrients = ["Protein", "Fiber", "Vitamins", "Minerals", "Carbohydrates"]
-#     allergens = ["Peanuts", "Tree Nuts", "Dairy", "Soy", "Wheat", "Fish", "Shellfish"]
-
-#     diet_profile = DietProfile(
-#         diets=random.sample(diets, random.randint(0, len(diets))),
-#         food_categories=random.sample(food_categories, random.randint(0, len(food_categories))),
-#         prefered_nutrients=random.sample(nutrients, random.randint(0, len(nutrients))),
-#         allergens={allergen: random.randint(1, 5) for allergen in random.sample(allergens, random.randint(0, len(allergens)))}
-#     )
-#     return diet_profile
 def generate_diet_profile():
     cafes = ["le-mozza", "pill-pub", "cafekine", "la-planck", "acquis-de-droit", "cafcom", "tore-et-fraction", "cafe-anthropologie",
             "cafe-beagel", "holocene", "la-brunante", "la-retenue"]

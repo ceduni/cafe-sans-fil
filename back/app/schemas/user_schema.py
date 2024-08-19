@@ -1,6 +1,6 @@
 from pydantic import field_validator, ConfigDict, BaseModel, EmailStr, Field
 from uuid import UUID
-from typing import Optional, List
+from typing import Optional, List, Dict
 import re
 from app.models.user_model import DietProfile
 

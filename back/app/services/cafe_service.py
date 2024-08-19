@@ -2,6 +2,7 @@ from typing import List
 from uuid import UUID
 from app.models.cafe_model import Cafe, MenuItem, Role, StaffMember
 from app.schemas.cafe_schema import (
+    CafeOut,
     CafeCreate,
     CafeUpdate,
     CafeShortOut,
@@ -35,7 +36,7 @@ class CafeService:
         limit = int(query_params.pop("limit", 40))
         return (
             await Cafe.find(query_params)
-            .project(CafeShortOut)
+            .project(CafeOut)
             .skip((page - 1) * limit)
             .limit(limit)
             .sort(sort_by)

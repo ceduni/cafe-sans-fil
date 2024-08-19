@@ -83,7 +83,7 @@ def most_bought_items(all_orders: List[Order]) -> List[str]:
 # It returns k items. 
 # IF k < 0, then no size is specified so it returns all the items
 #   sorted.
-def most_liked_items(items: List[MenuItem], k: int = -1) -> List[str]:
+def most_liked_items(items: List[MenuItem], k: int = -1) -> List[Tuple[str, int]]:
     try :
         if not isinstance(items, list):
             raise TypeError("First argument must be a list.")
@@ -98,11 +98,11 @@ def most_liked_items(items: List[MenuItem], k: int = -1) -> List[str]:
         for item in items:
             likes.append(len(item['likes']))
         
-        most_liked_items: list[str] = []
+        most_liked_items: list[tuple[str, int]] = []
         for _ in range(k):
             max_likes = max(likes)
             index = likes.index(max_likes)
-            most_liked_items.append(items[index]['slug'])
+            most_liked_items.append( (items[index]['slug'], max_likes) )
             likes[index] = -1
 
         return most_liked_items
@@ -393,3 +393,12 @@ def sort_by_health_score_for_objects(items: List[MenuItem]) -> List[str]:
         sorted_items.append(item_tuple[1])
 
     return sorted_items
+
+
+def format_recommendation_output(items: List[Tuple[str, int]]) -> Dict[str, int]:
+    result: dict[str, int] = {}
+    for item, score in items:
+        if item not in result:
+            result[item] = score
+        result[item] += score
+    return result

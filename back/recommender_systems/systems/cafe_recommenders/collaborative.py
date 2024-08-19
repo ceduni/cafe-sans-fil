@@ -25,16 +25,18 @@ def main(users: List[User], user: User) -> List[str]:
         other_user_list: list[list[str]] = [ DButils.get_all_user_likes(other_user['username']), other_user_orders, DButils.get_user_visited_cafe(other_user) ]
         similarities.append(Utilitaries.users_similarity(user_list, other_user_list))
     n_best_users: int = round(0.75*len(similarities))
-    sim_users_cafes: list[str] = []
+    sim_users_cafes: dict[str, float] = {}
     
     for _ in range(n_best_users):
         max_sim: float = max(similarities)
         index: int = similarities.index(max_sim)
         found_user: User = other_users[index]
         visited_cafes: list[str] = DButils.get_user_visited_cafe(found_user)
-        sim_users_cafes.extend( visited_cafes )
+        for cafe in visited_cafes:
+            sim_users_cafes[cafe] = max_sim
         similarities[index] = -1
 
-    recommendations_set: set[str] = set(sim_users_cafes) - set(user_visited_cafe)
+    #recommendations_set: set[str] = set(sim_users_cafes) - set(user_visited_cafe)
 
-    return list(recommendations_set)
+    #return list(recommendations_set)
+    return sim_users_cafes

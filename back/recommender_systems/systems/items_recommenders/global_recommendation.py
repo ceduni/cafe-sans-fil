@@ -28,4 +28,4 @@ def main(cafe: Cafe) -> List[str]:
 
     items_choice: List[str] = Utilitaries.most_liked_items(menu_items, 5)
 
-    return items_choice
+    return [item_slug for item_slug, _ in items_choice]

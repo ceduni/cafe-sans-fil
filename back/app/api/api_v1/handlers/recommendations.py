@@ -10,14 +10,13 @@ from app.schemas.recommendation_schema import (
     CafeUpdate, 
     CafeOut,
     UserRecommendationUpdate, 
-    UserRecommendationOut
+    UserRecommendationOut,
 ) 
 from app.services.recommendation_service import RecommendationService
-from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
-from typing import List
+from typing import List, Dict
 from recommender_systems.routines.run_bot_recommendations import run_bot_recommendations
-
+from recommender_systems.routines.missing_items import main
 """
 This module defines the API routes related to recommendations in the application.
 """
@@ -147,6 +146,21 @@ async def update_user_cafe_recommendations(
         user_id: str
 ):
     return await RecommendationService.update_user(user_id=user_id, data=data)
+
+@recs_router.get(
+    "/recommendations/missing_items",
+    response_model=List[Dict[str, str | int]],
+    summary="🔵 Get Missing Items",
+    description="Retrieve a list of missing items.",
+)
+async def get_missing_items():
+    result = await main()
+    if not result:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="No missing items"
+        )
+    return result
 
 # --------------------------------------
 #              Public

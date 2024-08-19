@@ -21,20 +21,23 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
             for cafe in list_cafe:
                 cafe_slug: str = cafe['slug']
                 # Personnal recommendations.
-                # collab_filtering: list[str] = Utilitaries.filter_items_by_cafe(cf_recommendations, cafe_slug)
-                # content_based: list[str] = Utilitaries.filter_items_by_cafe(CBF.main(user, cafe), cafe_slug)
-                knowledge_based: list[str] = Utilitaries.filter_items_by_cafe(KBR.main(cafe, user), cafe_slug)
+                # collab_filtering: list[str] = cf_recommendations
+                content_based: dict[str, int] = CBF.main(user, cafe)
+                knowledge_based: dict[str, int] = KBR.main(cafe, user)
 
                 if cafe_slug not in cafes_recommendations:
                     cafes_recommendations[cafe_slug] = []
 
-                list_items_recommended = []
+                list_items_recommended: list[dict[str, int]] = []
 
                 # list_items_recommended.extend(collab_filtering)
-                # list_items_recommended.extend(content_based)
-                list_items_recommended.extend(knowledge_based)
+                list_items_recommended.append(content_based)
+                list_items_recommended.append(knowledge_based)
 
-                cafes_recommendations[cafe_slug] = list( set(list_items_recommended) )
+                # print("content_based", content_based)
+                # print("knowledge_based", knowledge_based)
+
+                cafes_recommendations[cafe_slug] = _final_reommendations(list_items_recommended)
             
             recommendations[user['username']] = cafes_recommendations
 
@@ -45,19 +48,33 @@ def _run_users_recommendations() -> Dict[str, Dict[str, List[str]]]:
     # return sorted_recommendations
     return recommendations
     
-# def _sort_recommendations(recommendations: Dict[str, Dict[str, List[str]]]) -> Dict[str, Dict[str, List[str]]]:
-#     sorted_recommendations: dict[str, dict[str, list[str]]] = {}
-#     for _, user in enumerate(tqdm(recommendations.keys(), desc="Sorting recommendations")):
-#         cafes_sorted: dict[str, list[str]] = {}
-#         for cafe_slug in recommendations[user].keys():
-#             items: list[MenuItem] = []
-#             for item_slug in recommendations[user][cafe_slug]:
-#                 items.append( DButils.get_item(cafe_slug, item_slug) )
-#             cafes_sorted[cafe_slug] = Utilitaries.sort_by_health_score(items)
+def _final_reommendations(itemsScored: List[Dict[str, int]]) -> List[str]:
+    items_slug: list[str] = []
+    #print(itemsScored)
+    for recommendation in itemsScored:
+        items_slug.extend(list(recommendation.keys()))
 
-#         sorted_recommendations[user] = cafes_sorted
+    items_tuples: list[tuple[int, str]] = []
+    for item in items_slug:
+        if item not in items_tuples:
+            if item not in itemsScored[0]:
+                itemsScored[0][item] = 0
+            if item not in itemsScored[1]:
+                itemsScored[1][item] = 0
+            
+            score_1 = itemsScored[0][item]
+            score_2 = itemsScored[1][item]
 
-#     return sorted_recommendations
+            items_tuples.append( ( (score_1 + score_2), item ) )
+        
+    sorted_items_tuples: list[tuple[int, str]] = sorted(items_tuples, reverse=True)
+
+    sorted_items: List[str] = []
+    for item_tuple in sorted_items_tuples:
+        sorted_items.append(item_tuple[1])
+
+    return sorted_items
+
 
 # Update recommendations for each user in the database.
 def update_users_recommendations() -> None:
@@ -82,12 +99,12 @@ def update_users_recommendations() -> None:
                 merged_recommendation = list( set(merged_recommendation) )
 
                 random.shuffle( merged_recommendation )
-                final_recommedation = random.sample(merged_recommendation, 5)
+                final_recommendation = random.sample(merged_recommendation, 6)
 
                 personnal_recommendations.append(
                     {
                         "cafe_slug": cafe_slug,
-                        "recommendation": final_recommedation
+                        "recommendation": final_recommendation
                     }
                 )
 

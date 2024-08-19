@@ -82,7 +82,7 @@ def parse_query_params(query_params: Dict) -> Dict:
 
 @cafe_router.get(
     "/cafes",
-    response_model=List[CafeShortOut],
+    response_model=List[CafeOut],
     summary="List Cafes",
     description="Retrieve a list of all cafes with short information.",
 )
