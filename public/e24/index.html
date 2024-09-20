@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projet IFT3150 | Café sans-fil: Système de gestion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <header class="page-header">
+      <div style="display: flex; justify-content: center">
+        <img
+          src="https://cafesansfil-ig3a.onrender.com/logo.png"
+          height="180"
+          alt="Logo Café sans-fil"
+        />
+      </div>
+      <h1 style="margin-bottom: 6px">Café sans-fil: Système de gestion</h1>
+      <p style="font-size: 1.4em; margin-top: 0">
+        IFT3150 &ndash; Projet informatique
+      </p>
+      <ul class="bare-list" style="font-size: 1.2em">
+        <li>Superviseur: Louis-Edouard LAFONTANT</li>
+        <li>Larry FOTSO GUIFFO & Johann SOUROU</li>
+      </ul>
+
+      <ul class="bare-list" style="display: flex; justify-content: center">
+        <li>
+          <a
+            class="bare-link doc-link"
+            href="https://github.com/ceduni/cafe-sans-fil/tree/mobile"
+            >Répertoire GitHub</a
+          >
+        </li>
+        <!-- <li>
+                <a class="bare-link doc-link" href="https://ceduni.github.io/cafe-sans-fil/livrables/presentation.pdf">
+                    Présentation
+                </a>
+            </li> -->
+        <!-- <li>
+                <a class="bare-link doc-link"
+                    href="https://ceduni.github.io/cafe-sans-fil/livrables/rapport.pdf">Rapport</a>
+            </li> -->
+      </ul>
+    </header>
+
+    <main>
+      <header class="content-wrapper">
+        <h2>Description du projet</h2>
+        <p>
+          Après la création de la plateforme web Café-Sans permettant aux
+          étudiants de l'Université de Montréal (UdeM) de voir les menus des
+          cafés sur les différents campus de l'université lors des sessions
+          précédentes, cette session (été 2024), nous devons développer une
+          application mobile qui permettra la gestion des bénévoles et des
+          employés des différents cafés sur le campus. Elle permettra aussi aux
+          gérants de gérer leurs stocks et les événements prévus dans les cafés.
+          Enfin, cette application permettra aussi aux bénévoles de consulter et
+          choisir leurs horaires de travail.
+        </p>
+
+        <p>
+          <!-- TODO: Rédiger la problématique motivant le projet -->
+          Avant de lancer ce projet, le gérant du café Tore et Fraction
+          s'occupait de toute la gestion — les horaires, les bénévoles, les
+          stocks, les événements, et plus — en utilisant des méthodes
+          traditionnelles sur papier et Excel. Cette approche, bien que
+          familière, s'avérait non seulement fastidieuse, mais aussi extrêmement
+          éprouvante, exigeant un effort considérable pour maintenir l'ordre et
+          l'efficacité dans le fonctionnement quotidien du café. Les différents
+          bénévoles devaient également choisir leurs heures de travail sur
+          papier, ce qui pouvait causer des confusions entre eux. De plus, il
+          était difficile de savoir quand un bénévole était présent au café pour
+          commencer son quart de travail. Cette méthode de suivi basée sur
+          l'entrée de données manuelle pouvait aussi occasionner des erreurs,
+          réduisant la fiabilité et l'efficacité de leur système de gestion.
+        </p>
+
+        <p>
+          <!-- TODO: Rédiger la proposition -->
+          En réponse à cette problématique, nous avons décidé de développer une
+          application qui permettra d'automatiser ces tâches quotidiennes et de
+          rendre la gestion du café plus facile et plus efficace. Une
+          fonctionnalité d'organisation d'horaires sera intégrée dans
+          l'application, permettant au gérant et aux bénévoles de non seulement
+          choisir leurs horaires, mais aussi de les consulter facilement via
+          l'application mobile. De plus, un système de pointage (clock in) sera
+          considéré pour les bénévoles lorsqu'ils arrivent au café pour
+          commencer leur quart de travail.
+        </p>
+      </header>
+
+      <section class="content-wrapper">
+        <h2>Exigences</h2>
+
+        <h3>Besoins fonctionnels</h3>
+        <!-- TODO: Ajouter la liste des besoins fonctionnels de l'application -->
+        <h4>Gérant:</h4>
+
+        <h5>Gestion des événements</h5>
+        <ul class="ml-3">
+          <li>Voir les événements</li>
+          <li>Voir les horaires du café</li>
+          <li>Ajouter un événement</li>
+          <li>Retirer un événement</li>
+
+          <li>
+            Enregistrer des événements dès qu'ils sont épinglés dans la boîte
+            mail
+          </li>
+        </ul>
+
+        <h5>Gestion des stocks</h5>
+        <ul class="ml-3">
+          <li>
+            Enregistrer les nouveaux produits dans le système de la plateforme
+            via des factures d'achat
+          </li>
+          <li>
+            Suivre en temps réel des entrées et sorties de stock, y compris les
+            ventes, les réapprovisionnements et les pertes éventuelles
+          </li>
+          <li>
+            Voir notification en cas de faible stock ou de rupture de stock
+          </li>
+        </ul>
+
+        <h5>Tableau de bord</h5>
+        <ul class="ml-3">
+          <li>
+            Consulter le tableau de bord personnalisable offrant différentes
+            métriques (niveaux de stock actuels, ventes quotidiennes,
+            hebdomadaires et mensuelles, bénéfices nets)
+          </li>
+          <li>Consulter des Graphiques et visualisations intuitives</li>
+        </ul>
+
+        <h5>Gestion des bénévoles</h5>
+        <ul class="ml-3">
+          <li>
+            Attribuer des rôles et des autorisations spécifiques aux bénévoles
+          </li>
+          <li>Créer et modifier la planification hebdomadaire</li>
+          <li>Ajouter un bénévole à l'horaire</li>
+          <li>Retirer un bénévole de l'horaire</li>
+          <li>Communiquer avec les bénévoles</li>
+        </ul>
+
+        <h4>Bénévole:</h4>
+        <ul>
+          <li>Voir son horaire</li>
+          <li>Clock In</li>
+          <li>Choisir une heure</li>
+        </ul>
+
+        <h3>Besoins non-fonctionnels</h3>
+
+        <!-- TODO: Ajouter la liste des besoins non-fonctionnels de l'application -->
+        <ul>
+          <li>
+            Utilisabilité : Concevoir une interface utilisateur conviviale et
+            intuitive pour une prise en main rapide par le gérant et les
+            bénévoles.
+          </li>
+          <li>
+            Portabilité : Développer l'application de manière à ce qu'elle soit
+            compatible avec différentes plateformes et systèmes d'exploitation,
+            tels Android et iOS.
+          </li>
+          <li>
+            Sécurité : Garantir que les informations confidentielles, telles que
+            les données financières et les horaires des bénévoles, sont
+            protégées contre tout accès non autorisé.
+          </li>
+          <li>
+            Fiabilité : Effectuer des sauvegardes régulières des données pour
+            garantir leur intégrité et leur disponibilité en cas de besoin.
+          </li>
+          <li>
+            Maintenabilité : Concevoir l'application avec des modules
+            indépendants et bien définis pour faciliter les modifications et les
+            ajouts futurs sans impact sur le reste du système.
+          </li>
+        </ul>
+      </section>
+
+      <section class="content-wrapper">
+        <h2>Infrastructure</h2>
+        <p>BaseDed</p>
+
+        <!-- TODO: Décrire l'infrastructure de l'application -->
+      </section>
+
+      <section class="content-wrapper">
+        <header>
+          <h2>Rapport d'avancement</h2>
+          <ul class="bare-list phases">
+            <li class="phase fit-content current" title="Exigences & Analyse">
+              Exigences & Analyse
+            </li>
+            <li class="phase fit-content" title="Prototypage & Conception">
+              Prototypage & Conception
+            </li>
+            <li
+              class="phase fit-content"
+              title="Implémentation: Infrastructure & Application"
+            >
+              Implémentation: Infrastructure & Application
+            </li>
+            <li class="phase fit-content" title="Validation">Validation</li>
+          </ul>
+          <div class="timeline"></div>
+        </header>
+
+        <section class="week">
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 1 &ndash;
+              <time datetime="2024-05-06">Lundi 6 mai 2024</time>
+            </h3>
+            <p>Ouverture de projet & Élaboration des exigences</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>
+                Prendre en main les outils qui seront utilisés pour le projet
+              </li>
+              <li>Produire une première version de l'échéancier</li>
+              <li>Déterminer les exigences du projet</li>
+              <li>
+                Étudier le domaine, les notions et outils envisagés pour le
+                projet
+              </li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                <strong>Lancement du projet:</strong> Réunion initiale pour
+                démarrer les travaux.
+              </li>
+              <li>
+                <strong>Planification globale:</strong> Définition de
+                l'échéancier et des étapes clés du projet.
+              </li>
+              <li>
+                <strong>Définition des exigences:</strong> Précision des
+                fonctionnalités et des besoins pour l'application.
+              </li>
+            </ul>
+
+            <h4 class="title">Notes</h4>
+            <p></p>
+          </div>
+
+          <!-- Semain 2 -->
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 2 &ndash;
+              <time datetime="2024-05-14">Lundi 13 mai 2024</time>
+            </h3>
+            <p>Fin de la compréhension du projet</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>
+                Caractériser le projet (contexte,problématique,proposition)
+              </li>
+              <li>Étudier le domaine</li>
+              <li>identification de solutions similaire</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                <strong>Affinement des exigences fonctionnelles : </strong>
+                Diagramme de CU et MDD, classification des besoins fonctionnels
+                pour le gérant
+              </li>
+              <li>
+                <strong>Planification globale:</strong> Définition de
+                l'échéancier et des étapes clés du projet.
+              </li>
+            </ul>
+
+            <h4 class="title">Notes</h4>
+          </div>
+          <!-- Semain 3 -->
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 3 &ndash;
+              <time datetime="2024-05-14">Lundi 20 mai 2024</time>
+            </h3>
+            <p>Debut de l'elaboration de la solution</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Prototypage du UI/UX et Flux d'activités</li>
+              <li>Modèle du domaine</li>
+              <li>Modèle de données</li>
+              <li>Etude du modèle existant sur le marche</li>
+              <li>Prise en main de Flutter</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>Premiere realisation d'un prototype jetable</li>
+              <li>
+                Realisation d'un deuxieme modele du domaine
+                (cafe-sans-fil/Analyse/Mdd2.png)
+              </li>
+              <li>Etude du modèle existant sur le marche(Employee link)</li>
+              <li>
+                Prise en main de Flutter (<a
+                  href="https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU"
+                >
+                  video1</a
+                >) (<a href="https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi">
+                  video2</a
+                >)
+              </li>
+            </ul>
+
+            <h4 class="title">Ressource</h4>
+            <ul>
+              <li>
+                Tutoriel Flutter : (<a
+                  href="https://youtu.be/C-fKAzdTrLU?si=DgKJ-9ARCxj2VMIU"
+                  >tuto1</a
+                >)
+              </li>
+              <li>
+                Tutoriel Flutter : (<a
+                  href="https://youtu.be/CD1Y2DmL5JM?si=thN1qDjlKE9Zj-Qi"
+                  >tuto2</a
+                >)
+              </li>
+              <li>logicel etudie : Employee link</li>
+            </ul>
+          </div>
+
+          <!-- Semain 4 -->
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 4 &ndash;
+              <time datetime="2024-05-14">Lundi 27 mai 2024</time>
+            </h3>
+            <p>suite de l'elaboration de la solution</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Prototypage du UI/UX et Flux d'activités</li>
+              <li>Modèle du domaine</li>
+              <li>Modèle de données</li>
+              <li>Etude du modèle existant sur le marche</li>
+              <li>Prise en main de Flutter</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>Deuxieme iteration du prototype jetable UI/UX</li>
+              <li>
+                Etude de la gestion d'evenement en Flutter(flutter Bloc et
+                Provider)
+              </li>
+              <li>Anticipation sur la conception logicel</li>
+              <li>
+                Définition des statistiques pour le dashbord pour la gestion des
+                stocks
+              </li>
+            </ul>
+
+            <h4 class="title">Ressource</h4>
+            <ul>
+              <li>
+                Tutoriel Flutter Bloc : (<a
+                  href="https://www.youtube.com/live/Y1roIi0-Sro?si=a-8voALgBdDL-8so"
+                  >tuto1</a
+                >)
+              </li>
+              <li>
+                Tutoriel Flutter provider : (<a
+                  href="https://youtu.be/ABfwe8nUi-s?si=RpP6auWw-LwgvuWp"
+                  >tuto2</a
+                >)
+              </li>
+              <li>
+                Esquisse pour les statistiques : (<a
+                  href="https://drive.google.com/file/d/1rRE_-XlDQPk9TL3YLr2vEiilq-66o8MX/view?usp=sharing"
+                  >pdf</a
+                >)
+              </li>
+            </ul>
+          </div>
+
+          <!-- Semain 5 -->
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 5 &ndash;
+              <time datetime="2024-06-03">Lundi 3 juin 2024</time>
+            </h3>
+            <p>Prototypage, conception et architecture</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Créer et faire évoluer le prototype évolutif</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>Troisième itération du prototype jetable UI/UX</li>
+              <li>
+                Rencontre avec le gérant pour réévaluer les besoins de
+                l'application notemment la communiation entre bénévole et les
+                alertes lorsque le stock est faible pour un produit (dashborad)
+              </li>
+              <li>
+                Fixations des deadlines pour les fonctionnalités à développer :
+                <ul>
+                  <li>26 juin : Élaboration du dashborad</li>
+                  <li>
+                    17 juillet : Création du menu pour les bénévoles et pour la
+                    gestion de leurs horaires
+                  </li>
+                  <li>
+                    31 juillet : Création des fonctions liées à la gestion des
+                    stocks
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Semain 6 -->
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 6 &ndash;
+              <time datetime="2024-06-10">Lundi 10 juin 2024</time>
+            </h3>
+            <p>Conception et architecture</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Modèle du domaine</li>
+              <li>Modèle de données</li>
+              <li>Etude du modèle existant sur le marche</li>
+              <li>Prise en main de Flutter</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>Réalisation du diagramme de classe</li>
+              <li>Réalisation Schéma de requêtes</li>
+            </ul>
+          </div>
+
+          <!-- Semain 7-->
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 7 &ndash;
+              <time datetime="2024-06-10">Lundi 17 juin 2024</time>
+            </h3>
+            <p>Développement de l'Api et du front-end</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Début de l'implémentation du dashborad de l'application</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                Initialisation du back-end et du front-end de l'application
+                (dossier app et back)
+              </li>
+              <li>
+                Implémentation des principaux éléments du dashbord sur l'écran
+                d'acceuil et accès au différents onglets de l'application (logo,
+                histogramme, bar de navigation et drawer)
+              </li>
+            </ul>
+            <h4 class="title">Ressource</h4>
+            <ul>
+              <li>
+                Modèle pour l'histogramme : (<a
+                  href="https://www.youtube.com/watch?v=8j6iw33bJU0"
+                  >tuto1</a
+                >)
+              </li>
+            </ul>
+          </div>
+
+          <!-- Semain 8-->
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 8 &ndash;
+              <time datetime="2024-06-24">Lundi 24 juin 2024</time>
+            </h3>
+            <p>Développement de l'Api et du front-end</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Suite de l'implémentation du dashborad de l'application</li>
+              <li>Modification de basedonnee (collection Orders)</li>
+              <li>Suite et fin des endpoints du dashboard</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                Utilisation de la librairie intl permettant la traduction de
+                l'application dans diverses langues (dossier l10n)
+              </li>
+              <li>
+                Fin de l'implémentation des composantes du dashborad (color
+                chart list pour une vue intuitive des ventes pas catégorie,
+                revisite du code pour l'histogramme)
+              </li>
+            </ul>
+            <h4 class="title">Ressource</h4>
+            <ul>
+              <li>
+                Code de base pour l'histogramme (bar chart sample 4): (<a
+                  href="https://github.com/imaNNeo/fl_chart"
+                  >tuto1</a
+                >)
+              </li>
+              <li>
+                Créer une application Multilingue: (<a
+                  href="https://www.youtube.com/watch?v=6UV4bIHauZQ"
+                  >tuto2</a
+                >)
+              </li>
+            </ul>
+          </div>
+
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 9 &ndash;
+              <time datetime="2024-07-01">Lundi 1 juillet 2024</time>
+            </h3>
+            <p>Développement de l'Api et du front-end</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Connecter le dashbord au back-end</li>
+              <li>Implémenter les end points bénévole et horaire</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                début de l'implémentation des end points bénévole et horaire
+              </li>
+              <li>Suite de l'implementation du dashboard</li>
+              <li>Implementation de la page benevole</li>
+            </ul>
+          </div>
+
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 10 &ndash;
+              <time datetime="2024-07-08">Lundi 8 juillet 2024</time>
+            </h3>
+            <p>Développement de l'Api et du front-end</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Connecter le dashbord au back-end</li>
+              <li>Implémenter les end points bénévole et horaire</li>
+              <li>Modification de UI pour une vue plus belle</li>
+              <li>Implementation de la page benevole</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                fin de l'implémentation des end points bénévole et horaire
+                (connection avec les collections users, shifts et cafes)
+              </li>
+              <li>
+                Suite de l'implementation de l'implementation du dashboard
+              </li>
+              <li>Debut de implementation de la page benvole</li>
+            </ul>
+          </div>
+
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 11 &ndash;
+              <time datetime="2024-07-15">Lundi 15 juillet 2024</time>
+            </h3>
+            <p>Développement de l'Api et du front-end</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Connecter le dashbord au back-end</li>
+              <li>Modification de UI pour une vue plus belle</li>
+              <li>Implementation de la page benevole</li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                Suite de l'implémentation du dashboardboard : histogramme,
+                graphe coloré et chiffre du dashboard conforme a la base de
+                données.
+              </li>
+
+              <li>Debut de implementation de la page benvole</li>
+            </ul>
+          </div>
+
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 12 &ndash;
+              <time datetime="2024-07-22">Lundi 22 juillet 2024</time>
+            </h3>
+            <p>Développement du front-end</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Avoir une première version stable pour l'application</li>
+              <li>Implementation de la page horaire</li>
+              <li>
+                Amélioration en continue des pages bénévole, dashboard et Stock
+              </li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>
+                Fin de l'implémentation du dashboard + améliorations graphiques
+                (ajouts de notifications, légende pour l'histogramme, changement
+                de devise, mise à jour de la traduction de l'application).
+              </li>
+              <li>
+                Début de l'implémentation de la page horaire (connection de la
+                base de données shifts au front end).
+              </li>
+              <li>
+                Présentation de la 1ere version stable de l'application et test
+                sur les smartphones android et ios.
+              </li>
+            </ul>
+          </div>
+
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 13 &ndash;
+              <time datetime="2024-07-22">Lundi 29 juillet 2024</time>
+            </h3>
+            <p>Développement du front-end et rédaction du rapport</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>Rédaction du rapport</li>
+              <li>
+                Ajout de la fonctionnalité d'ajout d'un bénévole (front et back)
+              </li>
+            </ul>
+
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>Création du menu pour le cafe</li>
+              <li>Ajout de la fonction d'ajout d'un bénévole</li>
+              <li>Début rédaction du rapport.</li>
+              <li> rapport <a href="./presentation final.pptx"> rapport</a></li>
+            </ul>
+          </div>
+
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 14 &ndash;
+              <time datetime="2024-08-05">Lundi 05 Août 2024</time>
+            </h3>
+            <p>Rapport de projet</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>
+                Rédiger un rapport qui présente en détails la réalisation du
+                projet dans son ensemble
+              </li>
+            </ul>
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>Création et révision du rapport</li>
+              <li>Soumission du rapport</li>
+            </ul>
+            <h4 class="title">Ressource</h4>
+            <ul>
+              <li>
+                Lien vers le rapport (<a
+                  href="https://drive.google.com/file/d/1zKhVvYp2ab2NK3ZIFamoi-mGk0904yTo/view?usp=sharing"
+                  >ici</a
+                >)
+              </li>
+            </ul>
+          </div>
+
+          <header class="section-header">
+            <h3 class="section-title">
+              Semaine 15 &ndash;
+              <time datetime="2024-08-12">Lundi 12 Août 2024</time>
+            </h3>
+            <p>Présentation du projet</p>
+          </header>
+          <div class="section-content">
+            <h4 class="title">Objectifs</h4>
+            <ul class="goals">
+              <li>
+                Réaliser une présentation concise qui présente le projet dans
+                son ensemble
+              </li>
+            </ul>
+            <h4 class="title">Réalisations</h4>
+            <ul class="tasks">
+              <li>Création et révision des diapositives</li>
+              <li>Présentation du projet devant le jury et des invitées</li>
+            </ul>
+            <h4 class="title">Ressource</h4>
+            <ul>
+              <li>
+                Lien vers le powerpoint de la présentation(<a
+                  href="https://docs.google.com/presentation/d/1JVgQgfx4VYFSvjNlUNyGf1XqtjXbN3MU/edit?usp=sharing&ouid=114812385411748513073&rtpof=true&sd=true"
+                  >ici</a
+                >)
+              </li>
+            </ul>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <a
+        href="https://github.com/ceduni/cafe-sans-fil/tree/mobile"
+        target="_blank"
+        >Répertoire GitHub</a
+      >
+      <p>Dernière mise à jour: 8 juillet 2024</p>
+    </footer>
+
+    <script>
+      const NB_WEEK = 15;
+      let projetStart = new Date("2024-05-06");
+      let current = (Date.now() - projetStart) / 1000 / 60 / 60 / 24 / 7;
+      let progress = Math.round((current / NB_WEEK) * 100);
+
+      let timeline = document.querySelector(".timeline");
+      timeline.style.background = `linear-gradient(to right, royalblue ${progress}%, #d5d5d5 0%)`;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,136 @@
+
+
+html {
+    font-family: "Inter", "Droid Sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+.hidden { display: none; }
+
+.fit-content { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+.bare {
+    margin: 0;
+    padding: 0;
+}
+
+.bare-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bare-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.content-wrapper {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+img {
+    display: block;
+}
+
+.page-header {
+    margin: 3rem 1rem;
+    text-align: center;
+}
+
+.doc-link {
+    display: block;
+    margin: 6px;
+    padding: 6px 12px;
+    color: royalblue;
+    font-weight: bold;
+    border-radius: 2px;
+    background-color: #f5f5f5;
+}
+
+.page-footer {
+    padding-top: 24px; padding-bottom: 30px;
+    background-color: #f5f5f5;
+    font-size: 0.9em;
+    text-align: center;
+    border-top: 1px solid #d5d5d5;
+}
+
+main {
+    padding-bottom: 60px;
+}
+
+.phases {
+    display: flex;
+    width: 100%;
+}
+
+.phase {
+    padding-top: 12px;
+    padding-bottom: 2px;
+    text-transform: uppercase;
+    color: #555;
+}
+
+    .phase:nth-child(1) { width: 15%; }
+    .phase:nth-child(2) { width: 30%; }
+    .phase:nth-child(3) { width: 45%; }
+    .phase:nth-child(4) { width: 10%; }
+
+    .phase.current {
+        font-weight: bold;
+        color: royalblue;
+    }
+
+.timeline {   
+    border-radius: 180px;
+    height: 12px;
+}
+
+.week {
+    margin-top: 24px;
+    background-color: #f0f0f0;
+    border-radius: 12px;
+}
+
+.section-header {
+    padding: 12px 2%;
+}
+    .section-header p {
+        margin: 0;
+    }
+
+    .section-title {
+        margin: 0;
+        color: #444;
+    }
+
+.section-content {
+    padding: 0px 2% 6px;
+    font-size: 0.9em;
+}
+
+    .section-content .title {
+        margin-top: 8px; margin-bottom: 2px;
+        color: royalblue;
+        text-transform: uppercase;
+    }
+
+    .section-content p {
+        margin: 0;
+    }
+
+    .section-content ul {
+        margin: 0;
+    }
