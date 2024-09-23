@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from uuid import UUID
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
@@ -126,6 +126,68 @@ class UserService:
             await user.update({"$set": {"is_active": False}})
 
         return user
+
+    @staticmethod
+    async def create_many_users(users_data: List[UserAuth]) -> List[User]:
+        """
+        Create multiple users.
+
+        :param users_data: A list of user data to create.
+        :return: A list of created User objects.
+        """
+        users = []
+        for user_data in users_data:
+            user = User(
+                email=user_data.email,
+                matricule=user_data.matricule,
+                username=user_data.username,
+                hashed_password=get_password(user_data.password),
+                first_name=user_data.first_name,
+                last_name=user_data.last_name,
+                photo_url=user_data.photo_url,
+            )
+            users.append(user)
+
+        await User.insert_many(users)
+        return users
+
+    @staticmethod
+    async def update_many_users(usernames: List[str], data: UserUpdate) -> List[User]:
+        """
+        Update multiple users based on the provided list of usernames and data.
+
+        :param usernames: A list of usernames of the users to update.
+        :param data: The data to update the users with.
+        :return: A list of updated User objects.
+        """
+        update_data = data.model_dump(exclude_unset=True)
+
+        if "password" in update_data:
+            update_data["hashed_password"] = get_password(update_data["password"])
+            del update_data["password"]
+
+        result = await User.find_many({"username": {"$in": usernames}}).update_many({"$set": update_data})
+        if result.matched_count == 0:
+            raise ValueError("No users found for the provided usernames")
+
+        return await User.find_many({"username": {"$in": usernames}}).to_list()
+
+    @staticmethod
+    async def delete_many_users(usernames: List[str]) -> None:
+        """
+        Deactivate multiple users based on the provided list of usernames.
+
+        :param usernames: A list of usernames of the users to delete.
+        :return: None
+        """
+        users_to_delete = await User.find_many({"username": {"$in": usernames}}).to_list()
+        if not users_to_delete:
+            raise ValueError("No users found for the provided usernames")
+
+        # Remove users from Cafe staff and deactivate users
+        for user in users_to_delete:
+            await Cafe.find({"staff.username": user.username}).update({"$pull": {"staff": {"username": user.username}}})
+            await user.update({"$set": {"is_active": False}})
 
     @staticmethod
     async def check_existing_user_attributes(

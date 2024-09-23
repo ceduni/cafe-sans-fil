@@ -10,11 +10,12 @@ from beanie import init_beanie
 # Application settings and router
 from app.core.config import settings
 from app.api.api_v1.router import router
-from app.models.user_model import User
 from app.models.cafe_model import Cafe
-from app.models.order_model import Order
+from app.models.menu_model import MenuItem
 from app.models.announcement_model import Announcement
 from app.models.event_model import Event
+from app.models.user_model import User
+from app.models.order_model import Order
 
 """
 Main application initialization for Café sans-fil.
@@ -53,8 +54,9 @@ async def lifespan(app: FastAPI):
     await init_beanie(
         database=db_client[settings.MONGO_DB_NAME],
         document_models=[
-            User,
             Cafe,
+            MenuItem,
+            User,
             Order,
             Announcement,
             Event

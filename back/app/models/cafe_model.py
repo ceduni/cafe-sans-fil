@@ -7,16 +7,6 @@ from datetime import datetime
 import re
 import unicodedata
 
-"""
-This module defines the Pydantic-based models used in the Café application for cafe management,
-which are specifically designed for database interaction via the Beanie ODM 
-(Object Document Mapper) for MongoDB. These models detail the structure, relationships, 
-and constraints of the cafe-related data stored in the database.
-
-Note: These models are intended for direct database interactions related to cafes and are 
-different from the API data interchange models.
-"""
-
 class Feature(str, Enum):
     ORDER = "Order"
 
@@ -36,7 +26,7 @@ class TimeBlock(BaseModel):
         except ValueError:
             raise ValueError("Time must be in HH:mm format.")
         return time_value
-    
+
 class Days(str, Enum):
     MONDAY = "Lundi"
     TUESDAY = "Mardi"
@@ -82,7 +72,7 @@ class SocialMedia(BaseModel):
 class PaymentMethod(BaseModel):
     method: str = Field(..., min_length=1, description="Payment method used in the cafe.")
     minimum: Optional[DecimalAnnotation] = Field(None, description="Minimum amount required for this payment method, if any.")
-    
+
 class AdditionalInfo(BaseModel):
     type: str = Field(..., min_length=1, description="Type of additional information, e.g., 'promo', 'event'.")
     value: str = Field(..., min_length=1, description="Description or value of the additional information.")
@@ -92,45 +82,10 @@ class AdditionalInfo(BaseModel):
 class Role(str, Enum):
     VOLUNTEER = "Bénévole"
     ADMIN = "Admin"
-    
+
 class StaffMember(BaseModel):
     username: Indexed(str, unique=True) = Field(..., description="Username of the staff member.")
     role: Role = Field(..., description="Role of the staff member, e.g., 'Bénévole', 'Admin'.")
-
-class MenuItemOption(BaseModel):
-    type: str = Field(..., min_length=1, description="Type of the menu item option.")
-    value: str = Field(..., min_length=1, description="Value or description of the option.")
-    fee: DecimalAnnotation = Field(..., description="Additional fee for this option, if applicable.")
-
-    @field_validator('fee')
-    @classmethod
-    def validate_fee(cls, fee):
-        if fee < DecimalAnnotation(0.0):
-            raise ValueError("Fee must be a non-negative value.")
-        return fee
-
-class MenuItem(BaseModel):
-    item_id: UUID = Field(default_factory=uuid4, description="Unique identifier of the menu item.")
-    name: Indexed(str, unique=True) = Field(..., description="Name of the menu item.")
-    slug: Indexed(str, unique=True) = Field(None, description="URL-friendly slug for the menu item.")
-    tags: List[str] = Field(..., description="List of tags associated with the menu item.")
-    description: Indexed(str) = Field(..., description="Description of the menu item.")
-    image_url: Optional[str] = Field(None, description="Image URL of the menu item.")
-    price: DecimalAnnotation = Field(..., description="Price of the menu item.")
-    in_stock: bool = Field(False, description="Availability status of the menu item.")
-    category: Indexed(str) = Field(..., description="Category of the menu item.")
-    options: List[MenuItemOption] = Field(..., description="List of options available for the menu item.")
-
-    def __init__(self, **data):
-        super().__init__(**data)
-        self.slug = slugify(self.name)
-
-    @field_validator('price')
-    @classmethod
-    def validate_price(cls, price):
-        if price < DecimalAnnotation(0.0):
-            raise ValueError("Price must be a non-negative value.")
-        return price
 
 class Cafe(Document):
     cafe_id: UUID = Field(default_factory=uuid4)
@@ -151,8 +106,8 @@ class Cafe(Document):
     payment_methods: List[PaymentMethod]
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
-    menu_items: List[MenuItem]
-    
+    menu_item_ids: List[UUID]
+
     def __init__(self, **data):
         super().__init__(**data)
         self.slug = slugify(self.name)
@@ -165,7 +120,7 @@ class Cafe(Document):
             ]}
         )
         return existing_cafe is None
-    
+
     async def check_for_duplicate_entries(self):
         # Unique PaymentMethod methods
         payment_methods_set = set()
@@ -194,32 +149,6 @@ class Cafe(Document):
         if len(additional_info_combinations) != len(self.additional_info):
             raise ValueError("Duplicate AdditionalInfo type-value combination detected.")
 
-        # Unique MenuItem names
-        menu_item_names = {item.name for item in self.menu_items}
-        if len(menu_item_names) != len(self.menu_items):
-            raise ValueError("Duplicate MenuItem name detected.")
-        
-        # Unique MenuItemOption for each MenuItem
-        for item in self.menu_items:
-            if isinstance(item, dict):
-                options = item.get("options", [])
-            else:
-                options = item.options
-
-            option_combinations = set()
-            for opt in options:
-                if isinstance(opt, dict):
-                    opt_type = opt.get("type")
-                    opt_value = opt.get("value")
-                else:
-                    opt_type = opt.type
-                    opt_value = opt.value
-                option_combinations.add((opt_type, opt_value))
-
-            if len(option_combinations) != len(options):
-                item_name = item.get("name") if isinstance(item, dict) else item.name
-                raise ValueError(f"Duplicate MenuItemOption detected in item: {item_name}")
-
     async def check_for_duplicate_hours(self):
         for day_hours_data in self.opening_hours:
             day_hours = DayHours(**day_hours_data) if isinstance(day_hours_data, dict) else day_hours_data
@@ -247,7 +176,7 @@ class Cafe(Document):
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
         return await super().update(*args, **kwargs)
-    
+
     async def insert(self, *args, **kwargs):
         new_slug = slugify(self.name)
         if self.slug != new_slug:
@@ -259,7 +188,7 @@ class Cafe(Document):
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
         return await super().insert(*args, **kwargs)
-    
+
     async def save(self, *args, **kwargs):
         new_slug = slugify(self.name)
         if self.slug != new_slug:
