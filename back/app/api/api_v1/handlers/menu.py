@@ -64,14 +64,14 @@ def parse_query_params(query_params: Dict) -> Dict:
 
 
 @menu_router.get(
-    "/cafes/{cafe_id_or_slug}/menu",
+    "/cafes/{cafe_slug}/menu",
     response_model=List[MenuItemOut],
     summary="List Menu Items",
-    description="Retrieve the menu items of a specific café.",
+    description="Retrieve the menu items of a specific café using its slug or UUID.",
 )
 async def list_menu_items(
     request: Request,
-    cafe_id_or_slug: str = Path(..., description="The UUID or slug of the cafe"),
+    cafe_slug: str = Path(..., description="The slug or UUID of the cafe"),
     in_stock: Optional[bool] = Query(
         None, description="Filter menu items by stock availability (true/false)."
     ),
@@ -87,11 +87,11 @@ async def list_menu_items(
     ),
 ):
     """
-    Retrieve the menu items of a specific café.
+    Retrieve the menu items of a specific café using its slug or UUID.
 
     Args:
         - request: Request - The HTTP request object.
-        - cafe_id_or_slug: str - The UUID or slug of the cafe.
+        - cafe_slug: str - The slug or UUID of the cafe.
         - in_stock: Optional[bool] - Filter menu items by stock availability (true/false).
         - sort_by: Optional[str] - Sort menus by a specific field. Prefix with '-' for descending order (e.g., '-name').
         - page: Optional[int] - Specify the page number for pagination.
@@ -105,24 +105,29 @@ async def list_menu_items(
     """
     query_params = dict(request.query_params)
     parsed_params = parse_query_params(query_params)
-    return await MenuItemService.list_menu_items(cafe_id_or_slug=cafe_id_or_slug, **parsed_params)
+
+    # Retrieve the cafe by slug or UUID
+    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    if not cafe:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found")
+    parsed_params["cafe_id"] = cafe.cafe_id
+
+    return await MenuItemService.list_menu_items(**parsed_params)
 
 
 @menu_router.get(
-    "/cafes/{cafe_id_or_slug}/menu/{item_id}",
+    "/menu/{item_id}",
     response_model=MenuItemOut,
     summary="Get Menu Item",
     description="Retrieve detailed information about a specific menu item.",
 )
 async def get_menu_item(
-    cafe_id_or_slug: str = Path(..., description="The UUID or slug of the cafe"),
     item_id: UUID = Path(..., description="The UUID of the menu item"),
 ):
     """
     Get detailed information about a specific menu item.
 
     Args:
-        - cafe_id_or_slug (str): The UUID or slug of the cafe.
         - item_id (UUID): The UUID of the menu item.
 
     Raises:
@@ -140,14 +145,14 @@ async def get_menu_item(
 
 
 @menu_router.post(
-    "/cafes/{cafe_id_or_slug}/menu",
+    "/cafes/{cafe_slug}/menu",
     response_model=MenuItemOut,
     summary="🔴 Create Menu Item",
     description="Create a new menu item for the specified café.",
 )
 async def create_menu_item(
     item: MenuItemCreate,
-    cafe_id_or_slug: str = Path(..., description="The UUID or slug of the cafe"),
+    cafe_slug: str = Path(..., description="The slug or UUID of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
     """
@@ -155,7 +160,7 @@ async def create_menu_item(
 
     Args:
         item (MenuItemCreate): The menu item to create.
-        cafe_id_or_slug (str): The UUID or slug of the cafe.
+        cafe_slug (str): The slug or UUID of the cafe.
         current_user (User): The current user making the request.
 
     Raises:
@@ -166,9 +171,9 @@ async def create_menu_item(
     """
     try:
         await CafeService.is_authorized_for_cafe_action(
-            cafe_id_or_slug, current_user, [Role.ADMIN]
+            cafe_slug, current_user, [Role.ADMIN]
         )
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
+        cafe = await CafeService.retrieve_cafe(cafe_slug)
         return await MenuItemService.create_menu_item(cafe.cafe_id, item)
     except ValueError as e:
         if str(e) == "Cafe not found":
@@ -180,14 +185,13 @@ async def create_menu_item(
 
 
 @menu_router.put(
-    "/cafes/{cafe_id_or_slug}/menu/{item_id}",
+    "/menu/{item_id}",
     response_model=MenuItemOut,
     summary="🟢 Update Menu Item",
     description="Update the details of an existing menu item.",
 )
 async def update_menu_item(
     item: MenuItemUpdate,
-    cafe_id_or_slug: str = Path(..., description="The UUID or slug of the cafe"),
     item_id: UUID = Path(..., description="The UUID of the menu item"),
     current_user: User = Depends(get_current_user),
 ):
@@ -196,7 +200,6 @@ async def update_menu_item(
 
     Args:
         item (MenuItemUpdate): The updated menu item.
-        cafe_id_or_slug (str): The UUID or slug of the cafe.
         item_id (UUID): The UUID of the menu item.
         current_user (User): The current user making the request.
 
@@ -206,46 +209,41 @@ async def update_menu_item(
     Returns:
         MenuItemOut: The updated menu item.
     """
-    try:
-        await CafeService.is_authorized_for_cafe_action(
-            cafe_id_or_slug, current_user, [Role.ADMIN, Role.VOLUNTEER]
+    # Retrieve the menu item
+    item = await MenuItemService.retrieve_menu_item(item_id)
+    if not item:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
         )
-        return await MenuItemService.update_menu_item(item_id, item)
+
+    # Retrieve cafe id from the item and check authorization
+    cafe_id = item.cafe_id
+    try:
+        await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER])
     except ValueError as e:
-        error_message = str(e)
-        if error_message == "Menu item not found":
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=error_message
-            )
-        elif error_message == "Cafe not found":
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=error_message
-            )
-        elif error_message == "Access forbidden":
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail=error_message
-            )
-        else:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT, detail=error_message
-            )
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+
+    # Proceed with the update
+    try:
+        updated_item = await MenuItemService.update_menu_item(item_id, item)
+        return updated_item
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
 
 
 @menu_router.delete(
-    "/cafes/{cafe_id_or_slug}/menu/{item_id}",
+    "/menu/{item_id}",
     summary="🔴 Delete Menu Item",
-    description="Delete a specific menu item from the café's menu.",
+    description="Delete a specific menu item.",
 )
 async def delete_menu_item(
-    cafe_id_or_slug: str = Path(..., description="The UUID or slug of the cafe"),
     item_id: UUID = Path(..., description="The UUID of the menu item"),
     current_user: User = Depends(get_current_user),
 ):
     """
-    Delete a specific menu item from the cafe's menu.
+    Delete a specific menu item.
 
     Args:
-        cafe_id_or_slug (str): The UUID or slug of the cafe.
         item_id (UUID): The UUID of the menu item.
         current_user (User): The current user making the request.
 
@@ -255,23 +253,19 @@ async def delete_menu_item(
     Returns:
         dict: A dictionary containing a message indicating the success of the deletion.
     """
-    try:
-        await CafeService.is_authorized_for_cafe_action(
-            cafe_id_or_slug, current_user, [Role.ADMIN]
+    # Retrieve the menu item
+    item = await MenuItemService.retrieve_menu_item(item_id)
+    if not item:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
         )
-        await MenuItemService.delete_menu_item(item_id)
-        return {"message": f"Item {item_id} has been successfully deleted."}
+
+    # Retrieve cafe id from the item and check authorization
+    cafe_id = item.cafe_slug
+    try:
+        await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
     except ValueError as e:
-        error_message = str(e)
-        if error_message == "Menu item not found":
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=error_message
-            )
-        elif error_message == "Cafe not found":
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=error_message
-            )
-        elif error_message == "Access forbidden":
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail=error_message
-            )
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+
+    await MenuItemService.delete_menu_item(item_id)
+    return {"message": f"Item {item_id} has been successfully deleted."}
