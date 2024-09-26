@@ -235,7 +235,7 @@ class OrderService:
 
     @staticmethod
     async def generate_sales_report_data(
-        cafe_slug: str,
+        cafe_id: UUID,
         start_date_str: Optional[str],
         end_date_str: Optional[str],
         report_type: str = "daily",
@@ -249,12 +249,7 @@ class OrderService:
         )
         end_date = datetime.strptime(end_date_str, "%Y-%m-%d") if end_date_str else None
 
-        cafe = await Cafe.find_one({"slug": cafe_slug})
-        if not cafe:
-            return None
-        slug_list = [cafe.slug] + getattr(cafe, "previous_slugs", [])
-
-        query = {"cafe_slug": {"$in": slug_list}, "status": "Complétée"}
+        query = {"cafe_id": cafe_id, "status": "Complétée"}
         if start_date:
             query["created_at"] = query.get("created_at", {})
             query["created_at"]["$gte"] = start_date

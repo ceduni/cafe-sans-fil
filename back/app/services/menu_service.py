@@ -160,21 +160,3 @@ class MenuItemService:
         # Delete the menu items
         await MenuItem.find_many({"item_id": {"$in": item_ids}}).delete_many()
         
-    # @staticmethod
-    # async def search_menu_items(query: str, **filters) -> List[MenuItem]:
-    #     """
-    #     Search for menu items based on a query string and additional filters.
-
-    #     :param query: The search query string.
-    #     :param filters: Additional filters to apply to the search.
-    #     :return: A list of MenuItem objects that match the search criteria.
-    #     """
-    #     regex_pattern = {"$regex": query, "$options": "i"}
-    #     filters["$or"] = [
-    #         {"name": regex_pattern},
-    #         {"description": regex_pattern},
-    #         {"tags": regex_pattern},
-    #         {"category": regex_pattern}
-    #     ]
-    
-    #     return await MenuItem.find(filters).to_list()

@@ -42,6 +42,26 @@ class CafeService:
         )
 
     @staticmethod
+    async def retrieve_cafe(cafe_slug: str):
+        """
+        Retrieve a cafe from the database based on the provided cafe slug or UUID.
+
+        :param cafe_id_or_slug: A string representing the cafe slug or UUID.
+        :return: A Cafe object if found, None otherwise.
+        """
+        try:
+            return await Cafe.find_one({"cafe_id": UUID(cafe_slug)})
+        except ValueError:
+            return await Cafe.find_one(
+                {
+                    "$or": [
+                        {"slug": cafe_slug},
+                        {"previous_slugs": cafe_slug},
+                    ]
+                }
+            )
+        
+    @staticmethod
     async def create_cafe(data: CafeCreate) -> Cafe:
         """
         Create a new cafe using the provided data.
@@ -59,37 +79,21 @@ class CafeService:
             else:
                 raise ValueError("Cafe already exists")
 
-    @staticmethod
-    async def retrieve_cafe(cafe_id_or_slug: str):
-        """
-        Retrieve a cafe from the database based on the provided cafe UUID or slug.
-
-        :param cafe_id_or_slug: A string representing the cafe UUID or slug.
-        :return: A Cafe object if found, None otherwise.
-        """
-        try:
-            return await Cafe.find_one({"cafe_id": UUID(cafe_id_or_slug)})
-        except ValueError:
-            return await Cafe.find_one(
-                {
-                    "$or": [
-                        {"slug": cafe_id_or_slug},
-                        {"previous_slugs": cafe_id_or_slug},
-                    ]
-                }
-            )
 
     @staticmethod
-    async def update_cafe(cafe_id_or_slug: str, data: CafeUpdate):
+    async def update_cafe(cafe_id: UUID, data: CafeUpdate):
         """
-        Update a cafe based on the provided UUID or slug and data.
+        Update a cafe based on the provided UUID and data.
 
-        :param cafe_id_or_slug: A string representing the cafe UUID or slug.
+        :param cafe_id: A UUID representing the cafe.
         :param data: The data to update the cafe with.
         :return: The updated Cafe object.
         """
         try:
-            cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
+            cafe = await Cafe.find_one({"cafe_id": cafe_id})
+            if not cafe:
+                raise ValueError("Cafe not found")
+
             for field, value in data.model_dump(exclude_unset=True).items():
                 setattr(cafe, field, value)
             await cafe.save()
@@ -105,99 +109,114 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_staff_members(cafe_id_or_slug: str):
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
-        if cafe and hasattr(cafe, "staff"):
-            return cafe.staff
-        raise ValueError("Cafe not found")
-
-    @staticmethod
-    async def retrieve_staff_member(cafe_id_or_slug: str, username: str):
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
-        if cafe and hasattr(cafe, "staff"):
-            for member in cafe.staff:
-                if member.username == username:
-                    return member
-        else:
-            raise ValueError("Cafe not found")
-
-    @staticmethod
-    async def create_staff_member(cafe_id_or_slug: str, staff_data: StaffCreate):
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
-        if cafe:
-            new_staff_member = StaffMember(**staff_data.dict())
-            cafe.staff.append(new_staff_member)
-            await cafe.save()
-            return new_staff_member
-        raise ValueError("Cafe not found")
-
-    @staticmethod
-    async def update_staff_member(
-        cafe_id_or_slug: str, username: str, staff_data: StaffUpdate
-    ):
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
-        if cafe and hasattr(cafe, "staff"):
-            for member in cafe.staff:
-                if member.username == username:
-                    for key, value in staff_data.dict(exclude_unset=True).items():
-                        setattr(member, key, value)
-                    await cafe.save()
-                    return member
-            raise ValueError("Staff member not found")
-        raise ValueError("Cafe not found")
-
-    @staticmethod
-    async def delete_staff_member(cafe_id_or_slug: str, username: str):
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
-        if cafe and hasattr(cafe, "staff"):
-            # Check if the staff member exists in the cafe
-            if any(member.username == username for member in cafe.staff):
-                # Remove the staff member
-                cafe.staff = [
-                    member for member in cafe.staff if member.username != username
-                ]
-                await cafe.save()
-            else:
-                raise ValueError("Staff member not found")
-        else:
-            raise ValueError("Cafe not found")
-
-    @staticmethod
-    async def create_many_staff_members(cafe_id_or_slug: str, staff_data_list: List[StaffCreate]) -> List[StaffMember]:
+    async def list_staff_members(cafe_id: UUID):
         """
-        Create multiple staff members for a cafe.
+        List staff members of the cafe identified by cafe_id.
 
-        :param cafe_id_or_slug: The ID or slug of the cafe.
-        :param staff_data_list: A list of staff data to create.
-        :return: A list of created StaffMember objects.
+        :param cafe_id: The UUID of the cafe.
+        :return: List of StaffMember objects.
         """
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        if not cafe:
+            raise ValueError("Cafe not found")
+        return cafe.staff
+
+    @staticmethod
+    async def retrieve_staff_member(cafe_id: UUID, username: str):
+        """
+        Retrieve a staff member by username from the cafe identified by cafe_id.
+
+        :param cafe_id: The UUID of the cafe.
+        :param username: The username of the staff member to retrieve.
+        :return: A StaffMember object if found.
+        """
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        if not cafe:
+            raise ValueError("Cafe not found")
+        
+        for member in cafe.staff:
+            if member.username == username:
+                return member
+        
+        raise ValueError("Staff member not found")
+    
+    @staticmethod
+    async def create_staff_member(cafe_id: UUID, staff_data: StaffCreate):
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 
-        new_staff_members = [StaffMember(**staff_data.dict()) for staff_data in staff_data_list]
+        new_staff_member = StaffMember(**staff_data.model_dump())
+        cafe.staff.append(new_staff_member)
+        await cafe.save()
+        return new_staff_member
+
+    @staticmethod
+    async def update_staff_member(cafe_id: UUID, username: str, staff_data: StaffUpdate):
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        if not cafe:
+            raise ValueError("Cafe not found")
+
+        for member in cafe.staff:
+            if member.username == username:
+                for key, value in staff_data.model_dump(exclude_unset=True).items():
+                    setattr(member, key, value)
+                await cafe.save()
+                return member
+
+        raise ValueError("Staff member not found")
+
+    @staticmethod
+    async def delete_staff_member(cafe_id: UUID, username: str):
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        if not cafe:
+            raise ValueError("Cafe not found")
+
+        if any(member.username == username for member in cafe.staff):
+            # Remove the staff member
+            cafe.staff = [
+                member for member in cafe.staff if member.username != username
+            ]
+            await cafe.save()
+        else:
+            raise ValueError("Staff member not found")
+
+    @staticmethod
+    async def create_many_staff_members(cafe_id: UUID, staff_data_list: List[StaffCreate]) -> List[StaffMember]:
+        """
+        Create multiple staff members for a cafe.
+
+        :param cafe_id: The UUID of the cafe.
+        :param staff_data_list: A list of staff data to create.
+        :return: A list of created StaffMember objects.
+        """
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        if not cafe:
+            raise ValueError("Cafe not found")
+
+        new_staff_members = [StaffMember(**staff_data.model_dump()) for staff_data in staff_data_list]
         cafe.staff.extend(new_staff_members)
         await cafe.save()
         return new_staff_members
 
     @staticmethod
-    async def update_many_staff_members(cafe_id_or_slug: str, usernames: List[str], staff_data: StaffUpdate) -> List[StaffMember]:
+    async def update_many_staff_members(cafe_id: UUID, usernames: List[str], staff_data: StaffUpdate) -> List[StaffMember]:
         """
         Update multiple staff members based on the provided usernames.
 
-        :param cafe_id_or_slug: The ID or slug of the cafe.
+        :param cafe_id: The UUID of the cafe.
         :param usernames: A list of usernames of the staff members to update.
         :param staff_data: The data to update the staff members with.
         :return: A list of updated StaffMember objects.
         """
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
-        if not cafe or not hasattr(cafe, "staff"):
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        if not cafe:
             raise ValueError("Cafe not found")
 
         updated_members = []
         for member in cafe.staff:
             if member.username in usernames:
-                for key, value in staff_data.dict(exclude_unset=True).items():
+                for key, value in staff_data.model_dump(exclude_unset=True).items():
                     setattr(member, key, value)
                 updated_members.append(member)
 
@@ -208,31 +227,31 @@ class CafeService:
         return updated_members
 
     @staticmethod
-    async def delete_many_staff_members(cafe_id_or_slug: str, usernames: List[str]) -> None:
+    async def delete_many_staff_members(cafe_id: UUID, usernames: List[str]) -> None:
         """
         Delete multiple staff members based on the provided usernames.
 
-        :param cafe_id_or_slug: The ID or slug of the cafe.
+        :param cafe_id: The UUID of the cafe.
         :param usernames: A list of usernames of the staff members to delete.
         :return: None
         """
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
-        if not cafe or not hasattr(cafe, "staff"):
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        if not cafe:
             raise ValueError("Cafe not found")
 
         # Filter out the staff members whose usernames are not in the provided list
         cafe.staff = [member for member in cafe.staff if member.username not in usernames]
         await cafe.save()
-        
+
     # --------------------------------------
     #               Authorization
     # --------------------------------------
 
     @staticmethod
     async def is_authorized_for_cafe_action(
-        cafe_id_or_slug: str, current_user: User, required_roles: List[Role]
+        cafe_id: UUID, current_user: User, required_roles: List[Role]
     ):
-        cafe = await CafeService.retrieve_cafe(cafe_id_or_slug)
+        cafe = await Cafe.find_one({"cafe_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 
