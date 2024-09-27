@@ -42,21 +42,25 @@ class CafeService:
         )
 
     @staticmethod
-    async def retrieve_cafe(cafe_slug: str):
+    async def retrieve_cafe(cafe_slug_or_id):
         """
         Retrieve a cafe from the database based on the provided cafe slug or UUID.
 
-        :param cafe_id_or_slug: A string representing the cafe slug or UUID.
+        :param cafe_slug_or_id: A string representing the cafe slug or UUID, or a UUID.
         :return: A Cafe object if found, None otherwise.
         """
+        if isinstance(cafe_slug_or_id, UUID):
+            return await Cafe.find_one({"cafe_id": cafe_slug_or_id})
+
         try:
-            return await Cafe.find_one({"cafe_id": UUID(cafe_slug)})
+            cafe_id = UUID(cafe_slug_or_id)
+            return await Cafe.find_one({"cafe_id": cafe_id})
         except ValueError:
             return await Cafe.find_one(
                 {
                     "$or": [
-                        {"slug": cafe_slug},
-                        {"previous_slugs": cafe_slug},
+                        {"slug": cafe_slug_or_id},
+                        {"previous_slugs": cafe_slug_or_id},
                     ]
                 }
             )

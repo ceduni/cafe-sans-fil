@@ -1,8 +1,7 @@
-# scripts/db_seed/cafe_seeder.py
-
 import json
 import random
 from datetime import datetime, timedelta
+from uuid import uuid4
 from faker import Faker
 from tqdm import tqdm
 from app.models.cafe_model import Affiliation, Location, Contact, SocialMedia, TimeBlock, DayHours, PaymentMethod, AdditionalInfo
@@ -17,9 +16,12 @@ with open("./scripts/db_seed/data/cafes.json", "r", encoding="utf-8") as file:
     
 class CafeSeeder:
     def __init__(self):
-        self.cafe_slugs = []
+        self.cafe_ids = []
 
     async def seed_cafes(self, num_cafes: int):
+        """
+        Seeds a specified number of cafes using data from a JSON file.
+        """
         for cafe_info in tqdm(cafes_data[:num_cafes], desc="Seed cafes"):
             # Generate random values
             is_open, status_message = self.random_open_status_message()
@@ -46,19 +48,25 @@ class CafeSeeder:
                 menu_item_ids=[]
             )
 
-            # Insert the cafe and retrieve the object with the generated slug
+            # Insert the cafe and retrieve the object with the generated UUID
             created_cafe = await CafeService.create_cafe(cafe_data)
 
-            # Append the generated slug from the created cafe
-            self.cafe_slugs.append(created_cafe.slug)
+            # Append the generated UUID from the created cafe
+            self.cafe_ids.append(created_cafe.cafe_id)
 
         print(f"{num_cafes} cafes created")
 
-    def get_cafe_slugs(self):
-        return self.cafe_slugs
+    def get_cafe_ids(self):
+        """
+        Returns the list of created cafe IDs.
+        """
+        return self.cafe_ids
 
     # Helper functions for generating random data
     def random_open_status_message(self):
+        """
+        Generates a random open/close status and status message for a cafe.
+        """
         messages = [
             "Fermé pour la journée", "Fermé pour la semaine", "De retour dans 1 heure", 
             "Temporairement fermé", "Fermé pour MIDIRO"
@@ -68,6 +76,9 @@ class CafeSeeder:
         return is_open, status_message
 
     def random_opening_hours(self):
+        """
+        Generates random opening hours for a cafe, including potential breaks.
+        """
         days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"]
         opening_hours = []
 
@@ -94,6 +105,9 @@ class CafeSeeder:
         return opening_hours
 
     def random_payment_methods(self):
+        """
+        Generates random payment methods for a cafe.
+        """
         methods = ["Carte de débit", "Carte de crédit", "Argent comptant"]
         selected_methods_count = random.randint(1, len(methods))
         selected_methods = random.sample(methods, selected_methods_count)
@@ -105,6 +119,9 @@ class CafeSeeder:
         return payment_methods
 
     def random_additional_info(self):
+        """
+        Generates random additional information for a cafe, such as special events or promotions.
+        """
         today = datetime.now()
         info_types = [
             "Événement spécial", "Fermeture temporaire", "Promotion", "Atelier", "Nouveau produit"

@@ -1,5 +1,3 @@
-# scripts/db_seed/menu_seeder.py
-
 import json
 import random
 from faker import Faker
@@ -18,11 +16,14 @@ class MenuSeeder:
     def __init__(self):
         self.menu_item_ids = []
 
-    async def seed_menu_items(self, cafe_slugs, num_items: int):
-        for cafe_slug in tqdm(cafe_slugs, desc="Seeding menu items for cafes"):
-            cafe = await CafeService.retrieve_cafe(cafe_slug)
+    async def seed_menu_items(self, cafe_ids, num_items: int):
+        """
+        Seeds menu items for cafes.
+        """
+        for cafe_id in tqdm(cafe_ids, desc="Seeding menu items for cafes"):
+            cafe = await CafeService.retrieve_cafe(cafe_id)
             if not cafe:
-                print(f"Skipping {cafe_slug}, cafe not found.")
+                print(f"Skipping {cafe_id}, cafe not found.")
                 continue
 
             randomized_menu_items = []
@@ -40,4 +41,7 @@ class MenuSeeder:
         print(f"{len(self.menu_item_ids)} menu items created")
 
     def get_menu_item_ids(self):
+        """
+        Returns the list of generated menu item IDs.
+        """
         return self.menu_item_ids

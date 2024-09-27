@@ -39,13 +39,13 @@ async def main():
 
     # Seed staff for cafes
     await staff_seeder.seed_staff_for_cafes(
-        cafe_slugs=cafe_seeder.get_cafe_slugs(),
+        cafe_ids=cafe_seeder.get_cafe_ids(),
         usernames=user_seeder.get_usernames()
     )
 
     # Seed menu items for cafes
     await menu_seeder.seed_menu_items(
-        cafe_slugs=cafe_seeder.get_cafe_slugs(),
+        cafe_ids=cafe_seeder.get_cafe_ids(),
         num_items=20
     )
 

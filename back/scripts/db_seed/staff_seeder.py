@@ -1,5 +1,3 @@
-# scripts/db_seed/staff_seeder.py
-
 from app.services.cafe_service import CafeService
 from app.schemas.cafe_schema import StaffCreate
 from app.models.cafe_model import Role
@@ -10,12 +8,15 @@ import random
 fake = Faker()
 
 class StaffSeeder:
-    async def seed_staff_for_cafes(self, cafe_slugs, usernames):
-        for index, cafe_slug in enumerate(tqdm(cafe_slugs, desc="Seeding staff for cafes")):
+    async def seed_staff_for_cafes(self, cafe_ids, usernames):
+        """
+        Seeds staff members for cafes.
+        """
+        for index, cafe_id in enumerate(tqdm(cafe_ids, desc="Seeding staff for cafes")):
             if index == 0:
                 # First cafe, make cafesansfil an admin
                 staff = self.random_staff_members(usernames, first_user_admin=True)
-            elif index == 1 or index == len(cafe_slugs) - 1:
+            elif index == 1 or index == len(cafe_ids) - 1:
                 # Second and last cafe, exclude cafesansfil
                 staff = self.random_staff_members(usernames, exclude_first_user=True)
             else:
@@ -23,11 +24,14 @@ class StaffSeeder:
                 staff = self.random_staff_members(usernames)
 
             # Add staff members to the cafe
-            await CafeService.create_many_staff_members(cafe_slug, staff)
+            await CafeService.create_many_staff_members(cafe_id, staff)
 
         print(f"Staff members added to cafes")
 
     def random_staff_members(self, usernames, first_user_admin=False, exclude_first_user=False):
+        """
+        Generate random staff members for cafes.
+        """
         staff_members = []
         selected_users = usernames.copy()
 

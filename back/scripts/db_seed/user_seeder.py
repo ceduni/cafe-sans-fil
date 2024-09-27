@@ -23,6 +23,9 @@ class UserSeeder:
         self.usernames = []
 
     async def seed_users(self, num_users: int):
+        """
+        Seeds a specified number of users into the database.
+        """
         if len(photo_urls) < num_users:
             raise ValueError("Not enough photo URLs for the number of users")
 
@@ -57,6 +60,9 @@ class UserSeeder:
         await self.update_first_user_to_cafesansfil()
 
     async def update_first_user_to_cafesansfil(self):
+        """
+        Updates the first user to 'cafesansfil'.
+        """
         cafesansfil_matricule = "7802085"
         cafesansfil_user = {
             "email": "cafesansfil@umontreal.ca",
@@ -71,16 +77,23 @@ class UserSeeder:
         self.usernames[0] = cafesansfil_matricule
 
     def get_usernames(self):
+        """
+        Returns the list of generated usernames.
+        """
         return self.usernames
 
-    # Helper function to normalize the first_name and last_name (e.g., "Éric" -> "Eric")
     def normalize_string(self, input_str: str) -> str:
+        """
+        Normalizes a string by converting it to ASCII (e.g., 'Éric' -> 'Eric').
+        """
         normalized_str = unicodedata.normalize('NFKD', input_str)
         ascii_str = normalized_str.encode('ascii', 'ignore')
         return ascii_str.decode('ascii')
 
-    # Generate a matricule
     def generate_matricule(self):
+        """
+        Generates a random matricule number.
+        """
         if random.random() < 0.95:
             # 8 digit matricule
             matricule_num = random.randint(20000000, 20299999)

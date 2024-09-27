@@ -8,6 +8,9 @@ fake = Faker()
 
 class OrderSeeder:
     async def seed_orders(self, cafe_slugs, usernames, num_orders: int):
+        """
+        Seeds a specified number of orders for cafes.
+        """
         order_data = []
         for _ in range(num_orders):
             order_data.append(
