@@ -177,7 +177,7 @@ class CafeUpdate(BaseModel):
     })
 
 class CafeOut(BaseModel):
-    cafe_id: UUID = Field(..., description="Unique identifier of the cafe.")
+    id: UUID = Field(..., description="Unique identifier of the cafe.")
     name: str = Field(..., description="Name of the cafe.")
     slug: str = Field(..., description="Slug of the cafe.")
     previous_slugs: List[str] = Field(None, description="Previous slugs of the cafe.")
@@ -198,7 +198,7 @@ class CafeOut(BaseModel):
     menu_item_ids: List[UUID] = Field(..., description="List of menu item UUIDs offered by the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
             "name": "Café Central",
             "slug": "cafe-central",
             "previous_slugs": ["cafe-central-1", "cafe-central-2"],
@@ -256,7 +256,7 @@ class CafeOut(BaseModel):
     })
 
 class CafeShortOut(BaseModel):
-    cafe_id: UUID = Field(..., description="Unique identifier of the cafe.")
+    id: UUID = Field(..., description="Unique identifier of the cafe.", alias="_id")
     name: str = Field(..., description="Name of the cafe.")
     slug: str = Field(..., description="Slug of the cafe.")
     previous_slugs: List[str] = Field(None, description="Previous slugs of the cafe.")
@@ -273,7 +273,7 @@ class CafeShortOut(BaseModel):
     additional_info: List[AdditionalInfo] = Field(..., description="Additional information about the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
             "name": "Café Central",
             "slug": "cafe-central",
             "previous_slugs": ["cafe-central-1", "cafe-central-2"],

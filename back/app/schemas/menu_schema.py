@@ -80,7 +80,7 @@ class MenuItemUpdate(BaseModel):
         return price
 
 class MenuItemOut(BaseModel):
-    item_id: UUID = Field(..., description="Unique identifier of the menu item.")
+    id: UUID = Field(..., description="Unique identifier of the menu item.")
     cafe_id: UUID = Field(..., description="ID of the cafe this menu item belongs to.")
     name: str = Field(..., description="Name of the menu item.")
     tags: List[str] = Field(..., description="Tags associated with the menu item.")
@@ -92,7 +92,7 @@ class MenuItemOut(BaseModel):
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "item_id": "123e4567-e89b-12d3-a456-426614174000",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
             "cafe_id": "123e4567-e89b-12d3-a456-426614174001",
             "name": "Cheeseburger",
             "tags": ["Classique", "Fromage"],

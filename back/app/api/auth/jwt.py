@@ -115,8 +115,8 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
         await user.save()
 
     return {
-        "access_token": create_access_token(user.user_id),
-        "refresh_token": create_refresh_token(user.user_id),
+        "access_token": create_access_token(user.id),
+        "refresh_token": create_refresh_token(user.id),
     }
 
 
@@ -151,6 +151,6 @@ async def refresh_token(refresh_token: str = Body(...)):
             detail="Invalid token for user",
         )
     return {
-        "access_token": create_access_token(user.user_id),
-        "refresh_token": create_refresh_token(user.user_id),
+        "access_token": create_access_token(user.id),
+        "refresh_token": create_refresh_token(user.id),
     }

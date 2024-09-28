@@ -1,10 +1,11 @@
-# scripts/db_seed/order_seeder.py
-
 from app.services.order_service import OrderService
 from app.schemas.order_schema import OrderCreate
 from faker import Faker
 
-fake = Faker()
+# Set random seed and Faker settings
+# random.seed(42)
+Faker.seed(42)
+fake = Faker('fr_FR')
 
 class OrderSeeder:
     async def seed_orders(self, cafe_slugs, usernames, num_orders: int):

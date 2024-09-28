@@ -109,7 +109,7 @@ async def list_menu_items(
     cafe = await CafeService.retrieve_cafe(cafe_slug)
     if not cafe:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found")
-    parsed_params["cafe_id"] = cafe.cafe_id
+    parsed_params["cafe_id"] = cafe.id
 
     return await MenuItemService.list_menu_items(**parsed_params)
 
@@ -121,7 +121,7 @@ async def list_menu_items(
     description="Create a new menu item for the specified café.",
 )
 async def create_menu_item(
-    item: MenuItemCreate,
+    item_data: MenuItemCreate,
     cafe_slug: str = Path(..., description="The slug or UUID of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
@@ -146,9 +146,9 @@ async def create_menu_item(
     
     try:
         await CafeService.is_authorized_for_cafe_action(
-            cafe.cafe_id, current_user, [Role.ADMIN]
+            cafe.id, current_user, [Role.ADMIN]
         )
-        return await MenuItemService.create_menu_item(cafe.cafe_id, item)
+        return await MenuItemService.create_menu_item(cafe.id, item_data)
     except ValueError as e:
         if str(e) == "Access forbidden":
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
@@ -192,7 +192,7 @@ async def get_menu_item(
     description="Update the details of an existing menu item.",
 )
 async def update_menu_item(
-    item: MenuItemUpdate,
+    item_data: MenuItemUpdate,
     item_id: UUID = Path(..., description="The UUID of the menu item"),
     current_user: User = Depends(get_current_user),
 ):
@@ -216,14 +216,13 @@ async def update_menu_item(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
         )
 
-    cafe_id = item.cafe_id
     try:
-        await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER])
+        await CafeService.is_authorized_for_cafe_action(item.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER])
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
     try:
-        updated_item = await MenuItemService.update_menu_item(item_id, item)
+        updated_item = await MenuItemService.update_menu_item(item_id, item_data)
         return updated_item
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
@@ -257,9 +256,8 @@ async def delete_menu_item(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
         )
 
-    cafe_id = item.cafe_slug
     try:
-        await CafeService.is_authorized_for_cafe_action(cafe_id, current_user, [Role.ADMIN])
+        await CafeService.is_authorized_for_cafe_action(item.cafe_id, current_user, [Role.ADMIN])
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 

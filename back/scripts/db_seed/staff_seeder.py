@@ -5,7 +5,10 @@ from faker import Faker
 from tqdm import tqdm
 import random
 
-fake = Faker()
+# Set random seed and Faker settings
+random.seed(42)
+Faker.seed(42)
+fake = Faker('fr_FR')
 
 class StaffSeeder:
     async def seed_staff_for_cafes(self, cafe_ids, usernames):

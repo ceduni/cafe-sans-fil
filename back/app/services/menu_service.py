@@ -38,7 +38,7 @@ class MenuItemService:
         :param item_id: A UUID representing the menu item ID.
         :return: A MenuItem object if found, None otherwise.
         """
-        return await MenuItem.find_one({"item_id": item_id})
+        return await MenuItem.find_one({"_id": item_id})
 
     @staticmethod
     async def create_menu_item(cafe_id: UUID, item_data: MenuItemCreate) -> MenuItem:
@@ -49,13 +49,13 @@ class MenuItemService:
         :param item_data: The data to create the menu item with.
         :return: The created MenuItem object.
         """
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
         
         new_item = MenuItem(**item_data.model_dump(), cafe_id=cafe_id)
         await new_item.insert()
-        cafe.menu_item_ids.append(new_item.item_id)
+        cafe.menu_item_ids.append(new_item.id)
         await cafe.save()
         return new_item
 
@@ -68,7 +68,7 @@ class MenuItemService:
         :param item_data: The data to update the menu item with.
         :return: The updated MenuItem object.
         """
-        item = await MenuItem.find_one({"item_id": item_id})
+        item = await MenuItem.find_one({"_id": item_id})
         if not item:
             raise ValueError("Menu item not found")
         
@@ -85,11 +85,11 @@ class MenuItemService:
         :param item_id: The ID of the menu item to delete.
         :return: None
         """
-        item = await MenuItem.find_one({"item_id": item_id})
+        item = await MenuItem.find_one({"_id": item_id})
         if not item:
             raise ValueError("Menu item not found")
 
-        cafe = await Cafe.find_one({"cafe_id": item.cafe_id})
+        cafe = await Cafe.find_one({"_id": item.cafe_id})
         if cafe:
             cafe.menu_item_ids.remove(item_id)
             await cafe.save()
@@ -105,14 +105,14 @@ class MenuItemService:
         :param items_data: A list of data to create the menu items with.
         :return: A list of created MenuItem objects.
         """
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 
         new_items = [MenuItem(**item_data.model_dump(), cafe_id=cafe_id) for item_data in items_data]
         await MenuItem.insert_many(new_items)
 
-        item_ids = [new_item.item_id for new_item in new_items]
+        item_ids = [new_item.id for new_item in new_items]
         cafe.menu_item_ids.extend(item_ids)
         await cafe.save()
 
@@ -131,11 +131,11 @@ class MenuItemService:
         if not update_data:
             raise ValueError("No data to update")
 
-        result = await MenuItem.find_many({"item_id": {"$in": item_ids}}).update_many({"$set": update_data})
+        result = await MenuItem.find_many({"_id": {"$in": item_ids}}).update_many({"$set": update_data})
         if result.matched_count == 0:
             raise ValueError("No menu items found for the provided IDs")
 
-        return await MenuItem.find_many({"item_id": {"$in": item_ids}}).to_list()
+        return await MenuItem.find_many({"_id": {"$in": item_ids}}).to_list()
 
     @staticmethod
     async def delete_many_menu_items(item_ids: List[UUID]) -> None:
@@ -145,18 +145,17 @@ class MenuItemService:
         :param item_ids: A list of IDs of the menu items to delete.
         :return: None
         """
-        items_to_delete = await MenuItem.find_many({"item_id": {"$in": item_ids}}).to_list()
+        items_to_delete = await MenuItem.find_many({"_id": {"$in": item_ids}}).to_list()
         if not items_to_delete:
             raise ValueError("No menu items found for the provided IDs")
 
         # Remove references to the menu items in associated cafes
         cafe_ids = {item.cafe_id for item in items_to_delete}
-        cafes = await Cafe.find_many({"cafe_id": {"$in": list(cafe_ids)}}).to_list()
+        cafes = await Cafe.find_many({"_id": {"$in": list(cafe_ids)}}).to_list()
         
         for cafe in cafes:
             cafe.menu_item_ids = [item_id for item_id in cafe.menu_item_ids if item_id not in item_ids]
             await cafe.save()
 
         # Delete the menu items
-        await MenuItem.find_many({"item_id": {"$in": item_ids}}).delete_many()
-        
+        await MenuItem.find_many({"_id": {"$in": item_ids}}).delete_many()

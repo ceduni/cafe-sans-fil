@@ -68,7 +68,7 @@ class OrderUpdate(BaseModel):
     })
 
 class OrderOut(BaseModel):
-    order_id: UUID = Field(..., description="Unique identifier of the order.")
+    id: UUID = Field(..., description="Unique identifier of the order.")
     order_number: int = Field(..., description="Order number of the order.")
     user_id: UUID = Field(..., description="UUID of the user who placed the order.")
     cafe_id: UUID = Field(..., description="UUID of the cafe associated with the order.")
@@ -81,7 +81,7 @@ class OrderOut(BaseModel):
     updated_at: datetime = Field(..., description="Timestamp when the order was last updated.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "order_id": "123e4567-e89b-12d3-a456-426614174000",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
             "order_number": 1234,
             "user_id": "323e4567-e89b-12d3-a456-426614174001",
             "cafe_id": "423e4567-e89b-12d3-a456-426614174002",

@@ -79,6 +79,7 @@ def parse_query_params(query_params: Dict) -> Dict:
 @cafe_router.get(
     "/cafes",
     response_model=List[CafeShortOut],
+    response_model_by_alias=False,
     summary="List Cafes",
     description="Retrieve a list of all cafes with short information.",
 )
@@ -219,8 +220,8 @@ async def update_cafe(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Café not found")
 
     try:
-        await CafeService.is_authorized_for_cafe_action(cafe_obj.cafe_id, current_user, [Role.ADMIN])
-        return await CafeService.update_cafe(cafe_obj.cafe_id, cafe)
+        await CafeService.is_authorized_for_cafe_action(cafe_obj.id, current_user, [Role.ADMIN])
+        return await CafeService.update_cafe(cafe_obj.id, cafe)
     except ValueError as e:
         if str(e) == "Cafe not found":
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -258,7 +259,7 @@ async def list_staff(cafe_slug: str = Path(..., description="The slug or UUID of
     cafe_obj = await CafeService.retrieve_cafe(cafe_slug)
     if not cafe_obj:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Café not found")
-    return await CafeService.list_staff_members(cafe_obj.cafe_id)
+    return await CafeService.list_staff_members(cafe_obj.id)
 
 
 @cafe_router.post(
@@ -288,7 +289,7 @@ async def create_staff_member(
     if not cafe_obj:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Café not found")
 
-    user = await CafeService.retrieve_staff_member(cafe_obj.cafe_id, staff.username)
+    user = await CafeService.retrieve_staff_member(cafe_obj.id, staff.username)
     if user:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Staff member already exists")
 
@@ -297,14 +298,14 @@ async def create_staff_member(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     try:
-        await CafeService.is_authorized_for_cafe_action(cafe_obj.cafe_id, current_user, [Role.ADMIN])
+        await CafeService.is_authorized_for_cafe_action(cafe_obj.id, current_user, [Role.ADMIN])
     except ValueError as e:
         if str(e) == "Cafe not found":
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
         elif str(e) == "Access forbidden":
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
-    return await CafeService.create_staff_member(cafe_obj.cafe_id, staff)
+    return await CafeService.create_staff_member(cafe_obj.id, staff)
 
 
 @cafe_router.put(
@@ -339,8 +340,8 @@ async def update_staff_member(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Café not found")
 
     try:
-        await CafeService.is_authorized_for_cafe_action(cafe_obj.cafe_id, current_user, [Role.ADMIN])
-        return await CafeService.update_staff_member(cafe_obj.cafe_id, username, staff)
+        await CafeService.is_authorized_for_cafe_action(cafe_obj.id, current_user, [Role.ADMIN])
+        return await CafeService.update_staff_member(cafe_obj.id, username, staff)
     except ValueError as e:
         if str(e) == "Cafe not found":
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -377,8 +378,8 @@ async def delete_staff_member(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Café not found")
 
     try:
-        await CafeService.is_authorized_for_cafe_action(cafe_obj.cafe_id, current_user, [Role.ADMIN])
-        await CafeService.delete_staff_member(cafe_obj.cafe_id, username)
+        await CafeService.is_authorized_for_cafe_action(cafe_obj.id, current_user, [Role.ADMIN])
+        await CafeService.delete_staff_member(cafe_obj.id, username)
     except ValueError as e:
         if str(e) == "Cafe not found":
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
@@ -428,7 +429,7 @@ async def get_sales_report(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Café not found")
 
     try:
-        await CafeService.is_authorized_for_cafe_action(cafe_obj.cafe_id, current_user, [Role.ADMIN])
+        await CafeService.is_authorized_for_cafe_action(cafe_obj.id, current_user, [Role.ADMIN])
     except ValueError as e:
         if str(e) == "Cafe not found":
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))

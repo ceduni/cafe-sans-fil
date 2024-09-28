@@ -41,7 +41,7 @@ class UserService:
 
     @staticmethod
     async def get_user_by_id(id: UUID) -> Optional[User]:
-        user = await User.find_one({"user_id": id, "is_active": True})
+        user = await User.find_one({"_id": id, "is_active": True})
         return user
 
     # --------------------------------------

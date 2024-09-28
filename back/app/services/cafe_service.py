@@ -22,7 +22,7 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_cafes(**query_params) -> List[Cafe]:
+    async def list_cafes(**query_params) -> List[CafeShortOut]:
         """
         List cafes based on the provided query parameters.
 
@@ -50,11 +50,11 @@ class CafeService:
         :return: A Cafe object if found, None otherwise.
         """
         if isinstance(cafe_slug_or_id, UUID):
-            return await Cafe.find_one({"cafe_id": cafe_slug_or_id})
+            return await Cafe.find_one({"_id": cafe_slug_or_id})
 
         try:
             cafe_id = UUID(cafe_slug_or_id)
-            return await Cafe.find_one({"cafe_id": cafe_id})
+            return await Cafe.find_one({"_id": cafe_id})
         except ValueError:
             return await Cafe.find_one(
                 {
@@ -94,7 +94,7 @@ class CafeService:
         :return: The updated Cafe object.
         """
         try:
-            cafe = await Cafe.find_one({"cafe_id": cafe_id})
+            cafe = await Cafe.find_one({"_id": cafe_id})
             if not cafe:
                 raise ValueError("Cafe not found")
 
@@ -120,7 +120,7 @@ class CafeService:
         :param cafe_id: The UUID of the cafe.
         :return: List of StaffMember objects.
         """
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
         return cafe.staff
@@ -134,7 +134,7 @@ class CafeService:
         :param username: The username of the staff member to retrieve.
         :return: A StaffMember object if found.
         """
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
         
@@ -146,7 +146,7 @@ class CafeService:
     
     @staticmethod
     async def create_staff_member(cafe_id: UUID, staff_data: StaffCreate):
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 
@@ -157,7 +157,7 @@ class CafeService:
 
     @staticmethod
     async def update_staff_member(cafe_id: UUID, username: str, staff_data: StaffUpdate):
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 
@@ -172,7 +172,7 @@ class CafeService:
 
     @staticmethod
     async def delete_staff_member(cafe_id: UUID, username: str):
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 
@@ -194,7 +194,7 @@ class CafeService:
         :param staff_data_list: A list of staff data to create.
         :return: A list of created StaffMember objects.
         """
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 
@@ -213,7 +213,7 @@ class CafeService:
         :param staff_data: The data to update the staff members with.
         :return: A list of updated StaffMember objects.
         """
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 
@@ -239,7 +239,7 @@ class CafeService:
         :param usernames: A list of usernames of the staff members to delete.
         :return: None
         """
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 
@@ -255,7 +255,7 @@ class CafeService:
     async def is_authorized_for_cafe_action(
         cafe_id: UUID, current_user: User, required_roles: List[Role]
     ):
-        cafe = await Cafe.find_one({"cafe_id": cafe_id})
+        cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
 

@@ -1,7 +1,7 @@
 from typing import List, Optional
 from uuid import UUID, uuid4
 from pydantic import field_validator, BaseModel, Field
-from beanie import Document,DecimalAnnotation, Indexed
+from beanie import Document, DecimalAnnotation, Indexed
 
 class MenuItemOption(BaseModel):
     type: str = Field(..., min_length=1, description="Type of the menu item option.")
@@ -16,7 +16,7 @@ class MenuItemOption(BaseModel):
         return fee
 
 class MenuItem(Document):
-    item_id: UUID = Field(default_factory=uuid4, description="Unique identifier of the menu item.")
+    id: UUID = Field(default_factory=uuid4, description="Unique identifier of the menu item.")
     cafe_id: UUID = Field(..., description="ID of the cafe this menu item belongs to.")
     name: Indexed(str) = Field(..., description="Name of the menu item.")
     tags: List[str] = Field(..., description="List of tags associated with the menu item.")

@@ -88,7 +88,7 @@ class StaffMember(BaseModel):
     role: Role = Field(..., description="Role of the staff member, e.g., 'Bénévole', 'Admin'.")
 
 class Cafe(Document):
-    cafe_id: UUID = Field(default_factory=uuid4)
+    id: UUID = Field(default_factory=uuid4)
     name: Indexed(str, unique=True)
     slug: Indexed(str, unique=True) = None
     previous_slugs: List[str] = []
@@ -116,7 +116,7 @@ class Cafe(Document):
         existing_cafe = await Cafe.find_one(
             {"$and": [
                 {"$or": [{"slug": slug}, {"previous_slugs": slug}]},
-                {"cafe_id": {"$ne": self.cafe_id}}
+                {"_id": {"$ne": self.id}}
             ]}
         )
         return existing_cafe is None

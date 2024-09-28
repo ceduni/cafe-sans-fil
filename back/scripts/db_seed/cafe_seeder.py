@@ -8,7 +8,10 @@ from app.models.cafe_model import Affiliation, Location, Contact, SocialMedia, T
 from app.schemas.cafe_schema import CafeCreate
 from app.services.cafe_service import CafeService
 
-fake = Faker()
+# Set random seed and Faker settings
+random.seed(42)
+Faker.seed(42)
+fake = Faker('fr_FR')
 
 # Load cafe data from JSON file
 with open("./scripts/db_seed/data/cafes.json", "r", encoding="utf-8") as file:
@@ -52,7 +55,7 @@ class CafeSeeder:
             created_cafe = await CafeService.create_cafe(cafe_data)
 
             # Append the generated UUID from the created cafe
-            self.cafe_ids.append(created_cafe.cafe_id)
+            self.cafe_ids.append(created_cafe.id)
 
         print(f"{num_cafes} cafes created")
 

@@ -1,5 +1,3 @@
-# scripts/db_seed/user_seeder.py
-
 import json
 import random
 import unicodedata
