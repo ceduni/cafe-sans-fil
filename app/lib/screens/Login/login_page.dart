@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
         const SnackBar(content: Text('Please fill in all fields.')),
       );
     }
-  }
+  } //
 
   @override
   Widget build(BuildContext context) {
