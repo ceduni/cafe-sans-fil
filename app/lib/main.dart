@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:app/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
+import 'package:app/provider/auth_provider.dart';
+import 'package:app/screens/Login /login_page.dart';
 
 void main() {
   runApp(
@@ -29,6 +31,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => ShiftProvider()),
         ChangeNotifierProvider(create: (context) => VolunteerProvider()),
         ChangeNotifierProvider(create: (context) => CafeProvider()),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
       ],
       child: const MyApp(),
     ),
@@ -51,9 +54,11 @@ class MyApp extends StatelessWidget {
           locale: languageProvider.getactualLanguage(), //en, fr or es  language
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           debugShowCheckedModeBanner: false,
-          home: const RootPage(),
+          home: const LoginPage(),
           routes: {
             '/settings': (context) => const SettingsPage(),
+            '/home': (context) => const RootPage(),
+            '/logout': (context) => const LoginPage(),
           },
         );
       },

@@ -1,6 +1,8 @@
 import 'package:app/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:app/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({super.key});
@@ -58,6 +60,12 @@ class Sidebar extends StatelessWidget {
                 AppLocalizations.of(context)!.sidebar_logOut,
                 style: style,
               ),
+              onTap: () async {
+                await Provider.of<AuthProvider>(context, listen: false)
+                    .logout(); // Déconnexion
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/login', (route) => false);
+              },
             ),
           ],
         ),
