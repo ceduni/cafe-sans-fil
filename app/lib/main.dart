@@ -18,7 +18,7 @@ import 'package:app/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:app/provider/auth_provider.dart';
-import 'package:app/screens/Login /login_page.dart';
+import 'package:app/screens/Login/login_page.dart';
 
 void main() {
   runApp(

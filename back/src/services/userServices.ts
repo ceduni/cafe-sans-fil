@@ -1,4 +1,5 @@
 import { IUser, UserModel } from "../models/DatabaseModels/userModel";
+import jwt from "jsonwebtoken";
 
 export class UserService {
   public constructor() {}
@@ -32,6 +33,11 @@ export class UserService {
       console.error("Error fetching user data:", err);
       return null;
     }
+  }
+  // Nouvelle méthode pour trouver un utilisateur par jeton
+  public async getUserByToken(token: string): Promise<IUser | null> {
+    const decoded: any = jwt.verify(token, process.env.PHRASE_PASS!);
+    return await UserModel.findOne({ _id: decoded._id, "authTokens.authToken": token }).exec();
   }
 }
 

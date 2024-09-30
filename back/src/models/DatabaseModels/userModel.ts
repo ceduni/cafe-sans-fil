@@ -1,5 +1,10 @@
 import { Schema, Document, model, Collection } from "mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
+interface IAuthToken {
+  authToken: string;
+}
 interface IUser extends Document {
   user_id: String;
   email: string;
@@ -14,6 +19,9 @@ interface IUser extends Document {
   lockout_until: Date | null;
   is_active: boolean;
   work_at: string;
+  authTokens: IAuthToken[];
+  comparePassword(password: string): Promise<boolean>;
+  generateAuthToken(): Promise<string>;
 }
 
 const UserSchema: Schema = new Schema({
@@ -30,7 +38,29 @@ const UserSchema: Schema = new Schema({
   lockout_until: { type: Date, default: null },
   is_active: { type: Boolean, default: true },
   work_at: { type: String },
+  authTokens: [{
+    authToken: {
+      type: String,
+      required: true 
+    }
+  }],
+  
 });
+
+// Méthodes de comparaison de mot de passe
+UserSchema.methods.comparePassword = async function (password: string): Promise<boolean> {
+  return bcrypt.compare(password, this.hashed_password);
+};
+
+// Méthode pour générer un jeton JWT
+UserSchema.methods.generateAuthToken = async function (): Promise<string> {
+  const token = jwt.sign({ _id: this._id }, process.env.PHRASE_PASS!, {
+    expiresIn: "1h",
+  });
+  this.authTokens.push({ authToken: token });
+  await this.save();
+  return token;
+};
 
 const UserModel = model<IUser>("User", UserSchema, "users"); // for selecting the collection
 export { UserModel, IUser };
