@@ -63,8 +63,8 @@ class Sidebar extends StatelessWidget {
               onTap: () async {
                 await Provider.of<AuthProvider>(context, listen: false)
                     .logout(); // Déconnexion
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/login', (route) => false);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
               },
             ),
           ],

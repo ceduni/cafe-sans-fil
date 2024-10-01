@@ -8,18 +8,20 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class AuthService {
   final storage = const FlutterSecureStorage();
 
-  Future<String> login(String email, String password) async {
+  Future<String?> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('${Config.baseUrl}/auth/login'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({'email': email, 'password': password}),
     );
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      await storeToken(data['token']);
-      return data['token']; // Renvoie seulement le token
+      String token = data['authToken']; // Accede au 'authToken'
+      await storeToken(token);
+      return token;
     } else {
-      throw Exception('Failed to login');
+      throw Exception('Failed to login: ${response.body}');
     }
 /*
     if (response.statusCode == 200) {
@@ -35,14 +37,18 @@ class AuthService {
   Future<void> logout() async {
     final token = await getToken();
     if (token != null) {
-      await http.post(
+      final response = await http.post(
         Uri.parse('${Config.baseUrl}/auth/logout'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
         },
       );
-      await storage.delete(key: 'token');
+      if (response.statusCode == 200) {
+        await storage.delete(key: 'token'); // Suppression du token
+      } else {
+        throw Exception('Failed to logout: ${response.body}');
+      }
     }
   }
 
