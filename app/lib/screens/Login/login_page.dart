@@ -1,3 +1,5 @@
+import 'package:app/screens/Login/components/my_button.dart';
+import 'package:app/screens/Login/components/my_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:app/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -39,45 +41,41 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 160, 210, 250),
-        body: SafeArea(
-            child: Center(
-                child: Column(
+      backgroundColor: Colors.grey.shade50,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //logo app
-            const SizedBox(height: 70),
-            Image.asset('images/logo.png', width: 100, height: 100),
-            const SizedBox(height: 70),
-
-            //username textfield
-            TextField(
+            const SizedBox(height: 50),
+            Image.asset('images/logo.png', width: 200, height: 200),
+            const SizedBox(height: 50),
+            //Email textField
+            MyTextField(
+              hintText: "email",
+              obscureText: false,
               controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.emailAddress,
             ),
 
-            const SizedBox(height: 16),
-            //Password textfield
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
+            const SizedBox(height: 20),
+
+            //PassWord textField
+            MyTextField(
+              hintText: "Password",
               obscureText: true,
+              controller: _passwordController,
             ),
 
-            ElevatedButton(
-              onPressed: _login,
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 36),
-              ),
-              child: const Text('Login'),
-            ),
+            const SizedBox(height: 35),
+
+            //Login Button
+            MyButton(
+              text: "Login",
+              onTap: _login,
+            )
           ],
-        ))));
+        ),
+      ),
+    );
   }
 }
