@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { UserService } from "../services/userServices";
 import { IUser } from "../models/DatabaseModels/userModel";
 import jwt from "jsonwebtoken";
+import { authMiddleware } from '../middleware/authMiddleware';
 
 export class UserRoutes {
   private _router: Router;
@@ -13,14 +14,14 @@ export class UserRoutes {
   }
 
   private init() {
-    this._router.get("/users", this.getUser.bind(this));
-    this._router.get("/users/email/:email", this.getUserByEmail.bind(this));
+    this._router.get("/users", authMiddleware, this.getUser.bind(this));
+    this._router.get("/users/email/:email", authMiddleware,this.getUserByEmail.bind(this));
     this._router.get(
-      "/users/matricule/:matricule",
+      "/users/matricule/:matricule", authMiddleware,
       this.getUserByMatricule.bind(this)
     );
     this._router.post("/auth/login", this.login.bind(this));
-    this._router.post("/auth/logout", this.logout.bind(this));
+    this._router.post("/auth/logout", authMiddleware, this.logout.bind(this));
   }
 
   public get router(): Router {

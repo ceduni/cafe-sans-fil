@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { CafeService } from "../services/cafeServices";
 import { ICafe } from "../models/DatabaseModels/cafeModel";
 import { IUser } from "../models/DatabaseModels/userModel";
+import { authMiddleware } from '../middleware/authMiddleware';
 
 export class CafeRoutes {
   private _router: Router;
@@ -20,11 +21,11 @@ export class CafeRoutes {
       this.getCafesVonlunteer.bind(this)
     );
     this._router.post(
-      "/cafes/:cafeName/volunteer",
+      "/cafes/:cafeName/volunteer", authMiddleware,
       this.addVolunteer.bind(this)
     );
     this._router.delete(
-      "/cafes/:cafeName/:matricule",
+      "/cafes/:cafeName/:matricule", authMiddleware,
       this.deleteVolunteer.bind(this)
     );
   }

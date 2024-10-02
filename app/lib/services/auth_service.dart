@@ -70,4 +70,4 @@ class AuthService {
   }
 }
 
-// code inspire de https://medium.com/@hpatilabhi10/understanding-jwt-tokens-in-flutter-0dfd0f495715
+// le code est inspiré de https://medium.com/@hpatilabhi10/understanding-jwt-tokens-in-flutter-0dfd0f495715

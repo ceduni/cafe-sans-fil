@@ -1,5 +1,6 @@
 import { NextFunction, Router, Request, Response } from "express";
 import { ProductService } from "../services/productService";
+import { authMiddleware } from '../middleware/authMiddleware';
 
 export class ProductRoutes {
   getOrders(id: any): number {
@@ -73,7 +74,7 @@ export class ProductRoutes {
   private init(): void {
     // orders
     this._router.get("/orders", this.getSales.bind(this));
-    this._router.post("/orders", this.addOrder.bind(this));
+    this._router.post("/orders", authMiddleware,this.addOrder.bind(this));
 
     this._router.get("/orders/:productName", this.getSales.bind(this));
     this._router.get("/stocks", this.getStock.bind(this));
