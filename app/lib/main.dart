@@ -19,6 +19,8 @@ import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:app/provider/auth_provider.dart';
 import 'package:app/screens/Login/login_page.dart';
+import 'package:app/provider/message_provider.dart';
+import 'package:app/screens/messages/message_home_page.dart';
 
 void main() {
   runApp(
@@ -32,6 +34,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => VolunteerProvider()),
         ChangeNotifierProvider(create: (context) => CafeProvider()),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => MessageProvider()),
       ],
       child: const MyApp(),
     ),
@@ -58,7 +61,8 @@ class MyApp extends StatelessWidget {
           routes: {
             '/settings': (context) => const SettingsPage(),
             '/home': (context) => const RootPage(),
-            '/logout': (context) => const LoginPage(),
+            '/login': (context) => const LoginPage(),
+            '/messages': (context) => MessageHomePage(),
           },
         );
       },
@@ -81,6 +85,7 @@ class _RootPageState extends State<RootPage> {
     const Dashboard(),
     const Horaire(),
     const Article(),
+    //MessageHomePage()
   ];
   @override
   Widget build(BuildContext context) {
@@ -120,6 +125,12 @@ class _RootPageState extends State<RootPage> {
             label: AppLocalizations.of(context)!
                 .bottomNavigationBar_articleButtonText,
           ),
+          /*const NavigationDestination(
+              icon: Icon(
+                Icons.message,
+                color: Colors.white,
+              ),
+              label: "Messages"),*/
         ],
         onDestinationSelected: (int index) {
           setState(() {

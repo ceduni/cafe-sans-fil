@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:provider/provider.dart';
 
+import '../messages/message.dart';
+
 class Benevole extends StatefulWidget {
   const Benevole({super.key});
 
@@ -71,8 +73,24 @@ class _BenevoleState extends State<Benevole> {
                           subtitle: Text(
                               AppLocalizations.of(context)!.volunteer_text),
                           onTap: () {
-                            // Open the volunteer details page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MessagePage(
+                                  userName:
+                                      "${(context.read<VolunteerProvider>().Volunteers)[index].firstName}" ??
+                                          'Unknown User',
+                                  userEmail:
+                                      "${(context.read<VolunteerProvider>().Volunteers)[index].firstName}" ??
+                                          'Unknown Email',
+                                ),
+                              ),
+                            );
                           },
+                        ),
+                        const Icon(
+                          Icons.message,
+                          color: Colors.blue,
                         ),
                         const Divider(),
                       ],

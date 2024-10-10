@@ -62,9 +62,9 @@ class Sidebar extends StatelessWidget {
               ),
               onTap: () async {
                 await Provider.of<AuthProvider>(context, listen: false)
-                    .logout(); // Déconnexion
+                    .logout(); // Logout
                 Navigator.pushNamedAndRemoveUntil(
-                    context, '/logout', (route) => false);
+                    context, '/login', (route) => false); // Redirect to login
               },
             ),
           ],

@@ -4,6 +4,8 @@ import { UserRoutes } from "../routes/userRoutes";
 import { CafeRoutes } from "../routes/cafeRoutes";
 import { ShiftRoutes } from "../routes/shiftRoutes";
 import { Database } from "../database/DataBase";
+import { MessageService } from "../services/messageServices";
+import { MessageRoutes } from "../routes/messageRoutes";
 
 // Charger les variables d'environnement
 require("dotenv").config({ path: ".env" });
@@ -16,6 +18,7 @@ export class MainController {
   private userRoute: UserRoutes;
   private shiftRoute: ShiftRoutes;
   private cafeRoute: CafeRoutes;
+  private messageRoute: MessageRoutes;
 
   public constructor() {
     this.app = express();
@@ -25,6 +28,7 @@ export class MainController {
     this.userRoute = new UserRoutes();
     this.shiftRoute = new ShiftRoutes();
     this.cafeRoute = new CafeRoutes();
+    this.messageRoute = new MessageRoutes();
 
     this.init();
   }
@@ -61,6 +65,7 @@ export class MainController {
     this.app.use("/api/v1", this.cafeRoute.router);
     this.app.use("/api/v1", this.userRoute.router);
     this.app.use("/api/v1", this.shiftRoute.router);
+    this.app.use("/api/v1", this.messageRoute.router);
   }
   /**
    * this method will call the Productcontroller class to

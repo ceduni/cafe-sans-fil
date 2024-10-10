@@ -7,10 +7,11 @@ class AuthProvider extends ChangeNotifier {
   String? _token;
 
   String? get token => _token;
+
   Future<void> login(String email, String password) async {
     try {
-      await _authService.login(email, password);
-      notifyListeners();
+      _token = await _authService.login(email, password);
+      notifyListeners(); // Notify listeners that the login state has changed
     } catch (e) {
       throw Exception('Failed to login: ${e.toString()}');
     }
@@ -18,7 +19,8 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> logout() async {
     await _authService.logout();
-    notifyListeners();
+    _token = null; // Clear the token on logout
+    notifyListeners(); // Notify listeners that the logout occurred
   }
 
   Future<bool> isLoggedIn() async {
