@@ -15,10 +15,10 @@ different from the API data interchange models.
 """
 
 class User(Document):
-    user_id: UUID = Field(default_factory=uuid4)
+    id: UUID = Field(default_factory=uuid4)
+    username: Indexed(str, unique=True)
     email: Indexed(EmailStr, unique=True)
     matricule: Indexed(str, unique=True)
-    username: Indexed(str, unique=True)
     hashed_password: str
     first_name: Indexed(str)
     last_name: Indexed(str)
@@ -26,7 +26,7 @@ class User(Document):
 
     # Hidden from out
     failed_login_attempts: int = Field(default=0)
-    last_failed_login_attempt:Optional[datetime] = Field(default=None)
+    last_failed_login_attempt: Optional[datetime] = Field(default=None)
     lockout_until: Optional[datetime] = Field(default=None)
     is_active: bool = True
 

@@ -29,6 +29,7 @@ user_router = APIRouter()
 @user_router.get(
     "/users",
     response_model=List[UserOut],
+    response_model_by_alias=False,
     summary="🔵 List Users",
     description="Retrieve a list of all users.",
 )
@@ -154,7 +155,7 @@ async def request_reset_password(user_email: PasswordResetRequest):
             detail="User not found with the provided email address.",
         )
 
-    token = create_access_token(user.user_id)
+    token = create_access_token(user.id)
     base_url = settings.BASE_URL
     reset_link = f"{base_url}/reset-password?token={token}"
 

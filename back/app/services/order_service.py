@@ -84,6 +84,59 @@ class OrderService:
         return order
 
     @staticmethod
+    async def create_many_orders(orders_data: List[OrderCreate], username: str) -> List[Order]:
+        """
+        Create multiple orders for a user.
+
+        :param orders_data: A list of order data to create.
+        :param username: The username of the user creating the orders.
+        :return: A list of created Order objects.
+        """
+        orders = []
+        for data in orders_data:
+            order_data = data.model_dump()
+            order_data["user_username"] = username
+            order_data["order_number"] = await OrderService.get_next_order_number()
+            order = Order(**order_data)
+            orders.append(order)
+
+        await Order.insert_many(orders)
+        return orders
+
+    @staticmethod
+    async def update_many_orders(order_ids: List[UUID], data: OrderUpdate) -> List[Order]:
+        """
+        Update multiple orders based on the provided list of UUIDs and data.
+
+        :param order_ids: A list of IDs of the orders to update.
+        :param data: The data to update the orders with.
+        :return: A list of updated Order objects.
+        """
+        update_data = data.model_dump(exclude_unset=True)
+        if not update_data:
+            raise ValueError("No data to update")
+
+        result = await Order.find_many({"order_id": {"$in": order_ids}}).update_many({"$set": update_data})
+        if result.matched_count == 0:
+            raise ValueError("No orders found for the provided IDs")
+
+        return await Order.find_many({"order_id": {"$in": order_ids}}).to_list()
+
+    @staticmethod
+    async def delete_many_orders(order_ids: List[UUID]) -> None:
+        """
+        Delete multiple orders based on the provided list of UUIDs.
+
+        :param order_ids: A list of IDs of the orders to delete.
+        :return: None
+        """
+        orders_to_delete = await Order.find_many({"order_id": {"$in": order_ids}}).to_list()
+        if not orders_to_delete:
+            raise ValueError("No orders found for the provided IDs")
+
+        await Order.find_many({"order_id": {"$in": order_ids}}).delete_many()
+
+    @staticmethod
     async def check_and_update_order_status(orders):
         now = datetime.utcnow()
         for order_dict in orders:
@@ -182,7 +235,7 @@ class OrderService:
 
     @staticmethod
     async def generate_sales_report_data(
-        cafe_slug: str,
+        cafe_id: UUID,
         start_date_str: Optional[str],
         end_date_str: Optional[str],
         report_type: str = "daily",
@@ -196,12 +249,7 @@ class OrderService:
         )
         end_date = datetime.strptime(end_date_str, "%Y-%m-%d") if end_date_str else None
 
-        cafe = await Cafe.find_one({"slug": cafe_slug})
-        if not cafe:
-            return None
-        slug_list = [cafe.slug] + getattr(cafe, "previous_slugs", [])
-
-        query = {"cafe_slug": {"$in": slug_list}, "status": "Complétée"}
+        query = {"cafe_id": cafe_id, "status": "Complétée"}
         if start_date:
             query["created_at"] = query.get("created_at", {})
             query["created_at"]["$gte"] = start_date

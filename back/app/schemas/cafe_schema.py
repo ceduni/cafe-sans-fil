@@ -3,7 +3,7 @@ from uuid import UUID
 from pydantic import field_validator, ConfigDict, BaseModel, Field
 from datetime import datetime, timedelta
 from beanie import DecimalAnnotation
-from app.models.cafe_model import Affiliation,Feature, DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, StaffMember, MenuItemOption
+from app.models.cafe_model import Affiliation, Feature, DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, StaffMember
 
 """
 This module defines the Pydantic-based schemas for cafe operations in the Café application. 
@@ -12,106 +12,6 @@ and documentation specific to cafe listings, details, and management.
 
 Note: These models are for API data interchange related to cafes and not direct database models.
 """
-
-# --------------------------------------
-#               Menu
-# --------------------------------------
-
-class MenuItemCreate(BaseModel):
-    name: str = Field(..., min_length=1, max_length=50, description="Name of the menu item.")
-    tags: List[str] = Field(..., max_length=20, description="List of tags for the menu item.")
-    description: str = Field(..., min_length=1, max_length=255, description="Description of the menu item.")
-    image_url: Optional[str] = Field(None, max_length=755, description="Image URL of the menu item.")
-    price: DecimalAnnotation = Field(..., description="Price of the menu item.")
-    in_stock: bool = Field(..., description="Availability status of the menu item.")
-    category: str = Field(..., min_length=1, max_length=50, description="Category of the menu item.")
-    options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "name": "Cheeseburger",
-            "tags": ["Rapide", "Savoureux"],
-            "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
-            "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
-            "price": 5.99,
-            "in_stock": True,
-            "category": "Burgers",
-            "options": [
-                {"type": "taille", "value": "grand", "fee": 0.5},
-                {"type": "ingrédients", "value": "bœuf", "fee": 0},
-                {"type": "ingrédients", "value": "laitue", "fee": 0},
-                {"type": "ingrédients", "value": "tomate", "fee": 0},
-                {"type": "ingrédients", "value": "fromage", "fee": 0}
-            ]
-        }
-    })
-
-    @field_validator('price')
-    @classmethod
-    def validate_price(cls, price):
-        if price < 0:
-            raise ValueError("Price must be a non-negative value.")
-        return price
-    
-class MenuItemUpdate(BaseModel):
-    name: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated name of the menu item.")
-    tags: Optional[List[str]] = Field(None, max_length=20, description="Updated tags for the menu item.")
-    description: Optional[str] = Field(None, min_length=1, max_length=255, description="Updated description of the menu item.")
-    image_url: Optional[str] = Field(None, max_length=755, description="Updated image URL of the menu item.")
-    price: Optional[DecimalAnnotation] = Field(None, description="Updated price of the menu item.")
-    in_stock: Optional[bool] = Field(None, description="Updated availability status of the menu item.")
-    category: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated category of the menu item.")
-    options: Optional[List[MenuItemOption]] = Field(None, description="Updated options for the menu item.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "name": "Cheeseburger Spécial",
-            "tags": ["Gourmet", "Nouveau"],
-            "description": "Cheeseburger gourmet avec bacon et sauce spéciale",
-            "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
-            "price": 7.99,
-            "in_stock": False,
-            "category": "Burgers Spéciaux",
-            "options": [
-                {"type": "épice", "value": "piquant", "fee": 0.75},
-                {"type": "supplément", "value": "bacon", "fee": 1.0}
-            ]
-        }
-    })
-
-    @field_validator('price')
-    @classmethod
-    def validate_price(cls, price):
-        if price < 0:
-            raise ValueError("Price must be a non-negative value.")
-        return price
-    
-class MenuItemOut(BaseModel):
-    item_id: UUID = Field(..., description="Unique identifier of the menu item.")
-    name: str = Field(..., description="Name of the menu item.")
-    slug: str = Field(..., description="Slug of the menu item.")
-    tags: List[str] = Field(..., description="Tags associated with the menu item.")
-    description: str = Field(..., description="Description of the menu item.")
-    image_url: Optional[str] = Field(None, description="Image URL of the menu item.")
-    price: DecimalAnnotation = Field(..., description="Price of the menu item.")
-    in_stock: bool = Field(..., description="Availability status of the menu item.")
-    category: str = Field(..., description="Category of the menu item.")
-    options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "item_id": "123e4567-e89b-12d3-a456-426614174000",
-            "name": "Cheeseburger",
-            "slug": "cheeseburger",
-            "tags": ["Classique", "Fromage"],
-            "description": "Un cheeseburger classique avec une tranche de fromage fondant",
-            "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
-            "price": 5.99,
-            "in_stock": True,
-            "category": "Burgers",
-            "options": [
-                {"type": "taille", "value": "moyen", "fee": 0.0},
-                {"type": "sans oignon", "value": "oui", "fee": 0.0}
-            ]
-        }
-    })
 
 # --------------------------------------
 #               Staff
@@ -165,7 +65,7 @@ class CafeCreate(BaseModel):
     payment_methods: List[PaymentMethod] = Field(..., description="Accepted payment methods at the cafe.")
     additional_info: List[AdditionalInfo] = Field(..., description="Additional information about the cafe.")
     staff: List[StaffMember] = Field(..., description="Staff members of the cafe.")
-    menu_items: List[MenuItemCreate] = Field(..., description="Menu items offered by the cafe.")
+    menu_item_ids: List[UUID] = Field(..., description="List of menu item UUIDs offered by the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "name": "Café Central",
@@ -202,33 +102,9 @@ class CafeCreate(BaseModel):
             "staff": [
                 {"username": "cafesansfil", "role": "Admin"}
             ],
-            "menu_items": [
-                {
-                    "name": "Cheeseburger",
-                    "tags": ["Rapide", "Savoureux"],
-                    "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
-                    "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
-                    "price": 5.99,
-                    "in_stock": True,
-                    "category": "Burgers",
-                    "options": [
-                        {"type": "taille", "value": "grand", "fee": 0.5},
-                        {"type": "ingrédients", "value": "bœuf", "fee": 0},
-                        {"type": "ingrédients", "value": "laitue", "fee": 0},
-                        {"type": "ingrédients", "value": "tomate", "fee": 0},
-                        {"type": "ingrédients", "value": "fromage", "fee": 0}
-                    ]
-                },
-                {
-                    "name": "Chicken Caesar Salad",
-                    "tags": ["Léger", "Fraîcheur"],
-                    "description": "Une salade César avec du poulet grillé, de la laitue romaine et de la vinaigrette César",
-                    "image_url": None,
-                    "price": 7.99,
-                    "in_stock": False,
-                    "category": "Salads",
-                    "options": []
-                }
+            "menu_item_ids": [
+                "123e4567-e89b-12d3-a456-426614174001",
+                "123e4567-e89b-12d3-a456-426614174002"
             ],
             "additional_info": [
                 {
@@ -240,7 +116,7 @@ class CafeCreate(BaseModel):
             ]
         }
     })
-    
+
 class CafeUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated name of the cafe.")
     features: Optional[List[Feature]] = Field(None, description="Updated features of the cafe.")
@@ -301,7 +177,7 @@ class CafeUpdate(BaseModel):
     })
 
 class CafeOut(BaseModel):
-    cafe_id: UUID = Field(..., description="Unique identifier of the cafe.")
+    id: UUID = Field(..., description="Unique identifier of the cafe.")
     name: str = Field(..., description="Name of the cafe.")
     slug: str = Field(..., description="Slug of the cafe.")
     previous_slugs: List[str] = Field(None, description="Previous slugs of the cafe.")
@@ -319,14 +195,15 @@ class CafeOut(BaseModel):
     payment_methods: List[PaymentMethod] = Field(..., description="Payment methods accepted at the cafe.")
     additional_info: List[AdditionalInfo] = Field(..., description="Additional information about the cafe.")
     staff: List[StaffMember] = Field(..., description="Staff members of the cafe.")
-    menu_items: List[MenuItemOut] = Field(..., description="Menu items offered by the cafe.")
+    menu_item_ids: List[UUID] = Field(..., description="List of menu item UUIDs offered by the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
             "name": "Café Central",
             "slug": "cafe-central",
             "previous_slugs": ["cafe-central-1", "cafe-central-2"],
             "features": ["Order"],
+            "description": "Un café populaire près de la bibliothèque principale.",
             "logo_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F000%2F585%2F220%2Foriginal%2Fcoffee-cup-logo-template-vector-icon-design.jpg&f=1&nofb=1&ipt=aeea34b58ed1a37dcf59bb11ed370c2e35a2d39c219c47eb5b044c8cf1aad5dc&ipo=images",
             "image_url": "https://media.architecturaldigest.com/photos/5b083c4675a4f940de3da8f1/master/pass/case-study-coffee.jpg",
             "affiliation": {
@@ -363,37 +240,9 @@ class CafeOut(BaseModel):
                 {"username": "johndoe3", "role": "Bénévole"},
                 {"username": "janedoe3", "role": "Bénévole"}
             ],
-            "menu_items": [
-                {
-                    "item_id": "123e4567-e89b-12d3-a456-426614174001",
-                    "name": "Cheeseburger",
-                    "slug": "cheeseburger",
-                    "tags": ["Rapide", "Savoureux"],
-                    "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
-                    "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
-                    "price": 5.99,
-                    "in_stock": True,
-                    "category": "Burgers",
-                    "options": [
-                        {"type": "taille", "value": "grand", "fee": 0.5},
-                        {"type": "ingrédients", "value": "bœuf", "fee": 0},
-                        {"type": "ingrédients", "value": "laitue", "fee": 0},
-                        {"type": "ingrédients", "value": "tomate", "fee": 0},
-                        {"type": "ingrédients", "value": "fromage", "fee": 0}
-                    ]
-                },
-                {
-                    "item_id": "123e4567-e89b-12d3-a456-426614174002",
-                    "name": "Chicken Caesar Salad",
-                    "slug": "chicken-caesar-salad",
-                    "tags": ["Léger", "Fraîcheur"],
-                    "description": "Une salade César avec du poulet grillé, de la laitue romaine et de la vinaigrette César",
-                    "image_url": None,
-                    "price": 7.99,
-                    "in_stock": False,
-                    "category": "Salads",
-                    "options": []
-                }
+            "menu_item_ids": [
+                "123e4567-e89b-12d3-a456-426614174001",
+                "123e4567-e89b-12d3-a456-426614174002"
             ],
             "additional_info": [
                 {
@@ -407,7 +256,7 @@ class CafeOut(BaseModel):
     })
 
 class CafeShortOut(BaseModel):
-    cafe_id: UUID = Field(..., description="Unique identifier of the cafe.")
+    id: UUID = Field(..., description="Unique identifier of the cafe.", alias="_id")
     name: str = Field(..., description="Name of the cafe.")
     slug: str = Field(..., description="Slug of the cafe.")
     previous_slugs: List[str] = Field(None, description="Previous slugs of the cafe.")
@@ -424,7 +273,7 @@ class CafeShortOut(BaseModel):
     additional_info: List[AdditionalInfo] = Field(..., description="Additional information about the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
             "name": "Café Central",
             "slug": "cafe-central",
             "previous_slugs": ["cafe-central-1", "cafe-central-2"],
@@ -460,4 +309,3 @@ class CafeShortOut(BaseModel):
             ]
         }
     })
-

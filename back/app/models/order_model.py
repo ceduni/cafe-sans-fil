@@ -10,9 +10,6 @@ This module defines the Pydantic-based models used in the Café application for 
 which are specifically designed for database interaction via the Beanie ODM 
 (Object Document Mapper) for MongoDB. These models outline the structure, relationships, 
 and constraints of the order-related data stored in the database.
-
-Note: These models are intended for direct database interactions related to orders and are 
-different from the API data interchange models.
 """
 
 class OrderedItemOption(BaseModel):
@@ -28,11 +25,11 @@ class OrderedItemOption(BaseModel):
         return fee
     
 class OrderedItem(BaseModel):
-    item_name: str = Field(..., description="Name of the item ordered.")
-    item_slug: str = Field(..., description="Slug of the item ordered.")
-    item_image_url: Optional[str] = Field(None, description="Image URL of the item ordered.")
+    item_id: UUID = Field(..., description="UUID of the item related to this ordered item.")
+    item_name: str = Field(..., description="Name of the item at the time of order.")
+    item_image_url: Optional[str] = Field(None, description="Image URL of the item at the time of order.")
+    item_price: DecimalAnnotation = Field(..., description="Price per unit of the item at the time of order.")
     quantity: int = Field(..., description="Quantity of the item ordered.")
-    item_price: DecimalAnnotation = Field(..., description="Price per unit of the item.")
     options: List[OrderedItemOption] = Field(..., description="List of options selected for this item.")
 
     @field_validator('quantity')
@@ -41,13 +38,6 @@ class OrderedItem(BaseModel):
         if quantity <= 0:
             raise ValueError("Quantity must be a positive integer.")
         return quantity
-    
-    @field_validator('item_price')
-    @classmethod
-    def validate_item_price(cls, item_price):
-        if item_price < DecimalAnnotation(0.0):
-            raise ValueError("Item price must be a non-negative value.")
-        return item_price
     
 class OrderStatus(str, Enum):
     PLACED = "Placée"
@@ -58,10 +48,10 @@ class OrderStatus(str, Enum):
 class Order(Document):
     order_id: UUID = Field(default_factory=uuid4)
     order_number: Indexed(int, unique=True)
+    user_id: UUID
+    cafe_id: UUID
     cafe_name: str
-    cafe_slug: str
     cafe_image_url: Optional[str] = None
-    user_username: str
     items: List[OrderedItem]
     total_price: DecimalAnnotation = DecimalAnnotation(0.0)
     status: OrderStatus = Field(default=OrderStatus.PLACED)
@@ -85,5 +75,3 @@ class Order(Document):
         
     class Settings:
         name = "orders"
-
-

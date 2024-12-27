@@ -10,7 +10,7 @@ cd front
 start npm run dev
 cd ..
 
-timeout /t 6 >nul
+timeout /t 10 >nul
 
 echo Opening in browser
 start http://127.0.0.1:8000/docs#/
