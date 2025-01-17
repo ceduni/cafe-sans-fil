@@ -7,7 +7,7 @@ from fastapi import (
     Request,
     Depends
 )
-from app.models.cafe_model import Role
+from app.models.cafe_model import Role, CafeView
 from app.schemas.cafe_schema import (
     CafeOut,
     CafeShortOut,
@@ -119,7 +119,7 @@ async def list_cafes(
 
 @cafe_router.get(
     "/cafes/{cafe_slug}",
-    response_model=CafeOut,
+    response_model=CafeView,
     summary="Get Cafe",
     description="Retrieve detailed information about a specific cafe.",
 )

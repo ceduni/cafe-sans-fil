@@ -2,8 +2,8 @@ from typing import List, Optional
 from uuid import UUID
 from pydantic import field_validator, ConfigDict, BaseModel, Field
 from datetime import datetime, timedelta
-from beanie import DecimalAnnotation
 from app.models.cafe_model import Affiliation, Feature, DayHours, Location, Contact, SocialMedia, PaymentMethod, AdditionalInfo, StaffMember
+from app.models.menu_model import MenuItem
 
 """
 This module defines the Pydantic-based schemas for cafe operations in the Café application. 
@@ -195,7 +195,7 @@ class CafeOut(BaseModel):
     payment_methods: List[PaymentMethod] = Field(..., description="Payment methods accepted at the cafe.")
     additional_info: List[AdditionalInfo] = Field(..., description="Additional information about the cafe.")
     staff: List[StaffMember] = Field(..., description="Staff members of the cafe.")
-    menu_item_ids: List[UUID] = Field(..., description="List of menu item UUIDs offered by the cafe.")
+    menu_items: List[MenuItem] = Field(..., description="List of menu items offered by the cafe.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
             "id": "123e4567-e89b-12d3-a456-426614174000",

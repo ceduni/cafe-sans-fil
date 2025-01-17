@@ -14,6 +14,18 @@ class MenuItemOption(BaseModel):
         if fee < DecimalAnnotation(0.0):
             raise ValueError("Fee must be a non-negative value.")
         return fee
+    
+    
+
+class MenuItemEmbedded(BaseModel):
+    id: UUID = Field(default_factory=uuid4, description="Unique identifier of the menu item.")
+    name: str = Field(..., description="Name of the menu item.")
+    description: str = Field(..., description="Description of the menu item.")
+    image_url: Optional[str] = Field(None, description="Image URL of the menu item.")
+    price: DecimalAnnotation = Field(..., description="Price of the menu item.")
+    in_stock: bool = Field(False, description="Availability status of the menu item.")
+    category: str = Field(..., description="Category of the menu item.")
+    options: List[MenuItemOption] = Field(..., description="List of options available for the menu item.")
 
 class MenuItem(Document):
     id: UUID = Field(default_factory=uuid4, description="Unique identifier of the menu item.")

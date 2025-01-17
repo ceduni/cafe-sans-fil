@@ -11,6 +11,7 @@ from beanie import init_beanie
 from app.core.config import settings
 from app.api.api_v1.router import router
 from app.models.cafe_model import Cafe
+from app.models.cafe_model import CafeView
 from app.models.menu_model import MenuItem
 from app.models.announcement_model import Announcement
 from app.models.event_model import Event
@@ -55,12 +56,14 @@ async def lifespan(app: FastAPI):
         database=db_client[settings.MONGO_DB_NAME],
         document_models=[
             Cafe,
+            CafeView,
             MenuItem,
             User,
             Order,
             Announcement,
             Event
-        ]
+        ],
+        recreate_views=True,
     )
     yield
 
