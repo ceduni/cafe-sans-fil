@@ -26,7 +26,7 @@ const CafeAnnouncement = ({ announcement }) => {
             </div>
 
             <p className="post-content">
-                <span className="post-author">{cafe.name}:</span> {content}
+                {/* <span className="post-author">{cafe.name}:</span> {content} */}
             </p>
             <div className="post-footer">
                 {/* <ul className="bare-list post-tags">

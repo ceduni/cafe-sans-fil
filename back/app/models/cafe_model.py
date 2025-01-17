@@ -1,9 +1,10 @@
 from typing import List, Optional
 from uuid import UUID, uuid4
-from beanie import Document, DecimalAnnotation, Indexed
+from beanie import Document, View, DecimalAnnotation, Indexed
 from pydantic import field_validator, BaseModel, Field
 from enum import Enum
 from datetime import datetime
+from app.models.menu_model import MenuItemEmbedded
 import re
 import unicodedata
 
@@ -88,7 +89,7 @@ class StaffMember(BaseModel):
     role: Role = Field(..., description="Role of the staff member, e.g., 'Bénévole', 'Admin'.")
 
 class Cafe(Document):
-    id: UUID = Field(default_factory=uuid4)
+    id: UUID = Field(default_factory=uuid4, alias="_id")
     name: Indexed(str, unique=True)
     slug: Indexed(str, unique=True) = None
     previous_slugs: List[str] = []
@@ -202,7 +203,71 @@ class Cafe(Document):
         return await super().save(*args, **kwargs)
 
     class Settings:
+        # Beanie configuration
         name = "cafes"
+        
+    class Config:
+        # Pydantic configuration
+        populate_by_name = True
+
+class CafeView(View):
+    id: UUID = Field(default_factory=uuid4, alias="_id")
+    name: Indexed(str, unique=True)
+    slug: Indexed(str, unique=True) = None
+    previous_slugs: List[str] = []
+    features: List[Feature]
+    description: Indexed(str)
+    logo_url: Optional[str] = None
+    image_url: Optional[str] = None 
+    affiliation: Affiliation
+    is_open: bool = False
+    status_message: Optional[str] = None
+    opening_hours: List[DayHours]
+    location: Location
+    contact: Contact
+    social_media: SocialMedia
+    payment_methods: List[PaymentMethod]
+    additional_info: List[AdditionalInfo]
+    staff: List[StaffMember]
+    menu_items: List[MenuItemEmbedded]
+
+    class Settings:
+        name: str = "cafe_with_menu"
+        source = "cafes"
+        pipeline = [
+            {
+                "$lookup": {
+                    "from": "menus",
+                    "localField": "_id",
+                    "foreignField": "cafe_id",
+                    "as": "menu_items",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 1,
+                                "name": 1,
+                                "description": 1,
+                                "image_url": 1,
+                                "price": 1,
+                                "in_stock": 1,
+                                "category": 1,
+                                "options": 1,
+                            }
+                        }
+                    ],
+                }
+            },
+            {
+                "$set": {
+                    "menu_items": "$menu_items"
+                }
+            },
+            {
+                "$unset": "menu_item_ids"  # Remove the old `menu_item_ids` field
+            }
+        ]
+
+
 
 def slugify(text):
     text = unicodedata.normalize('NFKD', text)

@@ -1,0 +1,29 @@
+services:
+  backend:
+    build:
+      context: back # Path to your backend's Dockerfile
+      dockerfile: Dockerfile
+    container_name: backend
+    networks:
+      - cafe-sans-fil
+    ports:
+      - "8000:8000"
+  
+  frontend:
+    build:
+      context: front
+      dockerfile: Dockerfile
+    container_name: frontend
+    environment:
+      - VITE_API_ENDPOINT=http://127.0.0.1:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - cafe-sans-fil
+      
+networks:
+  cafe-sans-fil:
+    driver: bridge

@@ -77,7 +77,7 @@ const Cafe = () => {
                 <div className="cafe-identification">
                     <CafeIdentification cafe={cafe} />
                 </div>
-                <div className="cafe-communication">
+                {/* <div className="cafe-communication">
                     <div>
                         <h2 className="text-center my-0 text-3xl font-bold">Annonces</h2>
                     </div>
@@ -86,7 +86,7 @@ const Cafe = () => {
                             <CafeAnnouncement  key={index} announcement={value} />
                         ))}
                     </ul>
-                </div>
+                </div> */}
             </section>
             <section className="cafe-event">
                 <h3 className="title">{t("cafe.bulletin_board.title")}</h3>

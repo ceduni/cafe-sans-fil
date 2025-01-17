@@ -1,6 +1,6 @@
 from typing import List
 from uuid import UUID
-from app.models.cafe_model import Cafe, Role, StaffMember
+from app.models.cafe_model import Cafe, Role, StaffMember,CafeView
 from app.schemas.cafe_schema import (
     CafeCreate,
     CafeUpdate,
@@ -50,13 +50,13 @@ class CafeService:
         :return: A Cafe object if found, None otherwise.
         """
         if isinstance(cafe_slug_or_id, UUID):
-            return await Cafe.find_one({"_id": cafe_slug_or_id})
+            return await CafeView.find_one({"_id": cafe_slug_or_id})
 
         try:
             cafe_id = UUID(cafe_slug_or_id)
-            return await Cafe.find_one({"_id": cafe_id})
+            return await CafeView.find_one({"_id": cafe_id})
         except ValueError:
-            return await Cafe.find_one(
+            return await CafeView.find_one(
                 {
                     "$or": [
                         {"slug": cafe_slug_or_id},
