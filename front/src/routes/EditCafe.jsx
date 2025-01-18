@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
-import Container from "@/components/Container";
+import Container from "@/components/Layout/Container";
 import useApi from "@/hooks/useApi";
 import OpenIndicator from "@/components/Cafe/OpenIndicator";
 import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
-import Input from "@/components/Input";
+import Input from "@/components/Widgets/Input";
 import { useEffect, useRef, useState } from "react";
-import Switch from "@/components/CustomSwitch";
+import Switch from "@/components/Widgets/CustomSwitch";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { useIsVisible } from "@/hooks/useIsVisible";

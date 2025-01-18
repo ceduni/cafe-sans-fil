@@ -3,7 +3,7 @@ import { Transition, Menu } from "@headlessui/react";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
 import Cart from "@/components/Orders/Cart";
-import Container from "@/components/Container";
+import Container from "@/components/Layout/Container";
 import Avatar from "@/components/Avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "react-use-cart";

@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import { isMember } from "@/utils/admin";
-import EmptyState from "@/components/EmptyState";
-import ErrorState from "@/components/ErrorState";
+import EmptyState from "@/components/Error/EmptyState";
+import ErrorState from "@/components/Error/ErrorState";
 
 const MemberOnly = ({ children, cafe, error }) => {
   const { user } = useAuth();

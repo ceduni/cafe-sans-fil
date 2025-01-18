@@ -1,14 +1,14 @@
-import Container from "@/components/Container";
+import Container from "@/components/Layout/Container";
 import CafeOrderCard from "@/components/Orders/CafeOrderCard";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import { ORDER_STATUS, isPendingOrder } from "@/utils/orders";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import ErrorState from "@/components/ErrorState";
+import ErrorState from "@/components/Error/ErrorState";
 import useApi from "@/hooks/useApi";
 import { Helmet } from "react-helmet-async";
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/Error/EmptyState";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LoadingSpinner from "@/components/LoadingSpinner";
 

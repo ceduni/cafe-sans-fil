@@ -1,5 +1,5 @@
 import { getPlatformIcon, getPlatformName, supportedPlatforms, DEFAULT_PLATFORM } from "@/utils/socials";
-import Input from "@/components/Input";
+import Input from "@/components/Widgets/Input";
 import { PlusIcon } from "@heroicons/react/24/solid";
 
 const EditSocials = ({ cafeData, setCafeData }) => {

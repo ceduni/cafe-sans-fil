@@ -4,7 +4,7 @@ import Badge from "@/components/Badge";
 import { DEFAULT_OPTION_NAME, arrayToOptionsByType, formatPrice } from "@/utils/cart";
 import classNames from "classnames";
 import { IN_STOCK_TEXT, OUT_OF_STOCK_TEXT } from "@/utils/items";
-import Modal from "@/components/Modal";
+import Modal from "@/components/Widgets/Modal";
 
 const ProductView = ({
   item,

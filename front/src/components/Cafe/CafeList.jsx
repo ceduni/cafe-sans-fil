@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/Error/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import Filters from "@/components/Cafe/Filters";
 import { PAYMENT_METHODS } from "@/utils/cafe";
@@ -77,7 +77,7 @@ function renderCafe(cafes, filters, setFilters) {
 
             <div className="grid animate-fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8">
                 {filteredData.map((cafe) => (
-                    <CafeCard cafe={cafe} key={cafe.slug} />
+                    <CafeCard cafe={cafe} />
                 ))}
             </div>
         </div>

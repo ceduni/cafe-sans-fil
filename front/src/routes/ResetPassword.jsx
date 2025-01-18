@@ -1,4 +1,4 @@
-import Input from "@/components/Input";
+import Input from "@/components/Widgets/Input";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";

@@ -1,7 +1,7 @@
 import { formatPrice } from "@/utils/cart";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
-import Input from "@/components/Input";
+import Input from "@/components/Widgets/Input";
 
 const EditItemOptions = ({ productData, setProductData }) => {
   const [options, setOptions] = useState(productData.options || []);

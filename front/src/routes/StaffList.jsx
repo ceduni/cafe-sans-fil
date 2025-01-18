@@ -1,7 +1,7 @@
-import Container from "@/components/Container";
+import Container from "@/components/Layout/Container";
 import useApi from "@/hooks/useApi";
 import { useEffect, useState } from "react";
-import Input from "@/components/Input";
+import Input from "@/components/Widgets/Input";
 import { getUserFromUsername } from "@/utils/getFromId";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { ROLES, isAdmin } from "@/utils/admin";
@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { useParams, Link } from "react-router-dom";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import { Helmet } from "react-helmet-async";
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/Error/EmptyState";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Avatar from "@/components/Avatar";
 import classNames from "classnames";

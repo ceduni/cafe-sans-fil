@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import Container from "@/components/Container";
-import Input from "@/components/Input";
+import Container from "@/components/Layout/Container";
+import Input from "@/components/Widgets/Input";
 import Avatar from "@/components/Avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";

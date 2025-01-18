@@ -15,7 +15,7 @@ different from the API data interchange models.
 """
 
 class User(Document):
-    id: UUID = Field(default_factory=uuid4)
+    id: UUID = Field(default_factory=uuid4, alias="_id")
     username: Indexed(str, unique=True)
     email: Indexed(EmailStr, unique=True)
     matricule: Indexed(str, unique=True)
@@ -49,3 +49,6 @@ class User(Document):
 
     class Settings:
         name = "users"
+    class Config:
+        # Pydantic configuration
+        populate_by_name = True

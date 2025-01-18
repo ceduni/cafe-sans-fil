@@ -1,5 +1,5 @@
 //recherche par item et tag dans l'application
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/Error/EmptyState";
 import { CafeCard, CafeCardLoading } from "@/components/Cafe/CafeCard";
 import { CafeAPI, isAPIAvailable } from "@/utils/api";
 import { useEffect, useState } from "react";

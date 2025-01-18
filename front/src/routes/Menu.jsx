@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect} from 'react';
 import classNames from 'classnames';
 import ItemCard from "@/components/Items/ItemCard";
 import { getCafeCategories,getItemByCategory } from '@/utils/items';
-import Container from "@/components/Container";
+import Container from "@/components/Layout/Container";
 
 
 const Menu = ({ items }) => {

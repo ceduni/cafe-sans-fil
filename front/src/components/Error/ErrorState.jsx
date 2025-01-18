@@ -1,4 +1,4 @@
-import Container from "@/components/Container";
+import Container from "@/components/Layout/Container";
 import { Link } from "react-router-dom";
 
 const ErrorState = ({ title, message, linkText, linkTo }) => {

@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import { isAdmin } from "@/utils/admin";
-import EmptyState from "@/components/EmptyState";
-import ErrorState from "@/components/ErrorState";
+import EmptyState from "@/components/Error/EmptyState";
+import ErrorState from "@/components/Error/ErrorState";
 
 const AdminOnly = ({ children, cafe, error }) => {
   const { user } = useAuth();

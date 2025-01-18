@@ -1,7 +1,7 @@
 import logo from "/logo.png";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import Input from "@/components/Input";
+import Input from "@/components/Widgets/Input";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";

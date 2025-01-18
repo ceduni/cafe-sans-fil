@@ -1,9 +1,9 @@
 import { formatPrice } from "@/utils/cart";
-import Modal from "@/components/Modal";
+import Modal from "@/components/Widgets/Modal";
 import { useEffect, useState } from "react";
 import { CheckIcon, TrashIcon } from "@heroicons/react/24/solid";
-import Input from "@/components/Input";
-import Switch from "@/components/CustomSwitch";
+import Input from "@/components/Widgets/Input";
+import Switch from "@/components/Widgets/CustomSwitch";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import classNames from "classnames";

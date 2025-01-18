@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
-import Container from "@/components/Container";
-import EmptyState from "@/components/EmptyState";
+import Container from "@/components/Layout/Container";
+import EmptyState from "@/components/Error/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
 import { ORDER_STATUS, isOldOrder } from "@/utils/orders";
 import { Tab } from "@headlessui/react";

@@ -96,24 +96,27 @@ class UserUpdate(BaseModel):
     #     return v
 
 class UserOut(BaseModel):
-    id: UUID = Field(..., description="Unique identifier of the user.", alias="_id")
+    id: UUID = Field(..., description="Unique identifier of the user.")
     username: str = Field(..., description="Username of the user.")
     email: EmailStr = Field(..., description="User's email address.")
     matricule: str = Field(..., description="User's matricule identifier.")
     first_name: str = Field(..., description="First name of the user.")
     last_name: str = Field(..., description="Last name of the user.")
     photo_url: Optional[str] = Field(None, description="URL of the user's profile photo.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "id": "123e4567-e89b-12d3-a456-426614174000",
-            "username": "johndoe",
-            "email": "john.doe@umontreal.ca",
-            "matricule": "20303216",
-            "first_name": "John",
-            "last_name": "Doe",
-            "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
+
+    class Config:
+        populate_by_name = True
+        json_schema_extra = {
+            "example": {
+                "id": "123e4567-e89b-12d3-a456-426614174000",
+                "username": "johndoe",
+                "email": "john.doe@umontreal.ca",
+                "matricule": "20303216",
+                "first_name": "John",
+                "last_name": "Doe",
+                "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
+            }
         }
-    })
 
 # --------------------------------------
 #              Reset Password

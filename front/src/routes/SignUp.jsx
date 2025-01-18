@@ -1,4 +1,4 @@
-import Input from "@/components/Input";
+import Input from "@/components/Widgets/Input";
 import { useAuth } from "@/hooks/useAuth";
 import logo from "/logo.png";
 import { Helmet } from "react-helmet-async";

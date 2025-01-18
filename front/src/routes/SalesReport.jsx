@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import toast from "react-hot-toast";
-import Container from "@/components/Container";
+import Container from "@/components/Layout/Container";
 import useApi from "@/hooks/useApi";
 import { formatPrice } from "@/utils/cart";
 import { Helmet } from "react-helmet-async";

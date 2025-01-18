@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import Input from "@/components/Input";
+import Input from "@/components/Widgets/Input";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import toast from "react-hot-toast";
 

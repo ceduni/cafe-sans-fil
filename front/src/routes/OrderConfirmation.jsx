@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import { useAuth } from "@/hooks/useAuth";
-import Container from "@/components/Container";
+import Container from "@/components/Layout/Container";
 import {
   areItemsFromMoreThanOneCafe,
   displayCafeNames,
@@ -12,7 +12,7 @@ import {
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import toast from "react-hot-toast";
 import { useState } from "react";
-import ErrorState from "@/components/ErrorState";
+import ErrorState from "@/components/Error/ErrorState";
 import { Helmet } from "react-helmet-async";
 
 const OrderConfirmation = () => {

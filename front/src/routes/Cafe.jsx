@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { CafeAPI } from "@/utils/api";
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/Error/EmptyState";
 import SocialLink from "@/components/Cafe/SocialLink";
 import CafeIdentification from "@/components/CafeIdentification/CafeIdentification";
 import PaymentType from "@/components/Cafe/PaymentType";

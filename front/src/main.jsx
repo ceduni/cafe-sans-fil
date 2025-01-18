@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import PageWrapper from "@/components/PageWrapper";
-import ErrorPage from "@/components/ErrorPage";
+import PageWrapper from "@/components/Layout/PageWrapper";
+import ErrorPage from "@/components/Error/ErrorPage";
 import {
   Home,
   Login,

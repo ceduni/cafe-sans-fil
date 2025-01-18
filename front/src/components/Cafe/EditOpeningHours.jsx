@@ -1,4 +1,4 @@
-import Input from "@/components/Input";
+import Input from "@/components/Widgets/Input";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 

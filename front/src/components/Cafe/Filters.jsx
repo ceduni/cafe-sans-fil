@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
-import Switch from "@/components/CustomSwitch";
+import Switch from "@/components/Widgets/CustomSwitch";
 import { PAYMENT_METHODS } from "@/utils/cafe";
 
 const filterTypes = [
