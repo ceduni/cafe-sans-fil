@@ -1,7 +1,10 @@
 from typing import List
+
+from beanie import PydanticObjectId
+
 from app.models.announcement_model import Announcement, UserInteraction
 from app.schemas.announcement_schema import AnnouncementCreate, AnnouncementOut
-from beanie import PydanticObjectId
+
 
 class AnnouncementService:
     async def get_announcements(**query_params) -> List[AnnouncementOut]:
@@ -16,12 +19,16 @@ class AnnouncementService:
             .to_list()
         )
 
-    async def create_announcement(announcement_data: AnnouncementCreate) -> AnnouncementOut:
+    async def create_announcement(
+        announcement_data: AnnouncementCreate,
+    ) -> AnnouncementOut:
         announcement = Announcement(**announcement_data.model_dump())
         await announcement.insert()
         return announcement
 
-    async def update_announcement(announcement_id: PydanticObjectId, announcement_data: AnnouncementCreate) -> AnnouncementOut:
+    async def update_announcement(
+        announcement_id: PydanticObjectId, announcement_data: AnnouncementCreate
+    ) -> AnnouncementOut:
         announcement = await Announcement.find_one(Announcement.id == announcement_id)
         if not announcement:
             raise ValueError("Announcement not found")
@@ -29,15 +36,17 @@ class AnnouncementService:
             setattr(announcement, key, value)
         await announcement.save()
         return announcement
-    
+
     async def remove_announcement(announcement_id: PydanticObjectId) -> AnnouncementOut:
         announcement = await Announcement.find_one(Announcement.id == announcement_id)
         if not announcement:
             raise ValueError("Announcement not found")
         await announcement.delete()
         return announcement
-    
-    async def add_like_to_announcement(announcement_id: PydanticObjectId, user_id: PydanticObjectId) -> AnnouncementOut:
+
+    async def add_like_to_announcement(
+        announcement_id: PydanticObjectId, user_id: PydanticObjectId
+    ) -> AnnouncementOut:
         announcement = await Announcement.find_one(Announcement.id == announcement_id)
         if not announcement:
             raise ValueError("Announcement not found")
@@ -46,12 +55,16 @@ class AnnouncementService:
             await announcement.save()
         return announcement
 
-    async def remove_like_from_announcement(announcement_id: PydanticObjectId, user_id: PydanticObjectId) -> AnnouncementOut:
+    async def remove_like_from_announcement(
+        announcement_id: PydanticObjectId, user_id: PydanticObjectId
+    ) -> AnnouncementOut:
         announcement = await Announcement.find_one(Announcement.id == announcement_id)
         if not announcement:
             raise ValueError("Announcement not found")
         original_likes = len(announcement.likes)
-        announcement.likes = [like for like in announcement.likes if like.user_id != user_id]
+        announcement.likes = [
+            like for like in announcement.likes if like.user_id != user_id
+        ]
         if len(announcement.likes) < original_likes:
             await announcement.save()
         return announcement

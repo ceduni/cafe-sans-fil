@@ -1,19 +1,22 @@
 import json
 import random
+
 from faker import Faker
 from tqdm import tqdm
+
+from app.schemas.menu_schema import MenuItemCreate
 from app.services.cafe_service import CafeService
 from app.services.menu_service import MenuItemService
-from app.schemas.menu_schema import MenuItemCreate
 
 # Set random seed and Faker settings
 random.seed(42)
 Faker.seed(42)
-fake = Faker('fr_FR')
+fake = Faker("fr_FR")
 
 # Load menu items data from JSON file
 with open("./scripts/db_seed/data/menu_items.json", "r", encoding="utf-8") as file:
     menu_items_data = json.load(file)
+
 
 class MenuSeeder:
     def __init__(self):
@@ -36,7 +39,9 @@ class MenuSeeder:
                 randomized_menu_items.append(MenuItemCreate(**item_copy))
 
             # Bulk create menu items for each cafe
-            created_menu_items = await MenuItemService.create_many_menu_items(cafe.id, randomized_menu_items)
+            created_menu_items = await MenuItemService.create_many_menu_items(
+                cafe.id, randomized_menu_items
+            )
 
             # Append the created menu item IDs
             self.menu_item_ids.extend([item.id for item in created_menu_items])

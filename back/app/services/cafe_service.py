@@ -1,15 +1,18 @@
 from typing import List
+
 from beanie import PydanticObjectId
 from bson.errors import InvalidId
-from app.models.cafe_model import Cafe, Role, StaffMember,CafeView
+
+from app.models.cafe_model import Cafe, CafeView, Role, StaffMember
+from app.models.user_model import User
 from app.schemas.cafe_schema import (
     CafeCreate,
-    CafeUpdate,
     CafeShortOut,
+    CafeUpdate,
     StaffCreate,
     StaffUpdate,
 )
-from app.models.user_model import User
+
 
 class CafeService:
     """
@@ -79,7 +82,6 @@ class CafeService:
             if "duplicate" in str(e).lower() and len(str(e)) < 100:
                 raise ValueError("Cafe already exists")
 
-
     @staticmethod
     async def update_cafe(cafe_id: PydanticObjectId, data: CafeUpdate):
         """
@@ -133,13 +135,13 @@ class CafeService:
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
-        
+
         for member in cafe.staff:
             if member.username == username:
                 return member
-        
+
         raise ValueError("Staff member not found")
-    
+
     @staticmethod
     async def create_staff_member(cafe_id: PydanticObjectId, staff_data: StaffCreate):
         cafe = await Cafe.find_one({"_id": cafe_id})
@@ -152,7 +154,9 @@ class CafeService:
         return new_staff_member
 
     @staticmethod
-    async def update_staff_member(cafe_id: PydanticObjectId, username: str, staff_data: StaffUpdate):
+    async def update_staff_member(
+        cafe_id: PydanticObjectId, username: str, staff_data: StaffUpdate
+    ):
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
@@ -182,7 +186,9 @@ class CafeService:
             raise ValueError("Staff member not found")
 
     @staticmethod
-    async def create_many_staff_members(cafe_id: PydanticObjectId, staff_data_list: List[StaffCreate]) -> List[StaffMember]:
+    async def create_many_staff_members(
+        cafe_id: PydanticObjectId, staff_data_list: List[StaffCreate]
+    ) -> List[StaffMember]:
         """
         Create multiple staff members for a cafe.
 
@@ -194,13 +200,17 @@ class CafeService:
         if not cafe:
             raise ValueError("Cafe not found")
 
-        new_staff_members = [StaffMember(**staff_data.model_dump()) for staff_data in staff_data_list]
+        new_staff_members = [
+            StaffMember(**staff_data.model_dump()) for staff_data in staff_data_list
+        ]
         cafe.staff.extend(new_staff_members)
         await cafe.save()
         return new_staff_members
 
     @staticmethod
-    async def update_many_staff_members(cafe_id: PydanticObjectId, usernames: List[str], staff_data: StaffUpdate) -> List[StaffMember]:
+    async def update_many_staff_members(
+        cafe_id: PydanticObjectId, usernames: List[str], staff_data: StaffUpdate
+    ) -> List[StaffMember]:
         """
         Update multiple staff members based on the provided usernames.
 
@@ -227,7 +237,9 @@ class CafeService:
         return updated_members
 
     @staticmethod
-    async def delete_many_staff_members(cafe_id: PydanticObjectId, usernames: List[str]) -> None:
+    async def delete_many_staff_members(
+        cafe_id: PydanticObjectId, usernames: List[str]
+    ) -> None:
         """
         Delete multiple staff members based on the provided usernames.
 
@@ -240,7 +252,9 @@ class CafeService:
             raise ValueError("Cafe not found")
 
         # Filter out the staff members whose usernames are not in the provided list
-        cafe.staff = [member for member in cafe.staff if member.username not in usernames]
+        cafe.staff = [
+            member for member in cafe.staff if member.username not in usernames
+        ]
         await cafe.save()
 
     # --------------------------------------

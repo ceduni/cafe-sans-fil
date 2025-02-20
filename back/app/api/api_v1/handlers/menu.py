@@ -1,20 +1,14 @@
+from typing import Dict, List, Optional
+
 from beanie import PydanticObjectId
-from fastapi import (
-    APIRouter,
-    HTTPException,
-    Path,
-    Query,
-    status,
-    Request,
-    Depends
-)
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+
+from app.api.deps.user_deps import get_current_user
 from app.models.cafe_model import Role
-from app.schemas.menu_schema import MenuItemOut, MenuItemCreate, MenuItemUpdate
+from app.models.user_model import User
+from app.schemas.menu_schema import MenuItemCreate, MenuItemOut, MenuItemUpdate
 from app.services.cafe_service import CafeService
 from app.services.menu_service import MenuItemService
-from app.models.user_model import User
-from app.api.deps.user_deps import get_current_user
-from typing import List, Dict, Optional
 
 """
 This module defines the API routes related to menu items for cafes.
@@ -62,7 +56,6 @@ def parse_query_params(query_params: Dict) -> Dict:
     return parsed_params
 
 
-
 @menu_router.get(
     "/cafes/{cafe_slug}/menu",
     response_model=List[MenuItemOut],
@@ -108,7 +101,9 @@ async def list_menu_items(
 
     cafe = await CafeService.retrieve_cafe(cafe_slug)
     if not cafe:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
+        )
     parsed_params["cafe_id"] = cafe.id
 
     return await MenuItemService.list_menu_items(**parsed_params)
@@ -138,12 +133,14 @@ async def create_menu_item(
 
     Returns:
         MenuItemOut: The created menu item.
-   
-     """
+
+    """
     cafe = await CafeService.retrieve_cafe(cafe_slug)
     if not cafe:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found")
-    
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
+        )
+
     try:
         await CafeService.is_authorized_for_cafe_action(
             cafe.id, current_user, [Role.ADMIN]
@@ -217,7 +214,9 @@ async def update_menu_item(
         )
 
     try:
-        await CafeService.is_authorized_for_cafe_action(item.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER])
+        await CafeService.is_authorized_for_cafe_action(
+            item.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]
+        )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
@@ -257,7 +256,9 @@ async def delete_menu_item(
         )
 
     try:
-        await CafeService.is_authorized_for_cafe_action(item.cafe_id, current_user, [Role.ADMIN])
+        await CafeService.is_authorized_for_cafe_action(
+            item.cafe_id, current_user, [Role.ADMIN]
+        )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 

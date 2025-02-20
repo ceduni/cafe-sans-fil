@@ -1,12 +1,14 @@
 from datetime import datetime
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from app.core.config import settings
-from app.models.user_model import User
 from jose import jwt
 from pydantic import ValidationError
-from app.services.user_service import UserService
+
+from app.core.config import settings
+from app.models.user_model import User
 from app.schemas.auth_schema import TokenPayload
+from app.services.user_service import UserService
 
 """
 This module provides utility functions and dependencies for user authentication.

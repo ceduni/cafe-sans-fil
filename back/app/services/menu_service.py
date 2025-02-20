@@ -1,7 +1,9 @@
 from typing import List
+
 from beanie import PydanticObjectId
-from app.models.menu_model import MenuItem
+
 from app.models.cafe_model import Cafe
+from app.models.menu_model import MenuItem
 from app.schemas.menu_schema import MenuItemCreate, MenuItemUpdate
 
 
@@ -41,7 +43,9 @@ class MenuItemService:
         return await MenuItem.find_one({"_id": item_id})
 
     @staticmethod
-    async def create_menu_item(cafe_id: PydanticObjectId, item_data: MenuItemCreate) -> MenuItem:
+    async def create_menu_item(
+        cafe_id: PydanticObjectId, item_data: MenuItemCreate
+    ) -> MenuItem:
         """
         Create a new menu item and associate it with a cafe.
 
@@ -52,7 +56,7 @@ class MenuItemService:
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
-        
+
         new_item = MenuItem(**item_data.model_dump(), cafe_id=cafe_id)
         await new_item.insert()
         cafe.menu_item_ids.append(new_item.id)
@@ -60,7 +64,9 @@ class MenuItemService:
         return new_item
 
     @staticmethod
-    async def update_menu_item(item_id: PydanticObjectId, item_data: MenuItemUpdate) -> MenuItem:
+    async def update_menu_item(
+        item_id: PydanticObjectId, item_data: MenuItemUpdate
+    ) -> MenuItem:
         """
         Update a menu item based on the provided PydanticObjectId and data.
 
@@ -71,7 +77,7 @@ class MenuItemService:
         item = await MenuItem.find_one({"_id": item_id})
         if not item:
             raise ValueError("Menu item not found")
-        
+
         for field, value in item_data.model_dump(exclude_unset=True).items():
             setattr(item, field, value)
         await item.save()
@@ -97,7 +103,9 @@ class MenuItemService:
         await item.delete()
 
     @staticmethod
-    async def create_many_menu_items(cafe_id: PydanticObjectId, items_data: List[MenuItemCreate]) -> List[MenuItem]:
+    async def create_many_menu_items(
+        cafe_id: PydanticObjectId, items_data: List[MenuItemCreate]
+    ) -> List[MenuItem]:
         """
         Create multiple menu items and associate them with a cafe.
 
@@ -109,7 +117,10 @@ class MenuItemService:
         if not cafe:
             raise ValueError("Cafe not found")
 
-        new_items = [MenuItem(**item_data.model_dump(), cafe_id=cafe_id) for item_data in items_data]
+        new_items = [
+            MenuItem(**item_data.model_dump(), cafe_id=cafe_id)
+            for item_data in items_data
+        ]
         await MenuItem.insert_many(new_items)
 
         item_ids = [new_item.id for new_item in new_items]
@@ -119,7 +130,9 @@ class MenuItemService:
         return new_items
 
     @staticmethod
-    async def update_many_menu_items(item_ids: List[PydanticObjectId], item_data: MenuItemUpdate) -> List[MenuItem]:
+    async def update_many_menu_items(
+        item_ids: List[PydanticObjectId], item_data: MenuItemUpdate
+    ) -> List[MenuItem]:
         """
         Update multiple menu items based on the provided list of PydanticObjectIds and data.
 
@@ -131,7 +144,9 @@ class MenuItemService:
         if not update_data:
             raise ValueError("No data to update")
 
-        result = await MenuItem.find_many({"_id": {"$in": item_ids}}).update_many({"$set": update_data})
+        result = await MenuItem.find_many({"_id": {"$in": item_ids}}).update_many(
+            {"$set": update_data}
+        )
         if result.matched_count == 0:
             raise ValueError("No menu items found for the provided IDs")
 
@@ -152,9 +167,11 @@ class MenuItemService:
         # Remove references to the menu items in associated cafes
         cafe_ids = {item.cafe_id for item in items_to_delete}
         cafes = await Cafe.find_many({"_id": {"$in": list(cafe_ids)}}).to_list()
-        
+
         for cafe in cafes:
-            cafe.menu_item_ids = [item_id for item_id in cafe.menu_item_ids if item_id not in item_ids]
+            cafe.menu_item_ids = [
+                item_id for item_id in cafe.menu_item_ids if item_id not in item_ids
+            ]
             await cafe.save()
 
         # Delete the menu items

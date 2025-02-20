@@ -1,9 +1,11 @@
 from typing import List, Optional
+
 from beanie import PydanticObjectId
-from app.models.user_model import User
-from app.models.cafe_model import Cafe
-from app.schemas.user_schema import UserAuth, UserUpdate
+
 from app.core.security import get_password, verify_password
+from app.models.cafe_model import Cafe
+from app.models.user_model import User
+from app.schemas.user_schema import UserAuth, UserUpdate
 
 
 class UserService:
@@ -82,7 +84,13 @@ class UserService:
         #     ]
         # )
 
-        return await User.find(query_filters).sort(*sort_params).limit(limit).skip((page - 1) * limit).to_list(None)
+        return (
+            await User.find(query_filters)
+            .sort(*sort_params)
+            .limit(limit)
+            .skip((page - 1) * limit)
+            .to_list(None)
+        )
 
     @staticmethod
     async def create_user(user: UserAuth):
@@ -166,7 +174,9 @@ class UserService:
             update_data["hashed_password"] = get_password(update_data["password"])
             del update_data["password"]
 
-        result = await User.find_many({"username": {"$in": usernames}}).update_many({"$set": update_data})
+        result = await User.find_many({"username": {"$in": usernames}}).update_many(
+            {"$set": update_data}
+        )
         if result.matched_count == 0:
             raise ValueError("No users found for the provided usernames")
 
@@ -180,13 +190,17 @@ class UserService:
         :param usernames: A list of usernames of the users to delete.
         :return: None
         """
-        users_to_delete = await User.find_many({"username": {"$in": usernames}}).to_list()
+        users_to_delete = await User.find_many(
+            {"username": {"$in": usernames}}
+        ).to_list()
         if not users_to_delete:
             raise ValueError("No users found for the provided usernames")
 
         # Remove users from Cafe staff and deactivate users
         for user in users_to_delete:
-            await Cafe.find({"staff.username": user.username}).update({"$pull": {"staff": {"username": user.username}}})
+            await Cafe.find({"staff.username": user.username}).update(
+                {"$pull": {"staff": {"username": user.username}}}
+            )
             await user.update({"$set": {"is_active": False}})
 
     @staticmethod

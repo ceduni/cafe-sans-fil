@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta
-from beanie import PydanticObjectId
 from typing import List, Optional
+
+from beanie import PydanticObjectId
+from bson import SON
+
 from app.models.cafe_model import Cafe
 from app.models.order_model import Order, OrderStatus
 from app.schemas.order_schema import OrderCreate, OrderUpdate
-from bson import SON
 
 
 class OrderService:
@@ -84,7 +86,9 @@ class OrderService:
         return order
 
     @staticmethod
-    async def create_many_orders(orders_data: List[OrderCreate], username: str) -> List[Order]:
+    async def create_many_orders(
+        orders_data: List[OrderCreate], username: str
+    ) -> List[Order]:
         """
         Create multiple orders for a user.
 
@@ -104,7 +108,9 @@ class OrderService:
         return orders
 
     @staticmethod
-    async def update_many_orders(order_ids: List[PydanticObjectId], data: OrderUpdate) -> List[Order]:
+    async def update_many_orders(
+        order_ids: List[PydanticObjectId], data: OrderUpdate
+    ) -> List[Order]:
         """
         Update multiple orders based on the provided list of PydanticObjectIds and data.
 
@@ -116,7 +122,9 @@ class OrderService:
         if not update_data:
             raise ValueError("No data to update")
 
-        result = await Order.find_many({"order_id": {"$in": order_ids}}).update_many({"$set": update_data})
+        result = await Order.find_many({"order_id": {"$in": order_ids}}).update_many(
+            {"$set": update_data}
+        )
         if result.matched_count == 0:
             raise ValueError("No orders found for the provided IDs")
 
@@ -130,7 +138,9 @@ class OrderService:
         :param order_ids: A list of IDs of the orders to delete.
         :return: None
         """
-        orders_to_delete = await Order.find_many({"order_id": {"$in": order_ids}}).to_list()
+        orders_to_delete = await Order.find_many(
+            {"order_id": {"$in": order_ids}}
+        ).to_list()
         if not orders_to_delete:
             raise ValueError("No orders found for the provided IDs")
 

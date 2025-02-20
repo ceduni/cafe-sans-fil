@@ -1,12 +1,14 @@
-from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
-from app.schemas.order_schema import OrderCreate, OrderUpdate, OrderOut
-from app.services.order_service import OrderService
-from beanie import PydanticObjectId
 from typing import List
-from app.models.user_model import User
-from app.models.cafe_model import Role
+
+from beanie import PydanticObjectId
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+
 from app.api.deps.user_deps import get_current_user
+from app.models.cafe_model import Role
+from app.models.user_model import User
+from app.schemas.order_schema import OrderCreate, OrderOut, OrderUpdate
 from app.services.cafe_service import CafeService
+from app.services.order_service import OrderService
 
 """
 This module defines the API routes related to the ordering system of the application.
@@ -45,7 +47,9 @@ async def list_orders(
     description="Retrieve detailed information about a specific order.",
 )
 async def get_order(
-    order_id: PydanticObjectId = Path(..., description="The unique identifier of the order"),
+    order_id: PydanticObjectId = Path(
+        ..., description="The unique identifier of the order"
+    ),
     current_user: User = Depends(get_current_user),
 ):
     try:

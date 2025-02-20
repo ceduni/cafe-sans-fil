@@ -1,19 +1,21 @@
-from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
-from app.schemas.user_schema import (
-    UserOut,
-    UserUpdate,
-    UserAuth,
-    PasswordResetRequest,
-    PasswordReset,
-)
-from app.services.user_service import UserService
 from typing import List
-from app.models.user_model import User
+
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+
 from app.api.deps.user_deps import get_current_user
+from app.core.config import settings
 
 # from app.core.mail import send_registration_mail, send_reset_password_mail, is_test_email
 from app.core.security import create_access_token
-from app.core.config import settings
+from app.models.user_model import User
+from app.schemas.user_schema import (
+    PasswordReset,
+    PasswordResetRequest,
+    UserAuth,
+    UserOut,
+    UserUpdate,
+)
+from app.services.user_service import UserService
 
 """
 This module defines the API routes related to user management in the application.
@@ -42,7 +44,13 @@ async def list_users(
     filters = dict(request.query_params)
     return await UserService.list_users(**filters)
 
-@user_router.get("/users/{username}", response_model=UserOut, summary="🔵 Get User", description="Retrieve detailed information about a specific user.")
+
+@user_router.get(
+    "/users/{username}",
+    response_model=UserOut,
+    summary="🔵 Get User",
+    description="Retrieve detailed information about a specific user.",
+)
 async def get_user(username: str = Path(..., description="The username of the user")):
     user = await UserService.get_user_by_username(username)
     if not user:

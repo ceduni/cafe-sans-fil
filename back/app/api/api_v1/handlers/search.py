@@ -23,8 +23,11 @@
 
 ##version 2 qui fonctionne avec search_service.py
 from fastapi import APIRouter, HTTPException
-from app.services.search_service import search 
+
+from app.services.search_service import search
+
 search_router = APIRouter()
+
 
 @search_router.get("/search")
 async def perform_search(query: str):
@@ -33,4 +36,6 @@ async def perform_search(query: str):
         results = await search(query)
         return results
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erreur lors de la recherche: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Erreur lors de la recherche: {str(e)}"
+        )

@@ -1,22 +1,26 @@
-from app.models.cafe_model import Cafe
-from typing import List, Dict, Any
 import unicodedata
+from typing import Any, Dict, List
+
+from app.models.cafe_model import Cafe
+
 
 async def normalize_query(query: str) -> str:
-    return ''.join(
-        c for c in unicodedata.normalize('NFD', query)
-        if unicodedata.category(c) != 'Mn'
+    return "".join(
+        c
+        for c in unicodedata.normalize("NFD", query)
+        if unicodedata.category(c) != "Mn"
     )
+
 
 async def search(query: str, **filters) -> Dict[str, List[Any]]:
     normalized_query = await normalize_query(query)
     regex_pattern = {"$regex": normalized_query, "$options": "i"}
 
-    for key in ['is_open', 'in_stock']:
+    for key in ["is_open", "in_stock"]:
         if key in filters:
-            if filters[key].lower() == 'true':
+            if filters[key].lower() == "true":
                 filters[key] = True
-            elif filters[key].lower() == 'false':
+            elif filters[key].lower() == "false":
                 filters[key] = False
 
     # Combining the search for cafes by their name and by menu items
@@ -24,7 +28,7 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
         "$or": [
             {"name": regex_pattern},
             {"menu_items": {"$elemMatch": {"name": regex_pattern}}},
-            {"menu_items": {"$elemMatch": {"tags": regex_pattern}}}
+            {"menu_items": {"$elemMatch": {"tags": regex_pattern}}},
         ]
     }
     combined_query.update(filters)
@@ -33,10 +37,12 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
     matching_cafes_and_items = []
     for cafe in matching_cafes_full:
         filtered_menu_items = [
-            item for item in cafe.menu_items
-            if normalized_query.lower() in item.name.lower() or any(normalized_query.lower() in tag.lower() for tag in item.tags)
+            item
+            for item in cafe.menu_items
+            if normalized_query.lower() in item.name.lower()
+            or any(normalized_query.lower() in tag.lower() for tag in item.tags)
         ]
-        
+
         cafe_dict = {
             "_id": str(cafe.id),
             "cafe_id": str(cafe.cafe_id),
@@ -54,7 +60,7 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
             "social_media": cafe.social_media,
             "payment_methods": cafe.payment_methods,
             "additional_info": cafe.additional_info,
-            "menu_items": filtered_menu_items
+            "menu_items": filtered_menu_items,
         }
         matching_cafes_and_items.append(cafe_dict)
 

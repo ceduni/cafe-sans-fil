@@ -1,6 +1,7 @@
 from typing import List
+
 from decouple import config
-from pydantic_settings import SettingsConfigDict, BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 """
 This module defines the application's configuration settings using environment variables and default values.

@@ -16,3 +16,5 @@ pytest
 httpx
 fastapi-mail
 apscheduler
+isort
+black

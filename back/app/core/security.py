@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
-from passlib.context import CryptContext
-from typing import Union, Any
-from app.core.config import settings
+from typing import Any, Union
+
 from jose import jwt
+from passlib.context import CryptContext
+
+from app.core.config import settings
 
 """
 This module provides utilities for JWT token creation, validation, and password handling.
