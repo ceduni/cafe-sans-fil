@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from uuid import UUID
+from beanie import PydanticObjectId
 from typing import List, Optional
 from app.models.cafe_model import Cafe
 from app.models.order_model import Order, OrderStatus
@@ -74,11 +74,11 @@ class OrderService:
         return order
 
     @staticmethod
-    async def retrieve_order(order_id: UUID):
-        return await Order.find_one(Order.order_id == order_id)
+    async def retrieve_order(order_id: PydanticObjectId):
+        return await Order.find_one(Order.id == order_id)
 
     @staticmethod
-    async def update_order(order_id: UUID, data: OrderUpdate):
+    async def update_order(order_id: PydanticObjectId, data: OrderUpdate):
         order = await OrderService.retrieve_order(order_id)
         await order.update({"$set": data.model_dump(exclude_unset=True)})
         return order
@@ -104,9 +104,9 @@ class OrderService:
         return orders
 
     @staticmethod
-    async def update_many_orders(order_ids: List[UUID], data: OrderUpdate) -> List[Order]:
+    async def update_many_orders(order_ids: List[PydanticObjectId], data: OrderUpdate) -> List[Order]:
         """
-        Update multiple orders based on the provided list of UUIDs and data.
+        Update multiple orders based on the provided list of PydanticObjectIds and data.
 
         :param order_ids: A list of IDs of the orders to update.
         :param data: The data to update the orders with.
@@ -123,9 +123,9 @@ class OrderService:
         return await Order.find_many({"order_id": {"$in": order_ids}}).to_list()
 
     @staticmethod
-    async def delete_many_orders(order_ids: List[UUID]) -> None:
+    async def delete_many_orders(order_ids: List[PydanticObjectId]) -> None:
         """
-        Delete multiple orders based on the provided list of UUIDs.
+        Delete multiple orders based on the provided list of PydanticObjectIds.
 
         :param order_ids: A list of IDs of the orders to delete.
         :return: None
@@ -235,7 +235,7 @@ class OrderService:
 
     @staticmethod
     async def generate_sales_report_data(
-        cafe_id: UUID,
+        cafe_id: PydanticObjectId,
         start_date_str: Optional[str],
         end_date_str: Optional[str],
         report_type: str = "daily",

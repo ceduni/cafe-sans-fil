@@ -1,5 +1,5 @@
 from typing import List, Optional
-from uuid import UUID
+from beanie import PydanticObjectId
 from app.models.user_model import User
 from app.models.cafe_model import Cafe
 from app.schemas.user_schema import UserAuth, UserUpdate
@@ -40,7 +40,7 @@ class UserService:
         return user
 
     @staticmethod
-    async def get_user_by_id(id: UUID) -> Optional[User]:
+    async def get_user_by_id(id: PydanticObjectId) -> Optional[User]:
         user = await User.find_one({"_id": id, "is_active": True})
         return user
 
@@ -73,16 +73,16 @@ class UserService:
         sort_field = sort_by[1:] if sort_order == -1 else sort_by
         sort_params = [(sort_field, sort_order)]
 
-        users_cursor = User.aggregate(
-            [
-                {"$match": query_filters},
-                {"$sort": dict(sort_params)},
-                {"$skip": (page - 1) * limit},
-                {"$limit": limit},
-            ]
-        )
+        # users_cursor = User.aggregate(
+        #     [
+        #         {"$match": query_filters},
+        #         {"$sort": dict(sort_params)},
+        #         {"$skip": (page - 1) * limit},
+        #         {"$limit": limit},
+        #     ]
+        # )
 
-        return await users_cursor.to_list(None)
+        return await User.find(query_filters).sort(*sort_params).limit(limit).skip((page - 1) * limit).to_list(None)
 
     @staticmethod
     async def create_user(user: UserAuth):

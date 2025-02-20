@@ -1,8 +1,7 @@
 from typing import List, Optional
-from uuid import UUID
 from pydantic import field_validator, ConfigDict, BaseModel, Field
 from datetime import datetime
-from beanie import DecimalAnnotation
+from beanie import DecimalAnnotation, PydanticObjectId
 from app.models.order_model import OrderedItem, OrderStatus
 
 """
@@ -18,18 +17,18 @@ Note: These models are for API data interchange related to orders and not direct
 # --------------------------------------
 
 class OrderCreate(BaseModel):
-    cafe_id: UUID = Field(..., description="UUID of the cafe associated with the order.")
+    cafe_id: PydanticObjectId = Field(..., description="ID of the cafe associated with the order.")
     cafe_name: str = Field(..., description="Name of the cafe associated with the order.")
     cafe_image_url: Optional[str] = Field(None, description="Image URL of the cafe associated with the order.")
     items: List[OrderedItem] = Field(..., description="List of ordered items including details like item ID, name, quantity, price, and options.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
+            "cafe_id": "67b600414ae53a72130a956e",
             "cafe_name": "Tore et Fraction",
             "cafe_image_url": "https://example.com/cafe.png",
             "items": [
                 {
-                    "item_id": "123e4567-e89b-12d3-a456-426614174000",
+                    "item_id": "67b600414ae53a72130a956e",
                     "item_name": "Croissant",
                     "item_price": 2.99,
                     "quantity": 2,
@@ -39,7 +38,7 @@ class OrderCreate(BaseModel):
                     ]
                 },
                 {
-                    "item_id": "223e4567-e89b-12d3-a456-426614174001",
+                    "item_id": "67b600414ae53a72130a956a",
                     "item_name": "Baguette",
                     "item_price": 4.99,
                     "quantity": 1,
@@ -68,10 +67,10 @@ class OrderUpdate(BaseModel):
     })
 
 class OrderOut(BaseModel):
-    id: UUID = Field(..., description="Unique identifier of the order.")
+    id: PydanticObjectId = Field(..., description="Unique identifier of the order.")
     order_number: int = Field(..., description="Order number of the order.")
-    user_id: UUID = Field(..., description="UUID of the user who placed the order.")
-    cafe_id: UUID = Field(..., description="UUID of the cafe associated with the order.")
+    user_id: PydanticObjectId = Field(..., description="ID of the user who placed the order.")
+    cafe_id: PydanticObjectId = Field(..., description="ID of the cafe associated with the order.")
     cafe_name: str = Field(..., description="Name of the cafe associated with the order.")
     cafe_image_url: Optional[str] = Field(None, description="Image URL of the cafe associated with the order.")
     items: List[OrderedItem] = Field(..., description="Detailed list of items included in the order.")
@@ -81,15 +80,15 @@ class OrderOut(BaseModel):
     updated_at: datetime = Field(..., description="Timestamp when the order was last updated.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "id": "67b600414ae53a72130a956e",
             "order_number": 1234,
-            "user_id": "323e4567-e89b-12d3-a456-426614174001",
-            "cafe_id": "423e4567-e89b-12d3-a456-426614174002",
+            "user_id": "67b600414ae53a72130a956a",
+            "cafe_id": "67b600414ae53a72130a956b",
             "cafe_name": "Tore et Fraction",
             "cafe_image_url": "https://example.com/cafe.png",
             "items": [
                 {
-                    "item_id": "123e4567-e89b-12d3-a456-426614174000",
+                    "item_id": "67b600414ae53a72130a956a",
                     "item_name": "Croissant",
                     "item_price": 2.99,
                     "quantity": 2,
@@ -99,7 +98,7 @@ class OrderOut(BaseModel):
                     ]
                 },
                 {
-                    "item_id": "223e4567-e89b-12d3-a456-426614174001",
+                    "item_id": "67b600414ae53a72130a956b",
                     "item_name": "Baguette",
                     "item_price": 4.99,
                     "quantity": 1,

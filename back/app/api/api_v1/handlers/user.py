@@ -29,7 +29,6 @@ user_router = APIRouter()
 @user_router.get(
     "/users",
     response_model=List[UserOut],
-    response_model_by_alias=False,
     summary="🔵 List Users",
     description="Retrieve a list of all users.",
 )

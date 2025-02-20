@@ -1,7 +1,6 @@
 import json
 import random
 from datetime import datetime, timedelta
-from uuid import uuid4
 from faker import Faker
 from tqdm import tqdm
 from app.models.cafe_model import Affiliation, Location, Contact, SocialMedia, TimeBlock, DayHours, PaymentMethod, AdditionalInfo
@@ -51,10 +50,10 @@ class CafeSeeder:
                 menu_item_ids=[]
             )
 
-            # Insert the cafe and retrieve the object with the generated UUID
+            # Insert the cafe and retrieve the object with the generated ID
             created_cafe = await CafeService.create_cafe(cafe_data)
 
-            # Append the generated UUID from the created cafe
+            # Append the generated ID from the created cafe
             self.cafe_ids.append(created_cafe.id)
 
         print(f"{num_cafes} cafes created")

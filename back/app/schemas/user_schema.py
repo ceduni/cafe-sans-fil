@@ -1,5 +1,5 @@
 from pydantic import field_validator, ConfigDict, BaseModel, EmailStr, Field
-from uuid import UUID
+from beanie import PydanticObjectId
 from typing import Optional
 import re
 
@@ -96,7 +96,7 @@ class UserUpdate(BaseModel):
     #     return v
 
 class UserOut(BaseModel):
-    id: UUID = Field(..., description="Unique identifier of the user.", alias="_id")
+    id: PydanticObjectId = Field(..., description="Unique identifier of the user.")
     username: str = Field(..., description="Username of the user.")
     email: EmailStr = Field(..., description="User's email address.")
     matricule: str = Field(..., description="User's matricule identifier.")
@@ -105,7 +105,7 @@ class UserOut(BaseModel):
     photo_url: Optional[str] = Field(None, description="URL of the user's profile photo.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "id": "67b600414ae53a72130a956e",
             "username": "johndoe",
             "email": "john.doe@umontreal.ca",
             "matricule": "20303216",

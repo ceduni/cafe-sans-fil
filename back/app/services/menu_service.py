@@ -1,5 +1,5 @@
 from typing import List
-from uuid import UUID
+from beanie import PydanticObjectId
 from app.models.menu_model import MenuItem
 from app.models.cafe_model import Cafe
 from app.schemas.menu_schema import MenuItemCreate, MenuItemUpdate
@@ -31,21 +31,21 @@ class MenuItemService:
         )
 
     @staticmethod
-    async def retrieve_menu_item(item_id: UUID) -> MenuItem:
+    async def retrieve_menu_item(item_id: PydanticObjectId) -> MenuItem:
         """
-        Retrieve a menu item from the database based on the provided UUID.
+        Retrieve a menu item from the database based on the provided PydanticObjectId.
 
-        :param item_id: A UUID representing the menu item ID.
+        :param item_id: A PydanticObjectId representing the menu item ID.
         :return: A MenuItem object if found, None otherwise.
         """
         return await MenuItem.find_one({"_id": item_id})
 
     @staticmethod
-    async def create_menu_item(cafe_id: UUID, item_data: MenuItemCreate) -> MenuItem:
+    async def create_menu_item(cafe_id: PydanticObjectId, item_data: MenuItemCreate) -> MenuItem:
         """
         Create a new menu item and associate it with a cafe.
 
-        :param cafe_id: The ID of the cafe to associate the menu item with.
+        :param cafe_id: The PydanticObjectId of the cafe to associate the menu item with.
         :param item_data: The data to create the menu item with.
         :return: The created MenuItem object.
         """
@@ -60,11 +60,11 @@ class MenuItemService:
         return new_item
 
     @staticmethod
-    async def update_menu_item(item_id: UUID, item_data: MenuItemUpdate) -> MenuItem:
+    async def update_menu_item(item_id: PydanticObjectId, item_data: MenuItemUpdate) -> MenuItem:
         """
-        Update a menu item based on the provided UUID and data.
+        Update a menu item based on the provided PydanticObjectId and data.
 
-        :param item_id: The ID of the menu item to update.
+        :param item_id: The PydanticObjectId of the menu item to update.
         :param item_data: The data to update the menu item with.
         :return: The updated MenuItem object.
         """
@@ -78,11 +78,11 @@ class MenuItemService:
         return item
 
     @staticmethod
-    async def delete_menu_item(item_id: UUID) -> None:
+    async def delete_menu_item(item_id: PydanticObjectId) -> None:
         """
-        Delete a menu item based on the provided UUID.
+        Delete a menu item based on the provided PydanticObjectId.
 
-        :param item_id: The ID of the menu item to delete.
+        :param item_id: The PydanticObjectId of the menu item to delete.
         :return: None
         """
         item = await MenuItem.find_one({"_id": item_id})
@@ -97,11 +97,11 @@ class MenuItemService:
         await item.delete()
 
     @staticmethod
-    async def create_many_menu_items(cafe_id: UUID, items_data: List[MenuItemCreate]) -> List[MenuItem]:
+    async def create_many_menu_items(cafe_id: PydanticObjectId, items_data: List[MenuItemCreate]) -> List[MenuItem]:
         """
         Create multiple menu items and associate them with a cafe.
 
-        :param cafe_id: The ID of the cafe to associate the menu items with.
+        :param cafe_id: The PydanticObjectId of the cafe to associate the menu items with.
         :param items_data: A list of data to create the menu items with.
         :return: A list of created MenuItem objects.
         """
@@ -119,9 +119,9 @@ class MenuItemService:
         return new_items
 
     @staticmethod
-    async def update_many_menu_items(item_ids: List[UUID], item_data: MenuItemUpdate) -> List[MenuItem]:
+    async def update_many_menu_items(item_ids: List[PydanticObjectId], item_data: MenuItemUpdate) -> List[MenuItem]:
         """
-        Update multiple menu items based on the provided list of UUIDs and data.
+        Update multiple menu items based on the provided list of PydanticObjectIds and data.
 
         :param item_ids: A list of IDs of the menu items to update.
         :param item_data: The data to update the menu items with.
@@ -138,9 +138,9 @@ class MenuItemService:
         return await MenuItem.find_many({"_id": {"$in": item_ids}}).to_list()
 
     @staticmethod
-    async def delete_many_menu_items(item_ids: List[UUID]) -> None:
+    async def delete_many_menu_items(item_ids: List[PydanticObjectId]) -> None:
         """
-        Delete multiple menu items based on the provided list of UUIDs.
+        Delete multiple menu items based on the provided list of PydanticObjectIds.
 
         :param item_ids: A list of IDs of the menu items to delete.
         :return: None

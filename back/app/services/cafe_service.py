@@ -1,5 +1,6 @@
 from typing import List
-from uuid import UUID
+from beanie import PydanticObjectId
+from bson.errors import InvalidId
 from app.models.cafe_model import Cafe, Role, StaffMember,CafeView
 from app.schemas.cafe_schema import (
     CafeCreate,
@@ -9,7 +10,6 @@ from app.schemas.cafe_schema import (
     StaffUpdate,
 )
 from app.models.user_model import User
-
 
 class CafeService:
     """
@@ -22,7 +22,7 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_cafes(**query_params) -> List[CafeShortOut]:
+    async def list_cafes(**query_params) -> List[Cafe]:
         """
         List cafes based on the provided query parameters.
 
@@ -34,7 +34,6 @@ class CafeService:
         limit = int(query_params.pop("limit", 40))
         return (
             await Cafe.find(query_params)
-            .project(CafeShortOut)
             .skip((page - 1) * limit)
             .limit(limit)
             .sort(sort_by)
@@ -42,21 +41,20 @@ class CafeService:
         )
 
     @staticmethod
-    async def retrieve_cafe(cafe_slug_or_id):
+    async def retrieve_cafe(cafe_slug_or_id, as_view: bool = True):
         """
-        Retrieve a cafe from the database based on the provided cafe slug or UUID.
+        Retrieve a cafe from the database based on the provided cafe slug or ID.
 
-        :param cafe_slug_or_id: A string representing the cafe slug or UUID, or a UUID.
-        :return: A Cafe object if found, None otherwise.
+        :param cafe_slug_or_id: A string representing the cafe slug or ID.
+        :param as_view: A boolean indicating whether to retrieve the cafe as a CafeView object.
+        :return: A Cafe or CafeView object if found, None otherwise.
         """
-        if isinstance(cafe_slug_or_id, UUID):
-            return await CafeView.find_one({"_id": cafe_slug_or_id})
-
+        cafe_class = CafeView if as_view else Cafe
         try:
-            cafe_id = UUID(cafe_slug_or_id)
-            return await CafeView.find_one({"_id": cafe_id})
-        except ValueError:
-            return await CafeView.find_one(
+            cafe_id = PydanticObjectId(cafe_slug_or_id)
+            return await cafe_class.find_one({"_id": cafe_id})
+        except InvalidId:
+            return await cafe_class.find_one(
                 {
                     "$or": [
                         {"slug": cafe_slug_or_id},
@@ -64,7 +62,7 @@ class CafeService:
                     ]
                 }
             )
-        
+
     @staticmethod
     async def create_cafe(data: CafeCreate) -> Cafe:
         """
@@ -79,17 +77,15 @@ class CafeService:
             return cafe
         except Exception as e:
             if "duplicate" in str(e).lower() and len(str(e)) < 100:
-                raise ValueError(e)
-            else:
                 raise ValueError("Cafe already exists")
 
 
     @staticmethod
-    async def update_cafe(cafe_id: UUID, data: CafeUpdate):
+    async def update_cafe(cafe_id: PydanticObjectId, data: CafeUpdate):
         """
-        Update a cafe based on the provided UUID and data.
+        Update a cafe based on the provided PydanticObjectId and data.
 
-        :param cafe_id: A UUID representing the cafe.
+        :param cafe_id: A PydanticObjectId representing the cafe.
         :param data: The data to update the cafe with.
         :return: The updated Cafe object.
         """
@@ -113,11 +109,11 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_staff_members(cafe_id: UUID):
+    async def list_staff_members(cafe_id: PydanticObjectId):
         """
         List staff members of the cafe identified by cafe_id.
 
-        :param cafe_id: The UUID of the cafe.
+        :param cafe_id: The PydanticObjectId of the cafe.
         :return: List of StaffMember objects.
         """
         cafe = await Cafe.find_one({"_id": cafe_id})
@@ -126,11 +122,11 @@ class CafeService:
         return cafe.staff
 
     @staticmethod
-    async def retrieve_staff_member(cafe_id: UUID, username: str):
+    async def retrieve_staff_member(cafe_id: PydanticObjectId, username: str):
         """
         Retrieve a staff member by username from the cafe identified by cafe_id.
 
-        :param cafe_id: The UUID of the cafe.
+        :param cafe_id: The PydanticObjectId of the cafe.
         :param username: The username of the staff member to retrieve.
         :return: A StaffMember object if found.
         """
@@ -145,7 +141,7 @@ class CafeService:
         raise ValueError("Staff member not found")
     
     @staticmethod
-    async def create_staff_member(cafe_id: UUID, staff_data: StaffCreate):
+    async def create_staff_member(cafe_id: PydanticObjectId, staff_data: StaffCreate):
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
@@ -156,7 +152,7 @@ class CafeService:
         return new_staff_member
 
     @staticmethod
-    async def update_staff_member(cafe_id: UUID, username: str, staff_data: StaffUpdate):
+    async def update_staff_member(cafe_id: PydanticObjectId, username: str, staff_data: StaffUpdate):
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
@@ -171,7 +167,7 @@ class CafeService:
         raise ValueError("Staff member not found")
 
     @staticmethod
-    async def delete_staff_member(cafe_id: UUID, username: str):
+    async def delete_staff_member(cafe_id: PydanticObjectId, username: str):
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
@@ -186,11 +182,11 @@ class CafeService:
             raise ValueError("Staff member not found")
 
     @staticmethod
-    async def create_many_staff_members(cafe_id: UUID, staff_data_list: List[StaffCreate]) -> List[StaffMember]:
+    async def create_many_staff_members(cafe_id: PydanticObjectId, staff_data_list: List[StaffCreate]) -> List[StaffMember]:
         """
         Create multiple staff members for a cafe.
 
-        :param cafe_id: The UUID of the cafe.
+        :param cafe_id: The PydanticObjectId of the cafe.
         :param staff_data_list: A list of staff data to create.
         :return: A list of created StaffMember objects.
         """
@@ -204,11 +200,11 @@ class CafeService:
         return new_staff_members
 
     @staticmethod
-    async def update_many_staff_members(cafe_id: UUID, usernames: List[str], staff_data: StaffUpdate) -> List[StaffMember]:
+    async def update_many_staff_members(cafe_id: PydanticObjectId, usernames: List[str], staff_data: StaffUpdate) -> List[StaffMember]:
         """
         Update multiple staff members based on the provided usernames.
 
-        :param cafe_id: The UUID of the cafe.
+        :param cafe_id: The PydanticObjectId of the cafe.
         :param usernames: A list of usernames of the staff members to update.
         :param staff_data: The data to update the staff members with.
         :return: A list of updated StaffMember objects.
@@ -231,11 +227,11 @@ class CafeService:
         return updated_members
 
     @staticmethod
-    async def delete_many_staff_members(cafe_id: UUID, usernames: List[str]) -> None:
+    async def delete_many_staff_members(cafe_id: PydanticObjectId, usernames: List[str]) -> None:
         """
         Delete multiple staff members based on the provided usernames.
 
-        :param cafe_id: The UUID of the cafe.
+        :param cafe_id: The PydanticObjectId of the cafe.
         :param usernames: A list of usernames of the staff members to delete.
         :return: None
         """
@@ -253,7 +249,7 @@ class CafeService:
 
     @staticmethod
     async def is_authorized_for_cafe_action(
-        cafe_id: UUID, current_user: User, required_roles: List[Role]
+        cafe_id: PydanticObjectId, current_user: User, required_roles: List[Role]
     ):
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:

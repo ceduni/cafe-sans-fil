@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Path, Request, Query
 from typing import List, Optional, Dict
-from uuid import UUID
+from beanie import PydanticObjectId
 
 from app.schemas.event_schema import EventCreate, EventUpdate, EventOut
 from app.services.event_service import EventService
@@ -35,7 +35,7 @@ def parse_query_params(query_params: Dict) -> Dict:
         elif value.replace(".", "", 1).isdigit():
             value = float(value)
         elif key.endswith("_id"):
-            value = UUID(value)
+            value = PydanticObjectId(value)
 
         if "__" in key:
             parts = key.split("__")
@@ -52,7 +52,7 @@ def parse_query_params(query_params: Dict) -> Dict:
 @event_router.get("/events/", response_model=List[EventOut])
 async def list_events(
     request: Request,
-    cafe_id: Optional[UUID] = Query(None, description="Filter events by cafe ID."),
+    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter events by cafe ID."),
     sort_by: Optional[str] = Query("-start_date", description="Sort events by a specific field. Prefix with '-' for descending order (e.g., '-start_date')."),
     page: Optional[int] = Query(1, description="Specify the page number for pagination."),
     limit: Optional[int] = Query(9, description="Set the number of cafes to return per page.")
@@ -66,31 +66,31 @@ async def create_event(event: EventCreate):
     return await EventService.create_event(event)
 
 @event_router.put("/events/{event_id}", response_model=EventOut)
-async def update_event(event_id: UUID, event: EventUpdate):
+async def update_event(event_id: PydanticObjectId, event: EventUpdate):
     return await EventService.update_event(event_id, event)
 
 @event_router.delete("/events/{event_id}")
-async def delete_event(event_id: UUID):
+async def delete_event(event_id: PydanticObjectId):
     return await EventService.remove_event(event_id)
 
 @event_router.post("/events/{event_id}/attend", response_model=EventOut)
 async def toggle_attendance(
-    event_id: UUID = Path(..., description="The ID of the event"),
+    event_id: PydanticObjectId = Path(..., description="The ID of the event"),
     current_user: User = Depends(get_current_user),
     remove: bool = False
 ):
     if not remove:
-        return await EventService.add_attendee_to_event(event_id, current_user.user_id)
+        return await EventService.add_attendee_to_event(event_id, current_user.id)
     else:
-        return await EventService.remove_attendee_from_event(event_id, current_user.user_id)
+        return await EventService.remove_attendee_from_event(event_id, current_user.id)
 
 @event_router.post("/events/{event_id}/support", response_model=EventOut)
 async def toggle_support(
-    event_id: UUID = Path(..., description="The ID of the event"),
+    event_id: PydanticObjectId = Path(..., description="The ID of the event"),
     current_user: User = Depends(get_current_user),
     remove: bool = False
 ):
     if not remove:
-        return await EventService.add_supporter_to_event(event_id, current_user.user_id)
+        return await EventService.add_supporter_to_event(event_id, current_user.id)
     else:
-        return await EventService.remove_supporter_from_event(event_id, current_user.user_id)
+        return await EventService.remove_supporter_from_event(event_id, current_user.id)

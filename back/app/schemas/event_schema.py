@@ -1,11 +1,11 @@
 from pydantic import BaseModel, Field, ConfigDict
-from uuid import UUID
+from beanie import PydanticObjectId
 from typing import List, Optional
 from datetime import datetime
 from app.models.announcement_model import UserInteraction
 
 class EventCreate(BaseModel):
-    cafe_id: UUID = Field(..., description="Identifier of the cafe hosting the event.")
+    cafe_id: PydanticObjectId = Field(..., description="Identifier of the cafe hosting the event.")
     title: str = Field(..., min_length=1, description="Title of the event.")
     description: str = Field(..., description="Detailed description of the event.")
     start_date: datetime = Field(..., description="Starting date and time of the event.")
@@ -13,7 +13,7 @@ class EventCreate(BaseModel):
     image_url: Optional[str] = Field(None, description="URL of the event image.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "cafe_id": "123e4567-e89b-12d3-a456-426614174000",
+            "cafe_id": "67b600414ae53a72130a956e",
             "title": "Saint-Valentin",
             "description": "Plongez dans l'atmosphère romantique de la Saint-Valentin avec une soirée spécialement conçue pour célébrer l'amour sous toutes ses formes...",
             "start_date": "2025-02-14T10:00:00",
@@ -39,8 +39,8 @@ class EventUpdate(BaseModel):
     })
 
 class EventOut(BaseModel):
-    event_id: UUID = Field(..., description="Unique identifier of the event.")
-    cafe_id: UUID = Field(..., description="Identifier of the cafe hosting the event.")
+    id: PydanticObjectId = Field(..., description="Unique identifier of the event.")
+    cafe_id: PydanticObjectId = Field(..., description="Identifier of the cafe hosting the event.")
     title: str = Field(..., min_length=1, description="Title of the event.")
     description: str = Field(..., description="Detailed description of the event.")
     start_date: datetime = Field(..., description="Starting date and time of the event.")
@@ -50,8 +50,8 @@ class EventOut(BaseModel):
     supporters: List[UserInteraction] = Field([], description="List of users who support the event.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "event_id": "00000000-0000-0000-0000-000000000000",
-            "cafe_id": "00000000-0000-0000-0000-000000000000",
+            "id": "67b600414ae53a72130a956e",
+            "cafe_id": "67b600414ae53a72130a956a",
             "title": "Saint-Valentin",
             "description": "Plongez dans l'atmosphère romantique de la Saint-Valentin avec une soirée spécialement conçue pour célébrer l'amour sous toutes ses formes...",
             "start_date": "2025-02-14T10:00:00",

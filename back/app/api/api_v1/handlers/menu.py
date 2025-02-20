@@ -1,4 +1,4 @@
-from uuid import UUID
+from beanie import PydanticObjectId
 from fastapi import (
     APIRouter,
     HTTPException,
@@ -67,11 +67,11 @@ def parse_query_params(query_params: Dict) -> Dict:
     "/cafes/{cafe_slug}/menu",
     response_model=List[MenuItemOut],
     summary="List Menu Items",
-    description="Retrieve the menu items of a specific café using its slug or UUID.",
+    description="Retrieve the menu items of a specific café using its slug or ID.",
 )
 async def list_menu_items(
     request: Request,
-    cafe_slug: str = Path(..., description="The slug or UUID of the cafe"),
+    cafe_slug: str = Path(..., description="The slug or ID of the cafe"),
     in_stock: Optional[bool] = Query(
         None, description="Filter menu items by stock availability (true/false)."
     ),
@@ -87,11 +87,11 @@ async def list_menu_items(
     ),
 ):
     """
-    Retrieve the menu items of a specific café using its slug or UUID.
+    Retrieve the menu items of a specific café using its slug or ID.
 
     Args:
         - request: Request - The HTTP request object.
-        - cafe_slug: str - The slug or UUID of the cafe.
+        - cafe_slug: str - The slug or ID of the cafe.
         - in_stock: Optional[bool] - Filter menu items by stock availability (true/false).
         - sort_by: Optional[str] - Sort menus by a specific field. Prefix with '-' for descending order (e.g., '-name').
         - page: Optional[int] - Specify the page number for pagination.
@@ -122,7 +122,7 @@ async def list_menu_items(
 )
 async def create_menu_item(
     item_data: MenuItemCreate,
-    cafe_slug: str = Path(..., description="The slug or UUID of the cafe"),
+    cafe_slug: str = Path(..., description="The slug or ID of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
     """
@@ -130,7 +130,7 @@ async def create_menu_item(
 
     Args:
         item (MenuItemCreate): The menu item to create.
-        cafe_slug (str): The slug or UUID of the cafe.
+        cafe_slug (str): The slug or ID of the cafe.
         current_user (User): The current user making the request.
 
     Raises:
@@ -163,13 +163,13 @@ async def create_menu_item(
     description="Retrieve detailed information about a specific menu item.",
 )
 async def get_menu_item(
-    item_id: UUID = Path(..., description="The UUID of the menu item"),
+    item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
 ):
     """
     Get detailed information about a specific menu item.
 
     Args:
-        - item_id (UUID): The UUID of the menu item.
+        - item_id (ID): The ID of the menu item.
 
     Raises:
         - HTTPException: If the menu item is not found.
@@ -193,7 +193,7 @@ async def get_menu_item(
 )
 async def update_menu_item(
     item_data: MenuItemUpdate,
-    item_id: UUID = Path(..., description="The UUID of the menu item"),
+    item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
     current_user: User = Depends(get_current_user),
 ):
     """
@@ -201,7 +201,7 @@ async def update_menu_item(
 
     Args:
         item (MenuItemUpdate): The updated menu item.
-        item_id (UUID): The UUID of the menu item.
+        item_id (ID): The ID of the menu item.
         current_user (User): The current user making the request.
 
     Raises:
@@ -234,14 +234,14 @@ async def update_menu_item(
     description="Delete a specific menu item.",
 )
 async def delete_menu_item(
-    item_id: UUID = Path(..., description="The UUID of the menu item"),
+    item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
     current_user: User = Depends(get_current_user),
 ):
     """
     Delete a specific menu item.
 
     Args:
-        item_id (UUID): The UUID of the menu item.
+        item_id (ID): The ID of the menu item.
         current_user (User): The current user making the request.
 
     Raises:

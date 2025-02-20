@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Path, Query, status, Request, Depends
 from app.schemas.order_schema import OrderCreate, OrderUpdate, OrderOut
 from app.services.order_service import OrderService
-from uuid import UUID
+from beanie import PydanticObjectId
 from typing import List
 from app.models.user_model import User
 from app.models.cafe_model import Role
@@ -45,7 +45,7 @@ async def list_orders(
     description="Retrieve detailed information about a specific order.",
 )
 async def get_order(
-    order_id: UUID = Path(..., description="The unique identifier of the order"),
+    order_id: PydanticObjectId = Path(..., description="The unique identifier of the order"),
     current_user: User = Depends(get_current_user),
 ):
     try:
@@ -99,7 +99,7 @@ async def create_order(
 )
 async def update_order(
     orderUpdate: OrderUpdate,
-    order_id: UUID = Path(
+    order_id: PydanticObjectId = Path(
         ..., description="The unique identifier of the order to update"
     ),
     current_user: User = Depends(get_current_user),

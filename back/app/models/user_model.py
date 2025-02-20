@@ -1,5 +1,4 @@
 from typing import Optional
-from uuid import UUID, uuid4
 from beanie import Document, Indexed
 from pydantic import EmailStr, Field
 from datetime import datetime
@@ -15,7 +14,6 @@ different from the API data interchange models.
 """
 
 class User(Document):
-    id: UUID = Field(default_factory=uuid4)
     username: Indexed(str, unique=True)
     email: Indexed(EmailStr, unique=True)
     matricule: Indexed(str, unique=True)

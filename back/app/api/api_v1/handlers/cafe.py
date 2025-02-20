@@ -79,7 +79,6 @@ def parse_query_params(query_params: Dict) -> Dict:
 @cafe_router.get(
     "/cafes",
     response_model=List[CafeShortOut],
-    response_model_by_alias=False,
     summary="List Cafes",
     description="Retrieve a list of all cafes with short information.",
 )
@@ -119,18 +118,18 @@ async def list_cafes(
 
 @cafe_router.get(
     "/cafes/{cafe_slug}",
-    response_model=CafeView,
+    response_model=CafeOut,
     summary="Get Cafe",
     description="Retrieve detailed information about a specific cafe.",
 )
 async def get_cafe(
-    cafe_slug: str = Path(..., description="The slug or UUID of the cafe to retrieve."),
+    cafe_slug: str = Path(..., description="The slug or ID of the cafe to retrieve."),
 ):
     """
     Retrieve detailed information about a specific cafe.
 
     Args:
-        cafe_slug (str): The slug or UUID of the cafe to retrieve.
+        cafe_slug (str): The slug or ID of the cafe to retrieve.
 
     Raises:
         HTTPException: If the cafe is not found.
@@ -149,7 +148,6 @@ async def get_cafe(
 
 @cafe_router.post(
     "/cafes",
-    response_model=CafeOut,
     summary="⚫ Create Cafe",
     description="Create a new cafe with the provided information. \n\nAuthorization: Only specific users can create a cafe.",
 )
@@ -189,13 +187,12 @@ async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current
 
 @cafe_router.put(
     "/cafes/{cafe_slug}",
-    response_model=CafeOut,
     summary="🔴 Update Cafe",
     description="Update the details of an existing cafe.",
 )
 async def update_cafe(
     cafe: CafeUpdate,
-    cafe_slug: str = Path(..., description="The slug or UUID of the cafe to update."),
+    cafe_slug: str = Path(..., description="The slug or ID of the cafe to update."),
     current_user: User = Depends(get_current_user),
 ):
     """
@@ -203,7 +200,7 @@ async def update_cafe(
 
     Args:
         - cafe (CafeUpdate): The updated cafe information.
-        - cafe_slug (str): The slug or UUID of the cafe to update.
+        - cafe_slug (str): The slug or ID of the cafe to update.
         - current_user (User): The current user making the request.
 
     Raises:
@@ -246,12 +243,12 @@ async def update_cafe(
     summary="List Staff",
     description="Retrieve a list of all staff members for a specific cafe.",
 )
-async def list_staff(cafe_slug: str = Path(..., description="The slug or UUID of the cafe.")):
+async def list_staff(cafe_slug: str = Path(..., description="The slug or ID of the cafe.")):
     """
     Retrieves a list of all staff members for a specific cafe.
 
     Args:
-        cafe_slug (str): The slug or UUID of the cafe.
+        cafe_slug (str): The slug or ID of the cafe.
 
     Returns:
         List[StaffOut]: A list of StaffOut objects representing the staff members of the cafe.
@@ -275,7 +272,7 @@ async def create_staff_member(
     Add a new staff member to a specific cafe.
 
     Args:
-        cafe_slug (str): The slug or UUID of the cafe.
+        cafe_slug (str): The slug or ID of the cafe.
         staff (StaffCreate): The details of the staff member to be added.
         current_user (User, optional): The current user making the request.
         
@@ -324,7 +321,7 @@ async def update_staff_member(
     Update details of an existing staff member.
 
     Args:
-        cafe_slug (str): The slug or UUID of the cafe.
+        cafe_slug (str): The slug or ID of the cafe.
         username (str): The username of the staff member to update.
         staff (StaffUpdate): The details to update for the staff member.
         current_user (User, optional): The current user making the request.
@@ -363,7 +360,7 @@ async def delete_staff_member(
     Remove a staff member from a cafe.
 
     Args:
-        cafe_slug (str): The slug or UUID of the cafe.
+        cafe_slug (str): The slug or ID of the cafe.
         username (str): The username of the staff member to delete.
         current_user (User, optional): The current user making the request. Defaults to the user obtained from the dependency `get_current_user`.
 
@@ -399,10 +396,10 @@ async def delete_staff_member(
 @cafe_router.get(
     "/cafes/{cafe_slug}/sales-report",
     summary="🔴 Get Sales Report",
-    description="Retrieve a sales report for a specific cafe using its slug or UUID.",
+    description="Retrieve a sales report for a specific cafe using its slug or ID.",
 )
 async def get_sales_report(
-    cafe_slug: str = Path(..., description="The slug or UUID of the cafe for which to generate the report."),
+    cafe_slug: str = Path(..., description="The slug or ID of the cafe for which to generate the report."),
     start_date: Optional[str] = Query(None, description="The start date of the reporting period."),
     end_date: Optional[str] = Query(None, description="The end date of the reporting period."),
     report_type: str = Query("daily", description="The type of report to generate. Can be 'daily', 'weekly', or 'monthly'."),
@@ -412,7 +409,7 @@ async def get_sales_report(
     Retrieve a sales report for a specific cafe. If no date range is provided, the entire available data range is considered.
     
     Args:
-        cafe_slug (str): The slug or UUID of the cafe for which to generate the report.
+        cafe_slug (str): The slug or ID of the cafe for which to generate the report.
         start_date (Optional[str]): The start date of the reporting period in YYYY-MM-DD format. Defaults to None.
         end_date (Optional[str]): The end date of the reporting period in YYYY-MM-DD format. Defaults to None.
         report_type (str): The type of report to generate. Can be 'daily', 'weekly', or 'monthly'. Defaults to 'daily'.

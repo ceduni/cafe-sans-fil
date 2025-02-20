@@ -1,6 +1,5 @@
 from typing import List, Optional
-from uuid import UUID, uuid4
-from beanie import Document, DecimalAnnotation, Indexed, before_event, Replace, Insert
+from beanie import Document, DecimalAnnotation, Indexed, before_event, Replace, Insert, PydanticObjectId
 from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 from enum import Enum
@@ -25,7 +24,7 @@ class OrderedItemOption(BaseModel):
         return fee
     
 class OrderedItem(BaseModel):
-    item_id: UUID = Field(..., description="UUID of the item related to this ordered item.")
+    item_id: PydanticObjectId = Field(..., description="ID of the item related to this ordered item.")
     item_name: str = Field(..., description="Name of the item at the time of order.")
     item_image_url: Optional[str] = Field(None, description="Image URL of the item at the time of order.")
     item_price: DecimalAnnotation = Field(..., description="Price per unit of the item at the time of order.")
@@ -46,10 +45,9 @@ class OrderStatus(str, Enum):
     CANCELLED = "Annulée"
 
 class Order(Document):
-    order_id: UUID = Field(default_factory=uuid4)
     order_number: Indexed(int, unique=True)
-    user_id: UUID
-    cafe_id: UUID
+    user_id: PydanticObjectId
+    cafe_id: PydanticObjectId
     cafe_name: str
     cafe_image_url: Optional[str] = None
     items: List[OrderedItem]

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Path, Request, Query
 from typing import List, Optional, Dict
-from uuid import UUID
+from beanie import PydanticObjectId
 
 from app.schemas.announcement_schema import AnnouncementCreate, AnnouncementUpdate, AnnouncementOut
 from app.services.announcement_service import AnnouncementService
@@ -35,7 +35,7 @@ def parse_query_params(query_params: Dict) -> Dict:
         elif value.replace(".", "", 1).isdigit():
             value = float(value)
         elif key.endswith("_id"):
-            value = UUID(value)
+            value = PydanticObjectId(value)
 
         if "__" in key:
             parts = key.split("__")
@@ -52,7 +52,7 @@ def parse_query_params(query_params: Dict) -> Dict:
 @announcement_router.get("/announcements/", response_model=List[AnnouncementOut])
 async def list_announcements(
     request: Request,
-    cafe_id: Optional[UUID] = Query(None, description="Filter announcements by cafe ID."),
+    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter announcements by cafe ID."),
     sort_by: Optional[str] = Query("-created_at", description="Sort announcements by a specific field. Prefix with '-' for descending order (e.g., '-created_at')."),
     page: Optional[int] = Query(1, description="Specify the page number for pagination."),
     limit: Optional[int] = Query(9, description="Set the number of cafes to return per page.")
@@ -66,20 +66,20 @@ async def create_announcement(announcement: AnnouncementCreate):
     return await AnnouncementService.create_announcement(announcement)
 
 @announcement_router.put("/announcements/{announcement_id}", response_model=AnnouncementOut)
-async def update_announcement(announcement_id: UUID, announcement: AnnouncementUpdate):
+async def update_announcement(announcement_id: PydanticObjectId, announcement: AnnouncementUpdate):
     return await AnnouncementService.update_announcement(announcement_id, announcement)
 
 @announcement_router.delete("/announcements/{announcement_id}")
-async def delete_announcement(announcement_id: UUID):
+async def delete_announcement(announcement_id: PydanticObjectId):
     return await AnnouncementService.remove_announcement(announcement_id)
 
 @announcement_router.post("/announcements/{announcement_id}/like", response_model=AnnouncementOut)
 async def toggle_like(
-    announcement_id: UUID = Path(..., description="The ID of the announcement"),
+    announcement_id: PydanticObjectId = Path(..., description="The ID of the announcement"),
     current_user: User = Depends(get_current_user),
     unlike: bool = False
 ):
     if not unlike:
-        return await AnnouncementService.add_like_to_announcement(announcement_id, current_user.user_id)
+        return await AnnouncementService.add_like_to_announcement(announcement_id, current_user.id)
     else:
-        return await AnnouncementService.remove_like_from_announcement(announcement_id, current_user.user_id)
+        return await AnnouncementService.remove_like_from_announcement(announcement_id, current_user.id)

@@ -1,4 +1,4 @@
-from uuid import UUID
+from beanie import PydanticObjectId
 from pydantic import BaseModel, Field
 
 """
@@ -10,5 +10,5 @@ class TokenSchema(BaseModel):
     refresh_token: str = Field(..., description="JWT refresh token to obtain a new access token.")
     
 class TokenPayload(BaseModel):
-    sub: UUID = Field(None, description="Subject of the token.")
+    sub: PydanticObjectId = Field(None, description="Subject of the token.")
     exp: int = Field(None, description="Expiration time of the token.")

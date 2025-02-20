@@ -1,7 +1,6 @@
 from typing import List, Optional
-from uuid import UUID
 from pydantic import field_validator, ConfigDict, BaseModel, Field
-from beanie import DecimalAnnotation
+from beanie import DecimalAnnotation, PydanticObjectId
 from app.models.menu_model import MenuItemOption
 
 """
@@ -80,8 +79,8 @@ class MenuItemUpdate(BaseModel):
         return price
 
 class MenuItemOut(BaseModel):
-    id: UUID = Field(..., description="Unique identifier of the menu item.")
-    cafe_id: UUID = Field(..., description="ID of the cafe this menu item belongs to.")
+    id: PydanticObjectId = Field(..., description="Unique identifier of the menu item.")
+    cafe_id: PydanticObjectId = Field(..., description="ID of the cafe this menu item belongs to.")
     name: str = Field(..., description="Name of the menu item.")
     tags: List[str] = Field(..., description="Tags associated with the menu item.")
     description: str = Field(..., description="Description of the menu item.")
@@ -92,8 +91,8 @@ class MenuItemOut(BaseModel):
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
     model_config = ConfigDict(json_schema_extra={
         "example": {
-            "id": "123e4567-e89b-12d3-a456-426614174000",
-            "cafe_id": "123e4567-e89b-12d3-a456-426614174001",
+            "id": "67b600414ae53a72130a956e",
+            "cafe_id": "67b600414ae53a72130a956a",
             "name": "Cheeseburger",
             "tags": ["Classique", "Fromage"],
             "description": "Un cheeseburger classique avec une tranche de fromage fondant",

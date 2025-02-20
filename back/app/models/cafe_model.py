@@ -1,6 +1,5 @@
 from typing import List, Optional
-from uuid import UUID, uuid4
-from beanie import Document, View, DecimalAnnotation, Indexed
+from beanie import Document, View, DecimalAnnotation, Indexed, PydanticObjectId
 from pydantic import field_validator, BaseModel, Field
 from enum import Enum
 from datetime import datetime
@@ -89,7 +88,6 @@ class StaffMember(BaseModel):
     role: Role = Field(..., description="Role of the staff member, e.g., 'Bénévole', 'Admin'.")
 
 class Cafe(Document):
-    id: UUID = Field(default_factory=uuid4, alias="_id")
     name: Indexed(str, unique=True)
     slug: Indexed(str, unique=True) = None
     previous_slugs: List[str] = []
@@ -107,7 +105,7 @@ class Cafe(Document):
     payment_methods: List[PaymentMethod]
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
-    menu_item_ids: List[UUID]
+    menu_item_ids: List[PydanticObjectId]
 
     def __init__(self, **data):
         super().__init__(**data)
@@ -203,15 +201,10 @@ class Cafe(Document):
         return await super().save(*args, **kwargs)
 
     class Settings:
-        # Beanie configuration
         name = "cafes"
-        
-    class Config:
-        # Pydantic configuration
-        populate_by_name = True
 
 class CafeView(View):
-    id: UUID = Field(default_factory=uuid4, alias="_id")
+    id: PydanticObjectId = Field(..., alias="_id")
     name: Indexed(str, unique=True)
     slug: Indexed(str, unique=True) = None
     previous_slugs: List[str] = []

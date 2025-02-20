@@ -24,7 +24,7 @@ class MenuSeeder:
         Seeds menu items for cafes.
         """
         for cafe_id in tqdm(cafe_ids, desc="Seeding menu items for cafes"):
-            cafe = await CafeService.retrieve_cafe(cafe_id)
+            cafe = await CafeService.retrieve_cafe(cafe_id, False)
             if not cafe:
                 print(f"Skipping {cafe_id}, cafe not found.")
                 continue
