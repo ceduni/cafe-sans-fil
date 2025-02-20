@@ -1,3 +1,7 @@
+"""
+Module for handling order-related routes.
+"""
+
 from typing import List
 
 from beanie import PydanticObjectId
@@ -10,15 +14,7 @@ from app.order.schemas import OrderCreate, OrderOut, OrderUpdate
 from app.order.service import OrderService
 from app.user.models import User
 
-"""
-This module defines the API routes related to the ordering system of the application.
-"""
-
 order_router = APIRouter()
-
-# --------------------------------------
-#               Order
-# --------------------------------------
 
 
 @order_router.get(
@@ -35,7 +31,8 @@ async def list_orders(
     page: int = Query(1, description="The page number to retrieve."),
     limit: int = Query(20, description="The number of orders to retrieve per page."),
     current_user: User = Depends(get_current_user),
-):
+) -> List[OrderOut]:
+    """Retrieve a list of all orders."""
     filters = dict(request.query_params)
     return await OrderService.list_orders(**filters)
 
@@ -51,7 +48,8 @@ async def get_order(
         ..., description="The unique identifier of the order"
     ),
     current_user: User = Depends(get_current_user),
-):
+) -> OrderOut:
+    """Retrieve detailed information about a specific order."""
     try:
         order = await OrderService.retrieve_order(order_id)
         if not order:
@@ -86,7 +84,8 @@ async def get_order(
 )
 async def create_order(
     order: OrderCreate, current_user: User = Depends(get_current_user)
-):
+) -> OrderOut:
+    """Create a new order with the provided details."""
     cafe = await CafeService.retrieve_cafe(order.cafe_slug)
     if not cafe:
         raise HTTPException(
@@ -107,7 +106,8 @@ async def update_order(
         ..., description="The unique identifier of the order to update"
     ),
     current_user: User = Depends(get_current_user),
-):
+) -> OrderOut:
+    """Update the details of an existing order."""
     try:
         order = await OrderService.retrieve_order(order_id)
         if not order:
@@ -122,7 +122,9 @@ async def update_order(
                 order.cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER]
             )
         ):
-            raise HTTPException(status_code=403, detail="Access forbidden")
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
+            )
 
         return await OrderService.update_order(order_id, orderUpdate)
     except ValueError as e:
@@ -147,7 +149,8 @@ async def list_user_orders(
     page: int = Query(1, description="The page number to retrieve."),
     limit: int = Query(20, description="The number of orders to retrieve per page."),
     current_user: User = Depends(get_current_user),
-):
+) -> List[OrderOut]:
+    """Retrieve a list of orders for a specific user."""
     # Authorization check
     if username != current_user.username:
         raise HTTPException(
@@ -172,7 +175,8 @@ async def list_cafe_orders(
     page: int = Query(1, description="The page number to retrieve."),
     limit: int = Query(20, description="The number of orders to retrieve per page."),
     current_user: User = Depends(get_current_user),
-):
+) -> List[OrderOut]:
+    """Retrieve a list of orders for a specific cafe."""
     try:
         # Authorization check
         if not await CafeService.is_authorized_for_cafe_action_by_slug(

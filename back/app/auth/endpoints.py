@@ -1,3 +1,7 @@
+"""
+Module for handling authentication-related routes.
+"""
+
 from datetime import datetime, timedelta
 from typing import Any
 
@@ -14,20 +18,21 @@ from app.user.models import User
 from app.user.schemas import UserOut
 from app.user.service import UserService
 
-"""
-This module provides API routes for user authentication and token management.
-"""
-
 auth_router = APIRouter()
 
 
 class LockoutConfig:
+    """
+    Configuration for account lockout.
+    """
+
     INITIAL_LOCKOUT_THRESHOLD = 5  # Attempts required for initial lockout
     EXTRA_TRIES_AFTER_LOCKOUT = 5  # Additional tries after each lockout
     LOCKOUT_DURATIONS = [5, 15, 30, 60]  # Lockout durations in minutes
 
     @staticmethod
     def calculate_lockout_duration(attempts: int, locked_time) -> timedelta:
+        """Calculate lockout duration based on attempts."""
         if attempts < LockoutConfig.INITIAL_LOCKOUT_THRESHOLD and not locked_time:
             return None
 
@@ -56,6 +61,7 @@ class LockoutConfig:
     response_model=TokenSchema,
 )
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
+    """Authenticate user and return access and refresh tokens."""
     user = None
     if "@" in form_data.username:
         user = await UserService.get_user_by_email(email=form_data.username)
@@ -126,12 +132,14 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     summary="🔵 Test if the access token is valid",
     response_model=UserOut,
 )
-async def test_token(user: User = Depends(get_current_user)):
+async def test_token(user: User = Depends(get_current_user)) -> UserOut:
+    """Verify access token and return user details."""
     return user
 
 
 @auth_router.post("/auth/refresh", summary="Refresh token", response_model=TokenSchema)
-async def refresh_token(refresh_token: str = Body(...)):
+async def refresh_token(refresh_token: str = Body(...)) -> TokenSchema:
+    """Refresh access token using refresh token."""
     try:
         payload = jwt.decode(
             refresh_token,

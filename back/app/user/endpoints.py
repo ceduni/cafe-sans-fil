@@ -1,10 +1,12 @@
+"""
+Module for handling user-related routes.
+"""
+
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
 
 from app.auth.dependencies import get_current_user
-
-# from app.core.mail import send_registration_mail, send_reset_password_mail, is_test_email
 from app.auth.security import create_access_token
 from app.config import settings
 from app.user.models import User
@@ -17,15 +19,7 @@ from app.user.schemas import (
 )
 from app.user.service import UserService
 
-"""
-This module defines the API routes related to user management in the application.
-"""
-
 user_router = APIRouter()
-
-# --------------------------------------
-#               User
-# --------------------------------------
 
 
 @user_router.get(
@@ -40,7 +34,8 @@ async def list_users(
     page: int = Query(1, description="The page number to retrieve."),
     limit: int = Query(20, description="The number of users to retrieve per page."),
     current_user: User = Depends(get_current_user),
-):
+) -> List[UserOut]:
+    """Retrieve a list of all users."""
     filters = dict(request.query_params)
     return await UserService.list_users(**filters)
 
@@ -51,7 +46,10 @@ async def list_users(
     summary="🔵 Get User",
     description="Retrieve detailed information about a specific user.",
 )
-async def get_user(username: str = Path(..., description="The username of the user")):
+async def get_user(
+    username: str = Path(..., description="The username of the user")
+) -> UserOut:
+    """Retrieve detailed information about a specific user."""
     user = await UserService.get_user_by_username(username)
     if not user:
         raise HTTPException(
@@ -66,7 +64,8 @@ async def get_user(username: str = Path(..., description="The username of the us
     summary="Create User",
     description="Create a new user with the provided information.",
 )
-async def create_user(user: UserAuth):
+async def create_user(user: UserAuth) -> UserOut:
+    """Create a new user with the provided information."""
     existing_attribute = await UserService.check_existing_user_attributes(
         user.email, user.matricule, user.username
     )
@@ -102,7 +101,8 @@ async def update_user(
     user_data: UserUpdate,
     username: str = Path(..., description="The username of the user to update"),
     current_user: User = Depends(get_current_user),
-):
+) -> UserOut:
+    """Update the details of an existing user."""
     user = await UserService.get_user_by_username(username)
     if not user:
         raise HTTPException(
@@ -128,6 +128,7 @@ async def delete_user(
     username: str = Path(..., description="The username of the user to delete"),
     current_user: User = Depends(get_current_user),
 ):
+    """Delete a user with the specified username."""
     # Authorization check
     if current_user.username != username:
         raise HTTPException(
@@ -154,6 +155,7 @@ async def delete_user(
     description="Request a password reset for a user via their email address.",
 )
 async def request_reset_password(user_email: PasswordResetRequest):
+    """Request a password reset for a user via their email address."""
     user = await UserService.get_user_by_email(user_email.email)
 
     if user is None:
@@ -190,6 +192,7 @@ async def reset_password(
     new_password: PasswordReset,
     token: str = Query(..., description="The token received for password reset"),
 ):
+    """Reset the password for a user using the provided token."""
     user = await get_current_user(token)
     if user is None:
         raise HTTPException(
