@@ -5,13 +5,9 @@ from pydantic import BaseModel, Field, field_validator
 
 
 class MenuItemOption(BaseModel):
-    type: str = Field(..., min_length=1, description="Type of the menu item option.")
-    value: str = Field(
-        ..., min_length=1, description="Value or description of the option."
-    )
-    fee: DecimalAnnotation = Field(
-        ..., description="Additional fee for this option, if applicable."
-    )
+    type: str = Field(..., min_length=1)
+    value: str = Field(..., min_length=1)
+    fee: DecimalAnnotation
 
     @field_validator("fee")
     @classmethod
@@ -22,36 +18,26 @@ class MenuItemOption(BaseModel):
 
 
 class MenuItemEmbedded(BaseModel):
-    id: PydanticObjectId = Field(
-        ..., alias="_id", description="Unique identifier of the menu item."
-    )
-    name: str = Field(..., description="Name of the menu item.")
-    description: str = Field(..., description="Description of the menu item.")
-    image_url: Optional[str] = Field(None, description="Image URL of the menu item.")
-    price: DecimalAnnotation = Field(..., description="Price of the menu item.")
-    in_stock: bool = Field(False, description="Availability status of the menu item.")
-    category: str = Field(..., description="Category of the menu item.")
-    options: List[MenuItemOption] = Field(
-        ..., description="List of options available for the menu item."
-    )
+    id: PydanticObjectId = Field(..., alias="_id")
+    name: str
+    description: str
+    image_url: Optional[str] = None
+    price: DecimalAnnotation
+    in_stock: bool = False
+    category: str
+    options: List[MenuItemOption]
 
 
 class MenuItem(Document):
-    cafe_id: PydanticObjectId = Field(
-        ..., description="ID of the cafe this menu item belongs to."
-    )
-    name: Indexed(str) = Field(..., description="Name of the menu item.")
-    tags: List[str] = Field(
-        ..., description="List of tags associated with the menu item."
-    )
-    description: Indexed(str) = Field(..., description="Description of the menu item.")
-    image_url: Optional[str] = Field(None, description="Image URL of the menu item.")
-    price: DecimalAnnotation = Field(..., description="Price of the menu item.")
-    in_stock: bool = Field(False, description="Availability status of the menu item.")
-    category: Indexed(str) = Field(..., description="Category of the menu item.")
-    options: List[MenuItemOption] = Field(
-        ..., description="List of options available for the menu item."
-    )
+    cafe_id: PydanticObjectId
+    name: Indexed(str)
+    tags: List[str]
+    description: Indexed(str)
+    image_url: Optional[str] = None
+    price: DecimalAnnotation
+    in_stock: bool = False
+    category: Indexed(str)
+    options: List[MenuItemOption]
 
     @field_validator("price")
     @classmethod

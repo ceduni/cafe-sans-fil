@@ -20,19 +20,10 @@ Note: These models are for API data interchange related to orders and not direct
 
 
 class OrderCreate(BaseModel):
-    cafe_id: PydanticObjectId = Field(
-        ..., description="ID of the cafe associated with the order."
-    )
-    cafe_name: str = Field(
-        ..., description="Name of the cafe associated with the order."
-    )
-    cafe_image_url: Optional[str] = Field(
-        None, description="Image URL of the cafe associated with the order."
-    )
-    items: List[OrderedItem] = Field(
-        ...,
-        description="List of ordered items including details like item ID, name, quantity, price, and options.",
-    )
+    cafe_id: PydanticObjectId
+    cafe_name: str
+    cafe_image_url: Optional[str] = None
+    items: List[OrderedItem]
 
     @field_validator("items")
     @classmethod
@@ -43,36 +34,18 @@ class OrderCreate(BaseModel):
 
 
 class OrderUpdate(BaseModel):
-    status: Optional[OrderStatus] = Field(
-        None, description="Current status of the order, e.g., 'Placée', 'Complétée'."
-    )
+    status: Optional[OrderStatus] = None
 
 
 class OrderOut(BaseModel):
-    id: PydanticObjectId = Field(..., description="Unique identifier of the order.")
-    order_number: int = Field(..., description="Order number of the order.")
-    user_id: PydanticObjectId = Field(
-        ..., description="ID of the user who placed the order."
-    )
-    cafe_id: PydanticObjectId = Field(
-        ..., description="ID of the cafe associated with the order."
-    )
-    cafe_name: str = Field(
-        ..., description="Name of the cafe associated with the order."
-    )
-    cafe_image_url: Optional[str] = Field(
-        None, description="Image URL of the cafe associated with the order."
-    )
-    items: List[OrderedItem] = Field(
-        ..., description="Detailed list of items included in the order."
-    )
-    total_price: DecimalAnnotation = Field(..., description="Total price of the order.")
-    status: OrderStatus = Field(
-        ..., description="Status of the order, e.g., 'Placée', 'Complétée'."
-    )
-    created_at: datetime = Field(
-        ..., description="Timestamp when the order was created."
-    )
-    updated_at: datetime = Field(
-        ..., description="Timestamp when the order was last updated."
-    )
+    id: PydanticObjectId
+    order_number: int
+    user_id: PydanticObjectId
+    cafe_id: PydanticObjectId
+    cafe_name: str
+    cafe_image_url: Optional[str] = None
+    items: List[OrderedItem]
+    total_price: DecimalAnnotation
+    status: OrderStatus
+    created_at: datetime
+    updated_at: datetime

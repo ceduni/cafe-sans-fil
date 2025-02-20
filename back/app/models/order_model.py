@@ -22,9 +22,9 @@ and constraints of the order-related data stored in the database.
 
 
 class OrderedItemOption(BaseModel):
-    type: str = Field(..., description="Type of the option.")
-    value: str = Field(..., description="Value of the option.")
-    fee: DecimalAnnotation = Field(..., description="Additional fee for this option.")
+    type: str
+    value: str
+    fee: DecimalAnnotation
 
     @field_validator("fee")
     @classmethod
@@ -35,20 +35,12 @@ class OrderedItemOption(BaseModel):
 
 
 class OrderedItem(BaseModel):
-    item_id: PydanticObjectId = Field(
-        ..., description="ID of the item related to this ordered item."
-    )
-    item_name: str = Field(..., description="Name of the item at the time of order.")
-    item_image_url: Optional[str] = Field(
-        None, description="Image URL of the item at the time of order."
-    )
-    item_price: DecimalAnnotation = Field(
-        ..., description="Price per unit of the item at the time of order."
-    )
-    quantity: int = Field(..., description="Quantity of the item ordered.")
-    options: List[OrderedItemOption] = Field(
-        ..., description="List of options selected for this item."
-    )
+    item_id: PydanticObjectId
+    item_name: str
+    item_image_url: Optional[str] = None
+    item_price: DecimalAnnotation
+    quantity: int
+    options: List[OrderedItemOption]
 
     @field_validator("quantity")
     @classmethod

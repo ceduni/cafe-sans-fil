@@ -8,51 +8,29 @@ from app.models.announcement_model import UserInteraction
 
 
 class EventCreate(BaseModel):
-    cafe_id: PydanticObjectId = Field(
-        ..., description="Identifier of the cafe hosting the event."
-    )
-    title: str = Field(..., min_length=1, description="Title of the event.")
-    description: str = Field(..., description="Detailed description of the event.")
-    start_date: datetime = Field(
-        ..., description="Starting date and time of the event."
-    )
-    end_date: Optional[datetime] = Field(
-        None, description="Ending date and time of the event, if applicable."
-    )
-    image_url: Optional[str] = Field(None, description="URL of the event image.")
+    cafe_id: PydanticObjectId
+    title: str = Field(..., min_length=1)
+    description: str
+    start_date: datetime
+    end_date: Optional[datetime] = None
+    image_url: Optional[str] = None
 
 
 class EventUpdate(BaseModel):
-    title: Optional[str] = Field(None, description="Title of the event.")
-    description: Optional[str] = Field(
-        None, description="Detailed description of the event."
-    )
-    start_date: Optional[datetime] = Field(
-        None, description="Starting date and time of the event."
-    )
-    end_date: Optional[datetime] = Field(
-        None, description="Ending date and time of the event, if applicable."
-    )
-    image_url: Optional[str] = Field(None, description="URL of the event image.")
+    title: Optional[str] = None
+    description: Optional[str] = None
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+    image_url: Optional[str] = None
 
 
 class EventOut(BaseModel):
-    id: PydanticObjectId = Field(..., description="Unique identifier of the event.")
-    cafe_id: PydanticObjectId = Field(
-        ..., description="Identifier of the cafe hosting the event."
-    )
-    title: str = Field(..., min_length=1, description="Title of the event.")
-    description: str = Field(..., description="Detailed description of the event.")
-    start_date: datetime = Field(
-        ..., description="Starting date and time of the event."
-    )
-    end_date: Optional[datetime] = Field(
-        None, description="Ending date and time of the event, if applicable."
-    )
-    image_url: Optional[str] = Field(None, description="URL of the event image.")
-    attendees: List[UserInteraction] = Field(
-        [], description="List of users who have indicated they will attend."
-    )
-    supporters: List[UserInteraction] = Field(
-        [], description="List of users who support the event."
-    )
+    id: PydanticObjectId
+    cafe_id: PydanticObjectId
+    title: str = Field(..., min_length=1)
+    description: str
+    start_date: datetime
+    end_date: Optional[datetime] = None
+    image_url: Optional[str] = None
+    attendees: List[UserInteraction] = []
+    supporters: List[UserInteraction] = []

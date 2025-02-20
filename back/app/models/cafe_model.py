@@ -15,13 +15,13 @@ class Feature(str, Enum):
 
 
 class Affiliation(BaseModel):
-    university: str = Field(..., min_length=1, description="Name of the university.")
-    faculty: str = Field(..., min_length=1, description="Name of the faculty.")
+    university: str = Field(..., min_length=1)
+    faculty: str = Field(..., min_length=1)
 
 
 class TimeBlock(BaseModel):
-    start: str = Field(..., min_length=1, description="Start time in HH:mm format.")
-    end: str = Field(..., min_length=1, description="End time in HH:mm format.")
+    start: str = Field(..., min_length=1)
+    end: str = Field(..., min_length=1)
 
     @field_validator("start", "end")
     @classmethod
@@ -44,33 +44,25 @@ class Days(str, Enum):
 
 
 class DayHours(BaseModel):
-    day: Days = Field(..., description="Day of the week.")
-    blocks: List[TimeBlock] = Field(..., description="List of time blocks for the day.")
+    day: Days
+    blocks: List[TimeBlock]
 
 
 class Geometry(BaseModel):
-    type: str = Field(..., min_length=1, description="Type of the geometry.")
-    coordinates: List[float] = Field(
-        ..., min_length=1, description="List of coordinates."
-    )
+    type: str = Field(..., min_length=1)
+    coordinates: List[float] = Field(..., min_length=1)
 
 
 class Location(BaseModel):
-    pavillon: Indexed(str) = Field(
-        ..., min_length=1, description="Name or identifier of the pavilion."
-    )
-    local: Indexed(str) = Field(
-        ..., min_length=1, description="Local identifier within the pavilion."
-    )
-    geometry: Optional[Geometry] = Field(
-        None, description="Geographical coordinates of the location."
-    )
+    pavillon: Indexed(str) = Field(..., min_length=1)
+    local: Indexed(str) = Field(..., min_length=1)
+    geometry: Optional[Geometry] = None
 
 
 class Contact(BaseModel):
-    email: Optional[str] = Field(None, description="Contact email address.")
-    phone_number: Optional[str] = Field(None, description="Contact phone number.")
-    website: Optional[str] = Field(None, description="Website URL.")
+    email: Optional[str] = None
+    phone_number: Optional[str] = None
+    website: Optional[str] = None
 
     @field_validator("email")
     @classmethod
@@ -84,37 +76,21 @@ class Contact(BaseModel):
 
 
 class SocialMedia(BaseModel):
-    facebook: Optional[str] = Field(None, description="Facebook URL.")
-    instagram: Optional[str] = Field(None, description="Instagram URL.")
-    x: Optional[str] = Field(None, description="X URL.")
+    facebook: Optional[str] = None
+    instagram: Optional[str] = None
+    x: Optional[str] = None
 
 
 class PaymentMethod(BaseModel):
-    method: str = Field(
-        ..., min_length=1, description="Payment method used in the cafe."
-    )
-    minimum: Optional[DecimalAnnotation] = Field(
-        None, description="Minimum amount required for this payment method, if any."
-    )
+    method: str = Field(..., min_length=1)
+    minimum: Optional[DecimalAnnotation] = None
 
 
 class AdditionalInfo(BaseModel):
-    type: str = Field(
-        ...,
-        min_length=1,
-        description="Type of additional information, e.g., 'promo', 'event'.",
-    )
-    value: str = Field(
-        ...,
-        min_length=1,
-        description="Description or value of the additional information.",
-    )
-    start: Optional[datetime] = Field(
-        None, description="Start time or date of the additional information."
-    )
-    end: Optional[datetime] = Field(
-        None, description="End time or date of the additional information."
-    )
+    type: str = Field(..., min_length=1)
+    value: str = Field(..., min_length=1)
+    start: Optional[datetime] = None
+    end: Optional[datetime] = None
 
 
 class Role(str, Enum):
@@ -123,12 +99,8 @@ class Role(str, Enum):
 
 
 class StaffMember(BaseModel):
-    username: Indexed(str, unique=True) = Field(
-        ..., description="Username of the staff member."
-    )
-    role: Role = Field(
-        ..., description="Role of the staff member, e.g., 'Bénévole', 'Admin'."
-    )
+    username: Indexed(str, unique=True)
+    role: Role
 
 
 class Cafe(Document):
