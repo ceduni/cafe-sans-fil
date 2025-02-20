@@ -1,3 +1,7 @@
+"""
+Module for handling user-related operations.
+"""
+
 from typing import List, Optional
 
 from beanie import PydanticObjectId
@@ -9,9 +13,7 @@ from app.user.schemas import UserAuth, UserUpdate
 
 
 class UserService:
-    """
-    Service class that provides methods for CRUD operations related to Auth and Users.
-    """
+    """Service class for User and Auth operations."""
 
     # --------------------------------------
     #               Auth
@@ -19,6 +21,7 @@ class UserService:
 
     @staticmethod
     async def authenticate(credential: str, password: str) -> Optional[User]:
+        """Authenticate a user."""
         if "@" in credential:
             user = await UserService.get_user_by_email(email=credential)
         else:
@@ -33,16 +36,19 @@ class UserService:
 
     @staticmethod
     async def get_user_by_email(email: str) -> Optional[User]:
+        """Get a user by email."""
         user = await User.find_one({"email": email, "is_active": True})
         return user
 
     @staticmethod
     async def get_user_by_username(username: str) -> Optional[User]:
+        """Get a user by username."""
         user = await User.find_one({"username": username, "is_active": True})
         return user
 
     @staticmethod
     async def get_user_by_id(id: PydanticObjectId) -> Optional[User]:
+        """Get a user by id."""
         user = await User.find_one({"_id": id, "is_active": True})
         return user
 
@@ -52,7 +58,7 @@ class UserService:
 
     @staticmethod
     async def list_users(**filters):
-        # Example: http://cafesansfil-api.onrender.com/api/users?sort_by=-last_name
+        """List all users."""
         query_filters = {}
         query_filters["is_active"] = True  # Don't show inactive users
 
@@ -94,6 +100,7 @@ class UserService:
 
     @staticmethod
     async def create_user(user: UserAuth):
+        """Create a new user."""
         user_in = User(
             email=user.email,
             matricule=user.matricule,
@@ -108,11 +115,12 @@ class UserService:
 
     @staticmethod
     async def retrieve_user(username: str):
-        # Don't show inactive users
+        """Retrieve a user by username."""
         return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
     async def update_user(username: str, data: UserUpdate) -> User:
+        """Update a user by username."""
         user = await UserService.retrieve_user(username)
         update_data = data.model_dump(exclude_unset=True)
 
@@ -125,6 +133,7 @@ class UserService:
 
     @staticmethod
     async def delete_user(username: str):
+        """Delete a user by username."""
         user = await UserService.retrieve_user(username)
 
         if user:
@@ -137,12 +146,7 @@ class UserService:
 
     @staticmethod
     async def create_many_users(users_data: List[UserAuth]) -> List[User]:
-        """
-        Create multiple users.
-
-        :param users_data: A list of user data to create.
-        :return: A list of created User objects.
-        """
+        """Create multiple users."""
         users = []
         for user_data in users_data:
             user = User(
@@ -161,13 +165,7 @@ class UserService:
 
     @staticmethod
     async def update_many_users(usernames: List[str], data: UserUpdate) -> List[User]:
-        """
-        Update multiple users based on the provided list of usernames and data.
-
-        :param usernames: A list of usernames of the users to update.
-        :param data: The data to update the users with.
-        :return: A list of updated User objects.
-        """
+        """Update multiple users based on the provided list of usernames."""
         update_data = data.model_dump(exclude_unset=True)
 
         if "password" in update_data:
@@ -184,12 +182,7 @@ class UserService:
 
     @staticmethod
     async def delete_many_users(usernames: List[str]) -> None:
-        """
-        Deactivate multiple users based on the provided list of usernames.
-
-        :param usernames: A list of usernames of the users to delete.
-        :return: None
-        """
+        """Delete multiple users based on the provided list of usernames."""
         users_to_delete = await User.find_many(
             {"username": {"$in": usernames}}
         ).to_list()
@@ -207,6 +200,7 @@ class UserService:
     async def check_existing_user_attributes(
         email: str, matricule: str, username: str
     ) -> Optional[str]:
+        """Check if a user with the provided email, matricule, or username exists."""
         if await User.find_one({"email": email}):
             return "email"
         if await User.find_one({"matricule": matricule}):
@@ -217,6 +211,7 @@ class UserService:
 
     @staticmethod
     async def reset_password(user: User, new_password: str):
+        """Reset a user's password."""
         hashed_password = get_password(new_password)
         await user.update({"$set": {"hashed_password": hashed_password}})
         return user

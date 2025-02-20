@@ -1,3 +1,7 @@
+"""
+Module for handling order-related operations.
+"""
+
 from datetime import datetime, timedelta
 from typing import List, Optional
 
@@ -20,7 +24,7 @@ class OrderService:
 
     @staticmethod
     async def list_orders(**filters) -> List[Order]:
-        # Example: http://cafesansfil-api.onrender.com/api/orders?sort_by=-order_number&page=1&limit=10
+        """Retrieve a list of orders based on the provided filters."""
         query_filters = {}
         page = int(filters.pop("page", 1))
         limit = int(filters.pop("limit", 20))
@@ -50,6 +54,7 @@ class OrderService:
 
     @staticmethod
     async def create_order(data: OrderCreate, username: str) -> Order:
+        """Create a new order for a user."""
         order_data = data.model_dump()
         order_data["user_username"] = username
         order_data["order_number"] = await OrderService.get_next_order_number()
@@ -65,6 +70,7 @@ class OrderService:
         updated_at: datetime = None,
         status: str = "Placée",
     ) -> Order:
+        """Create a new order for a user."""
         order_data = data.model_dump()
         order_data["user_username"] = username
         order_data["order_number"] = await OrderService.get_next_order_number()
@@ -77,10 +83,12 @@ class OrderService:
 
     @staticmethod
     async def retrieve_order(order_id: PydanticObjectId):
+        """Retrieve an order by its ID."""
         return await Order.find_one(Order.id == order_id)
 
     @staticmethod
     async def update_order(order_id: PydanticObjectId, data: OrderUpdate):
+        """Update an order by its ID."""
         order = await OrderService.retrieve_order(order_id)
         await order.update({"$set": data.model_dump(exclude_unset=True)})
         return order
@@ -89,13 +97,7 @@ class OrderService:
     async def create_many_orders(
         orders_data: List[OrderCreate], username: str
     ) -> List[Order]:
-        """
-        Create multiple orders for a user.
-
-        :param orders_data: A list of order data to create.
-        :param username: The username of the user creating the orders.
-        :return: A list of created Order objects.
-        """
+        """Create multiple orders for a user."""
         orders = []
         for data in orders_data:
             order_data = data.model_dump()
@@ -111,13 +113,7 @@ class OrderService:
     async def update_many_orders(
         order_ids: List[PydanticObjectId], data: OrderUpdate
     ) -> List[Order]:
-        """
-        Update multiple orders based on the provided list of PydanticObjectIds and data.
-
-        :param order_ids: A list of IDs of the orders to update.
-        :param data: The data to update the orders with.
-        :return: A list of updated Order objects.
-        """
+        """Update multiple orders."""
         update_data = data.model_dump(exclude_unset=True)
         if not update_data:
             raise ValueError("No data to update")
@@ -132,12 +128,7 @@ class OrderService:
 
     @staticmethod
     async def delete_many_orders(order_ids: List[PydanticObjectId]) -> None:
-        """
-        Delete multiple orders based on the provided list of PydanticObjectIds.
-
-        :param order_ids: A list of IDs of the orders to delete.
-        :return: None
-        """
+        """Delete multiple orders."""
         orders_to_delete = await Order.find_many(
             {"order_id": {"$in": order_ids}}
         ).to_list()
@@ -148,6 +139,7 @@ class OrderService:
 
     @staticmethod
     async def check_and_update_order_status(orders):
+        """Check and update the status of orders."""
         now = datetime.utcnow()
         for order_dict in orders:
             order = Order(**order_dict)
@@ -161,6 +153,7 @@ class OrderService:
 
     @staticmethod
     async def list_orders_for_user(username: str, **filters) -> List[Order]:
+        """Retrieve a list of orders for a user."""
         query_filters = {}
         query_filters["user_username"] = username
         page = int(filters.pop("page", 1))
@@ -193,6 +186,7 @@ class OrderService:
 
     @staticmethod
     async def list_orders_for_cafe(cafe_slug: str, **filters) -> List[Order]:
+        """Retrieve a list of orders for a cafe."""
         query_filters = {}
 
         cafe = await Cafe.find_one({"slug": cafe_slug})
@@ -250,6 +244,8 @@ class OrderService:
         end_date_str: Optional[str],
         report_type: str = "daily",
     ):
+        """Generate sales report data for a cafe."""
+
         def decimal128_to_float(value):
             return float(str(value)) if value is not None else 0.0
 

@@ -1,3 +1,7 @@
+"""
+Module for handling event-related operations.
+"""
+
 from typing import List
 
 from beanie import PydanticObjectId
@@ -7,7 +11,10 @@ from app.event.schemas import EventCreate, EventOut
 
 
 class EventService:
+    """Service class for Event operations."""
+
     async def get_events(**query_params) -> List[EventOut]:
+        """List events."""
         sort_by = query_params.pop("sort_by", "start_date")
         page = int(query_params.pop("page", 1))
         limit = int(query_params.pop("limit", 9))
@@ -20,6 +27,7 @@ class EventService:
         )
 
     async def create_event(event_data: EventCreate) -> EventOut:
+        """Create a new event."""
         event = Event(**event_data.model_dump())
         await event.insert()
         return event
@@ -27,6 +35,7 @@ class EventService:
     async def update_event(
         event_id: PydanticObjectId, event_data: EventCreate
     ) -> EventOut:
+        """Update an existing event."""
         event = await Event.find_one(Event.id == event_id)
         if not event:
             raise ValueError("Event not found")
@@ -36,6 +45,7 @@ class EventService:
         return event
 
     async def remove_event(event_id: PydanticObjectId) -> EventOut:
+        """Delete an existing event."""
         event = await Event.find_one(Event.id == event_id)
         if not event:
             raise ValueError("Event not found")
@@ -45,6 +55,7 @@ class EventService:
     async def add_attendee_to_event(
         event_id: PydanticObjectId, user_id: PydanticObjectId
     ) -> EventOut:
+        """Add an attendee to an event."""
         event = await Event.find_one(Event.id == event_id)
         if not event:
             raise ValueError("Event not found")
@@ -56,6 +67,7 @@ class EventService:
     async def add_supporter_to_event(
         event_id: PydanticObjectId, user_id: PydanticObjectId
     ) -> EventOut:
+        """Add a supporter to an event."""
         event = await Event.find_one(Event.id == event_id)
         if not event:
             raise ValueError("Event not found")
@@ -67,6 +79,7 @@ class EventService:
     async def remove_attendee_from_event(
         event_id: PydanticObjectId, user_id: PydanticObjectId
     ) -> EventOut:
+        """Remove an attendee from an event."""
         event = await Event.find_one(Event.id == event_id)
         if not event:
             raise ValueError("Event not found")
@@ -81,6 +94,7 @@ class EventService:
     async def remove_supporter_from_event(
         event_id: PydanticObjectId, user_id: PydanticObjectId
     ) -> EventOut:
+        """Remove a supporter from an event."""
         event = await Event.find_one(Event.id == event_id)
         if not event:
             raise ValueError("Event not found")

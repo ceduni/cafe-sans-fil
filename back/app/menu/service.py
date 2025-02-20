@@ -1,3 +1,7 @@
+"""
+Module for handling menu item-related operations.
+"""
+
 from typing import List
 
 from beanie import PydanticObjectId
@@ -8,19 +12,11 @@ from app.menu.schemas import MenuItemCreate, MenuItemUpdate
 
 
 class MenuItemService:
-    """
-    Service class that provides methods for CRUD operations and search functionality
-    related to MenuItems.
-    """
+    """Service class for CRUD and search operations on MenuItems."""
 
     @staticmethod
     async def list_menu_items(**query_params) -> List[MenuItem]:
-        """
-        Retrieves a list of menu items based on the provided query parameters.
-
-        :param query_params: Additional query parameters to apply when retrieving menu items.
-        :return: A list of MenuItem objects that match the specified query parameters.
-        """
+        """Retrieve a list of menu items based on the provided query parameters."""
         sort_by = query_params.pop("sort_by", "name")
         page = int(query_params.pop("page", 1))
         limit = int(query_params.pop("limit", 40))
@@ -34,25 +30,14 @@ class MenuItemService:
 
     @staticmethod
     async def retrieve_menu_item(item_id: PydanticObjectId) -> MenuItem:
-        """
-        Retrieve a menu item from the database based on the provided PydanticObjectId.
-
-        :param item_id: A PydanticObjectId representing the menu item ID.
-        :return: A MenuItem object if found, None otherwise.
-        """
+        """Retrieve a menu item by ID."""
         return await MenuItem.find_one({"_id": item_id})
 
     @staticmethod
     async def create_menu_item(
         cafe_id: PydanticObjectId, item_data: MenuItemCreate
     ) -> MenuItem:
-        """
-        Create a new menu item and associate it with a cafe.
-
-        :param cafe_id: The PydanticObjectId of the cafe to associate the menu item with.
-        :param item_data: The data to create the menu item with.
-        :return: The created MenuItem object.
-        """
+        """Create a new menu item for a cafe."""
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
@@ -67,13 +52,7 @@ class MenuItemService:
     async def update_menu_item(
         item_id: PydanticObjectId, item_data: MenuItemUpdate
     ) -> MenuItem:
-        """
-        Update a menu item based on the provided PydanticObjectId and data.
-
-        :param item_id: The PydanticObjectId of the menu item to update.
-        :param item_data: The data to update the menu item with.
-        :return: The updated MenuItem object.
-        """
+        """Update a menu item."""
         item = await MenuItem.find_one({"_id": item_id})
         if not item:
             raise ValueError("Menu item not found")
@@ -85,12 +64,7 @@ class MenuItemService:
 
     @staticmethod
     async def delete_menu_item(item_id: PydanticObjectId) -> None:
-        """
-        Delete a menu item based on the provided PydanticObjectId.
-
-        :param item_id: The PydanticObjectId of the menu item to delete.
-        :return: None
-        """
+        """Delete a menu item."""
         item = await MenuItem.find_one({"_id": item_id})
         if not item:
             raise ValueError("Menu item not found")
@@ -106,13 +80,7 @@ class MenuItemService:
     async def create_many_menu_items(
         cafe_id: PydanticObjectId, items_data: List[MenuItemCreate]
     ) -> List[MenuItem]:
-        """
-        Create multiple menu items and associate them with a cafe.
-
-        :param cafe_id: The PydanticObjectId of the cafe to associate the menu items with.
-        :param items_data: A list of data to create the menu items with.
-        :return: A list of created MenuItem objects.
-        """
+        """Create multiple menu items for a cafe."""
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
@@ -133,13 +101,7 @@ class MenuItemService:
     async def update_many_menu_items(
         item_ids: List[PydanticObjectId], item_data: MenuItemUpdate
     ) -> List[MenuItem]:
-        """
-        Update multiple menu items based on the provided list of PydanticObjectIds and data.
-
-        :param item_ids: A list of IDs of the menu items to update.
-        :param item_data: The data to update the menu items with.
-        :return: A list of updated MenuItem objects.
-        """
+        """Update multiple menu items."""
         update_data = item_data.model_dump(exclude_unset=True)
         if not update_data:
             raise ValueError("No data to update")
@@ -154,17 +116,11 @@ class MenuItemService:
 
     @staticmethod
     async def delete_many_menu_items(item_ids: List[PydanticObjectId]) -> None:
-        """
-        Delete multiple menu items based on the provided list of PydanticObjectIds.
-
-        :param item_ids: A list of IDs of the menu items to delete.
-        :return: None
-        """
+        """Delete multiple menu items."""
         items_to_delete = await MenuItem.find_many({"_id": {"$in": item_ids}}).to_list()
         if not items_to_delete:
             raise ValueError("No menu items found for the provided IDs")
 
-        # Remove references to the menu items in associated cafes
         cafe_ids = {item.cafe_id for item in items_to_delete}
         cafes = await Cafe.find_many({"_id": {"$in": list(cafe_ids)}}).to_list()
 

@@ -1,18 +1,14 @@
+"""
+Module for global service.
+"""
+
 from typing import Dict
 
 from beanie import PydanticObjectId
 
 
 def parse_query_params(query_params: Dict) -> Dict:
-    """
-    Parses and converts the query parameters to the appropriate data types based on the values.
-
-    Args:
-        query_params (Dict): A dictionary containing the query parameters to be parsed.
-
-    Returns:
-        Dict: A dictionary with the parsed query parameters where values are converted to their appropriate types.
-    """
+    """Parse common query parameters."""
     parsed_params = {}
     for key, value in query_params.items():
         if value.lower() == "true":

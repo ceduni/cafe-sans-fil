@@ -1,3 +1,7 @@
+"""
+Module for handling search-related operations.
+"""
+
 import unicodedata
 from typing import Any, Dict, List
 
@@ -5,6 +9,7 @@ from app.cafe.models import Cafe
 
 
 async def normalize_query(query: str) -> str:
+    """Remove diacritics from the query."""
     return "".join(
         c
         for c in unicodedata.normalize("NFD", query)
@@ -13,6 +18,7 @@ async def normalize_query(query: str) -> str:
 
 
 async def search(query: str, **filters) -> Dict[str, List[Any]]:
+    """Search for cafes and menu items based on the provided query."""
     normalized_query = await normalize_query(query)
     regex_pattern = {"$regex": normalized_query, "$options": "i"}
 

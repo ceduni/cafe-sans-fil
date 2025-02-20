@@ -1,3 +1,7 @@
+"""
+Module for handling announcement-related operations.
+"""
+
 from typing import List
 
 from beanie import PydanticObjectId
@@ -7,7 +11,10 @@ from app.announcement.schemas import AnnouncementCreate, AnnouncementOut
 
 
 class AnnouncementService:
+    """Service class for announcement operations."""
+
     async def get_announcements(**query_params) -> List[AnnouncementOut]:
+        """List announcements."""
         sort_by = query_params.pop("sort_by", "start_date")
         page = int(query_params.pop("page", 1))
         limit = int(query_params.pop("limit", 9))
@@ -22,6 +29,7 @@ class AnnouncementService:
     async def create_announcement(
         announcement_data: AnnouncementCreate,
     ) -> AnnouncementOut:
+        """Create a new announcement."""
         announcement = Announcement(**announcement_data.model_dump())
         await announcement.insert()
         return announcement
@@ -29,6 +37,7 @@ class AnnouncementService:
     async def update_announcement(
         announcement_id: PydanticObjectId, announcement_data: AnnouncementCreate
     ) -> AnnouncementOut:
+        """Update an existing announcement."""
         announcement = await Announcement.find_one(Announcement.id == announcement_id)
         if not announcement:
             raise ValueError("Announcement not found")
@@ -38,6 +47,7 @@ class AnnouncementService:
         return announcement
 
     async def remove_announcement(announcement_id: PydanticObjectId) -> AnnouncementOut:
+        """Delete an announcement."""
         announcement = await Announcement.find_one(Announcement.id == announcement_id)
         if not announcement:
             raise ValueError("Announcement not found")
@@ -47,6 +57,7 @@ class AnnouncementService:
     async def add_like_to_announcement(
         announcement_id: PydanticObjectId, user_id: PydanticObjectId
     ) -> AnnouncementOut:
+        """Add a like to an announcement."""
         announcement = await Announcement.find_one(Announcement.id == announcement_id)
         if not announcement:
             raise ValueError("Announcement not found")
@@ -58,6 +69,7 @@ class AnnouncementService:
     async def remove_like_from_announcement(
         announcement_id: PydanticObjectId, user_id: PydanticObjectId
     ) -> AnnouncementOut:
+        """Remove a like from an announcement."""
         announcement = await Announcement.find_one(Announcement.id == announcement_id)
         if not announcement:
             raise ValueError("Announcement not found")
