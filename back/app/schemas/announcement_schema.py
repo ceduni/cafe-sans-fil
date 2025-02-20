@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field
 from beanie import PydanticObjectId
 from typing import List, Optional
 from datetime import datetime
@@ -10,29 +10,14 @@ class AnnouncementCreate(BaseModel):
     content: str = Field(..., description="The content of the announcement.")
     active_until: Optional[datetime] = Field(None, description="Date and time until the announcement is considered active.")
     tags: List[str] = Field([], description="List of tags relevant to the announcement for categorization.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "cafe_id": "67b600414ae53a72130a956e",
-            "title": "Distribution de Chocolat Gratuit",
-            "content": "Pour égayer votre journée, passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses café",
-            "active_until": "2025-12-31T23:59:59",
-            "tags": ["Rapide", "Chocalat"]
-        }
-    })
+
 
 class AnnouncementUpdate(BaseModel):
     title: Optional[str] = Field(None, description="Title of the announcement.")
     content: Optional[str] = Field(None, description="The content of the announcement.")
     active_until: Optional[datetime] = Field(None, description="Date and time until the announcement is considered active.")
     tags: Optional[List[str]] = Field(None, description="List of tags relevant to the announcement for categorization.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "title": "Distribution de Chocolat Gratuit",
-            "content": "Pour égayer votre journée, passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses café",
-            "active_until": "2025-12-31T23:59:59",
-            "tags": ["Rapide", "Chocalat"]
-        }
-    })
+
 
 class AnnouncementOut(BaseModel):
     id: PydanticObjectId = Field(..., description="Unique identifier of the announcement.")
@@ -43,15 +28,3 @@ class AnnouncementOut(BaseModel):
     active_until: Optional[datetime] = Field(None, description="Date and time until the announcement is considered active.")
     likes: List[UserInteraction] = Field([], description="List of users who have liked the announcement.")
     tags: List[str] = Field([], description="List of tags relevant to the announcement for categorization.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "id": "67b600414ae53a72130a956e",
-            "cafe_id": "67b600414ae53a72130a956a",
-            "title": "Distribution de Chocolat Gratuit",
-            "content": "Pour égayer votre journée, passez au Café Étudiant ce mercredi! Nous distribuons des chocolats gratuits pour tous nos visiteurs. Une petite douceur pour accompagner vos études et vos pauses café",
-            "created_at": "2022-01-01T00:00:00",
-            "active_until": "2025-12-31T23:59:59",
-            "likes": [],
-            "tags": ["Rapide", "Chocalat"]
-        }
-    })

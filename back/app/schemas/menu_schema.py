@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import field_validator, ConfigDict, BaseModel, Field
+from pydantic import field_validator, BaseModel, Field
 from beanie import DecimalAnnotation, PydanticObjectId
 from app.models.menu_model import MenuItemOption
 
@@ -20,24 +20,6 @@ class MenuItemCreate(BaseModel):
     in_stock: bool = Field(..., description="Availability status of the menu item.")
     category: str = Field(..., min_length=1, max_length=50, description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "name": "Cheeseburger",
-            "tags": ["Rapide", "Savoureux"],
-            "description": "Un délicieux cheeseburger avec laitue, tomate et fromage",
-            "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
-            "price": 5.99,
-            "in_stock": True,
-            "category": "Burgers",
-            "options": [
-                {"type": "taille", "value": "grand", "fee": 0.5},
-                {"type": "ingrédients", "value": "bœuf", "fee": 0},
-                {"type": "ingrédients", "value": "laitue", "fee": 0},
-                {"type": "ingrédients", "value": "tomate", "fee": 0},
-                {"type": "ingrédients", "value": "fromage", "fee": 0}
-            ]
-        }
-    })
 
     @field_validator('price')
     @classmethod
@@ -55,21 +37,6 @@ class MenuItemUpdate(BaseModel):
     in_stock: Optional[bool] = Field(None, description="Updated availability status of the menu item.")
     category: Optional[str] = Field(None, min_length=1, max_length=50, description="Updated category of the menu item.")
     options: Optional[List[MenuItemOption]] = Field(None, description="Updated options for the menu item.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "name": "Cheeseburger Spécial",
-            "tags": ["Gourmet", "Nouveau"],
-            "description": "Cheeseburger gourmet avec bacon et sauce spéciale",
-            "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
-            "price": 7.99,
-            "in_stock": False,
-            "category": "Burgers Spéciaux",
-            "options": [
-                {"type": "épice", "value": "piquant", "fee": 0.75},
-                {"type": "supplément", "value": "bacon", "fee": 1.0}
-            ]
-        }
-    })
 
     @field_validator('price')
     @classmethod
@@ -77,6 +44,7 @@ class MenuItemUpdate(BaseModel):
         if price < 0:
             raise ValueError("Price must be a non-negative value.")
         return price
+
 
 class MenuItemOut(BaseModel):
     id: PydanticObjectId = Field(..., description="Unique identifier of the menu item.")
@@ -89,20 +57,3 @@ class MenuItemOut(BaseModel):
     in_stock: bool = Field(..., description="Availability status of the menu item.")
     category: str = Field(..., description="Category of the menu item.")
     options: List[MenuItemOption] = Field(..., description="Options available for the menu item.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "id": "67b600414ae53a72130a956e",
-            "cafe_id": "67b600414ae53a72130a956a",
-            "name": "Cheeseburger",
-            "tags": ["Classique", "Fromage"],
-            "description": "Un cheeseburger classique avec une tranche de fromage fondant",
-            "image_url": "https://thedelightfullaugh.com/wp-content/uploads/2020/09/smashed-double-cheeseburger.jpg",
-            "price": 5.99,
-            "in_stock": True,
-            "category": "Burgers",
-            "options": [
-                {"type": "taille", "value": "moyen", "fee": 0.0},
-                {"type": "sans oignon", "value": "oui", "fee": 0.0}
-            ]
-        }
-    })

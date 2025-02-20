@@ -1,4 +1,4 @@
-from pydantic import field_validator, ConfigDict, BaseModel, EmailStr, Field
+from pydantic import field_validator, BaseModel, EmailStr, Field
 from beanie import PydanticObjectId
 from typing import Optional
 import re
@@ -23,17 +23,6 @@ class UserAuth(BaseModel):
     first_name: str = Field(..., min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="User's first name, allowing letters, spaces, hyphens, and apostrophes.")
     last_name: str = Field(..., min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="User's last name, allowing letters, spaces, hyphens, and apostrophes.")
     photo_url: Optional[str] = Field(None, min_length=10, max_length=755, description="URL of the user's profile photo.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "username": "johndoe",
-            "email": "john.doe@umontreal.ca",
-            "matricule": "20303216",
-            "password": "Password123",
-            "first_name": "John",
-            "last_name": "Doe",
-            "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg"
-        }
-    })
 
     @field_validator('username')
     @classmethod
@@ -55,6 +44,7 @@ class UserAuth(BaseModel):
     #         raise ValueError('Password must contain upper and lower case letters and digits.')
     #     return v
     
+
 class UserUpdate(BaseModel):
     username: Optional[str] = Field(None, min_length=3, max_length=20, description="New username to update.")
     email: Optional[EmailStr] = Field(None, description="New email address to update.")
@@ -63,17 +53,6 @@ class UserUpdate(BaseModel):
     first_name: Optional[str] = Field(None, min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="New first name to update.")
     last_name: Optional[str] = Field(None, min_length=2, max_length=30, pattern="^[a-zA-ZÀ-ÿ' -]+$", description="New last name to update.")
     photo_url: Optional[str] = Field(None, min_length=10, max_length=755, description="New URL for the user's profile photo.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "username": "johndoe",
-            "email": "john.doe@umontreal.ca",
-            "matricule": "20303216",
-            "password": "Password123",
-            "first_name": "John",
-            "last_name": "Doe",
-            "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg"
-        }
-    })
 
     @field_validator('username')
     @classmethod
@@ -103,17 +82,7 @@ class UserOut(BaseModel):
     first_name: str = Field(..., description="First name of the user.")
     last_name: str = Field(..., description="Last name of the user.")
     photo_url: Optional[str] = Field(None, description="URL of the user's profile photo.")
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "id": "67b600414ae53a72130a956e",
-            "username": "johndoe",
-            "email": "john.doe@umontreal.ca",
-            "matricule": "20303216",
-            "first_name": "John",
-            "last_name": "Doe",
-            "photo_url": "https://i.pinimg.com/474x/1d/2e/c1/1d2ec1fc1287c71fafa25879b7cd387a.jpg",
-        }
-    })
+
 
 # --------------------------------------
 #              Reset Password
