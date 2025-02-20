@@ -4,14 +4,15 @@ import asyncio
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
+from app.announcement.models import Announcement
+from app.cafe.models import Cafe
+
 # Application settings and router
-from app.core.config import settings
-from app.models.announcement_model import Announcement
-from app.models.cafe_model import Cafe
-from app.models.event_model import Event
-from app.models.menu_model import MenuItem
-from app.models.order_model import Order
-from app.models.user_model import User
+from app.config import settings
+from app.event.models import Event
+from app.menu.models import MenuItem
+from app.order.models import Order
+from app.user.models import User
 from scripts.db_seed import CafeSeeder, MenuSeeder, StaffSeeder, UserSeeder
 
 MONGO_DB_NAME = settings.MONGO_DB_NAME

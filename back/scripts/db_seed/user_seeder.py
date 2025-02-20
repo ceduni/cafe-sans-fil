@@ -6,8 +6,8 @@ from faker import Faker
 from pymongo.errors import DuplicateKeyError
 from tqdm import tqdm
 
-from app.schemas.user_schema import UserAuth
-from app.services.user_service import UserService
+from app.user.schemas import UserAuth
+from app.user.service import UserService
 
 # Set random seed and Faker settings
 random.seed(42)

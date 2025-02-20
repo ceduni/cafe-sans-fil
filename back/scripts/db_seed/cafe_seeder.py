@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from faker import Faker
 from tqdm import tqdm
 
-from app.models.cafe_model import (
+from app.cafe.models import (
     AdditionalInfo,
     Affiliation,
     Contact,
@@ -15,8 +15,8 @@ from app.models.cafe_model import (
     SocialMedia,
     TimeBlock,
 )
-from app.schemas.cafe_schema import CafeCreate
-from app.services.cafe_service import CafeService
+from app.cafe.schemas import CafeCreate
+from app.cafe.service import CafeService
 
 # Set random seed and Faker settings
 random.seed(42)

@@ -5,14 +5,14 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from app.api.api_v1.router import router
-from app.core.config import settings
-from app.models.announcement_model import Announcement
-from app.models.cafe_model import Cafe, CafeView
-from app.models.event_model import Event
-from app.models.menu_model import MenuItem
-from app.models.order_model import Order
-from app.models.user_model import User
+from app.announcement.models import Announcement
+from app.cafe.models import Cafe, CafeView
+from app.config import settings
+from app.event.models import Event
+from app.menu.models import MenuItem
+from app.order.models import Order
+from app.router import router
+from app.user.models import User
 
 """
 Main application initialization for Café sans-fil.
@@ -103,7 +103,7 @@ from datetime import datetime, timedelta
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from app.models.order_model import Order, OrderStatus
+from app.order.models import Order, OrderStatus
 
 
 async def cancel_old_orders():

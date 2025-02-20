@@ -6,13 +6,13 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from app.api.api_v1.router import router
+from app.cafe.models import Cafe
 
 # Application settings and router
-from app.core.config import settings
-from app.models.cafe_model import Cafe
-from app.models.order_model import Order
-from app.models.user_model import User
+from app.config import settings
+from app.order.models import Order
+from app.router import router
+from app.user.models import User
 
 """
 Conftest file for pytest.

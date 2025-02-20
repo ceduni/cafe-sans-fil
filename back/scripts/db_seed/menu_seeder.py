@@ -4,9 +4,9 @@ import random
 from faker import Faker
 from tqdm import tqdm
 
-from app.schemas.menu_schema import MenuItemCreate
-from app.services.cafe_service import CafeService
-from app.services.menu_service import MenuItemService
+from app.cafe.service import CafeService
+from app.menu.schemas import MenuItemCreate
+from app.menu.service import MenuItemService
 
 # Set random seed and Faker settings
 random.seed(42)

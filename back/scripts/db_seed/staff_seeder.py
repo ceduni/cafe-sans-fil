@@ -3,9 +3,9 @@ import random
 from faker import Faker
 from tqdm import tqdm
 
-from app.models.cafe_model import Role
-from app.schemas.cafe_schema import StaffCreate
-from app.services.cafe_service import CafeService
+from app.cafe.models import Role
+from app.cafe.schemas import StaffCreate
+from app.cafe.service import CafeService
 
 # Set random seed and Faker settings
 random.seed(42)
