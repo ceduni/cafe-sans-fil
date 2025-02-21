@@ -1,5 +1,4 @@
 from datetime import datetime
-from enum import Enum
 from typing import List, Optional
 
 from beanie import (
@@ -12,6 +11,8 @@ from beanie import (
     before_event,
 )
 from pydantic import BaseModel, Field, field_validator
+
+from app.order.enums import OrderStatus
 
 
 class OrderedItemOption(BaseModel):
@@ -41,13 +42,6 @@ class OrderedItem(BaseModel):
         if quantity <= 0:
             raise ValueError("Quantity must be a positive integer.")
         return quantity
-
-
-class OrderStatus(str, Enum):
-    PLACED = "Placée"
-    READY = "Prête"
-    COMPLETED = "Complétée"
-    CANCELLED = "Annulée"
 
 
 class Order(Document):

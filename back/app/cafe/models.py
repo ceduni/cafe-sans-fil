@@ -1,17 +1,13 @@
 import re
 from datetime import datetime
-from enum import Enum
 from typing import List, Optional
 
 from beanie import DecimalAnnotation, Document, Indexed, PydanticObjectId, View
 from pydantic import BaseModel, Field, field_validator
 
+from app.cafe.enums import Days, Feature, Role
 from app.cafe.helper import slugify, time_blocks_overlap
 from app.menu.models import MenuItemEmbedded
-
-
-class Feature(str, Enum):
-    ORDER = "Order"
 
 
 class Affiliation(BaseModel):
@@ -31,16 +27,6 @@ class TimeBlock(BaseModel):
         except ValueError:
             raise ValueError("Time must be in HH:mm format.")
         return time_value
-
-
-class Days(str, Enum):
-    MONDAY = "Lundi"
-    TUESDAY = "Mardi"
-    WEDNESDAY = "Mercredi"
-    THURSDAY = "Jeudi"
-    FRIDAY = "Vendredi"
-    SATURDAY = "Samedi"
-    SUNDAY = "Dimanche"
 
 
 class DayHours(BaseModel):
@@ -91,11 +77,6 @@ class AdditionalInfo(BaseModel):
     value: str = Field(..., min_length=1)
     start: Optional[datetime] = None
     end: Optional[datetime] = None
-
-
-class Role(str, Enum):
-    VOLUNTEER = "Bénévole"
-    ADMIN = "Admin"
 
 
 class StaffMember(BaseModel):
