@@ -6,8 +6,12 @@ from typing import List
 
 from beanie import PydanticObjectId
 
-from app.announcement.models import Announcement, UserInteraction
-from app.announcement.schemas import AnnouncementCreate, AnnouncementOut
+from app.announcement.models import (
+    Announcement,
+    AnnouncementCreate,
+    AnnouncementOut,
+    UserInteraction,
+)
 
 
 class AnnouncementService:

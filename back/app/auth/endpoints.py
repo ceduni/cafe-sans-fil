@@ -11,11 +11,10 @@ from jose import jwt
 from pydantic import ValidationError
 
 from app.auth.dependencies import get_current_user
-from app.auth.schemas import TokenPayload, TokenSchema
+from app.auth.models import TokenPayload, TokenSchema
 from app.auth.security import create_access_token, create_refresh_token
 from app.config import settings
-from app.user.models import User
-from app.user.schemas import UserOut
+from app.user.models import User, UserOut
 from app.user.service import UserService
 
 auth_router = APIRouter()

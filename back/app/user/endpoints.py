@@ -9,10 +9,10 @@ from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, sta
 from app.auth.dependencies import get_current_user
 from app.auth.security import create_access_token
 from app.config import settings
-from app.user.models import User
-from app.user.schemas import (
+from app.user.models import (
     PasswordReset,
     PasswordResetRequest,
+    User,
     UserAuth,
     UserOut,
     UserUpdate,

@@ -48,3 +48,52 @@ class MenuItem(Document):
 
     class Settings:
         name = "menus"
+
+
+class MenuItemCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=50)
+    tags: List[str] = Field(..., max_length=20)
+    description: str = Field(..., min_length=1, max_length=255)
+    image_url: Optional[str] = Field(None, max_length=755)
+    price: DecimalAnnotation
+    in_stock: bool
+    category: str = Field(..., min_length=1, max_length=50)
+    options: List[MenuItemOption]
+
+    @field_validator("price")
+    @classmethod
+    def validate_price(cls, price):
+        if price < 0:
+            raise ValueError("Price must be a non-negative value.")
+        return price
+
+
+class MenuItemUpdate(BaseModel):
+    name: Optional[str] = Field(None, min_length=1, max_length=50)
+    tags: Optional[List[str]] = Field(None, max_length=20)
+    description: Optional[str] = Field(None, min_length=1, max_length=255)
+    image_url: Optional[str] = Field(None, max_length=755)
+    price: Optional[DecimalAnnotation] = None
+    in_stock: Optional[bool] = None
+    category: Optional[str] = Field(None, min_length=1, max_length=50)
+    options: Optional[List[MenuItemOption]] = None
+
+    @field_validator("price")
+    @classmethod
+    def validate_price(cls, price):
+        if price < 0:
+            raise ValueError("Price must be a non-negative value.")
+        return price
+
+
+class MenuItemOut(BaseModel):
+    id: PydanticObjectId
+    cafe_id: PydanticObjectId
+    name: str
+    tags: List[str]
+    description: str
+    image_url: Optional[str] = None
+    price: DecimalAnnotation
+    in_stock: bool
+    category: str
+    options: List[MenuItemOption]

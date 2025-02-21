@@ -8,7 +8,7 @@ from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request
 
 from app.auth.dependencies import get_current_user
-from app.event.schemas import EventCreate, EventOut, EventUpdate
+from app.event.models import EventCreate, EventOut, EventUpdate
 from app.event.service import EventService
 from app.service import parse_query_params
 from app.user.models import User

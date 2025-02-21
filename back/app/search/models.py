@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from app.cafe.schemas import CafeOut
+from app.cafe.models import CafeOut
 
 
 class SearchCreate(BaseModel):

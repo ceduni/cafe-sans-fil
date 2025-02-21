@@ -9,8 +9,7 @@ from beanie import PydanticObjectId
 from bson import SON
 
 from app.cafe.models import Cafe
-from app.order.models import Order, OrderStatus
-from app.order.schemas import OrderCreate, OrderUpdate
+from app.order.models import Order, OrderCreate, OrderStatus, OrderUpdate
 
 
 class OrderService:

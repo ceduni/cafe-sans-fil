@@ -13,13 +13,6 @@ from beanie import (
 )
 from pydantic import BaseModel, Field, field_validator
 
-"""
-This module defines the Pydantic-based models used in the Café application for order management, 
-which are specifically designed for database interaction via the Beanie ODM 
-(Object Document Mapper) for MongoDB. These models outline the structure, relationships, 
-and constraints of the order-related data stored in the database.
-"""
-
 
 class OrderedItemOption(BaseModel):
     type: str
@@ -90,3 +83,40 @@ class Order(Document):
 
     class Settings:
         name = "orders"
+
+
+# --------------------------------------
+#               Order
+# --------------------------------------
+
+
+class OrderCreate(BaseModel):
+    cafe_id: PydanticObjectId
+    cafe_name: str
+    cafe_image_url: Optional[str] = None
+    items: List[OrderedItem]
+
+    @field_validator("items")
+    @classmethod
+    def validate_items(cls, v):
+        if not v:
+            raise ValueError("Order must include at least one item.")
+        return v
+
+
+class OrderUpdate(BaseModel):
+    status: Optional[OrderStatus] = None
+
+
+class OrderOut(BaseModel):
+    id: PydanticObjectId
+    order_number: int
+    user_id: PydanticObjectId
+    cafe_id: PydanticObjectId
+    cafe_name: str
+    cafe_image_url: Optional[str] = None
+    items: List[OrderedItem]
+    total_price: DecimalAnnotation
+    status: OrderStatus
+    created_at: datetime
+    updated_at: datetime

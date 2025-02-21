@@ -7,8 +7,7 @@ from typing import List
 from beanie import PydanticObjectId
 
 from app.cafe.models import Cafe
-from app.menu.models import MenuItem
-from app.menu.schemas import MenuItemCreate, MenuItemUpdate
+from app.menu.models import MenuItem, MenuItemCreate, MenuItemUpdate
 
 
 class MenuItemService:

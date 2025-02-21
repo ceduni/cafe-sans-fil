@@ -1,6 +1,6 @@
 from faker import Faker
 
-from app.order.schemas import OrderCreate
+from app.order.models import OrderCreate
 from app.order.service import OrderService
 
 # Set random seed and Faker settings

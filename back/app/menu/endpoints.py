@@ -10,7 +10,7 @@ from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, sta
 from app.auth.dependencies import get_current_user
 from app.cafe.models import Role
 from app.cafe.service import CafeService
-from app.menu.schemas import MenuItemCreate, MenuItemOut, MenuItemUpdate
+from app.menu.models import MenuItemCreate, MenuItemOut, MenuItemUpdate
 from app.menu.service import MenuItemService
 from app.service import parse_query_params
 from app.user.models import User

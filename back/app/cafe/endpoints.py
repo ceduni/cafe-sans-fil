@@ -7,12 +7,13 @@ from typing import Dict, List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
 
 from app.auth.dependencies import get_current_user
-from app.cafe.models import CafeView, Role
-from app.cafe.schemas import (
+from app.cafe.models import (
     CafeCreate,
     CafeOut,
     CafeShortOut,
     CafeUpdate,
+    CafeView,
+    Role,
     StaffCreate,
     StaffOut,
     StaffUpdate,

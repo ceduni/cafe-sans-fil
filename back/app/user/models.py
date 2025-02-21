@@ -1,18 +1,9 @@
+import re
 from datetime import datetime
 from typing import Optional
 
-from beanie import Document, Indexed
-from pydantic import EmailStr, Field
-
-"""
-This module defines the Pydantic-based models used in the Café application for user management, 
-which are specifically designed for database interaction via the Beanie ODM 
-(Object Document Mapper) for MongoDB. These models outline the structure, relationships, 
-and constraints of the user-related data stored in the database.
-
-Note: These models are intended for direct database interactions related to users and are 
-different from the API data interchange models.
-"""
+from beanie import Document, Indexed, PydanticObjectId
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class User(Document):
@@ -49,3 +40,113 @@ class User(Document):
 
     class Settings:
         name = "users"
+
+
+# --------------------------------------
+#               User
+# --------------------------------------
+
+
+class UserAuth(BaseModel):
+    username: str = Field(..., min_length=3, max_length=20)
+    email: EmailStr
+    matricule: str = Field(..., pattern=r"^\d{6,8}$", min_length=6, max_length=8)
+    password: str = Field(..., min_length=8, max_length=30)
+    first_name: str = Field(
+        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
+    )
+    last_name: str = Field(
+        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
+    )
+    photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
+
+    @field_validator("username")
+    @classmethod
+    def validate_username(cls, v):
+        if v.startswith("-") or v.endswith("-"):
+            raise ValueError("Username cannot begin or end with a hyphen")
+        if "--" in v:
+            raise ValueError("Username cannot contain consecutive hyphens")
+        if not re.match(r"^[A-Za-z\d-]+$", v):
+            raise ValueError(
+                "Username may only contain alphanumeric characters or single hyphens"
+            )
+
+        return v
+
+    # @field_validator('password')
+    # @classmethod
+    # def validate_password(cls, v):
+    #     pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
+    #     if not re.match(pattern, v):
+    #         raise ValueError('Password must contain upper and lower case letters and digits.')
+    #     return v
+
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = Field(None, min_length=3, max_length=20)
+    email: Optional[EmailStr] = None
+    matricule: Optional[str] = Field(
+        None, pattern=r"^\d{6,8}$", min_length=6, max_length=8
+    )
+    password: Optional[str] = Field(None, min_length=8, max_length=30)
+    first_name: Optional[str] = Field(
+        None, min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
+    )
+    last_name: Optional[str] = Field(
+        None, min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
+    )
+    photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
+
+    @field_validator("username")
+    @classmethod
+    def validate_username(cls, v):
+        if v.startswith("-") or v.endswith("-"):
+            raise ValueError("Username cannot begin or end with a hyphen")
+        if "--" in v:
+            raise ValueError("Username cannot contain consecutive hyphens")
+        if not re.match(r"^[A-Za-z\d-]+$", v):
+            raise ValueError(
+                "Username may only contain alphanumeric characters or single hyphens"
+            )
+
+        return v
+
+    # @field_validator('password')
+    # @classmethod
+    # def validate_password(cls, v):
+    #     pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
+    #     if not re.match(pattern, v):
+    #         raise ValueError('Password must contain upper and lower case letters and digits.')
+    #     return v
+
+
+class UserOut(BaseModel):
+    id: PydanticObjectId
+    username: str
+    email: EmailStr
+    matricule: str
+    first_name: str
+    last_name: str
+    photo_url: Optional[str] = None
+
+
+# --------------------------------------
+#              Reset Password
+# --------------------------------------
+
+
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+
+
+class PasswordReset(BaseModel):
+    password: str = Field(..., min_length=8, max_length=30)
+
+    # @field_validator('password')
+    # @classmethod
+    # def validate_password(cls, v):
+    #     pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
+    #     if not re.match(pattern, v):
+    #         raise ValueError('Password must contain upper and lower case letters and digits.')
+    #     return v

@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pydantic import ValidationError
 
-from app.auth.schemas import TokenPayload
+from app.auth.models import TokenPayload
 from app.config import settings
 from app.user.models import User
 from app.user.service import UserService

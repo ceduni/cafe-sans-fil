@@ -8,8 +8,7 @@ from beanie import PydanticObjectId
 
 from app.auth.security import get_password, verify_password
 from app.cafe.models import Cafe
-from app.user.models import User
-from app.user.schemas import UserAuth, UserUpdate
+from app.user.models import User, UserAuth, UserUpdate
 
 
 class UserService:

@@ -6,8 +6,7 @@ from typing import List
 
 from beanie import PydanticObjectId
 
-from app.event.models import Event, UserInteraction
-from app.event.schemas import EventCreate, EventOut
+from app.event.models import Event, EventCreate, EventOut, UserInteraction
 
 
 class EventService:

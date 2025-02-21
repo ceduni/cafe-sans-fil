@@ -7,7 +7,7 @@ from typing import Dict, List, Optional
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request
 
-from app.announcement.schemas import (
+from app.announcement.models import (
     AnnouncementCreate,
     AnnouncementOut,
     AnnouncementUpdate,

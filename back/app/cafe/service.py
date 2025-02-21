@@ -7,12 +7,15 @@ from typing import List
 from beanie import PydanticObjectId
 from bson.errors import InvalidId
 
-from app.cafe.models import Cafe, CafeView, Role, StaffMember
-from app.cafe.schemas import (
+from app.cafe.models import (
+    Cafe,
     CafeCreate,
     CafeShortOut,
     CafeUpdate,
+    CafeView,
+    Role,
     StaffCreate,
+    StaffMember,
     StaffUpdate,
 )
 from app.user.models import User

@@ -8,6 +8,7 @@ from tqdm import tqdm
 from app.cafe.models import (
     AdditionalInfo,
     Affiliation,
+    CafeCreate,
     Contact,
     DayHours,
     Location,
@@ -15,7 +16,6 @@ from app.cafe.models import (
     SocialMedia,
     TimeBlock,
 )
-from app.cafe.schemas import CafeCreate
 from app.cafe.service import CafeService
 
 # Set random seed and Faker settings
