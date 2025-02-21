@@ -1,32 +1,34 @@
+"""
+User seeder module.
+"""
+
 import json
 import random
 import unicodedata
 
 from faker import Faker
-from pymongo.errors import DuplicateKeyError
 from tqdm import tqdm
 
 from app.user.models import UserAuth
 from app.user.service import UserService
 
-# Set random seed and Faker settings
 random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
 
-# Load photo URLs from JSON file
 with open("./scripts/db_seed/data/photo_urls.json", "r", encoding="utf-8") as file:
     photo_urls = json.load(file)
 
 
 class UserSeeder:
+    """User seeder class."""
+
     def __init__(self):
+        """Initializes the UserSeeder class."""
         self.usernames = []
 
     async def seed_users(self, num_users: int):
-        """
-        Seeds a specified number of users into the database.
-        """
+        """Seeds a specified number of users."""
         if len(photo_urls) < num_users:
             raise ValueError("Not enough photo URLs for the number of users")
 
@@ -57,10 +59,7 @@ class UserSeeder:
             )
             users_data.append(user_data)
 
-        # Insert all users in bulk
         created_users = await UserService.create_many_users(users_data)
-
-        # Track usernames
         self.usernames = [user.username for user in created_users]
 
         print(f"{num_users} users created")
@@ -68,9 +67,7 @@ class UserSeeder:
         await self.update_first_user_to_cafesansfil()
 
     async def update_first_user_to_cafesansfil(self):
-        """
-        Updates the first user to 'cafesansfil'.
-        """
+        """Updates the first user to cafesansfil."""
         cafesansfil_matricule = "7802085"
         cafesansfil_user = {
             "email": "cafesansfil@umontreal.ca",
@@ -85,23 +82,17 @@ class UserSeeder:
         self.usernames[0] = cafesansfil_matricule
 
     def get_usernames(self):
-        """
-        Returns the list of generated usernames.
-        """
+        """Returns the list of usernames."""
         return self.usernames
 
     def normalize_string(self, input_str: str) -> str:
-        """
-        Normalizes a string by converting it to ASCII (e.g., 'Éric' -> 'Eric').
-        """
+        """Normalizes a string by removing diacritics."""
         normalized_str = unicodedata.normalize("NFKD", input_str)
         ascii_str = normalized_str.encode("ascii", "ignore")
         return ascii_str.decode("ascii")
 
     def generate_matricule(self):
-        """
-        Generates a random matricule number.
-        """
+        """Generates a random matricule."""
         if random.random() < 0.95:
             # 8 digit matricule
             matricule_num = random.randint(20000000, 20299999)

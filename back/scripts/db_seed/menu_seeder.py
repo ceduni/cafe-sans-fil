@@ -1,3 +1,7 @@
+"""
+Menu seeder module.
+"""
+
 import json
 import random
 
@@ -8,12 +12,10 @@ from app.cafe.service import CafeService
 from app.menu.models import MenuItemCreate
 from app.menu.service import MenuItemService
 
-# Set random seed and Faker settings
 random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
 
-# Load menu items data from JSON file
 with open("./scripts/db_seed/data/menu_items.json", "r", encoding="utf-8") as file:
     menu_items_data = json.load(file)
 
@@ -23,9 +25,7 @@ class MenuSeeder:
         self.menu_item_ids = []
 
     async def seed_menu_items(self, cafe_ids, num_items: int):
-        """
-        Seeds menu items for cafes.
-        """
+        """Seeds menu items for cafes."""
         for cafe_id in tqdm(cafe_ids, desc="Seeding menu items for cafes"):
             cafe = await CafeService.retrieve_cafe(cafe_id, False)
             if not cafe:
@@ -38,18 +38,14 @@ class MenuSeeder:
                 item_copy["in_stock"] = random.random() < 0.80  # Randomly set in_stock
                 randomized_menu_items.append(MenuItemCreate(**item_copy))
 
-            # Bulk create menu items for each cafe
             created_menu_items = await MenuItemService.create_many_menu_items(
                 cafe.id, randomized_menu_items
             )
 
-            # Append the created menu item IDs
             self.menu_item_ids.extend([item.id for item in created_menu_items])
 
         print(f"{len(self.menu_item_ids)} menu items created")
 
     def get_menu_item_ids(self):
-        """
-        Returns the list of generated menu item IDs.
-        """
+        """Returns the list of menu item IDs."""
         return self.menu_item_ids

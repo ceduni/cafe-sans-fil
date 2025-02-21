@@ -1,5 +1,5 @@
 """
-Module for handling token-related models.
+Module for handling authentication-related models.
 """
 
 from beanie import PydanticObjectId

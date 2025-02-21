@@ -1,3 +1,7 @@
+"""
+Module for routing endpoints.
+"""
+
 from fastapi import APIRouter
 
 from app.announcement.endpoints import announcement_router
@@ -8,10 +12,6 @@ from app.menu.endpoints import menu_router
 from app.order.endpoints import order_router
 from app.search.endpoints import search_router
 from app.user.endpoints import user_router
-
-"""
-This module centralizes and aggregates the API routes into a single unified router.
-"""
 
 router = APIRouter()
 router.include_router(cafe_router, tags=["cafes"])

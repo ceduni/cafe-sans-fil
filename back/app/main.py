@@ -1,3 +1,7 @@
+"""
+Main module for the FastAPI application.
+"""
+
 from contextlib import asynccontextmanager
 
 from beanie import init_beanie
@@ -13,11 +17,6 @@ from app.menu.models import MenuItem
 from app.order.models import Order
 from app.router import router
 from app.user.models import User
-
-"""
-Main application initialization for Café sans-fil.
-Sets up FastAPI application, CORS middleware, and initializes the database connection.
-"""
 
 description = """
 # API Documentation
@@ -48,6 +47,7 @@ db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    """Lifespan for the application."""
     await init_beanie(
         database=db_client[settings.MONGO_DB_NAME],
         document_models=[Cafe, CafeView, MenuItem, User, Order, Announcement, Event],
@@ -79,6 +79,7 @@ app.include_router(router, prefix=settings.API_V1_STR)
 
 @app.get("/api/health", tags=["health"])
 async def health_check():
+    """Health check endpoint."""
     try:
         result = await db_client.admin.command("serverStatus")
         if result["ok"] == 1.0:
@@ -107,6 +108,7 @@ from app.order.models import Order, OrderStatus
 
 
 async def cancel_old_orders():
+    """Cancel orders older than 1 hour."""
     now = datetime.utcnow()
     async for order in Order.find(
         {

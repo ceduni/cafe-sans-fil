@@ -1,3 +1,7 @@
+"""
+Module for handling authentication-related dependencies.
+"""
+
 from datetime import datetime
 
 from fastapi import Depends, HTTPException, status
@@ -10,16 +14,13 @@ from app.config import settings
 from app.user.models import User
 from app.user.service import UserService
 
-"""
-This module provides utility functions and dependencies for user authentication.
-"""
-
 reuseable_oauth = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/auth/login", scheme_name="JWT"
 )
 
 
 async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
+    """Get current user from token."""
     try:
         payload = jwt.decode(
             token, settings.JWT_SECRET_KEY, algorithms=[settings.ALGORITHM]
