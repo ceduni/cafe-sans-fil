@@ -1,22 +1,33 @@
 import json
 import random
 from datetime import datetime, timedelta
-from uuid import uuid4
+
 from faker import Faker
 from tqdm import tqdm
-from app.models.cafe_model import Affiliation, Location, Contact, SocialMedia, TimeBlock, DayHours, PaymentMethod, AdditionalInfo
-from app.schemas.cafe_schema import CafeCreate
-from app.services.cafe_service import CafeService
+
+from app.cafe.models import (
+    AdditionalInfo,
+    Affiliation,
+    CafeCreate,
+    Contact,
+    DayHours,
+    Location,
+    PaymentMethod,
+    SocialMedia,
+    TimeBlock,
+)
+from app.cafe.service import CafeService
 
 # Set random seed and Faker settings
 random.seed(42)
 Faker.seed(42)
-fake = Faker('fr_FR')
+fake = Faker("fr_FR")
 
 # Load cafe data from JSON file
 with open("./scripts/db_seed/data/cafes.json", "r", encoding="utf-8") as file:
     cafes_data = json.load(file)
-    
+
+
 class CafeSeeder:
     def __init__(self):
         self.cafe_ids = []
@@ -48,13 +59,13 @@ class CafeSeeder:
                 payment_methods=payment_methods,
                 additional_info=additional_info,
                 staff=[],
-                menu_item_ids=[]
+                menu_item_ids=[],
             )
 
-            # Insert the cafe and retrieve the object with the generated UUID
+            # Insert the cafe and retrieve the object with the generated ID
             created_cafe = await CafeService.create_cafe(cafe_data)
 
-            # Append the generated UUID from the created cafe
+            # Append the generated ID from the created cafe
             self.cafe_ids.append(created_cafe.id)
 
         print(f"{num_cafes} cafes created")
@@ -71,8 +82,11 @@ class CafeSeeder:
         Generates a random open/close status and status message for a cafe.
         """
         messages = [
-            "Fermé pour la journée", "Fermé pour la semaine", "De retour dans 1 heure", 
-            "Temporairement fermé", "Fermé pour MIDIRO"
+            "Fermé pour la journée",
+            "Fermé pour la semaine",
+            "De retour dans 1 heure",
+            "Temporairement fermé",
+            "Fermé pour MIDIRO",
         ]
         is_open = random.random() < 0.7  # chance of being open
         status_message = random.choice(messages) if not is_open else None
@@ -117,7 +131,11 @@ class CafeSeeder:
         payment_methods = []
 
         for method in selected_methods:
-            minimum = random.randint(3, 8) if method in ["Carte de débit", "Carte de crédit"] else None
+            minimum = (
+                random.randint(3, 8)
+                if method in ["Carte de débit", "Carte de crédit"]
+                else None
+            )
             payment_methods.append(PaymentMethod(method=method, minimum=minimum))
         return payment_methods
 
@@ -127,7 +145,11 @@ class CafeSeeder:
         """
         today = datetime.now()
         info_types = [
-            "Événement spécial", "Fermeture temporaire", "Promotion", "Atelier", "Nouveau produit"
+            "Événement spécial",
+            "Fermeture temporaire",
+            "Promotion",
+            "Atelier",
+            "Nouveau produit",
         ]
         additional_infos = []
 
@@ -142,9 +164,13 @@ class CafeSeeder:
             date_message = today + timedelta(days=random.randint(-1, 7))
             additional_info = AdditionalInfo(
                 type=event_type,
-                value=f"{event_type} à {date_message.strftime('%d/%m/%Y')}" if random.random() > 0.25 else f"{event_type}",
+                value=(
+                    f"{event_type} à {date_message.strftime('%d/%m/%Y')}"
+                    if random.random() > 0.25
+                    else f"{event_type}"
+                ),
                 start=start,
-                end=end
+                end=end,
             )
             additional_infos.append(additional_info.model_dump())
 

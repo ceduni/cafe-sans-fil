@@ -1,6 +1,7 @@
+import unicodedata
+
 import pytest
 from faker import Faker
-import unicodedata
 
 fake = Faker("fr_CA")
 

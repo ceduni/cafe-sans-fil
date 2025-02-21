@@ -1,11 +1,13 @@
-from app.services.order_service import OrderService
-from app.schemas.order_schema import OrderCreate
 from faker import Faker
+
+from app.order.models import OrderCreate
+from app.order.service import OrderService
 
 # Set random seed and Faker settings
 # random.seed(42)
 Faker.seed(42)
-fake = Faker('fr_FR')
+fake = Faker("fr_FR")
+
 
 class OrderSeeder:
     async def seed_orders(self, cafe_slugs, usernames, num_orders: int):
@@ -22,5 +24,7 @@ class OrderSeeder:
                     status="PLACED",
                 )
             )
-        await OrderService.create_many_orders(order_data, username=fake.random_element(usernames))
+        await OrderService.create_many_orders(
+            order_data, username=fake.random_element(usernames)
+        )
         print(f"{num_orders} orders created")

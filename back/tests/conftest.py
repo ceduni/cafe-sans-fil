@@ -1,16 +1,18 @@
+from contextlib import asynccontextmanager
+
+import pytest
+from beanie import init_beanie
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from contextlib import asynccontextmanager
 from motor.motor_asyncio import AsyncIOMotorClient
-from beanie import init_beanie
-import pytest
+
+from app.cafe.models import Cafe
 
 # Application settings and router
-from app.core.config import settings
-from app.api.api_v1.router import router
-from app.models.user_model import User
-from app.models.cafe_model import Cafe
-from app.models.order_model import Order
+from app.config import settings
+from app.order.models import Order
+from app.router import router
+from app.user.models import User
 
 """
 Conftest file for pytest.

@@ -1,22 +1,18 @@
-# FastAPI and middleware imports
-from fastapi import FastAPI, HTTPException, status
-from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-# Database and Beanie initialization
-from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
+from fastapi import FastAPI, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
+from motor.motor_asyncio import AsyncIOMotorClient
 
-# Application settings and router
-from app.core.config import settings
-from app.api.api_v1.router import router
-from app.models.cafe_model import Cafe
-from app.models.cafe_model import CafeView
-from app.models.menu_model import MenuItem
-from app.models.announcement_model import Announcement
-from app.models.event_model import Event
-from app.models.user_model import User
-from app.models.order_model import Order
+from app.announcement.models import Announcement
+from app.cafe.models import Cafe, CafeView
+from app.config import settings
+from app.event.models import Event
+from app.menu.models import MenuItem
+from app.order.models import Order
+from app.router import router
+from app.user.models import User
 
 """
 Main application initialization for Café sans-fil.
@@ -54,15 +50,7 @@ db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 async def lifespan(app: FastAPI):
     await init_beanie(
         database=db_client[settings.MONGO_DB_NAME],
-        document_models=[
-            Cafe,
-            CafeView,
-            MenuItem,
-            User,
-            Order,
-            Announcement,
-            Event
-        ],
+        document_models=[Cafe, CafeView, MenuItem, User, Order, Announcement, Event],
         recreate_views=True,
     )
     yield
@@ -75,7 +63,7 @@ app = FastAPI(
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     lifespan=lifespan,
-    debug=True  
+    debug=True,
 )
 
 app.add_middleware(
@@ -110,10 +98,12 @@ async def health_check():
 #           Scheduler
 # --------------------------------------
 
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from datetime import datetime, timedelta
-from app.models.order_model import Order, OrderStatus
 import asyncio
+from datetime import datetime, timedelta
+
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+from app.order.models import Order, OrderStatus
 
 
 async def cancel_old_orders():
