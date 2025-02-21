@@ -9,7 +9,8 @@ from pymongo import IndexModel
 
 from app.cafe.enums import Days, Feature, Role
 from app.cafe.helper import slugify, time_blocks_overlap
-from app.menu.models import MenuItemEmbedded
+from app.menu.models import MenuItemView, MenuItemViewOut
+from app.models import Id, IdAlias
 
 
 class Affiliation(BaseModel):
@@ -86,17 +87,17 @@ class StaffMember(BaseModel):
     role: Role
 
 
-class Cafe(Document):
-    name: str
+class CafeBase(BaseModel):
+    name: str = Field(..., min_length=1, max_length=50)
     slug: Optional[str] = None
-    previous_slugs: List[str] = []
+    previous_slugs: Optional[List[str]] = []
     features: List[Feature]
-    description: str
-    logo_url: Optional[str] = None
-    image_url: Optional[str] = None
+    description: str = Field(..., min_length=1, max_length=255)
+    logo_url: Optional[str] = Field(None, max_length=755)
+    image_url: Optional[str] = Field(None, max_length=755)
     affiliation: Affiliation
     is_open: bool = False
-    status_message: Optional[str] = None
+    status_message: Optional[str] = Field(None, max_length=50)
     opening_hours: List[DayHours]
     location: Location
     contact: Contact
@@ -104,7 +105,10 @@ class Cafe(Document):
     payment_methods: List[PaymentMethod]
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
-    menu_item_ids: List[PydanticObjectId]
+
+
+class Cafe(Document, CafeBase):
+    menu_item_ids: List[PydanticObjectId] = []
 
     def __init__(self, **data):
         super().__init__(**data)
@@ -202,26 +206,8 @@ class Cafe(Document):
         ]
 
 
-class CafeView(View):
-    id: PydanticObjectId = Field(..., alias="_id")
-    name: str
-    slug: Optional[str] = None
-    previous_slugs: List[str] = []
-    features: List[Feature]
-    description: str
-    logo_url: Optional[str] = None
-    image_url: Optional[str] = None
-    affiliation: Affiliation
-    is_open: bool = False
-    status_message: Optional[str] = None
-    opening_hours: List[DayHours]
-    location: Location
-    contact: Contact
-    social_media: SocialMedia
-    payment_methods: List[PaymentMethod]
-    additional_info: List[AdditionalInfo]
-    staff: List[StaffMember]
-    menu_items: List[MenuItemEmbedded]
+class CafeView(View, CafeBase, IdAlias):
+    menu_items: List[MenuItemView]
 
     class Settings:
         name: str = "cafe_with_menu"
@@ -238,6 +224,7 @@ class CafeView(View):
                             "$project": {
                                 "_id": 1,
                                 "name": 1,
+                                "tags": 1,
                                 "description": 1,
                                 "image_url": 1,
                                 "price": 1,
@@ -254,28 +241,16 @@ class CafeView(View):
         ]
 
 
-# --------------------------------------
-#               Staff
-# --------------------------------------
-
-
-class StaffCreate(BaseModel):
-    username: str
-    role: str
+class StaffCreate(StaffMember):
+    pass
 
 
 class StaffUpdate(BaseModel):
     role: Optional[str] = None
 
 
-class StaffOut(BaseModel):
-    username: str
-    role: str
-
-
-# --------------------------------------
-#               Cafe
-# --------------------------------------
+class StaffOut(StaffMember):
+    pass
 
 
 class CafeCreate(BaseModel):
@@ -285,7 +260,7 @@ class CafeCreate(BaseModel):
     logo_url: Optional[str] = Field(None, max_length=755)
     image_url: Optional[str] = Field(None, max_length=755)
     affiliation: Affiliation
-    is_open: bool
+    is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
     opening_hours: List[DayHours]
     location: Location
@@ -294,7 +269,6 @@ class CafeCreate(BaseModel):
     payment_methods: List[PaymentMethod]
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
-    menu_item_ids: List[PydanticObjectId]
 
 
 class CafeUpdate(BaseModel):
@@ -314,39 +288,24 @@ class CafeUpdate(BaseModel):
     additional_info: Optional[List[AdditionalInfo]] = None
 
 
-class CafeOut(BaseModel):
-    id: PydanticObjectId
-    name: str
-    slug: str
-    previous_slugs: Optional[List[str]] = None
+class CafeOut(CafeBase, Id):
+    pass
+
+
+class CafeViewOut(CafeBase, Id):
+    menu_items: List[MenuItemViewOut]
+
+
+class CafeShortOut(BaseModel, Id):
+    name: str = Field(..., min_length=1, max_length=50)
+    slug: Optional[str] = None
+    previous_slugs: Optional[List[str]] = []
     features: List[Feature]
-    description: str
+    description: str = Field(..., min_length=1, max_length=255)
     logo_url: Optional[str] = Field(None, max_length=755)
     image_url: Optional[str] = Field(None, max_length=755)
     affiliation: Affiliation
-    is_open: bool
-    status_message: Optional[str] = Field(None, max_length=50)
-    opening_hours: List[DayHours]
-    location: Location
-    contact: Contact
-    social_media: SocialMedia
-    payment_methods: List[PaymentMethod]
-    additional_info: List[AdditionalInfo]
-    staff: List[StaffMember]
-    menu_items: List[MenuItemEmbedded]
-
-
-class CafeShortOut(BaseModel):
-    id: PydanticObjectId
-    name: str
-    slug: str
-    previous_slugs: Optional[List[str]] = None
-    features: List[Feature]
-    description: str
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
-    affiliation: Affiliation
-    is_open: bool
+    is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
     opening_hours: List[DayHours]
     location: Location

@@ -13,6 +13,7 @@ from beanie import (
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
+from app.models import CafeId, Id, ItemId, UserId
 from app.order.enums import OrderStatus
 
 
@@ -29,8 +30,7 @@ class OrderedItemOption(BaseModel):
         return fee
 
 
-class OrderedItem(BaseModel):
-    item_id: PydanticObjectId
+class OrderedItem(BaseModel, ItemId):
     item_name: str
     item_image_url: Optional[str] = None
     item_price: DecimalAnnotation
@@ -45,18 +45,18 @@ class OrderedItem(BaseModel):
         return quantity
 
 
-class Order(Document):
+class OrderBase(BaseModel):
     order_number: int
-    user_id: PydanticObjectId
-    cafe_id: PydanticObjectId
     cafe_name: str
     cafe_image_url: Optional[str] = None
     items: List[OrderedItem]
     total_price: DecimalAnnotation = DecimalAnnotation(0.0)
     status: OrderStatus = Field(default=OrderStatus.PLACED)
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
+    updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
+
+class Order(Document, OrderBase, CafeId, UserId):
     @before_event([Replace, Insert])
     def calculate_total_price(self):
         total = sum(
@@ -83,11 +83,6 @@ class Order(Document):
         ]
 
 
-# --------------------------------------
-#               Order
-# --------------------------------------
-
-
 class OrderCreate(BaseModel):
     cafe_id: PydanticObjectId
     cafe_name: str
@@ -106,15 +101,5 @@ class OrderUpdate(BaseModel):
     status: Optional[OrderStatus] = None
 
 
-class OrderOut(BaseModel):
-    id: PydanticObjectId
-    order_number: int
-    user_id: PydanticObjectId
-    cafe_id: PydanticObjectId
-    cafe_name: str
-    cafe_image_url: Optional[str] = None
-    items: List[OrderedItem]
-    total_price: DecimalAnnotation
-    status: OrderStatus
-    created_at: datetime
-    updated_at: datetime
+class OrderOut(OrderBase, CafeId, UserId, Id):
+    pass

@@ -1,9 +1,11 @@
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Document, PydanticObjectId
+from beanie import DecimalAnnotation, Document
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
+
+from app.models import CafeId, Id, IdAlias
 
 
 class MenuItemOption(BaseModel):
@@ -19,48 +21,10 @@ class MenuItemOption(BaseModel):
         return fee
 
 
-class MenuItemEmbedded(BaseModel):
-    id: PydanticObjectId = Field(..., alias="_id")
-    name: str
-    description: str
-    image_url: Optional[str] = None
-    price: DecimalAnnotation
-    in_stock: bool = False
-    category: str
-    options: List[MenuItemOption]
-
-
-class MenuItem(Document):
-    cafe_id: PydanticObjectId
-    name: str
-    tags: List[str]
-    description: str
-    image_url: Optional[str] = None
-    price: DecimalAnnotation
-    in_stock: bool = False
-    category: str
-    options: List[MenuItemOption]
-
-    @field_validator("price")
-    @classmethod
-    def validate_price(cls, price):
-        if price < DecimalAnnotation(0.0):
-            raise ValueError("Price must be a non-negative value.")
-        return price
-
-    class Settings:
-        name = "menus"
-        indexes = [
-            IndexModel([("name", pymongo.ASCENDING)]),
-            IndexModel([("description", pymongo.ASCENDING)]),
-            IndexModel([("category", pymongo.ASCENDING)]),
-        ]
-
-
-class MenuItemCreate(BaseModel):
+class MenuItemBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=50)
-    tags: List[str] = Field(..., max_length=20)
-    description: str = Field(..., min_length=1, max_length=255)
+    tags: Optional[List[str]] = Field(None, max_length=20)
+    description: Optional[str] = Field(None, min_length=1, max_length=255)
     image_url: Optional[str] = Field(None, max_length=755)
     price: DecimalAnnotation
     in_stock: bool
@@ -70,9 +34,27 @@ class MenuItemCreate(BaseModel):
     @field_validator("price")
     @classmethod
     def validate_price(cls, price):
-        if price < 0:
+        if price < DecimalAnnotation(0.0):
             raise ValueError("Price must be a non-negative value.")
         return price
+
+
+class MenuItem(Document, MenuItemBase, CafeId):
+    class Settings:
+        name = "menus"
+        indexes = [
+            IndexModel([("name", pymongo.ASCENDING)]),
+            IndexModel([("description", pymongo.ASCENDING)]),
+            IndexModel([("category", pymongo.ASCENDING)]),
+        ]
+
+
+class MenuItemView(MenuItemBase, IdAlias):
+    pass
+
+
+class MenuItemCreate(MenuItemBase):
+    pass
 
 
 class MenuItemUpdate(BaseModel):
@@ -88,19 +70,14 @@ class MenuItemUpdate(BaseModel):
     @field_validator("price")
     @classmethod
     def validate_price(cls, price):
-        if price < 0:
+        if price < DecimalAnnotation(0.0):
             raise ValueError("Price must be a non-negative value.")
         return price
 
 
-class MenuItemOut(BaseModel):
-    id: PydanticObjectId
-    cafe_id: PydanticObjectId
-    name: str
-    tags: List[str]
-    description: str
-    image_url: Optional[str] = None
-    price: DecimalAnnotation
-    in_stock: bool
-    category: str
-    options: List[MenuItemOption]
+class MenuItemOut(MenuItemBase, CafeId, Id):
+    pass
+
+
+class MenuItemViewOut(MenuItemBase, Id):
+    pass

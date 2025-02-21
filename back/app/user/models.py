@@ -3,21 +3,29 @@ from datetime import datetime
 from typing import Optional
 
 import pymongo
-from beanie import Document, PydanticObjectId
+from beanie import Document
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from pymongo import IndexModel
 
+from app.models import Id
 
-class User(Document):
-    username: str
+
+class UserBase(BaseModel):
+    username: str = Field(..., min_length=3, max_length=20)
     email: EmailStr
-    matricule: str
-    hashed_password: str
-    first_name: str
-    last_name: str
-    photo_url: Optional[str] = None
+    matricule: str = Field(..., pattern=r"^\d{6,8}$", min_length=6, max_length=8)
+    first_name: str = Field(
+        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
+    )
+    last_name: str = Field(
+        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
+    )
+    photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
 
+
+class User(Document, UserBase):
     # Hidden from output
+    hashed_password: str
     failed_login_attempts: int = Field(default=0)
     last_failed_login_attempt: Optional[datetime] = Field(default=None)
     lockout_until: Optional[datetime] = Field(default=None)
@@ -51,23 +59,8 @@ class User(Document):
         ]
 
 
-# --------------------------------------
-#               User
-# --------------------------------------
-
-
-class UserAuth(BaseModel):
-    username: str = Field(..., min_length=3, max_length=20)
-    email: EmailStr
-    matricule: str = Field(..., pattern=r"^\d{6,8}$", min_length=6, max_length=8)
+class UserAuth(UserBase):
     password: str = Field(..., min_length=8, max_length=30)
-    first_name: str = Field(
-        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
-    )
-    last_name: str = Field(
-        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
-    )
-    photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
 
     @field_validator("username")
     @classmethod
@@ -130,14 +123,8 @@ class UserUpdate(BaseModel):
     #     return v
 
 
-class UserOut(BaseModel):
-    id: PydanticObjectId
-    username: str
-    email: EmailStr
-    matricule: str
-    first_name: str
-    last_name: str
-    photo_url: Optional[str] = None
+class UserOut(UserBase, Id):
+    pass
 
 
 # --------------------------------------

@@ -1,30 +1,31 @@
 from datetime import datetime
 from typing import List, Optional
 
-from beanie import Document, PydanticObjectId
+from beanie import Document
 from pydantic import BaseModel, Field
 
+from app.models import CafeId, Id, UserId
 
-class UserInteraction(BaseModel):
-    user_id: PydanticObjectId
+
+class UserInteraction(BaseModel, UserId):
     interaction_time: datetime = Field(default_factory=datetime.now)
 
 
-class Announcement(Document):
-    cafe_id: PydanticObjectId
+class AnnouncementBase(BaseModel):
     title: str = Field(..., min_length=1)
     content: str
-    created_at: datetime = Field(default_factory=datetime.now)
+    created_at: Optional[datetime] = Field(default_factory=datetime.now)
     active_until: Optional[datetime] = None
     likes: List[UserInteraction] = []
     tags: List[str] = []
 
+
+class Announcement(Document, AnnouncementBase, CafeId):
     class Settings:
         name = "announcements"
 
 
-class AnnouncementCreate(BaseModel):
-    cafe_id: PydanticObjectId
+class AnnouncementCreate(BaseModel, CafeId):
     title: str = Field(..., min_length=1)
     content: str
     active_until: Optional[datetime] = None
@@ -38,12 +39,5 @@ class AnnouncementUpdate(BaseModel):
     tags: Optional[List[str]] = None
 
 
-class AnnouncementOut(BaseModel):
-    id: PydanticObjectId
-    cafe_id: PydanticObjectId
-    title: str = Field(..., min_length=1)
-    content: str
-    created_at: datetime
-    active_until: Optional[datetime] = None
-    likes: List[UserInteraction] = []
-    tags: List[str] = []
+class AnnouncementOut(AnnouncementBase, CafeId, Id):
+    pass

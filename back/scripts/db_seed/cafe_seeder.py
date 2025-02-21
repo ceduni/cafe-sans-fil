@@ -59,7 +59,6 @@ class CafeSeeder:
                 payment_methods=payment_methods,
                 additional_info=additional_info,
                 staff=[],
-                menu_item_ids=[],
             )
 
             # Insert the cafe and retrieve the object with the generated ID

@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from app.cafe.models import CafeOut
+from app.cafe.models import CafeViewOut
 
 
 class SearchCreate(BaseModel):
@@ -10,4 +10,4 @@ class SearchCreate(BaseModel):
 
 
 class SearchOut(BaseModel):
-    cafes: Optional[List[CafeOut]] = None
+    cafes: Optional[List[CafeViewOut]] = None

@@ -12,7 +12,7 @@ from app.cafe.models import (
     CafeOut,
     CafeShortOut,
     CafeUpdate,
-    CafeView,
+    CafeViewOut,
     Role,
     StaffCreate,
     StaffOut,
@@ -59,7 +59,7 @@ async def list_cafes(
 
 @cafe_router.get(
     "/cafes/{cafe_slug}",
-    response_model=CafeOut,
+    response_model=CafeViewOut,
     summary="Get Cafe",
     description="Retrieve detailed information about a specific cafe.",
 )
