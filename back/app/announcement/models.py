@@ -1,3 +1,7 @@
+"""
+Module for handling announcement-related models.
+"""
+
 from datetime import datetime
 from typing import List, Optional
 
@@ -8,10 +12,14 @@ from app.models import CafeId, Id, UserId
 
 
 class UserInteraction(BaseModel, UserId):
+    """Model for user interactions."""
+
     interaction_time: datetime = Field(default_factory=datetime.now)
 
 
 class AnnouncementBase(BaseModel):
+    """Base model for announcements."""
+
     title: str = Field(..., min_length=1)
     content: str
     created_at: Optional[datetime] = Field(default_factory=datetime.now)
@@ -21,11 +29,17 @@ class AnnouncementBase(BaseModel):
 
 
 class Announcement(Document, AnnouncementBase, CafeId):
+    """Announcement document model."""
+
     class Settings:
+        """Document settings."""
+
         name = "announcements"
 
 
 class AnnouncementCreate(BaseModel, CafeId):
+    """Model for creating announcements."""
+
     title: str = Field(..., min_length=1)
     content: str
     active_until: Optional[datetime] = None
@@ -33,6 +47,8 @@ class AnnouncementCreate(BaseModel, CafeId):
 
 
 class AnnouncementUpdate(BaseModel):
+    """Model for updating announcements."""
+
     title: Optional[str] = None
     content: Optional[str] = None
     active_until: Optional[datetime] = None
@@ -40,4 +56,6 @@ class AnnouncementUpdate(BaseModel):
 
 
 class AnnouncementOut(AnnouncementBase, CafeId, Id):
+    """Model for announcement output."""
+
     pass

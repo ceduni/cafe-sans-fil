@@ -1,3 +1,7 @@
+"""
+Module for handling order-related models.
+"""
+
 from datetime import datetime
 from typing import List, Optional
 
@@ -18,6 +22,8 @@ from app.order.enums import OrderStatus
 
 
 class OrderedItemOption(BaseModel):
+    """Model for ordered item options."""
+
     type: str
     value: str
     fee: DecimalAnnotation
@@ -25,12 +31,15 @@ class OrderedItemOption(BaseModel):
     @field_validator("fee")
     @classmethod
     def validate_fee(cls, fee):
+        """Validate fee value."""
         if fee < DecimalAnnotation(0.0):
             raise ValueError("Fee must be a non-negative value.")
         return fee
 
 
 class OrderedItem(BaseModel, ItemId):
+    """Model for ordered items."""
+
     item_name: str
     item_image_url: Optional[str] = None
     item_price: DecimalAnnotation
@@ -40,12 +49,15 @@ class OrderedItem(BaseModel, ItemId):
     @field_validator("quantity")
     @classmethod
     def validate_quantity(cls, quantity):
+        """Validate quantity value."""
         if quantity <= 0:
             raise ValueError("Quantity must be a positive integer.")
         return quantity
 
 
 class OrderBase(BaseModel):
+    """Base model for orders."""
+
     order_number: int
     cafe_name: str
     cafe_image_url: Optional[str] = None
@@ -57,8 +69,11 @@ class OrderBase(BaseModel):
 
 
 class Order(Document, OrderBase, CafeId, UserId):
+    """Order document model."""
+
     @before_event([Replace, Insert])
     def calculate_total_price(self):
+        """Calculate total price."""
         total = sum(
             DecimalAnnotation(item.quantity)
             * (
@@ -74,9 +89,12 @@ class Order(Document, OrderBase, CafeId, UserId):
     # Comment this function if using generate_data.py to allow randomized updated_at
     @before_event([Replace, Insert])
     def update_update_at(self):
+        """Update updated_at field."""
         self.updated_at = datetime.utcnow()
 
     class Settings:
+        """Settings for order document."""
+
         name = "orders"
         indexes = [
             IndexModel([("order_number", pymongo.ASCENDING)], unique=True),
@@ -84,6 +102,8 @@ class Order(Document, OrderBase, CafeId, UserId):
 
 
 class OrderCreate(BaseModel):
+    """Model for creating orders."""
+
     cafe_id: PydanticObjectId
     cafe_name: str
     cafe_image_url: Optional[str] = None
@@ -92,14 +112,19 @@ class OrderCreate(BaseModel):
     @field_validator("items")
     @classmethod
     def validate_items(cls, v):
+        """Validate items field."""
         if not v:
             raise ValueError("Order must include at least one item.")
         return v
 
 
 class OrderUpdate(BaseModel):
+    """Model for updating orders."""
+
     status: Optional[OrderStatus] = None
 
 
 class OrderOut(OrderBase, CafeId, UserId, Id):
+    """Model for order output."""
+
     pass

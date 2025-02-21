@@ -1,3 +1,7 @@
+"""
+Module for handling user-related models.
+"""
+
 import re
 from datetime import datetime
 from typing import Optional
@@ -11,6 +15,8 @@ from app.models import Id
 
 
 class UserBase(BaseModel):
+    """Base model for users."""
+
     username: str = Field(..., min_length=3, max_length=20)
     email: EmailStr
     matricule: str = Field(..., pattern=r"^\d{6,8}$", min_length=6, max_length=8)
@@ -24,6 +30,8 @@ class UserBase(BaseModel):
 
 
 class User(Document, UserBase):
+    """User document model."""
+
     # Hidden from output
     hashed_password: str
     failed_login_attempts: int = Field(default=0)
@@ -32,23 +40,29 @@ class User(Document, UserBase):
     is_active: bool = True
 
     @classmethod
-    async def by_email(self, email: str) -> "User":
-        return await self.find_one(self.email == email)
+    async def by_email(cls, email: str) -> "User":
+        """Get user by email."""
+        return await cls.find_one(cls.email == email)
 
     async def increment_failed_login_attempts(self):
+        """Increment failed login attempts."""
         self.failed_login_attempts += 1
         await self.save()
 
     async def reset_failed_login_attempts(self):
+        """Reset failed login attempts."""
         self.failed_login_attempts = 0
         self.lockout_until = None
         await self.save()
 
     async def set_lockout(self, lockout_time: datetime):
+        """Set lockout time."""
         self.lockout_until = lockout_time
         await self.save()
 
     class Settings:
+        """Settings for user document."""
+
         name = "users"
         indexes = [
             IndexModel([("username", pymongo.ASCENDING)], unique=True),
@@ -60,11 +74,14 @@ class User(Document, UserBase):
 
 
 class UserAuth(UserBase):
+    """Model for user authentication."""
+
     password: str = Field(..., min_length=8, max_length=30)
 
     @field_validator("username")
     @classmethod
     def validate_username(cls, v):
+        """Validate username."""
         if v.startswith("-") or v.endswith("-"):
             raise ValueError("Username cannot begin or end with a hyphen")
         if "--" in v:
@@ -86,6 +103,8 @@ class UserAuth(UserBase):
 
 
 class UserUpdate(BaseModel):
+    """Model for updating users."""
+
     username: Optional[str] = Field(None, min_length=3, max_length=20)
     email: Optional[EmailStr] = None
     matricule: Optional[str] = Field(
@@ -103,6 +122,7 @@ class UserUpdate(BaseModel):
     @field_validator("username")
     @classmethod
     def validate_username(cls, v):
+        """Validate username."""
         if v.startswith("-") or v.endswith("-"):
             raise ValueError("Username cannot begin or end with a hyphen")
         if "--" in v:
@@ -124,6 +144,8 @@ class UserUpdate(BaseModel):
 
 
 class UserOut(UserBase, Id):
+    """Model for user output."""
+
     pass
 
 
@@ -133,10 +155,14 @@ class UserOut(UserBase, Id):
 
 
 class PasswordResetRequest(BaseModel):
+    """Model for password reset requests."""
+
     email: EmailStr
 
 
 class PasswordReset(BaseModel):
+    """Model for password resets."""
+
     password: str = Field(..., min_length=8, max_length=30)
 
     # @field_validator('password')
