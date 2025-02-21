@@ -1,5 +1,4 @@
 import re
-import unicodedata
 from datetime import datetime
 from enum import Enum
 from typing import List, Optional
@@ -7,6 +6,7 @@ from typing import List, Optional
 from beanie import DecimalAnnotation, Document, Indexed, PydanticObjectId, View
 from pydantic import BaseModel, Field, field_validator
 
+from app.cafe.helper import slugify, time_blocks_overlap
 from app.menu.models import MenuItemEmbedded
 
 
@@ -138,6 +138,15 @@ class Cafe(Document):
         )
         return existing_cafe is None
 
+    async def check_slug(self):
+        new_slug = slugify(self.name)
+        if self.slug != new_slug:
+            if not await self.is_slug_unique(new_slug):
+                raise ValueError(f"The slug '{new_slug}' is already in use.")
+            if self.slug:
+                self.previous_slugs.append(self.slug)
+            self.slug = new_slug
+
     async def check_for_duplicate_entries(self):
         # Unique PaymentMethod methods
         payment_methods_set = set()
@@ -156,7 +165,6 @@ class Cafe(Document):
         additional_info_combinations = set()
         for info_data in self.additional_info:
             if isinstance(info_data, dict):
-                # Convert dict to AdditionalInfo instance
                 info = AdditionalInfo(**info_data)
             else:
                 info = info_data
@@ -179,55 +187,26 @@ class Cafe(Document):
             time_blocks = day_hours.blocks
             for i, block in enumerate(time_blocks):
                 for other_block in time_blocks[i + 1 :]:
-                    if self.time_blocks_overlap(block, other_block):
+                    if time_blocks_overlap(block, other_block):
                         raise ValueError(
                             f"Overlapping time blocks detected on {day_hours.day}."
                         )
 
-    @staticmethod
-    def time_blocks_overlap(block1, block2):
-        start1, end1 = datetime.strptime(block1.start, "%H:%M"), datetime.strptime(
-            block1.end, "%H:%M"
-        )
-        start2, end2 = datetime.strptime(block2.start, "%H:%M"), datetime.strptime(
-            block2.end, "%H:%M"
-        )
-        return start1 < end2 and start2 < end1
-
-    async def update(self, *args, **kwargs):
-        new_slug = slugify(self.name)
-        if self.slug != new_slug:
-            if not await self.is_slug_unique(new_slug):
-                raise ValueError(f"The slug '{new_slug}' is already in use.")
-            if self.slug:
-                self.previous_slugs.append(self.slug)
-            self.slug = new_slug
+    async def handle_validation(self):
+        await self.check_slug()
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
+
+    async def update(self, *args, **kwargs):
+        await self.handle_validation()
         return await super().update(*args, **kwargs)
 
     async def insert(self, *args, **kwargs):
-        new_slug = slugify(self.name)
-        if self.slug != new_slug:
-            if not await self.is_slug_unique(new_slug):
-                raise ValueError(f"The slug '{new_slug}' is already in use.")
-            if self.slug:
-                self.previous_slugs.append(self.slug)
-            self.slug = new_slug
-        await self.check_for_duplicate_hours()
-        await self.check_for_duplicate_entries()
+        await self.handle_validation()
         return await super().insert(*args, **kwargs)
 
     async def save(self, *args, **kwargs):
-        new_slug = slugify(self.name)
-        if self.slug != new_slug:
-            if not await self.is_slug_unique(new_slug):
-                raise ValueError(f"The slug '{new_slug}' is already in use.")
-            if self.slug:
-                self.previous_slugs.append(self.slug)
-            self.slug = new_slug
-        await self.check_for_duplicate_hours()
-        await self.check_for_duplicate_entries()
+        await self.handle_validation()
         return await super().save(*args, **kwargs)
 
     class Settings:
@@ -282,14 +261,5 @@ class CafeView(View):
                 }
             },
             {"$set": {"menu_items": "$menu_items"}},
-            {"$unset": "menu_item_ids"},  # Remove the old `menu_item_ids` field
+            {"$unset": "menu_item_ids"},
         ]
-
-
-def slugify(text):
-    text = unicodedata.normalize("NFKD", text)
-    text = text.encode("ascii", "ignore").decode("ascii")
-    text = text.lower()
-    slug = re.sub(r"\W+", "-", text)
-    slug = slug.strip("-")
-    return slug
