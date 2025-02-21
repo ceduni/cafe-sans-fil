@@ -2,8 +2,10 @@ import re
 from datetime import datetime
 from typing import List, Optional
 
-from beanie import DecimalAnnotation, Document, Indexed, PydanticObjectId, View
+import pymongo
+from beanie import DecimalAnnotation, Document, PydanticObjectId, View
 from pydantic import BaseModel, Field, field_validator
+from pymongo import IndexModel
 
 from app.cafe.enums import Days, Feature, Role
 from app.cafe.helper import slugify, time_blocks_overlap
@@ -40,8 +42,8 @@ class Geometry(BaseModel):
 
 
 class Location(BaseModel):
-    pavillon: Indexed(str) = Field(..., min_length=1)
-    local: Indexed(str) = Field(..., min_length=1)
+    pavillon: str = Field(..., min_length=1)
+    local: str = Field(..., min_length=1)
     geometry: Optional[Geometry] = None
 
 
@@ -80,16 +82,16 @@ class AdditionalInfo(BaseModel):
 
 
 class StaffMember(BaseModel):
-    username: Indexed(str, unique=True)
+    username: str
     role: Role
 
 
 class Cafe(Document):
-    name: Indexed(str, unique=True)
-    slug: Indexed(str, unique=True) = None
+    name: str
+    slug: Optional[str] = None
     previous_slugs: List[str] = []
     features: List[Feature]
-    description: Indexed(str)
+    description: str
     logo_url: Optional[str] = None
     image_url: Optional[str] = None
     affiliation: Affiliation
@@ -136,7 +138,6 @@ class Cafe(Document):
                 pm = PaymentMethod(**pm_data)
             else:
                 pm = pm_data
-
             payment_methods_set.add(pm.method)
 
         if len(payment_methods_set) != len(self.payment_methods):
@@ -149,7 +150,6 @@ class Cafe(Document):
                 info = AdditionalInfo(**info_data)
             else:
                 info = info_data
-
             additional_info_combinations.add((info.type, info.value))
 
         if len(additional_info_combinations) != len(self.additional_info):
@@ -164,7 +164,6 @@ class Cafe(Document):
                 if isinstance(day_hours_data, dict)
                 else day_hours_data
             )
-
             time_blocks = day_hours.blocks
             for i, block in enumerate(time_blocks):
                 for other_block in time_blocks[i + 1 :]:
@@ -192,15 +191,24 @@ class Cafe(Document):
 
     class Settings:
         name = "cafes"
+        indexes = [
+            IndexModel([("name", pymongo.ASCENDING)], unique=True),
+            IndexModel([("slug", pymongo.ASCENDING)], unique=True),
+            IndexModel([("description", pymongo.ASCENDING)]),
+            IndexModel([("location.pavillon", pymongo.ASCENDING)]),
+            IndexModel([("location.local", pymongo.ASCENDING)]),
+            IndexModel([("staff.username", pymongo.ASCENDING)]),
+            # IndexModel([("staff.username", pymongo.ASCENDING)], unique=True),
+        ]
 
 
 class CafeView(View):
     id: PydanticObjectId = Field(..., alias="_id")
-    name: Indexed(str, unique=True)
-    slug: Indexed(str, unique=True) = None
+    name: str
+    slug: Optional[str] = None
     previous_slugs: List[str] = []
     features: List[Feature]
-    description: Indexed(str)
+    description: str
     logo_url: Optional[str] = None
     image_url: Optional[str] = None
     affiliation: Affiliation

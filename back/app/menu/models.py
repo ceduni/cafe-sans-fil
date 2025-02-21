@@ -1,7 +1,9 @@
 from typing import List, Optional
 
-from beanie import DecimalAnnotation, Document, Indexed, PydanticObjectId
+import pymongo
+from beanie import DecimalAnnotation, Document, PydanticObjectId
 from pydantic import BaseModel, Field, field_validator
+from pymongo import IndexModel
 
 
 class MenuItemOption(BaseModel):
@@ -30,13 +32,13 @@ class MenuItemEmbedded(BaseModel):
 
 class MenuItem(Document):
     cafe_id: PydanticObjectId
-    name: Indexed(str)
+    name: str
     tags: List[str]
-    description: Indexed(str)
+    description: str
     image_url: Optional[str] = None
     price: DecimalAnnotation
     in_stock: bool = False
-    category: Indexed(str)
+    category: str
     options: List[MenuItemOption]
 
     @field_validator("price")
@@ -48,6 +50,11 @@ class MenuItem(Document):
 
     class Settings:
         name = "menus"
+        indexes = [
+            IndexModel([("name", pymongo.ASCENDING)]),
+            IndexModel([("description", pymongo.ASCENDING)]),
+            IndexModel([("category", pymongo.ASCENDING)]),
+        ]
 
 
 class MenuItemCreate(BaseModel):

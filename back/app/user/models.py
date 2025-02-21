@@ -2,20 +2,22 @@ import re
 from datetime import datetime
 from typing import Optional
 
-from beanie import Document, Indexed, PydanticObjectId
+import pymongo
+from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, EmailStr, Field, field_validator
+from pymongo import IndexModel
 
 
 class User(Document):
-    username: Indexed(str, unique=True)
-    email: Indexed(EmailStr, unique=True)
-    matricule: Indexed(str, unique=True)
+    username: str
+    email: EmailStr
+    matricule: str
     hashed_password: str
-    first_name: Indexed(str)
-    last_name: Indexed(str)
+    first_name: str
+    last_name: str
     photo_url: Optional[str] = None
 
-    # Hidden from out
+    # Hidden from output
     failed_login_attempts: int = Field(default=0)
     last_failed_login_attempt: Optional[datetime] = Field(default=None)
     lockout_until: Optional[datetime] = Field(default=None)
@@ -40,6 +42,13 @@ class User(Document):
 
     class Settings:
         name = "users"
+        indexes = [
+            IndexModel([("username", pymongo.ASCENDING)], unique=True),
+            IndexModel([("email", pymongo.ASCENDING)], unique=True),
+            IndexModel([("matricule", pymongo.ASCENDING)], unique=True),
+            IndexModel([("first_name", pymongo.ASCENDING)]),
+            IndexModel([("last_name", pymongo.ASCENDING)]),
+        ]
 
 
 # --------------------------------------

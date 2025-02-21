@@ -1,16 +1,17 @@
 from datetime import datetime
 from typing import List, Optional
 
+import pymongo
 from beanie import (
     DecimalAnnotation,
     Document,
-    Indexed,
     Insert,
     PydanticObjectId,
     Replace,
     before_event,
 )
 from pydantic import BaseModel, Field, field_validator
+from pymongo import IndexModel
 
 from app.order.enums import OrderStatus
 
@@ -45,7 +46,7 @@ class OrderedItem(BaseModel):
 
 
 class Order(Document):
-    order_number: Indexed(int, unique=True)
+    order_number: int
     user_id: PydanticObjectId
     cafe_id: PydanticObjectId
     cafe_name: str
@@ -77,6 +78,9 @@ class Order(Document):
 
     class Settings:
         name = "orders"
+        indexes = [
+            IndexModel([("order_number", pymongo.ASCENDING)], unique=True),
+        ]
 
 
 # --------------------------------------
