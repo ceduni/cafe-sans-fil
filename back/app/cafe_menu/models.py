@@ -63,12 +63,6 @@ class MenuItem(Document, MenuItemBase, CafeId):
         ]
 
 
-class MenuItemView(MenuItemBase, IdAlias):
-    """Model for menu item views."""
-
-    pass
-
-
 class MenuItemCreate(MenuItemBase):
     """Model for creating menu items."""
 
@@ -98,6 +92,12 @@ class MenuItemUpdate(BaseModel):
 
 class MenuItemOut(MenuItemBase, CafeId, Id):
     """Model for menu item output."""
+
+    pass
+
+
+class MenuItemView(MenuItemBase, IdAlias):
+    """Model for menu item views."""
 
     pass
 

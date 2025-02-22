@@ -247,45 +247,6 @@ class Cafe(Document, CafeBase):
         ]
 
 
-class CafeView(View, CafeBase, IdAlias):
-    """Cafe view."""
-
-    menu_items: List[MenuItemView]
-
-    class Settings:
-        """Settings for cafe view."""
-
-        name: str = "cafe_with_menu"
-        source = "cafes"
-        pipeline = [
-            {
-                "$lookup": {
-                    "from": "menus",
-                    "localField": "_id",
-                    "foreignField": "cafe_id",
-                    "as": "menu_items",
-                    "pipeline": [
-                        {
-                            "$project": {
-                                "_id": 1,
-                                "name": 1,
-                                "tags": 1,
-                                "description": 1,
-                                "image_url": 1,
-                                "price": 1,
-                                "in_stock": 1,
-                                "category": 1,
-                                "options": 1,
-                            }
-                        }
-                    ],
-                }
-            },
-            {"$set": {"menu_items": "$menu_items"}},
-            {"$unset": "menu_item_ids"},
-        ]
-
-
 class StaffCreate(StaffMember):
     """Staff creation model."""
 
@@ -349,12 +310,6 @@ class CafeOut(CafeBase, Id):
     pass
 
 
-class CafeViewOut(CafeBase, Id):
-    """Cafe view output model."""
-
-    menu_items: List[MenuItemViewOut]
-
-
 class CafeShortOut(BaseModel, Id):
     """Cafe short output model."""
 
@@ -372,3 +327,48 @@ class CafeShortOut(BaseModel, Id):
     location: Location
     payment_methods: List[PaymentMethod]
     additional_info: List[AdditionalInfo]
+
+
+class CafeView(View, CafeBase, IdAlias):
+    """Cafe view."""
+
+    menu_items: List[MenuItemView]
+
+    class Settings:
+        """Settings for cafe view."""
+
+        name: str = "cafe_with_menu"
+        source = "cafes"
+        pipeline = [
+            {
+                "$lookup": {
+                    "from": "menus",
+                    "localField": "_id",
+                    "foreignField": "cafe_id",
+                    "as": "menu_items",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 1,
+                                "name": 1,
+                                "tags": 1,
+                                "description": 1,
+                                "image_url": 1,
+                                "price": 1,
+                                "in_stock": 1,
+                                "category": 1,
+                                "options": 1,
+                            }
+                        }
+                    ],
+                }
+            },
+            {"$set": {"menu_items": "$menu_items"}},
+            {"$unset": "menu_item_ids"},
+        ]
+
+
+class CafeViewOut(CafeBase, Id):
+    """Cafe view output model."""
+
+    menu_items: List[MenuItemViewOut]
