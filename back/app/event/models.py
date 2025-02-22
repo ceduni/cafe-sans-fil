@@ -2,7 +2,7 @@
 Module for handling event-related models.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from beanie import Document
@@ -14,7 +14,7 @@ from app.models import CafeId, Id, UserId
 class UserInteraction(BaseModel, UserId):
     """Model for user interactions."""
 
-    interaction_time: datetime = Field(default_factory=datetime.now)
+    interaction_time: datetime = Field(default_factory=datetime.now(timezone.utc))
 
 
 class EventBase(BaseModel):

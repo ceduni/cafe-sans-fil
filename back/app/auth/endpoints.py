@@ -2,7 +2,7 @@
 Module for handling authentication-related routes.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from fastapi import APIRouter, Body, Depends, HTTPException, status
@@ -35,7 +35,7 @@ class LockoutConfig:
         if attempts < LockoutConfig.INITIAL_LOCKOUT_THRESHOLD and not locked_time:
             return None
 
-        locked_time = datetime.utcnow()
+        locked_time = datetime.now(timezone.utc)
         for i, duration in enumerate(LockoutConfig.LOCKOUT_DURATIONS):
             if (
                 attempts
@@ -72,7 +72,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
         raise HTTPException(status_code=403, detail="Account is inactive.")
 
     # Check if user is currently locked out
-    if user and user.lockout_until and user.lockout_until > datetime.utcnow():
+    if user and user.lockout_until and user.lockout_until > datetime.now(timezone.utc):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Account temporarily locked due to multiple failed login attempts.",
@@ -83,7 +83,8 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
         user
         and not user.lockout_until
         and user.last_failed_login_attempt
-        and (datetime.utcnow() - user.last_failed_login_attempt) >= timedelta(minutes=5)
+        and (datetime.now(timezone.utc) - user.last_failed_login_attempt)
+        >= timedelta(minutes=5)
     ):
         user.failed_login_attempts = 0
 
@@ -91,7 +92,8 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     if (
         user
         and user.lockout_until
-        and (datetime.utcnow() - user.last_failed_login_attempt) >= timedelta(days=1)
+        and (datetime.now(timezone.utc) - user.last_failed_login_attempt)
+        >= timedelta(days=1)
     ):
         user.failed_login_attempts = 0
         user.lockout_until = None
@@ -103,7 +105,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     if not authenticated_user:
         if user:
             user.failed_login_attempts += 1
-            user.last_failed_login_attempt = datetime.utcnow()
+            user.last_failed_login_attempt = datetime.now(timezone.utc)
             user.lockout_until = LockoutConfig.calculate_lockout_duration(
                 user.failed_login_attempts, user.lockout_until
             )
