@@ -2,7 +2,7 @@
 Module for handling order-related models.
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import List, Optional
 
 import pymongo
@@ -64,8 +64,8 @@ class OrderBase(BaseModel):
     items: List[OrderedItem]
     total_price: DecimalAnnotation = DecimalAnnotation(0.0)
     status: OrderStatus = Field(default=OrderStatus.PLACED)
-    created_at: Optional[datetime] = Field(default_factory=datetime.now(timezone.utc))
-    updated_at: Optional[datetime] = Field(default_factory=datetime.now(timezone.utc))
+    created_at: Optional[datetime] = Field(default_factory=lambda: datetime.now(UTC))
+    updated_at: Optional[datetime] = Field(default_factory=lambda: datetime.now(UTC))
 
 
 class Order(Document, OrderBase, CafeId, UserId):
@@ -90,7 +90,7 @@ class Order(Document, OrderBase, CafeId, UserId):
     @before_event([Replace, Insert])
     def update_update_at(self):
         """Update updated_at field."""
-        self.updated_at = datetime.now(timezone.utc)
+        self.updated_at = datetime.now(UTC)
 
     class Settings:
         """Settings for order document."""

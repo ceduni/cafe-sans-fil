@@ -2,7 +2,7 @@
 Module for handling announcement-related models.
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import List, Optional
 
 from beanie import Document
@@ -14,7 +14,7 @@ from app.models import CafeId, Id, UserId
 class UserInteraction(BaseModel, UserId):
     """Model for user interactions."""
 
-    interaction_time: datetime = Field(default_factory=datetime.now(timezone.utc))
+    interaction_time: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
 
 class AnnouncementBase(BaseModel):
@@ -22,7 +22,7 @@ class AnnouncementBase(BaseModel):
 
     title: str = Field(..., min_length=1)
     content: str
-    created_at: Optional[datetime] = Field(default_factory=datetime.now(timezone.utc))
+    created_at: Optional[datetime] = Field(default_factory=lambda: datetime.now(UTC))
     active_until: Optional[datetime] = None
     likes: List[UserInteraction] = []
     tags: List[str] = []

@@ -2,7 +2,7 @@
 Module for handling authentication-related security functions.
 """
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any, Union
 
 from jose import jwt
@@ -16,9 +16,9 @@ password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def create_access_token(subject: Union[str, Any], expires_delta: int = None) -> str:
     """Create access token for user."""
     if expires_delta is not None:
-        expires_delta = datetime.now(timezone.utc) + expires_delta
+        expires_delta = datetime.now(UTC) + expires_delta
     else:
-        expires_delta = datetime.now(timezone.utc) + timedelta(
+        expires_delta = datetime.now(UTC) + timedelta(
             minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
         )
 
@@ -30,9 +30,9 @@ def create_access_token(subject: Union[str, Any], expires_delta: int = None) -> 
 def create_refresh_token(subject: Union[str, Any], expires_delta: int = None) -> str:
     """Create refresh token for user."""
     if expires_delta is not None:
-        expires_delta = datetime.now(timezone.utc) + expires_delta
+        expires_delta = datetime.now(UTC) + expires_delta
     else:
-        expires_delta = datetime.now(timezone.utc) + timedelta(
+        expires_delta = datetime.now(UTC) + timedelta(
             minutes=settings.REFRESH_TOKEN_EXPIRE_MINUTES
         )
 

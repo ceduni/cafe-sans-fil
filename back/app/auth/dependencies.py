@@ -2,7 +2,7 @@
 Module for handling authentication-related dependencies.
 """
 
-from datetime import datetime
+from datetime import UTC, datetime
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -27,7 +27,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
         )
         token_data = TokenPayload(**payload)
 
-        if datetime.fromtimestamp(token_data.exp) < datetime.now():
+        if datetime.fromtimestamp(token_data.exp) < datetime.now(UTC):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token expired",

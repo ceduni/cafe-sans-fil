@@ -2,7 +2,7 @@
 Module for handling order-related operations.
 """
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import List, Optional
 
 from beanie import PydanticObjectId
@@ -139,7 +139,7 @@ class OrderService:
     @staticmethod
     async def check_and_update_order_status(orders):
         """Check and update the status of orders."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         for order_dict in orders:
             order = Order(**order_dict)
             if (

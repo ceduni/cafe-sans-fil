@@ -4,7 +4,7 @@ Cafes seeder module.
 
 import json
 import random
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from faker import Faker
 from tqdm import tqdm
@@ -131,7 +131,7 @@ class CafeSeeder:
 
     def random_additional_info(self):
         """Generates random additional info for a cafe."""
-        today = datetime.now(timezone.utc)
+        today = datetime.now(UTC)
         info_types = [
             "Événement spécial",
             "Fermeture temporaire",

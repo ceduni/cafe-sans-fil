@@ -100,7 +100,7 @@ async def health_check():
 # --------------------------------------
 
 import asyncio
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
@@ -109,7 +109,7 @@ from app.order.models import Order, OrderStatus
 
 async def cancel_old_orders():
     """Cancel orders older than 1 hour."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     async for order in Order.find(
         {
             "$or": [{"status": OrderStatus.PLACED}, {"status": OrderStatus.READY}],
