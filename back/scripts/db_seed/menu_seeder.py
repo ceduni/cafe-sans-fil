@@ -9,8 +9,8 @@ from faker import Faker
 from tqdm import tqdm
 
 from app.cafe.service import CafeService
-from app.menu.models import MenuItemCreate
-from app.menu.service import MenuItemService
+from app.cafe_menu.models import MenuItemCreate
+from app.cafe_menu.service import MenuItemService
 
 random.seed(42)
 Faker.seed(42)

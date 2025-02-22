@@ -13,7 +13,7 @@ from pymongo import IndexModel
 
 from app.cafe.enums import Days, Feature, Role
 from app.cafe.helper import slugify, time_blocks_overlap
-from app.menu.models import MenuItemView, MenuItemViewOut
+from app.cafe_menu.models import MenuItemView, MenuItemViewOut
 from app.models import Id, IdAlias
 
 

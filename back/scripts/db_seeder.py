@@ -9,9 +9,9 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.announcement.models import Announcement
 from app.cafe.models import Cafe
+from app.cafe_menu.models import MenuItem
 from app.config import settings
 from app.event.models import Event
-from app.menu.models import MenuItem
 from app.order.models import Order
 from app.user.models import User
 from scripts.db_seed import CafeSeeder, MenuSeeder, StaffSeeder, UserSeeder
