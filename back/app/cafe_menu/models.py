@@ -1,5 +1,5 @@
 """
-Module for handling menu item-related models.
+Module for handling menu-related models.
 """
 
 from typing import List, Optional
@@ -9,7 +9,7 @@ from beanie import DecimalAnnotation, Document
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
-from app.models import CafeId, Id, IdAlias
+from app.models import CafeId, CategoryId, Id, IdAlias, IdDefaultFactory
 
 
 class MenuItemOption(BaseModel):
@@ -32,12 +32,11 @@ class MenuItemBase(BaseModel):
     """Base model for menu items."""
 
     name: str = Field(..., min_length=1, max_length=50)
-    tags: Optional[List[str]] = Field(None, max_length=20)
     description: Optional[str] = Field(None, min_length=1, max_length=255)
+    tags: Optional[List[str]] = Field(None, max_length=20)
     image_url: Optional[str] = Field(None, max_length=755)
     price: DecimalAnnotation
     in_stock: bool
-    category: str = Field(..., min_length=1, max_length=50)
     options: List[MenuItemOption]
 
     @field_validator("price")
@@ -49,7 +48,7 @@ class MenuItemBase(BaseModel):
         return price
 
 
-class MenuItem(Document, MenuItemBase, CafeId):
+class MenuItem(Document, MenuItemBase, CategoryId, CafeId):
     """Menu item document model."""
 
     class Settings:
@@ -57,28 +56,28 @@ class MenuItem(Document, MenuItemBase, CafeId):
 
         name = "menus"
         indexes = [
+            IndexModel([("cafe_id", pymongo.ASCENDING)]),
+            IndexModel([("category_id", pymongo.ASCENDING)]),
             IndexModel([("name", pymongo.ASCENDING)]),
             IndexModel([("description", pymongo.ASCENDING)]),
-            IndexModel([("category", pymongo.ASCENDING)]),
         ]
 
 
-class MenuItemCreate(MenuItemBase):
+class MenuItemCreate(MenuItemBase, CategoryId):
     """Model for creating menu items."""
 
     pass
 
 
-class MenuItemUpdate(BaseModel):
+class MenuItemUpdate(BaseModel, CategoryId):
     """Model for updating menu items."""
 
     name: Optional[str] = Field(None, min_length=1, max_length=50)
-    tags: Optional[List[str]] = Field(None, max_length=20)
     description: Optional[str] = Field(None, min_length=1, max_length=255)
+    tags: Optional[List[str]] = Field(None, max_length=20)
     image_url: Optional[str] = Field(None, max_length=755)
     price: Optional[DecimalAnnotation] = None
     in_stock: Optional[bool] = None
-    category: Optional[str] = Field(None, min_length=1, max_length=50)
     options: Optional[List[MenuItemOption]] = None
 
     @field_validator("price")
@@ -90,7 +89,7 @@ class MenuItemUpdate(BaseModel):
         return price
 
 
-class MenuItemOut(MenuItemBase, CafeId, Id):
+class MenuItemOut(MenuItemBase, CategoryId, CafeId, Id):
     """Model for menu item output."""
 
     pass
@@ -106,3 +105,54 @@ class MenuItemViewOut(MenuItemBase, Id):
     """Model for menu item view output."""
 
     pass
+
+
+class MenuCategoryBase(BaseModel):
+    """Base model for menu categories."""
+
+    name: str = Field(..., min_length=1, max_length=50)
+    description: Optional[str] = Field(None, min_length=1, max_length=255)
+
+
+class MenuCategory(MenuCategoryBase, IdDefaultFactory):
+    """Model for menu categories."""
+
+    pass
+
+
+class MenuCategoryCreate(MenuCategoryBase):
+    """Model for creating menu categories."""
+
+    pass
+
+
+class MenuCategoryUpdate(BaseModel):
+    """Model for updating menu categories."""
+
+    name: Optional[str] = Field(None, min_length=1, max_length=50)
+    description: Optional[str] = Field(None, min_length=1, max_length=255)
+
+
+class MenuCategoryOut(MenuCategoryBase, Id):
+    """Model for menu category output."""
+
+    pass
+
+
+class MenuBase(BaseModel):
+    """Base model for menus."""
+
+    category: str = Field(..., min_length=1, max_length=50)
+    description: Optional[str] = Field(None, min_length=1, max_length=255)
+
+
+class MenuView(MenuBase, IdAlias):
+    """Model for menu view."""
+
+    items: List[MenuItemView]
+
+
+class MenuViewOut(MenuBase, Id):
+    """Model for menu view output."""
+
+    items: List[MenuItemViewOut]

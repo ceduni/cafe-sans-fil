@@ -1,5 +1,5 @@
 """
-Module for handling menu item-related operations.
+Module for handling menu-related operations.
 """
 
 from typing import List
@@ -7,11 +7,73 @@ from typing import List
 from beanie import PydanticObjectId
 
 from app.cafe.models import Cafe
-from app.cafe_menu.models import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.cafe_menu.models import (
+    MenuCategory,
+    MenuCategoryCreate,
+    MenuCategoryOut,
+    MenuCategoryUpdate,
+    MenuItem,
+    MenuItemCreate,
+    MenuItemUpdate,
+)
 
 
-class MenuItemService:
-    """Service class for CRUD and search operations on MenuItems."""
+class MenuService:
+    """Service class for CRUD and search operations on Menu."""
+
+    @staticmethod
+    async def create_menu_category(
+        cafe_id: PydanticObjectId, category_data: MenuCategoryCreate
+    ) -> MenuCategoryOut:
+        """Create a new menu category for a cafe."""
+        cafe = await Cafe.find_one({"_id": cafe_id})
+        if not cafe:
+            raise ValueError("Cafe not found")
+
+        new_category = MenuCategory(**category_data.model_dump())
+        print(new_category.model_dump())
+        cafe.menu_categories.append(new_category)
+        await cafe.save()
+        return MenuCategoryOut(**new_category.model_dump())
+
+    @staticmethod
+    async def update_menu_category(
+        cafe_id: PydanticObjectId,
+        category_id: PydanticObjectId,
+        update_data: MenuCategoryUpdate,
+    ) -> MenuCategoryOut:
+        """Update a menu category for a cafe."""
+        cafe = await Cafe.find_one({"_id": cafe_id})
+        if not cafe:
+            raise ValueError("Cafe not found")
+
+        for idx, category in enumerate(cafe.menu_categories):
+            if category.id == category_id:
+                updated_data = category.model_dump() | update_data.model_dump(
+                    exclude_unset=True
+                )
+                cafe.menu_categories[idx] = MenuCategory(**updated_data)
+                await cafe.save()
+                return MenuCategoryOut(**cafe.menu_categories[idx].model_dump())
+
+        raise ValueError("Category not found")
+
+    @staticmethod
+    async def delete_menu_category(
+        cafe_id: PydanticObjectId, category_id: PydanticObjectId
+    ) -> None:
+        """Delete a menu category for a cafe."""
+        cafe = await Cafe.find_one({"_id": cafe_id})
+        if not cafe:
+            raise ValueError("Cafe not found")
+
+        original_length = len(cafe.menu_categories)
+        cafe.menu_categories = [c for c in cafe.menu_categories if c.id != category_id]
+
+        if len(cafe.menu_categories) == original_length:
+            raise ValueError("Category not found")
+
+        await cafe.save()
 
     @staticmethod
     async def list_menu_items(**query_params) -> List[MenuItem]:
@@ -43,8 +105,6 @@ class MenuItemService:
 
         new_item = MenuItem(**item_data.model_dump(), cafe_id=cafe_id)
         await new_item.insert()
-        cafe.menu_item_ids.append(new_item.id)
-        await cafe.save()
         return new_item
 
     @staticmethod
@@ -68,11 +128,6 @@ class MenuItemService:
         if not item:
             raise ValueError("Menu item not found")
 
-        cafe = await Cafe.find_one({"_id": item.cafe_id})
-        if cafe:
-            cafe.menu_item_ids.remove(item_id)
-            await cafe.save()
-
         await item.delete()
 
     @staticmethod
@@ -89,11 +144,6 @@ class MenuItemService:
             for item_data in items_data
         ]
         await MenuItem.insert_many(new_items)
-
-        item_ids = [new_item.id for new_item in new_items]
-        cafe.menu_item_ids.extend(item_ids)
-        await cafe.save()
-
         return new_items
 
     @staticmethod
@@ -122,12 +172,6 @@ class MenuItemService:
 
         cafe_ids = {item.cafe_id for item in items_to_delete}
         cafes = await Cafe.find_many({"_id": {"$in": list(cafe_ids)}}).to_list()
-
-        for cafe in cafes:
-            cafe.menu_item_ids = [
-                item_id for item_id in cafe.menu_item_ids if item_id not in item_ids
-            ]
-            await cafe.save()
 
         # Delete the menu items
         await MenuItem.find_many({"_id": {"$in": item_ids}}).delete_many()

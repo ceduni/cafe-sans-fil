@@ -7,13 +7,13 @@ from datetime import datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Document, PydanticObjectId, View
+from beanie import DecimalAnnotation, Document, View
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
 from app.cafe.enums import Days, Feature, Role
 from app.cafe.helper import slugify, time_blocks_overlap
-from app.cafe_menu.models import MenuItemView, MenuItemViewOut
+from app.cafe_menu.models import MenuCategory, MenuView, MenuViewOut
 from app.models import Id, IdAlias
 
 
@@ -138,7 +138,7 @@ class CafeBase(BaseModel):
 class Cafe(Document, CafeBase):
     """Cafe document model."""
 
-    menu_item_ids: List[PydanticObjectId] = []
+    menu_categories: List[MenuCategory] = []
 
     def __init__(self, **data):
         """Initialize cafe document."""
@@ -332,43 +332,72 @@ class CafeShortOut(BaseModel, Id):
 class CafeView(View, CafeBase, IdAlias):
     """Cafe view."""
 
-    menu_items: List[MenuItemView]
+    menu: List[MenuView]
 
     class Settings:
         """Settings for cafe view."""
 
-        name: str = "cafe_with_menu"
+        name: str = "cafes_with_menu"
         source = "cafes"
         pipeline = [
+            # Lookup all menu items for this cafe
             {
                 "$lookup": {
                     "from": "menus",
                     "localField": "_id",
                     "foreignField": "cafe_id",
                     "as": "menu_items",
-                    "pipeline": [
-                        {
-                            "$project": {
-                                "_id": 1,
-                                "name": 1,
-                                "tags": 1,
-                                "description": 1,
-                                "image_url": 1,
-                                "price": 1,
-                                "in_stock": 1,
-                                "category": 1,
-                                "options": 1,
-                            }
-                        }
-                    ],
                 }
             },
-            {"$set": {"menu_items": "$menu_items"}},
-            {"$unset": "menu_item_ids"},
+            # Reshape the categories with their items
+            {
+                "$addFields": {
+                    "menu": {
+                        "$map": {
+                            "input": "$menu_categories",
+                            "as": "cat",
+                            "in": {
+                                "_id": "$$cat._id",
+                                "category": "$$cat.name",
+                                "description": "$$cat.description",
+                                "items": {
+                                    "$map": {
+                                        "input": {
+                                            "$filter": {
+                                                "input": "$menu_items",
+                                                "as": "item",
+                                                "cond": {
+                                                    "$eq": [
+                                                        "$$item.category_id",
+                                                        "$$cat._id",
+                                                    ]
+                                                },
+                                            }
+                                        },
+                                        "as": "item",
+                                        "in": {
+                                            "_id": "$$item._id",
+                                            "name": "$$item.name",
+                                            "description": "$$item.description",
+                                            "tags": "$$item.tags",
+                                            "image_url": "$$item.image_url",
+                                            "price": "$$item.price",
+                                            "in_stock": "$$item.in_stock",
+                                            "options": "$$item.options",
+                                        },
+                                    }
+                                },
+                            },
+                        }
+                    }
+                }
+            },
+            # Clean up temporary fields
+            {"$unset": ["menu_items", "menu_categories"]},
         ]
 
 
 class CafeViewOut(CafeBase, Id):
     """Cafe view output model."""
 
-    menu_items: List[MenuItemViewOut]
+    menu: List[MenuViewOut]
