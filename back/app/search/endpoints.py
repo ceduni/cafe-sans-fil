@@ -9,9 +9,9 @@ from app.search.service import search
 search_router = APIRouter()
 
 
-@search_router.get("/search", summary="Perform Search")
+@search_router.get("/search")
 async def perform_search(query: str):
-    """Perform a search with the provided query."""
+    """Search for cafes and menu items."""
     try:
         results = await search(query)
         return results

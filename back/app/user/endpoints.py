@@ -25,17 +25,15 @@ user_router = APIRouter()
 @user_router.get(
     "/users",
     response_model=List[UserOut],
-    summary="🔵 List Users",
-    description="Retrieve a list of all users.",
 )
-async def list_users(
+async def get_users(
     request: Request,
     sort_by: str = Query("last_name", description="The field to sort the results by."),
     page: int = Query(1, description="The page number to retrieve."),
     limit: int = Query(20, description="The number of users to retrieve per page."),
     current_user: User = Depends(get_current_user),
 ) -> List[UserOut]:
-    """Retrieve a list of all users."""
+    """Get a list of users (`member`)."""
     filters = dict(request.query_params)
     return await UserService.list_users(**filters)
 
@@ -43,13 +41,11 @@ async def list_users(
 @user_router.get(
     "/users/{username}",
     response_model=UserOut,
-    summary="🔵 Get User",
-    description="Retrieve detailed information about a specific user.",
 )
 async def get_user(
     username: str = Path(..., description="The username of the user")
 ) -> UserOut:
-    """Retrieve detailed information about a specific user."""
+    """Get a user. (`member`)"""
     user = await UserService.get_user_by_username(username)
     if not user:
         raise HTTPException(
@@ -61,11 +57,9 @@ async def get_user(
 @user_router.post(
     "/users",
     response_model=UserOut,
-    summary="Create User",
-    description="Create a new user with the provided information.",
 )
 async def create_user(user: UserAuth) -> UserOut:
-    """Create a new user with the provided information."""
+    """Create a user."""
     existing_attribute = await UserService.check_existing_user_attributes(
         user.email, user.matricule, user.username
     )
@@ -94,8 +88,7 @@ async def create_user(user: UserAuth) -> UserOut:
 @user_router.put(
     "/users/{username}",
     response_model=UserOut,
-    summary="🔵 Update User",
-    description="Update the details of an existing user.",
+    description="Update a user. (`member`)",
 )
 async def update_user(
     user_data: UserUpdate,
@@ -121,14 +114,12 @@ async def update_user(
 @user_router.delete(
     "/users/{username}",
     response_description="Delete User",
-    summary="🔵 Delete User",
-    description="Delete a user with the specified username.",
 )
 async def delete_user(
     username: str = Path(..., description="The username of the user to delete"),
     current_user: User = Depends(get_current_user),
 ):
-    """Delete a user with the specified username."""
+    """Delete a user. (`member`)"""
     # Authorization check
     if current_user.username != username:
         raise HTTPException(
@@ -150,9 +141,6 @@ async def delete_user(
 
 @user_router.post(
     "/request-reset-password",
-    response_description="Password reset request",
-    summary="Request Reset Password",
-    description="Request a password reset for a user via their email address.",
 )
 async def request_reset_password(user_email: PasswordResetRequest):
     """Request a password reset for a user via their email address."""
@@ -184,9 +172,6 @@ async def request_reset_password(user_email: PasswordResetRequest):
 
 @user_router.put(
     "/reset-password",
-    response_description="Password reset",
-    summary="Reset Password",
-    description="Reset the password for a user using the provided token.",
 )
 async def reset_password(
     new_password: PasswordReset,

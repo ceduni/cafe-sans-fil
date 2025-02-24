@@ -20,10 +20,8 @@ order_router = APIRouter()
 @order_router.get(
     "/orders",
     response_model=List[OrderOut],
-    summary="🔵 List Orders",
-    description="Retrieve a list of all orders.",
 )
-async def list_orders(
+async def get_orders(
     request: Request,
     sort_by: str = Query(
         "-order_number", description="The field to sort the results by."
@@ -32,7 +30,7 @@ async def list_orders(
     limit: int = Query(20, description="The number of orders to retrieve per page."),
     current_user: User = Depends(get_current_user),
 ) -> List[OrderOut]:
-    """Retrieve a list of all orders."""
+    """Get a list of orders. (`member`)"""
     filters = dict(request.query_params)
     return await OrderService.list_orders(**filters)
 
@@ -40,8 +38,6 @@ async def list_orders(
 @order_router.get(
     "/orders/{order_id}",
     response_model=OrderOut,
-    summary="🔵 Get Order",
-    description="Retrieve detailed information about a specific order.",
 )
 async def get_order(
     order_id: PydanticObjectId = Path(
@@ -49,7 +45,7 @@ async def get_order(
     ),
     current_user: User = Depends(get_current_user),
 ) -> OrderOut:
-    """Retrieve detailed information about a specific order."""
+    """Get an order. (`member`)"""
     try:
         order = await OrderService.retrieve_order(order_id)
         if not order:
@@ -79,13 +75,11 @@ async def get_order(
 @order_router.post(
     "/orders",
     response_model=OrderOut,
-    summary="🔵 Create Order",
-    description="Create a new order with the provided details.",
 )
 async def create_order(
     order: OrderCreate, current_user: User = Depends(get_current_user)
 ) -> OrderOut:
-    """Create a new order with the provided details."""
+    """Create an order. (`member`)"""
     cafe = await CafeService.retrieve_cafe(order.cafe_slug)
     if not cafe:
         raise HTTPException(
@@ -97,8 +91,6 @@ async def create_order(
 @order_router.put(
     "/orders/{order_id}",
     response_model=OrderOut,
-    summary="🔵 Update Order",
-    description="Update the details of an existing order.",
 )
 async def update_order(
     orderUpdate: OrderUpdate,
@@ -107,7 +99,7 @@ async def update_order(
     ),
     current_user: User = Depends(get_current_user),
 ) -> OrderOut:
-    """Update the details of an existing order."""
+    """Update an order. (`member`)"""
     try:
         order = await OrderService.retrieve_order(order_id)
         if not order:
@@ -137,10 +129,8 @@ async def update_order(
 @order_router.get(
     "/users/{username}/orders",
     response_model=List[OrderOut],
-    summary="🔵 List User Orders",
-    description="Retrieve a list of orders for a specific user.",
 )
-async def list_user_orders(
+async def get_user_orders(
     request: Request,
     username: str = Path(..., description="The username of the user"),
     sort_by: str = Query(
@@ -150,7 +140,7 @@ async def list_user_orders(
     limit: int = Query(20, description="The number of orders to retrieve per page."),
     current_user: User = Depends(get_current_user),
 ) -> List[OrderOut]:
-    """Retrieve a list of orders for a specific user."""
+    """Get a list of orders for a user. (`member`)"""
     # Authorization check
     if username != current_user.username:
         raise HTTPException(
@@ -163,10 +153,8 @@ async def list_user_orders(
 @order_router.get(
     "/cafes/{cafe_slug}/orders",
     response_model=List[OrderOut],
-    summary="🟢 List Cafe Orders",
-    description="Retrieve a list of orders for a specific cafe.",
 )
-async def list_cafe_orders(
+async def get_cafe_orders(
     request: Request,
     cafe_slug: str = Path(..., description="The slug of the cafe"),
     sort_by: str = Query(
@@ -176,7 +164,7 @@ async def list_cafe_orders(
     limit: int = Query(20, description="The number of orders to retrieve per page."),
     current_user: User = Depends(get_current_user),
 ) -> List[OrderOut]:
-    """Retrieve a list of orders for a specific cafe."""
+    """Get a list of orders for a cafe. (`volunteer`)"""
     try:
         # Authorization check
         if not await CafeService.is_authorized_for_cafe_action_by_slug(

@@ -56,7 +56,6 @@ class LockoutConfig:
 
 @auth_router.post(
     "/auth/login",
-    summary="Create access and refresh tokens for user",
     response_model=TokenSchema,
 )
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
@@ -128,15 +127,14 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
 
 @auth_router.post(
     "/auth/test-token",
-    summary="🔵 Test if the access token is valid",
     response_model=UserOut,
 )
 async def test_token(user: User = Depends(get_current_user)) -> UserOut:
-    """Verify access token and return user details."""
+    """Verify access token and return user details. (`member`)"""
     return user
 
 
-@auth_router.post("/auth/refresh", summary="Refresh token", response_model=TokenSchema)
+@auth_router.post("/auth/refresh", response_model=TokenSchema)
 async def refresh_token(refresh_token: str = Body(...)) -> TokenSchema:
     """Refresh access token using refresh token."""
     try:

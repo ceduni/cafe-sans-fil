@@ -19,10 +19,8 @@ event_router = APIRouter()
 @event_router.get(
     "/events/",
     response_model=List[EventOut],
-    summary="List Events",
-    description="Retrieve a list of all events.",
 )
-async def list_events(
+async def get_events(
     request: Request,
     cafe_id: Optional[PydanticObjectId] = Query(
         None, description="Filter events by cafe ID."
@@ -38,7 +36,7 @@ async def list_events(
         9, description="Set the number of events to return per page."
     ),
 ) -> List[EventOut]:
-    """Retrieve a list of all events."""
+    """Get a list of events."""
     query_params = dict(request.query_params)
     parsed_params = parse_query_params(query_params)
     return await EventService.get_events(**parsed_params)
@@ -47,40 +45,32 @@ async def list_events(
 @event_router.post(
     "/events/",
     response_model=EventOut,
-    summary="Create Event",
-    description="Create a new event.",
 )
 async def create_event(event: EventCreate) -> EventOut:
-    """Create a new event."""
+    """Create an event."""
     return await EventService.create_event(event)
 
 
 @event_router.put(
     "/events/{event_id}",
     response_model=EventOut,
-    summary="Update Event",
-    description="Update an existing event.",
 )
 async def update_event(event_id: PydanticObjectId, event: EventUpdate) -> EventOut:
-    """Update an existing event."""
+    """Update an event."""
     return await EventService.update_event(event_id, event)
 
 
 @event_router.delete(
     "/events/{event_id}",
-    summary="Delete Event",
-    description="Delete an existing event.",
 )
 async def delete_event(event_id: PydanticObjectId):
-    """Delete an existing event."""
+    """Delete an event."""
     return await EventService.remove_event(event_id)
 
 
 @event_router.post(
     "/events/{event_id}/attend",
     response_model=EventOut,
-    summary="Toggle Event Attendance",
-    description="Toggle attendance for an event.",
 )
 async def toggle_attendance(
     event_id: PydanticObjectId = Path(..., description="The ID of the event"),
@@ -97,8 +87,6 @@ async def toggle_attendance(
 @event_router.post(
     "/events/{event_id}/support",
     response_model=EventOut,
-    summary="Toggle Event Support",
-    description="Toggle support for an event.",
 )
 async def toggle_support(
     event_id: PydanticObjectId = Path(..., description="The ID of the event"),

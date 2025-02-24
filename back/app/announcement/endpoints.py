@@ -21,7 +21,7 @@ announcement_router = APIRouter()
 
 
 @announcement_router.get("/announcements/", response_model=List[AnnouncementOut])
-async def list_announcements(
+async def get_announcements(
     request: Request,
     cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID"),
     sort_by: Optional[str] = Query(
@@ -30,7 +30,7 @@ async def list_announcements(
     page: Optional[int] = Query(1, description="Page number for pagination"),
     limit: Optional[int] = Query(9, description="Number of announcements per page"),
 ) -> List[AnnouncementOut]:
-    """Retrieve a list of announcements."""
+    """Get a list of announcements."""
     query_params = dict(request.query_params)
     parsed_params = parse_query_params(query_params)
     return await AnnouncementService.get_announcements(**parsed_params)
@@ -38,7 +38,7 @@ async def list_announcements(
 
 @announcement_router.post("/announcements/", response_model=AnnouncementOut)
 async def create_announcement(announcement: AnnouncementCreate) -> AnnouncementOut:
-    """Create a new announcement."""
+    """Create an announcement."""
     return await AnnouncementService.create_announcement(announcement)
 
 
@@ -48,7 +48,7 @@ async def create_announcement(announcement: AnnouncementCreate) -> AnnouncementO
 async def update_announcement(
     announcement_id: PydanticObjectId, announcement: AnnouncementUpdate
 ) -> AnnouncementOut:
-    """Update an existing announcement."""
+    """Update an announcement."""
     return await AnnouncementService.update_announcement(announcement_id, announcement)
 
 

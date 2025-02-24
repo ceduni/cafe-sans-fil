@@ -34,7 +34,7 @@ async def create_menu_category(
     cafe_slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
-    """Create a new menu category."""
+    """Create a menu category. (`admin`)"""
     # TODO: Implement authorization for staff
     cafe = await CafeService.retrieve_cafe(cafe_slug)
     return await MenuService.create_menu_category(cafe.id, category_data)
@@ -52,7 +52,7 @@ async def update_menu_category(
     ),
     current_user: User = Depends(get_current_user),
 ):
-    """Update a menu category."""
+    """Update a menu category. (`admin`)"""
     # TODO: Implement authorization for staff
     cafe = await CafeService.retrieve_cafe(cafe_slug)
     return await MenuService.update_menu_category(cafe.id, category_id, category_data)
@@ -68,7 +68,7 @@ async def delete_menu_category(
     ),
     current_user: User = Depends(get_current_user),
 ):
-    """Delete a menu category."""
+    """Delete a menu category. (`admin`)"""
     # TODO: Implement authorization for staff
     cafe = await CafeService.retrieve_cafe(cafe_slug)
     await MenuService.delete_menu_category(cafe.id, category_id)
@@ -77,10 +77,8 @@ async def delete_menu_category(
 @menu_router.get(
     "/cafes/{cafe_slug}/menu",
     response_model=List[MenuItemOut],
-    summary="List Menu Items",
-    description="Retrieve the menu items of a specific café using its slug or ID.",
 )
-async def list_menu_items(
+async def get_menu_items(
     request: Request,
     cafe_slug: str = Path(..., description="The slug or ID of the cafe"),
     in_stock: Optional[bool] = Query(
@@ -97,7 +95,7 @@ async def list_menu_items(
         40, description="Set the number of cafes to return per page."
     ),
 ) -> List[MenuItemOut]:
-    """Retrieve the menu items of a specific café using its slug or ID."""
+    """Get a list of menu items for a cafe."""
     query_params = dict(request.query_params)
     parsed_params = parse_query_params(query_params)
 
@@ -114,15 +112,13 @@ async def list_menu_items(
 @menu_router.post(
     "/cafes/{cafe_slug}/menu",
     response_model=MenuItemOut,
-    summary="🔴 Create Menu Item",
-    description="Create a new menu item for the specified café.",
 )
 async def create_menu_item(
     item_data: MenuItemCreate,
     cafe_slug: str = Path(..., description="The slug or ID of the cafe"),
     current_user: User = Depends(get_current_user),
 ) -> MenuItemOut:
-    """Create a new menu item for the specified café."""
+    """Create a menu item for a cafe. (`admin`)"""
     cafe = await CafeService.retrieve_cafe(cafe_slug)
     if not cafe:
         raise HTTPException(
@@ -141,13 +137,11 @@ async def create_menu_item(
 @menu_router.get(
     "/menu/{item_id}",
     response_model=MenuItemOut,
-    summary="Get Menu Item",
-    description="Retrieve detailed information about a specific menu item.",
 )
 async def get_menu_item(
     item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
 ) -> MenuItemOut:
-    """Retrieve detailed information about a specific menu item."""
+    """Get a menu item."""
     item = await MenuService.retrieve_menu_item(item_id)
     if not item:
         raise HTTPException(
@@ -159,15 +153,13 @@ async def get_menu_item(
 @menu_router.put(
     "/menu/{item_id}",
     response_model=MenuItemOut,
-    summary="🟢 Update Menu Item",
-    description="Update the details of an existing menu item.",
 )
 async def update_menu_item(
     item_data: MenuItemUpdate,
     item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
     current_user: User = Depends(get_current_user),
 ) -> MenuItemOut:
-    """Update the details of an existing menu item."""
+    """Update a menu item. (`volunteer`)"""
     item = await MenuService.retrieve_menu_item(item_id)
     if not item:
         raise HTTPException(
@@ -190,14 +182,12 @@ async def update_menu_item(
 
 @menu_router.delete(
     "/menu/{item_id}",
-    summary="🔴 Delete Menu Item",
-    description="Delete a specific menu item.",
 )
 async def delete_menu_item(
     item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
     current_user: User = Depends(get_current_user),
 ):
-    """Delete a specific menu item."""
+    """Delete a menu item. (`admin`)"""
     item = await MenuService.retrieve_menu_item(item_id)
     if not item:
         raise HTTPException(
