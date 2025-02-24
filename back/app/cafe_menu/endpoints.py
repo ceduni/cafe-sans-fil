@@ -1,8 +1,8 @@
 """
-Module for handling menu item-related routes.
+Module for handling menu-related routes.
 """
 
-from typing import Dict, List, Optional
+from typing import List, Optional
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
@@ -10,12 +10,68 @@ from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, sta
 from app.auth.dependencies import get_current_user
 from app.cafe.models import Role
 from app.cafe.service import CafeService
-from app.cafe_menu.models import MenuItemCreate, MenuItemOut, MenuItemUpdate
-from app.cafe_menu.service import MenuItemService
+from app.cafe_menu.models import (
+    MenuCategoryCreate,
+    MenuCategoryOut,
+    MenuCategoryUpdate,
+    MenuItemCreate,
+    MenuItemOut,
+    MenuItemUpdate,
+)
+from app.cafe_menu.service import MenuService
 from app.service import parse_query_params
 from app.user.models import User
 
 menu_router = APIRouter()
+
+
+@menu_router.post(
+    "/cafes/{cafe_slug}/menu/categories",
+    response_model=MenuCategoryOut,
+)
+async def create_menu_category(
+    category_data: MenuCategoryCreate,
+    cafe_slug: str = Path(..., description="Slug of the cafe"),
+    current_user: User = Depends(get_current_user),
+):
+    """Create a new menu category."""
+    # TODO: Implement authorization for staff
+    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    return await MenuService.create_menu_category(cafe.id, category_data)
+
+
+@menu_router.put(
+    "/cafes/{cafe_slug}/menu/categories/{category_id}",
+    response_model=MenuCategoryOut,
+)
+async def update_menu_category(
+    category_data: MenuCategoryUpdate,
+    cafe_slug: str = Path(..., description="Slug of the cafe"),
+    category_id: PydanticObjectId = Path(
+        ..., description="ID of the category to update"
+    ),
+    current_user: User = Depends(get_current_user),
+):
+    """Update a menu category."""
+    # TODO: Implement authorization for staff
+    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    return await MenuService.update_menu_category(cafe.id, category_id, category_data)
+
+
+@menu_router.delete(
+    "/cafes/{cafe_slug}/menu/categories/{category_id}",
+)
+async def delete_menu_category(
+    cafe_slug: str = Path(..., description="Slug of the cafe"),
+    category_id: PydanticObjectId = Path(
+        ..., description="ID of the category to delete"
+    ),
+    current_user: User = Depends(get_current_user),
+):
+    """Delete a menu category."""
+    # TODO: Implement authorization for staff
+    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    await MenuService.delete_menu_category(cafe.id, category_id)
 
 
 @menu_router.get(
@@ -52,7 +108,7 @@ async def list_menu_items(
         )
     parsed_params["cafe_id"] = cafe.id
 
-    return await MenuItemService.list_menu_items(**parsed_params)
+    return await MenuService.list_menu_items(**parsed_params)
 
 
 @menu_router.post(
@@ -77,7 +133,7 @@ async def create_menu_item(
         await CafeService.is_authorized_for_cafe_action(
             cafe.id, current_user, [Role.ADMIN]
         )
-        return await MenuItemService.create_menu_item(cafe.id, item_data)
+        return await MenuService.create_menu_item(cafe.id, item_data)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
@@ -92,7 +148,7 @@ async def get_menu_item(
     item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
 ) -> MenuItemOut:
     """Retrieve detailed information about a specific menu item."""
-    item = await MenuItemService.retrieve_menu_item(item_id)
+    item = await MenuService.retrieve_menu_item(item_id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
@@ -112,7 +168,7 @@ async def update_menu_item(
     current_user: User = Depends(get_current_user),
 ) -> MenuItemOut:
     """Update the details of an existing menu item."""
-    item = await MenuItemService.retrieve_menu_item(item_id)
+    item = await MenuService.retrieve_menu_item(item_id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
@@ -126,7 +182,7 @@ async def update_menu_item(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
     try:
-        updated_item = await MenuItemService.update_menu_item(item_id, item_data)
+        updated_item = await MenuService.update_menu_item(item_id, item_data)
         return updated_item
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
@@ -142,7 +198,7 @@ async def delete_menu_item(
     current_user: User = Depends(get_current_user),
 ):
     """Delete a specific menu item."""
-    item = await MenuItemService.retrieve_menu_item(item_id)
+    item = await MenuService.retrieve_menu_item(item_id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
@@ -155,5 +211,5 @@ async def delete_menu_item(
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
-    await MenuItemService.delete_menu_item(item_id)
+    await MenuService.delete_menu_item(item_id)
     return {"message": f"Item {item_id} has been successfully deleted."}
