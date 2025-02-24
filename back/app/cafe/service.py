@@ -29,8 +29,8 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_cafes(**query_params) -> List[Cafe]:
-        """List cafes based on the provided query parameters."""
+    async def get_cafes(**query_params) -> List[Cafe]:
+        """Get cafes based on the provided query parameters."""
         sort_by = query_params.pop("sort_by", "name")
         page = int(query_params.pop("page", 1))
         limit = int(query_params.pop("limit", 40))
@@ -43,8 +43,8 @@ class CafeService:
         )
 
     @staticmethod
-    async def retrieve_cafe(cafe_slug_or_id, as_view: bool = True):
-        """Retrieve a cafe by slug or ID."""
+    async def get_cafe(cafe_slug_or_id, as_view: bool = True):
+        """Get a cafe by slug or ID."""
         cafe_class = CafeView if as_view else Cafe
         try:
             cafe_id = PydanticObjectId(cafe_slug_or_id)
@@ -93,16 +93,16 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def list_staff_members(cafe_id: PydanticObjectId):
-        """List staff members of a cafe."""
+    async def get_staff_members(cafe_id: PydanticObjectId):
+        """Get staff members of a cafe."""
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")
         return cafe.staff
 
     @staticmethod
-    async def retrieve_staff_member(cafe_id: PydanticObjectId, username: str):
-        """Retrieve a staff member by username from a cafe."""
+    async def get_staff_member(cafe_id: PydanticObjectId, username: str):
+        """Get a staff member by username from a cafe."""
         cafe = await Cafe.find_one({"_id": cafe_id})
         if not cafe:
             raise ValueError("Cafe not found")

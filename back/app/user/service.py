@@ -56,8 +56,8 @@ class UserService:
     # --------------------------------------
 
     @staticmethod
-    async def list_users(**filters):
-        """List all users."""
+    async def get_users(**filters):
+        """Get all users."""
         query_filters = {}
         query_filters["is_active"] = True  # Don't show inactive users
 
@@ -113,14 +113,14 @@ class UserService:
         return user_in
 
     @staticmethod
-    async def retrieve_user(username: str):
-        """Retrieve a user by username."""
+    async def get_user(username: str):
+        """Get a user by username."""
         return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
     async def update_user(username: str, data: UserUpdate) -> User:
         """Update a user by username."""
-        user = await UserService.retrieve_user(username)
+        user = await UserService.get_user(username)
         update_data = data.model_dump(exclude_unset=True)
 
         if "password" in update_data:
@@ -133,7 +133,7 @@ class UserService:
     @staticmethod
     async def delete_user(username: str):
         """Delete a user by username."""
-        user = await UserService.retrieve_user(username)
+        user = await UserService.get_user(username)
 
         if user:
             await Cafe.find({"staff.username": username}).update(

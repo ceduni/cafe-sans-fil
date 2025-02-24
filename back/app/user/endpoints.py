@@ -29,13 +29,13 @@ user_router = APIRouter()
 async def get_users(
     request: Request,
     sort_by: str = Query("last_name", description="The field to sort the results by."),
-    page: int = Query(1, description="The page number to retrieve."),
-    limit: int = Query(20, description="The number of users to retrieve per page."),
+    page: int = Query(1, description="The page number."),
+    limit: int = Query(20, description="The number of users per page."),
     current_user: User = Depends(get_current_user),
 ) -> List[UserOut]:
     """Get a list of users (`member`)."""
     filters = dict(request.query_params)
-    return await UserService.list_users(**filters)
+    return await UserService.get_users(**filters)
 
 
 @user_router.post(

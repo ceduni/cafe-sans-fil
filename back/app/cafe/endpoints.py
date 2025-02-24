@@ -51,7 +51,7 @@ async def get_cafes(
     """Get a list of cafes with basic information."""
     query_params = dict(request.query_params)
     parsed_params = parse_query_params(query_params)
-    return await CafeService.list_cafes(**parsed_params)
+    return await CafeService.get_cafes(**parsed_params)
 
 
 @cafe_router.post(
@@ -81,7 +81,7 @@ async def get_cafe(
     cafe_slug: str = Path(..., description="The slug or ID of the cafe")
 ):
     """Get a cafe with full details."""
-    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    cafe = await CafeService.get_cafe(cafe_slug)
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
@@ -96,7 +96,7 @@ async def update_cafe(
     cafe_slug: str, cafe: CafeUpdate, current_user: User = Depends(get_current_user)
 ) -> CafeOut:
     """Update a cafe (`admin`)."""
-    cafe_obj = await CafeService.retrieve_cafe(cafe_slug)
+    cafe_obj = await CafeService.get_cafe(cafe_slug)
     if not cafe_obj:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
@@ -131,19 +131,19 @@ async def create_staff_member(
     cafe_slug: str, staff: StaffCreate, current_user: User = Depends(get_current_user)
 ):
     """Add a staff member to a cafe. (`admin`)."""
-    cafe_obj = await CafeService.retrieve_cafe(cafe_slug)
+    cafe_obj = await CafeService.get_cafe(cafe_slug)
     if not cafe_obj:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
         )
 
-    user = await CafeService.retrieve_staff_member(cafe_obj.id, staff.username)
+    user = await CafeService.get_staff_member(cafe_obj.id, staff.username)
     if user:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Staff member already exists"
         )
 
-    user = await UserService.retrieve_user(staff.username)
+    user = await UserService.get_user(staff.username)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
@@ -185,7 +185,7 @@ async def get_sales_report(
     current_user: User = Depends(get_current_user),
 ):
     """Get a sales report for a cafe. (`admin`)"""
-    cafe_obj = await CafeService.retrieve_cafe(cafe_slug)
+    cafe_obj = await CafeService.get_cafe(cafe_slug)
     if not cafe_obj:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"

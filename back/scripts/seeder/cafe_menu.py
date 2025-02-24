@@ -55,7 +55,7 @@ class MenuSeeder:
     async def seed_menu_items(self, cafe_ids, num_items: int):
         """Seeds menu items for cafes with proper category mapping"""
         for cafe_id in tqdm(cafe_ids, desc="Seeding menu items for cafes"):
-            cafe = await CafeService.retrieve_cafe(cafe_id, False)
+            cafe = await CafeService.get_cafe(cafe_id, False)
             if not cafe:
                 print(f"Skipping {cafe_id}, cafe not found.")
                 continue

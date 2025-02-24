@@ -22,8 +22,8 @@ class OrderService:
     # --------------------------------------
 
     @staticmethod
-    async def list_orders(**filters) -> List[Order]:
-        """Retrieve a list of orders based on the provided filters."""
+    async def get_orders(**filters) -> List[Order]:
+        """Get a list of orders based on the provided filters."""
         query_filters = {}
         page = int(filters.pop("page", 1))
         limit = int(filters.pop("limit", 20))
@@ -81,14 +81,14 @@ class OrderService:
         return order
 
     @staticmethod
-    async def retrieve_order(order_id: PydanticObjectId):
-        """Retrieve an order by its ID."""
+    async def get_order(order_id: PydanticObjectId):
+        """Get an order by its ID."""
         return await Order.find_one(Order.id == order_id)
 
     @staticmethod
     async def update_order(order_id: PydanticObjectId, data: OrderUpdate):
         """Update an order by its ID."""
-        order = await OrderService.retrieve_order(order_id)
+        order = await OrderService.get_order(order_id)
         await order.update({"$set": data.model_dump(exclude_unset=True)})
         return order
 
@@ -151,8 +151,8 @@ class OrderService:
                 await order.save()
 
     @staticmethod
-    async def list_orders_for_user(username: str, **filters) -> List[Order]:
-        """Retrieve a list of orders for a user."""
+    async def get_orders_for_user(username: str, **filters) -> List[Order]:
+        """Get a list of orders for a user."""
         query_filters = {}
         query_filters["user_username"] = username
         page = int(filters.pop("page", 1))
@@ -184,8 +184,8 @@ class OrderService:
         return orders
 
     @staticmethod
-    async def list_orders_for_cafe(cafe_slug: str, **filters) -> List[Order]:
-        """Retrieve a list of orders for a cafe."""
+    async def get_orders_for_cafe(cafe_slug: str, **filters) -> List[Order]:
+        """Get a list of orders for a cafe."""
         query_filters = {}
 
         cafe = await Cafe.find_one({"slug": cafe_slug})

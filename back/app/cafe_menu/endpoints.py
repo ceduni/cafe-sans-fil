@@ -41,7 +41,7 @@ async def create_menu_category(
 ):
     """Create a menu category. (`admin`)"""
     # TODO: Implement authorization for staff
-    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    cafe = await CafeService.get_cafe(cafe_slug)
     return await MenuService.create_menu_category(cafe.id, category_data)
 
 
@@ -59,7 +59,7 @@ async def update_menu_category(
 ):
     """Update a menu category. (`admin`)"""
     # TODO: Implement authorization for staff
-    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    cafe = await CafeService.get_cafe(cafe_slug)
     return await MenuService.update_menu_category(cafe.id, category_id, category_data)
 
 
@@ -75,7 +75,7 @@ async def delete_menu_category(
 ):
     """Delete a menu category. (`admin`)"""
     # TODO: Implement authorization for staff
-    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    cafe = await CafeService.get_cafe(cafe_slug)
     await MenuService.delete_menu_category(cafe.id, category_id)
 
 
@@ -109,14 +109,14 @@ async def get_menu_items(
     query_params = dict(request.query_params)
     parsed_params = parse_query_params(query_params)
 
-    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    cafe = await CafeService.get_cafe(cafe_slug)
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
         )
     parsed_params["cafe_id"] = cafe.id
 
-    return await MenuService.list_menu_items(**parsed_params)
+    return await MenuService.get_menu_items(**parsed_params)
 
 
 @menu_router.post(
@@ -129,7 +129,7 @@ async def create_menu_item(
     current_user: User = Depends(get_current_user),
 ) -> MenuItemOut:
     """Create a menu item for a cafe. (`admin`)"""
-    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    cafe = await CafeService.get_cafe(cafe_slug)
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
@@ -152,7 +152,7 @@ async def get_menu_item(
     item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
 ) -> MenuItemOut:
     """Get a menu item."""
-    item = await MenuService.retrieve_menu_item(item_id)
+    item = await MenuService.get_menu_item(item_id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
@@ -170,7 +170,7 @@ async def update_menu_item(
     current_user: User = Depends(get_current_user),
 ) -> MenuItemOut:
     """Update a menu item. (`volunteer`)"""
-    item = await MenuService.retrieve_menu_item(item_id)
+    item = await MenuService.get_menu_item(item_id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
@@ -198,7 +198,7 @@ async def delete_menu_item(
     current_user: User = Depends(get_current_user),
 ):
     """Delete a menu item. (`admin`)"""
-    item = await MenuService.retrieve_menu_item(item_id)
+    item = await MenuService.get_menu_item(item_id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
