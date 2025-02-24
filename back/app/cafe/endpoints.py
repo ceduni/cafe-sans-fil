@@ -2,7 +2,7 @@
 Module for handling cafe-related routes.
 """
 
-from typing import Dict, List, Optional
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
 
@@ -16,7 +16,6 @@ from app.cafe.models import (
     Role,
     StaffCreate,
     StaffOut,
-    StaffUpdate,
 )
 from app.cafe.service import CafeService
 from app.order.service import OrderService
@@ -55,22 +54,6 @@ async def get_cafes(
     return await CafeService.list_cafes(**parsed_params)
 
 
-@cafe_router.get(
-    "/cafes/{cafe_slug}",
-    response_model=CafeViewOut,
-)
-async def get_cafe(
-    cafe_slug: str = Path(..., description="The slug or ID of the cafe")
-):
-    """Get a cafe with full details."""
-    cafe = await CafeService.retrieve_cafe(cafe_slug)
-    if not cafe:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
-        )
-    return cafe
-
-
 @cafe_router.post(
     "/cafes",
 )
@@ -88,6 +71,22 @@ async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Cafe already exists"
         )
+
+
+@cafe_router.get(
+    "/cafes/{cafe_slug}",
+    response_model=CafeViewOut,
+)
+async def get_cafe(
+    cafe_slug: str = Path(..., description="The slug or ID of the cafe")
+):
+    """Get a cafe with full details."""
+    cafe = await CafeService.retrieve_cafe(cafe_slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
+        )
+    return cafe
 
 
 @cafe_router.put(
@@ -161,70 +160,6 @@ async def create_staff_member(
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
     return await CafeService.create_staff_member(cafe_obj.id, staff)
-
-
-# @cafe_router.put(
-#     "/cafes/{cafe_slug}/staff/{username}",
-#     response_model=StaffOut,
-#     summary="🔴 Update Staff Member",
-#     description="Update details of an existing staff member.",
-# )
-# async def update_staff_member(
-#     cafe_slug: str,
-#     username: str,
-#     staff: StaffUpdate,
-#     current_user: User = Depends(get_current_user),
-# ) -> StaffOut:
-#     """Update details of an existing staff member."""
-#     cafe_obj = await CafeService.retrieve_cafe(cafe_slug)
-#     if not cafe_obj:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
-#         )
-
-#     try:
-#         await CafeService.is_authorized_for_cafe_action(
-#             cafe_obj.id, current_user, [Role.ADMIN]
-#         )
-#         return await CafeService.update_staff_member(cafe_obj.id, username, staff)
-#     except ValueError as e:
-#         if str(e) == "Cafe not found":
-#             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-#         elif str(e) == "Access forbidden":
-#             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
-#         elif str(e) == "Staff member not found":
-#             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-
-
-# @cafe_router.delete(
-#     "/cafes/{cafe_slug}/staff/{username}",
-#     summary="🔴 Delete Staff Member",
-#     description="Remove a staff member from a cafe.",
-# )
-# async def delete_staff_member(
-#     cafe_slug: str, username: str, current_user: User = Depends(get_current_user)
-# ):
-#     """Remove a staff member from a cafe."""
-#     cafe_obj = await CafeService.retrieve_cafe(cafe_slug)
-#     if not cafe_obj:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
-#         )
-
-#     try:
-#         await CafeService.is_authorized_for_cafe_action(
-#             cafe_obj.id, current_user, [Role.ADMIN]
-#         )
-#         await CafeService.delete_staff_member(cafe_obj.id, username)
-#     except ValueError as e:
-#         if str(e) == "Cafe not found":
-#             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-#         elif str(e) == "Access forbidden":
-#             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
-#         elif str(e) == "Staff member not found":
-#             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-
-#     return {"message": f"Staff member {username} has been successfully deleted."}
 
 
 # --------------------------------------

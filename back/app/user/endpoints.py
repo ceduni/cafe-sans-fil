@@ -38,22 +38,6 @@ async def get_users(
     return await UserService.list_users(**filters)
 
 
-@user_router.get(
-    "/users/{username}",
-    response_model=UserOut,
-)
-async def get_user(
-    username: str = Path(..., description="The username of the user")
-) -> UserOut:
-    """Get a user. (`member`)"""
-    user = await UserService.get_user_by_username(username)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
-        )
-    return user
-
-
 @user_router.post(
     "/users",
     response_model=UserOut,
@@ -83,6 +67,22 @@ async def create_user(user: UserAuth) -> UserOut:
     # await send_registration_mail("Bienvenue à Café sans-fil", user.email, email_context)
 
     return created_user
+
+
+@user_router.get(
+    "/users/{username}",
+    response_model=UserOut,
+)
+async def get_user(
+    username: str = Path(..., description="The username of the user")
+) -> UserOut:
+    """Get a user. (`member`)"""
+    user = await UserService.get_user_by_username(username)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+    return user
 
 
 @user_router.put(

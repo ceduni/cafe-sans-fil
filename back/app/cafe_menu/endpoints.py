@@ -25,6 +25,11 @@ from app.user.models import User
 menu_router = APIRouter()
 
 
+# --------------------------------------
+#               Category
+# --------------------------------------
+
+
 @menu_router.post(
     "/cafes/{cafe_slug}/menu/categories",
     response_model=MenuCategoryOut,
@@ -74,8 +79,13 @@ async def delete_menu_category(
     await MenuService.delete_menu_category(cafe.id, category_id)
 
 
+# --------------------------------------
+#               Item
+# --------------------------------------
+
+
 @menu_router.get(
-    "/cafes/{cafe_slug}/menu",
+    "/cafes/{cafe_slug}/menu/items",
     response_model=List[MenuItemOut],
 )
 async def get_menu_items(
@@ -110,7 +120,7 @@ async def get_menu_items(
 
 
 @menu_router.post(
-    "/cafes/{cafe_slug}/menu",
+    "/cafes/{cafe_slug}/menu/items",
     response_model=MenuItemOut,
 )
 async def create_menu_item(
@@ -135,7 +145,7 @@ async def create_menu_item(
 
 
 @menu_router.get(
-    "/menu/{item_id}",
+    "/cafes/{cafe_slug}/menu/items/{item_id}",
     response_model=MenuItemOut,
 )
 async def get_menu_item(
@@ -151,7 +161,7 @@ async def get_menu_item(
 
 
 @menu_router.put(
-    "/menu/{item_id}",
+    "/cafes/{cafe_slug}/menu/items/{item_id}",
     response_model=MenuItemOut,
 )
 async def update_menu_item(
@@ -181,7 +191,7 @@ async def update_menu_item(
 
 
 @menu_router.delete(
-    "/menu/{item_id}",
+    "/cafes/{cafe_slug}/menu/items/{item_id}",
 )
 async def delete_menu_item(
     item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),

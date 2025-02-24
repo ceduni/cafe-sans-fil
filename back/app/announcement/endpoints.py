@@ -2,10 +2,10 @@
 Module for handling announcement-related routes.
 """
 
-from typing import Dict, List, Optional
+from typing import List, Optional
 
 from beanie import PydanticObjectId
-from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request
+from fastapi import APIRouter, Depends, Path, Query, Request
 
 from app.announcement.models import (
     AnnouncementCreate,
