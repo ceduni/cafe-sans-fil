@@ -5,6 +5,7 @@ User seeder module.
 import json
 import random
 import unicodedata
+from pathlib import Path
 
 from faker import Faker
 from tqdm import tqdm
@@ -16,7 +17,8 @@ random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
 
-with open("./scripts/db_seed/data/photo_urls.json", "r", encoding="utf-8") as file:
+file_path = Path(__file__).parent / "data/photo_urls.json"
+with open(file_path, "r", encoding="utf-8") as file:
     photo_urls = json.load(file)
 
 
