@@ -2,10 +2,12 @@
 Module for handling event-related routes.
 """
 
-from typing import List, Optional
+from typing import Optional
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, Path, Query, Request
+from fastapi_pagination.ext.beanie import paginate
+from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.event.models import EventCreate, EventOut, EventUpdate
@@ -18,28 +20,17 @@ event_router = APIRouter()
 
 @event_router.get(
     "/events/",
-    response_model=List[EventOut],
+    response_model=Page[EventOut],
 )
 async def get_events(
     request: Request,
-    cafe_id: Optional[PydanticObjectId] = Query(
-        None, description="Filter events by cafe ID."
-    ),
-    sort_by: Optional[str] = Query(
-        "-start_date",
-        description="Sort events by a specific field. Prefix with '-' for descending order (e.g., '-start_date').",
-    ),
-    page: Optional[int] = Query(
-        1, description="Specify the page number for pagination."
-    ),
-    limit: Optional[int] = Query(
-        9, description="Set the number of events to return per page."
-    ),
-) -> List[EventOut]:
+    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID."),
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
+):
     """Get a list of events."""
-    query_params = dict(request.query_params)
-    parsed_params = parse_query_params(query_params)
-    return await EventService.get_events(**parsed_params)
+    filters = parse_query_params(dict(request.query_params))
+    events = await EventService.get_events(**filters)
+    return await paginate(events)
 
 
 @event_router.post(

@@ -10,7 +10,6 @@ from bson.errors import InvalidId
 from app.cafe.models import (
     Cafe,
     CafeCreate,
-    CafeShortOut,
     CafeUpdate,
     CafeView,
     Role,
@@ -29,18 +28,10 @@ class CafeService:
     # --------------------------------------
 
     @staticmethod
-    async def get_cafes(**query_params) -> List[Cafe]:
-        """Get cafes based on the provided query parameters."""
-        sort_by = query_params.pop("sort_by", "name")
-        page = int(query_params.pop("page", 1))
-        limit = int(query_params.pop("limit", 40))
-        return (
-            await Cafe.find(query_params)
-            .skip((page - 1) * limit)
-            .limit(limit)
-            .sort(sort_by)
-            .to_list()
-        )
+    async def get_cafes(**filters: dict):
+        """Get cafes."""
+        sort_by = filters.pop("sort_by", "name")
+        return Cafe.find(filters).sort(sort_by)
 
     @staticmethod
     async def get_cafe(cafe_slug_or_id, as_view: bool = True):

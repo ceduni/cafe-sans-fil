@@ -22,34 +22,10 @@ class OrderService:
     # --------------------------------------
 
     @staticmethod
-    async def get_orders(**filters) -> List[Order]:
-        """Get a list of orders based on the provided filters."""
-        query_filters = {}
-        page = int(filters.pop("page", 1))
-        limit = int(filters.pop("limit", 20))
-
-        # Convert 'is_open' string to boolean
-        if "is_open" in filters:
-            if filters["is_open"].lower() == "true":
-                query_filters["is_open"] = True
-            elif filters["is_open"].lower() == "false":
-                query_filters["is_open"] = False
-
-        sort_by = filters.pop("sort_by", "-order_number")  # Default sort field
-        sort_order = -1 if sort_by.startswith("-") else 1
-        sort_field = sort_by[1:] if sort_order == -1 else sort_by
-        sort_params = [(sort_field, sort_order)]
-
-        orders_cursor = Order.aggregate(
-            [
-                {"$match": query_filters},
-                {"$sort": dict(sort_params)},
-                {"$skip": (page - 1) * limit},
-                {"$limit": limit},
-            ]
-        )
-
-        return await orders_cursor.to_list(None)
+    async def get_orders(**filters: dict):
+        """Get orders."""
+        sort_by = filters.pop("sort_by", "-order_number")
+        return Order.find(filters).sort(sort_by)
 
     @staticmethod
     async def create_order(data: OrderCreate, username: str) -> Order:
@@ -151,74 +127,24 @@ class OrderService:
                 await order.save()
 
     @staticmethod
-    async def get_orders_for_user(username: str, **filters) -> List[Order]:
-        """Get a list of orders for a user."""
-        query_filters = {}
-        query_filters["user_username"] = username
-        page = int(filters.pop("page", 1))
-        limit = int(filters.pop("limit", 20))
-
-        # Convert 'is_open' string to boolean
-        if "is_open" in filters:
-            if filters["is_open"].lower() == "true":
-                query_filters["is_open"] = True
-            elif filters["is_open"].lower() == "false":
-                query_filters["is_open"] = False
-
-        sort_by = filters.pop("sort_by", "-order_number")  # Default sort field
-        sort_order = -1 if sort_by.startswith("-") else 1
-        sort_field = sort_by[1:] if sort_order == -1 else sort_by
-        sort_params = [(sort_field, sort_order)]
-
-        orders_cursor = Order.aggregate(
-            [
-                {"$match": query_filters},
-                {"$sort": dict(sort_params)},
-                {"$skip": (page - 1) * limit},
-                {"$limit": limit},
-            ]
-        )
-
-        orders = await orders_cursor.to_list(None)
+    async def get_orders_for_user(username: str, **filters: dict):
+        """Get orders for a user."""
+        sort_by = filters.pop("sort_by", "-order_number")
+        filters["user_username"] = username
+        orders = Order.find(filters).sort(sort_by)
         await OrderService.check_and_update_order_status(orders)
         return orders
 
     @staticmethod
-    async def get_orders_for_cafe(cafe_slug: str, **filters) -> List[Order]:
-        """Get a list of orders for a cafe."""
-        query_filters = {}
-
-        cafe = await Cafe.find_one({"slug": cafe_slug})
+    async def get_orders_for_cafe(cafe_slug: str, **filters: dict):
+        """Get orders for a cafe."""
+        cafe = await Cafe.find_one(Cafe.slug == cafe_slug)
         if not cafe:
             return None
-        slug_list = [cafe.slug] + getattr(cafe, "previous_slugs", [])
 
-        query_filters["cafe_slug"] = {"$in": slug_list}
-        page = int(filters.pop("page", 1))
-        limit = int(filters.pop("limit", 20))
-
-        # Convert 'is_open' string to boolean
-        if "is_open" in filters:
-            if filters["is_open"].lower() == "true":
-                query_filters["is_open"] = True
-            elif filters["is_open"].lower() == "false":
-                query_filters["is_open"] = False
-
-        sort_by = filters.pop("sort_by", "-order_number")  # Default sort field
-        sort_order = -1 if sort_by.startswith("-") else 1
-        sort_field = sort_by[1:] if sort_order == -1 else sort_by
-        sort_params = [(sort_field, sort_order)]
-
-        orders_cursor = Order.aggregate(
-            [
-                {"$match": query_filters},
-                {"$sort": dict(sort_params)},
-                {"$skip": (page - 1) * limit},
-                {"$limit": limit},
-            ]
-        )
-
-        orders = await orders_cursor.to_list(None)
+        sort_by = filters.pop("sort_by", "-order_number")
+        filters["cafe_slug"] = cafe_slug
+        orders = Order.find(filters).sort(sort_by)
         await OrderService.check_and_update_order_status(orders)
         return orders
 

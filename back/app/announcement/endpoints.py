@@ -2,10 +2,12 @@
 Module for handling announcement-related routes.
 """
 
-from typing import List, Optional
+from typing import Optional
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, Path, Query, Request
+from fastapi_pagination.ext.beanie import paginate
+from fastapi_pagination.links import Page
 
 from app.announcement.models import (
     AnnouncementCreate,
@@ -20,20 +22,16 @@ from app.user.models import User
 announcement_router = APIRouter()
 
 
-@announcement_router.get("/announcements/", response_model=List[AnnouncementOut])
+@announcement_router.get("/announcements/", response_model=Page[AnnouncementOut])
 async def get_announcements(
     request: Request,
     cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID"),
-    sort_by: Optional[str] = Query(
-        "-created_at", description="Sort by a specific field"
-    ),
-    page: Optional[int] = Query(1, description="Page number for pagination"),
-    limit: Optional[int] = Query(9, description="Number of announcements per page"),
-) -> List[AnnouncementOut]:
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
+):
     """Get a list of announcements."""
-    query_params = dict(request.query_params)
-    parsed_params = parse_query_params(query_params)
-    return await AnnouncementService.get_announcements(**parsed_params)
+    filters = parse_query_params(dict(request.query_params))
+    announcements = await AnnouncementService.get_announcements(**filters)
+    return await paginate(announcements)
 
 
 @announcement_router.post("/announcements/", response_model=AnnouncementOut)

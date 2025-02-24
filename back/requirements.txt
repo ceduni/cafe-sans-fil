@@ -18,3 +18,4 @@ fastapi-mail
 apscheduler
 isort
 black
+fastapi-pagination

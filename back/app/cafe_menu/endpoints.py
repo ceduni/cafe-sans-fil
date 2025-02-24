@@ -2,10 +2,12 @@
 Module for handling menu-related routes.
 """
 
-from typing import List, Optional
+from typing import Optional
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi_pagination.ext.beanie import paginate
+from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.cafe.models import Role
@@ -86,37 +88,26 @@ async def delete_menu_category(
 
 @menu_router.get(
     "/cafes/{cafe_slug}/menu/items",
-    response_model=List[MenuItemOut],
+    response_model=Page[MenuItemOut],
 )
 async def get_menu_items(
     request: Request,
-    cafe_slug: str = Path(..., description="The slug or ID of the cafe"),
-    in_stock: Optional[bool] = Query(
-        None, description="Filter menu items by stock availability (true/false)."
-    ),
-    sort_by: Optional[str] = Query(
-        None,
-        description="Sort menus by a specific field. Prefix with '-' for descending order (e.g., '-name').",
-    ),
-    page: Optional[int] = Query(
-        1, description="Specify the page number for pagination."
-    ),
-    limit: Optional[int] = Query(
-        40, description="Set the number of cafes to return per page."
-    ),
-) -> List[MenuItemOut]:
+    cafe_slug: str = Path(..., description="Slug or ID of the cafe"),
+    in_stock: Optional[bool] = Query(None, description="Filter by stock availability"),
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
+):
     """Get a list of menu items for a cafe."""
-    query_params = dict(request.query_params)
-    parsed_params = parse_query_params(query_params)
-
     cafe = await CafeService.get_cafe(cafe_slug)
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
         )
-    parsed_params["cafe_id"] = cafe.id
 
-    return await MenuService.get_menu_items(**parsed_params)
+    filters = parse_query_params(dict(request.query_params))
+    filters["cafe_id"] = cafe.id
+
+    items = await MenuService.get_menu_items(**filters)
+    return await paginate(items)
 
 
 @menu_router.post(
@@ -127,7 +118,7 @@ async def create_menu_item(
     item_data: MenuItemCreate,
     cafe_slug: str = Path(..., description="The slug or ID of the cafe"),
     current_user: User = Depends(get_current_user),
-) -> MenuItemOut:
+):
     """Create a menu item for a cafe. (`admin`)"""
     cafe = await CafeService.get_cafe(cafe_slug)
     if not cafe:

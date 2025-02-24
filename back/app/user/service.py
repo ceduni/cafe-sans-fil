@@ -56,46 +56,16 @@ class UserService:
     # --------------------------------------
 
     @staticmethod
-    async def get_users(**filters):
-        """Get all users."""
-        query_filters = {}
-        query_filters["is_active"] = True  # Don't show inactive users
+    async def get_users(**filters: dict):
+        """Get users."""
+        sort_by = filters.pop("sort_by", "last_name")
+        filters["is_active"] = True  # Don't show inactive users
 
         # Prevent filtering on hashed_password
         if "hashed_password" in filters:
-            query_filters["hashed_password"] = None
+            filters["hashed_password"] = None
 
-        page = int(filters.pop("page", 1))
-        limit = int(filters.pop("limit", 20))
-
-        # Convert 'is_open' string to boolean
-        if "is_open" in filters:
-            if filters["is_open"].lower() == "true":
-                query_filters["is_open"] = True
-            elif filters["is_open"].lower() == "false":
-                query_filters["is_open"] = False
-
-        sort_by = filters.pop("sort_by", "last_name")  # Default sort field
-        sort_order = -1 if sort_by.startswith("-") else 1
-        sort_field = sort_by[1:] if sort_order == -1 else sort_by
-        sort_params = [(sort_field, sort_order)]
-
-        # users_cursor = User.aggregate(
-        #     [
-        #         {"$match": query_filters},
-        #         {"$sort": dict(sort_params)},
-        #         {"$skip": (page - 1) * limit},
-        #         {"$limit": limit},
-        #     ]
-        # )
-
-        return (
-            await User.find(query_filters)
-            .sort(*sort_params)
-            .limit(limit)
-            .skip((page - 1) * limit)
-            .to_list(None)
-        )
+        return User.find(filters).sort(sort_by)
 
     @staticmethod
     async def create_user(user: UserAuth):

@@ -2,9 +2,11 @@
 Module for handling cafe-related routes.
 """
 
-from typing import List, Optional
+from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi_pagination.ext.beanie import paginate
+from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.cafe.models import (
@@ -33,25 +35,17 @@ cafe_router = APIRouter()
 
 @cafe_router.get(
     "/cafes",
-    response_model=List[CafeShortOut],
+    response_model=Page[CafeShortOut],
 )
 async def get_cafes(
     request: Request,
-    is_open: Optional[bool] = Query(None, description="Filter cafes by open status"),
-    sort_by: Optional[str] = Query(
-        "name", description="Sort cafes by a specific field"
-    ),
-    page: Optional[int] = Query(
-        1, description="Specify the page number for pagination"
-    ),
-    limit: Optional[int] = Query(
-        40, description="Set the number of cafes to return per page"
-    ),
+    is_open: Optional[bool] = Query(None, description="Filter by open status"),
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
 ):
     """Get a list of cafes with basic information."""
-    query_params = dict(request.query_params)
-    parsed_params = parse_query_params(query_params)
-    return await CafeService.get_cafes(**parsed_params)
+    filters = parse_query_params(dict(request.query_params))
+    cafes = await CafeService.get_cafes(**filters)
+    return await paginate(cafes)
 
 
 @cafe_router.post(

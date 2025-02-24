@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 from beanie import init_beanie
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi_pagination import add_pagination
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.announcement.models import Announcement
@@ -66,6 +67,7 @@ app.add_middleware(
 )
 
 app.include_router(router, prefix=settings.API_V1_STR)
+add_pagination(app)
 
 
 @app.get("/api/health", tags=["health"])

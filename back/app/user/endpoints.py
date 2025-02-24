@@ -2,13 +2,16 @@
 Module for handling user-related routes.
 """
 
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi_pagination.ext.beanie import paginate
+from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.auth.security import create_access_token
 from app.config import settings
+from app.service import parse_query_params
 from app.user.models import (
     PasswordReset,
     PasswordResetRequest,
@@ -24,18 +27,17 @@ user_router = APIRouter()
 
 @user_router.get(
     "/users",
-    response_model=List[UserOut],
+    response_model=Page[UserOut],
 )
 async def get_users(
     request: Request,
-    sort_by: str = Query("last_name", description="The field to sort the results by."),
-    page: int = Query(1, description="The page number."),
-    limit: int = Query(20, description="The number of users per page."),
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
     current_user: User = Depends(get_current_user),
-) -> List[UserOut]:
-    """Get a list of users (`member`)."""
-    filters = dict(request.query_params)
-    return await UserService.get_users(**filters)
+):
+    """Get a list of users. (`member`)"""
+    filters = parse_query_params(dict(request.query_params))
+    users = await UserService.get_users(**filters)
+    return await paginate(users)
 
 
 @user_router.post(

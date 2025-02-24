@@ -27,6 +27,9 @@ def parse_query_params(query_params: Dict) -> Dict:
         elif key.endswith("_id"):
             value = PydanticObjectId(value)
 
+        #  fastapi-pagination compatibility
+        if key in ["page", "size"]:
+            continue
         if "__" in key:
             parts = key.split("__")
             if parts[-1] in ["eq", "gt", "gte", "in", "lt", "lte", "ne", "nin"]:
