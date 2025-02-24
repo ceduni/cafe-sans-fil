@@ -1,14 +1,16 @@
+"""
+Module for handling configuration settings.
+"""
+
 from typing import List
 
 from decouple import config
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-"""
-This module defines the application's configuration settings using environment variables and default values.
-"""
-
 
 class Settings(BaseSettings):
+    """Settings for the application."""
+
     model_config = SettingsConfigDict(case_sensitive=True)
     API_V1_STR: str = "/api"
     JWT_SECRET_KEY: str = config("JWT_SECRET_KEY", cast=str)

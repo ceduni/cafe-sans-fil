@@ -1,12 +1,20 @@
+"""
+Module for handling menu item-related models.
+"""
+
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Document, PydanticObjectId
+from beanie import DecimalAnnotation, Document
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
+from app.models import CafeId, Id, IdAlias
+
 
 class MenuItemOption(BaseModel):
+    """Model for menu item options."""
+
     type: str = Field(..., min_length=1)
     value: str = Field(..., min_length=1)
     fee: DecimalAnnotation
@@ -14,53 +22,18 @@ class MenuItemOption(BaseModel):
     @field_validator("fee")
     @classmethod
     def validate_fee(cls, fee):
+        """Validate fee value."""
         if fee < DecimalAnnotation(0.0):
             raise ValueError("Fee must be a non-negative value.")
         return fee
 
 
-class MenuItemEmbedded(BaseModel):
-    id: PydanticObjectId = Field(..., alias="_id")
-    name: str
-    description: str
-    image_url: Optional[str] = None
-    price: DecimalAnnotation
-    in_stock: bool = False
-    category: str
-    options: List[MenuItemOption]
+class MenuItemBase(BaseModel):
+    """Base model for menu items."""
 
-
-class MenuItem(Document):
-    cafe_id: PydanticObjectId
-    name: str
-    tags: List[str]
-    description: str
-    image_url: Optional[str] = None
-    price: DecimalAnnotation
-    in_stock: bool = False
-    category: str
-    options: List[MenuItemOption]
-
-    @field_validator("price")
-    @classmethod
-    def validate_price(cls, price):
-        if price < DecimalAnnotation(0.0):
-            raise ValueError("Price must be a non-negative value.")
-        return price
-
-    class Settings:
-        name = "menus"
-        indexes = [
-            IndexModel([("name", pymongo.ASCENDING)]),
-            IndexModel([("description", pymongo.ASCENDING)]),
-            IndexModel([("category", pymongo.ASCENDING)]),
-        ]
-
-
-class MenuItemCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=50)
-    tags: List[str] = Field(..., max_length=20)
-    description: str = Field(..., min_length=1, max_length=255)
+    tags: Optional[List[str]] = Field(None, max_length=20)
+    description: Optional[str] = Field(None, min_length=1, max_length=255)
     image_url: Optional[str] = Field(None, max_length=755)
     price: DecimalAnnotation
     in_stock: bool
@@ -70,12 +43,35 @@ class MenuItemCreate(BaseModel):
     @field_validator("price")
     @classmethod
     def validate_price(cls, price):
-        if price < 0:
+        """Validate price value."""
+        if price < DecimalAnnotation(0.0):
             raise ValueError("Price must be a non-negative value.")
         return price
 
 
+class MenuItem(Document, MenuItemBase, CafeId):
+    """Menu item document model."""
+
+    class Settings:
+        """Settings for menu item document."""
+
+        name = "menus"
+        indexes = [
+            IndexModel([("name", pymongo.ASCENDING)]),
+            IndexModel([("description", pymongo.ASCENDING)]),
+            IndexModel([("category", pymongo.ASCENDING)]),
+        ]
+
+
+class MenuItemCreate(MenuItemBase):
+    """Model for creating menu items."""
+
+    pass
+
+
 class MenuItemUpdate(BaseModel):
+    """Model for updating menu items."""
+
     name: Optional[str] = Field(None, min_length=1, max_length=50)
     tags: Optional[List[str]] = Field(None, max_length=20)
     description: Optional[str] = Field(None, min_length=1, max_length=255)
@@ -88,19 +84,25 @@ class MenuItemUpdate(BaseModel):
     @field_validator("price")
     @classmethod
     def validate_price(cls, price):
-        if price < 0:
+        """Validate price value."""
+        if price < DecimalAnnotation(0.0):
             raise ValueError("Price must be a non-negative value.")
         return price
 
 
-class MenuItemOut(BaseModel):
-    id: PydanticObjectId
-    cafe_id: PydanticObjectId
-    name: str
-    tags: List[str]
-    description: str
-    image_url: Optional[str] = None
-    price: DecimalAnnotation
-    in_stock: bool
-    category: str
-    options: List[MenuItemOption]
+class MenuItemOut(MenuItemBase, CafeId, Id):
+    """Model for menu item output."""
+
+    pass
+
+
+class MenuItemView(MenuItemBase, IdAlias):
+    """Model for menu item views."""
+
+    pass
+
+
+class MenuItemViewOut(MenuItemBase, Id):
+    """Model for menu item view output."""
+
+    pass

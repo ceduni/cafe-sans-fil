@@ -1,3 +1,7 @@
+"""
+Module for handling cafe-related models.
+"""
+
 import re
 from datetime import datetime
 from typing import List, Optional
@@ -9,21 +13,27 @@ from pymongo import IndexModel
 
 from app.cafe.enums import Days, Feature, Role
 from app.cafe.helper import slugify, time_blocks_overlap
-from app.menu.models import MenuItemEmbedded
+from app.cafe_menu.models import MenuItemView, MenuItemViewOut
+from app.models import Id, IdAlias
 
 
 class Affiliation(BaseModel):
+    """Model for university affiliation."""
+
     university: str = Field(..., min_length=1)
     faculty: str = Field(..., min_length=1)
 
 
 class TimeBlock(BaseModel):
+    """Model for time blocks."""
+
     start: str = Field(..., min_length=1)
     end: str = Field(..., min_length=1)
 
     @field_validator("start", "end")
     @classmethod
     def validate_time_format(cls, time_value):
+        """Validate time format."""
         try:
             datetime.strptime(time_value, "%H:%M")
         except ValueError:
@@ -32,22 +42,30 @@ class TimeBlock(BaseModel):
 
 
 class DayHours(BaseModel):
+    """Model for daily hours."""
+
     day: Days
     blocks: List[TimeBlock]
 
 
 class Geometry(BaseModel):
+    """Model for geographic location."""
+
     type: str = Field(..., min_length=1)
     coordinates: List[float] = Field(..., min_length=1)
 
 
 class Location(BaseModel):
+    """Model for location."""
+
     pavillon: str = Field(..., min_length=1)
     local: str = Field(..., min_length=1)
     geometry: Optional[Geometry] = None
 
 
 class Contact(BaseModel):
+    """Model for contact information."""
+
     email: Optional[str] = None
     phone_number: Optional[str] = None
     website: Optional[str] = None
@@ -55,6 +73,7 @@ class Contact(BaseModel):
     @field_validator("email")
     @classmethod
     def validate_email(cls, v):
+        """Validate email address."""
         if v is None or v == "":
             return None
         email_regex = re.compile(r"^\w+[\w.-]*@\w+[\w.-]+\.\w+$")
@@ -64,17 +83,23 @@ class Contact(BaseModel):
 
 
 class SocialMedia(BaseModel):
+    """Model for social media links."""
+
     facebook: Optional[str] = None
     instagram: Optional[str] = None
     x: Optional[str] = None
 
 
 class PaymentMethod(BaseModel):
+    """Model for payment methods."""
+
     method: str = Field(..., min_length=1)
     minimum: Optional[DecimalAnnotation] = None
 
 
 class AdditionalInfo(BaseModel):
+    """Model for additional information."""
+
     type: str = Field(..., min_length=1)
     value: str = Field(..., min_length=1)
     start: Optional[datetime] = None
@@ -82,21 +107,25 @@ class AdditionalInfo(BaseModel):
 
 
 class StaffMember(BaseModel):
+    """Model for staff members."""
+
     username: str
     role: Role
 
 
-class Cafe(Document):
-    name: str
+class CafeBase(BaseModel):
+    """Base model for cafes."""
+
+    name: str = Field(..., min_length=1, max_length=50)
     slug: Optional[str] = None
-    previous_slugs: List[str] = []
+    previous_slugs: Optional[List[str]] = []
     features: List[Feature]
-    description: str
-    logo_url: Optional[str] = None
-    image_url: Optional[str] = None
+    description: str = Field(..., min_length=1, max_length=255)
+    logo_url: Optional[str] = Field(None, max_length=755)
+    image_url: Optional[str] = Field(None, max_length=755)
     affiliation: Affiliation
     is_open: bool = False
-    status_message: Optional[str] = None
+    status_message: Optional[str] = Field(None, max_length=50)
     opening_hours: List[DayHours]
     location: Location
     contact: Contact
@@ -104,13 +133,20 @@ class Cafe(Document):
     payment_methods: List[PaymentMethod]
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
-    menu_item_ids: List[PydanticObjectId]
+
+
+class Cafe(Document, CafeBase):
+    """Cafe document model."""
+
+    menu_item_ids: List[PydanticObjectId] = []
 
     def __init__(self, **data):
+        """Initialize cafe document."""
         super().__init__(**data)
         self.slug = slugify(self.name)
 
     async def is_slug_unique(self, slug: str) -> bool:
+        """Check if slug is unique."""
         existing_cafe = await Cafe.find_one(
             {
                 "$and": [
@@ -122,6 +158,7 @@ class Cafe(Document):
         return existing_cafe is None
 
     async def check_slug(self):
+        """Check and update slug."""
         new_slug = slugify(self.name)
         if self.slug != new_slug:
             if not await self.is_slug_unique(new_slug):
@@ -131,6 +168,7 @@ class Cafe(Document):
             self.slug = new_slug
 
     async def check_for_duplicate_entries(self):
+        """Check for duplicate payment methods and additional info."""
         # Unique PaymentMethod methods
         payment_methods_set = set()
         for pm_data in self.payment_methods:
@@ -158,6 +196,7 @@ class Cafe(Document):
             )
 
     async def check_for_duplicate_hours(self):
+        """Check for duplicate hours."""
         for day_hours_data in self.opening_hours:
             day_hours = (
                 DayHours(**day_hours_data)
@@ -173,23 +212,29 @@ class Cafe(Document):
                         )
 
     async def handle_validation(self):
+        """Handle validation."""
         await self.check_slug()
         await self.check_for_duplicate_hours()
         await self.check_for_duplicate_entries()
 
     async def update(self, *args, **kwargs):
+        """Update cafe."""
         await self.handle_validation()
         return await super().update(*args, **kwargs)
 
     async def insert(self, *args, **kwargs):
+        """Insert cafe."""
         await self.handle_validation()
         return await super().insert(*args, **kwargs)
 
     async def save(self, *args, **kwargs):
+        """Save cafe."""
         await self.handle_validation()
         return await super().save(*args, **kwargs)
 
     class Settings:
+        """Settings for cafe document."""
+
         name = "cafes"
         indexes = [
             IndexModel([("name", pymongo.ASCENDING)], unique=True),
@@ -202,90 +247,34 @@ class Cafe(Document):
         ]
 
 
-class CafeView(View):
-    id: PydanticObjectId = Field(..., alias="_id")
-    name: str
-    slug: Optional[str] = None
-    previous_slugs: List[str] = []
-    features: List[Feature]
-    description: str
-    logo_url: Optional[str] = None
-    image_url: Optional[str] = None
-    affiliation: Affiliation
-    is_open: bool = False
-    status_message: Optional[str] = None
-    opening_hours: List[DayHours]
-    location: Location
-    contact: Contact
-    social_media: SocialMedia
-    payment_methods: List[PaymentMethod]
-    additional_info: List[AdditionalInfo]
-    staff: List[StaffMember]
-    menu_items: List[MenuItemEmbedded]
+class StaffCreate(StaffMember):
+    """Staff creation model."""
 
-    class Settings:
-        name: str = "cafe_with_menu"
-        source = "cafes"
-        pipeline = [
-            {
-                "$lookup": {
-                    "from": "menus",
-                    "localField": "_id",
-                    "foreignField": "cafe_id",
-                    "as": "menu_items",
-                    "pipeline": [
-                        {
-                            "$project": {
-                                "_id": 1,
-                                "name": 1,
-                                "description": 1,
-                                "image_url": 1,
-                                "price": 1,
-                                "in_stock": 1,
-                                "category": 1,
-                                "options": 1,
-                            }
-                        }
-                    ],
-                }
-            },
-            {"$set": {"menu_items": "$menu_items"}},
-            {"$unset": "menu_item_ids"},
-        ]
-
-
-# --------------------------------------
-#               Staff
-# --------------------------------------
-
-
-class StaffCreate(BaseModel):
-    username: str
-    role: str
+    pass
 
 
 class StaffUpdate(BaseModel):
+    """Staff update model."""
+
     role: Optional[str] = None
 
 
-class StaffOut(BaseModel):
-    username: str
-    role: str
+class StaffOut(StaffMember):
+    """Staff output model."""
 
-
-# --------------------------------------
-#               Cafe
-# --------------------------------------
+    pass
 
 
 class CafeCreate(BaseModel):
+    """Cafe creation model."""
+
     name: str = Field(..., min_length=1, max_length=50)
     features: List[Feature]
     description: str = Field(..., min_length=1, max_length=255)
     logo_url: Optional[str] = Field(None, max_length=755)
     image_url: Optional[str] = Field(None, max_length=755)
     affiliation: Affiliation
-    is_open: bool
+    is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
     opening_hours: List[DayHours]
     location: Location
@@ -294,10 +283,11 @@ class CafeCreate(BaseModel):
     payment_methods: List[PaymentMethod]
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
-    menu_item_ids: List[PydanticObjectId]
 
 
 class CafeUpdate(BaseModel):
+    """Cafe update model."""
+
     name: Optional[str] = Field(None, min_length=1, max_length=50)
     features: Optional[List[Feature]] = None
     description: Optional[str] = Field(None, min_length=1, max_length=255)
@@ -314,41 +304,71 @@ class CafeUpdate(BaseModel):
     additional_info: Optional[List[AdditionalInfo]] = None
 
 
-class CafeOut(BaseModel):
-    id: PydanticObjectId
-    name: str
-    slug: str
-    previous_slugs: Optional[List[str]] = None
+class CafeOut(CafeBase, Id):
+    """Cafe output model."""
+
+    pass
+
+
+class CafeShortOut(BaseModel, Id):
+    """Cafe short output model."""
+
+    name: str = Field(..., min_length=1, max_length=50)
+    slug: Optional[str] = None
+    previous_slugs: Optional[List[str]] = []
     features: List[Feature]
-    description: str
+    description: str = Field(..., min_length=1, max_length=255)
     logo_url: Optional[str] = Field(None, max_length=755)
     image_url: Optional[str] = Field(None, max_length=755)
     affiliation: Affiliation
-    is_open: bool
-    status_message: Optional[str] = Field(None, max_length=50)
-    opening_hours: List[DayHours]
-    location: Location
-    contact: Contact
-    social_media: SocialMedia
-    payment_methods: List[PaymentMethod]
-    additional_info: List[AdditionalInfo]
-    staff: List[StaffMember]
-    menu_items: List[MenuItemEmbedded]
-
-
-class CafeShortOut(BaseModel):
-    id: PydanticObjectId
-    name: str
-    slug: str
-    previous_slugs: Optional[List[str]] = None
-    features: List[Feature]
-    description: str
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
-    affiliation: Affiliation
-    is_open: bool
+    is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
     opening_hours: List[DayHours]
     location: Location
     payment_methods: List[PaymentMethod]
     additional_info: List[AdditionalInfo]
+
+
+class CafeView(View, CafeBase, IdAlias):
+    """Cafe view."""
+
+    menu_items: List[MenuItemView]
+
+    class Settings:
+        """Settings for cafe view."""
+
+        name: str = "cafe_with_menu"
+        source = "cafes"
+        pipeline = [
+            {
+                "$lookup": {
+                    "from": "menus",
+                    "localField": "_id",
+                    "foreignField": "cafe_id",
+                    "as": "menu_items",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 1,
+                                "name": 1,
+                                "tags": 1,
+                                "description": 1,
+                                "image_url": 1,
+                                "price": 1,
+                                "in_stock": 1,
+                                "category": 1,
+                                "options": 1,
+                            }
+                        }
+                    ],
+                }
+            },
+            {"$set": {"menu_items": "$menu_items"}},
+            {"$unset": "menu_item_ids"},
+        ]
+
+
+class CafeViewOut(CafeBase, Id):
+    """Cafe view output model."""
+
+    menu_items: List[MenuItemViewOut]

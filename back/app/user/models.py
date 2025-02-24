@@ -1,46 +1,68 @@
+"""
+Module for handling user-related models.
+"""
+
 import re
 from datetime import datetime
 from typing import Optional
 
 import pymongo
-from beanie import Document, PydanticObjectId
+from beanie import Document
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from pymongo import IndexModel
 
+from app.models import Id
 
-class User(Document):
-    username: str
+
+class UserBase(BaseModel):
+    """Base model for users."""
+
+    username: str = Field(..., min_length=3, max_length=20)
     email: EmailStr
-    matricule: str
-    hashed_password: str
-    first_name: str
-    last_name: str
-    photo_url: Optional[str] = None
+    matricule: str = Field(..., pattern=r"^\d{6,8}$", min_length=6, max_length=8)
+    first_name: str = Field(
+        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
+    )
+    last_name: str = Field(
+        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
+    )
+    photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
+
+
+class User(Document, UserBase):
+    """User document model."""
 
     # Hidden from output
+    hashed_password: str
     failed_login_attempts: int = Field(default=0)
     last_failed_login_attempt: Optional[datetime] = Field(default=None)
     lockout_until: Optional[datetime] = Field(default=None)
     is_active: bool = True
 
     @classmethod
-    async def by_email(self, email: str) -> "User":
-        return await self.find_one(self.email == email)
+    async def by_email(cls, email: str) -> "User":
+        """Get user by email."""
+        return await cls.find_one(cls.email == email)
 
     async def increment_failed_login_attempts(self):
+        """Increment failed login attempts."""
         self.failed_login_attempts += 1
         await self.save()
 
     async def reset_failed_login_attempts(self):
+        """Reset failed login attempts."""
         self.failed_login_attempts = 0
         self.lockout_until = None
         await self.save()
 
     async def set_lockout(self, lockout_time: datetime):
+        """Set lockout time."""
         self.lockout_until = lockout_time
         await self.save()
 
     class Settings:
+        """Settings for user document."""
+
         name = "users"
         indexes = [
             IndexModel([("username", pymongo.ASCENDING)], unique=True),
@@ -51,27 +73,15 @@ class User(Document):
         ]
 
 
-# --------------------------------------
-#               User
-# --------------------------------------
+class UserAuth(UserBase):
+    """Model for user authentication."""
 
-
-class UserAuth(BaseModel):
-    username: str = Field(..., min_length=3, max_length=20)
-    email: EmailStr
-    matricule: str = Field(..., pattern=r"^\d{6,8}$", min_length=6, max_length=8)
     password: str = Field(..., min_length=8, max_length=30)
-    first_name: str = Field(
-        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
-    )
-    last_name: str = Field(
-        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
-    )
-    photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
 
     @field_validator("username")
     @classmethod
     def validate_username(cls, v):
+        """Validate username."""
         if v.startswith("-") or v.endswith("-"):
             raise ValueError("Username cannot begin or end with a hyphen")
         if "--" in v:
@@ -93,6 +103,8 @@ class UserAuth(BaseModel):
 
 
 class UserUpdate(BaseModel):
+    """Model for updating users."""
+
     username: Optional[str] = Field(None, min_length=3, max_length=20)
     email: Optional[EmailStr] = None
     matricule: Optional[str] = Field(
@@ -110,6 +122,7 @@ class UserUpdate(BaseModel):
     @field_validator("username")
     @classmethod
     def validate_username(cls, v):
+        """Validate username."""
         if v.startswith("-") or v.endswith("-"):
             raise ValueError("Username cannot begin or end with a hyphen")
         if "--" in v:
@@ -130,14 +143,10 @@ class UserUpdate(BaseModel):
     #     return v
 
 
-class UserOut(BaseModel):
-    id: PydanticObjectId
-    username: str
-    email: EmailStr
-    matricule: str
-    first_name: str
-    last_name: str
-    photo_url: Optional[str] = None
+class UserOut(UserBase, Id):
+    """Model for user output."""
+
+    pass
 
 
 # --------------------------------------
@@ -146,10 +155,14 @@ class UserOut(BaseModel):
 
 
 class PasswordResetRequest(BaseModel):
+    """Model for password reset requests."""
+
     email: EmailStr
 
 
 class PasswordReset(BaseModel):
+    """Model for password resets."""
+
     password: str = Field(..., min_length=8, max_length=30)
 
     # @field_validator('password')

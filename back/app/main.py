@@ -1,3 +1,7 @@
+"""
+Main module for the FastAPI application.
+"""
+
 from contextlib import asynccontextmanager
 
 from beanie import init_beanie
@@ -7,17 +11,12 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.announcement.models import Announcement
 from app.cafe.models import Cafe, CafeView
+from app.cafe_menu.models import MenuItem
 from app.config import settings
 from app.event.models import Event
-from app.menu.models import MenuItem
 from app.order.models import Order
 from app.router import router
 from app.user.models import User
-
-"""
-Main application initialization for Café sans-fil.
-Sets up FastAPI application, CORS middleware, and initializes the database connection.
-"""
 
 description = """
 # API Documentation
@@ -48,6 +47,7 @@ db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    """Lifespan for the application."""
     await init_beanie(
         database=db_client[settings.MONGO_DB_NAME],
         document_models=[Cafe, CafeView, MenuItem, User, Order, Announcement, Event],
@@ -79,6 +79,7 @@ app.include_router(router, prefix=settings.API_V1_STR)
 
 @app.get("/api/health", tags=["health"])
 async def health_check():
+    """Health check endpoint."""
     try:
         result = await db_client.admin.command("serverStatus")
         if result["ok"] == 1.0:
@@ -99,7 +100,7 @@ async def health_check():
 # --------------------------------------
 
 import asyncio
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
@@ -107,7 +108,8 @@ from app.order.models import Order, OrderStatus
 
 
 async def cancel_old_orders():
-    now = datetime.utcnow()
+    """Cancel orders older than 1 hour."""
+    now = datetime.now(UTC)
     async for order in Order.find(
         {
             "$or": [{"status": OrderStatus.PLACED}, {"status": OrderStatus.READY}],

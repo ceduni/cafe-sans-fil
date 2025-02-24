@@ -1,3 +1,7 @@
+"""
+Staff seeder module.
+"""
+
 import random
 
 from faker import Faker
@@ -6,7 +10,6 @@ from tqdm import tqdm
 from app.cafe.models import Role, StaffCreate
 from app.cafe.service import CafeService
 
-# Set random seed and Faker settings
 random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
@@ -14,9 +17,7 @@ fake = Faker("fr_FR")
 
 class StaffSeeder:
     async def seed_staff_for_cafes(self, cafe_ids, usernames):
-        """
-        Seeds staff members for cafes.
-        """
+        """Seeds staff members for cafes."""
         for index, cafe_id in enumerate(tqdm(cafe_ids, desc="Seeding staff for cafes")):
             if index == 0:
                 # First cafe, make cafesansfil an admin
@@ -28,7 +29,6 @@ class StaffSeeder:
                 # Randomly assign staff for other cafes
                 staff = self.random_staff_members(usernames)
 
-            # Add staff members to the cafe
             await CafeService.create_many_staff_members(cafe_id, staff)
 
         print(f"Staff members added to cafes")
@@ -36,9 +36,7 @@ class StaffSeeder:
     def random_staff_members(
         self, usernames, first_user_admin=False, exclude_first_user=False
     ):
-        """
-        Generate random staff members for cafes.
-        """
+        """Generates random staff members."""
         staff_members = []
         selected_users = usernames.copy()
 

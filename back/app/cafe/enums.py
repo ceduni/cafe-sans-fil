@@ -1,11 +1,19 @@
+"""
+Module for handling cafe-related enumerations.
+"""
+
 from enum import Enum
 
 
 class Feature(str, Enum):
+    """Enum for cafe features."""
+
     ORDER = "Order"
 
 
 class Days(str, Enum):
+    """Enum for days of the week."""
+
     MONDAY = "Lundi"
     TUESDAY = "Mardi"
     WEDNESDAY = "Mercredi"
@@ -16,5 +24,7 @@ class Days(str, Enum):
 
 
 class Role(str, Enum):
+    """Enum for cafe roles."""
+
     VOLUNTEER = "Bénévole"
     ADMIN = "Admin"

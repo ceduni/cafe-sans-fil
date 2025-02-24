@@ -1,3 +1,7 @@
+"""
+Format Python code.
+"""
+
 import argparse
 import os
 import platform
@@ -5,12 +9,12 @@ import subprocess
 import sys
 import time
 
-parser = argparse.ArgumentParser(description="Format Python code and list files.")
+parser = argparse.ArgumentParser(description="Format Python code.")
 parser.add_argument(
     "--dir",
     type=str,
     default=None,
-    help="Directory to format and list (default: parent directory of the script)",
+    help="Directory to format (default: parent directory of the script)",
 )
 args = parser.parse_args()
 
