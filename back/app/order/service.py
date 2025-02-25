@@ -115,7 +115,7 @@ class OrderService:
     @staticmethod
     async def check_and_update_order_status(orders):
         """Check and update the status of orders."""
-        now = datetime.now(UTC)
+        now = datetime.now(UTC).replace(tzinfo=None)
         for order_dict in orders:
             order = Order(**order_dict)
             if (

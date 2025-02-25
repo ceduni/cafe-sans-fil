@@ -71,7 +71,11 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
         raise HTTPException(status_code=403, detail="Account is inactive.")
 
     # Check if user is currently locked out
-    if user and user.lockout_until and user.lockout_until > datetime.now(UTC):
+    if (
+        user
+        and user.lockout_until
+        and user.lockout_until > datetime.now(UTC).replace(tzinfo=None)
+    ):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Account temporarily locked due to multiple failed login attempts.",
@@ -82,7 +86,8 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
         user
         and not user.lockout_until
         and user.last_failed_login_attempt
-        and (datetime.now(UTC) - user.last_failed_login_attempt) >= timedelta(minutes=5)
+        and (datetime.now(UTC).replace(tzinfo=None) - user.last_failed_login_attempt)
+        >= timedelta(minutes=5)
     ):
         user.failed_login_attempts = 0
 
@@ -90,7 +95,8 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     if (
         user
         and user.lockout_until
-        and (datetime.now(UTC) - user.last_failed_login_attempt) >= timedelta(days=1)
+        and (datetime.now(UTC).replace(tzinfo=None) - user.last_failed_login_attempt)
+        >= timedelta(days=1)
     ):
         user.failed_login_attempts = 0
         user.lockout_until = None

@@ -2,7 +2,7 @@
 Module for handling authentication-related dependencies.
 """
 
-from datetime import UTC, datetime
+from datetime import datetime
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
