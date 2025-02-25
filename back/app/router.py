@@ -18,10 +18,11 @@ router.include_router(cafe_router, tags=["cafes"])
 router.include_router(menu_router, tags=["menus"])
 router.include_router(announcement_router, tags=["announcements"])
 router.include_router(event_router, tags=["events"])
-router.include_router(user_router, tags=["users"])
 router.include_router(order_router, tags=["orders"])
+router.include_router(user_router, tags=["users"])
 router.include_router(auth_router, tags=["auth"])
 router.include_router(search_router, tags=["search"])
+
 
 @router.get("/health", include_in_schema=False)
 def health():

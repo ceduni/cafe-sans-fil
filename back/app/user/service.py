@@ -6,37 +6,35 @@ from typing import List, Optional
 
 from beanie import PydanticObjectId
 
-from app.auth.security import get_password, verify_password
+from app.auth.security import get_password
 from app.cafe.models import Cafe
-from app.user.models import User, UserAuth, UserUpdate
+from app.user.models import User, UserCreate, UserUpdate
 
 
 class UserService:
     """Service class for User and Auth operations."""
 
-    # --------------------------------------
-    #               Auth
-    # --------------------------------------
-
     @staticmethod
-    async def authenticate(credential: str, password: str) -> Optional[User]:
-        """Authenticate a user."""
-        if "@" in credential:
-            user = await UserService.get_user_by_email(email=credential)
-        else:
-            user = await UserService.get_user_by_username(username=credential)
+    async def get_users(**filters: dict):
+        """Get users."""
+        sort_by = filters.pop("sort_by", "last_name")
+        filters["is_active"] = True
 
-        if not user:
-            return None
-        if not verify_password(password=password, hashed_pass=user.hashed_password):
-            return None
+        if "hashed_password" in filters:
+            filters["hashed_password"] = None
 
-        return user
+        return User.find(filters).sort(sort_by)
 
     @staticmethod
     async def get_user_by_email(email: str) -> Optional[User]:
         """Get a user by email."""
         user = await User.find_one({"email": email, "is_active": True})
+        return user
+
+    @staticmethod
+    async def get_user_by_id(id: PydanticObjectId) -> Optional[User]:
+        """Get a user by id."""
+        user = await User.find_one({"_id": id, "is_active": True})
         return user
 
     @staticmethod
@@ -46,29 +44,12 @@ class UserService:
         return user
 
     @staticmethod
-    async def get_user_by_id(id: PydanticObjectId) -> Optional[User]:
-        """Get a user by id."""
-        user = await User.find_one({"_id": id, "is_active": True})
-        return user
-
-    # --------------------------------------
-    #               User
-    # --------------------------------------
+    async def get_user(username: str):
+        """Get a user."""
+        return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
-    async def get_users(**filters: dict):
-        """Get users."""
-        sort_by = filters.pop("sort_by", "last_name")
-        filters["is_active"] = True  # Don't show inactive users
-
-        # Prevent filtering on hashed_password
-        if "hashed_password" in filters:
-            filters["hashed_password"] = None
-
-        return User.find(filters).sort(sort_by)
-
-    @staticmethod
-    async def create_user(user: UserAuth):
+    async def create_user(user: UserCreate):
         """Create a new user."""
         user_in = User(
             email=user.email,
@@ -81,11 +62,6 @@ class UserService:
         )
         await user_in.insert()
         return user_in
-
-    @staticmethod
-    async def get_user(username: str):
-        """Get a user by username."""
-        return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
     async def update_user(username: str, data: UserUpdate) -> User:
@@ -114,7 +90,7 @@ class UserService:
         return user
 
     @staticmethod
-    async def create_many_users(users_data: List[UserAuth]) -> List[User]:
+    async def create_many_users(users_data: List[UserCreate]) -> List[User]:
         """Create multiple users."""
         users = []
         for user_data in users_data:
@@ -158,7 +134,6 @@ class UserService:
         if not users_to_delete:
             raise ValueError("No users found for the provided usernames")
 
-        # Remove users from Cafe staff and deactivate users
         for user in users_to_delete:
             await Cafe.find({"staff.username": user.username}).update(
                 {"$pull": {"staff": {"username": user.username}}}
@@ -177,10 +152,3 @@ class UserService:
         if await User.find_one({"username": username}):
             return "username"
         return None
-
-    @staticmethod
-    async def reset_password(user: User, new_password: str):
-        """Reset a user's password."""
-        hashed_password = get_password(new_password)
-        await user.update({"$set": {"hashed_password": hashed_password}})
-        return user

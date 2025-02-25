@@ -10,7 +10,7 @@ from pathlib import Path
 from faker import Faker
 from tqdm import tqdm
 
-from app.user.models import UserAuth
+from app.user.models import UserCreate
 from app.user.service import UserService
 
 random.seed(42)
@@ -50,7 +50,7 @@ class UserSeeder:
                 photo_urls[i] if random.random() <= 1.00 else None
             )  # Chance of having a photo
 
-            user_data = UserAuth(
+            user_data = UserCreate(
                 email=email,
                 matricule=matricule,
                 username=matricule,
@@ -80,7 +80,7 @@ class UserSeeder:
             "last_name": "Holland",
             "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg",
         }
-        await UserService.update_user(self.usernames[0], UserAuth(**cafesansfil_user))
+        await UserService.update_user(self.usernames[0], UserCreate(**cafesansfil_user))
         self.usernames[0] = cafesansfil_matricule
 
     def get_usernames(self):
