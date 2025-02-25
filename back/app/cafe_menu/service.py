@@ -76,22 +76,14 @@ class MenuService:
         await cafe.save()
 
     @staticmethod
-    async def list_menu_items(**query_params) -> List[MenuItem]:
-        """Retrieve a list of menu items based on the provided query parameters."""
-        sort_by = query_params.pop("sort_by", "name")
-        page = int(query_params.pop("page", 1))
-        limit = int(query_params.pop("limit", 40))
-        return (
-            await MenuItem.find(query_params)
-            .skip((page - 1) * limit)
-            .limit(limit)
-            .sort(sort_by)
-            .to_list()
-        )
+    async def get_menu_items(**filters: dict):
+        """Get menu items."""
+        sort_by = filters.pop("sort_by", "name")
+        return MenuItem.find(filters).sort(sort_by)
 
     @staticmethod
-    async def retrieve_menu_item(item_id: PydanticObjectId) -> MenuItem:
-        """Retrieve a menu item by ID."""
+    async def get_menu_item(item_id: PydanticObjectId) -> MenuItem:
+        """Get a menu item by ID."""
         return await MenuItem.find_one({"_id": item_id})
 
     @staticmethod

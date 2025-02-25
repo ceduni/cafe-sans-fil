@@ -12,18 +12,10 @@ from app.event.models import Event, EventCreate, EventOut, UserInteraction
 class EventService:
     """Service class for Event operations."""
 
-    async def get_events(**query_params) -> List[EventOut]:
-        """List events."""
-        sort_by = query_params.pop("sort_by", "start_date")
-        page = int(query_params.pop("page", 1))
-        limit = int(query_params.pop("limit", 9))
-        return (
-            await Event.find(query_params)
-            .skip((page - 1) * limit)
-            .limit(limit)
-            .sort(sort_by)
-            .to_list()
-        )
+    async def get_events(**filters: dict):
+        """Get events."""
+        sort_by = filters.pop("sort_by", "start_date")
+        return Event.find(filters).sort(sort_by)
 
     async def create_event(event_data: EventCreate) -> EventOut:
         """Create a new event."""

@@ -32,7 +32,6 @@ class UserBase(BaseModel):
 class User(Document, UserBase):
     """User document model."""
 
-    # Hidden from output
     hashed_password: str
     failed_login_attempts: int = Field(default=0)
     last_failed_login_attempt: Optional[datetime] = Field(default=None)
@@ -73,14 +72,14 @@ class User(Document, UserBase):
         ]
 
 
-class UserAuth(UserBase):
-    """Model for user authentication."""
+class UserCreate(UserBase):
+    """Model for creating users."""
 
     password: str = Field(..., min_length=8, max_length=30)
 
     @field_validator("username")
     @classmethod
-    def validate_username(cls, v):
+    def validate_username(cls, v: str):
         """Validate username."""
         if v.startswith("-") or v.endswith("-"):
             raise ValueError("Username cannot begin or end with a hyphen")
@@ -94,12 +93,7 @@ class UserAuth(UserBase):
         return v
 
     # @field_validator('password')
-    # @classmethod
-    # def validate_password(cls, v):
-    #     pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
-    #     if not re.match(pattern, v):
-    #         raise ValueError('Password must contain upper and lower case letters and digits.')
-    #     return v
+    # ...
 
 
 class UserUpdate(BaseModel):
@@ -121,7 +115,7 @@ class UserUpdate(BaseModel):
 
     @field_validator("username")
     @classmethod
-    def validate_username(cls, v):
+    def validate_username(cls, v: str):
         """Validate username."""
         if v.startswith("-") or v.endswith("-"):
             raise ValueError("Username cannot begin or end with a hyphen")
@@ -135,40 +129,10 @@ class UserUpdate(BaseModel):
         return v
 
     # @field_validator('password')
-    # @classmethod
-    # def validate_password(cls, v):
-    #     pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
-    #     if not re.match(pattern, v):
-    #         raise ValueError('Password must contain upper and lower case letters and digits.')
-    #     return v
+    # ...
 
 
 class UserOut(UserBase, Id):
     """Model for user output."""
 
     pass
-
-
-# --------------------------------------
-#              Reset Password
-# --------------------------------------
-
-
-class PasswordResetRequest(BaseModel):
-    """Model for password reset requests."""
-
-    email: EmailStr
-
-
-class PasswordReset(BaseModel):
-    """Model for password resets."""
-
-    password: str = Field(..., min_length=8, max_length=30)
-
-    # @field_validator('password')
-    # @classmethod
-    # def validate_password(cls, v):
-    #     pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
-    #     if not re.match(pattern, v):
-    #         raise ValueError('Password must contain upper and lower case letters and digits.')
-    #     return v

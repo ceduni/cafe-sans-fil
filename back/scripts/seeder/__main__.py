@@ -1,5 +1,5 @@
 """
-Script to seed the database with sample data.
+Script to seed the database.
 """
 
 import asyncio
@@ -14,7 +14,11 @@ from app.config import settings
 from app.event.models import Event
 from app.order.models import Order
 from app.user.models import User
-from scripts.db_seed import CafeSeeder, MenuSeeder, StaffSeeder, UserSeeder
+
+from .cafe import CafeSeeder
+from .cafe_menu import MenuSeeder
+from .cafe_staff import StaffSeeder
+from .user import UserSeeder
 
 MONGO_DB_NAME = settings.MONGO_DB_NAME
 print(f"Seeding data for {MONGO_DB_NAME}")

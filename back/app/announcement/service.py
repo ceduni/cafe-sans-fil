@@ -17,18 +17,10 @@ from app.announcement.models import (
 class AnnouncementService:
     """Service class for announcement operations."""
 
-    async def get_announcements(**query_params) -> List[AnnouncementOut]:
-        """List announcements."""
-        sort_by = query_params.pop("sort_by", "start_date")
-        page = int(query_params.pop("page", 1))
-        limit = int(query_params.pop("limit", 9))
-        return (
-            await Announcement.find(query_params)
-            .skip((page - 1) * limit)
-            .limit(limit)
-            .sort(sort_by)
-            .to_list()
-        )
+    async def get_announcements(**filters: dict):
+        """Get announcements."""
+        sort_by = filters.pop("sort_by", "start_date")
+        return Announcement.find(filters).sort(sort_by)
 
     async def create_announcement(
         announcement_data: AnnouncementCreate,

@@ -4,6 +4,7 @@ Menu seeder module.
 
 import json
 import random
+from pathlib import Path
 from typing import Dict
 
 from faker import Faker
@@ -17,7 +18,7 @@ random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
 
-# Predefined categories to create for each cafe
+
 PREDEFINED_CATEGORIES = [
     {"name": "Grilled Cheese", "description": "Sandwichs grillés au fromage fondant"},
     {
@@ -31,7 +32,9 @@ PREDEFINED_CATEGORIES = [
     {"name": "Collations", "description": "En-cas et petites faims"},
 ]
 
-with open("./scripts/db_seed/data/menu_items.json", "r", encoding="utf-8") as file:
+
+file_path = Path(__file__).parent / "data/menu_items.json"
+with open(file_path, "r", encoding="utf-8") as file:
     menu_items_data = json.load(file)
 
 
@@ -52,7 +55,7 @@ class MenuSeeder:
     async def seed_menu_items(self, cafe_ids, num_items: int):
         """Seeds menu items for cafes with proper category mapping"""
         for cafe_id in tqdm(cafe_ids, desc="Seeding menu items for cafes"):
-            cafe = await CafeService.retrieve_cafe(cafe_id, False)
+            cafe = await CafeService.get_cafe(cafe_id, False)
             if not cafe:
                 print(f"Skipping {cafe_id}, cafe not found.")
                 continue

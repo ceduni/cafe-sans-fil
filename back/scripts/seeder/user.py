@@ -5,18 +5,20 @@ User seeder module.
 import json
 import random
 import unicodedata
+from pathlib import Path
 
 from faker import Faker
 from tqdm import tqdm
 
-from app.user.models import UserAuth
+from app.user.models import UserCreate
 from app.user.service import UserService
 
 random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
 
-with open("./scripts/db_seed/data/photo_urls.json", "r", encoding="utf-8") as file:
+file_path = Path(__file__).parent / "data/photo_urls.json"
+with open(file_path, "r", encoding="utf-8") as file:
     photo_urls = json.load(file)
 
 
@@ -48,7 +50,7 @@ class UserSeeder:
                 photo_urls[i] if random.random() <= 1.00 else None
             )  # Chance of having a photo
 
-            user_data = UserAuth(
+            user_data = UserCreate(
                 email=email,
                 matricule=matricule,
                 username=matricule,
@@ -78,7 +80,7 @@ class UserSeeder:
             "last_name": "Holland",
             "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg",
         }
-        await UserService.update_user(self.usernames[0], UserAuth(**cafesansfil_user))
+        await UserService.update_user(self.usernames[0], UserCreate(**cafesansfil_user))
         self.usernames[0] = cafesansfil_matricule
 
     def get_usernames(self):

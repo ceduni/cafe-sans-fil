@@ -6,37 +6,35 @@ from typing import List, Optional
 
 from beanie import PydanticObjectId
 
-from app.auth.security import get_password, verify_password
+from app.auth.security import get_password
 from app.cafe.models import Cafe
-from app.user.models import User, UserAuth, UserUpdate
+from app.user.models import User, UserCreate, UserUpdate
 
 
 class UserService:
     """Service class for User and Auth operations."""
 
-    # --------------------------------------
-    #               Auth
-    # --------------------------------------
-
     @staticmethod
-    async def authenticate(credential: str, password: str) -> Optional[User]:
-        """Authenticate a user."""
-        if "@" in credential:
-            user = await UserService.get_user_by_email(email=credential)
-        else:
-            user = await UserService.get_user_by_username(username=credential)
+    async def get_users(**filters: dict):
+        """Get users."""
+        sort_by = filters.pop("sort_by", "last_name")
+        filters["is_active"] = True
 
-        if not user:
-            return None
-        if not verify_password(password=password, hashed_pass=user.hashed_password):
-            return None
+        if "hashed_password" in filters:
+            filters["hashed_password"] = None
 
-        return user
+        return User.find(filters).sort(sort_by)
 
     @staticmethod
     async def get_user_by_email(email: str) -> Optional[User]:
         """Get a user by email."""
         user = await User.find_one({"email": email, "is_active": True})
+        return user
+
+    @staticmethod
+    async def get_user_by_id(id: PydanticObjectId) -> Optional[User]:
+        """Get a user by id."""
+        user = await User.find_one({"_id": id, "is_active": True})
         return user
 
     @staticmethod
@@ -46,59 +44,12 @@ class UserService:
         return user
 
     @staticmethod
-    async def get_user_by_id(id: PydanticObjectId) -> Optional[User]:
-        """Get a user by id."""
-        user = await User.find_one({"_id": id, "is_active": True})
-        return user
-
-    # --------------------------------------
-    #               User
-    # --------------------------------------
+    async def get_user(username: str):
+        """Get a user."""
+        return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
-    async def list_users(**filters):
-        """List all users."""
-        query_filters = {}
-        query_filters["is_active"] = True  # Don't show inactive users
-
-        # Prevent filtering on hashed_password
-        if "hashed_password" in filters:
-            query_filters["hashed_password"] = None
-
-        page = int(filters.pop("page", 1))
-        limit = int(filters.pop("limit", 20))
-
-        # Convert 'is_open' string to boolean
-        if "is_open" in filters:
-            if filters["is_open"].lower() == "true":
-                query_filters["is_open"] = True
-            elif filters["is_open"].lower() == "false":
-                query_filters["is_open"] = False
-
-        sort_by = filters.pop("sort_by", "last_name")  # Default sort field
-        sort_order = -1 if sort_by.startswith("-") else 1
-        sort_field = sort_by[1:] if sort_order == -1 else sort_by
-        sort_params = [(sort_field, sort_order)]
-
-        # users_cursor = User.aggregate(
-        #     [
-        #         {"$match": query_filters},
-        #         {"$sort": dict(sort_params)},
-        #         {"$skip": (page - 1) * limit},
-        #         {"$limit": limit},
-        #     ]
-        # )
-
-        return (
-            await User.find(query_filters)
-            .sort(*sort_params)
-            .limit(limit)
-            .skip((page - 1) * limit)
-            .to_list(None)
-        )
-
-    @staticmethod
-    async def create_user(user: UserAuth):
+    async def create_user(user: UserCreate):
         """Create a new user."""
         user_in = User(
             email=user.email,
@@ -113,14 +64,9 @@ class UserService:
         return user_in
 
     @staticmethod
-    async def retrieve_user(username: str):
-        """Retrieve a user by username."""
-        return await User.find_one({"username": username, "is_active": True})
-
-    @staticmethod
     async def update_user(username: str, data: UserUpdate) -> User:
         """Update a user by username."""
-        user = await UserService.retrieve_user(username)
+        user = await UserService.get_user(username)
         update_data = data.model_dump(exclude_unset=True)
 
         if "password" in update_data:
@@ -133,7 +79,7 @@ class UserService:
     @staticmethod
     async def delete_user(username: str):
         """Delete a user by username."""
-        user = await UserService.retrieve_user(username)
+        user = await UserService.get_user(username)
 
         if user:
             await Cafe.find({"staff.username": username}).update(
@@ -144,7 +90,7 @@ class UserService:
         return user
 
     @staticmethod
-    async def create_many_users(users_data: List[UserAuth]) -> List[User]:
+    async def create_many_users(users_data: List[UserCreate]) -> List[User]:
         """Create multiple users."""
         users = []
         for user_data in users_data:
@@ -188,7 +134,6 @@ class UserService:
         if not users_to_delete:
             raise ValueError("No users found for the provided usernames")
 
-        # Remove users from Cafe staff and deactivate users
         for user in users_to_delete:
             await Cafe.find({"staff.username": user.username}).update(
                 {"$pull": {"staff": {"username": user.username}}}
@@ -207,10 +152,3 @@ class UserService:
         if await User.find_one({"username": username}):
             return "username"
         return None
-
-    @staticmethod
-    async def reset_password(user: User, new_password: str):
-        """Reset a user's password."""
-        hashed_password = get_password(new_password)
-        await user.update({"$set": {"hashed_password": hashed_password}})
-        return user

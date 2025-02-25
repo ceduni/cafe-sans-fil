@@ -7,7 +7,14 @@ from datetime import datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Document, View
+from beanie import (
+    DecimalAnnotation,
+    Document,
+    Insert,
+    Save,
+    View,
+    before_event,
+)
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
@@ -27,8 +34,8 @@ class Affiliation(BaseModel):
 class TimeBlock(BaseModel):
     """Model for time blocks."""
 
-    start: str = Field(..., min_length=1)
-    end: str = Field(..., min_length=1)
+    start: str = Field(..., min_length=1, examples=["08:00"])
+    end: str = Field(..., min_length=1, examples=["12:00"])
 
     @field_validator("start", "end")
     @classmethod
@@ -66,7 +73,7 @@ class Location(BaseModel):
 class Contact(BaseModel):
     """Model for contact information."""
 
-    email: Optional[str] = None
+    email: Optional[str] = Field(None, examples=["s9i2j@example.com"])
     phone_number: Optional[str] = None
     website: Optional[str] = None
 
@@ -134,103 +141,90 @@ class CafeBase(BaseModel):
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
 
+    @field_validator("opening_hours")
+    def validate_opening_hours(cls, opening_hours):
+        """Validate that there are no overlapping time blocks."""
+        day_blocks: dict[str, List[TimeBlock]] = {}
 
-class Cafe(Document, CafeBase):
-    """Cafe document model."""
+        # Group by day
+        for day_hours_data in opening_hours:
+            day_hours = (
+                DayHours(**day_hours_data)
+                if isinstance(day_hours_data, dict)
+                else day_hours_data
+            )
+            if day_hours.day not in day_blocks:
+                day_blocks[day_hours.day] = []
+            day_blocks[day_hours.day].extend(day_hours.blocks)
 
-    menu_categories: List[MenuCategory] = []
+        # Check each day
+        for day, blocks in day_blocks.items():
+            for i, block in enumerate(blocks):
+                for other_block in blocks[i + 1 :]:
+                    if time_blocks_overlap(block, other_block):
+                        raise ValueError(f"Overlapping time blocks detected on {day}.")
+        return opening_hours
 
-    def __init__(self, **data):
-        """Initialize cafe document."""
-        super().__init__(**data)
-        self.slug = slugify(self.name)
-
-    async def is_slug_unique(self, slug: str) -> bool:
-        """Check if slug is unique."""
-        existing_cafe = await Cafe.find_one(
-            {
-                "$and": [
-                    {"$or": [{"slug": slug}, {"previous_slugs": slug}]},
-                    {"_id": {"$ne": self.id}},
-                ]
-            }
-        )
-        return existing_cafe is None
-
-    async def check_slug(self):
-        """Check and update slug."""
-        new_slug = slugify(self.name)
-        if self.slug != new_slug:
-            if not await self.is_slug_unique(new_slug):
-                raise ValueError(f"The slug '{new_slug}' is already in use.")
-            if self.slug:
-                self.previous_slugs.append(self.slug)
-            self.slug = new_slug
-
-    async def check_for_duplicate_entries(self):
-        """Check for duplicate payment methods and additional info."""
-        # Unique PaymentMethod methods
+    @field_validator("payment_methods")
+    def validate_payment_methods(cls, payment_methods):
+        """Validate that payment methods are unique."""
         payment_methods_set = set()
-        for pm_data in self.payment_methods:
+        for pm_data in payment_methods:
             if isinstance(pm_data, dict):
                 pm = PaymentMethod(**pm_data)
             else:
                 pm = pm_data
             payment_methods_set.add(pm.method)
 
-        if len(payment_methods_set) != len(self.payment_methods):
+        if len(payment_methods_set) != len(payment_methods):
             raise ValueError("Duplicate PaymentMethod method detected.")
+        return payment_methods
 
-        # Unique AdditionalInfo type-value combinations
+    @field_validator("additional_info")
+    def validate_additional_info(cls, additional_info):
+        """Validate that additional info entries are unique."""
         additional_info_combinations = set()
-        for info_data in self.additional_info:
+        for info_data in additional_info:
             if isinstance(info_data, dict):
                 info = AdditionalInfo(**info_data)
             else:
                 info = info_data
             additional_info_combinations.add((info.type, info.value))
 
-        if len(additional_info_combinations) != len(self.additional_info):
+        if len(additional_info_combinations) != len(additional_info):
             raise ValueError(
                 "Duplicate AdditionalInfo type-value combination detected."
             )
+        return additional_info
 
-    async def check_for_duplicate_hours(self):
-        """Check for duplicate hours."""
-        for day_hours_data in self.opening_hours:
-            day_hours = (
-                DayHours(**day_hours_data)
-                if isinstance(day_hours_data, dict)
-                else day_hours_data
+
+class Cafe(Document, CafeBase):
+    """Cafe document model."""
+
+    menu_categories: List[MenuCategory] = []
+
+    @before_event([Insert, Save])
+    async def handle_slug(self):
+        """Handle slug."""
+        prev_slug = self.slug
+        new_slug = slugify(self.name)
+
+        if prev_slug != new_slug:
+            cafe = await Cafe.find_one({"slug": new_slug, "_id": {"$ne": self.id}})
+            if cafe:
+                raise ValueError(f"Slug '{new_slug}' is already in use")
+
+            if prev_slug:
+                self.previous_slugs.append(prev_slug)
+
+            while new_slug in self.previous_slugs:
+                self.previous_slugs.remove(new_slug)
+
+            await Cafe.find({"previous_slugs": new_slug}).update_many(
+                {"$pull": {"previous_slugs": new_slug}}
             )
-            time_blocks = day_hours.blocks
-            for i, block in enumerate(time_blocks):
-                for other_block in time_blocks[i + 1 :]:
-                    if time_blocks_overlap(block, other_block):
-                        raise ValueError(
-                            f"Overlapping time blocks detected on {day_hours.day}."
-                        )
 
-    async def handle_validation(self):
-        """Handle validation."""
-        await self.check_slug()
-        await self.check_for_duplicate_hours()
-        await self.check_for_duplicate_entries()
-
-    async def update(self, *args, **kwargs):
-        """Update cafe."""
-        await self.handle_validation()
-        return await super().update(*args, **kwargs)
-
-    async def insert(self, *args, **kwargs):
-        """Insert cafe."""
-        await self.handle_validation()
-        return await super().insert(*args, **kwargs)
-
-    async def save(self, *args, **kwargs):
-        """Save cafe."""
-        await self.handle_validation()
-        return await super().save(*args, **kwargs)
+            self.slug = new_slug
 
     class Settings:
         """Settings for cafe document."""

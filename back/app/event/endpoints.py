@@ -2,10 +2,12 @@
 Module for handling event-related routes.
 """
 
-from typing import Dict, List, Optional
+from typing import Optional
 
 from beanie import PydanticObjectId
-from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request
+from fastapi import APIRouter, Depends, Path, Query, Request
+from fastapi_pagination.ext.beanie import paginate
+from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.event.models import EventCreate, EventOut, EventUpdate
@@ -18,69 +20,48 @@ event_router = APIRouter()
 
 @event_router.get(
     "/events/",
-    response_model=List[EventOut],
-    summary="List Events",
-    description="Retrieve a list of all events.",
+    response_model=Page[EventOut],
 )
-async def list_events(
+async def get_events(
     request: Request,
-    cafe_id: Optional[PydanticObjectId] = Query(
-        None, description="Filter events by cafe ID."
-    ),
-    sort_by: Optional[str] = Query(
-        "-start_date",
-        description="Sort events by a specific field. Prefix with '-' for descending order (e.g., '-start_date').",
-    ),
-    page: Optional[int] = Query(
-        1, description="Specify the page number for pagination."
-    ),
-    limit: Optional[int] = Query(
-        9, description="Set the number of events to return per page."
-    ),
-) -> List[EventOut]:
-    """Retrieve a list of all events."""
-    query_params = dict(request.query_params)
-    parsed_params = parse_query_params(query_params)
-    return await EventService.get_events(**parsed_params)
+    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID."),
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
+):
+    """Get a list of events."""
+    filters = parse_query_params(dict(request.query_params))
+    events = await EventService.get_events(**filters)
+    return await paginate(events)
 
 
 @event_router.post(
     "/events/",
     response_model=EventOut,
-    summary="Create Event",
-    description="Create a new event.",
 )
 async def create_event(event: EventCreate) -> EventOut:
-    """Create a new event."""
+    """Create an event."""
     return await EventService.create_event(event)
 
 
 @event_router.put(
     "/events/{event_id}",
     response_model=EventOut,
-    summary="Update Event",
-    description="Update an existing event.",
 )
 async def update_event(event_id: PydanticObjectId, event: EventUpdate) -> EventOut:
-    """Update an existing event."""
+    """Update an event."""
     return await EventService.update_event(event_id, event)
 
 
 @event_router.delete(
     "/events/{event_id}",
-    summary="Delete Event",
-    description="Delete an existing event.",
 )
 async def delete_event(event_id: PydanticObjectId):
-    """Delete an existing event."""
+    """Delete an event."""
     return await EventService.remove_event(event_id)
 
 
 @event_router.post(
     "/events/{event_id}/attend",
     response_model=EventOut,
-    summary="Toggle Event Attendance",
-    description="Toggle attendance for an event.",
 )
 async def toggle_attendance(
     event_id: PydanticObjectId = Path(..., description="The ID of the event"),
@@ -97,8 +78,6 @@ async def toggle_attendance(
 @event_router.post(
     "/events/{event_id}/support",
     response_model=EventOut,
-    summary="Toggle Event Support",
-    description="Toggle support for an event.",
 )
 async def toggle_support(
     event_id: PydanticObjectId = Path(..., description="The ID of the event"),

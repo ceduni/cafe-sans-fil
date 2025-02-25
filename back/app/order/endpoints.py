@@ -2,16 +2,19 @@
 Module for handling order-related routes.
 """
 
-from typing import List
+from typing import Optional
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi_pagination.ext.beanie import paginate
+from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.cafe.models import Role
 from app.cafe.service import CafeService
 from app.order.models import OrderCreate, OrderOut, OrderUpdate
 from app.order.service import OrderService
+from app.service import parse_query_params
 from app.user.models import User
 
 order_router = APIRouter()
@@ -19,29 +22,22 @@ order_router = APIRouter()
 
 @order_router.get(
     "/orders",
-    response_model=List[OrderOut],
-    summary="🔵 List Orders",
-    description="Retrieve a list of all orders.",
+    response_model=Page[OrderOut],
 )
-async def list_orders(
+async def get_orders(
     request: Request,
-    sort_by: str = Query(
-        "-order_number", description="The field to sort the results by."
-    ),
-    page: int = Query(1, description="The page number to retrieve."),
-    limit: int = Query(20, description="The number of orders to retrieve per page."),
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
     current_user: User = Depends(get_current_user),
-) -> List[OrderOut]:
-    """Retrieve a list of all orders."""
-    filters = dict(request.query_params)
-    return await OrderService.list_orders(**filters)
+):
+    """Get a list of orders. (`member`)"""
+    filters = parse_query_params(dict(request.query_params))
+    orders = await OrderService.get_orders(**filters)
+    return await paginate(orders)
 
 
 @order_router.get(
     "/orders/{order_id}",
     response_model=OrderOut,
-    summary="🔵 Get Order",
-    description="Retrieve detailed information about a specific order.",
 )
 async def get_order(
     order_id: PydanticObjectId = Path(
@@ -49,9 +45,9 @@ async def get_order(
     ),
     current_user: User = Depends(get_current_user),
 ) -> OrderOut:
-    """Retrieve detailed information about a specific order."""
+    """Get an order. (`member`)"""
     try:
-        order = await OrderService.retrieve_order(order_id)
+        order = await OrderService.get_order(order_id)
         if not order:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="Order not found"
@@ -60,7 +56,7 @@ async def get_order(
         # Authorization check
         if (
             order.user_username != current_user.username
-            and not await CafeService.is_authorized_for_cafe_action_by_slug(
+            and not await CafeService.is_authorized_for_cafe_action(
                 order.cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER]
             )
         ):
@@ -79,14 +75,12 @@ async def get_order(
 @order_router.post(
     "/orders",
     response_model=OrderOut,
-    summary="🔵 Create Order",
-    description="Create a new order with the provided details.",
 )
 async def create_order(
     order: OrderCreate, current_user: User = Depends(get_current_user)
 ) -> OrderOut:
-    """Create a new order with the provided details."""
-    cafe = await CafeService.retrieve_cafe(order.cafe_slug)
+    """Create an order. (`member`)"""
+    cafe = await CafeService.get_cafe(order.cafe_slug)
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
@@ -97,8 +91,6 @@ async def create_order(
 @order_router.put(
     "/orders/{order_id}",
     response_model=OrderOut,
-    summary="🔵 Update Order",
-    description="Update the details of an existing order.",
 )
 async def update_order(
     orderUpdate: OrderUpdate,
@@ -107,9 +99,9 @@ async def update_order(
     ),
     current_user: User = Depends(get_current_user),
 ) -> OrderOut:
-    """Update the details of an existing order."""
+    """Update an order. (`member`)"""
     try:
-        order = await OrderService.retrieve_order(order_id)
+        order = await OrderService.get_order(order_id)
         if not order:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="Order not found"
@@ -118,7 +110,7 @@ async def update_order(
         # Authorization check
         if (
             order.user_username != current_user.username
-            and not await CafeService.is_authorized_for_cafe_action_by_slug(
+            and not await CafeService.is_authorized_for_cafe_action(
                 order.cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER]
             )
         ):
@@ -136,58 +128,50 @@ async def update_order(
 
 @order_router.get(
     "/users/{username}/orders",
-    response_model=List[OrderOut],
-    summary="🔵 List User Orders",
-    description="Retrieve a list of orders for a specific user.",
+    response_model=Page[OrderOut],
 )
-async def list_user_orders(
+async def get_user_orders(
     request: Request,
-    username: str = Path(..., description="The username of the user"),
-    sort_by: str = Query(
-        "-order_number", description="The field to sort the results by."
-    ),
-    page: int = Query(1, description="The page number to retrieve."),
-    limit: int = Query(20, description="The number of orders to retrieve per page."),
+    username: str = Path(..., description="Username of the user"),
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
     current_user: User = Depends(get_current_user),
-) -> List[OrderOut]:
-    """Retrieve a list of orders for a specific user."""
+):
+    """Get a list of orders for a user. (`member`)"""
     # Authorization check
     if username != current_user.username:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
         )
-    filters = dict(request.query_params)
-    return await OrderService.list_orders_for_user(username, **filters)
+
+    filters = parse_query_params(dict(request.query_params))
+    orders = await OrderService.get_orders_for_user(username, **filters)
+    return await paginate(orders)
 
 
 @order_router.get(
     "/cafes/{cafe_slug}/orders",
-    response_model=List[OrderOut],
-    summary="🟢 List Cafe Orders",
-    description="Retrieve a list of orders for a specific cafe.",
+    response_model=Page[OrderOut],
 )
-async def list_cafe_orders(
+async def get_cafe_orders(
     request: Request,
-    cafe_slug: str = Path(..., description="The slug of the cafe"),
-    sort_by: str = Query(
-        None, description="The field to sort the results by. Default: -order_number"
-    ),
-    page: int = Query(1, description="The page number to retrieve."),
-    limit: int = Query(20, description="The number of orders to retrieve per page."),
+    cafe_slug: str = Path(..., description="Slug of the cafe"),
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
     current_user: User = Depends(get_current_user),
-) -> List[OrderOut]:
-    """Retrieve a list of orders for a specific cafe."""
+):
+    """Get a list of orders for a cafe. (`volunteer`)"""
     try:
         # Authorization check
-        if not await CafeService.is_authorized_for_cafe_action_by_slug(
+        if not await CafeService.is_authorized_for_cafe_action(
             cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER]
         ):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
             )
 
-        filters = dict(request.query_params)
-        return await OrderService.list_orders_for_cafe(cafe_slug, **filters)
+        filters = parse_query_params(dict(request.query_params))
+        orders = await OrderService.get_orders_for_cafe(cafe_slug, **filters)
+        return await paginate(orders)
+
     except ValueError as e:
         if str(e) == "Cafe not found":
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))

@@ -2,13 +2,24 @@
 Module for handling authentication-related security functions.
 """
 
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from typing import Any, Union
 
+import bcrypt
 from jose import jwt
 from passlib.context import CryptContext
 
 from app.config import settings
+
+
+@dataclass
+class SolveBugBcryptWarning:
+    __version__: str = getattr(bcrypt, "__version__")
+
+
+# https://github.com/pyca/bcrypt/issues/684
+setattr(bcrypt, "__about__", SolveBugBcryptWarning())
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
