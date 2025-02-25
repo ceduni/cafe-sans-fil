@@ -22,3 +22,7 @@ router.include_router(user_router, tags=["users"])
 router.include_router(order_router, tags=["orders"])
 router.include_router(auth_router, tags=["auth"])
 router.include_router(search_router, tags=["search"])
+
+@router.get("/health", include_in_schema=False)
+def health():
+    return {"status": "ok"}
