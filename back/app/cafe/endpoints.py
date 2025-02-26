@@ -4,9 +4,11 @@ Module for handling cafe-related routes.
 
 from typing import Optional
 
+from beanie.exceptions import RevisionIdWasChanged
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
+from pymongo.errors import DuplicateKeyError
 
 from app.auth.dependencies import get_current_user
 from app.cafe.models import (
@@ -20,7 +22,7 @@ from app.cafe.models import (
     StaffOut,
 )
 from app.cafe.service import CafeService
-from app.models import ErrorResponse
+from app.models import ErrorConflictResponse, ErrorResponse
 from app.order.service import OrderService
 from app.service import parse_query_params
 from app.user.models import User
@@ -55,14 +57,32 @@ async def get_cafes(
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
-        409: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
     },
 )
 async def create_cafe(
     data: CafeCreate,
+    current_user: User = Depends(get_current_user),
 ):
     """Create a cafe (`superuser`)."""
-    return await CafeService.create(data)
+    if "7802085" != current_user.username:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=[{"msg": "Only superusers can create cafes"}],
+        )
+
+    try:
+        return await CafeService.create(data)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "A cafe with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
 
 
 @cafe_router.get(
@@ -79,7 +99,8 @@ async def get_cafe(
     cafe = await CafeService.get(slug, as_view=True)
     if not cafe:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=[{"msg": "Café not found"}]
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
         )
     return cafe
 
@@ -103,18 +124,29 @@ async def update_cafe(
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
         )
+
+    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
+
     try:
-        await CafeService.is_authorized_for_cafe_action(
-            cafe, current_user, [Role.ADMIN]
-        )
         return await CafeService.update(cafe, data)
-    except ValueError as e:
-        if str(e) == "Access forbidden":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
-        elif "duplicate" in str(e).lower() and len(str(e)) < 100:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
+    except RevisionIdWasChanged as e:
+        if isinstance(e.__context__, DuplicateKeyError):
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=[
+                    {
+                        "msg": "A cafe with these fields already exists.",
+                        "fields": list(
+                            e.__context__.details.get("keyPattern", {}).keys()
+                        ),
+                    }
+                ],
+            )
+        else:
+            raise e
 
 
 # --------------------------------------

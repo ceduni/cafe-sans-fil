@@ -6,6 +6,7 @@ from typing import List
 
 from beanie import PydanticObjectId
 from bson.errors import InvalidId
+from fastapi import HTTPException, status
 
 from app.cafe.models import (
     Cafe,
@@ -38,14 +39,15 @@ class CafeService:
         """Get a cafe by slug or ID."""
         cafe_class = CafeView if as_view else Cafe
         try:
-            cafe_id = PydanticObjectId(cafe_slug_or_id)
-            return await cafe_class.find_one({"_id": cafe_id})
+            id = PydanticObjectId(cafe_slug_or_id)
+            return await cafe_class.get(id)
         except InvalidId:
+            slug = cafe_slug_or_id
             return await cafe_class.find_one(
                 {
                     "$or": [
-                        {"slug": cafe_slug_or_id},
-                        {"previous_slugs": cafe_slug_or_id},
+                        {"slug": slug},
+                        {"previous_slugs": slug},
                     ]
                 }
             )
@@ -53,24 +55,17 @@ class CafeService:
     @staticmethod
     async def create(data: CafeCreate) -> Cafe:
         """Create a new cafe."""
-        try:
-            cafe = Cafe(**data.model_dump())
-            await cafe.insert()
-            return cafe
-        except Exception as e:
-            if "duplicate" in str(e).lower() and len(str(e)) < 100:
-                raise ValueError("Cafe already exists")
+        cafe = Cafe(**data.model_dump())
+        await cafe.insert()
+        return cafe
 
     @staticmethod
     async def update(cafe: Cafe, data: CafeUpdate):
         """Update a cafe."""
-        try:
-            for field, value in data.model_dump(exclude_unset=True).items():
-                setattr(cafe, field, value)
-            await cafe.save()
-            return cafe
-        except Exception as e:
-            raise ValueError(e)
+        for field, value in data.model_dump(exclude_unset=True).items():
+            setattr(cafe, field, value)
+        await cafe.save()
+        return cafe
 
     # --------------------------------------
     #               Staff
@@ -83,7 +78,7 @@ class CafeService:
             if member.username == username:
                 return member
 
-        raise ValueError("Staff member not found")
+        return None
 
     @staticmethod
     async def create_staff(cafe: Cafe, data: StaffCreate):
@@ -103,7 +98,7 @@ class CafeService:
                 await cafe.save()
                 return member
 
-        raise ValueError("Staff member not found")
+        return None
 
     @staticmethod
     async def delete_staff(cafe: Cafe, username: str):
@@ -113,8 +108,6 @@ class CafeService:
                 member for member in cafe.staff if member.username != username
             ]
             await cafe.save()
-        else:
-            raise ValueError("Staff member not found")
 
     @staticmethod
     async def create_many_staff(
@@ -139,9 +132,6 @@ class CafeService:
                 for key, value in data.model_dump(exclude_unset=True).items():
                     setattr(member, key, value)
                 updated_members.append(member)
-
-        if not updated_members:
-            raise ValueError("No staff members found for the provided usernames")
 
         await cafe.save()
         return updated_members
@@ -173,8 +163,14 @@ class CafeService:
         # Check if appropriate role
         if user_in_staff:
             if user_in_staff.role not in [role.value for role in required_roles]:
-                raise ValueError("Access forbidden")
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail=[{"msg": "Access forbidden"}],
+                )
         else:
-            raise ValueError("Access forbidden")
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=[{"msg": "Access forbidden"}],
+            )
 
         return True

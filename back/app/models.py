@@ -50,8 +50,8 @@ class UserId:
     user_id: PydanticObjectId
 
 
-class ErrorMessage(BaseModel):
-    """Model for error message."""
+class ErrorDetail(BaseModel):
+    """Model for error detail."""
 
     msg: str
 
@@ -59,4 +59,17 @@ class ErrorMessage(BaseModel):
 class ErrorResponse(BaseModel):
     """Model for error response."""
 
-    detail: Optional[List[ErrorMessage]]
+    detail: Optional[List[ErrorDetail]]
+
+
+class ErrorConflictDetail(BaseModel):
+    """Model for conflict detail."""
+
+    msg: str
+    fields: List[str]
+
+
+class ErrorConflictResponse(BaseModel):
+    """Model for conflict response."""
+
+    detail: Optional[List[ErrorConflictDetail]]

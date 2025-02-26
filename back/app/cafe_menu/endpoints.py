@@ -103,6 +103,9 @@ async def delete_menu_category(
 @menu_router.get(
     "/cafes/{slug}/menu/items",
     response_model=Page[MenuItemOut],
+    responses={
+        404: {"model": ErrorResponse},
+    },
 )
 async def get_menu_items(
     request: Request,

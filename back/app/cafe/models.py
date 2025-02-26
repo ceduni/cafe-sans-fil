@@ -7,14 +7,7 @@ from datetime import datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import (
-    DecimalAnnotation,
-    Document,
-    Insert,
-    Save,
-    View,
-    before_event,
-)
+from beanie import DecimalAnnotation, Document, Insert, Save, View, before_event
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
@@ -44,7 +37,7 @@ class TimeBlock(BaseModel):
         try:
             datetime.strptime(time_value, "%H:%M")
         except ValueError:
-            raise ValueError("Time must be in HH:mm format.")
+            raise ValueError("Must be in HH:mm format.")
         return time_value
 
 
@@ -210,10 +203,6 @@ class Cafe(Document, CafeBase):
         new_slug = slugify(self.name)
 
         if prev_slug != new_slug:
-            cafe = await Cafe.find_one({"slug": new_slug, "_id": {"$ne": self.id}})
-            if cafe:
-                raise ValueError(f"Slug '{new_slug}' is already in use")
-
             if prev_slug:
                 self.previous_slugs.append(prev_slug)
 
