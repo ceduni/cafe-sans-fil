@@ -20,6 +20,7 @@ from app.cafe.models import (
     StaffOut,
 )
 from app.cafe.service import CafeService
+from app.models import ErrorResponse
 from app.order.service import OrderService
 from app.service import parse_query_params
 from app.user.models import User
@@ -51,29 +52,25 @@ async def get_cafes(
 @cafe_router.post(
     "/cafes",
     response_model=CafeOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def create_cafe(
     data: CafeCreate,
-    current_user: User = Depends(get_current_user),
 ):
     """Create a cafe (`superuser`)."""
-    if "7802085" != current_user.username:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
-        )
-    try:
-        return await CafeService.create(data)
-    except ValueError as e:
-        if "duplicate" in str(e).lower() and len(str(e)) < 100:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail="Cafe already exists"
-        )
+    return await CafeService.create(data)
 
 
 @cafe_router.get(
     "/cafes/{slug}",
     response_model=CafeViewOut,
+    responses={
+        404: {"model": ErrorResponse},
+    },
 )
 async def get_cafe(
     slug: str = Path(..., description="Slug of the cafe"),
@@ -82,7 +79,7 @@ async def get_cafe(
     cafe = await CafeService.get(slug, as_view=True)
     if not cafe:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail=[{"msg": "Café not found"}]
         )
     return cafe
 
@@ -90,6 +87,12 @@ async def get_cafe(
 @cafe_router.put(
     "/cafes/{slug}",
     response_model=CafeOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def update_cafe(
     data: CafeUpdate,
@@ -108,15 +111,10 @@ async def update_cafe(
         )
         return await CafeService.update(cafe, data)
     except ValueError as e:
-        if str(e) == "Cafe not found":
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-        elif str(e) == "Access forbidden":
+        if str(e) == "Access forbidden":
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
         elif "duplicate" in str(e).lower() and len(str(e)) < 100:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-        # raise HTTPException(
-        #     status_code=status.HTTP_409_CONFLICT, detail="Cafe already exists"
-        # )
 
 
 # --------------------------------------
@@ -127,6 +125,11 @@ async def update_cafe(
 @cafe_router.post(
     "/cafes/{slug}/staff",
     response_model=StaffOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def create_staff_member(
     data: StaffCreate,
@@ -172,6 +175,11 @@ async def create_staff_member(
 
 @cafe_router.get(
     "/cafes/{slug}/sales-report",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def get_sales_report(
     slug: str = Path(..., description="Slug of the cafe"),

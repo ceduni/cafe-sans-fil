@@ -9,6 +9,7 @@ from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
+from app.models import ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User, UserOut, UserUpdate
 from app.user.service import UserService
@@ -19,6 +20,10 @@ user_router = APIRouter()
 @user_router.get(
     "/users",
     response_model=Page[UserOut],
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+    },
 )
 async def get_users(
     request: Request,
@@ -34,6 +39,11 @@ async def get_users(
 @user_router.get(
     "/users/{username}",
     response_model=UserOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def get_user(username: str = Path(..., description="Username of the user")):
     """Get a user. (`member`)"""
@@ -48,6 +58,12 @@ async def get_user(username: str = Path(..., description="Username of the user")
 @user_router.put(
     "/users/{username}",
     response_model=UserOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def update_user(
     data: UserUpdate,
@@ -72,6 +88,11 @@ async def update_user(
 
 @user_router.delete(
     "/users/{username}",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def delete_user(
     username: str = Path(..., description="Username of the user"),

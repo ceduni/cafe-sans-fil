@@ -12,6 +12,7 @@ from fastapi_pagination.links import Page
 from app.auth.dependencies import get_current_user
 from app.event.models import EventCreate, EventOut, EventUpdate
 from app.event.service import EventService
+from app.models import ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User
 
@@ -36,6 +37,12 @@ async def get_events(
 @event_router.post(
     "/events/",
     response_model=EventOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def create_event(data: EventCreate):
     """Create an event."""
@@ -45,6 +52,12 @@ async def create_event(data: EventCreate):
 @event_router.put(
     "/events/{id}",
     response_model=EventOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def update_event(
     id: PydanticObjectId,
@@ -57,6 +70,11 @@ async def update_event(
 
 @event_router.delete(
     "/events/{id}",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def delete_event(
     id: PydanticObjectId,
@@ -68,6 +86,10 @@ async def delete_event(
 
 @event_router.post(
     "/events/{id}/attend",
+    responses={
+        401: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def toggle_attendance(
     id: PydanticObjectId = Path(..., description="ID of the event"),
@@ -84,6 +106,10 @@ async def toggle_attendance(
 
 @event_router.post(
     "/events/{id}/support",
+    responses={
+        401: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def toggle_support(
     id: PydanticObjectId = Path(..., description="ID of the event"),

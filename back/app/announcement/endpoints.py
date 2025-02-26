@@ -16,6 +16,7 @@ from app.announcement.models import (
 )
 from app.announcement.service import AnnouncementService
 from app.auth.dependencies import get_current_user
+from app.models import ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User
 
@@ -40,6 +41,12 @@ async def get_announcements(
 @announcement_router.post(
     "/announcements/",
     response_model=AnnouncementOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def create_announcement(
     data: AnnouncementCreate,
@@ -51,6 +58,12 @@ async def create_announcement(
 @announcement_router.put(
     "/announcements/{id}",
     response_model=AnnouncementOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def update_announcement(
     data: AnnouncementUpdate,
@@ -61,7 +74,14 @@ async def update_announcement(
     return await AnnouncementService.update(announcement, data)
 
 
-@announcement_router.delete("/announcements/{id}")
+@announcement_router.delete(
+    "/announcements/{id}",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
+)
 async def delete_announcement(
     id: PydanticObjectId = Path(..., description="ID of the announcement"),
 ):
@@ -72,6 +92,10 @@ async def delete_announcement(
 
 @announcement_router.post(
     "/announcements/{id}/like",
+    responses={
+        401: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def toggle_like(
     id: PydanticObjectId = Path(..., description="ID of the announcement"),

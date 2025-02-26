@@ -2,8 +2,10 @@
 Module for global models.
 """
 
+from typing import List, Optional
+
 from beanie import PydanticObjectId
-from pydantic import Field
+from pydantic import BaseModel, Field
 
 
 class Id:
@@ -46,3 +48,15 @@ class UserId:
     """Model for user ID."""
 
     user_id: PydanticObjectId
+
+
+class ErrorMessage(BaseModel):
+    """Model for error message."""
+
+    msg: str
+
+
+class ErrorResponse(BaseModel):
+    """Model for error response."""
+
+    detail: Optional[List[ErrorMessage]]

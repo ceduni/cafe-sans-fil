@@ -16,7 +16,8 @@ from app.auth.models import ResetPasswordCreate, TokenPayload, TokenSchema
 from app.auth.security import create_access_token, create_refresh_token
 from app.auth.service import AuthService
 from app.config import settings
-from app.user.models import User, UserCreate, UserOut
+from app.models import ErrorResponse
+from app.user.models import UserCreate, UserOut
 from app.user.service import UserService
 
 auth_router = APIRouter()
@@ -25,6 +26,10 @@ auth_router = APIRouter()
 @auth_router.post(
     "/auth/login",
     response_model=TokenSchema,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+    },
 )
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     """Authenticate user and return access and refresh tokens."""
@@ -49,7 +54,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
             detail="Account temporarily locked due to multiple failed login attempts.",
         )
 
-    # Reset whenu inactivity for users who are not locked out
+    # Reset when inactivity for users who are not locked out
     if (
         user
         and not user.lockout_until
@@ -102,6 +107,9 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
 @auth_router.post(
     "/auth/register",
     response_model=UserOut,
+    responses={
+        409: {"model": ErrorResponse},
+    },
 )
 async def register(user: UserCreate) -> UserOut:
     """Register a new user."""
@@ -145,15 +153,12 @@ async def forgot_password(
     user = await UserService.get_by_email(email)
 
     if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found with the provided email address.",
-        )
-
-    token = create_access_token(user.id)
-    reset_link = f"{settings.BASE_URL}/reset-password?token={token}"
+        return None
 
     # TODO: Render blocking SMTP requests
+    # token = create_access_token(user.id)
+    # reset_link = f"{settings.BASE_URL}/reset-password?token={token}"
+
     # await send_reset_password_mail("Réinitialisation du mot de passe", user.email,
     #     {
     #         "title": "Réinitialisation du mot de passe",
@@ -162,23 +167,25 @@ async def forgot_password(
     #     }
     # )
 
-    return {
-        "reset_link": reset_link,
-    }
+    # return {
+    #     "reset_link": reset_link,
+    # }
+
+    return None
 
 
 @auth_router.put(
     "/auth/reset-password",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+    },
 )
 async def reset_password(
     body: ResetPasswordCreate,
 ):
     """Reset the password for a user using the provided token."""
     user = await get_current_user(body.token)
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found."
-        )
 
     await AuthService.reset_password(user, body.password)
     return {"msg": "Password has been reset successfully."}
@@ -189,7 +196,14 @@ async def reset_password(
 # --------------------------------------
 
 
-@auth_router.post("/auth/refresh", response_model=TokenSchema)
+@auth_router.post(
+    "/auth/refresh",
+    response_model=TokenSchema,
+    responses={
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
+)
 async def refresh_token(refresh_token: str = Body(...)):
     """Refresh access token using refresh token."""
     try:
@@ -215,12 +229,3 @@ async def refresh_token(refresh_token: str = Body(...)):
         "access_token": create_access_token(user.id),
         "refresh_token": create_refresh_token(user.id),
     }
-
-
-@auth_router.post(
-    "/auth/test-token",
-    response_model=UserOut,
-)
-async def test_token(user: User = Depends(get_current_user)):
-    """Verify access token and return user details. (`member`)"""
-    return user

@@ -12,6 +12,7 @@ from fastapi_pagination.links import Page
 from app.auth.dependencies import get_current_user
 from app.cafe.models import Role
 from app.cafe.service import CafeService
+from app.models import ErrorResponse
 from app.order.models import OrderCreate, OrderOut, OrderUpdate
 from app.order.service import OrderService
 from app.service import parse_query_params
@@ -23,6 +24,10 @@ order_router = APIRouter()
 @order_router.get(
     "/orders",
     response_model=Page[OrderOut],
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+    },
 )
 async def get_orders(
     request: Request,
@@ -38,6 +43,11 @@ async def get_orders(
 @order_router.get(
     "/orders/{id}",
     response_model=OrderOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def get_order(
     id: PydanticObjectId = Path(..., description="ID of the order"),
@@ -73,6 +83,11 @@ async def get_order(
 @order_router.post(
     "/orders",
     response_model=OrderOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def create_order(
     data: OrderCreate, current_user: User = Depends(get_current_user)
@@ -89,6 +104,11 @@ async def create_order(
 @order_router.put(
     "/orders/{id}",
     response_model=OrderOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def update_order(
     data: OrderUpdate,

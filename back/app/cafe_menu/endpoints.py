@@ -21,6 +21,7 @@ from app.cafe_menu.models import (
     MenuItemUpdate,
 )
 from app.cafe_menu.service import MenuService
+from app.models import ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User
 
@@ -35,6 +36,12 @@ menu_router = APIRouter()
 @menu_router.post(
     "/cafes/{slug}/menu/categories",
     response_model=MenuCategoryOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def create_menu_category(
     data: MenuCategoryCreate,
@@ -50,6 +57,12 @@ async def create_menu_category(
 @menu_router.put(
     "/cafes/{slug}/menu/categories/{id}",
     response_model=MenuCategoryOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def update_menu_category(
     data: MenuCategoryUpdate,
@@ -65,6 +78,11 @@ async def update_menu_category(
 
 @menu_router.delete(
     "/cafes/{slug}/menu/categories/{id}",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def delete_menu_category(
     slug: str = Path(..., description="Slug of the cafe"),
@@ -109,6 +127,12 @@ async def get_menu_items(
 @menu_router.post(
     "/cafes/{slug}/menu/items",
     response_model=MenuItemOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def create_menu_item(
     data: MenuItemCreate,
@@ -134,6 +158,9 @@ async def create_menu_item(
 @menu_router.get(
     "/cafes/{slug}/menu/items/{id}",
     response_model=MenuItemOut,
+    responses={
+        404: {"model": ErrorResponse},
+    },
 )
 async def get_menu_item(
     id: PydanticObjectId = Path(..., description="ID of the menu item"),
@@ -150,6 +177,12 @@ async def get_menu_item(
 @menu_router.put(
     "/cafes/{slug}/menu/items/{id}",
     response_model=MenuItemOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
+    },
 )
 async def update_menu_item(
     data: MenuItemUpdate,
@@ -185,6 +218,11 @@ async def update_menu_item(
 
 @menu_router.delete(
     "/cafes/{slug}/menu/items/{id}",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def delete_menu_item(
     id: PydanticObjectId = Path(..., description="ID of the menu item"),
