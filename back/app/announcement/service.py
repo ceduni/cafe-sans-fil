@@ -2,8 +2,6 @@
 Module for handling announcement-related operations.
 """
 
-from typing import List
-
 from beanie import PydanticObjectId
 
 from app.announcement.models import (
@@ -17,62 +15,51 @@ from app.announcement.models import (
 class AnnouncementService:
     """Service class for announcement operations."""
 
-    async def get_announcements(**filters: dict):
+    async def get_all(**filters: dict):
         """Get announcements."""
         sort_by = filters.pop("sort_by", "start_date")
         return Announcement.find(filters).sort(sort_by)
 
-    async def create_announcement(
-        announcement_data: AnnouncementCreate,
-    ) -> AnnouncementOut:
+    async def get(id: PydanticObjectId) -> AnnouncementOut:
+        """Get an announcement by ID."""
+        return await Announcement.get(id)
+
+    async def create(
+        data: AnnouncementCreate,
+    ) -> Announcement:
         """Create a new announcement."""
-        announcement = Announcement(**announcement_data.model_dump())
+        announcement = Announcement(**data.model_dump())
         await announcement.insert()
         return announcement
 
-    async def update_announcement(
-        announcement_id: PydanticObjectId, announcement_data: AnnouncementCreate
-    ) -> AnnouncementOut:
+    async def update(
+        announcement: Announcement, data: AnnouncementCreate
+    ) -> Announcement:
         """Update an existing announcement."""
-        announcement = await Announcement.find_one(Announcement.id == announcement_id)
-        if not announcement:
-            raise ValueError("Announcement not found")
-        for key, value in announcement_data.dict(exclude_unset=True).items():
+        for key, value in data.model_dump(exclude_unset=True).items():
             setattr(announcement, key, value)
         await announcement.save()
         return announcement
 
-    async def remove_announcement(announcement_id: PydanticObjectId) -> AnnouncementOut:
+    async def delete(announcement: Announcement) -> None:
         """Delete an announcement."""
-        announcement = await Announcement.find_one(Announcement.id == announcement_id)
-        if not announcement:
-            raise ValueError("Announcement not found")
         await announcement.delete()
-        return announcement
 
-    async def add_like_to_announcement(
-        announcement_id: PydanticObjectId, user_id: PydanticObjectId
+    async def add_like(
+        announcement: Announcement, id: PydanticObjectId
     ) -> AnnouncementOut:
         """Add a like to an announcement."""
-        announcement = await Announcement.find_one(Announcement.id == announcement_id)
-        if not announcement:
-            raise ValueError("Announcement not found")
-        if not any(li.user_id == user_id for li in announcement.likes):
-            announcement.likes.append(UserInteraction(user_id=user_id))
+        if not any(li.user_id == id for li in announcement.likes):
+            announcement.likes.append(UserInteraction(user_id=id))
             await announcement.save()
         return announcement
 
-    async def remove_like_from_announcement(
-        announcement_id: PydanticObjectId, user_id: PydanticObjectId
+    async def remove_like(
+        announcement: Announcement, id: PydanticObjectId
     ) -> AnnouncementOut:
         """Remove a like from an announcement."""
-        announcement = await Announcement.find_one(Announcement.id == announcement_id)
-        if not announcement:
-            raise ValueError("Announcement not found")
         original_likes = len(announcement.likes)
-        announcement.likes = [
-            like for like in announcement.likes if like.user_id != user_id
-        ]
+        announcement.likes = [like for like in announcement.likes if like.user_id != id]
         if len(announcement.likes) < original_likes:
             await announcement.save()
         return announcement

@@ -15,9 +15,9 @@ fake = Faker("fr_FR")
 class OrderSeeder:
     async def seed_orders(self, cafe_slugs, usernames, num_orders: int):
         """Seeds a specified number of orders."""
-        order_data = []
+        datas = []
         for _ in range(num_orders):
-            order_data.append(
+            datas.append(
                 OrderCreate(
                     cafe_slug=fake.random_element(elements=cafe_slugs),
                     user_username=fake.random_element(elements=usernames),
@@ -25,7 +25,5 @@ class OrderSeeder:
                     status="PLACED",
                 )
             )
-        await OrderService.create_many_orders(
-            order_data, username=fake.random_element(usernames)
-        )
+        await OrderService.create_many(datas, username=fake.random_element(usernames))
         print(f"{num_orders} orders created")

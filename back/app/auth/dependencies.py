@@ -40,7 +40,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    user = await UserService.get_user_by_id(token_data.sub)
+    user = await UserService.get_by_id(token_data.sub)
 
     if not user:
         raise HTTPException(

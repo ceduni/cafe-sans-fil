@@ -33,52 +33,48 @@ menu_router = APIRouter()
 
 
 @menu_router.post(
-    "/cafes/{cafe_slug}/menu/categories",
+    "/cafes/{slug}/menu/categories",
     response_model=MenuCategoryOut,
 )
 async def create_menu_category(
-    category_data: MenuCategoryCreate,
-    cafe_slug: str = Path(..., description="Slug of the cafe"),
+    data: MenuCategoryCreate,
+    slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
     """Create a menu category. (`admin`)"""
     # TODO: Implement authorization for staff
-    cafe = await CafeService.get_cafe(cafe_slug)
-    return await MenuService.create_menu_category(cafe.id, category_data)
+    cafe = await CafeService.get(slug)
+    return await MenuService.create_category(cafe, data)
 
 
 @menu_router.put(
-    "/cafes/{cafe_slug}/menu/categories/{category_id}",
+    "/cafes/{slug}/menu/categories/{id}",
     response_model=MenuCategoryOut,
 )
 async def update_menu_category(
-    category_data: MenuCategoryUpdate,
-    cafe_slug: str = Path(..., description="Slug of the cafe"),
-    category_id: PydanticObjectId = Path(
-        ..., description="ID of the category to update"
-    ),
+    data: MenuCategoryUpdate,
+    slug: str = Path(..., description="Slug of the cafe"),
+    id: PydanticObjectId = Path(..., description="ID of the category"),
     current_user: User = Depends(get_current_user),
 ):
     """Update a menu category. (`admin`)"""
     # TODO: Implement authorization for staff
-    cafe = await CafeService.get_cafe(cafe_slug)
-    return await MenuService.update_menu_category(cafe.id, category_id, category_data)
+    cafe = await CafeService.get(slug)
+    return await MenuService.update_category(cafe, id, data)
 
 
 @menu_router.delete(
-    "/cafes/{cafe_slug}/menu/categories/{category_id}",
+    "/cafes/{slug}/menu/categories/{id}",
 )
 async def delete_menu_category(
-    cafe_slug: str = Path(..., description="Slug of the cafe"),
-    category_id: PydanticObjectId = Path(
-        ..., description="ID of the category to delete"
-    ),
+    slug: str = Path(..., description="Slug of the cafe"),
+    id: PydanticObjectId = Path(..., description="ID of the category"),
     current_user: User = Depends(get_current_user),
 ):
     """Delete a menu category. (`admin`)"""
     # TODO: Implement authorization for staff
-    cafe = await CafeService.get_cafe(cafe_slug)
-    await MenuService.delete_menu_category(cafe.id, category_id)
+    cafe = await CafeService.get(slug)
+    await MenuService.delete_category(cafe, id)
 
 
 # --------------------------------------
@@ -87,17 +83,17 @@ async def delete_menu_category(
 
 
 @menu_router.get(
-    "/cafes/{cafe_slug}/menu/items",
+    "/cafes/{slug}/menu/items",
     response_model=Page[MenuItemOut],
 )
 async def get_menu_items(
     request: Request,
-    cafe_slug: str = Path(..., description="Slug or ID of the cafe"),
+    slug: str = Path(..., description="Slug of the cafe"),
     in_stock: Optional[bool] = Query(None, description="Filter by stock availability"),
     sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
 ):
     """Get a list of menu items for a cafe."""
-    cafe = await CafeService.get_cafe(cafe_slug)
+    cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
@@ -106,21 +102,21 @@ async def get_menu_items(
     filters = parse_query_params(dict(request.query_params))
     filters["cafe_id"] = cafe.id
 
-    items = await MenuService.get_menu_items(**filters)
+    items = await MenuService.get_items(**filters)
     return await paginate(items)
 
 
 @menu_router.post(
-    "/cafes/{cafe_slug}/menu/items",
+    "/cafes/{slug}/menu/items",
     response_model=MenuItemOut,
 )
 async def create_menu_item(
-    item_data: MenuItemCreate,
-    cafe_slug: str = Path(..., description="The slug or ID of the cafe"),
+    data: MenuItemCreate,
+    slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
     """Create a menu item for a cafe. (`admin`)"""
-    cafe = await CafeService.get_cafe(cafe_slug)
+    cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
@@ -128,22 +124,22 @@ async def create_menu_item(
 
     try:
         await CafeService.is_authorized_for_cafe_action(
-            cafe.id, current_user, [Role.ADMIN]
+            cafe, current_user, [Role.ADMIN]
         )
-        return await MenuService.create_menu_item(cafe.id, item_data)
+        return await MenuService.create_item(cafe, data)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
 
 @menu_router.get(
-    "/cafes/{cafe_slug}/menu/items/{item_id}",
+    "/cafes/{slug}/menu/items/{id}",
     response_model=MenuItemOut,
 )
 async def get_menu_item(
-    item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
-) -> MenuItemOut:
+    id: PydanticObjectId = Path(..., description="ID of the menu item"),
+):
     """Get a menu item."""
-    item = await MenuService.get_menu_item(item_id)
+    item = await MenuService.get_item(id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
@@ -152,55 +148,67 @@ async def get_menu_item(
 
 
 @menu_router.put(
-    "/cafes/{cafe_slug}/menu/items/{item_id}",
+    "/cafes/{slug}/menu/items/{id}",
     response_model=MenuItemOut,
 )
 async def update_menu_item(
-    item_data: MenuItemUpdate,
-    item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
+    data: MenuItemUpdate,
+    id: PydanticObjectId = Path(..., description="ID of the menu item"),
     current_user: User = Depends(get_current_user),
-) -> MenuItemOut:
+):
     """Update a menu item. (`volunteer`)"""
-    item = await MenuService.get_menu_item(item_id)
+    item = await MenuService.get_item(id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
         )
 
+    cafe = await CafeService.get(item.cafe_id)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
+        )
+
     try:
         await CafeService.is_authorized_for_cafe_action(
-            item.cafe_id, current_user, [Role.ADMIN, Role.VOLUNTEER]
+            cafe, current_user, [Role.ADMIN, Role.VOLUNTEER]
         )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
     try:
-        updated_item = await MenuService.update_menu_item(item_id, item_data)
+        updated_item = await MenuService.update_item(item, data)
         return updated_item
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
 
 
 @menu_router.delete(
-    "/cafes/{cafe_slug}/menu/items/{item_id}",
+    "/cafes/{slug}/menu/items/{id}",
 )
 async def delete_menu_item(
-    item_id: PydanticObjectId = Path(..., description="The ID of the menu item"),
+    id: PydanticObjectId = Path(..., description="ID of the menu item"),
     current_user: User = Depends(get_current_user),
 ):
     """Delete a menu item. (`admin`)"""
-    item = await MenuService.get_menu_item(item_id)
+    item = await MenuService.get_item(id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Menu item not found."
         )
 
+    cafe = await CafeService.get(item.cafe_id)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
+        )
+
     try:
         await CafeService.is_authorized_for_cafe_action(
-            item.cafe_id, current_user, [Role.ADMIN]
+            cafe, current_user, [Role.ADMIN]
         )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
-    await MenuService.delete_menu_item(item_id)
-    return {"message": f"Item {item_id} has been successfully deleted."}
+    await MenuService.delete_item(item)
+    return {"message": f"Item {id} has been successfully deleted."}

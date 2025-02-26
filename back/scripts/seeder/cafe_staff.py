@@ -29,7 +29,8 @@ class StaffSeeder:
                 # Randomly assign staff for other cafes
                 staff = self.random_staff_members(usernames)
 
-            await CafeService.create_many_staff_members(cafe_id, staff)
+            cafe = await CafeService.get(cafe_id)
+            await CafeService.create_many_staff(cafe, staff)
 
         print(f"Staff members added to cafes")
 

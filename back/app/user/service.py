@@ -15,7 +15,7 @@ class UserService:
     """Service class for User and Auth operations."""
 
     @staticmethod
-    async def get_users(**filters: dict):
+    async def get_all(**filters: dict):
         """Get users."""
         sort_by = filters.pop("sort_by", "last_name")
         filters["is_active"] = True
@@ -26,47 +26,47 @@ class UserService:
         return User.find(filters).sort(sort_by)
 
     @staticmethod
-    async def get_user_by_email(email: str) -> Optional[User]:
+    async def get_by_email(email: str) -> Optional[User]:
         """Get a user by email."""
         user = await User.find_one({"email": email, "is_active": True})
         return user
 
     @staticmethod
-    async def get_user_by_id(id: PydanticObjectId) -> Optional[User]:
+    async def get_by_id(id: PydanticObjectId) -> Optional[User]:
         """Get a user by id."""
         user = await User.find_one({"_id": id, "is_active": True})
         return user
 
     @staticmethod
-    async def get_user_by_username(username: str) -> Optional[User]:
+    async def get_by_username(username: str) -> Optional[User]:
         """Get a user by username."""
         user = await User.find_one({"username": username, "is_active": True})
         return user
 
     @staticmethod
-    async def get_user(username: str):
+    async def get(username: str):
         """Get a user."""
         return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
-    async def create_user(user: UserCreate):
+    async def create(data: UserCreate):
         """Create a new user."""
         user_in = User(
-            email=user.email,
-            matricule=user.matricule,
-            username=user.username,
-            hashed_password=get_password(user.password),
-            first_name=user.first_name,
-            last_name=user.last_name,
-            photo_url=user.photo_url,
+            email=data.email,
+            matricule=data.matricule,
+            username=data.username,
+            hashed_password=get_password(data.password),
+            first_name=data.first_name,
+            last_name=data.last_name,
+            photo_url=data.photo_url,
         )
         await user_in.insert()
         return user_in
 
     @staticmethod
-    async def update_user(username: str, data: UserUpdate) -> User:
+    async def update(username: str, data: UserUpdate) -> User:
         """Update a user by username."""
-        user = await UserService.get_user(username)
+        user = await UserService.get(username)
         update_data = data.model_dump(exclude_unset=True)
 
         if "password" in update_data:
@@ -77,9 +77,9 @@ class UserService:
         return user
 
     @staticmethod
-    async def delete_user(username: str):
+    async def delete(username: str):
         """Delete a user by username."""
-        user = await UserService.get_user(username)
+        user = await UserService.get(username)
 
         if user:
             await Cafe.find({"staff.username": username}).update(
@@ -90,18 +90,18 @@ class UserService:
         return user
 
     @staticmethod
-    async def create_many_users(users_data: List[UserCreate]) -> List[User]:
+    async def create_many(datas: List[UserCreate]) -> List[User]:
         """Create multiple users."""
         users = []
-        for user_data in users_data:
+        for data in datas:
             user = User(
-                email=user_data.email,
-                matricule=user_data.matricule,
-                username=user_data.username,
-                hashed_password=get_password(user_data.password),
-                first_name=user_data.first_name,
-                last_name=user_data.last_name,
-                photo_url=user_data.photo_url,
+                email=data.email,
+                matricule=data.matricule,
+                username=data.username,
+                hashed_password=get_password(data.password),
+                first_name=data.first_name,
+                last_name=data.last_name,
+                photo_url=data.photo_url,
             )
             users.append(user)
 
@@ -109,7 +109,7 @@ class UserService:
         return users
 
     @staticmethod
-    async def update_many_users(usernames: List[str], data: UserUpdate) -> List[User]:
+    async def update_many(usernames: List[str], data: UserUpdate) -> List[User]:
         """Update multiple users based on the provided list of usernames."""
         update_data = data.model_dump(exclude_unset=True)
 
@@ -126,7 +126,7 @@ class UserService:
         return await User.find_many({"username": {"$in": usernames}}).to_list()
 
     @staticmethod
-    async def delete_many_users(usernames: List[str]) -> None:
+    async def delete_many(usernames: List[str]) -> None:
         """Delete multiple users based on the provided list of usernames."""
         users_to_delete = await User.find_many(
             {"username": {"$in": usernames}}

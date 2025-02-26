@@ -29,7 +29,7 @@ async def get_events(
 ):
     """Get a list of events."""
     filters = parse_query_params(dict(request.query_params))
-    events = await EventService.get_events(**filters)
+    events = await EventService.get_all(**filters)
     return await paginate(events)
 
 
@@ -37,55 +37,62 @@ async def get_events(
     "/events/",
     response_model=EventOut,
 )
-async def create_event(event: EventCreate) -> EventOut:
+async def create_event(data: EventCreate):
     """Create an event."""
-    return await EventService.create_event(event)
+    return await EventService.create(data)
 
 
 @event_router.put(
-    "/events/{event_id}",
+    "/events/{id}",
     response_model=EventOut,
 )
-async def update_event(event_id: PydanticObjectId, event: EventUpdate) -> EventOut:
+async def update_event(
+    id: PydanticObjectId,
+    data: EventUpdate,
+):
     """Update an event."""
-    return await EventService.update_event(event_id, event)
+    event = await EventService.get(id)
+    return await EventService.update(event, data)
 
 
 @event_router.delete(
-    "/events/{event_id}",
+    "/events/{id}",
 )
-async def delete_event(event_id: PydanticObjectId):
+async def delete_event(
+    id: PydanticObjectId,
+):
     """Delete an event."""
-    return await EventService.remove_event(event_id)
+    event = await EventService.get(id)
+    return await EventService.delete(event)
 
 
 @event_router.post(
-    "/events/{event_id}/attend",
-    response_model=EventOut,
+    "/events/{id}/attend",
 )
 async def toggle_attendance(
-    event_id: PydanticObjectId = Path(..., description="The ID of the event"),
+    id: PydanticObjectId = Path(..., description="ID of the event"),
     current_user: User = Depends(get_current_user),
     remove: bool = False,
 ):
     """Toggle attendance for an event."""
+    event = await EventService.get(id)
     if not remove:
-        return await EventService.add_attendee_to_event(event_id, current_user.id)
+        return await EventService.add_attendee(event, current_user.id)
     else:
-        return await EventService.remove_attendee_from_event(event_id, current_user.id)
+        return await EventService.remove_attendee(event, current_user.id)
 
 
 @event_router.post(
-    "/events/{event_id}/support",
-    response_model=EventOut,
+    "/events/{id}/support",
 )
 async def toggle_support(
-    event_id: PydanticObjectId = Path(..., description="The ID of the event"),
+    id: PydanticObjectId = Path(..., description="ID of the event"),
     current_user: User = Depends(get_current_user),
     remove: bool = False,
 ):
     """Toggle support for an event."""
+    event = await EventService.get(id)
     if not remove:
-        return await EventService.add_supporter_to_event(event_id, current_user.id)
+        return await EventService.add_supporter(event, current_user.id)
     else:
-        return await EventService.remove_supporter_from_event(event_id, current_user.id)
+        return await EventService.remove_supporter(event, current_user.id)

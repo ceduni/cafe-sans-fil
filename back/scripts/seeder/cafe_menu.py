@@ -43,25 +43,26 @@ class MenuSeeder:
         self.menu_item_ids = []
         self.category_map: Dict[str, Dict[str, str]] = {}
 
-    async def _create_categories(self, cafe_id: str) -> Dict[str, str]:
+    async def _create_categories(self, cafe: str) -> Dict[str, str]:
         """Create predefined categories for a cafe and return name->ID mapping"""
         category_map = {}
-        for category in PREDEFINED_CATEGORIES:
-            category_create = MenuCategoryCreate(**category)
-            created = await MenuService.create_menu_category(cafe_id, category_create)
-            category_map[created.name] = created.id
+        categories = await MenuService.create_many_categories(
+            cafe, [MenuCategoryCreate(**category) for category in PREDEFINED_CATEGORIES]
+        )
+        for category in categories:
+            category_map[category.name] = category.id
         return category_map
 
     async def seed_menu_items(self, cafe_ids, num_items: int):
         """Seeds menu items for cafes with proper category mapping"""
         for cafe_id in tqdm(cafe_ids, desc="Seeding menu items for cafes"):
-            cafe = await CafeService.get_cafe(cafe_id, False)
+            cafe = await CafeService.get(cafe_id, False)
             if not cafe:
                 print(f"Skipping {cafe_id}, cafe not found.")
                 continue
 
             # Mapping categories
-            category_map = await self._create_categories(cafe.id)
+            category_map = await self._create_categories(cafe)
             self.category_map[cafe.id] = category_map
 
             randomized_menu_items = []
@@ -78,10 +79,8 @@ class MenuSeeder:
                 item_copy["in_stock"] = random.random() < 0.80
                 randomized_menu_items.append(MenuItemCreate(**item_copy))
 
-            created_menu_items = await MenuService.create_many_menu_items(
-                cafe.id, randomized_menu_items
-            )
-            # self.menu_item_ids.extend([item.id for item in created_menu_items])
+            items = await MenuService.create_many_items(cafe, randomized_menu_items)
+            # self.menu_item_ids.extend([item.id for item in items])
 
         print(f"Menu items created")
 

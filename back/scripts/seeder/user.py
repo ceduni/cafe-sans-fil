@@ -34,7 +34,7 @@ class UserSeeder:
         if len(photo_urls) < num_users:
             raise ValueError("Not enough photo URLs for the number of users")
 
-        users_data = []
+        datas = []
         for i in tqdm(range(num_users), desc="Seed users"):
             matricule = self.generate_matricule()
             first_name = fake.first_name()
@@ -50,7 +50,7 @@ class UserSeeder:
                 photo_urls[i] if random.random() <= 1.00 else None
             )  # Chance of having a photo
 
-            user_data = UserCreate(
+            data = UserCreate(
                 email=email,
                 matricule=matricule,
                 username=matricule,
@@ -59,10 +59,10 @@ class UserSeeder:
                 last_name=last_name,
                 photo_url=photo_url,
             )
-            users_data.append(user_data)
+            datas.append(data)
 
-        created_users = await UserService.create_many_users(users_data)
-        self.usernames = [user.username for user in created_users]
+        users = await UserService.create_many(datas)
+        self.usernames = [user.username for user in users]
 
         print(f"{num_users} users created")
 
@@ -80,7 +80,7 @@ class UserSeeder:
             "last_name": "Holland",
             "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg",
         }
-        await UserService.update_user(self.usernames[0], UserCreate(**cafesansfil_user))
+        await UserService.update(self.usernames[0], UserCreate(**cafesansfil_user))
         self.usernames[0] = cafesansfil_matricule
 
     def get_usernames(self):

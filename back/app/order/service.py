@@ -22,13 +22,20 @@ class OrderService:
     # --------------------------------------
 
     @staticmethod
-    async def get_orders(**filters: dict):
+    async def get_all(**filters: dict):
         """Get orders."""
         sort_by = filters.pop("sort_by", "-order_number")
-        return Order.find(filters).sort(sort_by)
+        findmany = Order.find(filters).sort(sort_by)
+        await OrderService.check_and_update_order_status(findmany.to_list())
+        return findmany
 
     @staticmethod
-    async def create_order(data: OrderCreate, username: str) -> Order:
+    async def get(id: PydanticObjectId):
+        """Get an order by its ID."""
+        return await Order.get(id)
+
+    @staticmethod
+    async def create(data: OrderCreate, username: str) -> Order:
         """Create a new order for a user."""
         order_data = data.model_dump()
         order_data["user_username"] = username
@@ -38,7 +45,7 @@ class OrderService:
         return order
 
     @staticmethod
-    async def create_order_test(
+    async def create_test(
         data: OrderCreate,
         username: str,
         created_at: datetime = None,
@@ -57,24 +64,15 @@ class OrderService:
         return order
 
     @staticmethod
-    async def get_order(order_id: PydanticObjectId):
-        """Get an order by its ID."""
-        return await Order.find_one(Order.id == order_id)
-
-    @staticmethod
-    async def update_order(order_id: PydanticObjectId, data: OrderUpdate):
+    async def update(order: Order, data: OrderUpdate) -> Order:
         """Update an order by its ID."""
-        order = await OrderService.get_order(order_id)
-        await order.update({"$set": data.model_dump(exclude_unset=True)})
-        return order
+        return await order.update(data.model_dump(exclude_unset=True))
 
     @staticmethod
-    async def create_many_orders(
-        orders_data: List[OrderCreate], username: str
-    ) -> List[Order]:
+    async def create_many(datas: List[OrderCreate], username: str) -> List[Order]:
         """Create multiple orders for a user."""
         orders = []
-        for data in orders_data:
+        for data in datas:
             order_data = data.model_dump()
             order_data["user_username"] = username
             order_data["order_number"] = await OrderService.get_next_order_number()
@@ -85,7 +83,7 @@ class OrderService:
         return orders
 
     @staticmethod
-    async def update_many_orders(
+    async def update_many(
         order_ids: List[PydanticObjectId], data: OrderUpdate
     ) -> List[Order]:
         """Update multiple orders."""
@@ -102,7 +100,7 @@ class OrderService:
         return await Order.find_many({"order_id": {"$in": order_ids}}).to_list()
 
     @staticmethod
-    async def delete_many_orders(order_ids: List[PydanticObjectId]) -> None:
+    async def delete_many(order_ids: List[PydanticObjectId]) -> None:
         """Delete multiple orders."""
         orders_to_delete = await Order.find_many(
             {"order_id": {"$in": order_ids}}
@@ -113,7 +111,7 @@ class OrderService:
         await Order.find_many({"order_id": {"$in": order_ids}}).delete_many()
 
     @staticmethod
-    async def check_and_update_order_status(orders):
+    async def check_and_update_order_status(orders) -> None:
         """Check and update the status of orders."""
         now = datetime.now(UTC).replace(tzinfo=None)
         for order_dict in orders:
@@ -127,29 +125,8 @@ class OrderService:
                 await order.save()
 
     @staticmethod
-    async def get_orders_for_user(username: str, **filters: dict):
-        """Get orders for a user."""
-        sort_by = filters.pop("sort_by", "-order_number")
-        filters["user_username"] = username
-        orders = Order.find(filters).sort(sort_by)
-        await OrderService.check_and_update_order_status(orders)
-        return orders
-
-    @staticmethod
-    async def get_orders_for_cafe(cafe_slug: str, **filters: dict):
-        """Get orders for a cafe."""
-        cafe = await Cafe.find_one(Cafe.slug == cafe_slug)
-        if not cafe:
-            return None
-
-        sort_by = filters.pop("sort_by", "-order_number")
-        filters["cafe_slug"] = cafe_slug
-        orders = Order.find(filters).sort(sort_by)
-        await OrderService.check_and_update_order_status(orders)
-        return orders
-
-    @staticmethod
-    async def get_next_order_number():
+    async def get_next_order_number() -> int:
+        """Get the next available order number."""
         highest_order = await Order.aggregate(
             [{"$sort": {"order_number": -1}}, {"$limit": 1}]
         ).to_list(None)
@@ -168,7 +145,7 @@ class OrderService:
         start_date_str: Optional[str],
         end_date_str: Optional[str],
         report_type: str = "daily",
-    ):
+    ) -> dict:
         """Generate sales report data for a cafe."""
 
         def decimal128_to_float(value):

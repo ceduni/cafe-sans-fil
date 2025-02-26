@@ -47,7 +47,7 @@ class CafeSeeder:
             payment_methods = self.random_payment_methods()
             additional_info = self.random_additional_info()
 
-            cafe_data = CafeCreate(
+            data = CafeCreate(
                 name=cafe_info["name"],
                 features=["Order"] if random.random() <= 0.8 else [],
                 description=cafe_info["description"],
@@ -65,8 +65,8 @@ class CafeSeeder:
                 staff=[],
             )
 
-            created_cafe = await CafeService.create_cafe(cafe_data)
-            self.cafe_ids.append(created_cafe.id)
+            cafe = await CafeService.create(data)
+            self.cafe_ids.append(cafe.id)
 
         print(f"{num_cafes} cafes created")
 

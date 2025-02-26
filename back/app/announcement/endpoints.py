@@ -22,7 +22,10 @@ from app.user.models import User
 announcement_router = APIRouter()
 
 
-@announcement_router.get("/announcements/", response_model=Page[AnnouncementOut])
+@announcement_router.get(
+    "/announcements/",
+    response_model=Page[AnnouncementOut],
+)
 async def get_announcements(
     request: Request,
     cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID"),
@@ -30,46 +33,54 @@ async def get_announcements(
 ):
     """Get a list of announcements."""
     filters = parse_query_params(dict(request.query_params))
-    announcements = await AnnouncementService.get_announcements(**filters)
+    announcements = await AnnouncementService.get_all(**filters)
     return await paginate(announcements)
 
 
-@announcement_router.post("/announcements/", response_model=AnnouncementOut)
-async def create_announcement(announcement: AnnouncementCreate) -> AnnouncementOut:
+@announcement_router.post(
+    "/announcements/",
+    response_model=AnnouncementOut,
+)
+async def create_announcement(
+    data: AnnouncementCreate,
+):
     """Create an announcement."""
-    return await AnnouncementService.create_announcement(announcement)
+    return await AnnouncementService.create(data)
 
 
 @announcement_router.put(
-    "/announcements/{announcement_id}", response_model=AnnouncementOut
+    "/announcements/{id}",
+    response_model=AnnouncementOut,
 )
 async def update_announcement(
-    announcement_id: PydanticObjectId, announcement: AnnouncementUpdate
-) -> AnnouncementOut:
+    data: AnnouncementUpdate,
+    id: PydanticObjectId = Path(..., description="ID of the announcement"),
+):
     """Update an announcement."""
-    return await AnnouncementService.update_announcement(announcement_id, announcement)
+    announcement = await AnnouncementService.get(id)
+    return await AnnouncementService.update(announcement, data)
 
 
-@announcement_router.delete("/announcements/{announcement_id}")
-async def delete_announcement(announcement_id: PydanticObjectId) -> None:
+@announcement_router.delete("/announcements/{id}")
+async def delete_announcement(
+    id: PydanticObjectId = Path(..., description="ID of the announcement"),
+):
     """Delete an announcement."""
-    return await AnnouncementService.remove_announcement(announcement_id)
+    announcement = await AnnouncementService.get(id)
+    return await AnnouncementService.delete(announcement)
 
 
 @announcement_router.post(
-    "/announcements/{announcement_id}/like", response_model=AnnouncementOut
+    "/announcements/{id}/like",
 )
 async def toggle_like(
-    announcement_id: PydanticObjectId = Path(..., description="Announcement ID"),
+    id: PydanticObjectId = Path(..., description="ID of the announcement"),
     current_user: User = Depends(get_current_user),
     unlike: bool = False,
-) -> AnnouncementOut:
+):
     """Toggle like on an announcement."""
+    announcement = await AnnouncementService.get(id)
     if not unlike:
-        return await AnnouncementService.add_like_to_announcement(
-            announcement_id, current_user.id
-        )
+        return await AnnouncementService.add_like(announcement, current_user.id)
     else:
-        return await AnnouncementService.remove_like_from_announcement(
-            announcement_id, current_user.id
-        )
+        return await AnnouncementService.remove_like(announcement, current_user.id)

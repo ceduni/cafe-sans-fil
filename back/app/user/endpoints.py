@@ -27,7 +27,7 @@ async def get_users(
 ):
     """Get a list of users. (`member`)"""
     filters = parse_query_params(dict(request.query_params))
-    users = await UserService.get_users(**filters)
+    users = await UserService.get_all(**filters)
     return await paginate(users)
 
 
@@ -35,11 +35,9 @@ async def get_users(
     "/users/{username}",
     response_model=UserOut,
 )
-async def get_user(
-    username: str = Path(..., description="The username of the user")
-) -> UserOut:
+async def get_user(username: str = Path(..., description="Username of the user")):
     """Get a user. (`member`)"""
-    user = await UserService.get_user_by_username(username)
+    user = await UserService.get_by_username(username)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
@@ -50,15 +48,14 @@ async def get_user(
 @user_router.put(
     "/users/{username}",
     response_model=UserOut,
-    description="Update a user. (`member`)",
 )
 async def update_user(
-    user_data: UserUpdate,
-    username: str = Path(..., description="The username of the user to update"),
+    data: UserUpdate,
+    username: str = Path(..., description="Username of the user"),
     current_user: User = Depends(get_current_user),
-) -> UserOut:
-    """Update the details of an existing user."""
-    user = await UserService.get_user_by_username(username)
+):
+    """Update a user. (`member`)"""
+    user = await UserService.get_by_username(username)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
@@ -70,15 +67,14 @@ async def update_user(
             status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
         )
 
-    return await UserService.update_user(username, user_data)
+    return await UserService.update(username, data)
 
 
 @user_router.delete(
     "/users/{username}",
-    response_description="Delete User",
 )
 async def delete_user(
-    username: str = Path(..., description="The username of the user to delete"),
+    username: str = Path(..., description="Username of the user"),
     current_user: User = Depends(get_current_user),
 ):
     """Delete a user. (`member`)"""
@@ -88,7 +84,7 @@ async def delete_user(
             status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
         )
 
-    user = await UserService.delete_user(username)
+    user = await UserService.delete(username)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"

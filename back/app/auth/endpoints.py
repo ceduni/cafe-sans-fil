@@ -30,9 +30,9 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     """Authenticate user and return access and refresh tokens."""
     user = None
     if "@" in form_data.username:
-        user = await UserService.get_user_by_email(email=form_data.username)
+        user = await UserService.get_by_email(email=form_data.username)
     else:
-        user = await UserService.get_user_by_username(username=form_data.username)
+        user = await UserService.get_by_username(username=form_data.username)
 
     # Check if inactive account
     if user and not user.is_active:
@@ -114,7 +114,7 @@ async def register(user: UserCreate) -> UserOut:
             detail=f"User with this {existing_attribute} already exists",
         )
 
-    created_user = await UserService.create_user(user)
+    created_user = await UserService.create(user)
 
     # TODO: Render blocking SMTP requests
     # # Don't send email to test domains
@@ -142,7 +142,7 @@ async def forgot_password(
     email: str,
 ):
     """Request a password reset for a user via their email address."""
-    user = await UserService.get_user_by_email(email)
+    user = await UserService.get_by_email(email)
 
     if user is None:
         raise HTTPException(
@@ -190,7 +190,7 @@ async def reset_password(
 
 
 @auth_router.post("/auth/refresh", response_model=TokenSchema)
-async def refresh_token(refresh_token: str = Body(...)) -> TokenSchema:
+async def refresh_token(refresh_token: str = Body(...)):
     """Refresh access token using refresh token."""
     try:
         payload = jwt.decode(
@@ -205,7 +205,7 @@ async def refresh_token(refresh_token: str = Body(...)) -> TokenSchema:
             detail="Invalid token",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    user = await UserService.get_user_by_id(token_data.sub)
+    user = await UserService.get_by_id(token_data.sub)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -221,6 +221,6 @@ async def refresh_token(refresh_token: str = Body(...)) -> TokenSchema:
     "/auth/test-token",
     response_model=UserOut,
 )
-async def test_token(user: User = Depends(get_current_user)) -> UserOut:
+async def test_token(user: User = Depends(get_current_user)):
     """Verify access token and return user details. (`member`)"""
     return user
