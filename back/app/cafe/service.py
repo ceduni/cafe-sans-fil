@@ -114,12 +114,12 @@ class CafeService:
         cafe: Cafe, datas: List[StaffCreate]
     ) -> List[StaffMember]:
         """Create multiple staff members for a cafe."""
-        new_staff_members = [
+        staff = [
             StaffMember(**staff_data.model_dump()) for staff_data in datas
         ]
-        cafe.staff.extend(new_staff_members)
+        cafe.staff.extend(staff)
         await cafe.save()
-        return new_staff_members
+        return staff
 
     @staticmethod
     async def update_many_staff(

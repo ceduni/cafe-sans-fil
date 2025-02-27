@@ -45,7 +45,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Could not find user",
+            detail=[{"msg": "Could not find user."}],
         )
 
     return user

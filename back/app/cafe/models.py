@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Insert, Save, View, before_event
+from beanie import DecimalAnnotation, Insert, PydanticObjectId, Save, View, before_event
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 from slugify import slugify
@@ -109,7 +109,7 @@ class AdditionalInfo(BaseModel):
 class StaffMember(BaseModel):
     """Model for staff members."""
 
-    username: str = Field(..., examples=["7802085"])  # Temp
+    id: PydanticObjectId
     role: Role = Field(..., examples=["Admin"])  # Temp
 
 
@@ -135,6 +135,7 @@ class CafeBase(BaseModel):
     staff: List[StaffMember]
 
     @field_validator("opening_hours")
+    @classmethod
     def validate_opening_hours(cls, opening_hours):
         """Validate that there are no overlapping time blocks."""
 
@@ -170,6 +171,7 @@ class CafeBase(BaseModel):
         return opening_hours
 
     @field_validator("payment_methods")
+    @classmethod
     def validate_payment_methods(cls, payment_methods):
         """Validate that payment methods are unique."""
         payment_methods_set = set()
@@ -185,6 +187,7 @@ class CafeBase(BaseModel):
         return payment_methods
 
     @field_validator("additional_info")
+    @classmethod
     def validate_additional_info(cls, additional_info):
         """Validate that additional info entries are unique."""
         additional_info_combinations = set()
@@ -236,8 +239,8 @@ class Cafe(CustomDocument, CafeBase):
             IndexModel([("description", pymongo.ASCENDING)]),
             IndexModel([("location.pavillon", pymongo.ASCENDING)]),
             IndexModel([("location.local", pymongo.ASCENDING)]),
-            IndexModel([("staff.username", pymongo.ASCENDING)]),
-            # IndexModel([("staff.username", pymongo.ASCENDING)], unique=True),
+            IndexModel([("staff.id", pymongo.ASCENDING)]),
+            # IndexModel([("staff._id", pymongo.ASCENDING)], unique=True),
         ]
 
 
@@ -253,10 +256,10 @@ class StaffUpdate(BaseModel):
     role: Optional[str] = None
 
 
-class StaffOut(StaffMember):
+class StaffOut(BaseModel, Id):
     """Staff output model."""
 
-    pass
+    role: Role
 
 
 class CafeCreate(BaseModel):

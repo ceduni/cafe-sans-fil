@@ -7,11 +7,10 @@ from datetime import datetime
 from typing import Optional
 
 import pymongo
-from beanie import Document
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from pymongo import IndexModel
 
-from app.models import Id
+from app.models import CustomDocument, Id
 
 
 class UserBase(BaseModel):
@@ -19,45 +18,60 @@ class UserBase(BaseModel):
 
     username: str = Field(..., min_length=3, max_length=20)
     email: EmailStr
-    matricule: str = Field(..., pattern=r"^\d{6,8}$", min_length=6, max_length=8)
-    first_name: str = Field(
-        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
-    )
-    last_name: str = Field(
-        ..., min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
-    )
+    matricule: str = Field(..., min_length=6, max_length=8, examples=["123456"])
+    first_name: str = Field(..., min_length=2, max_length=30)
+    last_name: str = Field(..., min_length=2, max_length=30)
     photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
 
+    @field_validator("username")
+    @classmethod
+    def validate_username(cls, v: str):
+        if v.startswith("-") or v.endswith("-"):
+            raise ValueError("Username cannot begin or end with a hyphen")
+        if "--" in v:
+            raise ValueError("Username cannot contain consecutive hyphens")
+        if not re.match(r"^[a-zA-Z0-9_]+$", v):
+            raise ValueError(
+                "Username can only contain letters, numbers, and underscores"
+            )
+        if not re.match(r"^[A-Za-z\d-]+$", v):
+            raise ValueError(
+                "Username may only contain alphanumeric characters or single hyphens"
+            )
+        return v
 
-class User(Document, UserBase):
+    @field_validator("matricule")
+    @classmethod
+    def validate_matricule(cls, v):
+        if not re.match(r"^\d{6,8}$", v):
+            raise ValueError("Matricule must contain exactly 6-8 digits")
+        return v
+
+    @field_validator("first_name")
+    @classmethod
+    def validate_first_name(cls, v):
+        pattern = r"^[a-zA-ZÀ-ÿ' \-]+$"
+        if not re.match(pattern, v):
+            raise ValueError("First name contains invalid characters")
+        return v
+
+    @field_validator("last_name")
+    @classmethod
+    def validate_last_name(cls, v):
+        pattern = r"^[a-zA-ZÀ-ÿ' \-]+$"
+        if not re.match(pattern, v):
+            raise ValueError("Last name contains invalid characters")
+        return v
+
+
+class User(CustomDocument, UserBase):
     """User document model."""
 
     hashed_password: str
-    failed_login_attempts: int = Field(default=0)
-    last_failed_login_attempt: Optional[datetime] = Field(default=None)
+    login_attempts: int = Field(default=0)
+    last_login_attempt: Optional[datetime] = Field(default=None)
     lockout_until: Optional[datetime] = Field(default=None)
     is_active: bool = True
-
-    @classmethod
-    async def by_email(cls, email: str) -> "User":
-        """Get user by email."""
-        return await cls.find_one(cls.email == email)
-
-    async def increment_failed_login_attempts(self):
-        """Increment failed login attempts."""
-        self.failed_login_attempts += 1
-        await self.save()
-
-    async def reset_failed_login_attempts(self):
-        """Reset failed login attempts."""
-        self.failed_login_attempts = 0
-        self.lockout_until = None
-        await self.save()
-
-    async def set_lockout(self, lockout_time: datetime):
-        """Set lockout time."""
-        self.lockout_until = lockout_time
-        await self.save()
 
     class Settings:
         """Settings for user document."""
@@ -75,22 +89,7 @@ class User(Document, UserBase):
 class UserCreate(UserBase):
     """Model for creating users."""
 
-    password: str = Field(..., min_length=8, max_length=30)
-
-    @field_validator("username")
-    @classmethod
-    def validate_username(cls, v: str):
-        """Validate username."""
-        if v.startswith("-") or v.endswith("-"):
-            raise ValueError("Username cannot begin or end with a hyphen")
-        if "--" in v:
-            raise ValueError("Username cannot contain consecutive hyphens")
-        if not re.match(r"^[A-Za-z\d-]+$", v):
-            raise ValueError(
-                "Username may only contain alphanumeric characters or single hyphens"
-            )
-
-        return v
+    password: str = Field(..., min_length=6, max_length=100)
 
     # @field_validator('password')
     # ...
@@ -102,31 +101,12 @@ class UserUpdate(BaseModel):
     username: Optional[str] = Field(None, min_length=3, max_length=20)
     email: Optional[EmailStr] = None
     matricule: Optional[str] = Field(
-        None, pattern=r"^\d{6,8}$", min_length=6, max_length=8
+        None, min_length=6, max_length=8, examples=["123456"]
     )
-    password: Optional[str] = Field(None, min_length=8, max_length=30)
-    first_name: Optional[str] = Field(
-        None, min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
-    )
-    last_name: Optional[str] = Field(
-        None, min_length=2, max_length=30, pattern=r"^[a-zA-ZÀ-ÿ' -]+$"
-    )
+    password: Optional[str] = Field(None, min_length=6, max_length=100)
+    first_name: Optional[str] = Field(None, min_length=2, max_length=30)
+    last_name: Optional[str] = Field(None, min_length=2, max_length=30)
     photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
-
-    @field_validator("username")
-    @classmethod
-    def validate_username(cls, v: str):
-        """Validate username."""
-        if v.startswith("-") or v.endswith("-"):
-            raise ValueError("Username cannot begin or end with a hyphen")
-        if "--" in v:
-            raise ValueError("Username cannot contain consecutive hyphens")
-        if not re.match(r"^[A-Za-z\d-]+$", v):
-            raise ValueError(
-                "Username may only contain alphanumeric characters or single hyphens"
-            )
-
-        return v
 
     # @field_validator('password')
     # ...

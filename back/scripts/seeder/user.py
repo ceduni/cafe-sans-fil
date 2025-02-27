@@ -27,12 +27,13 @@ class UserSeeder:
 
     def __init__(self):
         """Initializes the UserSeeder class."""
-        self.usernames = []
+        self.ids = []
+        self.users = []
 
     async def seed_users(self, num_users: int):
         """Seeds a specified number of users."""
         if len(photo_urls) < num_users:
-            raise ValueError("Not enough photo URLs for the number of users")
+            raise Exception("Not enough photo URLs for the number of users")
 
         datas = []
         for i in tqdm(range(num_users), desc="Seed users"):
@@ -62,30 +63,29 @@ class UserSeeder:
             datas.append(data)
 
         users = await UserService.create_many(datas)
-        self.usernames = [user.username for user in users]
-
+        self.ids = [user.id for user in users]
+        self.users = users
         print(f"{num_users} users created")
-
         await self.update_first_user_to_cafesansfil()
 
     async def update_first_user_to_cafesansfil(self):
         """Updates the first user to cafesansfil."""
-        cafesansfil_matricule = "7802085"
-        cafesansfil_user = {
+        matricule = "7802085"
+        data = {
             "email": "cafesansfil@umontreal.ca",
-            "matricule": cafesansfil_matricule,
-            "username": cafesansfil_matricule,
+            "matricule": matricule,
+            "username": matricule,
             "password": "Cafepass1",
             "first_name": "Tom",
             "last_name": "Holland",
             "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg",
         }
-        await UserService.update(self.usernames[0], UserCreate(**cafesansfil_user))
-        self.usernames[0] = cafesansfil_matricule
+        user = await UserService.update(self.users[0], UserCreate(**data))
+        self.users[0] = user
 
-    def get_usernames(self):
-        """Returns the list of usernames."""
-        return self.usernames
+    def get_ids(self):
+        """Returns the list of ids."""
+        return self.ids
 
     def normalize_string(self, input_str: str) -> str:
         """Normalizes a string by removing diacritics."""

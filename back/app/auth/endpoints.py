@@ -58,20 +58,20 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     if (
         user
         and not user.lockout_until
-        and user.last_failed_login_attempt
-        and (datetime.now(UTC).replace(tzinfo=None) - user.last_failed_login_attempt)
+        and user.last_login_attempt
+        and (datetime.now(UTC).replace(tzinfo=None) - user.last_login_attempt)
         >= timedelta(minutes=5)
     ):
-        user.failed_login_attempts = 0
+        user.login_attempts = 0
 
     # Reset when inactivity for users who are locked out
     if (
         user
         and user.lockout_until
-        and (datetime.now(UTC).replace(tzinfo=None) - user.last_failed_login_attempt)
+        and (datetime.now(UTC).replace(tzinfo=None) - user.last_login_attempt)
         >= timedelta(days=1)
     ):
-        user.failed_login_attempts = 0
+        user.login_attempts = 0
         user.lockout_until = None
 
     authenticated_user = await AuthService.authenticate(
@@ -80,10 +80,10 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
 
     if not authenticated_user:
         if user:
-            user.failed_login_attempts += 1
-            user.last_failed_login_attempt = datetime.now(UTC)
+            user.login_attempts += 1
+            user.last_login_attempt = datetime.now(UTC)
             user.lockout_until = LockoutConfig.calculate_lockout_duration(
-                user.failed_login_attempts, user.lockout_until
+                user.login_attempts, user.lockout_until
             )
             await user.save()
         raise HTTPException(
@@ -93,9 +93,9 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
 
     # Reset on successful login
     if user:
-        user.failed_login_attempts = 0
+        user.login_attempts = 0
         user.lockout_until = None
-        user.last_failed_login_attempt = None
+        user.last_login_attempt = None
         await user.save()
 
     return {

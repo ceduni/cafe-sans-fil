@@ -37,7 +37,7 @@ class CafeSeeder:
 
     def __init__(self):
         """Initializes the CafeSeeder class."""
-        self.cafe_ids = []
+        self.ids = []
 
     async def seed_cafes(self, num_cafes: int):
         """Seeds a specified number of cafes."""
@@ -66,13 +66,13 @@ class CafeSeeder:
             )
 
             cafe = await CafeService.create(data)
-            self.cafe_ids.append(cafe.id)
+            self.ids.append(cafe.id)
 
         print(f"{num_cafes} cafes created")
 
-    def get_cafe_ids(self):
+    def get_ids(self):
         """Returns the generated cafe IDs."""
-        return self.cafe_ids
+        return self.ids
 
     # Helper functions for generating random data
     def random_open_status_message(self):

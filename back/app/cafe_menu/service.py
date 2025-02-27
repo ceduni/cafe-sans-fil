@@ -150,18 +150,18 @@ class MenuService:
 
     @staticmethod
     async def update_many_items(
-        item_ids: List[PydanticObjectId], data: MenuItemUpdate
+        ids: List[PydanticObjectId], data: MenuItemUpdate
     ) -> List[MenuItem]:
         """Update multiple menu items."""
-        result = await MenuItem.find_many({"_id": {"$in": item_ids}}).update_many(
+        result = await MenuItem.find_many({"_id": {"$in": ids}}).update_many(
             {"$set": data.model_dump(exclude_unset=True)}
         )
         if result.matched_count == 0:
             return None
 
-        return await MenuItem.find_many({"_id": {"$in": item_ids}}).to_list()
+        return await MenuItem.find_many({"_id": {"$in": ids}}).to_list()
 
     @staticmethod
-    async def delete_many_items(item_ids: List[PydanticObjectId]) -> None:
+    async def delete_many_items(ids: List[PydanticObjectId]) -> None:
         """Delete multiple menu items."""
-        await MenuItem.find_many({"_id": {"$in": item_ids}}).delete_many()
+        await MenuItem.find_many({"_id": {"$in": ids}}).delete_many()
