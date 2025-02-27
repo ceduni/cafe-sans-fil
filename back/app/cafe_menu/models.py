@@ -5,13 +5,19 @@ Module for handling menu-related models.
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Document
-from beanie.exceptions import RevisionIdWasChanged
+from beanie import DecimalAnnotation
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
-from pymongo.errors import DuplicateKeyError
 
-from app.models import CafeId, CategoryId, Id, IdAlias, IdDefaultFactory, IdOptional
+from app.models import (
+    CafeId,
+    CategoryId,
+    CustomDocument,
+    Id,
+    IdAlias,
+    IdDefaultFactory,
+    IdOptional,
+)
 
 
 class MenuItemOption(BaseModel):
@@ -50,28 +56,8 @@ class MenuItemBase(BaseModel):
         return price
 
 
-class MenuItem(Document, MenuItemBase, CategoryId, CafeId):
+class MenuItem(CustomDocument, MenuItemBase, CategoryId, CafeId):
     """Menu item document model."""
-
-    async def insert(self, *args, **kwargs):
-        """Try to insert a new menu item."""
-        try:
-            return await super().insert(*args, **kwargs)
-        except RevisionIdWasChanged as e:
-            if isinstance(e.__context__, DuplicateKeyError):
-                raise e.__context__
-            else:
-                raise e
-
-    async def save(self, *args, **kwargs):
-        """Try to save a menu item."""
-        try:
-            return await super().save(*args, **kwargs)
-        except RevisionIdWasChanged as e:
-            if isinstance(e.__context__, DuplicateKeyError):
-                raise e.__context__
-            else:
-                raise e
 
     class Settings:
         """Settings for menu item document."""

@@ -7,16 +7,14 @@ from datetime import datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Document, Insert, Save, View, before_event
-from beanie.exceptions import RevisionIdWasChanged
+from beanie import DecimalAnnotation, Insert, Save, View, before_event
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
-from pymongo.errors import DuplicateKeyError
 
 from app.cafe.enums import Days, Feature, Role
 from app.cafe.helper import slugify, time_blocks_overlap
 from app.cafe_menu.models import Menu, MenuView, MenuViewOut
-from app.models import Id, IdAlias
+from app.models import CustomDocument, Id, IdAlias
 
 
 class Affiliation(BaseModel):
@@ -193,30 +191,10 @@ class CafeBase(BaseModel):
         return additional_info
 
 
-class Cafe(Document, CafeBase):
+class Cafe(CustomDocument, CafeBase):
     """Cafe document model."""
 
     menu: Menu = Menu(categories=[])
-
-    async def insert(self, *args, **kwargs):
-        """Try to insert a new menu item."""
-        try:
-            return await super().insert(*args, **kwargs)
-        except RevisionIdWasChanged as e:
-            if isinstance(e.__context__, DuplicateKeyError):
-                raise e.__context__
-            else:
-                raise e
-
-    async def save(self, *args, **kwargs):
-        """Try to save a menu item."""
-        try:
-            return await super().save(*args, **kwargs)
-        except RevisionIdWasChanged as e:
-            if isinstance(e.__context__, DuplicateKeyError):
-                raise e.__context__
-            else:
-                raise e
 
     @before_event([Insert, Save])
     async def handle_slug(self):
