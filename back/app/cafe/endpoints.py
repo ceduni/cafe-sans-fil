@@ -4,7 +4,6 @@ Module for handling cafe-related routes.
 
 from typing import Optional
 
-from beanie.exceptions import RevisionIdWasChanged
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
@@ -112,7 +111,7 @@ async def get_cafe(
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
-        409: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
     },
 )
 async def update_cafe(
@@ -132,21 +131,16 @@ async def update_cafe(
 
     try:
         return await CafeService.update(cafe, data)
-    except RevisionIdWasChanged as e:
-        if isinstance(e.__context__, DuplicateKeyError):
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=[
-                    {
-                        "msg": "A cafe with these fields already exists.",
-                        "fields": list(
-                            e.__context__.details.get("keyPattern", {}).keys()
-                        ),
-                    }
-                ],
-            )
-        else:
-            raise e
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "A cafe with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
 
 
 # --------------------------------------
@@ -161,6 +155,7 @@ async def update_cafe(
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
+        409: {"model": ErrorResponse},
     },
 )
 async def create_staff_member(
@@ -172,30 +167,25 @@ async def create_staff_member(
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
-        )
-
-    user = await CafeService.get_staff(cafe, data.username)
-    if user:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail="Staff member already exists"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
     user = await UserService.get(data.username)
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A user with this username does not exist."}],
         )
 
-    try:
-        await CafeService.is_authorized_for_cafe_action(
-            cafe, current_user, [Role.ADMIN]
+    staff = await CafeService.get_staff(cafe, data.username)
+    if staff:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[{"msg": "This user is already a staff."}],
         )
-    except ValueError as e:
-        if str(e) == "Cafe not found":
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-        elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+
+    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
 
     return await CafeService.create_staff(cafe, data)
 
@@ -231,18 +221,11 @@ async def get_sales_report(
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    try:
-        await CafeService.is_authorized_for_cafe_action(
-            cafe, current_user, [Role.ADMIN]
-        )
-    except ValueError as e:
-        if str(e) == "Cafe not found":
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-        elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
 
     report_data = await OrderService.generate_sales_report_data(
         cafe, start_date, end_date, report_type

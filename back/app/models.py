@@ -35,7 +35,7 @@ class CafeId:
 class CategoryId:
     """Model for category ID."""
 
-    category_id: PydanticObjectId
+    category_id: Optional[PydanticObjectId] = None
 
 
 class ItemId:

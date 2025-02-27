@@ -10,7 +10,6 @@ from app.cafe.models import Cafe
 from app.cafe_menu.models import (
     MenuCategory,
     MenuCategoryCreate,
-    MenuCategoryOut,
     MenuCategoryUpdate,
     MenuItem,
     MenuItemCreate,
@@ -22,39 +21,60 @@ class MenuService:
     """Service class for CRUD and search operations on Menu."""
 
     @staticmethod
-    async def create_category(cafe: Cafe, data: MenuCategoryCreate) -> MenuCategoryOut:
-        """Create a new menu category for a cafe."""
-        new_category = MenuCategory(**data.model_dump())
-        cafe.menu_categories.append(new_category)
+    async def get_category_by_id(cafe: Cafe, id: PydanticObjectId) -> MenuCategory:
+        """Get a menu category by ID."""
+        for category in cafe.menu_categories:
+            if category.id == id:
+                return category
+
+        return None
+
+    @staticmethod
+    async def get_category_by_name(cafe: Cafe, name: str) -> MenuCategory:
+        """Get a menu category by name."""
+        for category in cafe.menu_categories:
+            if category.name == name:
+                return category
+
+        return None
+
+    @staticmethod
+    async def create_category(cafe: Cafe, data: MenuCategoryCreate) -> MenuCategory:
+        """Create a new menu category."""
+        for category in cafe.menu_categories:
+            if category.name == data.name:
+                return
+
+        category = MenuCategory(**data.model_dump())
+        cafe.menu_categories.append(category)
         await cafe.save()
-        return MenuCategoryOut(**new_category.model_dump())
+        return category
 
     @staticmethod
     async def update_category(
         cafe: Cafe,
         id: PydanticObjectId,
         data: MenuCategoryUpdate,
-    ) -> MenuCategoryOut:
-        """Update a menu category for a cafe."""
-        for idx, category in enumerate(cafe.menu_categories):
-            if category.id == id:
-                updated_data = category.model_dump() | data.model_dump(
-                    exclude_unset=True
-                )
-                cafe.menu_categories[idx] = MenuCategory(**updated_data)
+    ) -> MenuCategory:
+        """Update a menu category."""
+        for idx, cat in enumerate(cafe.menu_categories):
+            if cat.id == id:
+                category = cat.model_copy(update=data.model_dump(exclude_unset=True))
+                category.id = id
+                cafe.menu_categories[idx] = category
                 await cafe.save()
-                return MenuCategoryOut(**cafe.menu_categories[idx].model_dump())
+                return category
 
-        raise ValueError("Category not found")
+        raise None
 
     @staticmethod
     async def delete_category(cafe: Cafe, id: PydanticObjectId) -> None:
-        """Delete a menu category for a cafe."""
+        """Delete a menu category."""
         original_len = len(cafe.menu_categories)
         cafe.menu_categories = [c for c in cafe.menu_categories if c.id != id]
 
         if len(cafe.menu_categories) == original_len:
-            raise ValueError("Category not found")
+            return
 
         await cafe.save()
 
@@ -65,13 +85,20 @@ class MenuService:
         return MenuItem.find(filters).sort(sort_by)
 
     @staticmethod
-    async def get_item(item_id: PydanticObjectId) -> MenuItem:
+    async def get_item_by_id_and_cafe_id(
+        id: PydanticObjectId, cafe_id: PydanticObjectId
+    ):
+        """Get a menu item by ID and cafe ID."""
+        return await MenuItem.find_one({"_id": id, "cafe_id": cafe_id})
+
+    @staticmethod
+    async def get_item(id: PydanticObjectId) -> MenuItem:
         """Get a menu item by ID."""
-        return await MenuItem.find_one({"_id": item_id})
+        return await MenuItem.get(id)
 
     @staticmethod
     async def create_item(cafe: Cafe, data: MenuItemCreate) -> MenuItem:
-        """Create a new menu item for a cafe."""
+        """Create a new menu item."""
         item = MenuItem(**data.model_dump(), cafe_id=cafe.id)
         await item.insert()
         return item
@@ -80,7 +107,14 @@ class MenuService:
     async def update_item(item: MenuItem, data: MenuItemUpdate) -> MenuItem:
         """Update a menu item."""
         for field, value in data.model_dump(exclude_unset=True).items():
-            setattr(item, field, value)
+            if field.endswith("_id"):
+                if value is None:
+                    setattr(item, field, None)
+                else:
+                    setattr(item, field, PydanticObjectId(value))
+            else:
+                setattr(item, field, value)
+
         await item.save()
         return item
 
@@ -91,12 +125,15 @@ class MenuService:
 
     @staticmethod
     async def create_many_categories(
-        cafe: Cafe, data: List[MenuCategoryCreate]
+        cafe: Cafe, datas: List[MenuCategoryCreate]
     ) -> List[MenuCategory]:
-        """Create multiple menu categories for a cafe."""
-        for category_data in data:
-            new_category = MenuCategory(**category_data.model_dump())
-            cafe.menu_categories.append(new_category)
+        """Create multiple menu categories."""
+        for data in datas:
+            for category in cafe.menu_categories:
+                if category.name == data.name:
+                    return
+            category = MenuCategory(**data.model_dump())
+            cafe.menu_categories.append(category)
         await cafe.save()
         return cafe.menu_categories
 
@@ -104,7 +141,7 @@ class MenuService:
     async def create_many_items(
         cafe: Cafe, data: List[MenuItemCreate]
     ) -> List[MenuItem]:
-        """Create multiple menu items for a cafe."""
+        """Create multiple menu items."""
         items = [
             MenuItem(**item_data.model_dump(), cafe_id=cafe.id) for item_data in data
         ]
@@ -120,7 +157,7 @@ class MenuService:
             {"$set": data.model_dump(exclude_unset=True)}
         )
         if result.matched_count == 0:
-            raise ValueError("No menu items found for the provided IDs")
+            return None
 
         return await MenuItem.find_many({"_id": {"$in": item_ids}}).to_list()
 

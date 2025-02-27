@@ -8,8 +8,10 @@ from typing import List, Optional
 
 import pymongo
 from beanie import DecimalAnnotation, Document, Insert, Save, View, before_event
+from beanie.exceptions import RevisionIdWasChanged
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
+from pymongo.errors import DuplicateKeyError
 
 from app.cafe.enums import Days, Feature, Role
 from app.cafe.helper import slugify, time_blocks_overlap
@@ -195,6 +197,26 @@ class Cafe(Document, CafeBase):
     """Cafe document model."""
 
     menu_categories: List[MenuCategory] = []
+
+    async def insert(self, *args, **kwargs):
+        """Try to insert a new menu item."""
+        try:
+            return await super().insert(*args, **kwargs)
+        except RevisionIdWasChanged as e:
+            if isinstance(e.__context__, DuplicateKeyError):
+                raise e.__context__
+            else:
+                raise e
+
+    async def save(self, *args, **kwargs):
+        """Try to save a menu item."""
+        try:
+            return await super().save(*args, **kwargs)
+        except RevisionIdWasChanged as e:
+            if isinstance(e.__context__, DuplicateKeyError):
+                raise e.__context__
+            else:
+                raise e
 
     @before_event([Insert, Save])
     async def handle_slug(self):
