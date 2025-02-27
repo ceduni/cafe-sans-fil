@@ -10,9 +10,9 @@ import pymongo
 from beanie import DecimalAnnotation, Insert, Save, View, before_event
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
+from slugify import slugify
 
 from app.cafe.enums import Days, Feature, Role
-from app.cafe.helper import slugify, time_blocks_overlap
 from app.cafe_menu.models import Menu, MenuView, MenuViewOut
 from app.models import CustomDocument, Id, IdAlias
 
@@ -137,6 +137,17 @@ class CafeBase(BaseModel):
     @field_validator("opening_hours")
     def validate_opening_hours(cls, opening_hours):
         """Validate that there are no overlapping time blocks."""
+
+        def time_blocks_overlap(block1: TimeBlock, block2: TimeBlock):
+            """Check if two time blocks overlap."""
+            start1, end1 = datetime.strptime(block1.start, "%H:%M"), datetime.strptime(
+                block1.end, "%H:%M"
+            )
+            start2, end2 = datetime.strptime(block2.start, "%H:%M"), datetime.strptime(
+                block2.end, "%H:%M"
+            )
+            return start1 < end2 and start2 < end1
+
         day_blocks: dict[str, List[TimeBlock]] = {}
 
         # Group by day
