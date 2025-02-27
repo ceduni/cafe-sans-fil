@@ -10,6 +10,7 @@ from pathlib import Path
 from faker import Faker
 from tqdm import tqdm
 
+from app.cafe.enums import Days, Feature, PaymentMethod
 from app.cafe.models import (
     AdditionalInfo,
     Affiliation,
@@ -17,7 +18,7 @@ from app.cafe.models import (
     Contact,
     DayHours,
     Location,
-    PaymentMethod,
+    PaymentDetails,
     SocialMedia,
     TimeBlock,
 )
@@ -29,7 +30,7 @@ fake = Faker("fr_FR")
 
 file_path = Path(__file__).parent / "data/cafes.json"
 with open(file_path, "r", encoding="utf-8") as file:
-    cafes_data = json.load(file)
+    datas = json.load(file)
 
 
 class CafeSeeder:
@@ -41,26 +42,26 @@ class CafeSeeder:
 
     async def seed_cafes(self, num_cafes: int):
         """Seeds a specified number of cafes."""
-        for cafe_info in tqdm(cafes_data[:num_cafes], desc="Seed cafes"):
+        for data in tqdm(datas[:num_cafes], desc="Seed cafes"):
             is_open, status_message = self.random_open_status_message()
             opening_hours = self.random_opening_hours()
-            payment_methods = self.random_payment_methods()
+            payment_details = self.random_payment_details()
             additional_info = self.random_additional_info()
 
             data = CafeCreate(
-                name=cafe_info["name"],
-                features=["Order"] if random.random() <= 0.8 else [],
-                description=cafe_info["description"],
+                name=data["name"],
+                features=[Feature.ORDER] if random.random() <= 0.8 else [],
+                description=data["description"],
                 logo_url=None,
-                image_url=cafe_info["image_url"],
-                affiliation=Affiliation(**cafe_info["affiliation"]),
+                image_url=data["image_url"],
+                affiliation=Affiliation(**data["affiliation"]),
                 is_open=is_open,
                 status_message=status_message,
                 opening_hours=opening_hours,
-                location=Location(**cafe_info["location"]),
-                contact=Contact(**cafe_info["contact"]),
-                social_media=SocialMedia(**cafe_info.get("social_media", {})),
-                payment_methods=payment_methods,
+                location=Location(**data["location"]),
+                contact=Contact(**data["contact"]),
+                social_media=SocialMedia(**data.get("social_media", {})),
+                payment_details=payment_details,
                 additional_info=additional_info,
                 staff=[],
             )
@@ -80,9 +81,8 @@ class CafeSeeder:
         messages = [
             "Fermé pour la journée",
             "Fermé pour la semaine",
-            "De retour dans 1 heure",
-            "Temporairement fermé",
             "Fermé pour MIDIRO",
+            "De retour dans 1 heure",
         ]
         is_open = random.random() < 0.7  # chance of being open
         status_message = random.choice(messages) if not is_open else None
@@ -90,7 +90,7 @@ class CafeSeeder:
 
     def random_opening_hours(self):
         """Generates random opening hours for a cafe."""
-        days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"]
+        days = list(Days)
         opening_hours = []
 
         for day in days:
@@ -115,31 +115,29 @@ class CafeSeeder:
 
         return opening_hours
 
-    def random_payment_methods(self):
+    def random_payment_details(self):
         """Generates random payment methods for a cafe."""
-        methods = ["Carte de débit", "Carte de crédit", "Argent comptant"]
+        methods = list(PaymentMethod)
         selected_methods_count = random.randint(1, len(methods))
         selected_methods = random.sample(methods, selected_methods_count)
-        payment_methods = []
+        payment_details = []
 
         for method in selected_methods:
             minimum = (
                 random.randint(3, 8)
-                if method in ["Carte de débit", "Carte de crédit"]
+                if method in [PaymentMethod.CREDIT, PaymentMethod.DEBIT]
                 else None
             )
-            payment_methods.append(PaymentMethod(method=method, minimum=minimum))
-        return payment_methods
+            payment_details.append(PaymentDetails(method=method, minimum=minimum))
+        return payment_details
 
     def random_additional_info(self):
         """Generates random additional info for a cafe."""
         today = datetime.now(UTC)
         info_types = [
-            "Événement spécial",
             "Fermeture temporaire",
-            "Promotion",
-            "Atelier",
-            "Nouveau produit",
+            "Offres spéciales",
+            "Nouveau menu",
         ]
         additional_infos = []
 

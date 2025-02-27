@@ -45,7 +45,7 @@ def cafe_data():
         "social_media": [
             {"platform_name": "Facebook", "link": "http://fb.com/centralcafe"}
         ],
-        "payment_methods": [{"method": "Carte de Crédit", "minimum": 4.0}],
+        "payment_details": [{"method": "Carte de Crédit", "minimum": 4.0}],
         "staff": [
             {"username": fake.user_name(), "role": "Admin"},
             {"username": fake.user_name(), "role": "Admin"},

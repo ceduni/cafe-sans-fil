@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 from slugify import slugify
 
-from app.cafe.enums import Days, Feature, Role
+from app.cafe.enums import Days, Feature, PaymentMethod, Role
 from app.cafe_menu.models import Menu, MenuView, MenuViewOut
 from app.models import CustomDocument, Id, IdAlias
 
@@ -90,10 +90,10 @@ class SocialMedia(BaseModel):
     x: Optional[str] = None
 
 
-class PaymentMethod(BaseModel):
-    """Model for payment methods."""
+class PaymentDetails(BaseModel):
+    """Model for payment details."""
 
-    method: str = Field(..., min_length=1)
+    method: PaymentMethod
     minimum: Optional[DecimalAnnotation] = None
 
 
@@ -110,7 +110,7 @@ class StaffMember(BaseModel):
     """Model for staff members."""
 
     id: PydanticObjectId
-    role: Role = Field(..., examples=["Admin"])  # Temp
+    role: Role
 
 
 class CafeBase(BaseModel):
@@ -130,7 +130,7 @@ class CafeBase(BaseModel):
     location: Location
     contact: Contact
     social_media: SocialMedia
-    payment_methods: List[PaymentMethod]
+    payment_details: List[PaymentDetails]
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
 
@@ -170,21 +170,21 @@ class CafeBase(BaseModel):
                         raise ValueError(f"Overlapping time blocks detected on {day}.")
         return opening_hours
 
-    @field_validator("payment_methods")
+    @field_validator("payment_details")
     @classmethod
-    def validate_payment_methods(cls, payment_methods):
+    def validate_payment_details(cls, payment_details):
         """Validate that payment methods are unique."""
-        payment_methods_set = set()
-        for pm_data in payment_methods:
+        payment_details_set = set()
+        for pm_data in payment_details:
             if isinstance(pm_data, dict):
-                pm = PaymentMethod(**pm_data)
+                pm = PaymentDetails(**pm_data)
             else:
                 pm = pm_data
-            payment_methods_set.add(pm.method)
+            payment_details_set.add(pm.method)
 
-        if len(payment_methods_set) != len(payment_methods):
-            raise ValueError("Duplicate PaymentMethod method detected.")
-        return payment_methods
+        if len(payment_details_set) != len(payment_details):
+            raise ValueError("Duplicate payment method detected.")
+        return payment_details
 
     @field_validator("additional_info")
     @classmethod
@@ -277,7 +277,7 @@ class CafeCreate(BaseModel):
     location: Location
     contact: Contact
     social_media: SocialMedia
-    payment_methods: List[PaymentMethod]
+    payment_details: List[PaymentDetails]
     additional_info: List[AdditionalInfo]
     staff: List[StaffMember]
 
@@ -297,7 +297,7 @@ class CafeUpdate(BaseModel):
     location: Optional[Location] = None
     contact: Optional[Contact] = None
     social_media: Optional[SocialMedia] = None
-    payment_methods: Optional[List[PaymentMethod]] = None
+    payment_details: Optional[List[PaymentDetails]] = None
     additional_info: Optional[List[AdditionalInfo]] = None
 
 
@@ -322,7 +322,7 @@ class CafeShortOut(BaseModel, Id):
     status_message: Optional[str] = Field(None, max_length=50)
     opening_hours: List[DayHours]
     location: Location
-    payment_methods: List[PaymentMethod]
+    payment_details: List[PaymentDetails]
     additional_info: List[AdditionalInfo]
 
 

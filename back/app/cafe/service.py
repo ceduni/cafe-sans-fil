@@ -114,9 +114,7 @@ class CafeService:
         cafe: Cafe, datas: List[StaffCreate]
     ) -> List[StaffMember]:
         """Create multiple staff members for a cafe."""
-        staff = [
-            StaffMember(**staff_data.model_dump()) for staff_data in datas
-        ]
+        staff = [StaffMember(**staff_data.model_dump()) for staff_data in datas]
         cafe.staff.extend(staff)
         await cafe.save()
         return staff
