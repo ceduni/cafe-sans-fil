@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 from pymongo.errors import DuplicateKeyError
 
-from app.models import CafeId, CategoryId, Id, IdAlias, IdDefaultFactory
+from app.models import CafeId, CategoryId, Id, IdAlias, IdDefaultFactory, IdOptional
 
 
 class MenuItemOption(BaseModel):
@@ -166,20 +166,35 @@ class MenuCategoryOut(MenuCategoryBase, Id):
     pass
 
 
-class MenuBase(BaseModel):
-    """Base model for menus."""
+class MenuCategoryView(BaseModel, IdAlias):
+    """Model for menu category views."""
 
-    category: str = Field(..., min_length=1, max_length=50)
+    name: Optional[str] = Field(None, min_length=1, max_length=50)
     description: Optional[str] = Field(None, min_length=1, max_length=255)
-
-
-class MenuView(MenuBase, IdAlias):
-    """Model for menu view."""
-
     items: List[MenuItemView]
 
 
-class MenuViewOut(MenuBase, Id):
+class MenuCategoryViewOut(BaseModel, IdOptional):
+    """Model for menu category view output."""
+
+    name: Optional[str] = Field(None, min_length=1, max_length=50)
+    description: Optional[str] = Field(None, min_length=1, max_length=255)
+    items: List[MenuItemViewOut]
+
+
+class Menu(BaseModel):
+    """Model for menu."""
+
+    categories: List[MenuCategory] = []
+
+
+class MenuView(BaseModel):
+    """Model for menu view."""
+
+    categories: List[MenuCategoryView] = []
+
+
+class MenuViewOut(BaseModel):
     """Model for menu view output."""
 
-    items: List[MenuItemViewOut]
+    categories: List[MenuCategoryViewOut] = []

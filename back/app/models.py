@@ -14,16 +14,24 @@ class Id:
     id: PydanticObjectId
 
 
+class IdOptional:
+    """Model for optional generic ID."""
+
+    id: Optional[PydanticObjectId] = None
+
+
 class IdAlias:
     """Model for generic ID alias."""
 
-    id: PydanticObjectId = Field(..., alias="_id")
+    id: Optional[PydanticObjectId] = Field(None, alias="_id")
 
 
 class IdDefaultFactory:
     """Model for generic ID with default factory."""
 
-    id: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
+    id: Optional[PydanticObjectId] = Field(
+        default_factory=PydanticObjectId, alias="_id"
+    )
 
 
 class CafeId:

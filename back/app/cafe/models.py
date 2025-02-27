@@ -15,7 +15,7 @@ from pymongo.errors import DuplicateKeyError
 
 from app.cafe.enums import Days, Feature, Role
 from app.cafe.helper import slugify, time_blocks_overlap
-from app.cafe_menu.models import MenuCategory, MenuView, MenuViewOut
+from app.cafe_menu.models import Menu, MenuView, MenuViewOut
 from app.models import Id, IdAlias
 
 
@@ -111,8 +111,8 @@ class AdditionalInfo(BaseModel):
 class StaffMember(BaseModel):
     """Model for staff members."""
 
-    username: str
-    role: Role
+    username: str = Field(..., examples=["7802085"])  # Temp
+    role: Role = Field(..., examples=["Admin"])  # Temp
 
 
 class CafeBase(BaseModel):
@@ -196,7 +196,7 @@ class CafeBase(BaseModel):
 class Cafe(Document, CafeBase):
     """Cafe document model."""
 
-    menu_categories: List[MenuCategory] = []
+    menu: Menu = Menu(categories=[])
 
     async def insert(self, *args, **kwargs):
         """Try to insert a new menu item."""
@@ -337,12 +337,12 @@ class CafeShortOut(BaseModel, Id):
 class CafeView(View, CafeBase, IdAlias):
     """Cafe view."""
 
-    menu: List[MenuView]
+    menu: MenuView
 
     class Settings:
         """Settings for cafe view."""
 
-        name: str = "cafes_with_menu"
+        name: str = "cafes_view"
         source = "cafes"
         pipeline = [
             # Lookup all menu items for this cafe
@@ -354,55 +354,97 @@ class CafeView(View, CafeBase, IdAlias):
                     "as": "menu_items",
                 }
             },
-            # Reshape the categories with their items
+            # Reshape the menu with categories and items
             {
                 "$addFields": {
                     "menu": {
-                        "$map": {
-                            "input": "$menu_categories",
-                            "as": "cat",
-                            "in": {
-                                "_id": "$$cat._id",
-                                "category": "$$cat.name",
-                                "description": "$$cat.description",
-                                "items": {
-                                    "$map": {
-                                        "input": {
-                                            "$filter": {
-                                                "input": "$menu_items",
+                        "categories": {
+                            "$concatArrays": [
+                                # Group items with no category
+                                [
+                                    {
+                                        # "_id": None, # Prevent generate ID
+                                        "name": None,
+                                        "description": None,
+                                        "items": {
+                                            "$map": {
+                                                "input": {
+                                                    "$filter": {
+                                                        "input": "$menu_items",
+                                                        "as": "item",
+                                                        "cond": {
+                                                            "$eq": [
+                                                                "$$item.category_id",
+                                                                None,
+                                                            ]
+                                                        },
+                                                    }
+                                                },
                                                 "as": "item",
-                                                "cond": {
-                                                    "$eq": [
-                                                        "$$item.category_id",
-                                                        "$$cat._id",
-                                                    ]
+                                                "in": {
+                                                    "_id": "$$item._id",
+                                                    "name": "$$item.name",
+                                                    "description": "$$item.description",
+                                                    "tags": "$$item.tags",
+                                                    "image_url": "$$item.image_url",
+                                                    "price": "$$item.price",
+                                                    "in_stock": "$$item.in_stock",
+                                                    "options": "$$item.options",
                                                 },
                                             }
                                         },
-                                        "as": "item",
+                                    }
+                                ],
+                                # Group items with categories
+                                {
+                                    "$map": {
+                                        "input": "$menu.categories",
+                                        "as": "cat",
                                         "in": {
-                                            "_id": "$$item._id",
-                                            "name": "$$item.name",
-                                            "description": "$$item.description",
-                                            "tags": "$$item.tags",
-                                            "image_url": "$$item.image_url",
-                                            "price": "$$item.price",
-                                            "in_stock": "$$item.in_stock",
-                                            "options": "$$item.options",
+                                            "_id": "$$cat._id",
+                                            "name": "$$cat.name",
+                                            "description": "$$cat.description",
+                                            "items": {
+                                                "$map": {
+                                                    "input": {
+                                                        "$filter": {
+                                                            "input": "$menu_items",
+                                                            "as": "item",
+                                                            "cond": {
+                                                                "$eq": [
+                                                                    "$$item.category_id",
+                                                                    "$$cat._id",
+                                                                ]
+                                                            },
+                                                        }
+                                                    },
+                                                    "as": "item",
+                                                    "in": {
+                                                        "_id": "$$item._id",
+                                                        "name": "$$item.name",
+                                                        "description": "$$item.description",
+                                                        "tags": "$$item.tags",
+                                                        "image_url": "$$item.image_url",
+                                                        "price": "$$item.price",
+                                                        "in_stock": "$$item.in_stock",
+                                                        "options": "$$item.options",
+                                                    },
+                                                }
+                                            },
                                         },
                                     }
                                 },
-                            },
+                            ]
                         }
                     }
                 }
             },
             # Clean up temporary fields
-            {"$unset": ["menu_items", "menu_categories"]},
+            {"$unset": ["menu_items"]},
         ]
 
 
 class CafeViewOut(CafeBase, Id):
     """Cafe view output model."""
 
-    menu: List[MenuViewOut]
+    menu: MenuViewOut

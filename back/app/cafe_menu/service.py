@@ -23,7 +23,7 @@ class MenuService:
     @staticmethod
     async def get_category_by_id(cafe: Cafe, id: PydanticObjectId) -> MenuCategory:
         """Get a menu category by ID."""
-        for category in cafe.menu_categories:
+        for category in cafe.menu.categories:
             if category.id == id:
                 return category
 
@@ -32,7 +32,7 @@ class MenuService:
     @staticmethod
     async def get_category_by_name(cafe: Cafe, name: str) -> MenuCategory:
         """Get a menu category by name."""
-        for category in cafe.menu_categories:
+        for category in cafe.menu.categories:
             if category.name == name:
                 return category
 
@@ -41,12 +41,12 @@ class MenuService:
     @staticmethod
     async def create_category(cafe: Cafe, data: MenuCategoryCreate) -> MenuCategory:
         """Create a new menu category."""
-        for category in cafe.menu_categories:
+        for category in cafe.menu.categories:
             if category.name == data.name:
                 return
 
         category = MenuCategory(**data.model_dump())
-        cafe.menu_categories.append(category)
+        cafe.menu.categories.append(category)
         await cafe.save()
         return category
 
@@ -57,11 +57,11 @@ class MenuService:
         data: MenuCategoryUpdate,
     ) -> MenuCategory:
         """Update a menu category."""
-        for idx, cat in enumerate(cafe.menu_categories):
+        for idx, cat in enumerate(cafe.menu.categories):
             if cat.id == id:
                 category = cat.model_copy(update=data.model_dump(exclude_unset=True))
                 category.id = id
-                cafe.menu_categories[idx] = category
+                cafe.menu.categories[idx] = category
                 await cafe.save()
                 return category
 
@@ -70,10 +70,10 @@ class MenuService:
     @staticmethod
     async def delete_category(cafe: Cafe, id: PydanticObjectId) -> None:
         """Delete a menu category."""
-        original_len = len(cafe.menu_categories)
-        cafe.menu_categories = [c for c in cafe.menu_categories if c.id != id]
+        original_len = len(cafe.menu.categories)
+        cafe.menu.categories = [c for c in cafe.menu.categories if c.id != id]
 
-        if len(cafe.menu_categories) == original_len:
+        if len(cafe.menu.categories) == original_len:
             return
 
         await cafe.save()
@@ -129,13 +129,13 @@ class MenuService:
     ) -> List[MenuCategory]:
         """Create multiple menu categories."""
         for data in datas:
-            for category in cafe.menu_categories:
+            for category in cafe.menu.categories:
                 if category.name == data.name:
                     return
             category = MenuCategory(**data.model_dump())
-            cafe.menu_categories.append(category)
+            cafe.menu.categories.append(category)
         await cafe.save()
-        return cafe.menu_categories
+        return cafe.menu.categories
 
     @staticmethod
     async def create_many_items(

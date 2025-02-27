@@ -40,7 +40,7 @@ class CafeService:
         cafe_class = CafeView if as_view else Cafe
         try:
             id = PydanticObjectId(cafe_slug_or_id)
-            return await cafe_class.get(id)
+            return await cafe_class.find_one({"_id": id})
         except InvalidId:
             slug = cafe_slug_or_id
             return await cafe_class.find_one(
