@@ -98,7 +98,7 @@
                 </ul>
                 <div class="timeline"></div>
             </header>
-          
+
             <section class="week">
                 <header class="week-header">
                     <h3 class="week-title">Semaine 1 &ndash;
@@ -108,7 +108,6 @@
                 </header>
                 <div class="week-content">
                     <h4 class="title">Objectifs</h4>
-                    
                     <ul>
                         <li>Se familiariser avec le code existant et les outils de développement</li>
                         <li>Produire une première version de l'échéancier</li>
@@ -120,11 +119,11 @@
                         <li>Familiarisation avec le code source et la documentation du projet</li>
                         <li>Recherches effectuées sur les librairies utilisées</li>
                     </ul>
-
                     <h4 class="title">Notes</h4>
                     <p></p>
                 </div>
             </section>
+
             <section class="week">
                 <header class="week-header">
                     <h3 class="week-title">Semaine 2 &ndash;
@@ -134,22 +133,20 @@
                 </header>
                 <div class="week-content">
                     <h4 class="title">Objectifs</h4>
-                    
                     <ul>
                         <li>Mettre sur point une maquette de l'interface basée sur le dessin original</li>
                         <li>Tester le docker container du projet pour l'instanciation locale.</li>
                     </ul>
-
                     <h4 class="title">Réalisations</h4>
                     <ul>
                         <li>J'ai produit une maquette sur Figma assez simple sans transition ou animation mais les idées sont bien comprises</li>
                         <li>Après feedback, j'ai vu où des améliorations et des généralisations peuvent être ajoutées à la maquette</li>
                     </ul>
-
                     <h4 class="title">Notes</h4>
                     <p>Pour l'instanciation locale il me manquait l'API key dans les environment variables</p>
                 </div>
             </section>
+
             <section class="week">
                 <header class="week-header">
                     <h3 class="week-title">Semaine 3 &ndash;
@@ -159,25 +156,23 @@
                 </header>
                 <div class="week-content">
                     <h4 class="title">Objectifs</h4>
-                    
                     <ul>
                         <li>Améliorer la maquette de l'interface</li>
                         <li>Produire les cas d'utilisation du mode boussole (peut-être aussi diagramme de séquences)</li>
                         <li>Brainstormer des idées pour les concepts évènements et activités.</li>
                     </ul>
-
                     <h4 class="title">Réalisations</h4>
                     <ul>
                         <li>Simplification des options de contrôle de l'interface (simple maintenant, expansion possible plus tard si possible)<img src="images/figma-prototype.png" alt="figma prototype final"</li>
                         <li>Idée: tourner la boussole avec un "clic-and-drag" qui se traduira très bien à la plateforme mobile</li>
-                        <li>Cas d'utilisation compléter, diagramme non nécessaire. <img src="images/compass-use-cases.png" alt"compass use cases"</li>
+                        <li>Cas d'utilisation compléter, diagramme non nécessaire. <img src="images/compass-use-cases.png" alt"compass use cases" style="width: 75%; margin-left: 10%;"></li>
                         <li>Évènements seront assortis en ordre de pertinence sur la page d'accueil à côté des cafés. La section pourra être élargie pour donner une vue de tous les évènements sur un calendrier. Un utilisateur peut indiquer sa présence à un évènement ou le "supporter", ces deux actions influençant le score de pertinence de cet évènements. Sur la page d'un café, que les évènements de ce café seront visibles. Les infos d'un évènement devraient être dans les metadatas du lien de partage.</li>
                     </ul>
-
                     <h4 class="title">Notes</h4>
                     <p>Quand un utilisateur affirme sa présence, son profil sera placé dans la liste des participants. On brainstormera comment implémenter des connections entre les utilisateurs qui se connaissent sans trop donner l'impression d'un réseau social.</p>
                 </div>
             </section>
+
             <section class="week">
                 <header class="week-header">
                     <h3 class="week-title">Semaine 4 &ndash;
@@ -187,10 +182,101 @@
                 </header>
                 <div class="week-content">
                     <h4 class="title">Objectifs</h4>
-                    
                     <ul>
                         <li>Prototypage de l'interface mode boussole en React</li>
                         <li>Brainstormer la façon optimal d'évaluer le niveau d'activité d'un café et les connections entre utilisateurs qui se connaissent.</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Setup d'un environnement séparé pour prototyper la boussole</li>
+                        <li>Implémentation des boutons de contrôle (zoom et rotate)</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>Il n'y pas eu beaucoup de progrès cette semaine malheureusement. Mais après discussion sur mes idées d'implémentation, mon superviseur a suggéré d'utiliser des SVG au lieu de divs pour créer le visuel de la boussole et m'a présenté la librairie javascript D3.</p>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 5 &ndash;
+                        <time datetime="2024-09-09">Lundi 10 février 2025</time>
+                    </h3>
+                    <p>Progression Boussole</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Continuer le développement du prototype</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Le placement, zoom et rotation des "échelons" en SVG pure ont été réussi</li>
+                        <li>Collection des coordonnées (longitudes et latitudes) des campus dont fait référence la page d'accueil du siteweb afin de pouvoir prototyper le placement de ces 'landmarks' dans l'interface boussole</li>
+                        <li>Fonctions permettant la conversion des coordonnées en coordonnées polaires avec normalisation</li>
+                        <li>Tentative de séparer les controles dans un fonction component. Cependant j'ai rencontré une erreur curieuse. À revoir</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>Ayant courtement feulleté la documentation de SVG et D3, je m'étais dit que D3 était peut-être trop extensif pour nos besoins et que je pourrais implémenter qu'avec des components React et des SVG. Mais après avoir rencontré des difficulté avec le rendering cette semaine, je crois qu'il faudra faire appel à D3</p>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 6 &ndash;
+                        <time datetime="2024-09-09">Lundi 17 février 2025</time>
+                    </h3>
+                    <p>Pause - Examens Intra</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Pause sur le projet accordé pour me concentrer sur mes examens</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                         <li>Satisfait de ma performance durant mes intras :D</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>On verra ce que ça a donné!</p>
+                </div>
+            </section> 
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 7 &ndash;
+                        <time datetime="2024-09-09">Lundi 24 février 2025</time>
+                    </h3>
+                    <p>Switch à D3</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Intégré D3 dans l'interface Boussole</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Placement des 'landmark' sur les échelons de la boussole</li>
+                        <li>Méthode pour l'obtention de la localisation live de l'utilisateur</li>
+                        <li>Méthode pour l'obtention de l'orientation de l'appareil de l'utilisateur (heading). Pourtant mon navigateur marque cette fonctionnalité comme étant depricated. À revoir</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>Quelques artifactes graphique ce sont produits dans cet implémentation. Je me suis beaucoup inspiré de l'exemple Polar Clock sur le site de D3 et il y a surement quelque chose qui m'échappe. En plus de ça je n'arrive pas encore à tourner la boussole et de plus je suis un peu méfiant de l'orientation actuelle des 'landmark'. Vu comment je trouve cet implémentation compliqué, j'aimerais dorénavant travailler sur la boussole en parallèle avec Évènement et Activité. Peut-être avec un peu de recul j'y parviendrais.</p>
+                </div>
+            </section>
+
+            <!-- SECTION TEMPLATE
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">semaine [num] &ndash;
+                        <time datetime="2024-09-09">lundi [date] 2025</time>
+                    </h3>
+                    <p>[title]</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    
+                    <ul>
+                        <li></li>
                     </ul>
 
                     <h4 class="title">Réalisations</h4>
@@ -201,6 +287,7 @@
                     <p></p>
                 </div>
             </section>
+            -->
         </section>
     </main>
 

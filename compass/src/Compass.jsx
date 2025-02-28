@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from 'react'
+import { useState, useEffect, useRef, MouseEvent } from 'react'
 import * as d3 from "d3"
 import './Compass.css'
 
@@ -19,93 +19,114 @@ const campusLocations = [
 ];
 
 const user = {lat: 45.502869750762905, lon: -73.61833155386769};
+const width = 500
+const height = 500
+
 
 function Compass() {
   const [zoom, setZoom] = useState(3);
   const [angle, setAngle] = useState(0);
+  const [userLocation, setUserLocation] = useState(user);
+  const svgRef = useRef();
 
+  const compass = d3.select(svgRef.current)
+      .attr("viewBox", [0, 0, width, height])
+      .attr("text-anchor", "middle")
+      .style("display", "block")
+      .style("padding", "5%")
+      .style("overflow", "visible");
+
+  const ringScale = d3.scaleLinear().domain([0, 5]).range([height/20, height/2]);
+
+  compass.selectAll("g").remove();
+  compass.select("svg")
+    .attr("transform", `rotate(${angle}deg)`)
+    .attr("transformOrigin", `${width/2} ${height/2}`);
+
+  // Create ring groups (structure taken from polar clock on D3 examples)
+  const rings = compass.append("g")
+    .attr("transform", `translate(${width / 2},${height / 2})`)
+    .selectAll("g")
+    .data([1,2,3,4,5])
+    .join("g");
+
+  // Add actual rings
+  rings.append("circle")
+    .attr("class", "ring")
+    .attr("fill", "none")
+    .attr("stroke", "currentColor")
+    .attr("stroke-width", 1.5)
+    .attr("r", d => ringScale(d)); 
+
+  // Tooltip
+  const tooltip = compass.append("text")
+    .attr("font-size", "14px")
+    .attr("fill", "black")
+    .attr("text-anchor", "middle")
+    .style("visibility", "hidden"); 
   
+  // Add landmarks on the rings
+  compass.selectAll(".landmarks")
+      .data(campusLocations)
+      .join("circle")
+      .attr("class", "landmarks")
+      .attr("cx", width/2)
+      .attr("cy", height/2)
+      .attr("r", 10)
+      .attr("fill", "red")
+      .attr("transform", (d) => {
+        const {r, theta} = toPolar(user, d);
+        console.log(r)
+        return `translate(${Math.cos(theta) * ringScale(r)}, ${Math.sin(theta) * ringScale(r)})`
+      }) 
+      .attr("overflow", "visible") 
+      .on("mouseover", (event, d) => {
+        tooltip.text(d.name)
+          .attr("x", event.offsetX)
+          .attr("y", event.offsetY - 10)
+          .style("visibility", "visible");
+      })
+      .on("mouseout", () => tooltip.style("visibility", "hidden")); 
+
+  // Get info from device
+  useEffect(() => {
+    // Get user location
+    navigator.geolocation.getCurrentPosition((position) => {
+      setUserLocation({
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      });
+    });
+
+    // Listen to device orientation (compass heading)
+    const handleOrientation = (event) => {
+      if (event.alpha !== null) {
+        setAngle(event.alpha); // Alpha is the compass heading
+      }
+    };
+
+    window.addEventListener("deviceorientation", handleOrientation);
+    return () => window.removeEventListener("deviceorientation", handleOrientation); 
+  }, []);
 
   return (
     <>
-      {/*Define compass wheels here*/}
-      <div className='compass'>
-        <svg height="1000" width="1000"  style={{
-          transform: `rotate(${angle}deg)`,
-          transformOrigin: "50% 90%",
-          transition: "transform 0.5s ease-in-out",
-          overflow: "visible"
-        }}>
-
-          {/*Render wheels of the compass*/}
-          {Array.from({length: zoom}).map((_, i) =>(
-            <circle 
-              key={i} 
-              cx="50%" 
-              cy="90%"
-              r={(50/zoom)*(i+1)+"%"}
-              fill="none" 
-              stroke="red"
-            />
-          ))}
-
-          {/*This circle is to test bearing placement*/}
-          {/*
-          <circle 
-            cx="50%" 
-            cy="77%"
-            r="5%" 
-            fill="blue" 
-            style={{
-              transform: `rotate(0deg)`,
-              transformOrigin: "50% 90%",
-              transition: "transform 0.5s ease-in-out",
-              overflow: "visible"}}/>
-          */}
-
-          {campusLocations.map((campus) => (
-            <Waypoint 
-              key={campus.name}
-              origin={user}
-              destination={campus}
-              threshold={zoom}
-            />
-          ))}
-
-
-          {/*This circle represents user current/start location*/}
-          <circle cx="50%" cy="90%" r={(10/zoom)+"%"} fill="red" />
-        </svg>
-      </div>
-
-
+      <svg ref={svgRef} ></svg>
       {/*Define controls for UI here*/}
       <div className="controls">
         <div className="zoom">
-          <button 
-            onClick={() => setZoom(
-              (zoom) => zoom > 1 ? zoom - 1 : zoom = 1
-            )}>
+          <button onClick={() => setZoom((zoom) => zoom > 1 ? zoom - 1 : zoom = 1)}>
             -
           </button>
-          <button 
-            onClick={() => setZoom(
-              (zoom) => zoom < 5 ? zoom + 1 : zoom = 5
-            )}>
+          <button onClick={() => setZoom((zoom) => zoom < 5 ? zoom + 1 : zoom = 5)}>
             +
           </button><p>zoom is {zoom}</p>
         </div>
         <div className="rotate">
-          <button 
-            onClick={() => setAngle(
-              (angle) => (angle - 30)
-            )}>
+          <button onClick={() => setAngle((angle) => (angle - 30))}>
             {"<"}
           </button>
-          <button 
-            onClick={() => setAngle(
-              (angle) => (angle + 30)
-            )}>
+          <button onClick={() => setAngle((angle) => (angle + 30))}>
             {">"}
           </button><p>angle is {angle}</p>
         </div>
@@ -114,40 +135,13 @@ function Compass() {
   )
 }
 
-function Waypoint({origin, destination, threshold}) {
-  let {r, theta} = toPolar(origin.lat, origin.lon, destination.lat, destination.lon);
-  r = r > 3000 ? 5 : Math.floor(r/500);
-  let n = destination.name;
-  console.log({r, n, theta, threshold});
-  
-  if (r > threshold){
-  } else {
-    return (
-      <>
-        <circle 
-          cx="50%"
-          cy={(90-(50/threshold*2)-(50/threshold)*r)+"%"}
-          r={(10/threshold)+"%"}
-          fill="none"
-          stroke="red"
-          style={{
-              transform: `rotate(${theta}deg)`,
-              transformOrigin: "50% 90%",
-              transition: "transform 0.5s ease-in-out",
-              overflow: "visible"}}
-        />
-      </>
-    )
-  }
-}
-
-function Control({state, incState, decState, inc, dec, name}) {
+function Control({name, state, setState, inc, dec}) {
   return (
     <div className={name}>
-      <button onClick={decState}>
+      <button onClick={setState}>
             {dec}
       </button> 
-      <button onClick={incState}>
+      <button onClick={setState}>
             {inc}
       </button>
       <p>state is {state}</p>
@@ -173,8 +167,12 @@ function haversine(lat1, lon1, lat2, lon2) {
     return R * c; // Distance in meters
 }
 
-function toPolar(lat1, lon1, lat2, lon2) {
-    const r = haversine(lat1, lon1, lat2, lon2); // Distance as radius
+function toPolar(origin, destination) {
+    let lat1 = origin.lat;
+    let lat2 = destination.lat
+    let lon1 = origin.lon
+    let lon2 = destination.lon
+    let r = haversine(lat1, lon1, lat2, lon2); // Distance as radius
     
     const phi1 = toRad(lat1);
     const phi2 = toRad(lat2);
@@ -186,9 +184,10 @@ function toPolar(lat1, lon1, lat2, lon2) {
         Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(dLon)
     );
 
-    theta = (theta * 180) / Math.PI; // Convert to degrees
-    if (theta < 0) theta += 360; // Normalize to 0-360 degrees
-    return { r, theta };
+    //theta = (theta * 180) / Math.PI; // Convert to degrees
+    //if (theta < 0) theta += 360; // Normalize to 0-360 degrees
+    r = r > 3000 ? 5 : Math.ceil(r/500); 
+    return { r , theta };
 }
 
 export default Compass
