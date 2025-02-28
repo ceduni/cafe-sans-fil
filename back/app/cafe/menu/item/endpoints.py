@@ -11,143 +11,19 @@ from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
 from app.auth.dependencies import get_current_user
-from app.cafe.menu.models import (
-    MenuCategoryCreate,
-    MenuCategoryOut,
-    MenuCategoryUpdate,
-    MenuItemCreate,
-    MenuItemOut,
-    MenuItemUpdate,
-)
-from app.cafe.menu.service import MenuService
+from app.cafe.menu.category.service import CategoryService
+from app.cafe.menu.item.models import MenuItemCreate, MenuItemOut, MenuItemUpdate
+from app.cafe.menu.item.service import ItemService
 from app.cafe.models import Role
 from app.cafe.service import CafeService
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User
 
-menu_router = APIRouter()
+item_router = APIRouter()
 
 
-# --------------------------------------
-#               Category
-# --------------------------------------
-
-
-@menu_router.post(
-    "/cafes/{slug}/menu/categories",
-    response_model=MenuCategoryOut,
-    responses={
-        401: {"model": ErrorResponse},
-        403: {"model": ErrorResponse},
-        404: {"model": ErrorResponse},
-        409: {"model": ErrorResponse},
-    },
-)
-async def create_menu_category(
-    data: MenuCategoryCreate,
-    slug: str = Path(..., description="Slug of the cafe"),
-    current_user: User = Depends(get_current_user),
-):
-    """Create a menu category. (`admin`)"""
-    cafe = await CafeService.get(slug)
-    if not cafe:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A cafe with this slug does not exist."}],
-        )
-
-    category = await MenuService.get_category_by_name(cafe, data.name)
-    if category:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=[{"msg": "A category with this name already exists."}],
-        )
-
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-    return await MenuService.create_category(cafe, data)
-
-
-@menu_router.put(
-    "/cafes/{slug}/menu/categories/{id}",
-    response_model=MenuCategoryOut,
-    responses={
-        401: {"model": ErrorResponse},
-        403: {"model": ErrorResponse},
-        404: {"model": ErrorResponse},
-        409: {"model": ErrorResponse},
-    },
-)
-async def update_menu_category(
-    data: MenuCategoryUpdate,
-    slug: str = Path(..., description="Slug of the cafe"),
-    id: PydanticObjectId = Path(..., description="ID of the category"),
-    current_user: User = Depends(get_current_user),
-):
-    """Update a menu category. (`admin`)"""
-    cafe = await CafeService.get(slug)
-    if not cafe:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A cafe with this slug does not exist."}],
-        )
-
-    category = await MenuService.get_category_by_id(cafe, id)
-    if not category:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A category with this ID does not exist."}],
-        )
-
-    category = await MenuService.get_category_by_name(cafe, data.name)
-    if category and category.id != id:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=[{"msg": "A category with this name already exists."}],
-        )
-
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-    return await MenuService.update_category(cafe, id, data)
-
-
-@menu_router.delete(
-    "/cafes/{slug}/menu/categories/{id}",
-    responses={
-        401: {"model": ErrorResponse},
-        403: {"model": ErrorResponse},
-        404: {"model": ErrorResponse},
-    },
-)
-async def delete_menu_category(
-    slug: str = Path(..., description="Slug of the cafe"),
-    id: PydanticObjectId = Path(..., description="ID of the category"),
-    current_user: User = Depends(get_current_user),
-):
-    """Delete a menu category. (`admin`)"""
-    cafe = await CafeService.get(slug)
-    if not cafe:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A cafe with this slug does not exist."}],
-        )
-
-    category = await MenuService.get_category_by_id(cafe, id)
-    if not category:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A category with this ID does not exist."}],
-        )
-
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-    await MenuService.delete_category(cafe, id)
-
-
-# --------------------------------------
-#               Item
-# --------------------------------------
-
-
-@menu_router.get(
+@item_router.get(
     "/cafes/{slug}/menu/items",
     response_model=Page[MenuItemOut],
     responses={
@@ -171,11 +47,11 @@ async def get_menu_items(
     filters = parse_query_params(dict(request.query_params))
     filters["cafe_id"] = cafe.id
 
-    items = await MenuService.get_items(**filters)
+    items = await ItemService.get_items(**filters)
     return await paginate(items)
 
 
-@menu_router.post(
+@item_router.post(
     "/cafes/{slug}/menu/items",
     response_model=MenuItemOut,
     responses={
@@ -199,7 +75,7 @@ async def create_menu_item(
         )
 
     if data.category_id is not None:
-        category = await MenuService.get_category_by_id(cafe, data.category_id)
+        category = await CategoryService.get_category_by_id(cafe, data.category_id)
         if not category:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -209,7 +85,7 @@ async def create_menu_item(
     await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
 
     try:
-        return await MenuService.create_item(cafe, data)
+        return await ItemService.create_item(cafe, data)
     except DuplicateKeyError as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -222,7 +98,7 @@ async def create_menu_item(
         )
 
 
-@menu_router.get(
+@item_router.get(
     "/cafes/{slug}/menu/items/{id}",
     response_model=MenuItemOut,
     responses={
@@ -241,7 +117,7 @@ async def get_menu_item(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    item = await MenuService.get_item_by_id_and_cafe_id(id, cafe.id)
+    item = await ItemService.get_item_by_id_and_cafe_id(id, cafe.id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -250,7 +126,7 @@ async def get_menu_item(
     return item
 
 
-@menu_router.put(
+@item_router.put(
     "/cafes/{slug}/menu/items/{id}",
     response_model=MenuItemOut,
     responses={
@@ -274,7 +150,7 @@ async def update_menu_item(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    item = await MenuService.get_item_by_id_and_cafe_id(id, cafe.id)
+    item = await ItemService.get_item_by_id_and_cafe_id(id, cafe.id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -282,7 +158,7 @@ async def update_menu_item(
         )
 
     if data.category_id is not None:
-        category = await MenuService.get_category_by_id(cafe, data.category_id)
+        category = await CategoryService.get_category_by_id(cafe, data.category_id)
         if not category:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -294,7 +170,7 @@ async def update_menu_item(
     )
 
     try:
-        return await MenuService.update_item(item, data)
+        return await ItemService.update_item(item, data)
     except DuplicateKeyError as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -307,7 +183,7 @@ async def update_menu_item(
         )
 
 
-@menu_router.delete(
+@item_router.delete(
     "/cafes/{slug}/menu/items/{id}",
     responses={
         401: {"model": ErrorResponse},
@@ -328,7 +204,7 @@ async def delete_menu_item(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    item = await MenuService.get_item_by_id_and_cafe_id(id, cafe.id)
+    item = await ItemService.get_item_by_id_and_cafe_id(id, cafe.id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -336,4 +212,4 @@ async def delete_menu_item(
         )
 
     await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-    await MenuService.delete_item(item)
+    await ItemService.delete_item(item)

@@ -10,8 +10,10 @@ from typing import Dict
 from faker import Faker
 from tqdm import tqdm
 
-from app.cafe.menu.models import MenuCategoryCreate, MenuItemCreate
-from app.cafe.menu.service import MenuService
+from app.cafe.menu.category.models import MenuCategoryCreate
+from app.cafe.menu.category.service import CategoryService
+from app.cafe.menu.item.models import MenuItemCreate
+from app.cafe.menu.item.service import ItemService
 from app.cafe.service import CafeService
 
 random.seed(42)
@@ -46,7 +48,7 @@ class MenuSeeder:
     async def _create_categories(self, cafe: str) -> Dict[str, str]:
         """Create predefined categories for a cafe and return name->ID mapping"""
         category_map = {}
-        categories = await MenuService.create_many_categories(
+        categories = await CategoryService.create_many_categories(
             cafe, [MenuCategoryCreate(**category) for category in PREDEFINED_CATEGORIES]
         )
         for category in categories:
@@ -79,7 +81,7 @@ class MenuSeeder:
                 item_copy["in_stock"] = random.random() < 0.80
                 randomized_menu_items.append(MenuItemCreate(**item_copy))
 
-            items = await MenuService.create_many_items(cafe, randomized_menu_items)
+            items = await ItemService.create_many_items(cafe, randomized_menu_items)
             # self.menu_item_ids.extend([item.id for item in items])
 
         print(f"Menu items created")

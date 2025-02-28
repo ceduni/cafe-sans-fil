@@ -8,7 +8,7 @@ from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.announcement.models import Announcement
-from app.cafe.menu.models import MenuItem
+from app.cafe.menu.item.models import MenuItem
 from app.cafe.models import Cafe
 from app.config import settings
 from app.event.models import Event

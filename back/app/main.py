@@ -5,13 +5,13 @@ Main module for the FastAPI application.
 from contextlib import asynccontextmanager
 
 from beanie import init_beanie
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.announcement.models import Announcement
-from app.cafe.menu.models import MenuItem
+from app.cafe.menu.item.models import MenuItem
 from app.cafe.models import Cafe, CafeView
 from app.config import settings
 from app.event.models import Event
