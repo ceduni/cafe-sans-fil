@@ -54,7 +54,7 @@ function Compass() {
   rings.append("circle")
     .attr("class", "ring")
     .attr("fill", "none")
-    .attr("stroke", "currentColor")
+    .attr("stroke", "#222")
     .attr("stroke-width", 1.5)
     .attr("r", d => ringScale(d)); 
 
