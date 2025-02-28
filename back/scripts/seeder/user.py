@@ -28,7 +28,6 @@ class UserSeeder:
     def __init__(self):
         """Initializes the UserSeeder class."""
         self.ids = []
-        self.users = []
 
     async def seed_users(self, num_users: int):
         """Seeds a specified number of users."""
@@ -62,14 +61,13 @@ class UserSeeder:
             )
             datas.append(data)
 
-        users = await UserService.create_many(datas)
-        self.ids = [user.id for user in users]
-        self.users = users
+        self.ids = await UserService.create_many(datas)
         print(f"{num_users} users created")
         await self.update_first_user_to_cafesansfil()
 
     async def update_first_user_to_cafesansfil(self):
         """Updates the first user to cafesansfil."""
+        user = await UserService.get_by_id(self.ids[0])
         matricule = "7802085"
         data = {
             "email": "cafesansfil@umontreal.ca",
@@ -80,8 +78,7 @@ class UserSeeder:
             "last_name": "Holland",
             "photo_url": "https://i.pinimg.com/originals/50/c0/88/50c0883ae3c0e6be1213407c2b746177.jpg",
         }
-        user = await UserService.update(self.users[0], UserCreate(**data))
-        self.users[0] = user
+        await UserService.update(user, UserCreate(**data))
 
     def get_ids(self):
         """Returns the list of ids."""

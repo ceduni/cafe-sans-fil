@@ -63,7 +63,6 @@ class CafeSeeder:
                 social_media=SocialMedia(**data.get("social_media", {})),
                 payment_details=payment_details,
                 additional_info=additional_info,
-                staff=[],
             )
 
             cafe = await CafeService.create(data)

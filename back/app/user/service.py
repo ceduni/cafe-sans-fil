@@ -89,7 +89,7 @@ class UserService:
         await user.save()
 
     @staticmethod
-    async def create_many(datas: List[UserCreate]) -> List[User]:
+    async def create_many(datas: List[UserCreate]) -> List[PydanticObjectId]:
         """Create multiple users."""
         users = []
         for data in datas:
@@ -104,8 +104,8 @@ class UserService:
             )
             users.append(user)
 
-        await User.insert_many(users)
-        return users
+        result = await User.insert_many(users)
+        return result.inserted_ids
 
     @staticmethod
     async def update_many(ids: List[PydanticObjectId], data: UserUpdate) -> List[User]:

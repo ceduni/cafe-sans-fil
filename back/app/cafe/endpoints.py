@@ -17,22 +17,13 @@ from app.cafe.models import (
     CafeUpdate,
     CafeViewOut,
     Role,
-    StaffCreate,
-    StaffOut,
 )
 from app.cafe.service import CafeService
 from app.models import ErrorConflictResponse, ErrorResponse
-from app.order.service import OrderService
 from app.service import parse_query_params
 from app.user.models import User
-from app.user.service import UserService
 
 cafe_router = APIRouter()
-
-
-# --------------------------------------
-#               Cafe
-# --------------------------------------
 
 
 @cafe_router.get(
@@ -141,93 +132,3 @@ async def update_cafe(
                 }
             ],
         )
-
-
-# --------------------------------------
-#               Staff
-# --------------------------------------
-
-
-@cafe_router.post(
-    "/cafes/{slug}/staff",
-    response_model=StaffOut,
-    responses={
-        401: {"model": ErrorResponse},
-        403: {"model": ErrorResponse},
-        404: {"model": ErrorResponse},
-        409: {"model": ErrorResponse},
-    },
-)
-async def create_staff_member(
-    data: StaffCreate,
-    slug: str = Path(..., description="Slug of the cafe"),
-    current_user: User = Depends(get_current_user),
-):
-    """Add a staff member to a cafe. (`admin`)."""
-    cafe = await CafeService.get(slug)
-    if not cafe:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A cafe with this slug does not exist."}],
-        )
-
-    user = await UserService.get(data.username)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A user with this username does not exist."}],
-        )
-
-    staff = await CafeService.get_staff(cafe, data.username)
-    if staff:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=[{"msg": "This user is already a staff."}],
-        )
-
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-
-    return await CafeService.create_staff(cafe, data)
-
-
-# --------------------------------------
-#               Sales Report
-# --------------------------------------
-
-
-@cafe_router.get(
-    "/cafes/{slug}/sales-report",
-    responses={
-        401: {"model": ErrorResponse},
-        403: {"model": ErrorResponse},
-        404: {"model": ErrorResponse},
-    },
-)
-async def get_sales_report(
-    slug: str = Path(..., description="Slug of the cafe"),
-    start_date: Optional[str] = Query(
-        None, description="The start date of the reporting period"
-    ),
-    end_date: Optional[str] = Query(
-        None, description="The end date of the reporting period"
-    ),
-    report_type: str = Query(
-        "daily",
-        description="The type of report to generate ('daily', 'weekly', 'monthly')",
-    ),
-    current_user: User = Depends(get_current_user),
-):
-    """Get a sales report for a cafe. (`admin`)"""
-    cafe = await CafeService.get(slug)
-    if not cafe:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A cafe with this slug does not exist."}],
-        )
-
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-
-    report_data = await OrderService.generate_sales_report_data(
-        cafe, start_date, end_date, report_type
-    )
-    return report_data

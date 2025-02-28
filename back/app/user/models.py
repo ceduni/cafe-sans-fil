@@ -10,7 +10,7 @@ import pymongo
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from pymongo import IndexModel
 
-from app.models import CustomDocument, Id
+from app.models import CustomDocument, Id, IdAlias
 
 
 class UserBase(BaseModel):
@@ -114,5 +114,17 @@ class UserUpdate(BaseModel):
 
 class UserOut(UserBase, Id):
     """Model for user output."""
+
+    pass
+
+
+class UserView(UserBase, IdAlias):
+    """Model for user view."""
+
+    pass
+
+
+class UserViewOut(UserBase, Id):
+    """Model for user view output."""
 
     pass

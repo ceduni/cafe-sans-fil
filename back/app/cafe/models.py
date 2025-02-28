@@ -7,13 +7,14 @@ from datetime import datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Insert, PydanticObjectId, Save, View, before_event
+from beanie import DecimalAnnotation, Insert, Save, View, before_event
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 from slugify import slugify
 
 from app.cafe.enums import Days, Feature, PaymentMethod, Role
 from app.cafe_menu.models import Menu, MenuView, MenuViewOut
+from app.cafe_staff.models import Staff, StaffView, StaffViewOut
 from app.models import CustomDocument, Id, IdAlias
 
 
@@ -106,33 +107,25 @@ class AdditionalInfo(BaseModel):
     end: Optional[datetime] = None
 
 
-class StaffMember(BaseModel):
-    """Model for staff members."""
-
-    id: PydanticObjectId
-    role: Role
-
-
 class CafeBase(BaseModel):
     """Base model for cafes."""
 
     name: str = Field(..., min_length=1, max_length=50)
     slug: Optional[str] = None
     previous_slugs: Optional[List[str]] = []
-    features: List[Feature]
+    features: List[Feature] = []
     description: str = Field(..., min_length=1, max_length=255)
     logo_url: Optional[str] = Field(None, max_length=755)
     image_url: Optional[str] = Field(None, max_length=755)
     affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
-    opening_hours: List[DayHours]
+    opening_hours: List[DayHours] = []
     location: Location
     contact: Contact
     social_media: SocialMedia
-    payment_details: List[PaymentDetails]
-    additional_info: List[AdditionalInfo]
-    staff: List[StaffMember]
+    payment_details: List[PaymentDetails] = []
+    additional_info: List[AdditionalInfo] = []
 
     @field_validator("opening_hours")
     @classmethod
@@ -151,7 +144,6 @@ class CafeBase(BaseModel):
 
         day_blocks: dict[str, List[TimeBlock]] = {}
 
-        # Group by day
         for day_hours_data in opening_hours:
             day_hours = (
                 DayHours(**day_hours_data)
@@ -162,7 +154,6 @@ class CafeBase(BaseModel):
                 day_blocks[day_hours.day] = []
             day_blocks[day_hours.day].extend(day_hours.blocks)
 
-        # Check each day
         for day, blocks in day_blocks.items():
             for i, block in enumerate(blocks):
                 for other_block in blocks[i + 1 :]:
@@ -208,6 +199,7 @@ class CafeBase(BaseModel):
 class Cafe(CustomDocument, CafeBase):
     """Cafe document model."""
 
+    staff: Staff = Staff(admin_ids=[], volunteer_ids=[])
     menu: Menu = Menu(categories=[])
 
     @before_event([Insert, Save])
@@ -239,27 +231,7 @@ class Cafe(CustomDocument, CafeBase):
             IndexModel([("description", pymongo.ASCENDING)]),
             IndexModel([("location.pavillon", pymongo.ASCENDING)]),
             IndexModel([("location.local", pymongo.ASCENDING)]),
-            IndexModel([("staff.id", pymongo.ASCENDING)]),
-            # IndexModel([("staff._id", pymongo.ASCENDING)], unique=True),
         ]
-
-
-class StaffCreate(StaffMember):
-    """Staff creation model."""
-
-    pass
-
-
-class StaffUpdate(BaseModel):
-    """Staff update model."""
-
-    role: Optional[str] = None
-
-
-class StaffOut(BaseModel, Id):
-    """Staff output model."""
-
-    role: Role
 
 
 class CafeCreate(BaseModel):
@@ -278,8 +250,7 @@ class CafeCreate(BaseModel):
     contact: Contact
     social_media: SocialMedia
     payment_details: List[PaymentDetails]
-    additional_info: List[AdditionalInfo]
-    staff: List[StaffMember]
+    additional_info: Optional[List[AdditionalInfo]] = None
 
 
 class CafeUpdate(BaseModel):
@@ -327,17 +298,16 @@ class CafeShortOut(BaseModel, Id):
 
 
 class CafeView(View, CafeBase, IdAlias):
-    """Cafe view."""
+    """Cafe view with complete staff and menu data."""
 
+    staff: StaffView
     menu: MenuView
 
     class Settings:
-        """Settings for cafe view."""
-
         name: str = "cafes_view"
         source = "cafes"
         pipeline = [
-            # Lookup all menu items for this cafe
+            # Lookup all menu items
             {
                 "$lookup": {
                     "from": "menus",
@@ -346,7 +316,51 @@ class CafeView(View, CafeBase, IdAlias):
                     "as": "menu_items",
                 }
             },
-            # Reshape the menu with categories and items
+            # Lookup admin user
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "staff.admin_ids",
+                    "foreignField": "_id",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 1,
+                                "username": 1,
+                                "email": 1,
+                                "matricule": 1,
+                                "first_name": 1,
+                                "last_name": 1,
+                                "photo_url": 1,
+                            }
+                        }
+                    ],
+                    "as": "admins",
+                }
+            },
+            # Lookup volunteer user
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "staff.volunteer_ids",
+                    "foreignField": "_id",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 1,
+                                "username": 1,
+                                "email": 1,
+                                "matricule": 1,
+                                "first_name": 1,
+                                "last_name": 1,
+                                "photo_url": 1,
+                            }
+                        }
+                    ],
+                    "as": "volunteers",
+                }
+            },
+            # Reshape both menu and staff
             {
                 "$addFields": {
                     "menu": {
@@ -428,15 +442,25 @@ class CafeView(View, CafeBase, IdAlias):
                                 },
                             ]
                         }
-                    }
+                    },
+                    "staff": {"admins": "$admins", "volunteers": "$volunteers"},
                 }
             },
             # Clean up temporary fields
-            {"$unset": ["menu_items"]},
+            {
+                "$unset": [
+                    "menu_items",
+                    "admins",
+                    "volunteers",
+                    "staff.admin_ids",
+                    "staff.volunteer_ids",
+                ]
+            },
         ]
 
 
 class CafeViewOut(CafeBase, Id):
     """Cafe view output model."""
 
+    staff: StaffViewOut
     menu: MenuViewOut
