@@ -8,7 +8,7 @@ from typing import List, Optional
 
 import pymongo
 from beanie import DecimalAnnotation, Insert, Save, View, before_event
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 from slugify import slugify
 
@@ -61,6 +61,7 @@ class Location(BaseModel):
 
     pavillon: str = Field(..., min_length=1)
     local: str = Field(..., min_length=1)
+    floor: Optional[str] = Field(None, min_length=1)
     geometry: Optional[Geometry] = None
 
 
@@ -115,8 +116,9 @@ class CafeBase(BaseModel):
     previous_slugs: Optional[List[str]] = []
     features: List[Feature] = []
     description: str = Field(..., min_length=1, max_length=255)
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+    photo_urls: Optional[List[HttpUrl]] = []
     affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
@@ -240,8 +242,9 @@ class CafeCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=50)
     features: List[Feature]
     description: str = Field(..., min_length=1, max_length=255)
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+    photo_urls: Optional[List[HttpUrl]] = []
     affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
@@ -259,8 +262,9 @@ class CafeUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=50)
     features: Optional[List[Feature]] = None
     description: Optional[str] = Field(None, min_length=1, max_length=255)
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+    photo_urls: Optional[List[HttpUrl]] = []
     affiliation: Optional[Affiliation] = None
     is_open: Optional[bool] = None
     status_message: Optional[str] = Field(None, max_length=50)
@@ -286,8 +290,9 @@ class CafeShortOut(BaseModel, Id):
     previous_slugs: Optional[List[str]] = []
     features: List[Feature]
     description: str = Field(..., min_length=1, max_length=255)
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+    photo_urls: Optional[List[HttpUrl]] = []
     affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)

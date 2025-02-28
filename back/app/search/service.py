@@ -56,7 +56,7 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
             "slug": cafe.slug,
             "description": cafe.description,
             "logo_url": cafe.logo_url,
-            "image_url": cafe.image_url,
+            "banner_url": cafe.banner_url,
             "affiliation": cafe.affiliation,
             "is_open": cafe.is_open,
             "status_message": cafe.status_message,

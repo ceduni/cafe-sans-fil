@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Optional
 
 import pymongo
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import BaseModel, EmailStr, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 
 from app.models import CustomDocument, Id, IdAlias
@@ -21,7 +21,7 @@ class UserBase(BaseModel):
     matricule: str = Field(..., min_length=6, max_length=8, examples=["123456"])
     first_name: str = Field(..., min_length=2, max_length=30)
     last_name: str = Field(..., min_length=2, max_length=30)
-    photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
+    photo_url: Optional[HttpUrl] = None
 
     @field_validator("username")
     @classmethod
@@ -106,7 +106,7 @@ class UserUpdate(BaseModel):
     password: Optional[str] = Field(None, min_length=6, max_length=100)
     first_name: Optional[str] = Field(None, min_length=2, max_length=30)
     last_name: Optional[str] = Field(None, min_length=2, max_length=30)
-    photo_url: Optional[str] = Field(None, min_length=10, max_length=755)
+    photo_url: Optional[HttpUrl] = None
 
     # @field_validator('password')
     # ...

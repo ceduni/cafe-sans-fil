@@ -6,7 +6,7 @@ from datetime import UTC, datetime
 from typing import List, Optional
 
 from beanie import Document
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
 
 from app.models import CafeId, Id, UserId
 
@@ -24,7 +24,7 @@ class EventBase(BaseModel):
     description: str
     start_date: datetime
     end_date: Optional[datetime] = None
-    image_url: Optional[str] = None
+    image_url: Optional[HttpUrl] = None
     attendees: List[UserInteraction] = []
     supporters: List[UserInteraction] = []
 
@@ -45,7 +45,7 @@ class EventCreate(BaseModel, CafeId):
     description: str
     start_date: datetime
     end_date: Optional[datetime] = None
-    image_url: Optional[str] = None
+    image_url: Optional[HttpUrl] = None
 
 
 class EventUpdate(BaseModel):
@@ -55,7 +55,7 @@ class EventUpdate(BaseModel):
     description: Optional[str] = None
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
-    image_url: Optional[str] = None
+    image_url: Optional[HttpUrl] = None
 
 
 class EventOut(EventBase, CafeId, Id):

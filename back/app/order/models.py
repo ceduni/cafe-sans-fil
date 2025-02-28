@@ -14,7 +14,7 @@ from beanie import (
     Replace,
     before_event,
 )
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 
 from app.models import CafeId, Id, ItemId, UserId
@@ -41,7 +41,7 @@ class OrderedItem(BaseModel, ItemId):
     """Model for ordered items."""
 
     item_name: str
-    item_image_url: Optional[str] = None
+    item_image_url: Optional[HttpUrl] = None
     item_price: DecimalAnnotation
     quantity: int
     options: List[OrderedItemOption]
@@ -60,7 +60,7 @@ class OrderBase(BaseModel):
 
     order_number: int
     cafe_name: str
-    cafe_image_url: Optional[str] = None
+    cafe_image_url: Optional[HttpUrl] = None
     items: List[OrderedItem]
     total_price: DecimalAnnotation = DecimalAnnotation(0.0)
     status: OrderStatus = Field(default=OrderStatus.PLACED)
@@ -106,7 +106,7 @@ class OrderCreate(BaseModel):
 
     cafe_id: PydanticObjectId
     cafe_name: str
-    cafe_image_url: Optional[str] = None
+    cafe_image_url: Optional[HttpUrl] = None
     items: List[OrderedItem]
 
     @field_validator("items")

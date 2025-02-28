@@ -6,7 +6,7 @@ from typing import List, Optional
 
 import pymongo
 from beanie import DecimalAnnotation
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 
 from app.models import (
@@ -42,7 +42,7 @@ class MenuItemBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=50)
     description: Optional[str] = Field(None, min_length=1, max_length=255)
     tags: Optional[List[str]] = Field(None, max_length=20)
-    image_url: Optional[str] = Field(None, max_length=755)
+    image_url: Optional[HttpUrl] = None
     price: DecimalAnnotation
     in_stock: bool
     options: List[MenuItemOption]
@@ -88,7 +88,7 @@ class MenuItemUpdate(BaseModel, CategoryId):
     name: Optional[str] = Field(None, min_length=1, max_length=50)
     description: Optional[str] = Field(None, min_length=1, max_length=255)
     tags: Optional[List[str]] = Field(None, max_length=20)
-    image_url: Optional[str] = Field(None, max_length=755)
+    image_url: Optional[HttpUrl] = None
     price: Optional[DecimalAnnotation] = None
     in_stock: Optional[bool] = None
     options: Optional[List[MenuItemOption]] = None

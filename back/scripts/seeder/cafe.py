@@ -43,6 +43,7 @@ class CafeSeeder:
     async def seed_cafes(self, num_cafes: int):
         """Seeds a specified number of cafes."""
         for data in tqdm(datas[:num_cafes], desc="Seed cafes"):
+            photo_urls = self.random_photo_urls()
             is_open, status_message = self.random_open_status_message()
             opening_hours = self.random_opening_hours()
             payment_details = self.random_payment_details()
@@ -53,7 +54,8 @@ class CafeSeeder:
                 features=[Feature.ORDER] if random.random() <= 0.8 else [],
                 description=data["description"],
                 logo_url=None,
-                image_url=data["image_url"],
+                banner_url=data["banner_url"],
+                photo_urls=photo_urls,
                 affiliation=Affiliation(**data["affiliation"]),
                 is_open=is_open,
                 status_message=status_message,
@@ -73,6 +75,22 @@ class CafeSeeder:
     def get_ids(self):
         """Returns the generated cafe IDs."""
         return self.ids
+
+    def random_photo_urls(self):
+        """Returns a random subset of photo URLs."""
+        photo_urls = [
+            "https://picsum.photos/id/237/200/300",  # Random dog image
+            "https://picsum.photos/id/238/200/300",  # Random city image
+            "https://picsum.photos/id/239/200/300",  # Random nature image
+            "https://unsplash.com/photos/1J8k0qqUfYY",  # Random Unsplash image
+            "https://picsum.photos/id/240/200/300",  # Random abstract image
+            "https://picsum.photos/id/241/200/300",  # Random architecture image
+            "https://unsplash.com/photos/3Z70SDuYs5g",  # Random Unsplash image
+        ]
+
+        k = random.randint(0, len(photo_urls))
+
+        return random.sample(photo_urls, k=k)
 
     # Helper functions for generating random data
     def random_open_status_message(self):
