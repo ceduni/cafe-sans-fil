@@ -41,9 +41,10 @@ async def main():
     menu_seeder = MenuSeeder()
 
     await user_seeder.seed_users(num_users=27)
-    await cafe_seeder.seed_cafes(num_cafes=20)
-    await staff_seeder.seed_staff_for_cafes(
-        cafe_ids=cafe_seeder.get_ids(), user_ids=user_seeder.get_ids()
+    await cafe_seeder.seed_cafes(num_cafes=20, user_ids=user_seeder.get_ids())
+    await staff_seeder.seed_staff(
+        cafe_ids=cafe_seeder.get_ids(),
+        user_ids=user_seeder.get_ids(),
     )
     await menu_seeder.seed_menu_items(cafe_ids=cafe_seeder.get_ids(), num_items=20)
 

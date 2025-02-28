@@ -6,7 +6,9 @@ import json
 import random
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from typing import List
 
+from beanie import PydanticObjectId
 from faker import Faker
 from tqdm import tqdm
 
@@ -14,6 +16,7 @@ from app.cafe.enums import Days, Feature, PaymentMethod
 from app.cafe.models import (
     AdditionalInfo,
     Affiliation,
+    Cafe,
     CafeCreate,
     Contact,
     DayHours,
@@ -30,7 +33,7 @@ fake = Faker("fr_FR")
 
 file_path = Path(__file__).parent / "data/cafes.json"
 with open(file_path, "r", encoding="utf-8") as file:
-    datas = json.load(file)
+    json_datas = json.load(file)
 
 
 class CafeSeeder:
@@ -38,16 +41,17 @@ class CafeSeeder:
 
     def __init__(self):
         """Initializes the CafeSeeder class."""
-        self.ids = []
+        self.ids: List[PydanticObjectId] = []
+        self.json_datas = json_datas
 
-    async def seed_cafes(self, num_cafes: int):
+    async def seed_cafes(self, num_cafes: int, user_ids: List[PydanticObjectId] = []):
         """Seeds a specified number of cafes."""
-        for data in tqdm(datas[:num_cafes], desc="Seed cafes"):
-            photo_urls = self.random_photo_urls()
-            is_open, status_message = self.random_open_status_message()
-            opening_hours = self.random_opening_hours()
-            payment_details = self.random_payment_details()
-            additional_info = self.random_additional_info()
+        for idx, data in enumerate(tqdm(json_datas[:num_cafes], desc="Seed cafes")):
+            photo_urls = self._random_photo_urls()
+            is_open, status_message = self._random_open_status_message()
+            opening_hours = self._random_opening_hours()
+            payment_details = self._random_payment_details()
+            additional_info = self._random_additional_info()
 
             data = CafeCreate(
                 name=data["name"],
@@ -67,7 +71,8 @@ class CafeSeeder:
                 additional_info=additional_info,
             )
 
-            cafe = await CafeService.create(data)
+            user_id = user_ids[idx % len(user_ids)] if user_ids else None
+            cafe: Cafe = await CafeService.create(data, user_id)
             self.ids.append(cafe.id)
 
         print(f"{num_cafes} cafes created")
@@ -76,7 +81,7 @@ class CafeSeeder:
         """Returns the generated cafe IDs."""
         return self.ids
 
-    def random_photo_urls(self):
+    def _random_photo_urls(self):
         """Returns a random subset of photo URLs."""
         photo_urls = [
             "https://picsum.photos/id/237/200/300",  # Random dog image
@@ -93,7 +98,7 @@ class CafeSeeder:
         return random.sample(photo_urls, k=k)
 
     # Helper functions for generating random data
-    def random_open_status_message(self):
+    def _random_open_status_message(self):
         """Generates a random open status message."""
         messages = [
             "Fermé pour la journée",
@@ -105,7 +110,7 @@ class CafeSeeder:
         status_message = random.choice(messages) if not is_open else None
         return is_open, status_message
 
-    def random_opening_hours(self):
+    def _random_opening_hours(self):
         """Generates random opening hours for a cafe."""
         days = list(Days)
         opening_hours = []
@@ -132,7 +137,7 @@ class CafeSeeder:
 
         return opening_hours
 
-    def random_payment_details(self):
+    def _random_payment_details(self):
         """Generates random payment methods for a cafe."""
         methods = list(PaymentMethod)
         selected_methods_count = random.randint(1, len(methods))
@@ -148,7 +153,7 @@ class CafeSeeder:
             payment_details.append(PaymentDetails(method=method, minimum=minimum))
         return payment_details
 
-    def random_additional_info(self):
+    def _random_additional_info(self):
         """Generates random additional info for a cafe."""
         today = datetime.now(UTC)
         info_types = [

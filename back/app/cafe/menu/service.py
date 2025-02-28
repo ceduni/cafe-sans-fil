@@ -15,6 +15,7 @@ from app.cafe.menu.models import (
     MenuItemUpdate,
 )
 from app.cafe.models import Cafe
+from app.service import set_attributes
 
 
 class MenuService:
@@ -106,15 +107,7 @@ class MenuService:
     @staticmethod
     async def update_item(item: MenuItem, data: MenuItemUpdate) -> MenuItem:
         """Update a menu item."""
-        for field, value in data.model_dump(exclude_unset=True).items():
-            if field.endswith("_id"):
-                if value is None:
-                    setattr(item, field, None)
-                else:
-                    setattr(item, field, PydanticObjectId(value))
-            else:
-                setattr(item, field, value)
-
+        set_attributes(item, data)
         await item.save()
         return item
 

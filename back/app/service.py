@@ -5,6 +5,7 @@ Module for global service.
 from typing import Dict
 
 from beanie import PydanticObjectId
+from pydantic import BaseModel
 
 
 def parse_query_params(query_params: Dict) -> Dict:
@@ -41,3 +42,14 @@ def parse_query_params(query_params: Dict) -> Dict:
         else:
             parsed_params[key] = value
     return parsed_params
+
+
+def set_attributes(obj: BaseModel, data: BaseModel):
+    for field, value in data.model_dump(exclude_unset=True).items():
+        if field.endswith("_id"):
+            if value is None:
+                setattr(obj, field, None)
+            else:
+                setattr(obj, field, PydanticObjectId(value))
+        else:
+            setattr(obj, field, value)

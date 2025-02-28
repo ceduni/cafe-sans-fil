@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Insert, Save, View, before_event
+from beanie import DecimalAnnotation, Insert, PydanticObjectId, Save, View, before_event
 from pydantic import BaseModel, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 from slugify import slugify
@@ -16,6 +16,7 @@ from app.cafe.enums import Days, Feature, PaymentMethod, Role
 from app.cafe.menu.models import Menu, MenuView, MenuViewOut
 from app.cafe.staff.models import Staff, StaffView, StaffViewOut
 from app.models import CustomDocument, Id, IdAlias
+from app.user.models import UserView, UserViewOut
 
 
 class Affiliation(BaseModel):
@@ -201,6 +202,7 @@ class CafeBase(BaseModel):
 class Cafe(CustomDocument, CafeBase):
     """Cafe document model."""
 
+    owner_id: PydanticObjectId
     staff: Staff = Staff(admin_ids=[], volunteer_ids=[])
     menu: Menu = Menu(categories=[])
 
@@ -274,12 +276,13 @@ class CafeUpdate(BaseModel):
     social_media: Optional[SocialMedia] = None
     payment_details: Optional[List[PaymentDetails]] = None
     additional_info: Optional[List[AdditionalInfo]] = None
+    owner_id: Optional[PydanticObjectId] = None
 
 
 class CafeOut(CafeBase, Id):
     """Cafe output model."""
 
-    pass
+    owner_id: PydanticObjectId
 
 
 class CafeShortOut(BaseModel, Id):
@@ -305,6 +308,7 @@ class CafeShortOut(BaseModel, Id):
 class CafeView(View, CafeBase, IdAlias):
     """Cafe view with complete staff and menu data."""
 
+    owner: UserView
     staff: StaffView
     menu: MenuView
 
@@ -312,7 +316,29 @@ class CafeView(View, CafeBase, IdAlias):
         name: str = "cafes_view"
         source = "cafes"
         pipeline = [
-            # Lookup all menu items
+            # Lookup owner
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "owner_id",
+                    "foreignField": "_id",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 1,
+                                "username": 1,
+                                "email": 1,
+                                "matricule": 1,
+                                "first_name": 1,
+                                "last_name": 1,
+                                "photo_url": 1,
+                            }
+                        }
+                    ],
+                    "as": "owner",
+                }
+            },
+            # Lookup menu items
             {
                 "$lookup": {
                     "from": "menus",
@@ -321,7 +347,7 @@ class CafeView(View, CafeBase, IdAlias):
                     "as": "menu_items",
                 }
             },
-            # Lookup admin user
+            # Lookup admin users
             {
                 "$lookup": {
                     "from": "users",
@@ -343,7 +369,7 @@ class CafeView(View, CafeBase, IdAlias):
                     "as": "admins",
                 }
             },
-            # Lookup volunteer user
+            # Lookup volunteer users
             {
                 "$lookup": {
                     "from": "users",
@@ -365,9 +391,11 @@ class CafeView(View, CafeBase, IdAlias):
                     "as": "volunteers",
                 }
             },
-            # Reshape both menu and staff
+            # Add owner, menu, and staff
             {
                 "$addFields": {
+                    "owner": {"$arrayElemAt": ["$owner", 0]},
+                    "staff": {"admins": "$admins", "volunteers": "$volunteers"},
                     "menu": {
                         "categories": {
                             "$concatArrays": [
@@ -448,12 +476,12 @@ class CafeView(View, CafeBase, IdAlias):
                             ]
                         }
                     },
-                    "staff": {"admins": "$admins", "volunteers": "$volunteers"},
                 }
             },
             # Clean up temporary fields
             {
                 "$unset": [
+                    "owner_id",
                     "menu_items",
                     "admins",
                     "volunteers",
@@ -467,5 +495,6 @@ class CafeView(View, CafeBase, IdAlias):
 class CafeViewOut(CafeBase, Id):
     """Cafe view output model."""
 
+    owner: UserViewOut
     staff: StaffViewOut
     menu: MenuViewOut

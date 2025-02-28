@@ -45,11 +45,11 @@ async def add_staff(
             detail=[{"msg": "A role with this name does not exist."}],
         )
 
-    user = await UserService.get(id)
+    user = await UserService.get_by_id(id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A user with this username does not exist."}],
+            detail=[{"msg": "A user with this ID does not exist."}],
         )
 
     if await StaffService.is_staff(cafe, id):
@@ -91,11 +91,11 @@ async def remove_staff(
             detail=[{"msg": "A role with this name does not exist."}],
         )
 
-    user = await UserService.get(id)
+    user = await UserService.get_by_id(id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A user with this username does not exist."}],
+            detail=[{"msg": "A user with this ID does not exist."}],
         )
 
     if not await StaffService.is_staff(cafe, id):

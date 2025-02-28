@@ -15,7 +15,11 @@ class StaffService:
     @staticmethod
     async def is_staff(cafe: Cafe, id: PydanticObjectId) -> bool:
         """Check if a user is a staff member of a cafe."""
-        return id in cafe.staff.admin_ids or id in cafe.staff.volunteer_ids
+        return (
+            id == cafe.owner_id
+            or id in cafe.staff.admin_ids
+            or id in cafe.staff.volunteer_ids
+        )
 
     @staticmethod
     async def add(cafe: Cafe, role: Role, id: PydanticObjectId) -> None:

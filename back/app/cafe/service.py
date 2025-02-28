@@ -9,6 +9,8 @@ from bson.errors import InvalidId
 from fastapi import HTTPException, status
 
 from app.cafe.models import Cafe, CafeCreate, CafeUpdate, CafeView, Role
+from app.cafe.staff.service import StaffService
+from app.service import set_attributes
 from app.user.models import User
 
 
@@ -44,17 +46,26 @@ class CafeService:
             )
 
     @staticmethod
-    async def create(data: CafeCreate) -> Cafe:
+    async def create(data: CafeCreate, owner_id: PydanticObjectId) -> Cafe:
         """Create a new cafe."""
-        cafe = Cafe(**data.model_dump())
-        await cafe.insert()
-        return cafe
+        cafe = Cafe(**data.model_dump(), owner_id=owner_id)
+        return await cafe.insert()
 
     @staticmethod
     async def update(cafe: Cafe, data: CafeUpdate):
         """Update a cafe."""
-        for field, value in data.model_dump(exclude_unset=True).items():
-            setattr(cafe, field, value)
+        # Check if owner is changing
+        if data.owner_id and data.owner_id != cafe.owner_id:
+            # Update previous owner as admin
+            await StaffService.add(cafe, Role.ADMIN, cafe.owner_id)
+
+            # Remove previous role for new owner
+            if data.owner_id in cafe.staff.admin_ids:
+                await StaffService.remove(cafe, Role.ADMIN, data.owner_id)
+            if data.owner_id in cafe.staff.volunteer_ids:
+                await StaffService.remove(cafe, Role.VOLUNTEER, data.owner_id)
+
+        set_attributes(cafe, data)
         await cafe.save()
         return cafe
 
