@@ -10,9 +10,9 @@ from typing import Dict
 from faker import Faker
 from tqdm import tqdm
 
+from app.cafe.menu.models import MenuCategoryCreate, MenuItemCreate
+from app.cafe.menu.service import MenuService
 from app.cafe.service import CafeService
-from app.cafe_menu.models import MenuCategoryCreate, MenuItemCreate
-from app.cafe_menu.service import MenuService
 
 random.seed(42)
 Faker.seed(42)

@@ -8,8 +8,8 @@ from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.announcement.models import Announcement
+from app.cafe.menu.models import MenuItem
 from app.cafe.models import Cafe
-from app.cafe_menu.models import MenuItem
 from app.config import settings
 from app.event.models import Event
 from app.order.models import Order

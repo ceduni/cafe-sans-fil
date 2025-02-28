@@ -11,9 +11,7 @@ from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
 from app.auth.dependencies import get_current_user
-from app.cafe.models import Role
-from app.cafe.service import CafeService
-from app.cafe_menu.models import (
+from app.cafe.menu.models import (
     MenuCategoryCreate,
     MenuCategoryOut,
     MenuCategoryUpdate,
@@ -21,7 +19,9 @@ from app.cafe_menu.models import (
     MenuItemOut,
     MenuItemUpdate,
 )
-from app.cafe_menu.service import MenuService
+from app.cafe.menu.service import MenuService
+from app.cafe.models import Role
+from app.cafe.service import CafeService
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User

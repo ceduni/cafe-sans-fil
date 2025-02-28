@@ -7,8 +7,8 @@ from fastapi import APIRouter
 from app.announcement.endpoints import announcement_router
 from app.auth.endpoints import auth_router
 from app.cafe.endpoints import cafe_router
-from app.cafe_menu.endpoints import menu_router
-from app.cafe_staff.endpoints import staff_router
+from app.cafe.menu.endpoints import menu_router
+from app.cafe.staff.endpoints import staff_router
 from app.event.endpoints import event_router
 from app.order.endpoints import order_router
 from app.search.endpoints import search_router

@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 from app.cafe.models import Role
 from app.cafe.service import CafeService
-from app.cafe_staff.service import StaffService
+from app.cafe.staff.service import StaffService
 
 random.seed(42)
 Faker.seed(42)
