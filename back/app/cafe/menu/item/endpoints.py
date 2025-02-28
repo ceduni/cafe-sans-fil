@@ -47,7 +47,7 @@ async def get_menu_items(
     filters = parse_query_params(dict(request.query_params))
     filters["cafe_id"] = cafe.id
 
-    items = await ItemService.get_items(**filters)
+    items = await ItemService.get_all(**filters)
     return await paginate(items)
 
 
@@ -75,7 +75,7 @@ async def create_menu_item(
         )
 
     if data.category_id is not None:
-        category = await CategoryService.get_category_by_id(cafe, data.category_id)
+        category = await CategoryService.get_by_id(cafe, data.category_id)
         if not category:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -85,7 +85,7 @@ async def create_menu_item(
     await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
 
     try:
-        return await ItemService.create_item(cafe, data)
+        return await ItemService.create(cafe, data)
     except DuplicateKeyError as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -117,7 +117,7 @@ async def get_menu_item(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    item = await ItemService.get_item_by_id_and_cafe_id(id, cafe.id)
+    item = await ItemService.get_by_id_and_cafe_id(id, cafe.id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -150,7 +150,7 @@ async def update_menu_item(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    item = await ItemService.get_item_by_id_and_cafe_id(id, cafe.id)
+    item = await ItemService.get_by_id_and_cafe_id(id, cafe.id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -158,7 +158,7 @@ async def update_menu_item(
         )
 
     if data.category_id is not None:
-        category = await CategoryService.get_category_by_id(cafe, data.category_id)
+        category = await CategoryService.get_by_id(cafe, data.category_id)
         if not category:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -170,7 +170,7 @@ async def update_menu_item(
     )
 
     try:
-        return await ItemService.update_item(item, data)
+        return await ItemService.update(item, data)
     except DuplicateKeyError as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -204,7 +204,7 @@ async def delete_menu_item(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    item = await ItemService.get_item_by_id_and_cafe_id(id, cafe.id)
+    item = await ItemService.get_by_id_and_cafe_id(id, cafe.id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -212,4 +212,4 @@ async def delete_menu_item(
         )
 
     await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-    await ItemService.delete_item(item)
+    await ItemService.delete(item)

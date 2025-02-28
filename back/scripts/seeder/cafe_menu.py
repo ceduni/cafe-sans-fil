@@ -48,7 +48,7 @@ class MenuSeeder:
     async def _create_categories(self, cafe: str) -> Dict[str, str]:
         """Create predefined categories for a cafe and return name->ID mapping"""
         category_map = {}
-        categories = await CategoryService.create_many_categories(
+        categories = await CategoryService.create_many(
             cafe, [MenuCategoryCreate(**category) for category in PREDEFINED_CATEGORIES]
         )
         for category in categories:
@@ -81,7 +81,7 @@ class MenuSeeder:
                 item_copy["in_stock"] = random.random() < 0.80
                 randomized_menu_items.append(MenuItemCreate(**item_copy))
 
-            items = await ItemService.create_many_items(cafe, randomized_menu_items)
+            items = await ItemService.create_many(cafe, randomized_menu_items)
             # self.menu_item_ids.extend([item.id for item in items])
 
         print(f"Menu items created")

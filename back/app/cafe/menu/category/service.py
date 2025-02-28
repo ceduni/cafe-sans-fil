@@ -18,7 +18,7 @@ class CategoryService:
     """Service class for CRUD and search operations on Menu."""
 
     @staticmethod
-    async def get_category_by_id(cafe: Cafe, id: PydanticObjectId) -> MenuCategory:
+    async def get_by_id(cafe: Cafe, id: PydanticObjectId) -> MenuCategory:
         """Get a menu category by ID."""
         for category in cafe.menu.categories:
             if category.id == id:
@@ -27,7 +27,7 @@ class CategoryService:
         return None
 
     @staticmethod
-    async def get_category_by_name(cafe: Cafe, name: str) -> MenuCategory:
+    async def get_by_name(cafe: Cafe, name: str) -> MenuCategory:
         """Get a menu category by name."""
         for category in cafe.menu.categories:
             if category.name == name:
@@ -36,7 +36,7 @@ class CategoryService:
         return None
 
     @staticmethod
-    async def create_category(cafe: Cafe, data: MenuCategoryCreate) -> MenuCategory:
+    async def create(cafe: Cafe, data: MenuCategoryCreate) -> MenuCategory:
         """Create a new menu category."""
         for category in cafe.menu.categories:
             if category.name == data.name:
@@ -48,7 +48,7 @@ class CategoryService:
         return category
 
     @staticmethod
-    async def update_category(
+    async def update(
         cafe: Cafe,
         id: PydanticObjectId,
         data: MenuCategoryUpdate,
@@ -65,7 +65,7 @@ class CategoryService:
         raise None
 
     @staticmethod
-    async def delete_category(cafe: Cafe, id: PydanticObjectId) -> None:
+    async def delete(cafe: Cafe, id: PydanticObjectId) -> None:
         """Delete a menu category."""
         original_len = len(cafe.menu.categories)
         cafe.menu.categories = [c for c in cafe.menu.categories if c.id != id]
@@ -76,7 +76,7 @@ class CategoryService:
         await cafe.save()
 
     @staticmethod
-    async def create_many_categories(
+    async def create_many(
         cafe: Cafe, datas: List[MenuCategoryCreate]
     ) -> List[MenuCategory]:
         """Create multiple menu categories."""

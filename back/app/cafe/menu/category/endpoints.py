@@ -43,7 +43,7 @@ async def create_menu_category(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    category = await CategoryService.get_category_by_name(cafe, data.name)
+    category = await CategoryService.get_by_name(cafe, data.name)
     if category:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -51,7 +51,7 @@ async def create_menu_category(
         )
 
     await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-    return await CategoryService.create_category(cafe, data)
+    return await CategoryService.create(cafe, data)
 
 
 @category_router.put(
@@ -78,14 +78,14 @@ async def update_menu_category(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    category = await CategoryService.get_category_by_id(cafe, id)
+    category = await CategoryService.get_by_id(cafe, id)
     if not category:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=[{"msg": "A category with this ID does not exist."}],
         )
 
-    category = await CategoryService.get_category_by_name(cafe, data.name)
+    category = await CategoryService.get_by_name(cafe, data.name)
     if category and category.id != id:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -93,7 +93,7 @@ async def update_menu_category(
         )
 
     await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-    return await CategoryService.update_category(cafe, id, data)
+    return await CategoryService.update(cafe, id, data)
 
 
 @category_router.delete(
@@ -117,7 +117,7 @@ async def delete_menu_category(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    category = await CategoryService.get_category_by_id(cafe, id)
+    category = await CategoryService.get_by_id(cafe, id)
     if not category:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -125,4 +125,4 @@ async def delete_menu_category(
         )
 
     await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-    await CategoryService.delete_category(cafe, id)
+    await CategoryService.delete(cafe, id)
