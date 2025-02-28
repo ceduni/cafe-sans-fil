@@ -1,5 +1,5 @@
 """
-Module for handling menu-related routes.
+Module for handling item-related routes.
 """
 
 from typing import Optional
@@ -14,8 +14,8 @@ from app.auth.dependencies import get_current_user
 from app.cafe.menu.category.service import CategoryService
 from app.cafe.menu.item.models import MenuItemCreate, MenuItemOut, MenuItemUpdate
 from app.cafe.menu.item.service import ItemService
-from app.cafe.models import Role
 from app.cafe.service import CafeService
+from app.cafe.staff.enums import Role
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User

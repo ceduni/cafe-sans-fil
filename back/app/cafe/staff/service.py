@@ -6,7 +6,8 @@ from typing import List
 
 from beanie import PydanticObjectId
 
-from app.cafe.models import Cafe, Role
+from app.cafe.models import Cafe
+from app.cafe.staff.enums import Role
 
 
 class StaffService:

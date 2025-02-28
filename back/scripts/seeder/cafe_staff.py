@@ -9,8 +9,8 @@ from beanie import PydanticObjectId
 from faker import Faker
 from tqdm import tqdm
 
-from app.cafe.models import Role
 from app.cafe.service import CafeService
+from app.cafe.staff.enums import Role
 from app.cafe.staff.service import StaffService
 
 random.seed(42)

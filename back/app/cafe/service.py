@@ -8,7 +8,8 @@ from beanie import PydanticObjectId
 from bson.errors import InvalidId
 from fastapi import HTTPException, status
 
-from app.cafe.models import Cafe, CafeCreate, CafeUpdate, CafeView, Role
+from app.cafe.models import Cafe, CafeCreate, CafeUpdate, CafeView
+from app.cafe.staff.enums import Role
 from app.cafe.staff.service import StaffService
 from app.service import set_attributes
 from app.user.models import User

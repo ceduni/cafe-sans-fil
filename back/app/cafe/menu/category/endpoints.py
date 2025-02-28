@@ -1,5 +1,5 @@
 """
-Module for handling menu-related routes.
+Module for handling category-related routes.
 """
 
 from beanie import PydanticObjectId
@@ -12,8 +12,8 @@ from app.cafe.menu.category.models import (
     MenuCategoryUpdate,
 )
 from app.cafe.menu.category.service import CategoryService
-from app.cafe.models import Role
 from app.cafe.service import CafeService
+from app.cafe.staff.enums import Role
 from app.models import ErrorResponse
 from app.user.models import User
 

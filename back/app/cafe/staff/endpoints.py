@@ -6,8 +6,8 @@ from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 
 from app.auth.dependencies import get_current_user
-from app.cafe.models import Role
 from app.cafe.service import CafeService
+from app.cafe.staff.enums import Role
 from app.cafe.staff.service import StaffService
 from app.models import ErrorResponse
 from app.user.models import User

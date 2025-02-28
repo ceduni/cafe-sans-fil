@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 from slugify import slugify
 
-from app.cafe.enums import Days, Feature, PaymentMethod, Role
+from app.cafe.enums import Days, Feature, PaymentMethod
 from app.cafe.menu.models import Menu, MenuView, MenuViewOut
 from app.cafe.staff.models import Staff, StaffView, StaffViewOut
 from app.models import CustomDocument, Id, IdAlias

@@ -30,10 +30,3 @@ class PaymentMethod(str, Enum):
     CASH = "CASH"
     CREDIT = "CREDIT"
     DEBIT = "DEBIT"
-
-
-class Role(str, Enum):
-    """Enum for cafe roles."""
-
-    ADMIN = "ADMIN"
-    VOLUNTEER = "VOLUNTEER"

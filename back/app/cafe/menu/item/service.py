@@ -1,5 +1,5 @@
 """
-Module for handling menu-related operations.
+Module for handling item-related operations.
 """
 
 from typing import List

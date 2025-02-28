@@ -1,5 +1,5 @@
 """
-Module for handling menu-related models.
+Module for handling category-related models.
 """
 
 from typing import List, Optional
