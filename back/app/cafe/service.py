@@ -2,25 +2,17 @@
 Module for handling cafe-related operations.
 """
 
-from typing import List
-
 from beanie import PydanticObjectId
 from bson.errors import InvalidId
-from fastapi import HTTPException, status
 
 from app.cafe.models import Cafe, CafeCreate, CafeUpdate, CafeView
 from app.cafe.staff.enums import Role
 from app.cafe.staff.service import StaffService
 from app.service import set_attributes
-from app.user.models import User
 
 
 class CafeService:
     """Service for CRUD operations and search on Cafe."""
-
-    # --------------------------------------
-    #               Cafe
-    # --------------------------------------
 
     @staticmethod
     async def get_all(**filters: dict):
@@ -69,34 +61,3 @@ class CafeService:
         set_attributes(cafe, data)
         await cafe.save()
         return cafe
-
-    # --------------------------------------
-    #               Authorization
-    # --------------------------------------
-
-    @staticmethod
-    async def is_authorized_for_cafe_action(
-        cafe: Cafe, current_user: User, required_roles: List[Role]
-    ):
-        """Check if a user is authorized to perform an action on a cafe."""
-        # # Check if part of staff
-        # user_in_staff = None
-        # for user in cafe.staff:
-        #     if user.username == current_user.username:
-        #         user_in_staff = user
-        #         break
-
-        # # Check if appropriate role
-        # if user_in_staff:
-        #     if user_in_staff.role not in [role.value for role in required_roles]:
-        #         raise HTTPException(
-        #             status_code=status.HTTP_403_FORBIDDEN,
-        #             detail=[{"msg": "Access forbidden"}],
-        #         )
-        # else:
-        #     raise HTTPException(
-        #         status_code=status.HTTP_403_FORBIDDEN,
-        #         detail=[{"msg": "Access forbidden"}],
-        #     )
-
-        return True

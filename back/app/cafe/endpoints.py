@@ -14,8 +14,8 @@ from pymongo.errors import DuplicateKeyError
 
 from app.auth.dependencies import get_current_user
 from app.cafe.models import CafeCreate, CafeOut, CafeShortOut, CafeUpdate, CafeViewOut
+from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
-from app.cafe.staff.enums import Role
 from app.cafe.staff.service import StaffService
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
@@ -68,7 +68,7 @@ async def create_cafe(
     data: CafeCreate,
     current_user: User = Depends(get_current_user),
 ):
-    """Create a cafe. (`member`)"""
+    """Create a cafe. (`MEMBER`)"""
     try:
         return await CafeService.create(data, current_user.id)
     except DuplicateKeyError as e:
@@ -112,13 +112,14 @@ async def get_cafe(
         404: {"model": ErrorResponse},
         409: {"model": ErrorConflictResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def update_cafe(
     data: CafeUpdate,
     slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
-    """Update a cafe (`admin`)."""
+    """Update a cafe. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -146,8 +147,6 @@ async def update_cafe(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=[{"msg": "A user with this ID does not exist."}],
             )
-
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
 
     try:
         return await CafeService.update(cafe, data)

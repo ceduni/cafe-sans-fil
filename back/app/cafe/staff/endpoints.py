@@ -5,12 +5,11 @@ Module for handling staff-related routes.
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 
-from app.auth.dependencies import get_current_user
+from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
 from app.cafe.staff.enums import Role
 from app.cafe.staff.service import StaffService
 from app.models import ErrorResponse
-from app.user.models import User
 from app.user.service import UserService
 
 staff_router = APIRouter()
@@ -24,14 +23,14 @@ staff_router = APIRouter()
         404: {"model": ErrorResponse},
         409: {"model": ErrorResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def add_staff(
     slug: str = Path(..., description="Slug of the cafe"),
     role: str = Path(..., description="Role of the staff"),
     id: PydanticObjectId = Path(..., description="ID of the user"),
-    current_user: User = Depends(get_current_user),
 ):
-    """Add a staff member to a cafe. (`admin`)."""
+    """Add a staff member to a cafe. (`ADMIN`)."""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -58,8 +57,6 @@ async def add_staff(
             detail=[{"msg": "User is already a staff member of this cafe."}],
         )
 
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
-
     return await StaffService.add(cafe, role, id)
 
 
@@ -70,14 +67,14 @@ async def add_staff(
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def remove_staff(
     slug: str = Path(..., description="Slug of the cafe"),
     role: str = Path(..., description="Role of the staff"),
     id: PydanticObjectId = Path(..., description="ID of the user"),
-    current_user: User = Depends(get_current_user),
 ):
-    """Remove a staff member from a cafe. (`admin`)."""
+    """Remove a staff member from a cafe. (`ADMIN`)."""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -103,7 +100,5 @@ async def remove_staff(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=[{"msg": "User is not a staff member of this cafe."}],
         )
-
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
 
     return await StaffService.remove(cafe, role, id)

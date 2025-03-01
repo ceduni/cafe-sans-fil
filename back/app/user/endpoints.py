@@ -49,7 +49,7 @@ async def get_users(
     request: Request,
     current_user: User = Depends(get_current_user),
 ):
-    """Get a list of users. (`member`)"""
+    """Get a list of users. (`MEMBER`)"""
     filters = parse_query_params(dict(request.query_params))
     users = await UserService.get_all(**filters)
     return await paginate(users)
@@ -65,7 +65,7 @@ async def get_users(
 async def get_current_user(
     current_user: User = Depends(get_current_user),
 ):
-    """Get current user. (`member`)"""
+    """Get current user. (`MEMBER`)"""
     return current_user
 
 
@@ -81,7 +81,7 @@ async def update_current_user(
     data: UserUpdate,
     current_user: User = Depends(get_current_user),
 ):
-    """Update current user. (`member`)"""
+    """Update current user. (`MEMBER`)"""
     try:
         return await UserService.update(current_user, data)
     except DuplicateKeyError as e:
@@ -106,9 +106,8 @@ async def update_current_user(
 )
 async def get_user(
     id: PydanticObjectId = Path(..., description="ID of the user"),
-    current_user: User = Depends(get_current_user),
 ):
-    """Get a user. (`member`)"""
+    """Get a user. (`MEMBER`)"""
     user = await UserService.get_by_id(id)
     if not user:
         raise HTTPException(
@@ -133,7 +132,7 @@ async def update_user(
     id: PydanticObjectId = Path(..., description="ID of the user"),
     current_user: User = Depends(get_current_user),
 ):
-    """Update a user. (`member`)"""
+    """Update a user. (`MEMBER`)"""
     user = await UserService.get_by_id(id)
     if not user:
         raise HTTPException(
@@ -173,7 +172,7 @@ async def delete_user(
     id: PydanticObjectId = Path(..., description="ID of the user"),
     current_user: User = Depends(get_current_user),
 ):
-    """Delete a user. (`member`)"""
+    """Delete a user. (`MEMBER`)"""
     user = await UserService.get_by_id(id)
     if not user:
         raise HTTPException(

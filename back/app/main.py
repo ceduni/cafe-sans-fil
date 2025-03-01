@@ -22,17 +22,10 @@ from app.user.models import User
 description = """
 # API Documentation
 
-## Protected Endpoints
-To test protected endpoints, you can use the following structure: `[role].[cafe_name]@umontreal.ca`
-
-Examples:
-- admin.tore.et.fraction@umontreal.ca
-- benevole.tore.et.fraction@umontreal.ca
-
 You can also create your own user or utilize any pre-generated users with different roles via the `/api/users` endpoint. All pre-generated users share the same password: `Cafepass1`.
 
 ## Permissions
-`member` < `volunteer` < `admin`
+`MEMBER` < `VOLUNTEER` < `ADMIN` < `OWNER`
 """
 
 db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)

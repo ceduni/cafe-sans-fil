@@ -138,11 +138,6 @@ async def register(user: UserCreate) -> UserOut:
     return created_user
 
 
-# --------------------------------------
-#               Reset Password
-# --------------------------------------
-
-
 @auth_router.post(
     "/auth/forgot-password",
 )
@@ -189,11 +184,6 @@ async def reset_password(
 
     await AuthService.reset_password(user, body.password)
     return {"msg": "Password has been reset successfully."}
-
-
-# --------------------------------------
-#               Tokens
-# --------------------------------------
 
 
 @auth_router.post(

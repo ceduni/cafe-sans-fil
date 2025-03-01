@@ -30,13 +30,13 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
         if datetime.fromtimestamp(token_data.exp) < datetime.now():
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token expired",
+                detail=[{"msg": "Token expired"}],
                 headers={"WWW-Authenticate": "Bearer"},
             )
     except (jwt.JWTError, ValidationError):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Could not validate credentials",
+            detail=[{"msg": "Could not validate credentials"}],
             headers={"WWW-Authenticate": "Bearer"},
         )
 

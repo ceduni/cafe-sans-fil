@@ -12,15 +12,13 @@ from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
-from app.auth.dependencies import get_current_user
 from app.cafe.menu.category.service import CategoryService
 from app.cafe.menu.item.models import MenuItemCreate, MenuItemOut, MenuItemUpdate
 from app.cafe.menu.item.service import ItemService
+from app.cafe.permissions import AdminPermission, VolunteerPermission
 from app.cafe.service import CafeService
-from app.cafe.staff.enums import Role
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
-from app.user.models import User
 
 T = TypeVar("T")
 
@@ -78,13 +76,13 @@ async def get_menu_items(
         404: {"model": ErrorResponse},
         409: {"model": ErrorConflictResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def create_menu_item(
     data: MenuItemCreate,
     slug: str = Path(..., description="Slug of the cafe"),
-    current_user: User = Depends(get_current_user),
 ):
-    """Create a menu item for a cafe. (`admin`)"""
+    """Create a menu item for a cafe. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -99,8 +97,6 @@ async def create_menu_item(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=[{"msg": "A category with this ID does not exist."}],
             )
-
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
 
     try:
         return await ItemService.create(cafe, data)
@@ -153,14 +149,14 @@ async def get_menu_item(
         404: {"model": ErrorResponse},
         409: {"model": ErrorConflictResponse},
     },
+    dependencies=[Depends(VolunteerPermission())],
 )
 async def update_menu_item(
     data: MenuItemUpdate,
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the menu item"),
-    current_user: User = Depends(get_current_user),
 ):
-    """Update a menu item. (`volunteer`)"""
+    """Update a menu item. (`VOLUNTEER`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -183,10 +179,6 @@ async def update_menu_item(
                 detail=[{"msg": "A category with this ID does not exist."}],
             )
 
-    await CafeService.is_authorized_for_cafe_action(
-        cafe, current_user, [Role.ADMIN, Role.VOLUNTEER]
-    )
-
     try:
         return await ItemService.update(item, data)
     except DuplicateKeyError as e:
@@ -208,13 +200,13 @@ async def update_menu_item(
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def delete_menu_item(
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the menu item"),
-    current_user: User = Depends(get_current_user),
 ):
-    """Delete a menu item. (`admin`)"""
+    """Delete a menu item. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -229,5 +221,4 @@ async def delete_menu_item(
             detail=[{"msg": "An item with this ID does not exist."}],
         )
 
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
     await ItemService.delete(item)

@@ -45,6 +45,7 @@ def parse_query_params(query_params: Dict) -> Dict:
 
 
 def set_attributes(obj: BaseModel, data: BaseModel):
+    """Set object attributes."""
     for field, value in data.model_dump(exclude_unset=True).items():
         if field.endswith("_id"):
             if value is None:

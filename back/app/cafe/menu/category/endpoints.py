@@ -5,17 +5,15 @@ Module for handling category-related routes.
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 
-from app.auth.dependencies import get_current_user
 from app.cafe.menu.category.models import (
     MenuCategoryCreate,
     MenuCategoryOut,
     MenuCategoryUpdate,
 )
 from app.cafe.menu.category.service import CategoryService
+from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
-from app.cafe.staff.enums import Role
 from app.models import ErrorResponse
-from app.user.models import User
 
 category_router = APIRouter()
 
@@ -29,13 +27,13 @@ category_router = APIRouter()
         404: {"model": ErrorResponse},
         409: {"model": ErrorResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def create_menu_category(
     data: MenuCategoryCreate,
     slug: str = Path(..., description="Slug of the cafe"),
-    current_user: User = Depends(get_current_user),
 ):
-    """Create a menu category. (`admin`)"""
+    """Create a menu category. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -50,7 +48,6 @@ async def create_menu_category(
             detail=[{"msg": "A category with this name already exists."}],
         )
 
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
     return await CategoryService.create(cafe, data)
 
 
@@ -63,14 +60,14 @@ async def create_menu_category(
         404: {"model": ErrorResponse},
         409: {"model": ErrorResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def update_menu_category(
     data: MenuCategoryUpdate,
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the category"),
-    current_user: User = Depends(get_current_user),
 ):
-    """Update a menu category. (`admin`)"""
+    """Update a menu category. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -92,7 +89,6 @@ async def update_menu_category(
             detail=[{"msg": "A category with this name already exists."}],
         )
 
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
     return await CategoryService.update(cafe, id, data)
 
 
@@ -103,13 +99,13 @@ async def update_menu_category(
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def delete_menu_category(
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the category"),
-    current_user: User = Depends(get_current_user),
 ):
-    """Delete a menu category. (`admin`)"""
+    """Delete a menu category. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -124,5 +120,4 @@ async def delete_menu_category(
             detail=[{"msg": "A category with this ID does not exist."}],
         )
 
-    await CafeService.is_authorized_for_cafe_action(cafe, current_user, [Role.ADMIN])
     await CategoryService.delete(cafe, id)

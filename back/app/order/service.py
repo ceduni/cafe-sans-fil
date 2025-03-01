@@ -17,10 +17,6 @@ class OrderService:
     Service class that provides methods for CRUD operations related to Orders.
     """
 
-    # --------------------------------------
-    #               Order
-    # --------------------------------------
-
     @staticmethod
     async def get_all(**filters: dict):
         """Get orders."""
@@ -134,10 +130,6 @@ class OrderService:
             return (highest_order[0]["order_number"]) + 1
         else:
             return 1
-
-    # --------------------------------------
-    #              Sales Report
-    # --------------------------------------
 
     @staticmethod
     async def generate_sales_report_data(
