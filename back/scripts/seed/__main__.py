@@ -16,8 +16,8 @@ from app.order.models import Order
 from app.user.models import User
 
 from .cafe import CafeSeeder
-from .cafe_menu import MenuSeeder
-from .cafe_staff import StaffSeeder
+from .cafe.menu import MenuSeeder
+from .cafe.staff import StaffSeeder
 from .user import UserSeeder
 
 MONGO_DB_NAME = settings.MONGO_DB_NAME

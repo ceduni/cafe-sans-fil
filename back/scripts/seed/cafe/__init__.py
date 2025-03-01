@@ -3,9 +3,9 @@ Cafe seeder module.
 """
 
 import json
+import os
 import random
 from datetime import UTC, datetime, timedelta
-from pathlib import Path
 from typing import List
 
 from beanie import PydanticObjectId
@@ -31,7 +31,7 @@ random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
 
-file_path = Path(__file__).parent / "data/cafes.json"
+file_path = os.path.join(os.getcwd(), "scripts", "seed", "data", "cafes.json")
 with open(file_path, "r", encoding="utf-8") as file:
     json_datas = json.load(file)
 

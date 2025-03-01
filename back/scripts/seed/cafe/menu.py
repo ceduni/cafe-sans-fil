@@ -3,8 +3,8 @@ Menu seeder module.
 """
 
 import json
+import os
 import random
-from pathlib import Path
 from typing import Dict
 
 from faker import Faker
@@ -20,28 +20,17 @@ random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
 
-
-PREDEFINED_CATEGORIES = [
-    {"name": "Grilled Cheese", "description": "Sandwichs grillés au fromage fondant"},
-    {
-        "name": "Boissons chaudes",
-        "description": "Cafés, thés et autres boissons chaudes",
-    },
-    {
-        "name": "Boissons froides",
-        "description": "Rafraîchissements et boissons froides",
-    },
-    {"name": "Collations", "description": "En-cas et petites faims"},
-]
-
-
-file_path = Path(__file__).parent / "data/menu_items.json"
+file_path = os.path.join(os.getcwd(), "scripts", "seed", "data", "menu.json")
 with open(file_path, "r", encoding="utf-8") as file:
     menu_items_data = json.load(file)
 
 
 class MenuSeeder:
+    """Menu seeder class."""
+
     def __init__(self):
+        """Initializes the MenuSeeder."""
+
         self.menu_item_ids = []
         self.category_map: Dict[str, Dict[str, str]] = {}
 
@@ -49,7 +38,11 @@ class MenuSeeder:
         """Create predefined categories for a cafe and return name->ID mapping"""
         category_map = {}
         categories = await CategoryService.create_many(
-            cafe, [MenuCategoryCreate(**category) for category in PREDEFINED_CATEGORIES]
+            cafe,
+            [
+                MenuCategoryCreate(**category)
+                for category in self._predefined_categories()
+            ],
         )
         for category in categories:
             category_map[category.name] = category.id
@@ -93,3 +86,20 @@ class MenuSeeder:
     def get_category_map(self):
         """Returns the category name->ID mapping per cafe"""
         return self.category_map
+
+    def _predefined_categories(self):
+        return [
+            {
+                "name": "Grilled Cheese",
+                "description": "Sandwichs grillés au fromage fondant",
+            },
+            {
+                "name": "Boissons chaudes",
+                "description": "Cafés, thés et autres boissons chaudes",
+            },
+            {
+                "name": "Boissons froides",
+                "description": "Rafraîchissements et boissons froides",
+            },
+            {"name": "Collations", "description": "En-cas et petites faims"},
+        ]

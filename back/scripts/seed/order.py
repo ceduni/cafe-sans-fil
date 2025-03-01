@@ -21,7 +21,7 @@ class OrderSeeder:
                 OrderCreate(
                     cafe_slug=fake.random_element(elements=cafe_slugs),
                     user_username=fake.random_element(elements=usernames),
-                    items=[fake.word() for _ in range(3)],  # Random items
+                    items=[fake.word() for _ in range(3)],
                     status="PLACED",
                 )
             )

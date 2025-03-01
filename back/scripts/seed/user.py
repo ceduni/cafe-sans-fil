@@ -3,9 +3,9 @@ User seeder module.
 """
 
 import json
+import os
 import random
 import unicodedata
-from pathlib import Path
 
 from faker import Faker
 from tqdm import tqdm
@@ -17,7 +17,9 @@ random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
 
-file_path = Path(__file__).parent / "data/photo_urls.json"
+file_path = own_path = os.path.join(
+    os.getcwd(), "scripts", "seed", "data", "photo_urls.json"
+)
 with open(file_path, "r", encoding="utf-8") as file:
     photo_urls = json.load(file)
 
@@ -46,9 +48,7 @@ class UserSeeder:
                 + "@umontreal.ca"
             )
             password = "Cafepass1"
-            photo_url = (
-                photo_urls[i] if random.random() <= 1.00 else None
-            )  # Chance of having a photo
+            photo_url = photo_urls[i] if random.random() <= 1.00 else None
 
             data = UserCreate(
                 email=email,
@@ -63,9 +63,9 @@ class UserSeeder:
 
         self.ids = await UserService.create_many(datas)
         print(f"{num_users} users created")
-        await self.update_first_user_to_cafesansfil()
+        await self.update_first_user()
 
-    async def update_first_user_to_cafesansfil(self):
+    async def update_first_user(self):
         """Updates the first user to cafesansfil."""
         user = await UserService.get_by_id(self.ids[0])
         matricule = "7802085"
