@@ -21,6 +21,12 @@ class ItemService:
         return MenuItem.find(filters).sort(sort_by)
 
     @staticmethod
+    async def get_by_ids_and_cafe_id(
+        ids: List[PydanticObjectId], cafe_id: PydanticObjectId
+    ) -> list[MenuItem]:
+        return await MenuItem.find({"cafe_id": cafe_id, "_id": {"$in": ids}}).to_list()
+
+    @staticmethod
     async def get_by_id_and_cafe_id(id: PydanticObjectId, cafe_id: PydanticObjectId):
         """Get a menu item by ID and cafe ID."""
         return await MenuItem.find_one({"_id": id, "cafe_id": cafe_id})

@@ -28,7 +28,7 @@ class BasePermission:
         if not cafe:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=[{"msg": "Cafe not found"}],
+                detail=[{"msg": "A cafe with this slug does not exist."}],
             )
 
         user_role = self._get_user_role(current_user, cafe)

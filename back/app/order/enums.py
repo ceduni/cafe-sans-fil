@@ -8,7 +8,7 @@ from enum import Enum
 class OrderStatus(str, Enum):
     """Order status enumeration."""
 
-    PLACED = "Placée"
-    READY = "Prête"
-    COMPLETED = "Complétée"
-    CANCELLED = "Annulée"
+    PLACED = "PLACED"  # Placée
+    READY = "READY"  # Prête
+    COMPLETED = "COMPLETED"  # Complétée
+    CANCELLED = "CANCELLED"  # Annulée

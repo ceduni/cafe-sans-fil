@@ -6,45 +6,22 @@ from datetime import UTC, datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import (
-    DecimalAnnotation,
-    Document,
-    Insert,
-    PydanticObjectId,
-    Replace,
-    before_event,
-)
-from pydantic import BaseModel, Field, HttpUrl, field_validator
+from beanie import DecimalAnnotation, Document, Insert, Replace, before_event
+from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
+from app.cafe.menu.item.models import MenuItemOption
 from app.models import CafeId, Id, ItemId, UserId
 from app.order.enums import OrderStatus
 
 
-class OrderedItemOption(BaseModel):
-    """Model for ordered item options."""
-
-    type: str
-    value: str
-    fee: DecimalAnnotation
-
-    @field_validator("fee")
-    @classmethod
-    def validate_fee(cls, fee):
-        """Validate fee value."""
-        if fee < DecimalAnnotation(0.0):
-            raise ValueError("Fee must be a non-negative value.")
-        return fee
-
-
 class OrderedItem(BaseModel, ItemId):
-    """Model for ordered items."""
+    """Model for ordered menu items."""
 
     item_name: str
-    item_image_url: Optional[HttpUrl] = None
     item_price: DecimalAnnotation
-    quantity: int
-    options: List[OrderedItemOption]
+    quantity: int = Field(default=1)
+    options: List[MenuItemOption]
 
     @field_validator("quantity")
     @classmethod
@@ -58,9 +35,8 @@ class OrderedItem(BaseModel, ItemId):
 class OrderBase(BaseModel):
     """Base model for orders."""
 
-    order_number: int
     cafe_name: str
-    cafe_image_url: Optional[HttpUrl] = None
+    order_number: int
     items: List[OrderedItem]
     total_price: DecimalAnnotation = DecimalAnnotation(0.0)
     status: OrderStatus = Field(default=OrderStatus.PLACED)
@@ -101,13 +77,25 @@ class Order(Document, OrderBase, CafeId, UserId):
         ]
 
 
+class OrderedItemCreate(BaseModel, ItemId):
+    """Model for creating ordered items."""
+
+    quantity: int = Field(default=1)
+    options: List[MenuItemOption]
+
+    @field_validator("quantity")
+    @classmethod
+    def validate_quantity(cls, quantity):
+        """Validate quantity value."""
+        if quantity <= 0:
+            raise ValueError("Quantity must be a positive integer.")
+        return quantity
+
+
 class OrderCreate(BaseModel):
     """Model for creating orders."""
 
-    cafe_id: PydanticObjectId
-    cafe_name: str
-    cafe_image_url: Optional[HttpUrl] = None
-    items: List[OrderedItem]
+    items: List[OrderedItemCreate]
 
     @field_validator("items")
     @classmethod

@@ -12,10 +12,11 @@ from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
-from app.cafe.permissions import AuthenticatedPermission
+from app.cafe.menu.item.service import ItemService
+from app.cafe.permissions import AuthenticatedPermission, VolunteerPermission
 from app.cafe.service import CafeService
-from app.cafe.staff.enums import Role
 from app.models import ErrorResponse
+from app.order.enums import OrderStatus
 from app.order.models import OrderCreate, OrderOut, OrderUpdate
 from app.order.service import OrderService
 from app.service import parse_query_params
@@ -42,66 +43,34 @@ order_router = APIRouter()
 
 
 @order_router.get(
-    "/orders",
+    "/cafes/{slug}/orders",
     response_model=OrderPage[OrderOut],
-    responses={
-        401: {"model": ErrorResponse},
-        403: {"model": ErrorResponse},
-    },
-    dependencies=[Depends(AuthenticatedPermission())],
-)
-async def get_orders(
-    request: Request,
-):
-    """Get a list of orders. (`MEMBER`)"""
-    filters = parse_query_params(dict(request.query_params))
-    orders = await OrderService.get_all(**filters)
-    return await paginate(orders)
-
-
-@order_router.get(
-    "/orders/{id}",
-    response_model=OrderOut,
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
-    dependencies=[Depends(AuthenticatedPermission())],
+    dependencies=[Depends(VolunteerPermission())],
 )
-async def get_order(
-    id: PydanticObjectId = Path(..., description="ID of the order"),
-    current_user: User = Depends(get_current_user),
-) -> OrderOut:
-    """Get an order. (`MEMBER`)"""
-    try:
-        order = await OrderService.get(id)
-        if not order:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="Order not found"
-            )
+async def get_cafe_orders(
+    request: Request,
+    slug: str = Path(..., description="Slug of the cafe"),
+):
+    """Get a list of orders for a specific cafe. (`VOLUNTEER`)"""
+    cafe = await CafeService.get(slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
 
-        # Authorization check
-        if (
-            order.user_username != current_user.username
-            and not await CafeService.is_authorized_for_cafe_action(
-                order.cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER]
-            )
-        ):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
-            )
-
-        return order
-    except ValueError as e:
-        if str(e) == "Cafe not found":
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-        elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+    filters = parse_query_params(dict(request.query_params))
+    orders = await OrderService.get_all(cafe_id=cafe.id, **filters)
+    return await paginate(orders)
 
 
 @order_router.post(
-    "/orders",
+    "/cafes/{slug}/orders",
     response_model=OrderOut,
     responses={
         401: {"model": ErrorResponse},
@@ -111,54 +80,150 @@ async def get_order(
     dependencies=[Depends(AuthenticatedPermission())],
 )
 async def create_order(
-    data: OrderCreate, current_user: User = Depends(get_current_user)
+    data: OrderCreate,
+    slug: str = Path(..., description="Slug of the cafe"),
+    current_user: User = Depends(get_current_user),
 ):
     """Create an order. (`MEMBER`)"""
-    cafe = await CafeService.get(data.cafe_slug)
+    cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Cafe not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
         )
-    return await OrderService.create(data, current_user.username)
+
+    requested_ids = [item.item_id for item in data.items]
+    items = await ItemService.get_by_ids_and_cafe_id(requested_ids, cafe.id)
+
+    found_ids = {str(item.id) for item in items}
+    requested_str_ids = [str(id) for id in requested_ids]
+
+    missing_ids = list(set(requested_str_ids) - found_ids)
+
+    if missing_ids:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[
+                {
+                    "msg": f"Items not found in this cafe",
+                    "missing_ids": list(missing_ids),
+                }
+            ],
+        )
+
+    return await OrderService.create(current_user, cafe, items, data)
 
 
 @order_router.put(
-    "/orders/{id}",
+    "/cafes/{slug}/orders/{id}",
+    response_model=OrderOut,
+    responses={
+        400: {"model": ErrorResponse},
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
+    dependencies=[Depends(VolunteerPermission())],
+)
+async def update_cafe_order(
+    data: OrderUpdate,
+    slug: str = Path(..., description="Slug of the cafe"),
+    id: PydanticObjectId = Path(..., description="ID of the order"),
+):
+    """Update an order. (`VOLUNTEER`)"""
+    cafe = await CafeService.get(slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
+
+    order = await OrderService.get(id)
+    if not order:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "An order with this ID does not exist."}],
+        )
+
+    if order.cafe_id != cafe.id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "An order with this ID does not exist in this cafe."}],
+        )
+
+    if order.status in [OrderStatus.COMPLETED, OrderStatus.CANCELLED]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=[
+                {"msg": "An order with this ID is already completed or cancelled."}
+            ],
+        )
+
+    return await OrderService.update(order, data)
+
+
+@order_router.get(
+    "/users/me/orders",
+    response_model=OrderPage[OrderOut],
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+    },
+)
+async def get_my_orders(
+    request: Request,
+    current_user: User = Depends(get_current_user),
+):
+    """Get a list of orders for the current user. (`MEMBER`)"""
+    filters = parse_query_params(dict(request.query_params))
+    orders = await OrderService.get_all(user_id=current_user.id, **filters)
+    return await paginate(orders)
+
+
+@order_router.put(
+    "/users/me/orders/{id}",
     response_model=OrderOut,
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
-    dependencies=[Depends(AuthenticatedPermission())],
 )
-async def update_order(
+async def update_my_order(
     data: OrderUpdate,
     id: PydanticObjectId = Path(..., description="ID of the order"),
     current_user: User = Depends(get_current_user),
 ):
     """Update an order. (`MEMBER`)"""
-    try:
-        order = await OrderService.get(id)
-        if not order:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="Order not found"
-            )
+    order = await OrderService.get(id)
+    if not order:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "An order with this ID does not exist."}],
+        )
 
-        # Authorization check
-        if (
-            order.user_username != current_user.username
-            and not await CafeService.is_authorized_for_cafe_action(
-                order.cafe_slug, current_user, [Role.ADMIN, Role.VOLUNTEER]
-            )
-        ):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
-            )
+    if current_user.id != order.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=[{"msg": "You cannot update an order that is not yours."}],
+        )
 
-        return await OrderService.update(id, data)
-    except ValueError as e:
-        if str(e) == "Cafe not found":
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-        elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+    if order.status in [OrderStatus.COMPLETED, OrderStatus.CANCELLED]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=[
+                {"msg": "An order with this ID is already completed or cancelled."}
+            ],
+        )
+
+    if data.status in [OrderStatus.PLACED, OrderStatus.READY, OrderStatus.COMPLETED]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=[
+                {
+                    "msg": "You cannot change the status of an order to PLACED, READY or COMPLETED."
+                }
+            ],
+        )
+
+    return await OrderService.update(order, data)

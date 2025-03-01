@@ -8,8 +8,10 @@ from typing import List, Optional
 from beanie import PydanticObjectId
 from bson import SON
 
+from app.cafe.menu.item.models import MenuItem
 from app.cafe.models import Cafe
-from app.order.models import Order, OrderCreate, OrderStatus, OrderUpdate
+from app.order.models import Order, OrderCreate, OrderedItem, OrderStatus, OrderUpdate
+from app.user.models import User
 
 
 class OrderService:
@@ -18,11 +20,19 @@ class OrderService:
     """
 
     @staticmethod
-    async def get_all(**filters: dict):
+    async def get_all(
+        user_id: Optional[str] = None, cafe_id: Optional[str] = None, **filters: dict
+    ):
         """Get orders."""
+        if user_id is not None:
+            filters["user_id"] = PydanticObjectId(user_id)
+        if cafe_id is not None:
+            filters["cafe_id"] = PydanticObjectId(cafe_id)
+
         sort_by = filters.pop("sort_by", "-order_number")
         findmany = Order.find(filters).sort(sort_by)
-        await OrderService.check_and_update_order_status(findmany.to_list())
+        # result = await Order.find(filters).sort(sort_by)
+        # await OrderService.check_and_update_order_status(result)
         return findmany
 
     @staticmethod
@@ -31,46 +41,57 @@ class OrderService:
         return await Order.get(id)
 
     @staticmethod
-    async def create(data: OrderCreate, username: str) -> Order:
-        """Create a new order for a user."""
-        order_data = data.model_dump()
-        order_data["user_username"] = username
-        order_data["order_number"] = await OrderService.get_next_order_number()
-        order = Order(**order_data)
-        await order.insert()
-        return order
-
-    @staticmethod
-    async def create_test(
+    async def create(
+        user: User,
+        cafe: Cafe,
+        items: list[MenuItem],
         data: OrderCreate,
-        username: str,
-        created_at: datetime = None,
-        updated_at: datetime = None,
-        status: str = "Placée",
     ) -> Order:
-        """Create a new order for a user."""
-        order_data = data.model_dump()
-        order_data["user_username"] = username
-        order_data["order_number"] = await OrderService.get_next_order_number()
-        order_data["created_at"] = created_at  # For Test
-        order_data["updated_at"] = updated_at  # For Test
-        order_data["status"] = status  # For Test
-        order = Order(**order_data)
+        """Create a new order."""
+        item_map = {item.id: item for item in items}
+        ordered_items = []
+        for item_create in data.items:
+            menu_item = item_map[item_create.item_id]
+            ordered_items.append(
+                OrderedItem(
+                    item_id=menu_item.id,
+                    item_name=menu_item.name,
+                    item_price=menu_item.price,
+                    quantity=item_create.quantity,
+                    options=item_create.options,
+                )
+            )
+
+        order_number = await OrderService.get_next_order_number()
+
+        order = Order(
+            **data.model_dump(exclude={"items"}),
+            user_id=user.id,
+            cafe_id=cafe.id,
+            cafe_name=cafe.name,
+            order_number=order_number,
+            items=ordered_items
+        )
+
         await order.insert()
         return order
 
     @staticmethod
     async def update(order: Order, data: OrderUpdate) -> Order:
         """Update an order by its ID."""
-        return await order.update(data.model_dump(exclude_unset=True))
+        order.status = data.status
+        await order.save()
+        return order
 
     @staticmethod
-    async def create_many(datas: List[OrderCreate], username: str) -> List[Order]:
+    async def create_many(
+        datas: List[OrderCreate], user_id: PydanticObjectId
+    ) -> List[Order]:
         """Create multiple orders for a user."""
         orders = []
         for data in datas:
             order_data = data.model_dump()
-            order_data["user_username"] = username
+            order_data["user_id"] = user_id
             order_data["order_number"] = await OrderService.get_next_order_number()
             order = Order(**order_data)
             orders.append(order)
@@ -91,7 +112,7 @@ class OrderService:
             {"$set": update_data}
         )
         if result.matched_count == 0:
-            raise ValueError("No orders found for the provided IDs")
+            raise None
 
         return await Order.find_many({"order_id": {"$in": order_ids}}).to_list()
 
@@ -102,7 +123,7 @@ class OrderService:
             {"order_id": {"$in": order_ids}}
         ).to_list()
         if not orders_to_delete:
-            raise ValueError("No orders found for the provided IDs")
+            raise None
 
         await Order.find_many({"order_id": {"$in": order_ids}}).delete_many()
 
