@@ -2,10 +2,12 @@
 Module for handling item-related routes.
 """
 
-from typing import Optional
+from typing import Optional, TypeVar
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi_pagination import Params
+from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
@@ -20,12 +22,30 @@ from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User
 
+T = TypeVar("T")
+
+
+class ItemParams(Params):
+    """Custom pagination parameters."""
+
+    size: int = Query(20, ge=1, le=100, description="Page size")
+    page: int = Query(1, ge=1, description="Page number")
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field")
+    in_stock: Optional[bool] = Query(None, description="Filter by stock availability")
+
+
+ItemPage = CustomizedPage[
+    Page[T],
+    UseParams(ItemParams),
+]
+
+
 item_router = APIRouter()
 
 
 @item_router.get(
     "/cafes/{slug}/menu/items",
-    response_model=Page[MenuItemOut],
+    response_model=ItemPage[MenuItemOut],
     responses={
         404: {"model": ErrorResponse},
     },
@@ -33,8 +53,6 @@ item_router = APIRouter()
 async def get_menu_items(
     request: Request,
     slug: str = Path(..., description="Slug of the cafe"),
-    in_stock: Optional[bool] = Query(None, description="Filter by stock availability"),
-    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
 ):
     """Get a list of menu items for a cafe."""
     cafe = await CafeService.get(slug)

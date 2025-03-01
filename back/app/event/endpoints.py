@@ -2,10 +2,12 @@
 Module for handling event-related routes.
 """
 
-from typing import Optional
+from typing import Optional, TypeVar
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, Path, Query, Request
+from fastapi_pagination import Params
+from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
@@ -16,17 +18,33 @@ from app.models import ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User
 
+T = TypeVar("T")
+
+
+class EventParams(Params):
+    """Custom pagination parameters."""
+
+    size: int = Query(20, ge=1, le=100, description="Page size")
+    page: int = Query(1, ge=1, description="Page number")
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field")
+    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID.")
+
+
+EventPage = CustomizedPage[
+    Page[T],
+    UseParams(EventParams),
+]
+
+
 event_router = APIRouter()
 
 
 @event_router.get(
     "/events/",
-    response_model=Page[EventOut],
+    response_model=EventPage[EventOut],
 )
 async def get_events(
     request: Request,
-    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID."),
-    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
 ):
     """Get a list of events."""
     filters = parse_query_params(dict(request.query_params))

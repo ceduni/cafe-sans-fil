@@ -2,10 +2,12 @@
 Module for handling order-related routes.
 """
 
-from typing import Optional
+from typing import Optional, TypeVar
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi_pagination import Params
+from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
@@ -18,12 +20,29 @@ from app.order.service import OrderService
 from app.service import parse_query_params
 from app.user.models import User
 
+T = TypeVar("T")
+
+
+class OrderParams(Params):
+    """Custom pagination parameters."""
+
+    size: int = Query(20, ge=1, le=100, description="Page size")
+    page: int = Query(1, ge=1, description="Page number")
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field")
+
+
+OrderPage = CustomizedPage[
+    Page[T],
+    UseParams(OrderParams),
+]
+
+
 order_router = APIRouter()
 
 
 @order_router.get(
     "/orders",
-    response_model=Page[OrderOut],
+    response_model=OrderPage[OrderOut],
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
@@ -31,7 +50,6 @@ order_router = APIRouter()
 )
 async def get_orders(
     request: Request,
-    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
     current_user: User = Depends(get_current_user),
 ):
     """Get a list of orders. (`member`)"""

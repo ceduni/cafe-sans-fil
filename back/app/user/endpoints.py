@@ -2,10 +2,12 @@
 Module for handling user-related routes.
 """
 
-from typing import Optional
+from typing import Optional, TypeVar
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi_pagination import Params
+from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
@@ -16,19 +18,35 @@ from app.service import parse_query_params
 from app.user.models import User, UserOut, UserUpdate
 from app.user.service import UserService
 
+T = TypeVar("T")
+
+
+class UserParams(Params):
+    """Custom pagination parameters."""
+
+    size: int = Query(20, ge=1, le=100, description="Page size")
+    page: int = Query(1, ge=1, description="Page number")
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field")
+
+
+UserPage = CustomizedPage[
+    Page[T],
+    UseParams(UserParams),
+]
+
+
 user_router = APIRouter()
 
 
 @user_router.get(
     "/users",
-    response_model=Page[UserOut],
+    response_model=UserPage[UserOut],
     responses={
         401: {"model": ErrorResponse},
     },
 )
 async def get_users(
     request: Request,
-    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
     current_user: User = Depends(get_current_user),
 ):
     """Get a list of users. (`member`)"""
