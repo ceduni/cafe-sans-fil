@@ -10,7 +10,13 @@ from beanie.odm.queries.find import FindMany
 
 from app.cafe.menu.item.models import MenuItem
 from app.cafe.models import Cafe
-from app.order.models import Order, OrderCreate, OrderedItem, OrderStatus, OrderUpdate
+from app.cafe.order.models import (
+    Order,
+    OrderCreate,
+    OrderedItem,
+    OrderStatus,
+    OrderUpdate,
+)
 from app.user.models import User
 
 

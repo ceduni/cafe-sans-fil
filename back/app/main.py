@@ -10,13 +10,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from app.announcement.models import Announcement, AnnouncementView
+from app.cafe.announcement.models import Announcement, AnnouncementView
+from app.cafe.event.models import Event, EventView
 from app.cafe.menu.item.models import MenuItem
 from app.cafe.models import Cafe, CafeView
+from app.cafe.order.models import Order
+from app.cafe.order.scheduler import order_scheduler
 from app.config import settings
-from app.event.models import Event, EventView
-from app.order.models import Order
-from app.order.scheduler import order_scheduler
 from app.router import router
 from app.user.models import User
 

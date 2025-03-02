@@ -7,7 +7,7 @@ from typing import List, Union
 from beanie import PydanticObjectId
 from beanie.odm.queries.find import FindMany
 
-from app.announcement.models import (
+from app.cafe.announcement.models import (
     Announcement,
     AnnouncementCreate,
     AnnouncementUpdate,

@@ -11,8 +11,8 @@ from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
 from app.cafe.menu.item.models import MenuItemOption
+from app.cafe.order.enums import OrderStatus
 from app.models import CafeId, Id, IdAlias, ItemId, UserId
-from app.order.enums import OrderStatus
 
 
 class OrderedItem(BaseModel, IdAlias):

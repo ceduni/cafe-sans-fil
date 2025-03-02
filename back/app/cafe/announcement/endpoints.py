@@ -1,5 +1,5 @@
 """
-Module for handling event-related routes.
+Module for handling announcement-related routes.
 """
 
 from typing import Optional, TypeVar
@@ -11,10 +11,15 @@ from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
+from app.cafe.announcement.models import (
+    AnnouncementCreate,
+    AnnouncementOut,
+    AnnouncementUpdate,
+    AnnouncementViewOut,
+)
+from app.cafe.announcement.service import AnnouncementService
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
-from app.event.models import EventCreate, EventOut, EventUpdate, EventViewOut
-from app.event.service import EventService
 from app.models import ErrorResponse
 from app.service import parse_query_params
 from app.user.endpoints import get_current_user
@@ -23,40 +28,42 @@ from app.user.models import User
 T = TypeVar("T")
 
 
-class EventParams(Params):
+class AnnouncementParams(Params):
     """Custom pagination parameters."""
 
     size: int = Query(20, ge=1, le=100, description="Page size")
     page: int = Query(1, ge=1, description="Page number")
     sort_by: Optional[str] = Query(None, description="Sort by a specific field")
-    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID.")
+    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID")
 
 
-EventPage = CustomizedPage[
+AnnouncementPage = CustomizedPage[
     Page[T],
-    UseParams(EventParams),
+    UseParams(AnnouncementParams),
 ]
 
 
-event_router = APIRouter()
+announcement_router = APIRouter()
 
 
-@event_router.get(
-    "/events/",
-    response_model=EventPage[EventViewOut],
+@announcement_router.get(
+    "/announcements/",
+    response_model=AnnouncementPage[AnnouncementViewOut],
 )
-async def list_events(
+async def list_announcements(
     request: Request,
 ):
-    """Get a list of events."""
+    """Get a list of announcements."""
     filters = parse_query_params(dict(request.query_params))
-    events = await EventService.get_all(to_list=False, as_view=True, **filters)
-    return await paginate(events)
+    announcements = await AnnouncementService.get_all(
+        to_list=False, as_view=True, **filters
+    )
+    return await paginate(announcements)
 
 
-@event_router.post(
-    "/cafes/{slug}/events/",
-    response_model=EventOut,
+@announcement_router.post(
+    "/cafes/{slug}/announcements/",
+    response_model=AnnouncementOut,
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
@@ -64,12 +71,12 @@ async def list_events(
     },
     dependencies=[Depends(AdminPermission())],
 )
-async def create_event(
-    data: EventCreate,
+async def create_announcement(
+    data: AnnouncementCreate,
     slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
-    """Create an event. (`ADMIN`)"""
+    """Create an announcement. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -77,12 +84,12 @@ async def create_event(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    return await EventService.create(current_user, cafe, data)
+    return await AnnouncementService.create(current_user, cafe, data)
 
 
-@event_router.put(
-    "/cafes/{slug}/events/{id}",
-    response_model=EventOut,
+@announcement_router.put(
+    "/cafes/{slug}/announcements/{id}",
+    response_model=AnnouncementOut,
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
@@ -90,12 +97,12 @@ async def create_event(
     },
     dependencies=[Depends(AdminPermission())],
 )
-async def update_event(
-    data: EventUpdate,
+async def update_announcement(
+    data: AnnouncementUpdate,
     slug: str = Path(..., description="Slug of the cafe"),
-    id: PydanticObjectId = Path(..., description="ID of the event"),
+    id: PydanticObjectId = Path(..., description="ID of the announcement"),
 ):
-    """Update an event. (`ADMIN`)"""
+    """Update an announcement. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -103,18 +110,18 @@ async def update_event(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    event = await EventService.get_by_id_and_cafe_id(id, cafe.id)
-    if not event:
+    announcement = await AnnouncementService.get_by_id_and_cafe_id(id, cafe.id)
+    if not announcement:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "An event with this ID does not exist."}],
+            detail=[{"msg": "An announcement with this ID does not exist."}],
         )
 
-    return await EventService.update(event, data)
+    return await AnnouncementService.update(announcement, data)
 
 
-@event_router.delete(
-    "/cafes/{slug}/events/{id}",
+@announcement_router.delete(
+    "/cafes/{slug}/announcements/{id}",
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
@@ -122,11 +129,11 @@ async def update_event(
     },
     dependencies=[Depends(AdminPermission())],
 )
-async def delete_event(
+async def delete_announcement(
     slug: str = Path(..., description="Slug of the cafe"),
-    id: PydanticObjectId = Path(..., description="ID of the event"),
+    id: PydanticObjectId = Path(..., description="ID of the announcement"),
 ):
-    """Delete an event. (`ADMIN`)"""
+    """Delete an announcement. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -134,11 +141,11 @@ async def delete_event(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    event = await EventService.get_by_id_and_cafe_id(id, cafe.id)
-    if not event:
+    announcement = await AnnouncementService.get_by_id_and_cafe_id(id, cafe.id)
+    if not announcement:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "An event with this ID does not exist."}],
+            detail=[{"msg": "An announcement with this ID does not exist."}],
         )
 
-    await EventService.delete(event)
+    await AnnouncementService.delete(announcement)

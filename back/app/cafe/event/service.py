@@ -7,8 +7,8 @@ from typing import List, Union
 from beanie import PydanticObjectId
 from beanie.odm.queries.find import FindMany
 
+from app.cafe.event.models import Event, EventCreate, EventUpdate, EventView
 from app.cafe.models import Cafe
-from app.event.models import Event, EventCreate, EventUpdate, EventView
 from app.service import set_attributes
 from app.user.models import User
 

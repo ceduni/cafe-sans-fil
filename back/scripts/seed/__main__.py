@@ -7,18 +7,18 @@ import asyncio
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from app.announcement.models import Announcement
+from app.cafe.announcement.models import Announcement
+from app.cafe.event.models import Event
 from app.cafe.menu.item.models import MenuItem
 from app.cafe.models import Cafe
+from app.cafe.order.models import Order
 from app.config import settings
-from app.event.models import Event
-from app.order.models import Order
 from app.user.models import User
 
 from .cafe import CafeSeeder
 from .cafe.menu import MenuSeeder
+from .cafe.order import OrderSeeder
 from .cafe.staff import StaffSeeder
-from .order import OrderSeeder
 from .user import UserSeeder
 
 MONGO_DB_NAME = settings.MONGO_DB_NAME
