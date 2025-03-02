@@ -58,9 +58,9 @@ class OrderService:
             menu_item = item_map[item_create.item_id]
             ordered_items.append(
                 OrderedItem(
-                    item_id=menu_item.id,
-                    item_name=menu_item.name,
-                    item_price=menu_item.price,
+                    _id=menu_item.id,
+                    name=menu_item.name,
+                    price=menu_item.price,
                     quantity=item_create.quantity,
                     options=item_create.options,
                 )

@@ -16,13 +16,19 @@ class Id:
     id: PydanticObjectId
 
 
+class IdAlias:
+    """Model for generic ID alias."""
+
+    id: PydanticObjectId = Field(..., alias="_id")
+
+
 class IdOptional:
     """Model for optional generic ID."""
 
     id: Optional[PydanticObjectId] = None
 
 
-class IdAlias:
+class IdOptionalAlias:
     """Model for generic ID alias."""
 
     id: Optional[PydanticObjectId] = Field(None, alias="_id")

@@ -70,9 +70,9 @@ class OrderSeeder:
             order_number=(order_number % 1000),
             items=[
                 OrderedItem(
-                    item_id=item.id,
-                    item_name=item.name,
-                    item_price=item.price,
+                    _id=item.id,
+                    name=item.name,
+                    price=item.price,
                     quantity=random.randint(1, 3),
                     options=item.options if random.random() < 0.5 else [],
                 )

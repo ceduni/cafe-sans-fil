@@ -11,15 +11,15 @@ from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
 from app.cafe.menu.item.models import MenuItemOption
-from app.models import CafeId, Id, ItemId, UserId
+from app.models import CafeId, Id, ItemId, UserId, IdAlias
 from app.order.enums import OrderStatus
 
 
-class OrderedItem(BaseModel, ItemId):
+class OrderedItem(BaseModel, IdAlias):
     """Model for ordered menu items."""
 
-    item_name: str
-    item_price: DecimalAnnotation
+    name: str
+    price: DecimalAnnotation
     quantity: int = Field(default=1)
     options: List[MenuItemOption]
 
@@ -53,7 +53,7 @@ class Order(Document, OrderBase, CafeId, UserId):
         total = sum(
             DecimalAnnotation(item.quantity)
             * (
-                item.item_price
+                item.price
                 + sum(DecimalAnnotation(option.fee) for option in item.options)
             )
             for item in self.items
@@ -98,6 +98,14 @@ class OrderedItemCreate(BaseModel, ItemId):
             raise ValueError("Quantity must be a positive integer.")
         return quantity
 
+class OrderedItemOut(BaseModel, Id):
+    """Model for ordered item output."""
+
+    name: str
+    price: DecimalAnnotation
+    quantity: int = Field(default=1)
+    options: List[MenuItemOption]
+
 
 class OrderCreate(BaseModel):
     """Model for creating orders."""
@@ -122,4 +130,4 @@ class OrderUpdate(BaseModel):
 class OrderOut(OrderBase, CafeId, UserId, Id):
     """Model for order output."""
 
-    pass
+    items: List[OrderedItemOut]
