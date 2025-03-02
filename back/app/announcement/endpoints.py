@@ -76,7 +76,7 @@ async def create_announcement(
     slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
-    """Create an announcement."""
+    """Create an announcement. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -102,7 +102,7 @@ async def update_announcement(
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the announcement"),
 ):
-    """Update an announcement."""
+    """Update an announcement. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -133,7 +133,7 @@ async def delete_announcement(
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the announcement"),
 ):
-    """Delete an announcement."""
+    """Delete an announcement. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(

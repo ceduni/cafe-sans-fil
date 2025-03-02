@@ -30,7 +30,7 @@ async def add_staff(
     role: str = Path(..., description="Role of the staff"),
     id: PydanticObjectId = Path(..., description="ID of the user"),
 ):
-    """Add a staff member to a cafe. (`ADMIN`)."""
+    """Add a staff member to a cafe. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -74,7 +74,7 @@ async def remove_staff(
     role: str = Path(..., description="Role of the staff"),
     id: PydanticObjectId = Path(..., description="ID of the user"),
 ):
-    """Remove a staff member from a cafe. (`ADMIN`)."""
+    """Remove a staff member from a cafe. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(

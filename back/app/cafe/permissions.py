@@ -1,3 +1,7 @@
+"""
+Module for handling cafe permissions.
+"""
+
 from fastapi import Depends, HTTPException, Request, status
 
 from app.auth.dependencies import get_current_user
@@ -10,6 +14,8 @@ OWNER = "OWNER"
 
 
 class BasePermission:
+    """Base class for cafe permissions"""
+
     required_role = None
 
     async def __call__(
@@ -17,6 +23,7 @@ class BasePermission:
         request: Request,
         current_user: User = Depends(get_current_user),
     ):
+        """Core permission check logic"""
         slug = request.path_params.get("slug")
         if not slug:
             raise HTTPException(
@@ -70,16 +77,24 @@ class BasePermission:
 
 
 class AuthenticatedPermission(BasePermission):
+    """Permission for authenticated users."""
+
     required_role = None
 
 
 class VolunteerPermission(BasePermission):
+    """Permission for cafe volunteers."""
+
     required_role = Role.VOLUNTEER
 
 
 class AdminPermission(BasePermission):
+    """Permission for cafe admins."""
+
     required_role = Role.ADMIN
 
 
 class OwnerPermission(BasePermission):
+    """Permission for cafe owners."""
+
     required_role = OWNER

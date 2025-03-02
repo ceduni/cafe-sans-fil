@@ -69,7 +69,7 @@ async def create_event(
     slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
-    """Create an event."""
+    """Create an event. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -95,7 +95,7 @@ async def update_event(
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the event"),
 ):
-    """Update an event."""
+    """Update an event. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -126,7 +126,7 @@ async def delete_event(
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the event"),
 ):
-    """Delete an event."""
+    """Delete an event. (`ADMIN`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
