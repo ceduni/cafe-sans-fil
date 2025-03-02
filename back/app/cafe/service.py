@@ -27,7 +27,7 @@ class CafeService:
         return await query.to_list() if to_list else query
 
     @staticmethod
-    async def get(cafe_slug_or_id: str, as_view: bool = False):
+    async def get(cafe_slug_or_id: str, as_view: bool = False) -> Union[CafeView, Cafe]:
         """Get a cafe by slug or ID."""
         cafe_class = CafeView if as_view else Cafe
         try:

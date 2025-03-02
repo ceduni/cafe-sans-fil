@@ -5,7 +5,7 @@ Module for handling announcement-related routes.
 from typing import Optional, TypeVar
 
 from beanie import PydanticObjectId
-from fastapi import APIRouter, Depends, Path, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
 from fastapi_pagination import Params
 from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
@@ -15,11 +15,14 @@ from app.announcement.models import (
     AnnouncementCreate,
     AnnouncementOut,
     AnnouncementUpdate,
+    AnnouncementViewOut,
 )
 from app.announcement.service import AnnouncementService
-from app.auth.dependencies import get_current_user
+from app.cafe.permissions import AdminPermission
+from app.cafe.service import CafeService
 from app.models import ErrorResponse
 from app.service import parse_query_params
+from app.user.endpoints import get_current_user
 from app.user.models import User
 
 T = TypeVar("T")
@@ -45,84 +48,104 @@ announcement_router = APIRouter()
 
 @announcement_router.get(
     "/announcements/",
-    response_model=AnnouncementPage[AnnouncementPage],
+    response_model=AnnouncementPage[AnnouncementViewOut],
 )
 async def get_announcements(
     request: Request,
 ):
     """Get a list of announcements."""
     filters = parse_query_params(dict(request.query_params))
-    announcements = await AnnouncementService.get_all(to_list=False, **filters)
+    announcements = await AnnouncementService.get_all(
+        to_list=False, as_view=True, **filters
+    )
     return await paginate(announcements)
 
 
 @announcement_router.post(
-    "/announcements/",
+    "/cafes/{slug}/announcements/",
     response_model=AnnouncementOut,
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
-        409: {"model": ErrorResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def create_announcement(
     data: AnnouncementCreate,
+    slug: str = Path(..., description="Slug of the cafe"),
+    current_user: User = Depends(get_current_user),
 ):
     """Create an announcement."""
-    return await AnnouncementService.create(data)
+    cafe = await CafeService.get(slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
+
+    return await AnnouncementService.create(current_user, cafe, data)
 
 
 @announcement_router.put(
-    "/announcements/{id}",
+    "/cafes/{slug}/announcements/{id}",
     response_model=AnnouncementOut,
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
-        409: {"model": ErrorResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def update_announcement(
     data: AnnouncementUpdate,
+    slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the announcement"),
 ):
     """Update an announcement."""
-    announcement = await AnnouncementService.get(id)
+    cafe = await CafeService.get(slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
+
+    announcement = await AnnouncementService.get_by_id_and_cafe_id(id, cafe.id)
+    if not announcement:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "An announcement with this ID does not exist."}],
+        )
+
     return await AnnouncementService.update(announcement, data)
 
 
 @announcement_router.delete(
-    "/announcements/{id}",
+    "/cafes/{slug}/announcements/{id}",
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
+    dependencies=[Depends(AdminPermission())],
 )
 async def delete_announcement(
+    slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the announcement"),
 ):
     """Delete an announcement."""
-    announcement = await AnnouncementService.get(id)
-    return await AnnouncementService.delete(announcement)
+    cafe = await CafeService.get(slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
 
+    announcement = await AnnouncementService.get_by_id_and_cafe_id(id, cafe.id)
+    if not announcement:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "An announcement with this ID does not exist."}],
+        )
 
-@announcement_router.post(
-    "/announcements/{id}/like",
-    responses={
-        401: {"model": ErrorResponse},
-        404: {"model": ErrorResponse},
-    },
-)
-async def toggle_like(
-    id: PydanticObjectId = Path(..., description="ID of the announcement"),
-    current_user: User = Depends(get_current_user),
-    unlike: bool = False,
-):
-    """Toggle like on an announcement."""
-    announcement = await AnnouncementService.get(id)
-    if not unlike:
-        return await AnnouncementService.add_like(announcement, current_user.id)
-    else:
-        return await AnnouncementService.remove_like(announcement, current_user.id)
+    await AnnouncementService.delete(announcement)

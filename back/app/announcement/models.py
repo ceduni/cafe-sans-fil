@@ -5,16 +5,11 @@ Module for handling announcement-related models.
 from datetime import UTC, datetime
 from typing import List, Optional
 
-from beanie import Document
+from beanie import Document, PydanticObjectId, View
 from pydantic import BaseModel, Field
 
-from app.models import CafeId, Id, UserId
-
-
-class UserInteraction(BaseModel, UserId):
-    """Model for user interactions."""
-
-    interaction_time: datetime = Field(default_factory=lambda: datetime.now(UTC))
+from app.models import CafeId, Id, IdAlias
+from app.user.models import UserView, UserViewOut
 
 
 class AnnouncementBase(BaseModel):
@@ -23,13 +18,15 @@ class AnnouncementBase(BaseModel):
     title: str = Field(..., min_length=1)
     content: str
     created_at: Optional[datetime] = Field(default_factory=lambda: datetime.now(UTC))
+    updated_at: Optional[datetime] = Field(default_factory=lambda: datetime.now(UTC))
     active_until: Optional[datetime] = None
-    likes: List[UserInteraction] = []
     tags: List[str] = []
 
 
 class Announcement(Document, AnnouncementBase, CafeId):
     """Announcement document model."""
+
+    author_id: PydanticObjectId
 
     class Settings:
         """Document settings."""
@@ -37,7 +34,7 @@ class Announcement(Document, AnnouncementBase, CafeId):
         name = "announcements"
 
 
-class AnnouncementCreate(BaseModel, CafeId):
+class AnnouncementCreate(BaseModel):
     """Model for creating announcements."""
 
     title: str = Field(..., min_length=1)
@@ -59,3 +56,44 @@ class AnnouncementOut(AnnouncementBase, CafeId, Id):
     """Model for announcement output."""
 
     pass
+
+
+class AnnouncementView(View, AnnouncementBase, CafeId, IdAlias):
+    """Model for announcement view."""
+
+    author: UserView
+
+    class Settings:
+        name = "announcements_view"
+        source = "announcements"
+        pipeline = [
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "author_id",
+                    "foreignField": "_id",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 1,
+                                "username": 1,
+                                "email": 1,
+                                "matricule": 1,
+                                "first_name": 1,
+                                "last_name": 1,
+                                "photo_url": 1,
+                            }
+                        }
+                    ],
+                    "as": "author",
+                }
+            },
+            {"$addFields": {"author": {"$arrayElemAt": ["$author", 0]}}},
+            {"$unset": "author_id"},
+        ]
+
+
+class AnnouncementViewOut(AnnouncementBase, CafeId, Id):
+    """Model for announcement view output."""
+
+    author: UserViewOut

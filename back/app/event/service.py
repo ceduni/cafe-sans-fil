@@ -7,72 +7,63 @@ from typing import List, Union
 from beanie import PydanticObjectId
 from beanie.odm.queries.find import FindMany
 
-from app.event.models import Event, EventCreate, EventOut, UserInteraction
+from app.cafe.models import Cafe
+from app.event.models import Event, EventCreate, EventUpdate, EventView
+from app.service import set_attributes
+from app.user.models import User
 
 
 class EventService:
     """Service class for Event operations."""
 
     async def get_all(
-        to_list: bool = True, **filters: dict
+        to_list: bool = True,
+        as_view: bool = False,
+        **filters: dict,
     ) -> Union[FindMany[Event], List[Event]]:
         """Get events."""
+        event_class = EventView if as_view else Event
         sort_by = filters.pop("sort_by", "start_date")
-        query = Event.find(filters).sort(sort_by)
+        query = event_class.find(filters).sort(sort_by)
         return await query.to_list() if to_list else query
 
-    async def get(id: PydanticObjectId) -> EventOut:
+    async def get(
+        id: PydanticObjectId,
+        as_view: bool = False,
+    ) -> Union[EventView, Event]:
         """Get an event by ID."""
-        return await Event.get(id)
+        event_class = EventView if as_view else Event
+        return await event_class.get(id)
 
-    async def create(data: EventCreate) -> EventOut:
+    async def get_by_id_and_cafe_id(
+        id: PydanticObjectId,
+        cafe_id: PydanticObjectId,
+        as_view: bool = False,
+    ) -> Union[EventView, Event]:
+        """Get an event by ID and cafe ID."""
+        event_class = EventView if as_view else Event
+        return await event_class.find_one({"_id": id, "cafe_id": cafe_id})
+
+    async def create(
+        current_user: User,
+        cafe: Cafe,
+        data: EventCreate,
+    ) -> Event:
         """Create a new event."""
-        event = Event(**data.model_dump())
+        event = Event(**data.model_dump(), cafe_id=cafe.id, creator_id=current_user.id)
         await event.insert()
         return event
 
-    async def update(event: Event, data: EventCreate) -> EventOut:
+    async def update(
+        event: Event,
+        data: EventUpdate,
+    ) -> Event:
         """Update an existing event."""
-        for key, value in data.model_dump(exclude_unset=True).items():
-            setattr(event, key, value)
+        set_attributes(event, data)
         await event.save()
         return event
 
-    async def delete(event: Event) -> EventOut:
+    async def delete(event: Event) -> None:
         """Delete an existing event."""
         await event.delete()
-        return event
-
-    async def add_attendee(event: Event, id: PydanticObjectId) -> EventOut:
-        """Add an attendee to an event."""
-        if not any(att.user_id == id for att in event.attendees):
-            event.attendees.append(UserInteraction(user_id=id))
-            await event.save()
-        return event
-
-    async def add_supporter(event: Event, id: PydanticObjectId) -> EventOut:
-        """Add a supporter to an event."""
-        if not any(sup.user_id == id for sup in event.supporters):
-            event.supporters.append(UserInteraction(user_id=id))
-            await event.save()
-        return event
-
-    async def remove_attendee(event: Event, id: PydanticObjectId) -> EventOut:
-        """Remove an attendee from an event."""
-        original_attendees = len(event.attendees)
-        event.attendees = [
-            attendee for attendee in event.attendees if attendee.user_id != id
-        ]
-        if len(event.attendees) < original_attendees:
-            await event.save()
-        return event
-
-    async def remove_supporter(event: Event, id: PydanticObjectId) -> EventOut:
-        """Remove a supporter from an event."""
-        original_supporters = len(event.supporters)
-        event.supporters = [
-            supporter for supporter in event.supporters if supporter.user_id != id
-        ]
-        if len(event.supporters) < original_supporters:
-            await event.save()
         return event

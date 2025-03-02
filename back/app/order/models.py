@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
 from app.cafe.menu.item.models import MenuItemOption
-from app.models import CafeId, Id, ItemId, UserId, IdAlias
+from app.models import CafeId, Id, IdAlias, ItemId, UserId
 from app.order.enums import OrderStatus
 
 
@@ -97,6 +97,7 @@ class OrderedItemCreate(BaseModel, ItemId):
         if quantity <= 0:
             raise ValueError("Quantity must be a positive integer.")
         return quantity
+
 
 class OrderedItemOut(BaseModel, Id):
     """Model for ordered item output."""
