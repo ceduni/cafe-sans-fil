@@ -2,28 +2,101 @@
 Order seeder module.
 """
 
-from faker import Faker
+import random
+from datetime import UTC, datetime, timedelta
+from typing import List
 
-from app.order.models import OrderCreate
-from app.order.service import OrderService
+from tqdm import tqdm
 
-# random.seed(42)
-Faker.seed(42)
-fake = Faker("fr_FR")
+from app.cafe.menu.item.models import MenuItem
+from app.cafe.menu.item.service import ItemService
+from app.cafe.models import Cafe
+from app.cafe.service import CafeService
+from app.order.models import Order, OrderedItem, OrderStatus
+from app.user.models import User
+from app.user.service import UserService
+
+random.seed(42)
 
 
 class OrderSeeder:
-    async def seed_orders(self, cafe_slugs, usernames, num_orders: int):
-        """Seeds a specified number of orders."""
-        datas = []
-        for _ in range(num_orders):
-            datas.append(
-                OrderCreate(
-                    cafe_slug=fake.random_element(elements=cafe_slugs),
-                    user_username=fake.random_element(elements=usernames),
-                    items=[fake.word() for _ in range(3)],
-                    status="PLACED",
+    """Order seeder class."""
+
+    def __init__(self) -> None:
+        """Initialize the OrderSeeder."""
+        self.orders: List[Order] = []
+        self.order_number: int = 1
+
+    async def seed_orders(self, num_orders_per_cafe: int = 50) -> None:
+        """Seed orders for all cafes."""
+        cafes: List[Cafe] = await CafeService.get_all()
+        users: List[User] = await UserService.get_all()
+
+        for cafe in tqdm(cafes, desc="Seeding cafe orders"):
+            # Get cafe-specific data
+            menu_items: List[MenuItem] = await ItemService.get_all(cafe.id)
+            if not menu_items:
+                continue
+
+            for _ in range(num_orders_per_cafe):
+                user: User = random.choice(users)
+                order: Order = await self._create_order(
+                    cafe=cafe,
+                    user=user,
+                    menu_items=menu_items,
+                    order_number=self.order_number,
                 )
-            )
-        await OrderService.create_many(datas, username=fake.random_element(usernames))
-        print(f"{num_orders} orders created")
+                self.orders.append(order)
+                self.order_number += 1
+
+        await Order.insert_many(self.orders)
+        print(f"Created {len(self.orders)} orders across {len(cafes)} cafes")
+
+    async def _create_order(
+        self,
+        cafe: Cafe,
+        user: User,
+        menu_items: List[MenuItem],
+        order_number: int,
+    ) -> Order:
+        """Create a single order instance."""
+        num_items: int = random.randint(1, 5)
+        selected_items: List[MenuItem] = random.sample(menu_items, num_items)
+
+        order = Order(
+            user_id=user.id,
+            cafe_id=cafe.id,
+            cafe_name=cafe.name,
+            order_number=(order_number % 1000),
+            items=[
+                OrderedItem(
+                    item_id=item.id,
+                    item_name=item.name,
+                    item_price=item.price,
+                    quantity=random.randint(1, 3),
+                    options=item.options if random.random() < 0.5 else [],
+                )
+                for item in selected_items
+            ],
+            status=self._random_status(),
+            created_at=self._random_date(),
+        )
+
+        order.calculate_total_price()
+        order.updated_at = order.created_at + timedelta(minutes=random.randint(1, 60))
+        return order
+
+    def _random_status(self) -> OrderStatus:
+        """Generate a random order status."""
+        return random.choice(
+            [
+                OrderStatus.PLACED,
+                OrderStatus.READY,
+                OrderStatus.COMPLETED,
+                OrderStatus.CANCELLED,
+            ]
+        )
+
+    def _random_date(self) -> datetime:
+        """Generate a random date within the last 30 days."""
+        return datetime.now(UTC) - timedelta(days=random.randint(0, 30))

@@ -48,7 +48,7 @@ async def get_events(
 ):
     """Get a list of events."""
     filters = parse_query_params(dict(request.query_params))
-    events = await EventService.get_all(**filters)
+    events = await EventService.get_all(to_list=False, **filters)
     return await paginate(events)
 
 

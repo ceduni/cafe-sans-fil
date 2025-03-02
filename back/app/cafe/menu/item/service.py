@@ -2,9 +2,10 @@
 Module for handling item-related operations.
 """
 
-from typing import List
+from typing import List, Union
 
 from beanie import PydanticObjectId
+from beanie.odm.queries.find import FindMany
 
 from app.cafe.menu.item.models import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.cafe.models import Cafe
@@ -15,10 +16,13 @@ class ItemService:
     """Service class for CRUD and search operations on Menu."""
 
     @staticmethod
-    async def get_all(**filters: dict):
+    async def get_all(
+        to_list: bool = True, **filters: dict
+    ) -> Union[FindMany[MenuItem], List[MenuItem]]:
         """Get menu items."""
         sort_by = filters.pop("sort_by", "name")
-        return MenuItem.find(filters).sort(sort_by)
+        query = MenuItem.find(filters).sort(sort_by)
+        return await query.to_list() if to_list else query
 
     @staticmethod
     async def get_by_ids_and_cafe_id(

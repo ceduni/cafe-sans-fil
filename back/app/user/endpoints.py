@@ -51,7 +51,7 @@ async def get_users(
 ):
     """Get a list of users. (`MEMBER`)"""
     filters = parse_query_params(dict(request.query_params))
-    users = await UserService.get_all(**filters)
+    users = await UserService.get_all(to_list=False, **filters)
     return await paginate(users)
 
 

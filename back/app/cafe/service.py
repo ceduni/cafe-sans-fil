@@ -2,7 +2,10 @@
 Module for handling cafe-related operations.
 """
 
+from typing import List, Union
+
 from beanie import PydanticObjectId
+from beanie.odm.queries.find import FindMany
 from bson.errors import InvalidId
 
 from app.cafe.models import Cafe, CafeCreate, CafeUpdate, CafeView
@@ -15,10 +18,13 @@ class CafeService:
     """Service for CRUD operations and search on Cafe."""
 
     @staticmethod
-    async def get_all(**filters: dict):
+    async def get_all(
+        to_list: bool = True, **filters: dict
+    ) -> Union[FindMany[Cafe], List[Cafe]]:
         """Get cafes."""
         sort_by = filters.pop("sort_by", "name")
-        return Cafe.find(filters).sort(sort_by)
+        query = Cafe.find(filters).sort(sort_by)
+        return await query.to_list() if to_list else query
 
     @staticmethod
     async def get(cafe_slug_or_id: str, as_view: bool = False):

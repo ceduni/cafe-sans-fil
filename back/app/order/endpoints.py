@@ -13,7 +13,7 @@ from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.cafe.menu.item.service import ItemService
-from app.cafe.permissions import AuthenticatedPermission, VolunteerPermission
+from app.cafe.permissions import VolunteerPermission
 from app.cafe.service import CafeService
 from app.models import ErrorResponse
 from app.order.enums import OrderStatus
@@ -56,7 +56,7 @@ async def get_cafe_orders(
     request: Request,
     slug: str = Path(..., description="Slug of the cafe"),
 ):
-    """Get a list of orders for a specific cafe. (`VOLUNTEER`)"""
+    """Get a list of orders for a cafe. (`VOLUNTEER`)"""
     cafe = await CafeService.get(slug)
     if not cafe:
         raise HTTPException(
@@ -65,7 +65,7 @@ async def get_cafe_orders(
         )
 
     filters = parse_query_params(dict(request.query_params))
-    orders = await OrderService.get_all(cafe_id=cafe.id, **filters)
+    orders = await OrderService.get_all(cafe_id=cafe.id, to_list=False, **filters)
     return await paginate(orders)
 
 
@@ -77,9 +77,9 @@ async def get_cafe_orders(
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
-    dependencies=[Depends(AuthenticatedPermission())],
+    dependencies=[Depends(VolunteerPermission())],
 )
-async def create_order(
+async def create_cafe_order(
     data: OrderCreate,
     slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
@@ -93,11 +93,11 @@ async def create_order(
         )
 
     requested_ids = [item.item_id for item in data.items]
+    requested_str_ids = [str(id) for id in requested_ids]
+
     items = await ItemService.get_by_ids_and_cafe_id(requested_ids, cafe.id)
 
     found_ids = {str(item.id) for item in items}
-    requested_str_ids = [str(id) for id in requested_ids]
-
     missing_ids = list(set(requested_str_ids) - found_ids)
 
     if missing_ids:
@@ -176,7 +176,9 @@ async def get_my_orders(
 ):
     """Get a list of orders for the current user. (`MEMBER`)"""
     filters = parse_query_params(dict(request.query_params))
-    orders = await OrderService.get_all(user_id=current_user.id, **filters)
+    orders = await OrderService.get_all(
+        user_id=current_user.id, to_list=False, **filters
+    )
     return await paginate(orders)
 
 

@@ -18,6 +18,7 @@ from app.user.models import User
 from .cafe import CafeSeeder
 from .cafe.menu import MenuSeeder
 from .cafe.staff import StaffSeeder
+from .order import OrderSeeder
 from .user import UserSeeder
 
 MONGO_DB_NAME = settings.MONGO_DB_NAME
@@ -39,6 +40,7 @@ async def main():
     cafe_seeder = CafeSeeder()
     staff_seeder = StaffSeeder()
     menu_seeder = MenuSeeder()
+    order_seeder = OrderSeeder()
 
     await user_seeder.seed_users(num_users=27)
     await cafe_seeder.seed_cafes(num_cafes=20, user_ids=user_seeder.get_ids())
@@ -47,6 +49,7 @@ async def main():
         user_ids=user_seeder.get_ids(),
     )
     await menu_seeder.seed_menu_items(cafe_ids=cafe_seeder.get_ids(), num_items=20)
+    await order_seeder.seed_orders(num_orders_per_cafe=50)
 
 
 if __name__ == "__main__":

@@ -52,7 +52,7 @@ async def get_announcements(
 ):
     """Get a list of announcements."""
     filters = parse_query_params(dict(request.query_params))
-    announcements = await AnnouncementService.get_all(**filters)
+    announcements = await AnnouncementService.get_all(to_list=False, **filters)
     return await paginate(announcements)
 
 

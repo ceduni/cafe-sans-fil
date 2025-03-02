@@ -6,7 +6,7 @@ from datetime import UTC, datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Document, Insert, Replace, before_event
+from beanie import DecimalAnnotation, Document, Insert, Save, before_event
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
@@ -47,7 +47,7 @@ class OrderBase(BaseModel):
 class Order(Document, OrderBase, CafeId, UserId):
     """Order document model."""
 
-    @before_event([Replace, Insert])
+    @before_event([Insert, Save])
     def calculate_total_price(self):
         """Calculate total price."""
         total = sum(
@@ -62,8 +62,7 @@ class Order(Document, OrderBase, CafeId, UserId):
             raise ValueError("Total price must be a non-negative value.")
         self.total_price = total.quantize(DecimalAnnotation("0.00"))
 
-    # Comment this function if using generate_data.py to allow randomized updated_at
-    @before_event([Replace, Insert])
+    @before_event([Insert, Save])
     def update_update_at(self):
         """Update updated_at field."""
         self.updated_at = datetime.now(UTC)
@@ -73,7 +72,15 @@ class Order(Document, OrderBase, CafeId, UserId):
 
         name = "orders"
         indexes = [
-            IndexModel([("order_number", pymongo.ASCENDING)], unique=True),
+            IndexModel([("user_id", pymongo.ASCENDING)]),
+            IndexModel([("cafe_id", pymongo.ASCENDING)]),
+            IndexModel([("order_number", pymongo.ASCENDING)]),
+            IndexModel([("status", pymongo.ASCENDING)]),
+            IndexModel([("created_at", pymongo.ASCENDING)]),
+            IndexModel([("updated_at", pymongo.ASCENDING)]),
+            IndexModel(
+                [("status", pymongo.ASCENDING), ("created_at", pymongo.ASCENDING)]
+            ),
         ]
 
 

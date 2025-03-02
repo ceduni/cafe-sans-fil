@@ -2,7 +2,10 @@
 Module for handling event-related operations.
 """
 
+from typing import List, Union
+
 from beanie import PydanticObjectId
+from beanie.odm.queries.find import FindMany
 
 from app.event.models import Event, EventCreate, EventOut, UserInteraction
 
@@ -10,10 +13,13 @@ from app.event.models import Event, EventCreate, EventOut, UserInteraction
 class EventService:
     """Service class for Event operations."""
 
-    async def get_all(**filters: dict):
+    async def get_all(
+        to_list: bool = True, **filters: dict
+    ) -> Union[FindMany[Event], List[Event]]:
         """Get events."""
         sort_by = filters.pop("sort_by", "start_date")
-        return Event.find(filters).sort(sort_by)
+        query = Event.find(filters).sort(sort_by)
+        return await query.to_list() if to_list else query
 
     async def get(id: PydanticObjectId) -> EventOut:
         """Get an event by ID."""

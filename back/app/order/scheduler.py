@@ -21,7 +21,7 @@ async def cancel_old_orders():
 
 
 scheduler = AsyncIOScheduler()
-scheduler.add_job(cancel_old_orders, "interval", seconds=30)
+scheduler.add_job(cancel_old_orders, "interval", seconds=60)
 scheduler.start()
 
 loop = asyncio.get_event_loop()

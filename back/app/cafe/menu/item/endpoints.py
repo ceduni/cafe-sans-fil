@@ -63,7 +63,7 @@ async def get_menu_items(
     filters = parse_query_params(dict(request.query_params))
     filters["cafe_id"] = cafe.id
 
-    items = await ItemService.get_all(**filters)
+    items = await ItemService.get_all(to_list=False, **filters)
     return await paginate(items)
 
 

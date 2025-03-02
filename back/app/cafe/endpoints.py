@@ -52,7 +52,7 @@ async def get_cafes(
 ):
     """Get a list of cafes with basic information."""
     filters = parse_query_params(dict(request.query_params))
-    cafes = await CafeService.get_all(**filters)
+    cafes = await CafeService.get_all(to_list=False, **filters)
     return await paginate(cafes)
 
 

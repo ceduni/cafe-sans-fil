@@ -2,12 +2,12 @@
 Module for handling user-related operations.
 """
 
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from beanie import PydanticObjectId
+from beanie.odm.queries.find import FindMany
 
 from app.auth.security import get_password
-from app.cafe.models import Cafe
 from app.user.models import User, UserCreate, UserUpdate
 
 
@@ -15,7 +15,9 @@ class UserService:
     """Service class for User and Auth operations."""
 
     @staticmethod
-    async def get_all(**filters: dict):
+    async def get_all(
+        to_list: bool = True, **filters: dict
+    ) -> Union[FindMany[User], List[User]]:
         """Get users."""
         sort_by = filters.pop("sort_by", "last_name")
         filters["is_active"] = True
@@ -23,7 +25,8 @@ class UserService:
         if "hashed_password" in filters:
             filters["hashed_password"] = None
 
-        return User.find(filters).sort(sort_by)
+        query = User.find(filters).sort(sort_by)
+        return await query.to_list() if to_list else query
 
     @staticmethod
     async def get_by_email(email: str) -> Optional[User]:

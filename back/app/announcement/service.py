@@ -2,7 +2,10 @@
 Module for handling announcement-related operations.
 """
 
+from typing import List, Union
+
 from beanie import PydanticObjectId
+from beanie.odm.queries.find import FindMany
 
 from app.announcement.models import (
     Announcement,
@@ -15,10 +18,13 @@ from app.announcement.models import (
 class AnnouncementService:
     """Service class for announcement operations."""
 
-    async def get_all(**filters: dict):
+    async def get_all(
+        to_list: bool = True, **filters: dict
+    ) -> Union[FindMany[Announcement], List[Announcement]]:
         """Get announcements."""
         sort_by = filters.pop("sort_by", "start_date")
-        return Announcement.find(filters).sort(sort_by)
+        query = Announcement.find(filters).sort(sort_by)
+        return await query.to_list() if to_list else query
 
     async def get(id: PydanticObjectId) -> AnnouncementOut:
         """Get an announcement by ID."""
