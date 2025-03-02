@@ -16,6 +16,7 @@ from app.cafe.models import Cafe, CafeView
 from app.config import settings
 from app.event.models import Event
 from app.order.models import Order
+from app.order.scheduler import order_scheduler
 from app.router import router
 from app.user.models import User
 
@@ -39,7 +40,9 @@ async def lifespan(app: FastAPI):
         document_models=[Cafe, CafeView, MenuItem, User, Order, Announcement, Event],
         recreate_views=True,
     )
+    await order_scheduler.start()
     yield
+    await order_scheduler.shutdown()
 
 
 app = FastAPI(

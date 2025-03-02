@@ -34,9 +34,10 @@ class OrderService:
 
         sort_by = filters.pop("sort_by", "-order_number")
         query = Order.find(filters).sort(sort_by)
-        # result = await Order.find(filters).sort(sort_by)
-        # await OrderService.update_status(result)
-        return await query.to_list() if to_list else query
+        orders = await query.to_list()
+
+        await OrderService._update_expired_orders(orders)
+        return await orders if to_list else query
 
     @staticmethod
     async def get(id: PydanticObjectId) -> Order:
@@ -87,26 +88,37 @@ class OrderService:
         return order
 
     @staticmethod
-    async def update_status(orders) -> None:
-        """Update the status of orders."""
+    async def _update_expired_orders(orders: List[Order]) -> None:
+        """Update status expired orders PLACED/READY."""
         now = datetime.now(UTC).replace(tzinfo=None)
-        for order_dict in orders:
-            order = Order(**order_dict)
-            if (
-                order.status in [OrderStatus.PLACED, OrderStatus.READY]
-                and order.created_at + timedelta(hours=1) < now
-            ):
-                order.status = OrderStatus.CANCELLED
-                order.updated_at = order.created_at + timedelta(hours=1)
-                await order.save()
+        expired_order_ids: List[PydanticObjectId] = []
+
+        for order in orders:
+            if order.status in [OrderStatus.PLACED, OrderStatus.READY]:
+                if order.created_at < now - timedelta(hours=1):
+                    expired_order_ids.append(order.id)
+
+        if expired_order_ids:
+            await Order.find({"_id": {"$in": expired_order_ids}}).update_many(
+                {
+                    "$set": {
+                        "status": OrderStatus.CANCELLED,
+                        "updated_at": order.created_at + timedelta(hours=1),
+                    }
+                }
+            )
 
     @staticmethod
-    async def get_next_order_number() -> int:
-        """Get the next available order number."""
-        highest_order = await Order.aggregate(
-            [{"$sort": {"order_number": -1}}, {"$limit": 1}]
-        ).to_list(None)
-        if highest_order:
-            return (highest_order[0]["order_number"]) + 1
-        else:
-            return 1
+    async def get_next_order_number(cafe_id: PydanticObjectId = None) -> int:
+        """Get the next available order number for a cafe."""
+        last_order = (
+            await Order.find(
+                # Order.cafe_id == cafe_id
+            )
+            .sort("-order_number")
+            .first_or_none()
+        )
+
+        if last_order and last_order.order_number:
+            return last_order.order_number + 1
+        return 1  # First order
