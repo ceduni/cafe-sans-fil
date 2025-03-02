@@ -163,7 +163,7 @@ async def update_cafe_order(
 
 
 @order_router.get(
-    "/users/me/orders",
+    "/users/@me/orders",
     response_model=OrderPage[OrderOut],
     responses={
         401: {"model": ErrorResponse},
@@ -183,7 +183,7 @@ async def list_my_orders(
 
 
 @order_router.put(
-    "/users/me/orders/{id}",
+    "/users/@me/orders/{id}",
     response_model=OrderOut,
     responses={
         401: {"model": ErrorResponse},

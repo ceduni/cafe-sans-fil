@@ -55,8 +55,17 @@ async def list_users(
     return await paginate(users)
 
 
+# Deprecated
 @user_router.get(
     "/users/me",
+    response_model=UserOut,
+    responses={
+        401: {"model": ErrorResponse},
+    },
+    deprecated=True,
+)
+@user_router.get(
+    "/users/@me",
     response_model=UserOut,
     responses={
         401: {"model": ErrorResponse},
@@ -69,8 +78,18 @@ async def get_current_user(
     return current_user
 
 
+# Deprecated
 @user_router.put(
     "/users/me",
+    response_model=UserOut,
+    responses={
+        401: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+    deprecated=True,
+)
+@user_router.put(
+    "/users/@me",
     response_model=UserOut,
     responses={
         401: {"model": ErrorResponse},
