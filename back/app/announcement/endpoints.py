@@ -50,7 +50,7 @@ announcement_router = APIRouter()
     "/announcements/",
     response_model=AnnouncementPage[AnnouncementViewOut],
 )
-async def get_announcements(
+async def list_announcements(
     request: Request,
 ):
     """Get a list of announcements."""

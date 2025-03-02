@@ -48,7 +48,7 @@ item_router = APIRouter()
         404: {"model": ErrorResponse},
     },
 )
-async def get_menu_items(
+async def list_items(
     request: Request,
     slug: str = Path(..., description="Slug of the cafe"),
 ):
@@ -78,7 +78,7 @@ async def get_menu_items(
     },
     dependencies=[Depends(AdminPermission())],
 )
-async def create_menu_item(
+async def create_item(
     data: MenuItemCreate,
     slug: str = Path(..., description="Slug of the cafe"),
 ):
@@ -119,7 +119,7 @@ async def create_menu_item(
         404: {"model": ErrorResponse},
     },
 )
-async def get_menu_item(
+async def get_item(
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the menu item"),
 ):
@@ -151,7 +151,7 @@ async def get_menu_item(
     },
     dependencies=[Depends(VolunteerPermission())],
 )
-async def update_menu_item(
+async def update_item(
     data: MenuItemUpdate,
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the menu item"),
@@ -202,7 +202,7 @@ async def update_menu_item(
     },
     dependencies=[Depends(AdminPermission())],
 )
-async def delete_menu_item(
+async def delete_item(
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the menu item"),
 ):

@@ -47,7 +47,7 @@ cafe_router = APIRouter()
     "/cafes",
     response_model=CafePage[CafeShortOut],
 )
-async def get_cafes(
+async def list_cafes(
     request: Request,
 ):
     """Get a list of cafes with basic information."""

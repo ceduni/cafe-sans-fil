@@ -29,7 +29,7 @@ category_router = APIRouter()
     },
     dependencies=[Depends(AdminPermission())],
 )
-async def create_menu_category(
+async def create_category(
     data: MenuCategoryCreate,
     slug: str = Path(..., description="Slug of the cafe"),
 ):
@@ -62,7 +62,7 @@ async def create_menu_category(
     },
     dependencies=[Depends(AdminPermission())],
 )
-async def update_menu_category(
+async def update_category(
     data: MenuCategoryUpdate,
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the category"),
@@ -101,7 +101,7 @@ async def update_menu_category(
     },
     dependencies=[Depends(AdminPermission())],
 )
-async def delete_menu_category(
+async def delete_category(
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the category"),
 ):

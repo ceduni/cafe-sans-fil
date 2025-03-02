@@ -52,7 +52,7 @@ order_router = APIRouter()
     },
     dependencies=[Depends(VolunteerPermission())],
 )
-async def get_cafe_orders(
+async def list_cafe_orders(
     request: Request,
     slug: str = Path(..., description="Slug of the cafe"),
 ):
@@ -170,7 +170,7 @@ async def update_cafe_order(
         403: {"model": ErrorResponse},
     },
 )
-async def get_my_orders(
+async def list_my_orders(
     request: Request,
     current_user: User = Depends(get_current_user),
 ):

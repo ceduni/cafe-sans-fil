@@ -45,7 +45,7 @@ event_router = APIRouter()
     "/events/",
     response_model=EventPage[EventViewOut],
 )
-async def get_events(
+async def list_events(
     request: Request,
 ):
     """Get a list of events."""

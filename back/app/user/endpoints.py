@@ -45,7 +45,7 @@ user_router = APIRouter()
         401: {"model": ErrorResponse},
     },
 )
-async def get_users(
+async def list_users(
     request: Request,
     current_user: User = Depends(get_current_user),
 ):
