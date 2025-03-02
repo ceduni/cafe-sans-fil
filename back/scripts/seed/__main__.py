@@ -14,6 +14,8 @@ from app.cafe.models import Cafe
 from app.cafe.order.models import Order
 from app.config import settings
 from app.user.models import User
+from scripts.seed.cafe.announcement import AnnouncementSeeder
+from scripts.seed.cafe.event import EventSeeder
 
 from .cafe import CafeSeeder
 from .cafe.menu import MenuSeeder
@@ -41,6 +43,8 @@ async def main():
     staff_seeder = StaffSeeder()
     menu_seeder = MenuSeeder()
     order_seeder = OrderSeeder()
+    announcement_seeder = AnnouncementSeeder()
+    event_seeder = EventSeeder()
 
     await user_seeder.seed_users(num_users=27)
     await cafe_seeder.seed_cafes(num_cafes=20, user_ids=user_seeder.get_ids())
@@ -50,6 +54,8 @@ async def main():
     )
     await menu_seeder.seed_menu_items(cafe_ids=cafe_seeder.get_ids(), num_items=20)
     await order_seeder.seed_orders(num_orders_per_cafe=50)
+    await announcement_seeder.seed_announcements()
+    await event_seeder.seed_events()
 
 
 if __name__ == "__main__":
