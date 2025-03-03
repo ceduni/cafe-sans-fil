@@ -12,6 +12,7 @@ from app.cafe.menu.category.endpoints import category_router
 from app.cafe.menu.item.endpoints import item_router
 from app.cafe.order.endpoints import order_router
 from app.cafe.staff.endpoints import staff_router
+from app.interaction.endpoints import interaction_router
 from app.search.endpoints import search_router
 from app.user.endpoints import user_router
 
@@ -23,6 +24,7 @@ router.include_router(item_router, tags=["items"])
 router.include_router(announcement_router, tags=["announcements"])
 router.include_router(event_router, tags=["events"])
 router.include_router(order_router, tags=["orders"])
+router.include_router(interaction_router, tags=["interactions"])
 router.include_router(user_router, tags=["users"])
 router.include_router(auth_router, tags=["auth"])
 router.include_router(search_router, tags=["search"])

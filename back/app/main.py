@@ -17,6 +17,7 @@ from app.cafe.models import Cafe, CafeView
 from app.cafe.order.models import Order
 from app.cafe.order.scheduler import order_scheduler
 from app.config import settings
+from app.interaction.models import Interaction
 from app.router import router
 from app.user.models import User
 
@@ -47,6 +48,8 @@ async def lifespan(app: FastAPI):
             AnnouncementView,
             Event,
             EventView,
+            Interaction,
+            # InteractionView,
         ],
         recreate_views=True,
     )
