@@ -32,7 +32,7 @@ class OrderSeeder:
         cafes: List[Cafe] = await CafeService.get_all()
         users: List[User] = await UserService.get_all()
 
-        for cafe in tqdm(cafes, desc="Seeding cafe orders"):
+        for cafe in tqdm(cafes, desc="Orders"):
             # Get cafe-specific data
             menu_items: List[MenuItem] = await ItemService.get_all(cafe.id)
             if not menu_items:
@@ -50,7 +50,6 @@ class OrderSeeder:
                 self.order_number += 1
 
         await Order.insert_many(self.orders)
-        print(f"Created {len(self.orders)} orders across {len(cafes)} cafes")
 
     async def _create_order(
         self,

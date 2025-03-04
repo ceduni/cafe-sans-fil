@@ -22,10 +22,12 @@ class EventSeeder:
     """Event seeder class."""
 
     def __init__(self):
+        """Initializes the EventSeeder."""
         self.events: List[Event] = []
         self.data = self._load_data()
 
     def _load_data(self):
+        """Loads event data from a JSON file."""
         path = os.path.join(os.getcwd(), "scripts", "seed", "data", "events.json")
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -34,7 +36,7 @@ class EventSeeder:
         """Seed events for all cafes."""
         cafes: List[Cafe] = await CafeService.get_all()
 
-        for cafe in tqdm(cafes, desc="Seeding events"):
+        for cafe in tqdm(cafes, desc="Events"):
             admin_ids: List[PydanticObjectId] = cafe.staff.admin_ids
             if not admin_ids:
                 continue
@@ -45,7 +47,6 @@ class EventSeeder:
                 self.events.append(event)
 
         await Event.insert_many(self.events)
-        print(f"Created {len(self.events)} events")
 
     async def _create_event(self, cafe: Cafe, creator_id: PydanticObjectId) -> Event:
         """Create a single event instance."""

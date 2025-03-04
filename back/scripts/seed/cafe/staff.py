@@ -9,9 +9,12 @@ from beanie import PydanticObjectId
 from faker import Faker
 from tqdm import tqdm
 
+from app.cafe.models import Cafe
 from app.cafe.service import CafeService
 from app.cafe.staff.enums import Role
 from app.cafe.staff.service import StaffService
+from app.user.models import User
+from app.user.service import UserService
 
 random.seed(42)
 Faker.seed(42)
@@ -19,12 +22,15 @@ fake = Faker("fr_FR")
 
 
 class StaffSeeder:
-    async def seed_staff(
-        self, cafe_ids: List[PydanticObjectId], user_ids: List[PydanticObjectId]
-    ):
-        """Seeds staff members for cafes using StaffService."""
-        for index, cafe_id in enumerate(tqdm(cafe_ids, desc="Seeding staff for cafes")):
-            cafe = await CafeService.get(cafe_id)
+    """Staff seeder class."""
+
+    async def seed_staff(self) -> None:
+        """Seeds staff members for cafes."""
+        cafes: List[Cafe] = await CafeService.get_all()
+        users: List[User] = await UserService.get_all(sort_by="_id")
+        user_ids: List[PydanticObjectId] = [user.id for user in users]
+
+        for index, cafe in enumerate(tqdm(cafes, desc="Staff")):
             if not cafe:
                 continue
 
@@ -34,7 +40,7 @@ class StaffSeeder:
             # Determine special case flags
             is_second_cafe = index == 1
             is_third_cafe = index == 2
-            is_last_cafe = index == len(cafe_ids) - 1
+            is_last_cafe = index == len(cafes) - 1
 
             # Generate staff members
             admin_ids, volunteer_ids = self.random_staff_members(
@@ -50,8 +56,6 @@ class StaffSeeder:
                 await StaffService.add_many(cafe, Role.ADMIN, admin_ids)
             if volunteer_ids:
                 await StaffService.add_many(cafe, Role.VOLUNTEER, volunteer_ids)
-
-        print(f"Staff members added to {len(cafe_ids)} cafes")
 
     def random_staff_members(
         self,

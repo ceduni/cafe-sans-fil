@@ -31,6 +31,7 @@ class InteractionSeeder:
     """Interaction seeder class."""
 
     def __init__(self):
+        """Initializes the InteractionSeeder."""
         self.interactions: List = []
         self.users: List[User] = []
         self.items: List[MenuItem] = []
@@ -47,18 +48,15 @@ class InteractionSeeder:
         await self._seed_item_interactions()
         await self._seed_announcement_interactions()
         await self._seed_event_interactions()
-        print(len(self.interactions))
         # Split into chunks for bulk insert
         chunk_size = 1000
         for i in range(0, len(self.interactions), chunk_size):
             chunk = self.interactions[i : i + chunk_size]
             await Interaction.insert_many(chunk)
 
-        print(f"Created {len(self.interactions)} interactions")
-
     async def _seed_item_interactions(self):
         """Seed item likes/dislikes."""
-        for item in tqdm(self.items, desc="Seeding item interactions"):
+        for item in tqdm(self.items, desc="Item Interactions"):
             # 70% chance item has interactions
             if random.random() > 0.3:
                 # Get random subset of users
@@ -87,9 +85,7 @@ class InteractionSeeder:
 
     async def _seed_announcement_interactions(self):
         """Seed announcement likes/dislikes."""
-        for announcement in tqdm(
-            self.announcements, desc="Seeding announcement interactions"
-        ):
+        for announcement in tqdm(self.announcements, desc="Announcement Interactions"):
             if random.random() > 0.4:  # 60% chance
                 users = random.sample(
                     self.users,
@@ -115,7 +111,7 @@ class InteractionSeeder:
 
     async def _seed_event_interactions(self):
         """Seed event interactions (attend/support/like)."""
-        for event in tqdm(self.events, desc="Seeding event interactions"):
+        for event in tqdm(self.events, desc="Event Interactions"):
             if random.random() > 0.2:  # 80% chance
                 users = random.sample(
                     self.users,

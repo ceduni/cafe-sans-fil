@@ -17,12 +17,6 @@ random.seed(42)
 Faker.seed(42)
 fake = Faker("fr_FR")
 
-file_path = own_path = os.path.join(
-    os.getcwd(), "scripts", "seed", "data", "photo_urls.json"
-)
-with open(file_path, "r", encoding="utf-8") as file:
-    photo_urls = json.load(file)
-
 
 class UserSeeder:
     """User seeder class."""
@@ -30,14 +24,18 @@ class UserSeeder:
     def __init__(self):
         """Initializes the UserSeeder class."""
         self.ids = []
+        self.photo_urls = self._load_data()
+
+    def _load_data(self):
+        """Loads user data from a JSON file."""
+        path = os.path.join(os.getcwd(), "scripts", "seed", "data", "photo_urls.json")
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
 
     async def seed_users(self, num_users: int):
         """Seeds a specified number of users."""
-        if len(photo_urls) < num_users:
-            raise Exception("Not enough photo URLs for the number of users")
-
         datas = []
-        for i in tqdm(range(num_users), desc="Seed users"):
+        for i in tqdm(range(num_users), desc="Users"):
             matricule = self.generate_matricule()
             first_name = fake.first_name()
             last_name = fake.last_name()
@@ -48,7 +46,7 @@ class UserSeeder:
                 + "@umontreal.ca"
             )
             password = "Cafepass1"
-            photo_url = photo_urls[i] if random.random() <= 1.00 else None
+            photo_url = self.photo_urls[i] if random.random() <= 1.00 else None
 
             data = UserCreate(
                 email=email,
@@ -62,7 +60,6 @@ class UserSeeder:
             datas.append(data)
 
         self.ids = await UserService.create_many(datas)
-        print(f"{num_users} users created")
         await self.update_first_user()
 
     async def update_first_user(self):
@@ -80,10 +77,6 @@ class UserSeeder:
         }
         await UserService.update(user, UserCreate(**data))
 
-    def get_ids(self):
-        """Returns the list of ids."""
-        return self.ids
-
     def normalize_string(self, input_str: str) -> str:
         """Normalizes a string by removing diacritics."""
         normalized_str = unicodedata.normalize("NFKD", input_str)
@@ -93,10 +86,10 @@ class UserSeeder:
     def generate_matricule(self):
         """Generates a random matricule."""
         if random.random() < 0.95:
-            # 8 digit matricule
+            # 8 digit
             matricule_num = random.randint(20000000, 20299999)
         else:
-            # Other lengths (6 or 7 digits)
+            # 6 or 7 digits
             length = random.choice([6, 7])
             matricule_num = random.randint(10 ** (length - 1), (10**length) - 1)
 

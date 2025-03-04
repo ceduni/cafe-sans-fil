@@ -242,7 +242,7 @@ class CafeCreate(BaseModel):
     """Cafe creation model."""
 
     name: str = Field(..., min_length=1, max_length=50)
-    features: List[Feature]
+    features: List[Feature] = []
     description: str = Field(..., min_length=1, max_length=255)
     logo_url: Optional[HttpUrl] = None
     banner_url: Optional[HttpUrl] = None
@@ -250,11 +250,11 @@ class CafeCreate(BaseModel):
     affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
-    opening_hours: List[DayHours]
+    opening_hours: List[DayHours] = []
     location: Location
     contact: Contact
     social_media: SocialMedia
-    payment_details: List[PaymentDetails]
+    payment_details: List[PaymentDetails] = []
     additional_info: Optional[List[AdditionalInfo]] = None
 
 

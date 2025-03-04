@@ -24,10 +24,12 @@ class AnnouncementSeeder:
     """Announcement seeder class."""
 
     def __init__(self):
+        """Initializes the AnnouncementSeeder."""
         self.announcements: List[Announcement] = []
         self.data = self._load_data()
 
     def _load_data(self):
+        """Loads announcement data from a JSON file."""
         path = os.path.join(
             os.getcwd(), "scripts", "seed", "data", "announcements.json"
         )
@@ -38,7 +40,7 @@ class AnnouncementSeeder:
         """Seed announcements for all cafes."""
         cafes: List[Cafe] = await CafeService.get_all()
 
-        for cafe in tqdm(cafes, desc="Seeding announcements"):
+        for cafe in tqdm(cafes, desc="Announcements"):
             # Get random staff members from this cafe
             admin_ids: List[PydanticObjectId] = cafe.staff.admin_ids
             if not admin_ids:
@@ -50,7 +52,6 @@ class AnnouncementSeeder:
                 self.announcements.append(announcement)
 
         await Announcement.insert_many(self.announcements)
-        print(f"Created {len(self.announcements)} announcements")
 
     async def _create_announcement(
         self, cafe: Cafe, author_id: PydanticObjectId
