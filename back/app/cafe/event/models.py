@@ -8,8 +8,8 @@ from typing import Optional
 from beanie import Document, PydanticObjectId, View
 from pydantic import BaseModel, Field, HttpUrl
 
-from app.models import CafeId, Id, IdAlias
-from app.user.models import UserView, UserViewOut
+from app.models import CafeId, Id
+from app.user.models import UserOut
 
 
 class EventBase(BaseModel):
@@ -57,12 +57,14 @@ class EventOut(EventBase, CafeId, Id):
     creator_id: PydanticObjectId
 
 
-class EventView(View, EventBase, CafeId, IdAlias):
+class EventView(View, EventBase, CafeId, Id):
     """Model for event view."""
 
-    creator: UserView
+    creator: UserOut
 
     class Settings:
+        """Settings for event view."""
+
         name = "events_view"
         source = "events"
         pipeline = [
@@ -74,7 +76,8 @@ class EventView(View, EventBase, CafeId, IdAlias):
                     "pipeline": [
                         {
                             "$project": {
-                                "_id": 1,
+                                "_id": 0,
+                                "id": "$_id",
                                 "username": 1,
                                 "email": 1,
                                 "matricule": 1,
@@ -88,11 +91,6 @@ class EventView(View, EventBase, CafeId, IdAlias):
                 }
             },
             {"$addFields": {"creator": {"$arrayElemAt": ["$creator", 0]}}},
-            {"$unset": "creator_id"},
+            {"$addFields": {"id": "$_id"}},
+            {"$unset": ["_id", "creator_id"]},
         ]
-
-
-class EventViewOut(EventBase, CafeId, Id):
-    """Model for event view output."""
-
-    creator: UserViewOut

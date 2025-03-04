@@ -13,10 +13,10 @@ from pymongo import IndexModel
 from slugify import slugify
 
 from app.cafe.enums import Days, Feature, PaymentMethod
-from app.cafe.menu.models import Menu, MenuView, MenuViewOut
-from app.cafe.staff.models import Staff, StaffView, StaffViewOut
-from app.models import CustomDocument, Id, IdAlias
-from app.user.models import UserView, UserViewOut
+from app.cafe.menu.models import Menu, MenuOut
+from app.cafe.staff.models import Staff, StaffOut
+from app.models import CustomDocument, Id
+from app.user.models import UserOut
 
 
 class Affiliation(BaseModel):
@@ -305,12 +305,12 @@ class CafeShortOut(BaseModel, Id):
     additional_info: List[AdditionalInfo]
 
 
-class CafeView(View, CafeBase, IdAlias):
+class CafeView(View, CafeBase, Id):
     """Cafe view with complete staff and menu data."""
 
-    owner: UserView
-    staff: StaffView
-    menu: MenuView
+    owner: UserOut
+    staff: StaffOut
+    menu: MenuOut
 
     class Settings:
         """Settings for cafe view."""
@@ -327,7 +327,8 @@ class CafeView(View, CafeBase, IdAlias):
                     "pipeline": [
                         {
                             "$project": {
-                                "_id": 1,
+                                "_id": 0,
+                                "id": "$_id",
                                 "username": 1,
                                 "email": 1,
                                 "matricule": 1,
@@ -358,7 +359,8 @@ class CafeView(View, CafeBase, IdAlias):
                     "pipeline": [
                         {
                             "$project": {
-                                "_id": 1,
+                                "_id": 0,
+                                "id": "$_id",
                                 "username": 1,
                                 "email": 1,
                                 "matricule": 1,
@@ -380,7 +382,8 @@ class CafeView(View, CafeBase, IdAlias):
                     "pipeline": [
                         {
                             "$project": {
-                                "_id": 1,
+                                "_id": 0,
+                                "id": "$_id",
                                 "username": 1,
                                 "email": 1,
                                 "matricule": 1,
@@ -404,7 +407,7 @@ class CafeView(View, CafeBase, IdAlias):
                                 # Group items with no category
                                 [
                                     {
-                                        # "_id": None, # Prevent generate ID
+                                        "id": None,
                                         "name": None,
                                         "description": None,
                                         "items": {
@@ -423,7 +426,7 @@ class CafeView(View, CafeBase, IdAlias):
                                                 },
                                                 "as": "item",
                                                 "in": {
-                                                    "_id": "$$item._id",
+                                                    "id": "$$item._id",
                                                     "name": "$$item.name",
                                                     "description": "$$item.description",
                                                     "tags": "$$item.tags",
@@ -442,7 +445,7 @@ class CafeView(View, CafeBase, IdAlias):
                                         "input": "$menu.categories",
                                         "as": "cat",
                                         "in": {
-                                            "_id": "$$cat._id",
+                                            "id": "$$cat._id",
                                             "name": "$$cat.name",
                                             "description": "$$cat.description",
                                             "items": {
@@ -461,7 +464,7 @@ class CafeView(View, CafeBase, IdAlias):
                                                     },
                                                     "as": "item",
                                                     "in": {
-                                                        "_id": "$$item._id",
+                                                        "id": "$$item._id",
                                                         "name": "$$item.name",
                                                         "description": "$$item.description",
                                                         "tags": "$$item.tags",
@@ -480,9 +483,11 @@ class CafeView(View, CafeBase, IdAlias):
                     },
                 }
             },
+            {"$addFields": {"id": "$_id"}},
             # Clean up temporary fields
             {
                 "$unset": [
+                    "_id",
                     "owner_id",
                     "menu_items",
                     "admins",
@@ -492,11 +497,3 @@ class CafeView(View, CafeBase, IdAlias):
                 ]
             },
         ]
-
-
-class CafeViewOut(CafeBase, Id):
-    """Cafe view output model."""
-
-    owner: UserViewOut
-    staff: StaffViewOut
-    menu: MenuViewOut

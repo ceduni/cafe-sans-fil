@@ -28,12 +28,6 @@ class IdOptional:
     id: Optional[PydanticObjectId] = None
 
 
-class IdOptionalAlias:
-    """Model for generic ID alias."""
-
-    id: Optional[PydanticObjectId] = Field(None, alias="_id")
-
-
 class IdDefaultFactory:
     """Model for generic ID with default factory."""
 

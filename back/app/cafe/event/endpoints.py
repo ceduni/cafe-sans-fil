@@ -11,7 +11,7 @@ from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
-from app.cafe.event.models import EventCreate, EventOut, EventUpdate, EventViewOut
+from app.cafe.event.models import EventCreate, EventOut, EventUpdate, EventView
 from app.cafe.event.service import EventService
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
@@ -43,7 +43,7 @@ event_router = APIRouter()
 
 @event_router.get(
     "/events/",
-    response_model=EventPage[EventViewOut],
+    response_model=EventPage[EventView],
 )
 async def list_events(
     request: Request,

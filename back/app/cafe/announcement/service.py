@@ -28,7 +28,7 @@ class AnnouncementService:
     ) -> Union[FindMany[Announcement], List[Announcement]]:
         """Get announcements."""
         announcement_class = AnnouncementView if as_view else Announcement
-        sort_by = filters.pop("sort_by", "start_date")
+        sort_by = filters.pop("sort_by", "-updated_at")
         query = announcement_class.find(filters).sort(sort_by)
         return await query.to_list() if to_list else query
 
@@ -38,7 +38,8 @@ class AnnouncementService:
     ) -> Union[AnnouncementView, Announcement]:
         """Get an announcement by ID."""
         announcement_class = AnnouncementView if as_view else Announcement
-        return await announcement_class.get(id)
+        id_field = "id" if as_view else "_id"
+        return await announcement_class.find_one({id_field: id})
 
     async def get_by_id_and_cafe_id(
         id: PydanticObjectId,
@@ -47,7 +48,8 @@ class AnnouncementService:
     ) -> Union[AnnouncementView, Announcement]:
         """Get an announcement by ID and cafe ID."""
         announcement_class = AnnouncementView if as_view else Announcement
-        return await announcement_class.find_one({"_id": id, "cafe_id": cafe_id})
+        id_field = "id" if as_view else "_id"
+        return await announcement_class.find_one({id_field: id, "cafe_id": cafe_id})
 
     async def create(
         current_user: User,

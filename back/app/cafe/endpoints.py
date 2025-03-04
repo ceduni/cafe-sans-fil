@@ -13,7 +13,7 @@ from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
 from app.auth.dependencies import get_current_user
-from app.cafe.models import CafeCreate, CafeOut, CafeShortOut, CafeUpdate, CafeViewOut
+from app.cafe.models import CafeCreate, CafeOut, CafeShortOut, CafeUpdate, CafeView
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
 from app.cafe.staff.service import StaffService
@@ -85,7 +85,7 @@ async def create_cafe(
 
 @cafe_router.get(
     "/cafes/{slug}",
-    response_model=CafeViewOut,
+    response_model=CafeView,
     responses={
         404: {"model": ErrorResponse},
     },

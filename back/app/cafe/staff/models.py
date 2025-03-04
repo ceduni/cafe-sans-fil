@@ -7,19 +7,18 @@ from typing import List
 from beanie import PydanticObjectId
 from pydantic import BaseModel
 
-from app.user.models import UserView, UserViewOut
+from app.user.models import UserOut
 
 
 class Staff(BaseModel):
+    """Model for cafe staff."""
+
     admin_ids: List[PydanticObjectId] = []
     volunteer_ids: List[PydanticObjectId] = []
 
 
-class StaffView(BaseModel):
-    admins: List[UserView] = []
-    volunteers: List[UserView] = []
+class StaffOut(BaseModel):
+    """Model for cafe staff output."""
 
-
-class StaffViewOut(BaseModel):
-    admins: List[UserViewOut] = []
-    volunteers: List[UserViewOut] = []
+    admins: List[UserOut] = []
+    volunteers: List[UserOut] = []

@@ -6,7 +6,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from app.cafe.models import CafeViewOut
+from app.cafe.models import CafeView
 
 
 class SearchCreate(BaseModel):
@@ -18,4 +18,4 @@ class SearchCreate(BaseModel):
 class SearchOut(BaseModel):
     """Model for search output."""
 
-    cafes: Optional[List[CafeViewOut]] = None
+    cafes: Optional[List[CafeView]] = None

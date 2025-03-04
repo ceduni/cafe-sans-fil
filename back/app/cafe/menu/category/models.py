@@ -6,8 +6,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from app.cafe.menu.item.models import MenuItemView, MenuItemViewOut
-from app.models import Id, IdDefaultFactory, IdOptional, IdOptionalAlias
+from app.cafe.menu.item.models import MenuItemNoRefOut
+from app.models import Id, IdDefaultFactory, IdOptional
 
 
 class MenuCategoryBase(BaseModel):
@@ -42,17 +42,9 @@ class MenuCategoryOut(MenuCategoryBase, Id):
     pass
 
 
-class MenuCategoryView(BaseModel, IdOptionalAlias):
-    """Model for menu category views."""
+class MenuCategoryItemOut(BaseModel, IdOptional):
+    """Model for menu category output with items."""
 
     name: Optional[str] = Field(None, min_length=1, max_length=50)
     description: Optional[str] = Field(None, min_length=1, max_length=255)
-    items: List[MenuItemView]
-
-
-class MenuCategoryViewOut(BaseModel, IdOptional):
-    """Model for menu category view output."""
-
-    name: Optional[str] = Field(None, min_length=1, max_length=50)
-    description: Optional[str] = Field(None, min_length=1, max_length=255)
-    items: List[MenuItemViewOut]
+    items: List[MenuItemNoRefOut]

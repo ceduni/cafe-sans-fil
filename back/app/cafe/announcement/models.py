@@ -64,6 +64,8 @@ class AnnouncementView(View, AnnouncementBase, CafeId, Id):
     author: UserOut
 
     class Settings:
+        """Settings for announcement view."""
+
         name = "announcements_view"
         source = "announcements"
         pipeline = [

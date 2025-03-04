@@ -19,7 +19,8 @@ class CafeService:
 
     @staticmethod
     async def get_all(
-        to_list: bool = True, **filters: dict
+        to_list: bool = True,
+        **filters: dict,
     ) -> Union[FindMany[Cafe], List[Cafe]]:
         """Get cafes."""
         sort_by = filters.pop("sort_by", "name")
@@ -27,12 +28,16 @@ class CafeService:
         return await query.to_list() if to_list else query
 
     @staticmethod
-    async def get(cafe_slug_or_id: str, as_view: bool = False) -> Union[CafeView, Cafe]:
+    async def get(
+        cafe_slug_or_id: str,
+        as_view: bool = False,
+    ) -> Union[CafeView, Cafe]:
         """Get a cafe by slug or ID."""
         cafe_class = CafeView if as_view else Cafe
         try:
             id = PydanticObjectId(cafe_slug_or_id)
-            return await cafe_class.find_one({"_id": id})
+            id_field = "id" if as_view else "_id"
+            return await cafe_class.find_one({id_field: id})
         except InvalidId:
             slug = cafe_slug_or_id
             return await cafe_class.find_one(
@@ -45,13 +50,19 @@ class CafeService:
             )
 
     @staticmethod
-    async def create(data: CafeCreate, owner_id: PydanticObjectId) -> Cafe:
+    async def create(
+        data: CafeCreate,
+        owner_id: PydanticObjectId,
+    ) -> Cafe:
         """Create a new cafe."""
         cafe = Cafe(**data.model_dump(), owner_id=owner_id)
         return await cafe.insert()
 
     @staticmethod
-    async def update(cafe: Cafe, data: CafeUpdate):
+    async def update(
+        cafe: Cafe,
+        data: CafeUpdate,
+    ) -> Cafe:
         """Update a cafe."""
         # Check if owner is changing
         if data.owner_id and data.owner_id != cafe.owner_id:

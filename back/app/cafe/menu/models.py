@@ -6,11 +6,7 @@ from typing import List
 
 from pydantic import BaseModel
 
-from app.cafe.menu.category.models import (
-    MenuCategory,
-    MenuCategoryView,
-    MenuCategoryViewOut,
-)
+from app.cafe.menu.category.models import MenuCategory, MenuCategoryItemOut
 
 
 class Menu(BaseModel):
@@ -19,13 +15,7 @@ class Menu(BaseModel):
     categories: List[MenuCategory] = []
 
 
-class MenuView(BaseModel):
-    """Model for menu view."""
+class MenuOut(BaseModel):
+    """Model for menu output."""
 
-    categories: List[MenuCategoryView] = []
-
-
-class MenuViewOut(BaseModel):
-    """Model for menu view output."""
-
-    categories: List[MenuCategoryViewOut] = []
+    categories: List[MenuCategoryItemOut] = []

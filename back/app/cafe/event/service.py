@@ -23,7 +23,7 @@ class EventService:
     ) -> Union[FindMany[Event], List[Event]]:
         """Get events."""
         event_class = EventView if as_view else Event
-        sort_by = filters.pop("sort_by", "start_date")
+        sort_by = filters.pop("sort_by", "-start_date")
         query = event_class.find(filters).sort(sort_by)
         return await query.to_list() if to_list else query
 
@@ -33,7 +33,8 @@ class EventService:
     ) -> Union[EventView, Event]:
         """Get an event by ID."""
         event_class = EventView if as_view else Event
-        return await event_class.get(id)
+        id_field = "id" if as_view else "_id"
+        return await event_class.find_one({id_field: id})
 
     async def get_by_id_and_cafe_id(
         id: PydanticObjectId,
@@ -42,7 +43,8 @@ class EventService:
     ) -> Union[EventView, Event]:
         """Get an event by ID and cafe ID."""
         event_class = EventView if as_view else Event
-        return await event_class.find_one({"_id": id, "cafe_id": cafe_id})
+        id_field = "id" if as_view else "_id"
+        return await event_class.find_one({id_field: id, "cafe_id": cafe_id})
 
     async def create(
         current_user: User,

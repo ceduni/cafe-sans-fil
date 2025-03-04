@@ -9,7 +9,7 @@ from beanie import DecimalAnnotation
 from pydantic import BaseModel, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 
-from app.models import CafeId, CategoryId, CustomDocument, Id, IdAlias
+from app.models import CafeId, CategoryId, CustomDocument, Id
 
 
 class MenuItemOption(BaseModel):
@@ -100,13 +100,7 @@ class MenuItemOut(MenuItemBase, CategoryId, CafeId, Id):
     pass
 
 
-class MenuItemView(MenuItemBase, IdAlias):
-    """Model for menu item views."""
-
-    pass
-
-
-class MenuItemViewOut(MenuItemBase, Id):
-    """Model for menu item view output."""
+class MenuItemNoRefOut(MenuItemBase, Id):
+    """Model for menu item output without references."""
 
     pass
