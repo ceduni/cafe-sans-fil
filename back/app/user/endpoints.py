@@ -119,7 +119,7 @@ async def update_current_user(
 
 @user_router.get(
     "/users/{id}",
-    response_model=UserOut,
+    response_model=UserView,
     responses={
         401: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
@@ -129,7 +129,11 @@ async def get_user(
     id: PydanticObjectId = Path(..., description="ID of the user"),
 ):
     """Get a user. (`MEMBER`)"""
-    user = await UserService.get_by_id(id)
+    user = await UserService.get_by_id(
+        id=id,
+        as_view=True,
+    )
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

@@ -29,7 +29,6 @@ class InteractionParams(Params):
 
     size: int = Query(20, ge=1, le=100, description="Page size")
     page: int = Query(1, ge=1, description="Page number")
-    sort_by: Optional[str] = Query(None, description="Sort by a specific field")
 
 
 InteractionPage = CustomizedPage[
