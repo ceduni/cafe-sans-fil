@@ -4,9 +4,10 @@ Module for handling user-related models.
 
 import re
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 import pymongo
+from beanie import PydanticObjectId, View
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 
@@ -73,6 +74,8 @@ class User(CustomDocument, UserBase):
     lockout_until: Optional[datetime] = Field(default=None)
     is_active: bool = True
 
+    cafe_ids: List[PydanticObjectId] = []
+
     class Settings:
         """Settings for user document."""
 
@@ -116,3 +119,49 @@ class UserOut(UserBase, Id):
     """Model for user output."""
 
     pass
+
+
+class UserCafesOut(BaseModel, Id):
+    """Cafe shorter output model."""
+
+    name: str = Field(..., min_length=1, max_length=50)
+    slug: Optional[str] = None
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+
+
+class UserView(View, UserBase, Id):
+    """Model for user view."""
+
+    cafes: List[UserCafesOut]
+
+    class Settings:
+        """Settings for user view."""
+
+        name = "users_view"
+        source = "users"
+        pipeline = [
+            # Lookup cafes
+            {
+                "$lookup": {
+                    "from": "cafes",
+                    "localField": "cafe_ids",
+                    "foreignField": "_id",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 0,
+                                "id": "$_id",
+                                "name": 1,
+                                "slug": 1,
+                                "logo_url": 1,
+                                "banner_url": 1,
+                            }
+                        }
+                    ],
+                    "as": "cafes",
+                }
+            },
+            {"$addFields": {"id": "$_id"}},
+            {"$unset": ["_id", "cafe_ids"]},
+        ]

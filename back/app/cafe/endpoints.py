@@ -16,6 +16,7 @@ from app.auth.dependencies import get_current_user
 from app.cafe.models import CafeCreate, CafeOut, CafeShortOut, CafeUpdate, CafeView
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
+from app.cafe.staff.enums import Role
 from app.cafe.staff.service import StaffService
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
@@ -70,7 +71,10 @@ async def create_cafe(
 ):
     """Create a cafe. (`MEMBER`)"""
     try:
-        return await CafeService.create(data, current_user.id)
+        cafe = await CafeService.create(data, current_user.id)
+        await UserService.add_cafe(current_user, cafe)
+        return cafe
+
     except DuplicateKeyError as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -147,6 +151,17 @@ async def update_cafe(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=[{"msg": "A user with this ID does not exist."}],
             )
+
+        # Check if owner is changing
+        if data.owner_id and data.owner_id != cafe.owner_id:
+            # Update previous owner as admin
+            await StaffService.add(cafe, Role.ADMIN, cafe.owner_id)
+
+            # Remove previous role for new owner
+            if data.owner_id in cafe.staff.admin_ids:
+                await StaffService.remove(cafe, Role.ADMIN, data.owner_id)
+            if data.owner_id in cafe.staff.volunteer_ids:
+                await StaffService.remove(cafe, Role.VOLUNTEER, data.owner_id)
 
     try:
         return await CafeService.update(cafe, data)

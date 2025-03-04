@@ -57,6 +57,7 @@ async def add_staff(
             detail=[{"msg": "User is already a staff member of this cafe."}],
         )
 
+    await UserService.add_cafe(user, cafe)
     return await StaffService.add(cafe, role, id)
 
 
@@ -101,4 +102,5 @@ async def remove_staff(
             detail=[{"msg": "User is not a staff member of this cafe."}],
         )
 
+    await UserService.remove_cafe(user, cafe)
     return await StaffService.remove(cafe, role, id)

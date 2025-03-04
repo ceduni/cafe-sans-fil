@@ -8,7 +8,8 @@ from beanie import PydanticObjectId
 from beanie.odm.queries.find import FindMany
 
 from app.auth.security import get_password
-from app.user.models import User, UserCreate, UserUpdate
+from app.cafe.models import Cafe
+from app.user.models import User, UserCreate, UserUpdate, UserView
 
 
 class UserService:
@@ -34,9 +35,13 @@ class UserService:
         return await User.find_one({"email": email, "is_active": True})
 
     @staticmethod
-    async def get_by_id(id: PydanticObjectId) -> Optional[User]:
+    async def get_by_id(
+        id: PydanticObjectId, as_view: bool = False
+    ) -> Union[User, UserView]:
         """Get a user by id."""
-        return await User.find_one({"_id": id, "is_active": True})
+        user_class = UserView if as_view else User
+        id_field = "id" if as_view else "_id"
+        return await user_class.find_one({id_field: id})
 
     @staticmethod
     async def get_by_username(username: str) -> Optional[User]:
@@ -89,6 +94,30 @@ class UserService:
         #     await user.update({"$set": {"is_active": False}})
 
         user.is_active = False
+        await user.save()
+
+    @staticmethod
+    async def add_cafe(
+        user: User,
+        cafe: Cafe,
+    ) -> None:
+        """Add a cafe to a user."""
+        if cafe.id in user.cafe_ids:
+            return
+
+        user.cafe_ids.append(cafe.id)
+        await user.save()
+
+    @staticmethod
+    async def remove_cafe(
+        user: User,
+        cafe: Cafe,
+    ) -> None:
+        """Remove a cafe from a user."""
+        if cafe.id not in user.cafe_ids:
+            return
+
+        user.cafe_ids.remove(cafe.id)
         await user.save()
 
     @staticmethod

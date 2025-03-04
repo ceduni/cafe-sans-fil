@@ -35,7 +35,7 @@ class AnnouncementService:
     async def get(
         id: PydanticObjectId,
         as_view: bool = False,
-    ) -> Union[AnnouncementView, Announcement]:
+    ) -> Union[Announcement, AnnouncementView]:
         """Get an announcement by ID."""
         announcement_class = AnnouncementView if as_view else Announcement
         id_field = "id" if as_view else "_id"
@@ -45,7 +45,7 @@ class AnnouncementService:
         id: PydanticObjectId,
         cafe_id: PydanticObjectId,
         as_view: bool = False,
-    ) -> Union[AnnouncementView, Announcement]:
+    ) -> Union[Announcement, AnnouncementView]:
         """Get an announcement by ID and cafe ID."""
         announcement_class = AnnouncementView if as_view else Announcement
         id_field = "id" if as_view else "_id"
@@ -56,7 +56,7 @@ class AnnouncementService:
         cafe: Cafe,
         data: AnnouncementCreate,
     ) -> Announcement:
-        """Create a new announcement."""
+        """Create an announcement."""
         announcement = Announcement(
             **data.model_dump(), cafe_id=cafe.id, author_id=current_user.id
         )
@@ -67,7 +67,7 @@ class AnnouncementService:
         announcement: Announcement,
         data: AnnouncementUpdate,
     ) -> Announcement:
-        """Update an existing announcement."""
+        """Update an announcement."""
         set_attributes(announcement, data)
         await announcement.save()
         return announcement

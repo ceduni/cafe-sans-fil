@@ -19,7 +19,7 @@ from app.cafe.order.scheduler import order_scheduler
 from app.config import settings
 from app.interaction.models import Interaction
 from app.router import router
-from app.user.models import User
+from app.user.models import User, UserView
 
 description = """
 # API Documentation
@@ -43,6 +43,7 @@ async def lifespan(app: FastAPI):
             CafeView,
             MenuItem,
             User,
+            UserView,
             Order,
             Announcement,
             AnnouncementView,

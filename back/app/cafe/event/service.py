@@ -30,7 +30,7 @@ class EventService:
     async def get(
         id: PydanticObjectId,
         as_view: bool = False,
-    ) -> Union[EventView, Event]:
+    ) -> Union[Event, EventView]:
         """Get an event by ID."""
         event_class = EventView if as_view else Event
         id_field = "id" if as_view else "_id"
@@ -40,7 +40,7 @@ class EventService:
         id: PydanticObjectId,
         cafe_id: PydanticObjectId,
         as_view: bool = False,
-    ) -> Union[EventView, Event]:
+    ) -> Union[Event, EventView]:
         """Get an event by ID and cafe ID."""
         event_class = EventView if as_view else Event
         id_field = "id" if as_view else "_id"
@@ -51,7 +51,7 @@ class EventService:
         cafe: Cafe,
         data: EventCreate,
     ) -> Event:
-        """Create a new event."""
+        """Create an event."""
         event = Event(**data.model_dump(), cafe_id=cafe.id, creator_id=current_user.id)
         await event.insert()
         return event
@@ -60,12 +60,12 @@ class EventService:
         event: Event,
         data: EventUpdate,
     ) -> Event:
-        """Update an existing event."""
+        """Update an event."""
         set_attributes(event, data)
         await event.save()
         return event
 
     async def delete(event: Event) -> None:
-        """Delete an existing event."""
+        """Delete an event."""
         await event.delete()
         return event

@@ -12,10 +12,10 @@ from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
-from app.auth.dependencies import get_current_user
+from app.auth.dependencies import get_current_user, get_current_user_view
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
-from app.user.models import User, UserOut, UserUpdate
+from app.user.models import User, UserOut, UserUpdate, UserView
 from app.user.service import UserService
 
 T = TypeVar("T")
@@ -58,7 +58,7 @@ async def list_users(
 # Deprecated
 @user_router.get(
     "/users/me",
-    response_model=UserOut,
+    response_model=UserView,
     responses={
         401: {"model": ErrorResponse},
     },
@@ -66,13 +66,13 @@ async def list_users(
 )
 @user_router.get(
     "/users/@me",
-    response_model=UserOut,
+    response_model=UserView,
     responses={
         401: {"model": ErrorResponse},
     },
 )
 async def get_current_user(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_view),
 ):
     """Get current user. (`MEMBER`)"""
     return current_user

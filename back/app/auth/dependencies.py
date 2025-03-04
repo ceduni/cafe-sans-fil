@@ -6,7 +6,7 @@ from datetime import datetime
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jose import jwt
+from jose import JWTError, jwt
 from pydantic import ValidationError
 
 from app.auth.models import TokenPayload
@@ -19,8 +19,10 @@ reuseable_oauth = OAuth2PasswordBearer(
 )
 
 
-async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
-    """Get current user from token."""
+async def _base_current_user(
+    as_view: bool, token: str = Depends(reuseable_oauth)
+) -> User:
+    """Base function for user authentication"""
     try:
         payload = jwt.decode(
             token, settings.JWT_SECRET_KEY, algorithms=[settings.ALGORITHM]
@@ -33,14 +35,17 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
                 detail=[{"msg": "Token expired"}],
                 headers={"WWW-Authenticate": "Bearer"},
             )
-    except (jwt.JWTError, ValidationError):
+    except (JWTError, ValidationError):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=[{"msg": "Could not validate credentials"}],
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    user = await UserService.get_by_id(token_data.sub)
+    user = await UserService.get_by_id(
+        id=token_data.sub,
+        as_view=as_view,
+    )
 
     if not user:
         raise HTTPException(
@@ -49,3 +54,13 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
         )
 
     return user
+
+
+async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
+    """Standard user dependency"""
+    return await _base_current_user(as_view=False, token=token)
+
+
+async def get_current_user_view(token: str = Depends(reuseable_oauth)) -> User:
+    """User view dependency"""
+    return await _base_current_user(as_view=True, token=token)
