@@ -7,21 +7,16 @@ from datetime import datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import (
-    DecimalAnnotation,
-    Document,
-    Insert,
-    Save,
-    View,
-    before_event,
-)
+from beanie import DecimalAnnotation, Insert, PydanticObjectId, Save, View, before_event
 from pydantic import BaseModel, Field, EmailStr, HttpUrl, field_validator
 from pymongo import IndexModel
+from slugify import slugify
 
-from app.cafe.enums import Days, Feature, Role
-from app.cafe.helper import slugify, time_blocks_overlap
-from app.cafe_menu.models import MenuCategory, MenuView, MenuViewOut
-from app.models import Id, IdAlias
+from app.cafe.enums import Days, Feature, PaymentMethod
+from app.cafe.menu.models import Menu, MenuOut
+from app.cafe.staff.models import Staff, StaffOut
+from app.models import CustomDocument, Id
+from app.user.models import UserOut
 
 
 class Affiliation(BaseModel):
@@ -44,7 +39,7 @@ class TimeBlock(BaseModel):
         try:
             datetime.strptime(time_value, "%H:%M")
         except ValueError:
-            raise ValueError("Time must be in HH:mm format.")
+            raise ValueError("Must be in HH:mm format.")
         return time_value
 
 
@@ -67,6 +62,7 @@ class Location(BaseModel):
 
     pavillon: str = Field(..., min_length=1)
     local: str = Field(..., min_length=1)
+    floor: Optional[str] = Field(None, min_length=1)
     geometry: Optional[Geometry] = None
 
 
@@ -86,10 +82,10 @@ class SocialMedia(BaseModel):
     x: Optional[str] = None
 
 
-class PaymentMethod(BaseModel):
-    """Model for payment methods."""
+class PaymentDetails(BaseModel):
+    """Model for payment details."""
 
-    method: str = Field(..., min_length=1)
+    method: PaymentMethod
     minimum: Optional[DecimalAnnotation] = None
 
 
@@ -102,40 +98,44 @@ class AdditionalInfo(BaseModel):
     end: Optional[datetime] = None
 
 
-class StaffMember(BaseModel):
-    """Model for staff members."""
-
-    username: str
-    role: Role
-
-
 class CafeBase(BaseModel):
     """Base model for cafes."""
 
     name: str = Field(..., min_length=1, max_length=50)
     slug: Optional[str] = None
     previous_slugs: Optional[List[str]] = []
-    features: List[Feature]
+    features: List[Feature] = []
     description: str = Field(..., min_length=1, max_length=255)
-    logo_url: Optional[HttpUrl] = Field(None, max_length=755)
-    image_url: Optional[HttpUrl] = Field(None, max_length=755)
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+    photo_urls: Optional[List[HttpUrl]] = []
     affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
-    opening_hours: List[DayHours]
+    opening_hours: List[DayHours] = []
     location: Location
     contact: Contact
     social_media: SocialMedia
-    payment_methods: List[PaymentMethod]
-    additional_info: List[AdditionalInfo]
-    staff: List[StaffMember]
+    payment_details: List[PaymentDetails] = []
+    additional_info: List[AdditionalInfo] = []
 
     @field_validator("opening_hours")
+    @classmethod
     def validate_opening_hours(cls, opening_hours):
         """Validate that there are no overlapping time blocks."""
+
+        def time_blocks_overlap(block1: TimeBlock, block2: TimeBlock):
+            """Check if two time blocks overlap."""
+            start1, end1 = datetime.strptime(block1.start, "%H:%M"), datetime.strptime(
+                block1.end, "%H:%M"
+            )
+            start2, end2 = datetime.strptime(block2.start, "%H:%M"), datetime.strptime(
+                block2.end, "%H:%M"
+            )
+            return start1 < end2 and start2 < end1
+
         day_blocks: dict[str, List[TimeBlock]] = {}
 
-        # Group by day
         for day_hours_data in opening_hours:
             day_hours = (
                 DayHours(**day_hours_data)
@@ -146,7 +146,6 @@ class CafeBase(BaseModel):
                 day_blocks[day_hours.day] = []
             day_blocks[day_hours.day].extend(day_hours.blocks)
 
-        # Check each day
         for day, blocks in day_blocks.items():
             for i, block in enumerate(blocks):
                 for other_block in blocks[i + 1 :]:
@@ -154,22 +153,24 @@ class CafeBase(BaseModel):
                         raise ValueError(f"Overlapping time blocks detected on {day}.")
         return opening_hours
 
-    @field_validator("payment_methods")
-    def validate_payment_methods(cls, payment_methods):
+    @field_validator("payment_details")
+    @classmethod
+    def validate_payment_details(cls, payment_details):
         """Validate that payment methods are unique."""
-        payment_methods_set = set()
-        for pm_data in payment_methods:
+        payment_details_set = set()
+        for pm_data in payment_details:
             if isinstance(pm_data, dict):
-                pm = PaymentMethod(**pm_data)
+                pm = PaymentDetails(**pm_data)
             else:
                 pm = pm_data
-            payment_methods_set.add(pm.method)
+            payment_details_set.add(pm.method)
 
-        if len(payment_methods_set) != len(payment_methods):
-            raise ValueError("Duplicate PaymentMethod method detected.")
-        return payment_methods
+        if len(payment_details_set) != len(payment_details):
+            raise ValueError("Duplicate payment method detected.")
+        return payment_details
 
     @field_validator("additional_info")
+    @classmethod
     def validate_additional_info(cls, additional_info):
         """Validate that additional info entries are unique."""
         additional_info_combinations = set()
@@ -187,10 +188,12 @@ class CafeBase(BaseModel):
         return additional_info
 
 
-class Cafe(Document, CafeBase):
+class Cafe(CustomDocument, CafeBase):
     """Cafe document model."""
 
-    menu_categories: List[MenuCategory] = []
+    owner_id: PydanticObjectId
+    staff: Staff = Staff(admin_ids=[], volunteer_ids=[])
+    menu: Menu = Menu(categories=[])
 
     @before_event([Insert, Save])
     async def handle_slug(self):
@@ -199,10 +202,6 @@ class Cafe(Document, CafeBase):
         new_slug = slugify(self.name)
 
         if prev_slug != new_slug:
-            cafe = await Cafe.find_one({"slug": new_slug, "_id": {"$ne": self.id}})
-            if cafe:
-                raise ValueError(f"Slug '{new_slug}' is already in use")
-
             if prev_slug:
                 self.previous_slugs.append(prev_slug)
 
@@ -225,47 +224,27 @@ class Cafe(Document, CafeBase):
             IndexModel([("description", pymongo.ASCENDING)]),
             IndexModel([("location.pavillon", pymongo.ASCENDING)]),
             IndexModel([("location.local", pymongo.ASCENDING)]),
-            IndexModel([("staff.username", pymongo.ASCENDING)]),
-            # IndexModel([("staff.username", pymongo.ASCENDING)], unique=True),
         ]
-
-
-class StaffCreate(StaffMember):
-    """Staff creation model."""
-
-    pass
-
-
-class StaffUpdate(BaseModel):
-    """Staff update model."""
-
-    role: Optional[str] = None
-
-
-class StaffOut(StaffMember):
-    """Staff output model."""
-
-    pass
 
 
 class CafeCreate(BaseModel):
     """Cafe creation model."""
 
     name: str = Field(..., min_length=1, max_length=50)
-    features: List[Feature]
+    features: List[Feature] = []
     description: str = Field(..., min_length=1, max_length=255)
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+    photo_urls: Optional[List[HttpUrl]] = []
     affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
-    opening_hours: List[DayHours]
+    opening_hours: List[DayHours] = []
     location: Location
     contact: Contact
     social_media: SocialMedia
-    payment_methods: List[PaymentMethod]
-    additional_info: List[AdditionalInfo]
-    staff: List[StaffMember]
+    payment_details: List[PaymentDetails] = []
+    additional_info: Optional[List[AdditionalInfo]] = None
 
 
 class CafeUpdate(BaseModel):
@@ -274,8 +253,9 @@ class CafeUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=50)
     features: Optional[List[Feature]] = None
     description: Optional[str] = Field(None, min_length=1, max_length=255)
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+    photo_urls: Optional[List[HttpUrl]] = []
     affiliation: Optional[Affiliation] = None
     is_open: Optional[bool] = None
     status_message: Optional[str] = Field(None, max_length=50)
@@ -283,14 +263,15 @@ class CafeUpdate(BaseModel):
     location: Optional[Location] = None
     contact: Optional[Contact] = None
     social_media: Optional[SocialMedia] = None
-    payment_methods: Optional[List[PaymentMethod]] = None
+    payment_details: Optional[List[PaymentDetails]] = None
     additional_info: Optional[List[AdditionalInfo]] = None
+    owner_id: Optional[PydanticObjectId] = None
 
 
 class CafeOut(CafeBase, Id):
     """Cafe output model."""
 
-    pass
+    owner_id: PydanticObjectId
 
 
 class CafeShortOut(BaseModel, Id):
@@ -301,29 +282,55 @@ class CafeShortOut(BaseModel, Id):
     previous_slugs: Optional[List[str]] = []
     features: List[Feature]
     description: str = Field(..., min_length=1, max_length=255)
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+    photo_urls: Optional[List[HttpUrl]] = []
     affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
     opening_hours: List[DayHours]
     location: Location
-    payment_methods: List[PaymentMethod]
+    payment_details: List[PaymentDetails]
     additional_info: List[AdditionalInfo]
 
 
-class CafeView(View, CafeBase, IdAlias):
-    """Cafe view."""
+class CafeView(View, CafeBase, Id):
+    """Cafe view with complete staff and menu data."""
 
-    menu: List[MenuView]
+    owner: UserOut
+    staff: StaffOut
+    menu: MenuOut
 
     class Settings:
         """Settings for cafe view."""
 
-        name: str = "cafes_with_menu"
+        name: str = "cafes_view"
         source = "cafes"
         pipeline = [
-            # Lookup all menu items for this cafe
+            # Lookup owner
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "owner_id",
+                    "foreignField": "_id",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 0,
+                                "id": "$_id",
+                                "username": 1,
+                                "email": 1,
+                                "matricule": 1,
+                                "first_name": 1,
+                                "last_name": 1,
+                                "photo_url": 1,
+                            }
+                        }
+                    ],
+                    "as": "owner",
+                }
+            },
+            # Lookup menu items
             {
                 "$lookup": {
                     "from": "menus",
@@ -332,55 +339,150 @@ class CafeView(View, CafeBase, IdAlias):
                     "as": "menu_items",
                 }
             },
-            # Reshape the categories with their items
+            # Lookup admin users
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "staff.admin_ids",
+                    "foreignField": "_id",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 0,
+                                "id": "$_id",
+                                "username": 1,
+                                "email": 1,
+                                "matricule": 1,
+                                "first_name": 1,
+                                "last_name": 1,
+                                "photo_url": 1,
+                            }
+                        }
+                    ],
+                    "as": "admins",
+                }
+            },
+            # Lookup volunteer users
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "staff.volunteer_ids",
+                    "foreignField": "_id",
+                    "pipeline": [
+                        {
+                            "$project": {
+                                "_id": 0,
+                                "id": "$_id",
+                                "username": 1,
+                                "email": 1,
+                                "matricule": 1,
+                                "first_name": 1,
+                                "last_name": 1,
+                                "photo_url": 1,
+                            }
+                        }
+                    ],
+                    "as": "volunteers",
+                }
+            },
+            # Add owner, menu, and staff
             {
                 "$addFields": {
+                    "owner": {"$arrayElemAt": ["$owner", 0]},
+                    "staff": {"admins": "$admins", "volunteers": "$volunteers"},
                     "menu": {
-                        "$map": {
-                            "input": "$menu_categories",
-                            "as": "cat",
-                            "in": {
-                                "_id": "$$cat._id",
-                                "category": "$$cat.name",
-                                "description": "$$cat.description",
-                                "items": {
-                                    "$map": {
-                                        "input": {
-                                            "$filter": {
-                                                "input": "$menu_items",
+                        "categories": {
+                            "$concatArrays": [
+                                # Group items with no category
+                                [
+                                    {
+                                        "id": None,
+                                        "name": None,
+                                        "description": None,
+                                        "items": {
+                                            "$map": {
+                                                "input": {
+                                                    "$filter": {
+                                                        "input": "$menu_items",
+                                                        "as": "item",
+                                                        "cond": {
+                                                            "$eq": [
+                                                                "$$item.category_id",
+                                                                None,
+                                                            ]
+                                                        },
+                                                    }
+                                                },
                                                 "as": "item",
-                                                "cond": {
-                                                    "$eq": [
-                                                        "$$item.category_id",
-                                                        "$$cat._id",
-                                                    ]
+                                                "in": {
+                                                    "id": "$$item._id",
+                                                    "name": "$$item.name",
+                                                    "description": "$$item.description",
+                                                    "tags": "$$item.tags",
+                                                    "image_url": "$$item.image_url",
+                                                    "price": "$$item.price",
+                                                    "in_stock": "$$item.in_stock",
+                                                    "options": "$$item.options",
                                                 },
                                             }
                                         },
-                                        "as": "item",
+                                    }
+                                ],
+                                # Group items with categories
+                                {
+                                    "$map": {
+                                        "input": "$menu.categories",
+                                        "as": "cat",
                                         "in": {
-                                            "_id": "$$item._id",
-                                            "name": "$$item.name",
-                                            "description": "$$item.description",
-                                            "tags": "$$item.tags",
-                                            "image_url": "$$item.image_url",
-                                            "price": "$$item.price",
-                                            "in_stock": "$$item.in_stock",
-                                            "options": "$$item.options",
+                                            "id": "$$cat._id",
+                                            "name": "$$cat.name",
+                                            "description": "$$cat.description",
+                                            "items": {
+                                                "$map": {
+                                                    "input": {
+                                                        "$filter": {
+                                                            "input": "$menu_items",
+                                                            "as": "item",
+                                                            "cond": {
+                                                                "$eq": [
+                                                                    "$$item.category_id",
+                                                                    "$$cat._id",
+                                                                ]
+                                                            },
+                                                        }
+                                                    },
+                                                    "as": "item",
+                                                    "in": {
+                                                        "id": "$$item._id",
+                                                        "name": "$$item.name",
+                                                        "description": "$$item.description",
+                                                        "tags": "$$item.tags",
+                                                        "image_url": "$$item.image_url",
+                                                        "price": "$$item.price",
+                                                        "in_stock": "$$item.in_stock",
+                                                        "options": "$$item.options",
+                                                    },
+                                                }
+                                            },
                                         },
                                     }
                                 },
-                            },
+                            ]
                         }
-                    }
+                    },
                 }
             },
+            {"$addFields": {"id": "$_id"}},
             # Clean up temporary fields
-            {"$unset": ["menu_items", "menu_categories"]},
+            {
+                "$unset": [
+                    "_id",
+                    "owner_id",
+                    "menu_items",
+                    "admins",
+                    "volunteers",
+                    "staff.admin_ids",
+                    "staff.volunteer_ids",
+                ]
+            },
         ]
-
-
-class CafeViewOut(CafeBase, Id):
-    """Cafe view output model."""
-
-    menu: List[MenuViewOut]

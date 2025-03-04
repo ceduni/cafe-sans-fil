@@ -16,9 +16,9 @@ class AuthService:
     async def authenticate(credential: str, password: str) -> Optional[User]:
         """Authenticate a user."""
         if "@" in credential:
-            user = await UserService.get_user_by_email(email=credential)
+            user = await UserService.get_by_email(email=credential)
         else:
-            user = await UserService.get_user_by_username(username=credential)
+            user = await UserService.get_by_username(username=credential)
 
         if not user:
             return None

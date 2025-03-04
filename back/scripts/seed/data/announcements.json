@@ -1,0 +1,147 @@
+{
+  "en": {
+    "title_components": {
+      "prefix": [
+        "New", "Updated", "Special", "Annual", "Important", "Fresh", "Revised",
+        "Enhanced", "Limited", "Celebratory", "Exclusive", "Premium", "Urgent",
+        "Critical", "Final", "Summer", "Winter", "Holiday", "Spring", "Fall",
+        "Nightly", "Weekly", "Daily", "Grand", "Essential", "Revised", "Expanded"
+      ],
+      "subject": [
+        "Menu", "Hours", "Policy", "Event", "Promotion", "Brunch Menu",
+        "Delivery Options", "Sustainability Initiatives", "Loyalty Rewards",
+        "Barista Training", "Coffee Blends", "Payment Methods", "Seating Policy",
+        "Online Ordering", "Gift Cards", "Reservation System", "Parking Options",
+        "WiFi Access", "Pet Policy", "Accessibility Features", "Seasonal Drinks",
+        "Bakery Selection", "Merchandise Line", "Community Programs",
+        "Charity Partnerships", "Staff Updates", "Health Protocols"
+      ],
+      "suffix": [
+        "Launch", "Update", "Alert", "Notice", "Reminder", "Edition", "Overhaul",
+        "Initiative", "Expansion", "Release", "Revival", "Festival", "Series",
+        "Workshop", "Seminar", "Guidelines", "Procedures", "Restrictions",
+        "Enhancements", "Discounts", "Bonuses", "Rewards", "Changes", "Schedule",
+        "Premiere", "Experience", "Showcase", "Collaboration", "Partnership"
+      ]
+    },
+    "content_templates": [
+      "We're thrilled to unveil our {adjective} {subject}! {details}",
+      "Important changes to our {subject} effective {date_context}: {details}",
+      "Join us for our {adjective} {event_type} launching {date_context}",
+      "Discover our latest {adjective} additions to the {subject} available {date_context}",
+      "Alert: Critical updates regarding our {subject} - {details}",
+      "Special opportunity: {adjective} {event_type} happening {date_context}",
+      "Enhance your experience with our {adjective} {subject} improvements",
+      "Don't miss our {adjective} {event_type} - {details}",
+      "Revised {subject} guidelines: {details}",
+      "Seasonal surprise: {adjective} {subject} now available!",
+      "Community announcement: {details}",
+      "Upgrade alert: New {adjective} {subject} features",
+      "Last chance: {adjective} {event_type} ending {date_context}",
+      "Behind the scenes: {details}",
+      "Customer favorite returns: {adjective} {subject}",
+      "Sustainability update: {details}",
+      "Pro tip: How to maximize your {subject} experience"
+    ],
+    "adjectives": [
+      "seasonal", "exclusive", "limited-time", "revamped", "premium", "artisanal",
+      "handcrafted", "small-batch", "award-winning", "signature", "organic",
+      "fair-trade", "sustainably-sourced", "locally-roasted", "bold", "smooth",
+      "complex", "balanced", "innovative", "reimagined", "gluten-free", "vegan",
+      "dairy-free", "low-acidity", "single-origin", "blended", "cold-brewed",
+      "nitro-infused", "charity-supported", "community-driven"
+    ],
+    "subjects": [
+      "coffee selection", "loyalty program", "workshop series", "holiday specials",
+      "barista championships", "bean sourcing", "brew methods", "food pairings",
+      "local partnerships", "winter menu", "summer refreshments", "espresso blends",
+      "tea varieties", "pastry options", "merchandise collection", "mobile ordering",
+      "delivery radius", "curbside pickup", "recycling program", "compost initiative",
+      "community board", "art displays", "live music schedule", "poetry nights",
+      "book clubs", "game nights", "coffee tastings", "latte art classes",
+      "brewing workshops", "farmers market"
+    ],
+    "tags": [
+      "coffee", "menu", "events", "chocolate", "valentine", "summer", "sustainability",
+      "promotion", "organic", "fairtrade", "local", "vegan", "glutenfree", "dairyfree",
+      "limited-edition", "charity", "community", "workshop", "live-music", "art",
+      "seasonal", "holiday", "brunch", "delivery", "tech", "safety", "accessibility",
+      "award-winning", "competition", "education"
+    ]
+  },
+  "fr": {
+    "title_components": {
+      "prefix": [
+        "Nouveau", "Mise à jour", "Spécial", "Annuel", "Important", "Frais",
+        "Révisé", "Amélioré", "Limitée", "Célébration", "Exclusif", "Premium",
+        "Urgent", "Critique", "Finale", "Estival", "Hivernal", "Festif", "Printanier",
+        "Automnal", "Nocturne", "Hebdomadaire", "Quotidien", "Grandiose", "Essentiel",
+        "Étendu"
+      ],
+      "subject": [
+        "Menu", "Horaires", "Politique", "Événement", "Promotion", "Menu Brunch",
+        "Options de Livraison", "Initiatives Écologiques", "Récompenses de Fidélité",
+        "Formation Barista", "Mélanges de Café", "Méthodes de Paiement",
+        "Politique d'Assise", "Commande en Ligne", "Cartes-Cadeaux", "Système de Réservation",
+        "Options de Stationnement", "Accès WiFi", "Politique Animaux", "Accessibilité",
+        "Boissons Saisonnières", "Sélection de Pâtisseries", "Ligne de Produits Dérivés",
+        "Programmes Communautaires", "Partenariats Caritatifs", "Mises à Jour du Personnel",
+        "Protocoles Sanitaires"
+      ],
+      "suffix": [
+        "Lancement", "Alerte", "Avis", "Rappel", "Édition", "Refonte",
+        "Initiative", "Expansion", "Publication", "Renaissance", "Festival",
+        "Série", "Atelier", "Séminaire", "Directives", "Procédures", "Restrictions",
+        "Améliorations", "Rabais", "Bonus", "Récompenses", "Changements", "Horaire",
+        "Première", "Expérience", "Présentation", "Collaboration", "Partenariat"
+      ]
+    },
+    "content_templates": [
+      "Nous sommes ravis de dévoiler notre {adjective} {subject}! {details}",
+      "Changements importants à notre {subject} en vigueur {date_context}: {details}",
+      "Rejoignez-nous pour notre {adjective} {event_type} à partir du {date_context}",
+      "Découvrez nos nouvelles additions {adjective} à {subject} disponibles {date_context}",
+      "Alerte : Mises à jour cruciales concernant notre {subject} - {details}",
+      "Opportunité spéciale : {adjective} {event_type} se déroulant {date_context}",
+      "Améliorez votre expérience avec nos améliorations {adjective} {subject}",
+      "Ne manquez pas notre {adjective} {event_type} - {details}",
+      "Directives révisées {subject} : {details}",
+      "Surprise saisonnière : {adjective} {subject} maintenant disponible!",
+      "Annonce communautaire : {details}",
+      "Alerte de mise à niveau : Nouvelles fonctionnalités {adjective} {subject}",
+      "Dernière chance : {adjective} {event_type} se terminant {date_context}",
+      "Dans les coulisses : {details}",
+      "Le retour d'un favori : {adjective} {subject}",
+      "Mise à jour écologique : {details}",
+      "Conseil de pro : Comment maximiser votre expérience {subject}"
+    ],
+    "adjectives": [
+      "saisonnier", "exclusif", "limitée", "amélioré", "premium", "artisanal",
+      "fait main", "petite production", "primé", "signature", "biologique",
+      "équitable", "source durable", "torréfié localement", "audacieux", "doux",
+      "complexe", "équilibré", "innovant", "réinventé", "sans gluten", "végétalien",
+      "sans lait", "faible acidité", "origine unique", "assemblé", "infusion à froid",
+      "infusé au nitro", "à but caritatif", "axé sur la communauté"
+    ],
+    "subjects": [
+      "sélection de cafés", "programme de fidélité", "série d'ateliers",
+      "spéciaux des fêtes", "championnats de baristas", "approvisionnement en grains",
+      "méthodes d'infusion", "accords mets-café", "partenariats locaux",
+      "menu hivernal", "rafraîchissements estivaux", "mélanges espresso",
+      "variétés de thé", "options de pâtisseries", "collection de produits dérivés",
+      "commande mobile", "rayon de livraison", "ramassage en bordure de rue",
+      "programme de recyclage", "initiative de compostage", "tableau communautaire",
+      "expositions d'art", "programmation musicale", "soirées poésie",
+      "clubs de lecture", "soirées jeux", "dégustations de café",
+      "cours de latte art", "ateliers d'infusion", "marché fermier"
+    ],
+    "tags": [
+      "café", "menu", "événements", "chocolat", "saint-valentin", "été",
+      "durabilité", "promotion", "biologique", "équitable", "local", "végétalien",
+      "sansgluten", "sanslait", "éditionlimitée", "charité", "communauté",
+      "atelier", "musiqueenlive", "art", "saisonnier", "fêtes", "brunch",
+      "livraison", "technologie", "sécurité", "accessibilité", "primé",
+      "compétition", "éducation"
+    ]
+  }
+}

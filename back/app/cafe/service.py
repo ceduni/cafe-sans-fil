@@ -2,230 +2,66 @@
 Module for handling cafe-related operations.
 """
 
-from typing import List
+from typing import List, Union
 
 from beanie import PydanticObjectId
+from beanie.odm.queries.find import FindMany
 from bson.errors import InvalidId
 
-from app.cafe.models import (
-    Cafe,
-    CafeCreate,
-    CafeUpdate,
-    CafeView,
-    Role,
-    StaffCreate,
-    StaffMember,
-    StaffUpdate,
-)
-from app.user.models import User
+from app.cafe.models import Cafe, CafeCreate, CafeUpdate, CafeView
+from app.service import set_attributes
 
 
 class CafeService:
     """Service for CRUD operations and search on Cafe."""
 
-    # -------------------------------------------------------------------------
-    #               Cafe
-    # -------------------------------------------------------------------------
-
     @staticmethod
-    async def get_cafes(**filters: dict):
+    async def get_all(
+        to_list: bool = True,
+        **filters: dict,
+    ) -> Union[FindMany[Cafe], List[Cafe]]:
         """Get cafes."""
         sort_by = filters.pop("sort_by", "name")
-        return Cafe.find(filters).sort(sort_by)
+        query = Cafe.find(filters).sort(sort_by)
+        return await query.to_list() if to_list else query
 
     @staticmethod
-    async def get_cafe(cafe_slug_or_id, as_view: bool = True):
+    async def get(
+        cafe_slug_or_id: str,
+        as_view: bool = False,
+    ) -> Union[Cafe, CafeView]:
         """Get a cafe by slug or ID."""
         cafe_class = CafeView if as_view else Cafe
         try:
-            cafe_id = PydanticObjectId(cafe_slug_or_id)
-            return await cafe_class.find_one({"_id": cafe_id})
+            id = PydanticObjectId(cafe_slug_or_id)
+            id_field = "id" if as_view else "_id"
+            return await cafe_class.find_one({id_field: id})
         except InvalidId:
+            slug = cafe_slug_or_id
             return await cafe_class.find_one(
                 {
                     "$or": [
-                        {"slug": cafe_slug_or_id},
-                        {"previous_slugs": cafe_slug_or_id},
+                        {"slug": slug},
+                        {"previous_slugs": slug},
                     ]
                 }
             )
 
     @staticmethod
-    async def create_cafe(data: CafeCreate) -> Cafe:
+    async def create(
+        data: CafeCreate,
+        owner_id: PydanticObjectId,
+    ) -> Cafe:
         """Create a new cafe."""
-        try:
-            cafe = Cafe(**data.model_dump())
-            await cafe.insert()
-            return cafe
-        except Exception as e:
-            if "duplicate" in str(e).lower() and len(str(e)) < 100:
-                raise ValueError("Cafe already exists")
+        cafe = Cafe(**data.model_dump(), owner_id=owner_id)
+        return await cafe.insert()
 
     @staticmethod
-    async def update_cafe(cafe_id: PydanticObjectId, data: CafeUpdate):
+    async def update(
+        cafe: Cafe,
+        data: CafeUpdate,
+    ) -> Cafe:
         """Update a cafe."""
-        try:
-            cafe = await Cafe.find_one({"_id": cafe_id})
-            if not cafe:
-                raise ValueError("Cafe not found")
-
-            for field, value in data.model_dump(exclude_unset=True).items():
-                setattr(cafe, field, value)
-            await cafe.save()
-            return cafe
-        except Exception as e:
-            if "duplicate" in str(e).lower() and len(str(e)) < 100:
-                raise ValueError(e)
-            else:
-                raise ValueError("Cafe already exists")
-
-    # --------------------------------------
-    #               Staff
-    # --------------------------------------
-
-    @staticmethod
-    async def get_staff_members(cafe_id: PydanticObjectId):
-        """Get staff members of a cafe."""
-        cafe = await Cafe.find_one({"_id": cafe_id})
-        if not cafe:
-            raise ValueError("Cafe not found")
-        return cafe.staff
-
-    @staticmethod
-    async def get_staff_member(cafe_id: PydanticObjectId, username: str):
-        """Get a staff member by username from a cafe."""
-        cafe = await Cafe.find_one({"_id": cafe_id})
-        if not cafe:
-            raise ValueError("Cafe not found")
-
-        for member in cafe.staff:
-            if member.username == username:
-                return member
-
-        raise ValueError("Staff member not found")
-
-    @staticmethod
-    async def create_staff_member(cafe_id: PydanticObjectId, staff_data: StaffCreate):
-        """Create a new staff member for a cafe."""
-        cafe = await Cafe.find_one({"_id": cafe_id})
-        if not cafe:
-            raise ValueError("Cafe not found")
-
-        new_staff_member = StaffMember(**staff_data.model_dump())
-        cafe.staff.append(new_staff_member)
+        set_attributes(cafe, data)
         await cafe.save()
-        return new_staff_member
-
-    @staticmethod
-    async def update_staff_member(
-        cafe_id: PydanticObjectId, username: str, staff_data: StaffUpdate
-    ):
-        """Update a staff member for a cafe."""
-        cafe = await Cafe.find_one({"_id": cafe_id})
-        if not cafe:
-            raise ValueError("Cafe not found")
-
-        for member in cafe.staff:
-            if member.username == username:
-                for key, value in staff_data.model_dump(exclude_unset=True).items():
-                    setattr(member, key, value)
-                await cafe.save()
-                return member
-
-        raise ValueError("Staff member not found")
-
-    @staticmethod
-    async def delete_staff_member(cafe_id: PydanticObjectId, username: str):
-        """Delete a staff member from a cafe."""
-        cafe = await Cafe.find_one({"_id": cafe_id})
-        if not cafe:
-            raise ValueError("Cafe not found")
-
-        if any(member.username == username for member in cafe.staff):
-            cafe.staff = [
-                member for member in cafe.staff if member.username != username
-            ]
-            await cafe.save()
-        else:
-            raise ValueError("Staff member not found")
-
-    @staticmethod
-    async def create_many_staff_members(
-        cafe_id: PydanticObjectId, staff_data_list: List[StaffCreate]
-    ) -> List[StaffMember]:
-        """Create multiple staff members for a cafe."""
-        cafe = await Cafe.find_one({"_id": cafe_id})
-        if not cafe:
-            raise ValueError("Cafe not found")
-
-        new_staff_members = [
-            StaffMember(**staff_data.model_dump()) for staff_data in staff_data_list
-        ]
-        cafe.staff.extend(new_staff_members)
-        await cafe.save()
-        return new_staff_members
-
-    @staticmethod
-    async def update_many_staff_members(
-        cafe_id: PydanticObjectId, usernames: List[str], staff_data: StaffUpdate
-    ) -> List[StaffMember]:
-        """Update multiple staff members for a cafe."""
-        cafe = await Cafe.find_one({"_id": cafe_id})
-        if not cafe:
-            raise ValueError("Cafe not found")
-
-        updated_members = []
-        for member in cafe.staff:
-            if member.username in usernames:
-                for key, value in staff_data.model_dump(exclude_unset=True).items():
-                    setattr(member, key, value)
-                updated_members.append(member)
-
-        if not updated_members:
-            raise ValueError("No staff members found for the provided usernames")
-
-        await cafe.save()
-        return updated_members
-
-    @staticmethod
-    async def delete_many_staff_members(
-        cafe_id: PydanticObjectId, usernames: List[str]
-    ) -> None:
-        """Delete multiple staff members from a cafe."""
-        cafe = await Cafe.find_one({"_id": cafe_id})
-        if not cafe:
-            raise ValueError("Cafe not found")
-
-        cafe.staff = [
-            member for member in cafe.staff if member.username not in usernames
-        ]
-        await cafe.save()
-
-    # --------------------------------------
-    #               Authorization
-    # --------------------------------------
-
-    @staticmethod
-    async def is_authorized_for_cafe_action(
-        cafe_id: PydanticObjectId, current_user: User, required_roles: List[Role]
-    ):
-        """Check if a user is authorized to perform an action on a cafe."""
-        cafe = await Cafe.find_one({"_id": cafe_id})
-        if not cafe:
-            raise ValueError("Cafe not found")
-
-        # Check if part of staff
-        user_in_staff = None
-        for user in cafe.staff:
-            if user.username == current_user.username:
-                user_in_staff = user
-                break
-
-        # Check if appropriate role
-        if user_in_staff:
-            if user_in_staff.role not in [role.value for role in required_roles]:
-                raise ValueError("Access forbidden")
-        else:
-            raise ValueError("Access forbidden")
-
-        return True
+        return cafe

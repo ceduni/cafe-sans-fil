@@ -5,34 +5,29 @@ Main module for the FastAPI application.
 from contextlib import asynccontextmanager
 
 from beanie import init_beanie
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from app.announcement.models import Announcement
+from app.cafe.announcement.models import Announcement, AnnouncementView
+from app.cafe.event.models import Event, EventView
+from app.cafe.menu.item.models import MenuItem
 from app.cafe.models import Cafe, CafeView
-from app.cafe_menu.models import MenuItem
+from app.cafe.order.models import Order
+from app.cafe.order.scheduler import order_scheduler
 from app.config import settings
-from app.event.models import Event
-from app.order.models import Order
+from app.interaction.models import Interaction
 from app.router import router
-from app.user.models import User
+from app.user.models import User, UserView
 
 description = """
 # API Documentation
 
-## Protected Endpoints
-To test protected endpoints, you can use the following structure: `[role].[cafe_name]@umontreal.ca`
-
-Examples:
-- admin.tore.et.fraction@umontreal.ca
-- benevole.tore.et.fraction@umontreal.ca
-
 You can also create your own user or utilize any pre-generated users with different roles via the `/api/users` endpoint. All pre-generated users share the same password: `Cafepass1`.
 
 ## Permissions
-`member` < `volunteer` < `admin`
+`MEMBER` < `VOLUNTEER` < `ADMIN` < `OWNER`
 """
 
 db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
@@ -43,10 +38,24 @@ async def lifespan(app: FastAPI):
     """Lifespan for the application."""
     await init_beanie(
         database=db_client[settings.MONGO_DB_NAME],
-        document_models=[Cafe, CafeView, MenuItem, User, Order, Announcement, Event],
+        document_models=[
+            Cafe,
+            CafeView,
+            MenuItem,
+            User,
+            UserView,
+            Order,
+            Announcement,
+            AnnouncementView,
+            Event,
+            EventView,
+            Interaction,
+        ],
         recreate_views=True,
     )
+    await order_scheduler.start()
     yield
+    await order_scheduler.shutdown()
 
 
 app = FastAPI(

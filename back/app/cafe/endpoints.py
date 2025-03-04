@@ -2,200 +2,176 @@
 Module for handling cafe-related routes.
 """
 
-from typing import Optional
+from typing import Optional, TypeVar
 
+from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi_pagination import Params
+from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
+from pymongo.errors import DuplicateKeyError
 
 from app.auth.dependencies import get_current_user
-from app.cafe.models import (
-    CafeCreate,
-    CafeOut,
-    CafeShortOut,
-    CafeUpdate,
-    CafeViewOut,
-    Role,
-    StaffCreate,
-    StaffOut,
-)
+from app.cafe.models import CafeCreate, CafeOut, CafeShortOut, CafeUpdate, CafeView
+from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
-from app.order.service import OrderService
+from app.cafe.staff.enums import Role
+from app.cafe.staff.service import StaffService
+from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User
 from app.user.service import UserService
 
+T = TypeVar("T")
+
+
+class CafeParams(Params):
+    """Custom pagination parameters."""
+
+    size: int = Query(20, ge=1, le=100, description="Page size")
+    page: int = Query(1, ge=1, description="Page number")
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field")
+    is_open: Optional[bool] = Query(None, description="Filter by open status")
+
+
+CafePage = CustomizedPage[
+    Page[T],
+    UseParams(CafeParams),
+]
+
+
 cafe_router = APIRouter()
-
-
-# --------------------------------------
-#               Cafe
-# --------------------------------------
 
 
 @cafe_router.get(
     "/cafes",
-    response_model=Page[CafeShortOut],
+    response_model=CafePage[CafeShortOut],
 )
-async def get_cafes(
+async def list_cafes(
     request: Request,
-    is_open: Optional[bool] = Query(None, description="Filter by open status"),
-    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
 ):
     """Get a list of cafes with basic information."""
     filters = parse_query_params(dict(request.query_params))
-    cafes = await CafeService.get_cafes(**filters)
+    cafes = await CafeService.get_all(to_list=False, **filters)
     return await paginate(cafes)
 
 
 @cafe_router.post(
     "/cafes",
+    response_model=CafeOut,
+    responses={
+        401: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
 )
-async def create_cafe(cafe: CafeCreate, current_user: User = Depends(get_current_user)):
-    """Create a cafe (`superuser`)."""
-    if "7802085" != current_user.username:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
-        )
+async def create_cafe(
+    data: CafeCreate,
+    current_user: User = Depends(get_current_user),
+):
+    """Create a cafe. (`MEMBER`)"""
     try:
-        return await CafeService.create_cafe(cafe)
-    except ValueError as e:
-        if "duplicate" in str(e).lower() and len(str(e)) < 100:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
+        cafe = await CafeService.create(data, current_user.id)
+        await UserService.add_cafe(current_user, cafe)
+        return cafe
+
+    except DuplicateKeyError as e:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail="Cafe already exists"
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "A cafe with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
         )
 
 
 @cafe_router.get(
-    "/cafes/{cafe_slug}",
-    response_model=CafeViewOut,
+    "/cafes/{slug}",
+    response_model=CafeView,
+    responses={
+        404: {"model": ErrorResponse},
+    },
 )
 async def get_cafe(
-    cafe_slug: str = Path(..., description="The slug or ID of the cafe")
+    slug: str = Path(..., description="Slug of the cafe"),
 ):
     """Get a cafe with full details."""
-    cafe = await CafeService.get_cafe(cafe_slug)
+    cafe = await CafeService.get(slug, as_view=True)
     if not cafe:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
         )
     return cafe
 
 
 @cafe_router.put(
-    "/cafes/{cafe_slug}",
+    "/cafes/{slug}",
+    response_model=CafeOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+    dependencies=[Depends(AdminPermission())],
 )
 async def update_cafe(
-    cafe_slug: str, cafe: CafeUpdate, current_user: User = Depends(get_current_user)
-) -> CafeOut:
-    """Update a cafe (`admin`)."""
-    cafe_obj = await CafeService.get_cafe(cafe_slug)
-    if not cafe_obj:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
-        )
-    try:
-        await CafeService.is_authorized_for_cafe_action(
-            cafe_obj.id, current_user, [Role.ADMIN]
-        )
-        return await CafeService.update_cafe(cafe_obj.id, cafe)
-    except ValueError as e:
-        if str(e) == "Cafe not found":
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-        elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
-        elif "duplicate" in str(e).lower() and len(str(e)) < 100:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail="Cafe already exists"
-        )
-
-
-# --------------------------------------
-#               Staff
-# --------------------------------------
-
-
-@cafe_router.post(
-    "/cafes/{cafe_slug}/staff",
-    response_model=StaffOut,
-)
-async def create_staff_member(
-    cafe_slug: str, staff: StaffCreate, current_user: User = Depends(get_current_user)
-):
-    """Add a staff member to a cafe. (`admin`)."""
-    cafe_obj = await CafeService.get_cafe(cafe_slug)
-    if not cafe_obj:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
-        )
-
-    user = await CafeService.get_staff_member(cafe_obj.id, staff.username)
-    if user:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail="Staff member already exists"
-        )
-
-    user = await UserService.get_user(staff.username)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
-        )
-
-    try:
-        await CafeService.is_authorized_for_cafe_action(
-            cafe_obj.id, current_user, [Role.ADMIN]
-        )
-    except ValueError as e:
-        if str(e) == "Cafe not found":
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-        elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
-
-    return await CafeService.create_staff_member(cafe_obj.id, staff)
-
-
-# --------------------------------------
-#               Sales Report
-# --------------------------------------
-
-
-@cafe_router.get(
-    "/cafes/{cafe_slug}/sales-report",
-)
-async def get_sales_report(
-    cafe_slug: str = Path(..., description="The slug or ID of the cafe"),
-    start_date: Optional[str] = Query(
-        None, description="The start date of the reporting period"
-    ),
-    end_date: Optional[str] = Query(
-        None, description="The end date of the reporting period"
-    ),
-    report_type: str = Query(
-        "daily",
-        description="The type of report to generate ('daily', 'weekly', 'monthly')",
-    ),
+    data: CafeUpdate,
+    slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
-    """Get a sales report for a cafe. (`admin`)"""
-    cafe_obj = await CafeService.get_cafe(cafe_slug)
-    if not cafe_obj:
+    """Update a cafe. (`ADMIN`)"""
+    cafe = await CafeService.get(slug)
+    if not cafe:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Café not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
         )
+
+    next_owner_id = PydanticObjectId(data.owner_id) if data.owner_id else None
+    if next_owner_id:
+        if next_owner_id != cafe.owner_id and current_user.id != cafe.owner_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=[{"msg": "You cannot change the owner of a cafe."}],
+            )
+
+        if not await StaffService.is_staff(cafe, next_owner_id):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=[{"msg": "The specified owner is not a staff member."}],
+            )
+
+        user = await UserService.get_by_id(next_owner_id)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=[{"msg": "A user with this ID does not exist."}],
+            )
+
+        # Check if owner is changing
+        if data.owner_id and data.owner_id != cafe.owner_id:
+            # Update previous owner as admin
+            await StaffService.add(cafe, Role.ADMIN, cafe.owner_id)
+
+            # Remove previous role for new owner
+            if data.owner_id in cafe.staff.admin_ids:
+                await StaffService.remove(cafe, Role.ADMIN, data.owner_id)
+            if data.owner_id in cafe.staff.volunteer_ids:
+                await StaffService.remove(cafe, Role.VOLUNTEER, data.owner_id)
 
     try:
-        await CafeService.is_authorized_for_cafe_action(
-            cafe_obj.id, current_user, [Role.ADMIN]
+        return await CafeService.update(cafe, data)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "A cafe with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
         )
-    except ValueError as e:
-        if str(e) == "Cafe not found":
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
-        elif str(e) == "Access forbidden":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
-
-    report_data = await OrderService.generate_sales_report_data(
-        cafe_obj.id, start_date, end_date, report_type
-    )
-    return report_data

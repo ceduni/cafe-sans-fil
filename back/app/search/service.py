@@ -51,12 +51,12 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
 
         cafe_dict = {
             "_id": str(cafe.id),
-            "cafe_id": str(cafe.cafe_id),
+            "cafe_id": str(cafe.id),
             "name": cafe.name,
             "slug": cafe.slug,
             "description": cafe.description,
             "logo_url": cafe.logo_url,
-            "image_url": cafe.image_url,
+            "banner_url": cafe.banner_url,
             "affiliation": cafe.affiliation,
             "is_open": cafe.is_open,
             "status_message": cafe.status_message,
@@ -64,7 +64,7 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
             "location": cafe.location,
             "contact": cafe.contact,
             "social_media": cafe.social_media,
-            "payment_methods": cafe.payment_methods,
+            "payment_details": cafe.payment_details,
             "additional_info": cafe.additional_info,
             "menu_items": filtered_menu_items,
         }

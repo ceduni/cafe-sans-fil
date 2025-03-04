@@ -1,0 +1,170 @@
+{
+  "en": {
+    "name_components": {
+      "adjectives": [
+        "Monthly", "Premium", "Summer", "Holiday", "Exclusive", "Artisanal",
+        "Small-Batch", "Award-Winning", "Global", "Sustainable", "Historical",
+        "Experimental", "Beginner-Friendly", "Advanced", "Collaborative",
+        "Signature", "Nitrogen-Infused", "Seasonal", "Winter", "Spring", "Fall",
+        "Limited-Edition", "Charity", "Competitive", "Immersive"
+      ],
+      "types": [
+        "Coffee Tasting", "Brewing Workshop", "Latte Art Class", "Origin Story Session",
+        "Roasting Demonstration", "Cold Brew Masterclass", "Espresso Fundamentals",
+        "Coffee Cocktail Mixology", "Bean Grading Seminar", "Sustainable Farming Talk",
+        "Barista Championship Prep", "Home Brewing Techniques", "Coffee Cupping Session",
+        "Historical Brew Methods", "Coffee Photography Workshop", "Cafe Management 101",
+        "Coffee & Dessert Pairing", "Alternative Milk Lab", "Coffee Roasting 101",
+        "Coffee Business Symposium", "Coffee Farm Virtual Tour"
+      ],
+      "formats": [
+        "Night", "Experience", "Demonstration", "Meetup", "Marathon", "Challenge",
+        "Festival", "Symposium", "Tour", "Lab", "Journey", "Showdown", "Retreat",
+        "Exhibition", "Competition", "Collaboration", "Masterclass", "Conclave",
+        "Adventure", "Discovery Session", "Interactive Workshop"
+      ]
+    },
+    "description_templates": [
+      "Join us for an evening of {activity} featuring {featured_item}",
+      "Learn the secrets of {skill} from our expert baristas",
+      "Experience {concept} through interactive {activity}",
+      "Explore the art of {activity} with {featured_item}",
+      "Master {skill} in our hands-on session",
+      "Discover {concept} through curated {activity}",
+      "Dive deep into {concept} with specialty {featured_item}",
+      "Participate in our {activity} championship qualifiers",
+      "Unlock {concept} secrets with professional guidance",
+      "Create your own {featured_item} blend in our {activity}",
+      "Trace {concept} from bean to cup through {activity}",
+      "Compare {featured_item} varieties in guided {activity}"
+    ],
+    "locations": [
+      "Main Brew Bar", "Outdoor Terrace", "Tasting Room", "Roastery",
+      "Private Tasting Lounge", "Roastery Lab", "Espresso Theater",
+      "Cold Brew Station", "Historical Brew Corner", "Sustainable Coffee Garden",
+      "Coffee Art Gallery", "Barista Arena", "Bean Library", "Cafe Greenhouse",
+      "Coffee Cocktail Bar", "Virtual Reality Cafe", "Mobile Coffee Cart",
+      "Pop-Up Tasting Pavilion", "Coffee Science Lab", "Farmers Market Booth"
+    ],
+    "features": {
+      "activities": [
+        "coffee pairing", "bean grading", "extraction techniques",
+        "sensory analysis", "blending experiments", "roast profiling",
+        "latte art creation", "espresso calibration", "green bean selection",
+        "brew ratio calculations", "coffee cocktail crafting",
+        "alternative milk steaming", "coffee photography", "cupping protocol",
+        "sustainable packaging", "coffee farm mapping", "historical recreation",
+        "competition preparation", "coffee waste recycling", "aroma identification"
+      ],
+      "items": [
+        "rare microlots", "artisan chocolates", "seasonal pastries",
+        "single-origin beans", "experimental processing lots",
+        "vintage brewing equipment", "house-made syrups", "local honey infusions",
+        "specialty tea pairings", "fermented coffee cherries",
+        "nitrogen-infused cold brews", "sustainably-grown robusta",
+        "climate-resilient hybrids", "historical recipe recreations",
+        "competition-grade equipment", "coffee-inspired artisanal cheeses",
+        "molecular gastronomy additives", "charity auction lots",
+        "limited-edition merchandise", "coffee terroir soil samples"
+      ],
+      "concepts": [
+        "sustainability", "coffee chemistry", "flavor profiling",
+        "global coffee economics", "historical trade routes",
+        "climate impact solutions", "sensory neuroscience",
+        "alternative fermentation", "circular economy models",
+        "coffee genetic diversity", "extraction thermodynamics",
+        "cultural anthropology", "social enterprise models",
+        "multi-sensory experience", "coffee waste upcycling",
+        "virtual reality farming", "blockchain traceability",
+        "coffee-inspired mixology", "acoustic brewing science",
+        "biodegradable packaging"
+      ]
+    }
+  },
+  "fr": {
+    "name_components": {
+      "adjectives": [
+        "Mensuel", "Premium", "Estival", "Festif", "Exclusif", "Artisanal",
+        "Petite Production", "Primé", "Global", "Durable", "Historique",
+        "Expérimental", "Débutant", "Avancé", "Collaboratif",
+        "Signature", "Infusé à l'Azote", "Saisonnier", "Hivernal", "Printanier", "Automnal",
+        "Édition Limitée", "Caritatif", "Compétitif", "Immersif"
+      ],
+      "types": [
+        "Dégustation de Café", "Atelier d'Infusion", "Cours de Latte Art", "Session Découverte",
+        "Démonstration de Torréfaction", "Masterclass Cold Brew", "Fondamentaux de l'Espresso",
+        "Mixologie de Cocktails Caféinés", "Séminaire de Classement de Grains",
+        "Conférence sur l'Agriculture Durable", "Préparation aux Championnats de Baristas",
+        "Techniques de Brassage à Domicile", "Session de Dégustation à l'Aveugle",
+        "Méthodes Historiques d'Infusion", "Atelier de Photographie de Café",
+        "Gestion de Café 101", "Accords Café-Desserts", "Laboratoire de Laits Alternatifs",
+        "Initiation à la Torréfaction", "Symposium sur l'Industrie du Café",
+        "Visite Virtuelle de Plantation"
+      ],
+      "formats": [
+        "Soirée", "Expérience", "Démonstration", "Rencontre", "Marathon", "Défi",
+        "Festival", "Symposium", "Tournée", "Laboratoire", "Périple", "Affrontement",
+        "Retraite", "Exposition", "Compétition", "Collaboration", "Masterclass",
+        "Conclave", "Aventure", "Session de Découverte", "Atelier Interactif"
+      ]
+    },
+    "description_templates": [
+      "Rejoignez-nous pour une soirée de {activity} mettant en vedette {featured_item}",
+      "Apprenez les secrets du {skill} avec nos baristas experts",
+      "Découvrez {concept} grâce à une {activity} interactive",
+      "Explorez l'art du {activity} avec {featured_item}",
+      "Maîtrisez le {skill} dans notre session pratique",
+      "Découvrez {concept} à travers des {activity} organisées",
+      "Plongez au cœur du {concept} avec des {featured_item} spécialisés",
+      "Participez à nos qualifications pour le championnat de {activity}",
+      "Dévoilez les secrets du {concept} avec un guide professionnel",
+      "Créez votre propre mélange {featured_item} dans notre {activity}",
+      "Retracez le {concept} de la fève à la tasse via {activity}",
+      "Comparez les variétés de {featured_item} lors de {activity} guidées"
+    ],
+    "locations": [
+      "Bar Principal", "Terrasse", "Salle de Dégustation", "Torréfaction",
+      "Salon Privé de Dégustation", "Laboratoire de Torréfaction", "Théâtre d'Espresso",
+      "Station Cold Brew", "Coin Historique d'Infusion", "Jardin de Café Durable",
+      "Galerie d'Art Caféiné", "Arène des Baristas", "Bibliothèque de Grains",
+      "Serre Caféière", "Bar à Cocktails Caféinés", "Café en Réalité Virtuelle",
+      "Chariot Café Mobile", "Pavillon de Dégustation Éphémère",
+      "Laboratoire Scientifique du Café", "Kiosque au Marché Fermier"
+    ],
+    "features": {
+      "activities": [
+        "accords café", "classement de grains", "techniques d'extraction",
+        "analyse sensorielle", "expériences de mélange", "profil de torréfaction",
+        "création de latte art", "calibration d'espresso", "sélection de grains verts",
+        "calculs de ratio d'infusion", "création de cocktails caféinés",
+        "moussage de laits alternatifs", "photographie de café",
+        "protocole de dégustation", "emballage durable", "cartographie de plantation",
+        "reconstitution historique", "préparation de compétition",
+        "recyclage de résidus de café", "identification d'arômes"
+      ],
+      "items": [
+        "microlots rares", "chocolats artisanaux", "pâtisseries saisonnières",
+        "cafés d'origine unique", "lots de traitement expérimental",
+        "équipement d'infusion vintage", "sirops maison", "infusions de miel local",
+        "accords avec thés spécialisés", "cerises de café fermentées",
+        "cold brews infusés à l'azote", "robusta cultivé durablement",
+        "hybrides résistants au climat", "recettes historiques recréées",
+        "équipement de compétition", "fromages artisanaux inspirés du café",
+        "additifs de gastronomie moléculaire", "lots de charité",
+        "produits dérivés en édition limitée", "échantillons de terroir caféier"
+      ],
+      "concepts": [
+        "durabilité", "chimie du café", "profil de saveurs",
+        "économie mondiale du café", "routes commerciales historiques",
+        "solutions d'impact climatique", "neuroscience sensorielle",
+        "fermentation alternative", "modèles d'économie circulaire",
+        "diversité génétique du café", "thermodynamique d'extraction",
+        "anthropologie culturelle", "modèles d'entreprise sociale",
+        "expérience multisensorielle", "revalorisation des déchets de café",
+        "agriculture en réalité virtuelle", "traçabilité blockchain",
+        "mixologie inspirée du café", "science acoustique de l'infusion",
+        "emballage biodégradable"
+      ]
+    }
+  }
+}

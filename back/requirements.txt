@@ -19,3 +19,4 @@ apscheduler
 isort
 black
 fastapi-pagination
+python-slugify

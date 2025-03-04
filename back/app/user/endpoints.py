@@ -2,95 +2,213 @@
 Module for handling user-related routes.
 """
 
-from typing import Optional
+from typing import Optional, TypeVar
 
+from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi_pagination import Params
+from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
+from pymongo.errors import DuplicateKeyError
 
-from app.auth.dependencies import get_current_user
+from app.auth.dependencies import get_current_user, get_current_user_view
+from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
-from app.user.models import User, UserOut, UserUpdate
+from app.user.models import User, UserOut, UserUpdate, UserView
 from app.user.service import UserService
+
+T = TypeVar("T")
+
+
+class UserParams(Params):
+    """Custom pagination parameters."""
+
+    size: int = Query(20, ge=1, le=100, description="Page size")
+    page: int = Query(1, ge=1, description="Page number")
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field")
+
+
+UserPage = CustomizedPage[
+    Page[T],
+    UseParams(UserParams),
+]
+
 
 user_router = APIRouter()
 
 
+# Deprecated
 @user_router.get(
     "/users",
-    response_model=Page[UserOut],
+    response_model=UserPage[UserOut],
+    responses={
+        401: {"model": ErrorResponse},
+    },
+    deprecated=True,
 )
-async def get_users(
+async def list_users(
     request: Request,
-    sort_by: Optional[str] = Query(None, description="Sort by a specific field"),
     current_user: User = Depends(get_current_user),
 ):
-    """Get a list of users. (`member`)"""
+    """Get a list of users. (`MEMBER`)"""
     filters = parse_query_params(dict(request.query_params))
-    users = await UserService.get_users(**filters)
+    users = await UserService.get_all(to_list=False, **filters)
     return await paginate(users)
 
 
+# Deprecated
 @user_router.get(
-    "/users/{username}",
+    "/users/me",
+    response_model=UserView,
+    responses={
+        401: {"model": ErrorResponse},
+    },
+    deprecated=True,
+)
+@user_router.get(
+    "/users/@me",
+    response_model=UserView,
+    responses={
+        401: {"model": ErrorResponse},
+    },
+)
+async def get_current_user(
+    current_user: User = Depends(get_current_user_view),
+):
+    """Get current user. (`MEMBER`)"""
+    return current_user
+
+
+# Deprecated
+@user_router.put(
+    "/users/me",
     response_model=UserOut,
+    responses={
+        401: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+    deprecated=True,
+)
+@user_router.put(
+    "/users/@me",
+    response_model=UserOut,
+    responses={
+        401: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+)
+async def update_current_user(
+    data: UserUpdate,
+    current_user: User = Depends(get_current_user),
+):
+    """Update current user. (`MEMBER`)"""
+    try:
+        return await UserService.update(current_user, data)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
+
+
+@user_router.get(
+    "/users/{id}",
+    response_model=UserView,
+    responses={
+        401: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def get_user(
-    username: str = Path(..., description="The username of the user")
-) -> UserOut:
-    """Get a user. (`member`)"""
-    user = await UserService.get_user_by_username(username)
+    id: PydanticObjectId = Path(..., description="ID of the user"),
+):
+    """Get a user. (`MEMBER`)"""
+    user = await UserService.get_by_id(
+        id=id,
+        as_view=True,
+    )
+
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "User with this ID does not exist."}],
         )
     return user
 
 
 @user_router.put(
-    "/users/{username}",
+    "/users/{id}",
     response_model=UserOut,
-    description="Update a user. (`member`)",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
 )
 async def update_user(
-    user_data: UserUpdate,
-    username: str = Path(..., description="The username of the user to update"),
+    data: UserUpdate,
+    id: PydanticObjectId = Path(..., description="ID of the user"),
     current_user: User = Depends(get_current_user),
-) -> UserOut:
-    """Update the details of an existing user."""
-    user = await UserService.get_user_by_username(username)
+):
+    """Update a user. (`MEMBER`)"""
+    user = await UserService.get_by_id(id)
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "User with this ID does not exist."}],
         )
 
-    # Authorization check
-    if username != current_user.username:
+    if id != current_user.id:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=[{"msg": "You can only update your own profile"}],
         )
 
-    return await UserService.update_user(username, user_data)
+    try:
+        return await UserService.update(user, data)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
 
 
 @user_router.delete(
-    "/users/{username}",
-    response_description="Delete User",
+    "/users/{id}",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
 )
 async def delete_user(
-    username: str = Path(..., description="The username of the user to delete"),
+    id: PydanticObjectId = Path(..., description="ID of the user"),
     current_user: User = Depends(get_current_user),
 ):
-    """Delete a user. (`member`)"""
-    # Authorization check
-    if current_user.username != username:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Access forbidden"
-        )
-
-    user = await UserService.delete_user(username)
+    """Delete a user. (`MEMBER`)"""
+    user = await UserService.get_by_id(id)
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "User with this ID does not exist."}],
         )
-    return {"msg": f"User {username} has been deleted."}
+
+    if id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=[{"msg": "You can only delete your own profile"}],
+        )
+
+    await UserService.delete(user)

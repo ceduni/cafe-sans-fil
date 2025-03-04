@@ -1,0 +1,428 @@
+[
+    {
+        "name": "Acquis de droit",
+        "description": "Sandwichs maisons préparés sur place. Succulents bagels au saumon fumé. De nombreux choix végé. Carte de fidélité disponible. Baby-foot. Ouvert l'été.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/92b3119c-ada7-44c8-f8c3-72a40f867300/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Droit"
+        },
+        "location": {
+            "pavillon": "Pavillon Maximilien-Caron",
+            "local": "local A-2470",
+            "floor": "2nd floor"
+        },
+        "contact": {
+            "email": "jeremy.dinh@droit.coop",
+            "phone_number": "(514)-998-9008",
+            "website": "https://www.droit.coop/fr/nav/Cafe.html"
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/cafe.acquis.de.droit",
+            "instagram": "https://www.instagram.com/cafeacquis/?hl=fr"
+        }
+    },
+    {
+        "name": "CafCom",
+        "description": "Café intime. Grilled cheese maison.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/4662de53-0a17-4e12-5288-a9b250d1b100/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Communication"
+        },
+        "location": {
+            "pavillon": "Pavillon Marie-Victorin",
+            "local": "local D-266"
+        },
+        "contact": {
+            "email": "cafcom@aecum.ca",
+            "phone_number": "(514)-123-4567",
+            "website": "http://www.aecum.ca/cafcom"
+        },
+        "social_media": {
+            "x": "https://twitter.com/cafcom"
+        }
+    },
+    {
+        "name": "Café Anthropologie",
+        "description": "Café accueillant et chaleureux, prix abordables.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/e5767637-50a5-4130-3bbf-960392a50100/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Anthropologie"
+        },
+        "location": {
+            "pavillon": "Pavillon Lionel-Groulx",
+            "local": "local C-3029"
+        },
+        "contact": {
+            "email": "cafedanthropo@gmail.com",
+            "phone_number": "(514)-123-5678",
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/search/top?q=caf%C3%A9%20anthropologie",
+            "instagram": "https://www.instagram.com/caf%C3%A9-anthropologie-udm-167230620307/?hl=fr"
+        }
+    },
+    {
+        "name": "Café Beagel",
+        "description": "Cafés, bagels et jeux de société",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/01879182-4a8a-482a-6d3d-be47e0f56400/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Médecine vétérinaire"
+        },
+        "location": {
+            "pavillon": "Campus de Saint-Hyacinthe",
+            "local": "local 0140",
+            "floor": "1st floor"
+        },
+        "contact": {
+            "email": "cafebeagel@gmail.com",
+            "phone_number": "(514)-814-3535",
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/CafeBeagel/"
+        }
+    },
+    {
+        "name": "Café nutri-bar",
+        "description": "Menu majoritairement santé. Seul service alimentaire du Pavillon.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/b45a47f6-d08c-45b2-1019-7c54ea4e7000/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Sciences infirmières et nutrition"
+        },
+        "location": {
+            "pavillon": "Pavillon Liliane-De-Stewart",
+            "local": "local 1125"
+        },
+        "contact": {
+            "email": "nutribarudem@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/nutribar.udem"
+        }
+    },
+    {
+        "name": "Café-In",
+        "description": "Avec son café torréfié localement, ses pâtisseries fraîches et les fameux jeudis pizza, le Café-In est le catalyseur le plus efficace pour une journée au bilan positif!",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/01d1c644-978b-416b-d8cd-75f74eef4500/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Chimie"
+        },
+        "location": {
+            "pavillon": "Campus MIL",
+            "local": "local B-0110.1"
+        },
+        "contact": {
+            "email": "contact@cafein.ca",
+            "phone_number": "(514)-343-6111 poste 30442",
+            "website": "http://www.cafein.ca/"
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/UdeMCafeIn/",
+            "instagram": "https://www.instagram.com/le_cafe_in/?hl=fr"
+        }
+    },
+    {
+        "name": "CaféKine",
+        "description": "Barres protéinées. Permis d’alcool. Diffusion d’évènements sportifs. Prix concurrentiel de la bière. Ouvert le soir. Seul café sportif ouvert 7 jours sur 7, même l’été.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/076e4883-ada8-4616-7fd3-7037bffdfe00/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Kinésiologie et éducation physique"
+        },
+        "location": {
+            "pavillon": "Cepsum",
+            "local": "local 3222"
+        },
+        "contact": {
+            "email": "cafekine.udem@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/CafeKine/",
+            "instagram": "https://www.instagram.com/cafekine.cepsum/?hl=en"
+        }
+    },
+    {
+        "name": "Holocène",
+        "description": "Café 100 % végé. Produits véganes. Prix abordables surtout pour les samosas. Bonne ambiance. Immense collection de jeux de société. Café third wave à prix dérisoire.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/5919e165-43bb-4ed8-624b-3fb635fc5c00/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Géographie"
+        },
+        "location": {
+            "pavillon": "Campus MIL",
+            "local": "local B-0110.4"
+        },
+        "contact": {
+            "email": "assogeoudm@gmail.com",
+            "phone_number": "(438)-503-5913",
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/cafegeoudem/"
+        }
+    },
+    {
+        "name": "L’établi",
+        "description": "Pour un café chaud ou un froid, l'équipe de L’Établi est là pour vous accueillir.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/f2bf0b34-0577-4674-5c58-8b045ca41900/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Aménagement, urbanisme, architecture, design, paysage"
+        },
+        "location": {
+            "pavillon": "Pavillon de la Faculté de l’Aménagement",
+            "local": "local 1100"
+        },
+        "contact": {
+            "email": "benoit.archambault@amenagement.coop",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/Letabliame/",
+            "instagram": "https://www.instagram.com/cafe.etabli/?hl=fr"
+        }
+    },
+    {
+        "name": "L’Intermed",
+        "description": "Café autogéré par une vingtaine d’étudiantes et d’étudiants bénévoles visant à promouvoir l’implication sociale.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/1e9edc57-6bd1-4bd6-ea9c-5fa357a32200/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Médecine"
+        },
+        "location": {
+            "pavillon": "Pavillon Roger-Gaudry",
+            "local": "local X-031"
+        },
+        "contact": {
+            "email": "intermed@aeemum.org",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/IntermedUdeM"
+        }
+    },
+    {
+        "name": "La Brunante",
+        "description": "Le SEUL café-bar sur le Campus de la montagne à l’ouest de la tour.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/5d037109-fbab-4f2e-01dd-6865d90a2f00/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Éducation permanente"
+        },
+        "location": {
+            "pavillon": "3200, rue Jean-Brillant",
+            "local": "local B-2326"
+        },
+        "contact": {
+            "email": "gerance@labrunante.com",
+            "phone_number": "(514)-343-6111 poste 1232",
+            "website": "https://labrunante.com/"
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/labrunante"
+        }
+    },
+    {
+        "name": "La Planck",
+        "description": "Café espresso à 0,25 $ et café latte à 1 $.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/0dfa1e13-5b48-4a43-f001-561aaec56e00/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Physique"
+        },
+        "location": {
+            "pavillon": "Campus MIL",
+            "local": "local B-0110.3"
+        },
+        "contact": {
+            "email": "lecafelaplanck@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {}
+    },
+    {
+        "name": "La Retenue",
+        "description": "Terrasse et grande variété de produits.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/451127a5-9bbe-401c-0240-02b3d7c82400/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Sciences de l’éducation"
+        },
+        "location": {
+            "pavillon": "Pavillon Marie-Victorin",
+            "local": "local C-219"
+        },
+        "contact": {
+            "email": null,
+            "phone_number": null,
+            "website": "https://horaires.me/0322312/Cafe_La_Retenue"
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/CafeLaRetenue"
+        }
+    },
+    {
+        "name": "Le Macrophage",
+        "description": "Espace pour jeux vidéos.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/0468454c-5544-4509-d66e-2ab28a5b3d00/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Biochimie et médecine moléculaire"
+        },
+        "location": {
+            "pavillon": "Pavillon Roger-Gaudry",
+            "local": "local E-212"
+        },
+        "contact": {
+            "email": "aebbium@umontreal.ca",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/MacrophageE212"
+        }
+    },
+    {
+        "name": "Le Mal-aimé",
+        "description": "Tout petit café très convivial et chaleureux avec bas prix.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/c41f6044-6d19-40f7-e590-9b18c6a7d700/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Travail social"
+        },
+        "location": {
+            "pavillon": "Pavillon Lionel-Groulx",
+            "local": "local C-7143"
+        },
+        "contact": {
+            "email": "aetsum@umontreal.ca",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/cafemalaime"
+        }
+    },
+    {
+        "name": "Le Triton",
+        "description": "Petit café au service simple sans prétention.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/3578cb4a-9c36-4d1f-8b1a-370556332100/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Musique"
+        },
+        "location": {
+            "pavillon": "Pavillon de la Faculté de Musique",
+            "local": "local B-261"
+        },
+        "contact": {
+            "email": "benoit.archambault@amenagement.coop",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/cafeletriton"
+        }
+    },
+    {
+        "name": "Le Vivarium",
+        "description": "Café chaleureux et abordable, bonbons en vrac et nourriture végane.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/1d342826-4fb7-4898-00d6-55c6e5059e00/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Biologie"
+        },
+        "location": {
+            "pavillon": "Campus MIL",
+            "local": "local B-0110.2"
+        },
+        "contact": {
+            "email": "cafe.bio.udem@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/cafebiolevivarium"
+        }
+    },
+    {
+        "name": "Pill Pub",
+        "description": "Café pas cher, situé dans un local très lumineux.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/db42a0f6-6e3c-4507-eb92-9ca0826cd400/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Pharmacie"
+        },
+        "location": {
+            "pavillon": "Pavillon Jean-Coutu",
+            "local": "local S1-184"
+        },
+        "contact": {
+            "email": "pillpub.aepum@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/PillPub"
+        }
+    },
+    {
+        "name": "Psychic",
+        "description": "Café rénové.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/d745cbe0-4352-44bf-815c-221325e86300/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Psychologie"
+        },
+        "location": {
+            "pavillon": "Pavillon Marie-Victorin",
+            "local": "local D-428"
+        },
+        "contact": {
+            "email": "cafelepsychic@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/LePsychic",
+            "instagram": "https://www.instagram.com/cafe_lepsychic/?hl=fr"
+        }
+    },
+    {
+        "name": "Tore et fraction",
+        "description": "Café 100% bénévoles, vue du coucher de soleil magnifique, on remplit votre tasse pour 0,50$.",
+        "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/b108d192-c9ea-4827-18a0-ccb528642f00/public",
+        "affiliation": {
+            "university": "Université de Montréal",
+            "faculty": "Informatique et recherche opérationnelle, mathématiques et statistiques"
+        },
+        "location": {
+            "pavillon": "Pavillon André-Aisenstadt",
+            "local": "local AA-1221"
+        },
+        "contact": {
+            "email": "toreetfraction@gmail.com",
+            "phone_number": null,
+            "website": null
+        },
+        "social_media": {
+            "facebook": "https://www.facebook.com/CafeToreetFraction"
+        }
+    }
+]

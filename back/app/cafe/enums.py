@@ -8,23 +8,25 @@ from enum import Enum
 class Feature(str, Enum):
     """Enum for cafe features."""
 
-    ORDER = "Order"
+    ORDER = "ORDER"
+    DISCORD_BOT = "DISCORD_BOT"
 
 
 class Days(str, Enum):
     """Enum for days of the week."""
 
-    MONDAY = "Lundi"
-    TUESDAY = "Mardi"
-    WEDNESDAY = "Mercredi"
-    THURSDAY = "Jeudi"
-    FRIDAY = "Vendredi"
-    SATURDAY = "Samedi"
-    SUNDAY = "Dimanche"
+    MONDAY = "MONDAY"
+    TUESDAY = "TUESDAY"
+    WEDNESDAY = "WEDNESDAY"
+    THURSDAY = "THURSDAY"
+    FRIDAY = "FRIDAY"
+    SATURDAY = "SATURDAY"
+    SUNDAY = "SUNDAY"
 
 
-class Role(str, Enum):
-    """Enum for cafe roles."""
+class PaymentMethod(str, Enum):
+    """Enum for payment methods."""
 
-    VOLUNTEER = "Bénévole"
-    ADMIN = "Admin"
+    CASH = "CASH"
+    CREDIT = "CREDIT"
+    DEBIT = "DEBIT"

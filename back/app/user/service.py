@@ -2,20 +2,23 @@
 Module for handling user-related operations.
 """
 
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from beanie import PydanticObjectId
+from beanie.odm.queries.find import FindMany
 
 from app.auth.security import get_password
 from app.cafe.models import Cafe
-from app.user.models import User, UserCreate, UserUpdate
+from app.user.models import User, UserCreate, UserUpdate, UserView
 
 
 class UserService:
     """Service class for User and Auth operations."""
 
     @staticmethod
-    async def get_users(**filters: dict):
+    async def get_all(
+        to_list: bool = True, **filters: dict
+    ) -> Union[FindMany[User], List[User]]:
         """Get users."""
         sort_by = filters.pop("sort_by", "last_name")
         filters["is_active"] = True
@@ -23,121 +26,146 @@ class UserService:
         if "hashed_password" in filters:
             filters["hashed_password"] = None
 
-        return User.find(filters).sort(sort_by)
+        query = User.find(filters).sort(sort_by)
+        return await query.to_list() if to_list else query
 
     @staticmethod
-    async def get_user_by_email(email: str) -> Optional[User]:
+    async def get_by_email(email: str) -> Optional[User]:
         """Get a user by email."""
-        user = await User.find_one({"email": email, "is_active": True})
-        return user
+        return await User.find_one({"email": email, "is_active": True})
 
     @staticmethod
-    async def get_user_by_id(id: PydanticObjectId) -> Optional[User]:
+    async def get_by_id(
+        id: PydanticObjectId, as_view: bool = False
+    ) -> Union[User, UserView]:
         """Get a user by id."""
-        user = await User.find_one({"_id": id, "is_active": True})
-        return user
+        user_class = UserView if as_view else User
+        id_field = "id" if as_view else "_id"
+        return await user_class.find_one({id_field: id})
 
     @staticmethod
-    async def get_user_by_username(username: str) -> Optional[User]:
+    async def get_by_username(username: str) -> Optional[User]:
         """Get a user by username."""
-        user = await User.find_one({"username": username, "is_active": True})
-        return user
+        return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
-    async def get_user(username: str):
+    async def get(username: str) -> Optional[User]:
         """Get a user."""
         return await User.find_one({"username": username, "is_active": True})
 
     @staticmethod
-    async def create_user(user: UserCreate):
+    async def create(data: UserCreate):
         """Create a new user."""
-        user_in = User(
-            email=user.email,
-            matricule=user.matricule,
-            username=user.username,
-            hashed_password=get_password(user.password),
-            first_name=user.first_name,
-            last_name=user.last_name,
-            photo_url=user.photo_url,
+        user = User(
+            email=data.email,
+            matricule=data.matricule,
+            username=data.username,
+            hashed_password=get_password(data.password),
+            first_name=data.first_name,
+            last_name=data.last_name,
+            photo_url=data.photo_url,
         )
-        await user_in.insert()
-        return user_in
+        await user.insert()
+        return user
 
     @staticmethod
-    async def update_user(username: str, data: UserUpdate) -> User:
-        """Update a user by username."""
-        user = await UserService.get_user(username)
+    async def update(user: User, data: UserUpdate) -> User:
+        """Update a user."""
         update_data = data.model_dump(exclude_unset=True)
 
         if "password" in update_data:
-            update_data["hashed_password"] = get_password(update_data["password"])
+            user.hashed_password = get_password(update_data["password"])
             del update_data["password"]
 
-        await user.update({"$set": update_data})
+        for field, value in update_data.items():
+            setattr(user, field, value)
+
+        await user.save()
         return user
 
     @staticmethod
-    async def delete_user(username: str):
-        """Delete a user by username."""
-        user = await UserService.get_user(username)
+    async def delete(user: User):
+        """Delete a user."""
+        # TODO: Delete user from cafe
+        # if user:
+        #     await Cafe.find({"staff.username": username}).update(
+        #         {"$pull": {"staff": {"username": username}}}
+        #     )
+        #     await user.update({"$set": {"is_active": False}})
 
-        if user:
-            await Cafe.find({"staff.username": username}).update(
-                {"$pull": {"staff": {"username": username}}}
-            )
-            await user.update({"$set": {"is_active": False}})
-
-        return user
+        user.is_active = False
+        await user.save()
 
     @staticmethod
-    async def create_many_users(users_data: List[UserCreate]) -> List[User]:
+    async def add_cafe(
+        user: User,
+        cafe: Cafe,
+    ) -> None:
+        """Add a cafe to a user."""
+        if cafe.id in user.cafe_ids:
+            return
+
+        user.cafe_ids.append(cafe.id)
+        await user.save()
+
+    @staticmethod
+    async def remove_cafe(
+        user: User,
+        cafe: Cafe,
+    ) -> None:
+        """Remove a cafe from a user."""
+        if cafe.id not in user.cafe_ids:
+            return
+
+        user.cafe_ids.remove(cafe.id)
+        await user.save()
+
+    @staticmethod
+    async def create_many(datas: List[UserCreate]) -> List[PydanticObjectId]:
         """Create multiple users."""
         users = []
-        for user_data in users_data:
+        for data in datas:
             user = User(
-                email=user_data.email,
-                matricule=user_data.matricule,
-                username=user_data.username,
-                hashed_password=get_password(user_data.password),
-                first_name=user_data.first_name,
-                last_name=user_data.last_name,
-                photo_url=user_data.photo_url,
+                email=data.email,
+                matricule=data.matricule,
+                username=data.username,
+                hashed_password=get_password(data.password),
+                first_name=data.first_name,
+                last_name=data.last_name,
+                photo_url=data.photo_url,
             )
             users.append(user)
 
-        await User.insert_many(users)
-        return users
+        result = await User.insert_many(users)
+        return result.inserted_ids
 
     @staticmethod
-    async def update_many_users(usernames: List[str], data: UserUpdate) -> List[User]:
-        """Update multiple users based on the provided list of usernames."""
+    async def update_many(ids: List[PydanticObjectId], data: UserUpdate) -> List[User]:
         update_data = data.model_dump(exclude_unset=True)
 
         if "password" in update_data:
             update_data["hashed_password"] = get_password(update_data["password"])
             del update_data["password"]
 
-        result = await User.find_many({"username": {"$in": usernames}}).update_many(
+        result = await User.find_many({"_id": {"$in": ids}}).update_many(
             {"$set": update_data}
         )
         if result.matched_count == 0:
-            raise ValueError("No users found for the provided usernames")
+            return None
 
-        return await User.find_many({"username": {"$in": usernames}}).to_list()
+        return await User.find_many({"_id": {"$in": ids}}).to_list()
 
     @staticmethod
-    async def delete_many_users(usernames: List[str]) -> None:
-        """Delete multiple users based on the provided list of usernames."""
-        users_to_delete = await User.find_many(
-            {"username": {"$in": usernames}}
-        ).to_list()
+    async def delete_many(ids: List[PydanticObjectId]) -> None:
+        users_to_delete = await User.find_many({"_id": {"$in": ids}}).to_list()
         if not users_to_delete:
-            raise ValueError("No users found for the provided usernames")
+            return None
 
         for user in users_to_delete:
-            await Cafe.find({"staff.username": user.username}).update(
-                {"$pull": {"staff": {"username": user.username}}}
-            )
+            # TODO: Delete user from cafe
+            # await Cafe.find({"staff.username": user.username}).update(
+            #     {"$pull": {"staff": {"username": user.username}}}
+            # )
             await user.update({"$set": {"is_active": False}})
 
     @staticmethod
@@ -145,10 +173,22 @@ class UserService:
         email: str, matricule: str, username: str
     ) -> Optional[str]:
         """Check if a user with the provided email, matricule, or username exists."""
-        if await User.find_one({"email": email}):
-            return "email"
-        if await User.find_one({"matricule": matricule}):
-            return "matricule"
-        if await User.find_one({"username": username}):
-            return "username"
+        user = await User.find_one(
+            {
+                "$or": [
+                    {"email": email},
+                    {"matricule": matricule},
+                    {"username": username},
+                ]
+            }
+        )
+
+        if user:
+            if user.email == email:
+                return "email"
+            if user.matricule == matricule:
+                return "matricule"
+            if user.username == username:
+                return "username"
+
         return None
