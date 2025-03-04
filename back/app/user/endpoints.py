@@ -38,12 +38,14 @@ UserPage = CustomizedPage[
 user_router = APIRouter()
 
 
+# Deprecated
 @user_router.get(
     "/users",
     response_model=UserPage[UserOut],
     responses={
         401: {"model": ErrorResponse},
     },
+    deprecated=True,
 )
 async def list_users(
     request: Request,
