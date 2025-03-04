@@ -49,7 +49,6 @@ async def lifespan(app: FastAPI):
             Event,
             EventView,
             Interaction,
-            # InteractionView,
         ],
         recreate_views=True,
     )

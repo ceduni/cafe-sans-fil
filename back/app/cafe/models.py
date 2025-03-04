@@ -313,6 +313,8 @@ class CafeView(View, CafeBase, IdAlias):
     menu: MenuView
 
     class Settings:
+        """Settings for cafe view."""
+
         name: str = "cafes_view"
         source = "cafes"
         pipeline = [

@@ -2,7 +2,7 @@
 Module for handling interaction-related routes.
 """
 
-from typing import Literal, TypeVar
+from typing import Literal, Optional, TypeVar
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
@@ -16,10 +16,10 @@ from app.cafe.announcement.service import AnnouncementService
 from app.cafe.event.service import EventService
 from app.cafe.menu.item.service import ItemService
 from app.interaction.enums import InteractionType
-from app.interaction.models import Interaction
 from app.interaction.service import InteractionService
 from app.models import ErrorResponse
 from app.service import parse_query_params
+from app.user.models import UserOut
 
 T = TypeVar("T")
 
@@ -29,6 +29,7 @@ class InteractionParams(Params):
 
     size: int = Query(20, ge=1, le=100, description="Page size")
     page: int = Query(1, ge=1, description="Page number")
+    sort_by: Optional[str] = Query(None, description="Sort by a specific field")
 
 
 InteractionPage = CustomizedPage[
@@ -42,7 +43,7 @@ interaction_router = APIRouter()
 
 @interaction_router.get(
     "/items/{id}/interactions/{interaction}",
-    response_model=InteractionPage[Interaction],
+    response_model=InteractionPage[UserOut],
 )
 async def get_item_interactions(
     request: Request,
@@ -64,12 +65,13 @@ async def get_item_interactions(
     filters["type"] = interaction
 
     items = await InteractionService.get_all(to_list=False, **filters)
+
     return await paginate(items)
 
 
 @interaction_router.get(
     "/announcements/{id}/interactions/{interaction}",
-    response_model=InteractionPage[Interaction],
+    response_model=InteractionPage[UserOut],
 )
 async def get_announcement_interactions(
     request: Request,
@@ -85,17 +87,19 @@ async def get_announcement_interactions(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=[{"msg": "An announcement with this ID does not exist."}],
         )
+
     filters = parse_query_params(dict(request.query_params))
     filters["announcement_id"] = id
     filters["type"] = interaction
 
-    items = await InteractionService.get_all(to_list=False, **filters)
-    return await paginate(items)
+    announcement = await InteractionService.get_all(to_list=False, **filters)
+
+    return await paginate(announcement)
 
 
 @interaction_router.get(
     "/events/{id}/interactions/{interaction}",
-    response_model=InteractionPage[Interaction],
+    response_model=InteractionPage[UserOut],
 )
 async def get_event_interactions(
     request: Request,
@@ -114,8 +118,9 @@ async def get_event_interactions(
     filters["event_id"] = id
     filters["type"] = interaction
 
-    items = await InteractionService.get_all(to_list=False, **filters)
-    return await paginate(items)
+    events = await InteractionService.get_all(to_list=False, **filters)
+
+    return await paginate(events)
 
 
 @interaction_router.post(
