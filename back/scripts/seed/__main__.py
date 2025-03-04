@@ -42,7 +42,7 @@ async def main():
     await UserSeeder().seed_users(num_users=27)
     await CafeSeeder().seed_cafes(num_cafes=20)
     await StaffSeeder().seed_staff()
-    await MenuSeeder().seed_menu_items(num_items=20)
+    await MenuSeeder().seed_menu(num_items=20)
     await OrderSeeder().seed_orders(num_orders_per_cafe=50)
     await AnnouncementSeeder().seed_announcements()
     await EventSeeder().seed_events()

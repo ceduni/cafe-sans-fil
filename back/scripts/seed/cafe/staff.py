@@ -3,7 +3,7 @@ Staff seeder module.
 """
 
 import random
-from typing import List
+from typing import List, Tuple
 
 from beanie import PydanticObjectId
 from faker import Faker
@@ -28,57 +28,56 @@ class StaffSeeder:
         """Seeds staff members for cafes."""
         cafes: List[Cafe] = await CafeService.get_all()
         users: List[User] = await UserService.get_all(sort_by="_id")
-        user_ids: List[PydanticObjectId] = [user.id for user in users]
 
         for index, cafe in enumerate(tqdm(cafes, desc="Staff")):
             if not cafe:
                 continue
 
-            # Get the cafe's owner ID to exclude from staff roles
-            owner_id = cafe.owner_id
-
-            # Determine special case flags
-            is_second_cafe = index == 1
-            is_third_cafe = index == 2
-            is_last_cafe = index == len(cafes) - 1
-
-            # Generate staff members
-            admin_ids, volunteer_ids = self.random_staff_members(
-                user_ids=user_ids,
-                owner_id=owner_id,
-                is_second_cafe=is_second_cafe,
-                is_third_cafe=is_third_cafe,
-                is_last_cafe=is_last_cafe,
+            # Generate staff members using pre-loaded users
+            admins, volunteers = self.random_staff_members(
+                users=users,
+                owner_id=cafe.owner_id,
+                is_second_cafe=index == 1,
+                is_third_cafe=index == 2,
+                is_last_cafe=index == len(cafes) - 1,
             )
 
             # Add roles to cafe
-            if admin_ids:
-                await StaffService.add_many(cafe, Role.ADMIN, admin_ids)
-            if volunteer_ids:
-                await StaffService.add_many(cafe, Role.VOLUNTEER, volunteer_ids)
+            if admins:
+                await StaffService.add_many(cafe, Role.ADMIN, [u.id for u in admins])
+            if volunteers:
+                await StaffService.add_many(
+                    cafe, Role.VOLUNTEER, [u.id for u in volunteers]
+                )
+
+            # Update users' cafe_ids
+            for user in admins + volunteers:
+                if cafe.id not in user.cafe_ids:
+                    user.cafe_ids.append(cafe.id)
+                    await user.save()
 
     def random_staff_members(
         self,
-        user_ids: List[PydanticObjectId],
+        users: List[User],
         owner_id: PydanticObjectId,
         is_second_cafe: bool,
         is_third_cafe: bool,
         is_last_cafe: bool,
-    ) -> tuple[List[PydanticObjectId], List[PydanticObjectId]]:
-        """Generates staff members ensuring owner exclusion and special cases."""
-        # Exclude owner from available users
-        available_users = [uid for uid in user_ids if uid != owner_id]
-        admin_ids = []
-        volunteer_ids = []
-        first_user = user_ids[0] if user_ids else None
+    ) -> Tuple[List[User], List[User]]:
+        """Generates staff members using pre-loaded user objects."""
+        # Exclude owner and create working copy
+        available_users = [u for u in users if u.id != owner_id]
+        admins = []
+        volunteers = []
 
         # Handle special cases for first user
-        if first_user and first_user != owner_id:
+        if available_users:
+            first_user = available_users[0]
             if is_second_cafe:
-                admin_ids.append(first_user)
+                admins.append(first_user)
                 available_users.remove(first_user)
             elif is_third_cafe:
-                volunteer_ids.append(first_user)
+                volunteers.append(first_user)
                 available_users.remove(first_user)
             elif is_last_cafe and first_user in available_users:
                 available_users.remove(first_user)
@@ -93,8 +92,12 @@ class StaffSeeder:
             available_users, k=min(total_needed, len(available_users))
         )
 
-        # Split into roles ensuring no overlap
-        admin_ids += selected_users[:num_admins]
-        volunteer_ids += selected_users[num_admins:]
+        # Split into roles and deduplicate
+        admins += selected_users[:num_admins]
+        volunteers += selected_users[num_admins:]
 
-        return list(set(admin_ids)), list(set(volunteer_ids))
+        # Remove duplicates using dictionary (preserves order)
+        return (
+            list({u.id: u for u in admins}.values()),
+            list({u.id: u for u in volunteers}.values()),
+        )

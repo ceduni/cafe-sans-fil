@@ -52,7 +52,13 @@ class CafeSeeder:
             owner = users[idx % len(users)] if users else None
             self.cafes.append(await self._create_cafe(cafe_data, owner))
 
-        await Cafe.insert_many(self.cafes)
+        result = await Cafe.insert_many(self.cafes)
+        cafe_ids = result.inserted_ids
+
+        # Update users' cafe_ids
+        for i in range(len(cafe_ids)):
+            users[i].cafe_ids.append(cafe_ids[i])
+            await users[i].save()
 
     async def _create_cafe(self, data: dict, owner: User = None) -> Cafe:
         """Build Cafe instance without inserting."""

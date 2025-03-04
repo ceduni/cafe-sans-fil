@@ -31,7 +31,7 @@ class MenuSeeder:
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
 
-    async def seed_menu_items(self, num_items: int):
+    async def seed_menu(self, num_items: int):
         """Seeds menu items for cafes."""
         cafes = await CafeService.get_all()
 
