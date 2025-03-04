@@ -15,7 +15,7 @@ from beanie import (
     View,
     before_event,
 )
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, EmailStr, HttpUrl, field_validator
 from pymongo import IndexModel
 
 from app.cafe.enums import Days, Feature, Role
@@ -73,20 +73,9 @@ class Location(BaseModel):
 class Contact(BaseModel):
     """Model for contact information."""
 
-    email: Optional[str] = Field(None, examples=["s9i2j@example.com"])
+    email: Optional[EmailStr] = Field(None, examples=["s9i2j@example.com"])
     phone_number: Optional[str] = None
-    website: Optional[str] = None
-
-    @field_validator("email")
-    @classmethod
-    def validate_email(cls, v):
-        """Validate email address."""
-        if v is None or v == "":
-            return None
-        email_regex = re.compile(r"^\w+[\w.-]*@\w+[\w.-]+\.\w+$")
-        if not email_regex.match(v):
-            raise ValueError("Invalid email address")
-        return v
+    website: Optional[HttpUrl] = None
 
 
 class SocialMedia(BaseModel):
@@ -128,8 +117,8 @@ class CafeBase(BaseModel):
     previous_slugs: Optional[List[str]] = []
     features: List[Feature]
     description: str = Field(..., min_length=1, max_length=255)
-    logo_url: Optional[str] = Field(None, max_length=755)
-    image_url: Optional[str] = Field(None, max_length=755)
+    logo_url: Optional[HttpUrl] = Field(None, max_length=755)
+    image_url: Optional[HttpUrl] = Field(None, max_length=755)
     affiliation: Affiliation
     is_open: bool = False
     status_message: Optional[str] = Field(None, max_length=50)
