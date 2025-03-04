@@ -15,7 +15,7 @@ from app.cafe.announcement.models import (
     AnnouncementCreate,
     AnnouncementOut,
     AnnouncementUpdate,
-    AnnouncementViewOut,
+    AnnouncementView,
 )
 from app.cafe.announcement.service import AnnouncementService
 from app.cafe.permissions import AdminPermission
@@ -48,7 +48,7 @@ announcement_router = APIRouter()
 
 @announcement_router.get(
     "/announcements/",
-    response_model=AnnouncementPage[AnnouncementViewOut],
+    response_model=AnnouncementPage[AnnouncementView],
 )
 async def list_announcements(
     request: Request,

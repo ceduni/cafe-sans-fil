@@ -8,8 +8,8 @@ from typing import List, Optional
 from beanie import Document, PydanticObjectId, View
 from pydantic import BaseModel, Field
 
-from app.models import CafeId, Id, IdAlias
-from app.user.models import UserView, UserViewOut
+from app.models import CafeId, Id
+from app.user.models import UserOut
 
 
 class AnnouncementBase(BaseModel):
@@ -58,10 +58,10 @@ class AnnouncementOut(AnnouncementBase, CafeId, Id):
     pass
 
 
-class AnnouncementView(View, AnnouncementBase, CafeId, IdAlias):
+class AnnouncementView(View, AnnouncementBase, CafeId, Id):
     """Model for announcement view."""
 
-    author: UserView
+    author: UserOut
 
     class Settings:
         name = "announcements_view"
@@ -75,7 +75,8 @@ class AnnouncementView(View, AnnouncementBase, CafeId, IdAlias):
                     "pipeline": [
                         {
                             "$project": {
-                                "_id": 1,
+                                "_id": 0,
+                                "id": "$_id",
                                 "username": 1,
                                 "email": 1,
                                 "matricule": 1,
@@ -89,11 +90,6 @@ class AnnouncementView(View, AnnouncementBase, CafeId, IdAlias):
                 }
             },
             {"$addFields": {"author": {"$arrayElemAt": ["$author", 0]}}},
-            {"$unset": "author_id"},
+            {"$addFields": {"id": "$_id"}},
+            {"$unset": ["_id", "author_id"]},
         ]
-
-
-class AnnouncementViewOut(AnnouncementBase, CafeId, Id):
-    """Model for announcement view output."""
-
-    author: UserViewOut
