@@ -5,7 +5,6 @@ Cafe seeder module.
 import json
 import os
 import random
-from datetime import UTC, datetime, timedelta
 from typing import List, Optional
 
 from slugify import slugify
@@ -13,7 +12,6 @@ from tqdm import tqdm
 
 from app.cafe.enums import Days, Feature, PaymentMethod
 from app.cafe.models import (
-    AdditionalInfo,
     Affiliation,
     Cafe,
     CafeCreate,
@@ -77,7 +75,6 @@ class CafeSeeder:
             contact=Contact(**data["contact"]),
             social_media=SocialMedia(**data.get("social_media", {})),
             payment_details=self._random_payment_details(),
-            additional_info=self._random_additional_info(),
         )
 
         cafe = Cafe(
@@ -164,24 +161,4 @@ class CafeSeeder:
         return [
             PaymentDetails(method=m, minimum=min)
             for m, min in random.sample(methods, k=random.randint(0, 3))
-        ]
-
-    def _random_additional_info(self) -> List[AdditionalInfo]:
-        """Generate relevant announcements"""
-        if random.random() < 0.7:  # 70% chance of having info
-            return []
-
-        return [
-            AdditionalInfo(
-                type=random.choice(["Événement", "Promotion", "Avis"]),
-                value=random.choice(
-                    [
-                        "Nouvelle machine à café artisanale installée!",
-                        "Réduction de 15% sur les pâtisseries après 16h",
-                        "Collecte de fonds pour la banque alimentaire locale",
-                    ]
-                ),
-                start=datetime.now(UTC) - timedelta(days=random.randint(0, 7)),
-                end=datetime.now(UTC) + timedelta(days=random.randint(7, 30)),
-            )
         ]

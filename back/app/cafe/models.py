@@ -8,7 +8,7 @@ from typing import List, Optional
 
 import pymongo
 from beanie import DecimalAnnotation, Insert, PydanticObjectId, Save, View, before_event
-from pydantic import BaseModel, Field, EmailStr, HttpUrl, field_validator
+from pydantic import BaseModel, EmailStr, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 from slugify import slugify
 
@@ -77,9 +77,9 @@ class Contact(BaseModel):
 class SocialMedia(BaseModel):
     """Model for social media links."""
 
-    facebook: Optional[str] = None
-    instagram: Optional[str] = None
-    x: Optional[str] = None
+    facebook: Optional[HttpUrl] = None
+    instagram: Optional[HttpUrl] = None
+    x: Optional[HttpUrl] = None
 
 
 class PaymentDetails(BaseModel):
@@ -87,15 +87,6 @@ class PaymentDetails(BaseModel):
 
     method: PaymentMethod
     minimum: Optional[DecimalAnnotation] = None
-
-
-class AdditionalInfo(BaseModel):
-    """Model for additional information."""
-
-    type: str = Field(..., min_length=1)
-    value: str = Field(..., min_length=1)
-    start: Optional[datetime] = None
-    end: Optional[datetime] = None
 
 
 class CafeBase(BaseModel):
@@ -117,7 +108,6 @@ class CafeBase(BaseModel):
     contact: Contact
     social_media: SocialMedia
     payment_details: List[PaymentDetails] = []
-    additional_info: List[AdditionalInfo] = []
 
     @field_validator("opening_hours")
     @classmethod
@@ -168,24 +158,6 @@ class CafeBase(BaseModel):
         if len(payment_details_set) != len(payment_details):
             raise ValueError("Duplicate payment method detected.")
         return payment_details
-
-    @field_validator("additional_info")
-    @classmethod
-    def validate_additional_info(cls, additional_info):
-        """Validate that additional info entries are unique."""
-        additional_info_combinations = set()
-        for info_data in additional_info:
-            if isinstance(info_data, dict):
-                info = AdditionalInfo(**info_data)
-            else:
-                info = info_data
-            additional_info_combinations.add((info.type, info.value))
-
-        if len(additional_info_combinations) != len(additional_info):
-            raise ValueError(
-                "Duplicate AdditionalInfo type-value combination detected."
-            )
-        return additional_info
 
 
 class Cafe(CustomDocument, CafeBase):
@@ -244,7 +216,6 @@ class CafeCreate(BaseModel):
     contact: Contact
     social_media: SocialMedia
     payment_details: List[PaymentDetails] = []
-    additional_info: Optional[List[AdditionalInfo]] = None
 
 
 class CafeUpdate(BaseModel):
@@ -264,7 +235,6 @@ class CafeUpdate(BaseModel):
     contact: Optional[Contact] = None
     social_media: Optional[SocialMedia] = None
     payment_details: Optional[List[PaymentDetails]] = None
-    additional_info: Optional[List[AdditionalInfo]] = None
     owner_id: Optional[PydanticObjectId] = None
 
 
@@ -291,7 +261,6 @@ class CafeShortOut(BaseModel, Id):
     opening_hours: List[DayHours]
     location: Location
     payment_details: List[PaymentDetails]
-    additional_info: List[AdditionalInfo]
 
 
 class CafeView(View, CafeBase, Id):
