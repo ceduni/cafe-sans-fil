@@ -1,14 +1,1 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  min-height: 100vh;
-}
+@import "tailwindcss";

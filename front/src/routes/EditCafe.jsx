@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import Container from "@/components/Layout/Container";
 import useApi from "@/hooks/useApi";
 import OpenIndicator from "@/components/Cafe/OpenIndicator";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import Input from "@/components/Widgets/Input";
@@ -17,6 +17,7 @@ import EditAdditionalInfo from "@/components/Cafe/EditAdditionalInfo";
 import EditPaymentMethods from "@/components/Cafe/EditPaymentMehods";
 import EditOpeningHours from "@/components/Cafe/EditOpeningHours";
 import EditSocials from "@/components/Cafe/EditSocials";
+import useTitle from "@/hooks/useTitle";
 
 const EditCafe = () => {
   const { id: cafeSlug } = useParams();
@@ -73,9 +74,9 @@ const EditCafe = () => {
     updateCafe(cafeData);
   };
 
+  useTitle(data?.name ? `Édition ${data.name} | Café sans-fil` : "Édition du café");
   return (
     <AdminOnly cafe={data} error={error}>
-      <Helmet>{data && <title>Édition {data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>

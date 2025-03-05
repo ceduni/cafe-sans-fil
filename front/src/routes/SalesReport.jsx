@@ -5,12 +5,13 @@ import toast from "react-hot-toast";
 import Container from "@/components/Layout/Container";
 import useApi from "@/hooks/useApi";
 import { formatPrice } from "@/utils/cart";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdminOnly from "@/helpers/AdminOnly";
 import { isAdmin } from "@/utils/admin";
 import { useAuth } from "@/hooks/useAuth";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import useTitle from "@/hooks/useTitle";
 
 const SalesReport = () => {
   const { id: cafeSlug } = useParams();
@@ -67,10 +68,10 @@ const SalesReport = () => {
     return menuItem ? menuItem.image_url : null;
   };
 
+  useTitle(`Rapports de ${data?.name} | Café sans-fil`);
+
   return (
     <>
-      <Helmet>{data && <title>Rapports de {data.name} | Café sans-fil</title>}</Helmet>
-
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>

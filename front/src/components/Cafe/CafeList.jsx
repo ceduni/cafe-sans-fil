@@ -77,7 +77,7 @@ function renderCafe(cafes, filters, setFilters) {
 
             <div className="grid animate-fade-in grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-8">
                 {filteredData.map((cafe) => (
-                    <CafeCard cafe={cafe} />
+                    <CafeCard key={cafe.id} cafe={cafe} />
                 ))}
             </div>
         </div>

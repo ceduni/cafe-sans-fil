@@ -8,8 +8,9 @@ import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import { LoadingOrderCard, OrderCard } from "@/components/Orders/OrderCard";
 import useApi from "@/hooks/useApi";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
+import useTitle from "@/hooks/useTitle";
 
 function Orders() {
   const { user } = useAuth();
@@ -80,11 +81,9 @@ function Orders() {
     }
   };
 
+  useTitle("Mes commandes | Café sans-fil");
   return (
     <>
-      <Helmet>
-        <title>Mes commandes | Café sans-fil</title>
-      </Helmet>
       <Container className="py-12 md:py-14">
         <div className="flex flex-col items-center">
           <h1 className="text-3xl sm:text-4xl tracking-tight text-opacity-90 font-secondary text-zinc-800">

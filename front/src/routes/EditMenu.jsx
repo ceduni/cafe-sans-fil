@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import Container from "@/components/Layout/Container";
 import useApi from "@/hooks/useApi";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { getCafeCategories, getItemByCategory } from "@/utils/items";
 import ItemCard from "@/components/Items/ItemCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import AddItemCard from "@/components/Items/AddItemCard";
 import MemberOnly from "@/helpers/MemberOnly";
+import useTitle from "@/hooks/useTitle";
 
 const EditMenu = () => {
   const { id: cafeSlug } = useParams();
@@ -18,9 +19,10 @@ const EditMenu = () => {
 
   const onItemUpdate = () => refetch();
 
+  useTitle(`Édition du menu de ${data?.name} | Café sans-fil`);
+
   return (
     <MemberOnly cafe={data} error={error}>
-      <Helmet>{data && <title>Édition du menu de {data.name} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>

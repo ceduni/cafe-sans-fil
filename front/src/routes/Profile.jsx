@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import Container from "@/components/Layout/Container";
 import Input from "@/components/Widgets/Input";
 import Avatar from "@/components/Avatar";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import useApi from "@/hooks/useApi";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import useTitle from "@/hooks/useTitle";
 
 const Profile = () => {
   const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
@@ -101,11 +102,10 @@ const Profile = () => {
     }
   }, [isConfirmingDelete]);
 
+  useTitle("Profil | Café sans-fil");
+
   return (
     <>
-      <Helmet>
-        <title>Profil | Café sans-fil</title>
-      </Helmet>
       <Container className="py-10">
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">

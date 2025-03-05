@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { CafeAPI } from "@/utils/api";
@@ -11,12 +11,15 @@ import CafeMenu from "@/components/CafeMenu/Menu";
 import CafeAnnouncement from "@/components/CafeAnnouncement/CafeAnnouncement";
 import CafePost from "@/components/CafeAnnouncement/CafePost";
 import '@/assets/styles/cafe.css';
+import useTitle from "@/hooks/useTitle";
 
 const _lst = Object.entries;
 
 
 const Cafe = () => {
     const { t } = useTranslation();
+
+    
 
     const { id } = useParams();
 
@@ -37,6 +40,8 @@ const Cafe = () => {
             })
     }, []);
 
+    useTitle(cafe?.name && `${cafe.name} | ${APP_NAME}`)
+    
     if (error) {
         if (error.status === 404) {
             throw new Response("Not found", { status: 404, statusText: t("error.404.cafe_not_found") });
@@ -51,7 +56,6 @@ const Cafe = () => {
 
     return (
         <>
-            <Helmet>{cafe?.name && <title>{cafe.name} | {APP_NAME}</title>}</Helmet>
             <header className={`relative h-[400px] flex items-end justify-between overflow-hidden;`} style={{ background: `url(${cafe.image}) center / cover no-repeat` }}>
                 <div className="cafe-brand">
                     <img className="cafe-logo" src={cafe?.logo} alt={t("alt.cafe_logo")} />

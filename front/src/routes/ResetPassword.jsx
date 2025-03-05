@@ -1,8 +1,9 @@
 import Input from "@/components/Widgets/Input";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import logo from "/logo.png";
+import useTitle from "@/hooks/useTitle";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
@@ -17,11 +18,9 @@ const ResetPassword = () => {
     setError("Cette fonctionnalité n'est pas encore disponible.");
   };
 
+  useTitle("Réinitialiser le mot de passe | Café sans-fil");
   return (
     <>
-      <Helmet>
-        <title>Réinitialiser le mot de passe | Café sans-fil</title>
-      </Helmet>
       <div className="flex min-h-[93vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Link to="/">

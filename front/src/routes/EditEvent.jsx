@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Container from "@/components/Layout/Container";
 import useApi from "@/hooks/useApi";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import AdminOnly from "@/helpers/AdminOnly";
@@ -12,6 +12,7 @@ import EventCard from "./Board/EventCard";
 import toast from 'react-hot-toast';
 import { Link } from "react-router-dom";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
+import useTitle from "@/hooks/useTitle";
 
 
 const EditEvent = () => {
@@ -79,12 +80,10 @@ const EditEvent = () => {
     });
   };
 
+  useTitle(`Édition des événements de ${eventData?.title || 'Café sans-fil'}`);
   
   return (
     <AdminOnly cafe={cafeData} error={cafeError}>
-      <Helmet>
-        <title>{`Édition des événements de ${eventData?.title || 'Café sans-fil'}`}</title>
-      </Helmet>
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>

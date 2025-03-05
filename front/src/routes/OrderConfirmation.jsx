@@ -13,7 +13,8 @@ import authenticatedRequest from "@/helpers/authenticatedRequest";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import ErrorState from "@/components/Error/ErrorState";
-import { Helmet } from "react-helmet-async";
+import useTitle from "@/hooks/useTitle";
+// import { Helmet } from "react-helmet-async";
 
 const OrderConfirmation = () => {
   const { isLoggedIn } = useAuth();
@@ -97,11 +98,10 @@ const OrderConfirmation = () => {
     }
   };
 
+  useTitle("Confirmation de la commande | Café sans-fil");
+
   return (
     <>
-      <Helmet>
-        <title>Confirmation de la commande | Café sans-fil</title>
-      </Helmet>
       <Container className="py-10">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white shadow overflow-hidden sm:rounded-lg">

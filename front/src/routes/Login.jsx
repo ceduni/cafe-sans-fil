@@ -1,10 +1,11 @@
 import logo from "/logo.png";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import Input from "@/components/Widgets/Input";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import useTitle from "@/hooks/useTitle";
 
 const Login = () => {
   const { onLogin } = useAuth();
@@ -20,11 +21,9 @@ const Login = () => {
     onLogin(e, credentials, setCredentials, setHasSubmitted);
   };
 
+  useTitle("Se connecter | Café sans-fil");
   return (
     <>
-      <Helmet>
-        <title>Se connecter | Café sans-fil</title>
-      </Helmet>
       <div className="flex min-h-[93vh] flex-1 flex-col justify-center px-6 py-14 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Link to="/">

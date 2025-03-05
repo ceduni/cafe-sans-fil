@@ -74,7 +74,8 @@ export const CafeAPI = {
      * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Cafe objects.
      */
     getAll: async function (setLoading = null, cancel = false) {
-        const result = await fetchData(`/cafes`, setLoading);
+        const {items: result} = await fetchData(`/cafes`, setLoading);
+        console.log(result);
         return result.map(cafeData => new Cafe(cafeData));
     },
     /**

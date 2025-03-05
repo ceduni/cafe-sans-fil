@@ -9,11 +9,11 @@ import { useAuth } from "@/hooks/useAuth";
 import toast from "react-hot-toast";
 import { useParams, Link } from "react-router-dom";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
-import { Helmet } from "react-helmet-async";
 import EmptyState from "@/components/Error/EmptyState";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Avatar from "@/components/Avatar";
 import classNames from "classnames";
+import useTitle from "@/hooks/useTitle";
 
 const StaffList = () => {
   const { id: cafeSlug } = useParams();
@@ -108,10 +108,9 @@ const StaffList = () => {
     }
   };
 
+  useTitle(data && `Staff de ${data.name} | Café sans-fil`)
   return (
     <>
-      <Helmet>{data && <title>Staff de {data.name} | Café sans-fil</title>}</Helmet>
-
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>

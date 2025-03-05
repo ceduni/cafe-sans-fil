@@ -1,9 +1,10 @@
 import Input from "@/components/Widgets/Input";
 import { useAuth } from "@/hooks/useAuth";
 import logo from "/logo.png";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import useTitle from "@/hooks/useTitle";
 
 const SignUp = () => {
   const { onSignUp } = useAuth();
@@ -25,11 +26,9 @@ const SignUp = () => {
     onSignUp(e, userData, setHasSubmitted);
   };
 
+  useTitle("Créer un compte | Café sans-fil");
   return (
     <>
-      <Helmet>
-        <title>Créer un compte | Café sans-fil</title>
-      </Helmet>
       <div className="flex min-h-[93vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Link to="/">

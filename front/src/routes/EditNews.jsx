@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Container from "@/components/Layout/Container";
 import useApi from "@/hooks/useApi";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 import AdminOnly from "@/helpers/AdminOnly";
@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { ClockIcon,BellIcon, BellAlertIcon, HandThumbUpIcon} from "@heroicons/react/24/outline";
 import NewsBoard from "./Board/NewsBoard";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
+import useTitle from "@/hooks/useTitle";
 
 const EditNews = () => {
   const { id: cafeSlug } = useParams();
@@ -88,11 +89,10 @@ const EditNews = () => {
     });
   };
 
+  useTitle(`Édition des annonces de ${cafeData?.name || 'Café sans-fil'}`);
+
   return (
     <AdminOnly cafe={cafeData} error={cafeError}>
-      <Helmet>
-      <title>{`Édition des annonces de ${announcementData?.title || 'Café sans-fil'}`}</title>
-      </Helmet>
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>

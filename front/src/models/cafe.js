@@ -5,20 +5,20 @@ const isVolunteer = (user) => user.role === "Bénévole";
 
 export class Cafe {
     constructor(data) {
-        this.id = data.cafe_id;
+        this.id = data.id;
         this.name = data.name;
         this.slug = data.slug;
         this.description = data.description;
         this.logo = data.logo_url;
-        this.image = data.image_url;
+        this.image = data.banner_url;
         this.closed = !data.is_open;
         this.status = data.status_message;
         this.socials = data.social_media;
         this.hours = data.faculty;
         this.location = new Location(data.location);
         this.openingHours = data.opening_hours.map(x => new OpeningHour(x));
-        this.paymentMethods = data.payment_methods.map(x => new Payment(x));
-        this.announcements = data.additional_info;
+        // this.paymentMethods = data.payment_methods.map(x => new Payment(x));
+        // this.announcements = data.additional_info;
 
         if (data.menu_items) {
             this.menu = data.menu_items.map(x => new CafeMenuItem(x));

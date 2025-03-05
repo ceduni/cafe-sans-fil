@@ -7,10 +7,10 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import ErrorState from "@/components/Error/ErrorState";
 import useApi from "@/hooks/useApi";
-import { Helmet } from "react-helmet-async";
 import EmptyState from "@/components/Error/EmptyState";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import useTitle from "@/hooks/useTitle";
 
 const CafeOrders = () => {
   const { id: cafeSlug } = useParams();
@@ -99,9 +99,10 @@ const CafeOrders = () => {
     );
   }
 
+  useTitle(`Commandes de ${cafeName} | Café sans-fil`);
+
   return (
     <>
-      <Helmet>{cafeName && <title>Commandes de {cafeName} | Café sans-fil</title>}</Helmet>
       <Container className="py-10">
         <Breadcrumbs>
           <Breadcrumbs.Item link="/">Cafés</Breadcrumbs.Item>

@@ -1,6 +1,6 @@
 import { useRouteError } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 
 const ErrorPage = () => {
   const error = useRouteError();
@@ -8,9 +8,9 @@ const ErrorPage = () => {
 
   return (
     <>
-      <Helmet>
+      <head>
         <title>Erreur | Café sans-fil</title>
-      </Helmet>
+      </head>
       <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8 h-screen">
         <div className="text-center">
           <p className="text-base font-semibold text-emerald-600">{error.status}</p>
