@@ -12,10 +12,10 @@ from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user, get_current_user_optional
-from app.cafe.event.models import EventAggregateOut, EventCreate, EventOut, EventUpdate
-from app.cafe.event.service import EventService
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
+from app.event.models import EventAggregateOut, EventCreate, EventOut, EventUpdate
+from app.event.service import EventService
 from app.models import ErrorResponse
 from app.service import parse_query_params
 from app.user.models import User

@@ -7,11 +7,11 @@ from fastapi import APIRouter
 from app.auth.endpoints import auth_router
 from app.cafe.announcement.endpoints import announcement_router
 from app.cafe.endpoints import cafe_router
-from app.cafe.event.endpoints import event_router
 from app.cafe.menu.category.endpoints import category_router
 from app.cafe.menu.item.endpoints import item_router
 from app.cafe.order.endpoints import order_router
 from app.cafe.staff.endpoints import staff_router
+from app.event.endpoints import event_router
 from app.interaction.endpoints import interaction_router
 from app.search.endpoints import search_router
 from app.user.endpoints import user_router

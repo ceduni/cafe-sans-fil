@@ -11,12 +11,12 @@ from fastapi_pagination import add_pagination
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.cafe.announcement.models import Announcement
-from app.cafe.event.models import Event
 from app.cafe.menu.item.models import MenuItem
 from app.cafe.models import Cafe
 from app.cafe.order.models import Order
 from app.cafe.order.scheduler import order_scheduler
 from app.config import settings
+from app.event.models import Event
 from app.interaction.models import Interaction
 from app.router import router
 from app.user.models import User

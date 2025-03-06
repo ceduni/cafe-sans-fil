@@ -13,8 +13,8 @@ from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.cafe.announcement.service import AnnouncementService
-from app.cafe.event.service import EventService
 from app.cafe.menu.item.service import ItemService
+from app.event.service import EventService
 from app.interaction.enums import InteractionType
 from app.interaction.service import InteractionService
 from app.models import ErrorResponse

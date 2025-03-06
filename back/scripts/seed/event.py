@@ -11,9 +11,9 @@ from typing import List
 from beanie import PydanticObjectId
 from tqdm import tqdm
 
-from app.cafe.event.models import Event, EventCreate
 from app.cafe.models import Cafe
 from app.cafe.service import CafeService
+from app.event.models import Event, EventCreate
 
 random.seed(42)
 

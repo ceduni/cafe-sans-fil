@@ -8,8 +8,8 @@ from beanie import PydanticObjectId
 from beanie.odm.queries.find import AggregationQuery, FindMany
 from pymongo import ASCENDING, DESCENDING
 
-from app.cafe.event.models import Event, EventCreate, EventUpdate
 from app.cafe.models import Cafe
+from app.event.models import Event, EventCreate, EventUpdate
 from app.service import set_attributes
 from app.user.models import User
 
