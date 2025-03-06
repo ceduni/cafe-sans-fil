@@ -30,7 +30,7 @@ class EventParams(Params):
     page: int = Query(1, ge=1, description="Page number")
     sort_by: Optional[str] = Query(None, description="Sort by a specific field")
     cafe_id: Optional[PydanticObjectId] = Query(
-        None, description="Filter by cafe ID.", example=None
+        None, description="Filter by cafe ID", example=""
     )
 
 
