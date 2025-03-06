@@ -8,6 +8,7 @@ from beanie import PydanticObjectId
 from beanie.odm.queries.find import FindMany
 from bson.errors import InvalidId
 
+from app.cafe.menu.models import MenuUpdate
 from app.cafe.models import Cafe, CafeCreate, CafeUpdate, CafeView
 from app.service import set_attributes
 
@@ -65,3 +66,9 @@ class CafeService:
         set_attributes(cafe, data)
         await cafe.save()
         return cafe
+
+    @staticmethod
+    async def update_menu(cafe: Cafe, data: MenuUpdate) -> Cafe:
+        """Update a cafe menu."""
+        cafe.menu.layout = data.layout
+        await cafe.save()

@@ -17,6 +17,12 @@ class Menu(BaseModel):
     categories: List[MenuCategory] = []
 
 
+class MenuUpdate(BaseModel):
+    """Model for updating menu."""
+
+    layout: Layout
+
+
 class MenuOut(BaseModel):
     """Model for menu output."""
 

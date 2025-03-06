@@ -18,9 +18,9 @@ from app.user.endpoints import user_router
 
 router = APIRouter()
 router.include_router(cafe_router, tags=["cafes"])
-router.include_router(staff_router, tags=["staff"])
 router.include_router(category_router, tags=["categories"])
 router.include_router(item_router, tags=["items"])
+router.include_router(staff_router, tags=["staff"])
 router.include_router(announcement_router, tags=["announcements"])
 router.include_router(event_router, tags=["events"])
 router.include_router(order_router, tags=["orders"])

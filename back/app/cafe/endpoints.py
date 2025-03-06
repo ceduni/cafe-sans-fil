@@ -13,6 +13,7 @@ from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
 from app.auth.dependencies import get_current_user
+from app.cafe.menu.models import MenuUpdate
 from app.cafe.models import CafeCreate, CafeOut, CafeShortOut, CafeUpdate, CafeView
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
@@ -175,3 +176,27 @@ async def update_cafe(
                 }
             ],
         )
+
+
+@cafe_router.put(
+    "/cafes/{slug}/menu",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
+    dependencies=[Depends(AdminPermission())],
+)
+async def update_menu(
+    data: MenuUpdate,
+    slug: str = Path(..., description="Slug of the cafe"),
+):
+    """Update a cafe menu. (`ADMIN`)"""
+    cafe = await CafeService.get(slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
+
+    await CafeService.update_menu(cafe, data)
