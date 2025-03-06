@@ -12,7 +12,7 @@ from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
-from app.auth.dependencies import get_current_user
+from app.auth.dependencies import get_current_user, get_current_user_optional
 from app.cafe.menu.models import MenuUpdate
 from app.cafe.models import (
     CafeAggregateOut,
@@ -103,13 +103,13 @@ async def create_cafe(
 )
 async def get_cafe(
     slug: str = Path(..., description="Slug of the cafe"),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_optional),
 ):
     """Get a cafe with full details."""
     cafe = await CafeService.get(
         slug,
         aggregate=True,
-        current_user_id=current_user.id,
+        current_user_id=current_user.id if current_user else None,
     )
     if not cafe:
         raise HTTPException(

@@ -3,6 +3,7 @@ Module for handling authentication-related dependencies.
 """
 
 from datetime import datetime
+from typing import Optional
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -16,6 +17,10 @@ from app.user.service import UserService
 
 reuseable_oauth = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/auth/login", scheme_name="JWT"
+)
+
+optional_oauth = OAuth2PasswordBearer(
+    tokenUrl=f"{settings.API_V1_STR}/auth/login", scheme_name="JWT", auto_error=False
 )
 
 
@@ -64,3 +69,21 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
 async def get_current_user_aggregate(token: str = Depends(reuseable_oauth)) -> User:
     """User aggregate dependency"""
     return await _base_current_user(aggregate=True, token=token)
+
+
+async def get_current_user_optional(
+    token: Optional[str] = Depends(optional_oauth),
+) -> Optional[User]:
+    """Optional user dependency that does not raise errors on invalid/missing tokens"""
+    if not token:
+        return None
+
+    try:
+        payload = jwt.decode(
+            token, settings.JWT_SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
+        token_data = TokenPayload(**payload)
+        user = await UserService.get_by_id(id=token_data.sub, aggregate=False)
+        return user if user else None
+    except (JWTError, ValidationError, HTTPException):
+        return None

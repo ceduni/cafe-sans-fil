@@ -11,7 +11,7 @@ from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
-from app.auth.dependencies import get_current_user
+from app.auth.dependencies import get_current_user, get_current_user_optional
 from app.cafe.announcement.models import (
     AnnouncementAggregateOut,
     AnnouncementCreate,
@@ -52,14 +52,14 @@ announcement_router = APIRouter()
 )
 async def list_announcements(
     request: Request,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_optional),
 ):
     """Get a list of announcements."""
     filters = parse_query_params(dict(request.query_params))
     announcements = await AnnouncementService.get_all(
         to_list=False,
         aggregate=True,
-        current_user_id=current_user.id,
+        current_user_id=current_user.id if current_user else None,
         **filters,
     )
     return await paginate(announcements)
