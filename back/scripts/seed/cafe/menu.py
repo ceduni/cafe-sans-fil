@@ -49,7 +49,7 @@ class MenuSeeder:
                     print(f"Skipping item with unknown category: {category_name}")
                     continue
 
-                item_copy["category_id"] = category_id
+                item_copy["category_ids"] = [category_id]
                 item_copy["in_stock"] = random.random() < 0.80
                 randomized_menu_items.append(MenuItemCreate(**item_copy))
 

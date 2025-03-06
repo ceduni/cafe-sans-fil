@@ -227,8 +227,10 @@ class CafeService:
                                                                 "as": "item",
                                                                 "cond": {
                                                                     "$eq": [
-                                                                        "$$item.category_id",
-                                                                        None,
+                                                                        {
+                                                                            "$size": "$$item.category_ids"
+                                                                        },
+                                                                        0,
                                                                     ]
                                                                 },
                                                             }
@@ -251,8 +253,10 @@ class CafeService:
                                                                     "as": "item",
                                                                     "cond": {
                                                                         "$eq": [
-                                                                            "$$item.category_id",
-                                                                            None,
+                                                                            {
+                                                                                "$size": "$$item.category_ids"
+                                                                            },
+                                                                            0,
                                                                         ]
                                                                     },
                                                                 }
@@ -365,9 +369,9 @@ class CafeService:
                                                                 "input": "$menu_items",
                                                                 "as": "item",
                                                                 "cond": {
-                                                                    "$eq": [
-                                                                        "$$item.category_id",
+                                                                    "$in": [
                                                                         "$$cat._id",
+                                                                        "$$item.category_ids",
                                                                     ]
                                                                 },
                                                             }
