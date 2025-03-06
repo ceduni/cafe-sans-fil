@@ -29,7 +29,9 @@ class EventParams(Params):
     size: int = Query(20, ge=1, le=100, description="Page size")
     page: int = Query(1, ge=1, description="Page number")
     sort_by: Optional[str] = Query(None, description="Sort by a specific field")
-    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID.")
+    cafe_id: Optional[PydanticObjectId] = Query(
+        None, description="Filter by cafe ID.", example=None
+    )
 
 
 EventPage = CustomizedPage[
