@@ -6,7 +6,7 @@ from datetime import UTC, datetime
 from typing import Literal, Optional
 
 from beanie import Document, PydanticObjectId
-from pydantic import Field
+from pydantic import BaseModel, Field
 from pymongo import IndexModel
 
 from app.interaction.enums import InteractionType
@@ -24,6 +24,9 @@ class Interaction(Document):
         name = "interactions"
         is_root = True
         indexes = [
+            IndexModel([("item_id", 1)]),
+            IndexModel([("announcement_id", 1)]),
+            IndexModel([("event_id", 1)]),
             IndexModel([("user_id", 1), ("item_id", 1), ("type", 1)]),
             IndexModel([("user_id", 1), ("announcement_id", 1), ("type", 1)]),
             IndexModel([("user_id", 1), ("event_id", 1), ("type", 1)]),
@@ -49,3 +52,11 @@ class EventInteraction(Interaction):
 
     event_id: PydanticObjectId
     type: InteractionType
+
+
+class InteractionOut(BaseModel):
+    """Model for interaction output."""
+
+    type: InteractionType
+    count: int
+    me: bool

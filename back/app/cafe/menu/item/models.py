@@ -9,6 +9,7 @@ from beanie import DecimalAnnotation
 from pydantic import BaseModel, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 
+from app.interaction.models import InteractionOut
 from app.models import CafeId, CategoryId, CustomDocument, Id
 
 
@@ -100,7 +101,7 @@ class MenuItemOut(MenuItemBase, CategoryId, CafeId, Id):
     pass
 
 
-class MenuItemNoRefOut(MenuItemBase, Id):
-    """Model for menu item output without references."""
+class MenuItemAggregateOut(MenuItemBase, Id):
+    """Model for menu item aggregate output."""
 
-    pass
+    interactions: List[InteractionOut]

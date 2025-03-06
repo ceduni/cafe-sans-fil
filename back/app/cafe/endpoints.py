@@ -14,7 +14,13 @@ from pymongo.errors import DuplicateKeyError
 
 from app.auth.dependencies import get_current_user
 from app.cafe.menu.models import MenuUpdate
-from app.cafe.models import CafeCreate, CafeOut, CafeShortOut, CafeUpdate, CafeView
+from app.cafe.models import (
+    CafeAggregateOut,
+    CafeCreate,
+    CafeOut,
+    CafeShortOut,
+    CafeUpdate,
+)
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
 from app.cafe.staff.enums import Role
@@ -90,16 +96,21 @@ async def create_cafe(
 
 @cafe_router.get(
     "/cafes/{slug}",
-    response_model=CafeView,
+    response_model=CafeAggregateOut,
     responses={
         404: {"model": ErrorResponse},
     },
 )
 async def get_cafe(
     slug: str = Path(..., description="Slug of the cafe"),
+    current_user: User = Depends(get_current_user),
 ):
     """Get a cafe with full details."""
-    cafe = await CafeService.get(slug, as_view=True)
+    cafe = await CafeService.get(
+        slug,
+        aggregate=True,
+        current_user_id=current_user.id,
+    )
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

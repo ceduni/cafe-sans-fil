@@ -11,13 +11,13 @@ from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
-from app.cafe.event.models import EventCreate, EventOut, EventUpdate, EventView
+from app.auth.dependencies import get_current_user
+from app.cafe.event.models import EventAggregateOut, EventCreate, EventOut, EventUpdate
 from app.cafe.event.service import EventService
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
 from app.models import ErrorResponse
 from app.service import parse_query_params
-from app.user.endpoints import get_current_user
 from app.user.models import User
 
 T = TypeVar("T")
@@ -43,14 +43,20 @@ event_router = APIRouter()
 
 @event_router.get(
     "/events/",
-    response_model=EventPage[EventView],
+    response_model=EventPage[EventAggregateOut],
 )
 async def list_events(
     request: Request,
+    current_user: User = Depends(get_current_user),
 ):
     """Get a list of events."""
     filters = parse_query_params(dict(request.query_params))
-    events = await EventService.get_all(to_list=False, as_view=True, **filters)
+    events = await EventService.get_all(
+        to_list=False,
+        aggregate=True,
+        current_user_id=current_user.id,
+        **filters,
+    )
     return await paginate(events)
 
 

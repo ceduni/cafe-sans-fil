@@ -41,4 +41,4 @@ class MenuOut(BaseModel):
     """Model for menu output."""
 
     layout: Layout
-    categories: List[MenuCategoryItemOut] = []
+    categories: List[MenuCategoryItemOut]

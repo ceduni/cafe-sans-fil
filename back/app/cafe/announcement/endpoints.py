@@ -11,18 +11,18 @@ from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
+from app.auth.dependencies import get_current_user
 from app.cafe.announcement.models import (
+    AnnouncementAggregateOut,
     AnnouncementCreate,
     AnnouncementOut,
     AnnouncementUpdate,
-    AnnouncementView,
 )
 from app.cafe.announcement.service import AnnouncementService
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
 from app.models import ErrorResponse
 from app.service import parse_query_params
-from app.user.endpoints import get_current_user
 from app.user.models import User
 
 T = TypeVar("T")
@@ -48,15 +48,19 @@ announcement_router = APIRouter()
 
 @announcement_router.get(
     "/announcements/",
-    response_model=AnnouncementPage[AnnouncementView],
+    response_model=AnnouncementPage[AnnouncementAggregateOut],
 )
 async def list_announcements(
     request: Request,
+    current_user: User = Depends(get_current_user),
 ):
     """Get a list of announcements."""
     filters = parse_query_params(dict(request.query_params))
     announcements = await AnnouncementService.get_all(
-        to_list=False, as_view=True, **filters
+        to_list=False,
+        aggregate=True,
+        current_user_id=current_user.id,
+        **filters,
     )
     return await paginate(announcements)
 

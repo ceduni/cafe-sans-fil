@@ -2,12 +2,13 @@
 Module for handling event-related operations.
 """
 
-from typing import List, Literal, Union, overload
+from typing import List, Literal, Optional, Union, overload
 
 from beanie import PydanticObjectId
-from beanie.odm.queries.find import FindMany
+from beanie.odm.queries.find import AggregationQuery, FindMany
+from pymongo import ASCENDING, DESCENDING
 
-from app.cafe.event.models import Event, EventCreate, EventUpdate, EventView
+from app.cafe.event.models import Event, EventCreate, EventUpdate
 from app.cafe.models import Cafe
 from app.service import set_attributes
 from app.user.models import User
@@ -20,66 +21,116 @@ class EventService:
     @staticmethod
     async def get_all(
         to_list: Literal[True] = True,
-        as_view: Literal[False] = False,
+        aggregate: Literal[False] = False,
+        current_user_id: Optional[PydanticObjectId] = None,
         **filters: dict,
     ) -> List[Event]: ...
 
     @overload
     @staticmethod
     async def get_all(
-        to_list: Literal[False],
-        as_view: Literal[False] = False,
+        to_list: Literal[False] = False,
+        aggregate: Literal[False] = False,
+        current_user_id: Optional[PydanticObjectId] = None,
         **filters: dict,
     ) -> FindMany[Event]: ...
 
     @overload
     @staticmethod
     async def get_all(
-        to_list: Literal[True],
-        as_view: Literal[True],
+        to_list: Literal[True] = True,
+        aggregate: Literal[True] = True,
+        current_user_id: Optional[PydanticObjectId] = None,
         **filters: dict,
-    ) -> List[EventView]: ...
+    ) -> List[dict]: ...
 
     @overload
     @staticmethod
     async def get_all(
-        to_list: Literal[False],
-        as_view: Literal[True],
+        to_list: Literal[False] = False,
+        aggregate: Literal[True] = True,
+        current_user_id: Optional[PydanticObjectId] = None,
         **filters: dict,
-    ) -> FindMany[EventView]: ...
+    ) -> AggregationQuery[dict]: ...
 
     @staticmethod
     async def get_all(
         to_list: bool = True,
-        as_view: bool = False,
+        aggregate: bool = False,
+        current_user_id: Optional[PydanticObjectId] = None,
         **filters: dict,
-    ) -> List[Event] | FindMany[Event] | List[EventView] | FindMany[EventView]:
+    ) -> Union[List[Event], FindMany[Event], List[dict], AggregationQuery[dict]]:
         """Get events."""
-        event_class = EventView if as_view else Event
         sort_by = filters.pop("sort_by", "-start_date")
-        query = event_class.find(filters).sort(sort_by)
-        return await query.to_list() if to_list else query
+
+        if aggregate:
+            pipeline = EventService._build_pipeline(
+                filters=filters,
+                sort_by=sort_by,
+                current_user_id=current_user_id,
+            )
+            query = Event.aggregate(pipeline)
+            return await query.to_list() if to_list else query
+        else:
+            query = Event.find(filters).sort(sort_by)
+            return await query.to_list() if to_list else query
+
+    @overload
+    @staticmethod
+    async def get(
+        id: PydanticObjectId,
+        aggregate: Literal[False] = False,
+    ) -> Optional[Event]: ...
+
+    @overload
+    @staticmethod
+    async def get(
+        id: PydanticObjectId,
+        aggregate: Literal[True] = True,
+    ) -> Optional[dict]: ...
 
     @staticmethod
     async def get(
         id: PydanticObjectId,
-        as_view: bool = False,
-    ) -> Union[Event, EventView]:
+        aggregate: bool = False,
+    ) -> Union[Optional[Event], Optional[dict]]:
         """Get an event by ID."""
-        event_class = EventView if as_view else Event
-        id_field = "id" if as_view else "_id"
-        return await event_class.find_one({id_field: id})
+        if not aggregate:
+            return await Event.get(id)
+
+        pipeline = EventService._build_pipeline(announcement_id=id)
+        result = await Event.aggregate(pipeline).to_list()
+        return result[0] if result else None
+
+    @overload
+    @staticmethod
+    async def get_by_id_and_cafe_id(
+        id: PydanticObjectId,
+        cafe_id: PydanticObjectId,
+        aggregate: Literal[False] = False,
+    ) -> Optional[Event]: ...
+
+    @overload
+    @staticmethod
+    async def get_by_id_and_cafe_id(
+        id: PydanticObjectId,
+        cafe_id: PydanticObjectId,
+        aggregate: Literal[True] = True,
+    ) -> Optional[dict]: ...
 
     @staticmethod
     async def get_by_id_and_cafe_id(
         id: PydanticObjectId,
         cafe_id: PydanticObjectId,
-        as_view: bool = False,
-    ) -> Union[Event, EventView]:
+        aggregate: bool = False,
+    ) -> Union[Optional[Event], Optional[dict]]:
         """Get an event by ID and cafe ID."""
-        event_class = EventView if as_view else Event
-        id_field = "id" if as_view else "_id"
-        return await event_class.find_one({id_field: id, "cafe_id": cafe_id})
+        if not aggregate:
+            return await Event.find_one({"_id": id, "cafe_id": cafe_id})
+
+        pipeline = EventService._build_pipeline(filters={"_id": id, "cafe_id": cafe_id})
+        result = await Event.aggregate(pipeline).to_list()
+        return result[0] if result else None
 
     @staticmethod
     async def create(
@@ -107,3 +158,132 @@ class EventService:
         """Delete an event."""
         await event.delete()
         return event
+
+    @staticmethod
+    def _build_pipeline(
+        filters: Optional[dict] = None,
+        sort_by: Optional[str] = None,
+        event_id: Optional[PydanticObjectId] = None,
+        current_user_id: Optional[PydanticObjectId] = None,
+    ) -> list:
+        """Build aggregation pipeline."""
+        pipeline = []
+        filters = filters or {}
+
+        if event_id:
+            pipeline.append({"$match": {"_id": event_id}})
+        elif filters:
+            pipeline.append({"$match": filters})
+
+        # Creator lookup
+        pipeline.extend(
+            [
+                {
+                    "$lookup": {
+                        "from": "users",
+                        "localField": "creator_id",
+                        "foreignField": "_id",
+                        "pipeline": [
+                            {
+                                "$project": {
+                                    "_id": 0,
+                                    "id": "$_id",
+                                    "username": 1,
+                                    "email": 1,
+                                    "matricule": 1,
+                                    "first_name": 1,
+                                    "last_name": 1,
+                                    "photo_url": 1,
+                                }
+                            }
+                        ],
+                        "as": "creator",
+                    }
+                },
+                {"$addFields": {"creator": {"$arrayElemAt": ["$creator", 0]}}},
+            ]
+        )
+
+        # Interaction
+        pipeline.extend(
+            [
+                {
+                    "$lookup": {
+                        "from": "interactions",
+                        "localField": "_id",
+                        "foreignField": "event_id",
+                        "as": "all_interactions",
+                    }
+                },
+                {
+                    "$addFields": {
+                        "interactions": {
+                            "$map": {
+                                "input": {"$setUnion": "$all_interactions.type"},
+                                "as": "type",
+                                "in": {
+                                    "type": "$$type",
+                                    "count": {
+                                        "$size": {
+                                            "$filter": {
+                                                "input": "$all_interactions",
+                                                "as": "ia",
+                                                "cond": {
+                                                    "$eq": ["$$ia.type", "$$type"]
+                                                },
+                                            }
+                                        }
+                                    },
+                                    "me": {
+                                        "$cond": [
+                                            {"$ifNull": [current_user_id, False]},
+                                            {
+                                                "$anyElementTrue": {
+                                                    "$map": {
+                                                        "input": "$all_interactions",
+                                                        "as": "ia",
+                                                        "in": {
+                                                            "$and": [
+                                                                {
+                                                                    "$eq": [
+                                                                        "$$ia.user_id",
+                                                                        current_user_id,
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "$eq": [
+                                                                        "$$ia.type",
+                                                                        "$$type",
+                                                                    ]
+                                                                },
+                                                            ]
+                                                        },
+                                                    }
+                                                }
+                                            },
+                                            False,
+                                        ]
+                                    },
+                                },
+                            }
+                        }
+                    }
+                },
+            ]
+        )
+
+        # Projection
+        pipeline.extend(
+            [
+                {"$addFields": {"id": "$_id"}},
+                {"$unset": ["_id", "creator_id", "all_interactions"]},
+            ]
+        )
+
+        # Sorting
+        if sort_by and not event_id:
+            direction = DESCENDING if sort_by.startswith("-") else ASCENDING
+            field = sort_by.lstrip("-")
+            pipeline.append({"$sort": {field: direction}})
+
+        return pipeline

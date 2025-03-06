@@ -2,14 +2,15 @@
 Module for handling user-related operations.
 """
 
-from typing import List, Optional, Union
+from typing import List, Literal, Optional, Union, overload
 
 from beanie import PydanticObjectId
 from beanie.odm.queries.find import FindMany
+from pymongo import ASCENDING, DESCENDING
 
 from app.auth.security import get_password
 from app.cafe.models import Cafe
-from app.user.models import User, UserCreate, UserUpdate, UserView
+from app.user.models import User, UserCreate, UserUpdate
 
 
 class UserService:
@@ -34,14 +35,33 @@ class UserService:
         """Get a user by email."""
         return await User.find_one({"email": email, "is_active": True})
 
+    @overload
     @staticmethod
     async def get_by_id(
-        id: PydanticObjectId, as_view: bool = False
-    ) -> Union[User, UserView]:
+        id: PydanticObjectId,
+        aggregate: Literal[False] = False,
+    ) -> Optional[User]: ...
+
+    @overload
+    @staticmethod
+    async def get_by_id(
+        id: PydanticObjectId,
+        aggregate: Literal[True] = True,
+    ) -> Optional[dict]: ...
+
+    @staticmethod
+    async def get_by_id(
+        id: PydanticObjectId,
+        aggregate: bool = False,
+    ) -> Union[Optional[User], Optional[dict]]:
         """Get a user by id."""
-        user_class = UserView if as_view else User
-        id_field = "id" if as_view else "_id"
-        return await user_class.find_one({id_field: id})
+        if not aggregate:
+            return await User.find_one({"_id": id, "is_active": True})
+
+        filters = {"_id": id, "is_active": True}
+        pipeline = UserService._build_pipeline(filters=filters)
+        result = await User.aggregate(pipeline).to_list()
+        return result[0] if result else None
 
     @staticmethod
     async def get_by_username(username: str) -> Optional[User]:
@@ -192,3 +212,81 @@ class UserService:
                 return "username"
 
         return None
+
+    @staticmethod
+    def _build_pipeline(
+        filters: Optional[dict] = None,
+        sort_by: Optional[str] = None,
+    ) -> list:
+        """Build aggregation pipeline."""
+        pipeline = []
+        filters = filters or {}
+
+        if filters:
+            pipeline.append({"$match": filters})
+
+        pipeline.extend(
+            [
+                {
+                    "$lookup": {
+                        "from": "cafes",
+                        "localField": "cafe_ids",
+                        "foreignField": "_id",
+                        "let": {"user_id": "$_id"},
+                        "pipeline": [
+                            {
+                                "$project": {
+                                    "_id": 0,
+                                    "id": "$_id",
+                                    "name": 1,
+                                    "slug": 1,
+                                    "logo_url": 1,
+                                    "banner_url": 1,
+                                    "role": {
+                                        "$cond": [
+                                            {"$eq": ["$owner_id", "$$user_id"]},
+                                            "OWNER",
+                                            {
+                                                "$cond": [
+                                                    {
+                                                        "$in": [
+                                                            "$$user_id",
+                                                            "$staff.admin_ids",
+                                                        ]
+                                                    },
+                                                    "ADMIN",
+                                                    {
+                                                        "$cond": [
+                                                            {
+                                                                "$in": [
+                                                                    "$$user_id",
+                                                                    "$staff.volunteer_ids",
+                                                                ]
+                                                            },
+                                                            "VOLUNTEER",
+                                                            None,
+                                                        ]
+                                                    },
+                                                ]
+                                            },
+                                        ]
+                                    },
+                                }
+                            }
+                        ],
+                        "as": "cafes",
+                    }
+                },
+                # Projection
+                {"$addFields": {"id": "$_id"}},
+                {"$unset": ["_id", "cafe_ids"]},
+            ]
+        )
+
+        # Sorting
+        if sort_by:
+            direction = DESCENDING if sort_by.startswith("-") else ASCENDING
+            field = sort_by.lstrip("-")
+            pipeline.append({"$sort": {field: direction}})
+
+        return pipeline

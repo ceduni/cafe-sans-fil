@@ -3,11 +3,12 @@ Module for handling event-related models.
 """
 
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
-from beanie import Document, PydanticObjectId, View
+from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, Field, HttpUrl
 
+from app.interaction.models import InteractionOut
 from app.models import CafeId, Id
 from app.user.models import UserOut
 
@@ -57,40 +58,8 @@ class EventOut(EventBase, CafeId, Id):
     creator_id: PydanticObjectId
 
 
-class EventView(View, EventBase, CafeId, Id):
-    """Model for event view."""
+class EventAggregateOut(EventBase, CafeId, Id):
+    """Model for aggregated event output."""
 
     creator: UserOut
-
-    class Settings:
-        """Settings for event view."""
-
-        name = "events_view"
-        source = "events"
-        pipeline = [
-            {
-                "$lookup": {
-                    "from": "users",
-                    "localField": "creator_id",
-                    "foreignField": "_id",
-                    "pipeline": [
-                        {
-                            "$project": {
-                                "_id": 0,
-                                "id": "$_id",
-                                "username": 1,
-                                "email": 1,
-                                "matricule": 1,
-                                "first_name": 1,
-                                "last_name": 1,
-                                "photo_url": 1,
-                            }
-                        }
-                    ],
-                    "as": "creator",
-                }
-            },
-            {"$addFields": {"creator": {"$arrayElemAt": ["$creator", 0]}}},
-            {"$addFields": {"id": "$_id"}},
-            {"$unset": ["_id", "creator_id"]},
-        ]
+    interactions: List[InteractionOut]
