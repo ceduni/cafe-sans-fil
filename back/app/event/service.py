@@ -8,7 +8,6 @@ from beanie import PydanticObjectId
 from beanie.odm.queries.find import AggregationQuery, FindMany
 from pymongo import ASCENDING, DESCENDING
 
-from app.cafe.models import Cafe
 from app.event.models import Event, EventCreate, EventUpdate
 from app.service import set_attributes
 from app.user.models import User
@@ -135,11 +134,10 @@ class EventService:
     @staticmethod
     async def create(
         current_user: User,
-        cafe: Cafe,
         data: EventCreate,
     ) -> Event:
         """Create an event."""
-        event = Event(**data.model_dump(), cafe_id=cafe.id, creator_id=current_user.id)
+        event = Event(**data.model_dump(), creator_id=current_user.id)
         await event.insert()
         return event
 
@@ -174,6 +172,32 @@ class EventService:
             pipeline.append({"$match": {"_id": event_id}})
         elif filters:
             pipeline.append({"$match": filters})
+
+        # Cafes lookup
+        pipeline.extend(
+            [
+                {
+                    "$lookup": {
+                        "from": "cafes",
+                        "localField": "cafe_ids",
+                        "foreignField": "_id",
+                        "pipeline": [
+                            {
+                                "$project": {
+                                    "_id": 0,
+                                    "id": "$_id",
+                                    "name": 1,
+                                    "slug": 1,
+                                    "logo_url": 1,
+                                    "banner_url": 1,
+                                }
+                            }
+                        ],
+                        "as": "cafes",
+                    }
+                },
+            ]
+        )
 
         # Creator lookup
         pipeline.extend(
@@ -276,7 +300,7 @@ class EventService:
         pipeline.extend(
             [
                 {"$addFields": {"id": "$_id"}},
-                {"$unset": ["_id", "creator_id", "all_interactions"]},
+                {"$unset": ["_id", "cafe_ids", "creator_id", "all_interactions"]},
             ]
         )
 

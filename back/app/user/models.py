@@ -123,7 +123,7 @@ class UserOut(UserBase, Id):
 
 
 class UserCafesOut(BaseModel, Id):
-    """Cafe shorter output model."""
+    """Model for user cafes output."""
 
     name: str = Field(..., min_length=1, max_length=50)
     slug: Optional[str] = None

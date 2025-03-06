@@ -9,7 +9,7 @@ from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, Field, HttpUrl
 
 from app.interaction.models import InteractionOut
-from app.models import CafeId, Id
+from app.models import Id
 from app.user.models import UserOut
 
 
@@ -24,9 +24,10 @@ class EventBase(BaseModel):
     location: Optional[str] = None
 
 
-class Event(Document, EventBase, CafeId):
+class Event(Document, EventBase):
     """Event document model."""
 
+    cafe_ids: List[PydanticObjectId] = []
     creator_id: PydanticObjectId
 
     class Settings:
@@ -38,7 +39,7 @@ class Event(Document, EventBase, CafeId):
 class EventCreate(EventBase):
     """Model for creating events."""
 
-    pass
+    cafe_ids: Optional[List[PydanticObjectId]] = None
 
 
 class EventUpdate(BaseModel):
@@ -52,14 +53,25 @@ class EventUpdate(BaseModel):
     location: Optional[str] = None
 
 
-class EventOut(EventBase, CafeId, Id):
+class EventOut(EventBase, Id):
     """Model for event output."""
 
+    cafe_ids: List[PydanticObjectId]
     creator_id: PydanticObjectId
 
 
-class EventAggregateOut(EventBase, CafeId, Id):
+class EventCafesOut(BaseModel, Id):
+    """Model for event cafes output."""
+
+    name: str = Field(..., min_length=1, max_length=50)
+    slug: Optional[str] = None
+    logo_url: Optional[HttpUrl] = None
+    banner_url: Optional[HttpUrl] = None
+
+
+class EventAggregateOut(EventBase, Id):
     """Model for aggregated event output."""
 
+    cafes: List[EventCafesOut]
     creator: UserOut
     interactions: List[InteractionOut]
