@@ -61,7 +61,7 @@ async def get_item_interactions(
 
     filters = parse_query_params(dict(request.query_params))
     filters["item_id"] = item.id
-    filters["type"] = interaction
+    filters["type"] = interaction.upper()
 
     items = await InteractionService.get_all(to_list=False, **filters)
 
@@ -89,7 +89,7 @@ async def get_announcement_interactions(
 
     filters = parse_query_params(dict(request.query_params))
     filters["announcement_id"] = id
-    filters["type"] = interaction
+    filters["type"] = interaction.upper()
 
     announcement = await InteractionService.get_all(to_list=False, **filters)
 
@@ -115,7 +115,7 @@ async def get_event_interactions(
 
     filters = parse_query_params(dict(request.query_params))
     filters["event_id"] = id
-    filters["type"] = interaction
+    filters["type"] = interaction.upper()
 
     events = await InteractionService.get_all(to_list=False, **filters)
 
@@ -144,6 +144,7 @@ async def create_item_interaction(
             detail=[{"msg": "An item with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     if await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -180,6 +181,7 @@ async def create_announcement_interaction(
             detail=[{"msg": "An announcement with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     if await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -214,6 +216,7 @@ async def create_event_interaction(
             detail=[{"msg": "An event with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     if await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -250,6 +253,7 @@ async def delete_item_interaction(
             detail=[{"msg": "An item with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     interaction = await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -284,6 +288,7 @@ async def delete_announcement_interaction(
             detail=[{"msg": "An announcement with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     interaction = await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -316,6 +321,7 @@ async def delete_event_interaction(
             detail=[{"msg": "An event with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     interaction = await InteractionService.get(
         user=current_user,
         type=interaction,
