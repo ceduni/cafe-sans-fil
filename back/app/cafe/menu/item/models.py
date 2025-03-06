@@ -54,7 +54,7 @@ class MenuItem(CustomDocument, MenuItemBase, CategoryId, CafeId):
     class Settings:
         """Settings for menu item document."""
 
-        name = "menus"
+        name = "items"
         indexes = [
             IndexModel([("cafe_id", pymongo.ASCENDING)]),
             IndexModel([("category_id", pymongo.ASCENDING)]),

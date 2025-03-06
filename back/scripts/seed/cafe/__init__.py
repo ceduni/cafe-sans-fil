@@ -11,6 +11,7 @@ from slugify import slugify
 from tqdm import tqdm
 
 from app.cafe.enums import Days, Feature, PaymentMethod
+from app.cafe.menu.enums import Layout
 from app.cafe.models import (
     Affiliation,
     Cafe,
@@ -82,6 +83,8 @@ class CafeSeeder:
             owner_id=owner.id if owner else None,
             slug=slugify(data["name"]),
         )
+
+        cafe.menu.layout = Layout.LIST if random.random() < 0.5 else Layout.GRID
         return cafe
 
     def _random_features(self) -> List[Feature]:

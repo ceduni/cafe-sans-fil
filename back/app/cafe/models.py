@@ -13,6 +13,7 @@ from pymongo import IndexModel
 from slugify import slugify
 
 from app.cafe.enums import Days, Feature, PaymentMethod
+from app.cafe.menu.enums import Layout
 from app.cafe.menu.models import Menu, MenuOut
 from app.cafe.staff.models import Staff, StaffOut
 from app.models import CustomDocument, Id
@@ -165,7 +166,7 @@ class Cafe(CustomDocument, CafeBase):
 
     owner_id: PydanticObjectId
     staff: Staff = Staff(admin_ids=[], volunteer_ids=[])
-    menu: Menu = Menu(categories=[])
+    menu: Menu = Menu(categories=[], layout=Layout.LIST)
 
     @before_event([Insert, Save])
     async def handle_slug(self):
@@ -299,10 +300,10 @@ class CafeView(View, CafeBase, Id):
                     "as": "owner",
                 }
             },
-            # Lookup menu items
+            # Lookup items
             {
                 "$lookup": {
-                    "from": "menus",
+                    "from": "items",
                     "localField": "_id",
                     "foreignField": "cafe_id",
                     "as": "menu_items",
@@ -360,44 +361,72 @@ class CafeView(View, CafeBase, Id):
                     "owner": {"$arrayElemAt": ["$owner", 0]},
                     "staff": {"admins": "$admins", "volunteers": "$volunteers"},
                     "menu": {
+                        "layout": "$menu.layout",
                         "categories": {
                             "$concatArrays": [
-                                # Group items with no category
-                                [
-                                    {
-                                        "id": None,
-                                        "name": None,
-                                        "description": None,
-                                        "items": {
-                                            "$map": {
-                                                "input": {
-                                                    "$filter": {
-                                                        "input": "$menu_items",
+                                # Group uncategorized items in General by default
+                                {
+                                    "$cond": [
+                                        # Check if there are uncategorized items
+                                        {
+                                            "$gt": [
+                                                {
+                                                    "$size": {
+                                                        "$filter": {
+                                                            "input": "$menu_items",
+                                                            "as": "item",
+                                                            "cond": {
+                                                                "$eq": [
+                                                                    "$$item.category_id",
+                                                                    None,
+                                                                ]
+                                                            },
+                                                        }
+                                                    }
+                                                },
+                                                0,
+                                            ]
+                                        },
+                                        # If true: Add "General" category
+                                        [
+                                            {
+                                                "id": None,
+                                                "name": "General",
+                                                "description": None,
+                                                "items": {
+                                                    "$map": {
+                                                        "input": {
+                                                            "$filter": {
+                                                                "input": "$menu_items",
+                                                                "as": "item",
+                                                                "cond": {
+                                                                    "$eq": [
+                                                                        "$$item.category_id",
+                                                                        None,
+                                                                    ]
+                                                                },
+                                                            }
+                                                        },
                                                         "as": "item",
-                                                        "cond": {
-                                                            "$eq": [
-                                                                "$$item.category_id",
-                                                                None,
-                                                            ]
+                                                        "in": {
+                                                            "id": "$$item._id",
+                                                            "name": "$$item.name",
+                                                            "description": "$$item.description",
+                                                            "tags": "$$item.tags",
+                                                            "image_url": "$$item.image_url",
+                                                            "price": "$$item.price",
+                                                            "in_stock": "$$item.in_stock",
+                                                            "options": "$$item.options",
                                                         },
                                                     }
                                                 },
-                                                "as": "item",
-                                                "in": {
-                                                    "id": "$$item._id",
-                                                    "name": "$$item.name",
-                                                    "description": "$$item.description",
-                                                    "tags": "$$item.tags",
-                                                    "image_url": "$$item.image_url",
-                                                    "price": "$$item.price",
-                                                    "in_stock": "$$item.in_stock",
-                                                    "options": "$$item.options",
-                                                },
                                             }
-                                        },
-                                    }
-                                ],
-                                # Group items with categories
+                                        ],
+                                        # If false: Return empty array (no "General" category)
+                                        [],
+                                    ]
+                                },
+                                # Group categorized items
                                 {
                                     "$map": {
                                         "input": "$menu.categories",
@@ -437,7 +466,7 @@ class CafeView(View, CafeBase, Id):
                                     }
                                 },
                             ]
-                        }
+                        },
                     },
                 }
             },
