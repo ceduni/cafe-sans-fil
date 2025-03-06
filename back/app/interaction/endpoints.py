@@ -44,7 +44,7 @@ interaction_router = APIRouter()
     "/items/{id}/interactions/{interaction}",
     response_model=InteractionPage[UserOut],
 )
-async def get_item_interactions(
+async def list_item_interactions(
     request: Request,
     id: PydanticObjectId = Path(..., description="ID of the menu item"),
     interaction: Literal[InteractionType.LIKE, InteractionType.DISLIKE] = Path(
@@ -72,7 +72,7 @@ async def get_item_interactions(
     "/announcements/{id}/interactions/{interaction}",
     response_model=InteractionPage[UserOut],
 )
-async def get_announcement_interactions(
+async def list_announcement_interactions(
     request: Request,
     id: PydanticObjectId = Path(..., description="ID of the announcement"),
     interaction: Literal[InteractionType.LIKE, InteractionType.DISLIKE] = Path(
@@ -99,8 +99,9 @@ async def get_announcement_interactions(
 @interaction_router.get(
     "/events/{id}/interactions/{interaction}",
     response_model=InteractionPage[UserOut],
+    deprecated=True,
 )
-async def get_event_interactions(
+async def list_event_interactions(
     request: Request,
     id: PydanticObjectId = Path(..., description="ID of the event"),
     interaction: InteractionType = Path(..., description="Type of the interaction"),
@@ -202,6 +203,7 @@ async def create_announcement_interaction(
         401: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
+    deprecated=True,
 )
 async def create_event_interaction(
     id: PydanticObjectId = Path(..., description="ID of the event"),
@@ -307,6 +309,7 @@ async def delete_announcement_interaction(
         401: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
+    deprecated=True,
 )
 async def delete_event_interaction(
     id: PydanticObjectId = Path(..., description="ID of the event"),
