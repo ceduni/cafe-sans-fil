@@ -2,8 +2,9 @@
 Module for handling category-related routes.
 """
 
+from typing import List
 from beanie import PydanticObjectId
-from fastapi import APIRouter, Depends, HTTPException, Path, status
+from fastapi import APIRouter, Depends, HTTPException, Path, Request, status
 
 from app.cafe.menu.category.models import (
     MenuCategoryCreate,
@@ -14,8 +15,33 @@ from app.cafe.menu.category.service import CategoryService
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
 from app.models import ErrorResponse
+from app.service import parse_query_params
 
 category_router = APIRouter()
+
+
+
+@category_router.get(
+    "/cafes/{slug}/menu/categories",
+    response_model=List[MenuCategoryOut],
+    responses={
+        404: {"model": ErrorResponse},
+    },
+)
+async def list_categories(
+    request: Request,
+    slug: str = Path(..., description="Slug of the cafe"),
+):
+    """Get a list of menu items for a cafe."""
+    cafe = await CafeService.get(slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
+
+    categories = await CategoryService.get_all(cafe)
+    return categories
 
 
 @category_router.post(

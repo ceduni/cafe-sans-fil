@@ -18,6 +18,11 @@ class CategoryService:
     """Service class for CRUD and search operations on Menu."""
 
     @staticmethod
+    async def get_all(cafe: Cafe) -> List[MenuCategory]:
+        """Get a menu category by ID."""
+        return cafe.menu.categories
+
+    @staticmethod
     async def get_by_id(cafe: Cafe, id: PydanticObjectId) -> MenuCategory:
         """Get a menu category by ID."""
         for category in cafe.menu.categories:
