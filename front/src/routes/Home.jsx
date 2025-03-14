@@ -6,19 +6,22 @@ import CafeList from "@/components/Cafe/CafeList";
 import SearchResults from "@/components/Search/SearchResults";
 import { useSearchParams } from 'react-router-dom';
 import useTitle from "@/hooks/useTitle";
+import EventBoard from "@/components/Event/EventBoard"
 
 
 const Home = () => {
     const { t } = useTranslation();
-    
+
     useTitle(t('title'));
     let [searchParams] = useSearchParams();
     const searchQuery = searchParams.get("search") || "";
-    
+
     // const [searchQuery, setSearchQuery] = useState("");
     const isSearching = searchQuery.length > 0;
 
     const [storedCafes, setStoredCafes] = useState([]);
+    
+    const [storedEvents, setStoredEvents] = useState([]);
 
     return (
         <>
@@ -29,6 +32,11 @@ const Home = () => {
                     ) : (
                         <CafeList setStoredCafes={setStoredCafes} storedCafes={storedCafes} />
                     )}
+                </Container>
+
+                {/*EventBoard added to the homepage TODO make togglable*/}
+                <Container>
+                    <EventBoard setStoredEvents={setStoredEvents} storedEvents={storedEvents} />
                 </Container>
             </main>
         </>
