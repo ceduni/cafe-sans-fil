@@ -1,7 +1,21 @@
 export class CafeMenu {
     constructor(data) {
         this.cafe = data.cafe;
-        this.items = data.items.map(item => new CafeMenuItem(item));
+        this.categories = data.categories.map(item => new CafeMenuCategory(item));
+    }
+}
+
+export class CafeMenuCategory {
+    constructor(data) {
+        this.id = data.id;
+        this.name = data.name;
+        this.description = data.description;
+        this.tags = data.tags ?? [];
+        this.image = data.image_url ?? "";
+        this.items = data.items?.map(item => new CafeMenuItem(item)) ?? [];
+    }
+    setItems(data) {
+        this.items = data.items?.map(item => new CafeMenuItem(item)) ?? [];
     }
 }
 
@@ -23,6 +37,6 @@ class MenuItemOption {
         this.type = data.type;
         this.value = data.moyenne;
         this.fee = data.fee;
-        
+
     }
 }

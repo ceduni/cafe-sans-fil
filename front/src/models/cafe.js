@@ -1,4 +1,4 @@
-import { CafeMenuItem } from "./menu";
+import { CafeMenu } from "./menu";
 
 const isAdmin = (user) => user.role === "Admin";
 const isVolunteer = (user) => user.role === "Bénévole";
@@ -14,17 +14,21 @@ export class Cafe {
         this.closed = !data.is_open;
         this.status = data.status_message;
         this.socials = data.social_media;
-        this.hours = data.faculty;
         this.location = new Location(data.location);
         this.openingHours = data.opening_hours.map(x => new OpeningHour(x));
+        this.owner = data.owner;
+        this.features = data.features ?? [];
         // this.paymentMethods = data.payment_methods.map(x => new Payment(x));
         // this.announcements = data.additional_info;
 
-        if (data.menu_items) {
-            this.menu = data.menu_items.map(x => new CafeMenuItem(x));
+        if (data.menu) {
+            this.menu = new CafeMenu(data.menu);
         }
         if (data.staff) {
-            this.staff = data.staff
+            this.staff = data.staff;
+        }
+        if (data.contact) {
+            this.contact = data.contact;
         }
     }
 

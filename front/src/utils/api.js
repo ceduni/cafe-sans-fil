@@ -54,6 +54,7 @@ export const CafeAPI = {
      */
     get: async function (id, setLoading = null, cancel = false) {
         const result = await fetchData(`/cafes/${id}`, setLoading);
+        console.log(result);
         return new Cafe(result);
     },
     /**
@@ -75,7 +76,6 @@ export const CafeAPI = {
      */
     getAll: async function (setLoading = null, cancel = false) {
         const {items: result} = await fetchData(`/cafes`, setLoading);
-        console.log(result);
         return result.map(cafeData => new Cafe(cafeData));
     },
     /**

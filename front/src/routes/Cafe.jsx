@@ -40,6 +40,8 @@ const Cafe = () => {
             })
     }, []);
 
+    console.log(cafe);
+
     useTitle(cafe?.name && `${cafe.name} | ${APP_NAME}`)
     
     if (error) {
