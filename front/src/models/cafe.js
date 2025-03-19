@@ -56,10 +56,10 @@ export class Cafe {
     }
 
     get managers() {
-        return this.staff.filter(x => isAdmin(x))
+        return this.staff.admins;
     }
     get volunteers() {
-        return this.staff.filter(x => isVolunteer(x))
+        return this.staff.volunteers;
     }
 }
 

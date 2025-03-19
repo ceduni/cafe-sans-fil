@@ -5,13 +5,10 @@ import './styles.css'
 import GroupBox from './MenuGroup';
 
 
-const CafeMenu = ({ items: menuItems }) => {
+const CafeMenu = ({ menu }) => {
     const [activeGroup, setActiveGroup] = useState(null);
     const [activeItem, setActiveItem] = useState(null);
     const menuElement = useRef(null);
-
-    const categories = [...new Set(menuItems.map(item => item.category))];
-
 
     const handleGroupClick = (group) => {
         if (activeGroup && group !== activeGroup) {
@@ -64,7 +61,7 @@ const CafeMenu = ({ items: menuItems }) => {
 
     return (
         <div ref={menuElement} className="menu">
-              <GroupBox
+              {/* <GroupBox
                     key="0"
                     category="Produits recommandés"
                     open={true}
@@ -73,14 +70,13 @@ const CafeMenu = ({ items: menuItems }) => {
                     items={menuItems.filter((item) => item.category === categories[0])}
                     onClick={handleGroupClick}
                     onItemClick={handleItemClick}
-                />
-            {categories.map((category, index) => (
+                /> */}
+            {menu.categories.map((category, index) => (
                 <GroupBox
                     key={index}
                     category={category}
                     activeItem={activeItem}
                     setActiveItem={setActiveItem}
-                    items={menuItems.filter((item) => item.category === category)}
                     onClick={handleGroupClick}
                     onItemClick={handleItemClick}
                 />
