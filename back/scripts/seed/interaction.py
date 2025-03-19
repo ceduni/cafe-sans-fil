@@ -10,10 +10,10 @@ from tqdm import tqdm
 
 from app.cafe.announcement.models import Announcement
 from app.cafe.announcement.service import AnnouncementService
-from app.cafe.event.models import Event
-from app.cafe.event.service import EventService
 from app.cafe.menu.item.models import MenuItem
 from app.cafe.menu.item.service import ItemService
+from app.event.models import Event
+from app.event.service import EventService
 from app.interaction.models import (
     AnnouncementInteraction,
     EventInteraction,

@@ -12,8 +12,15 @@ from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
-from app.auth.dependencies import get_current_user
-from app.cafe.models import CafeCreate, CafeOut, CafeShortOut, CafeUpdate, CafeView
+from app.auth.dependencies import get_current_user, get_current_user_optional
+from app.cafe.menu.models import MenuUpdate
+from app.cafe.models import (
+    CafeAggregateOut,
+    CafeCreate,
+    CafeOut,
+    CafeShortOut,
+    CafeUpdate,
+)
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
 from app.cafe.staff.enums import Role
@@ -89,16 +96,21 @@ async def create_cafe(
 
 @cafe_router.get(
     "/cafes/{slug}",
-    response_model=CafeView,
+    response_model=CafeAggregateOut,
     responses={
         404: {"model": ErrorResponse},
     },
 )
 async def get_cafe(
     slug: str = Path(..., description="Slug of the cafe"),
+    current_user: User = Depends(get_current_user_optional),
 ):
     """Get a cafe with full details."""
-    cafe = await CafeService.get(slug, as_view=True)
+    cafe = await CafeService.get(
+        slug,
+        aggregate=True,
+        current_user_id=current_user.id if current_user else None,
+    )
     if not cafe:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -175,3 +187,27 @@ async def update_cafe(
                 }
             ],
         )
+
+
+@cafe_router.put(
+    "/cafes/{slug}/menu",
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
+    dependencies=[Depends(AdminPermission())],
+)
+async def update_menu(
+    data: MenuUpdate,
+    slug: str = Path(..., description="Slug of the cafe"),
+):
+    """Update a cafe menu. (`ADMIN`)"""
+    cafe = await CafeService.get(slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
+
+    await CafeService.update_menu(cafe, data)

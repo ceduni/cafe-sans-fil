@@ -82,14 +82,6 @@ def cafe_data():
                 "options": [],
             },
         ],
-        "additional_info": [
-            {
-                "type": "promo",
-                "value": "10% de réduction les lundis",
-                "start": "2023-01-01T00:00:00.000Z",
-                "end": "2023-01-02T00:00:00.000Z",
-            }
-        ],
     }
 
 

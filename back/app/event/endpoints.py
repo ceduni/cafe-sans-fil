@@ -11,13 +11,11 @@ from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
-from app.cafe.event.models import EventCreate, EventOut, EventUpdate, EventView
-from app.cafe.event.service import EventService
-from app.cafe.permissions import AdminPermission
-from app.cafe.service import CafeService
+from app.auth.dependencies import get_current_user, get_current_user_optional
+from app.event.models import EventAggregateOut, EventCreate, EventOut, EventUpdate
+from app.event.service import EventService
 from app.models import ErrorResponse
 from app.service import parse_query_params
-from app.user.endpoints import get_current_user
 from app.user.models import User
 
 T = TypeVar("T")
@@ -29,7 +27,9 @@ class EventParams(Params):
     size: int = Query(20, ge=1, le=100, description="Page size")
     page: int = Query(1, ge=1, description="Page number")
     sort_by: Optional[str] = Query(None, description="Sort by a specific field")
-    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID.")
+    cafe_id: Optional[PydanticObjectId] = Query(
+        None, description="Filter by cafe ID", example=""
+    )
 
 
 EventPage = CustomizedPage[
@@ -43,102 +43,97 @@ event_router = APIRouter()
 
 @event_router.get(
     "/events/",
-    response_model=EventPage[EventView],
+    response_model=EventPage[EventAggregateOut],
 )
 async def list_events(
     request: Request,
+    current_user: User = Depends(get_current_user_optional),
 ):
     """Get a list of events."""
     filters = parse_query_params(dict(request.query_params))
-    events = await EventService.get_all(to_list=False, as_view=True, **filters)
+    events = await EventService.get_all(
+        to_list=False,
+        aggregate=True,
+        current_user_id=current_user.id if current_user else None,
+        **filters,
+    )
     return await paginate(events)
 
 
 @event_router.post(
-    "/cafes/{slug}/events/",
+    "/events/",
     response_model=EventOut,
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
-    dependencies=[Depends(AdminPermission())],
 )
 async def create_event(
     data: EventCreate,
-    slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
 ):
-    """Create an event. (`ADMIN`)"""
-    cafe = await CafeService.get(slug)
-    if not cafe:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A cafe with this slug does not exist."}],
-        )
+    """Create an event."""
+    # TODO: check perms of user cafes
 
-    return await EventService.create(current_user, cafe, data)
+    return await EventService.create(current_user, data)
 
 
 @event_router.put(
-    "/cafes/{slug}/events/{id}",
+    "/events/{id}",
     response_model=EventOut,
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
-    dependencies=[Depends(AdminPermission())],
 )
 async def update_event(
     data: EventUpdate,
-    slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the event"),
+    current_user: User = Depends(get_current_user),
 ):
-    """Update an event. (`ADMIN`)"""
-    cafe = await CafeService.get(slug)
-    if not cafe:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A cafe with this slug does not exist."}],
-        )
-
-    event = await EventService.get_by_id_and_cafe_id(id, cafe.id)
+    """Update an event."""
+    event = await EventService.get(id)
     if not event:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=[{"msg": "An event with this ID does not exist."}],
+        )
+
+    if event.creator_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=[{"msg": "You are not allowed to update this event."}],
         )
 
     return await EventService.update(event, data)
 
 
 @event_router.delete(
-    "/cafes/{slug}/events/{id}",
+    "/events/{id}",
     responses={
         401: {"model": ErrorResponse},
         403: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
-    dependencies=[Depends(AdminPermission())],
 )
 async def delete_event(
-    slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the event"),
+    current_user: User = Depends(get_current_user),
 ):
-    """Delete an event. (`ADMIN`)"""
-    cafe = await CafeService.get(slug)
-    if not cafe:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A cafe with this slug does not exist."}],
-        )
-
-    event = await EventService.get_by_id_and_cafe_id(id, cafe.id)
+    """Delete an event."""
+    event = await EventService.get(id)
     if not event:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=[{"msg": "An event with this ID does not exist."}],
+        )
+
+    if event.creator_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=[{"msg": "You are not allowed to delete this event."}],
         )
 
     await EventService.delete(event)

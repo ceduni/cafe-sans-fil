@@ -1,5 +1,5 @@
 """
-Module for handling announcement-related operations.
+Module for handling event-related operations.
 """
 
 from typing import List, Literal, Optional, Union, overload
@@ -8,18 +8,13 @@ from beanie import PydanticObjectId
 from beanie.odm.queries.find import AggregationQuery, FindMany
 from pymongo import ASCENDING, DESCENDING
 
-from app.cafe.announcement.models import (
-    Announcement,
-    AnnouncementCreate,
-    AnnouncementUpdate,
-)
-from app.cafe.models import Cafe
+from app.event.models import Event, EventCreate, EventUpdate
 from app.service import set_attributes
 from app.user.models import User
 
 
-class AnnouncementService:
-    """Service class for announcement operations."""
+class EventService:
+    """Service class for Event operations."""
 
     @overload
     @staticmethod
@@ -28,7 +23,7 @@ class AnnouncementService:
         aggregate: Literal[False] = False,
         current_user_id: Optional[PydanticObjectId] = None,
         **filters: dict,
-    ) -> List[Announcement]: ...
+    ) -> List[Event]: ...
 
     @overload
     @staticmethod
@@ -37,7 +32,7 @@ class AnnouncementService:
         aggregate: Literal[False] = False,
         current_user_id: Optional[PydanticObjectId] = None,
         **filters: dict,
-    ) -> FindMany[Announcement]: ...
+    ) -> FindMany[Event]: ...
 
     @overload
     @staticmethod
@@ -63,22 +58,20 @@ class AnnouncementService:
         aggregate: bool = False,
         current_user_id: Optional[PydanticObjectId] = None,
         **filters: dict,
-    ) -> Union[
-        List[Announcement], FindMany[Announcement], List[dict], AggregationQuery[dict]
-    ]:
-        """Get announcements."""
-        sort_by = filters.pop("sort_by", "-updated_at")
+    ) -> Union[List[Event], FindMany[Event], List[dict], AggregationQuery[dict]]:
+        """Get events."""
+        sort_by = filters.pop("sort_by", "-start_date")
 
         if aggregate:
-            pipeline = AnnouncementService._build_pipeline(
+            pipeline = EventService._build_pipeline(
                 filters=filters,
                 sort_by=sort_by,
                 current_user_id=current_user_id,
             )
-            query = Announcement.aggregate(pipeline)
+            query = Event.aggregate(pipeline)
             return await query.to_list() if to_list else query
         else:
-            query = Announcement.find(filters).sort(sort_by)
+            query = Event.find(filters).sort(sort_by)
             return await query.to_list() if to_list else query
 
     @overload
@@ -86,7 +79,7 @@ class AnnouncementService:
     async def get(
         id: PydanticObjectId,
         aggregate: Literal[False] = False,
-    ) -> Optional[Announcement]: ...
+    ) -> Optional[Event]: ...
 
     @overload
     @staticmethod
@@ -99,13 +92,13 @@ class AnnouncementService:
     async def get(
         id: PydanticObjectId,
         aggregate: bool = False,
-    ) -> Union[Optional[Announcement], Optional[dict]]:
-        """Get an announcement by ID."""
+    ) -> Union[Optional[Event], Optional[dict]]:
+        """Get an event by ID."""
         if not aggregate:
-            return await Announcement.get(id)
+            return await Event.get(id)
 
-        pipeline = AnnouncementService._build_pipeline(announcement_id=id)
-        result = await Announcement.aggregate(pipeline).to_list()
+        pipeline = EventService._build_pipeline(announcement_id=id)
+        result = await Event.aggregate(pipeline).to_list()
         return result[0] if result else None
 
     @overload
@@ -114,7 +107,7 @@ class AnnouncementService:
         id: PydanticObjectId,
         cafe_id: PydanticObjectId,
         aggregate: Literal[False] = False,
-    ) -> Optional[Announcement]: ...
+    ) -> Optional[Event]: ...
 
     @overload
     @staticmethod
@@ -129,69 +122,90 @@ class AnnouncementService:
         id: PydanticObjectId,
         cafe_id: PydanticObjectId,
         aggregate: bool = False,
-    ) -> Union[Optional[Announcement], Optional[dict]]:
-        """Get an announcement by ID and cafe ID."""
+    ) -> Union[Optional[Event], Optional[dict]]:
+        """Get an event by ID and cafe ID."""
         if not aggregate:
-            return await Announcement.find_one({"_id": id, "cafe_id": cafe_id})
+            return await Event.find_one({"_id": id, "cafe_id": cafe_id})
 
-        pipeline = AnnouncementService._build_pipeline(
-            filters={"_id": id, "cafe_id": cafe_id}
-        )
-        result = await Announcement.aggregate(pipeline).to_list()
+        pipeline = EventService._build_pipeline(filters={"_id": id, "cafe_id": cafe_id})
+        result = await Event.aggregate(pipeline).to_list()
         return result[0] if result else None
 
     @staticmethod
     async def create(
         current_user: User,
-        cafe: Cafe,
-        data: AnnouncementCreate,
-    ) -> Announcement:
-        """Create an announcement."""
-        announcement = Announcement(
-            **data.model_dump(), cafe_id=cafe.id, author_id=current_user.id
-        )
-        await announcement.insert()
-        return announcement
+        data: EventCreate,
+    ) -> Event:
+        """Create an event."""
+        event = Event(**data.model_dump(), creator_id=current_user.id)
+        await event.insert()
+        return event
 
     @staticmethod
     async def update(
-        announcement: Announcement,
-        data: AnnouncementUpdate,
-    ) -> Announcement:
-        """Update an announcement."""
-        set_attributes(announcement, data)
-        await announcement.save()
-        return announcement
+        event: Event,
+        data: EventUpdate,
+    ) -> Event:
+        """Update an event."""
+        set_attributes(event, data)
+        await event.save()
+        return event
 
     @staticmethod
-    async def delete(announcement: Announcement) -> None:
-        """Delete an announcement."""
-        await announcement.delete()
+    async def delete(event: Event) -> None:
+        """Delete an event."""
+        await event.delete()
+        return event
 
     @staticmethod
     def _build_pipeline(
         filters: Optional[dict] = None,
         sort_by: Optional[str] = None,
-        announcement_id: Optional[PydanticObjectId] = None,
+        event_id: Optional[PydanticObjectId] = None,
         current_user_id: Optional[PydanticObjectId] = None,
     ) -> list:
         """Build aggregation pipeline."""
         pipeline = []
         filters = filters or {}
 
-        # Initial match stage
-        if announcement_id:
-            pipeline.append({"$match": {"_id": announcement_id}})
+        if event_id:
+            pipeline.append({"$match": {"_id": event_id}})
         elif filters:
             pipeline.append({"$match": filters})
 
-        # Author lookup
+        # Cafes lookup
+        pipeline.extend(
+            [
+                {
+                    "$lookup": {
+                        "from": "cafes",
+                        "localField": "cafe_ids",
+                        "foreignField": "_id",
+                        "pipeline": [
+                            {
+                                "$project": {
+                                    "_id": 0,
+                                    "id": "$_id",
+                                    "name": 1,
+                                    "slug": 1,
+                                    "logo_url": 1,
+                                    "banner_url": 1,
+                                }
+                            }
+                        ],
+                        "as": "cafes",
+                    }
+                },
+            ]
+        )
+
+        # Creator lookup
         pipeline.extend(
             [
                 {
                     "$lookup": {
                         "from": "users",
-                        "localField": "author_id",
+                        "localField": "creator_id",
                         "foreignField": "_id",
                         "pipeline": [
                             {
@@ -207,10 +221,10 @@ class AnnouncementService:
                                 }
                             }
                         ],
-                        "as": "author",
+                        "as": "creator",
                     }
                 },
-                {"$addFields": {"author": {"$arrayElemAt": ["$author", 0]}}},
+                {"$addFields": {"creator": {"$arrayElemAt": ["$creator", 0]}}},
             ]
         )
 
@@ -221,7 +235,7 @@ class AnnouncementService:
                     "$lookup": {
                         "from": "interactions",
                         "localField": "_id",
-                        "foreignField": "announcement_id",
+                        "foreignField": "event_id",
                         "as": "all_interactions",
                     }
                 },
@@ -286,12 +300,12 @@ class AnnouncementService:
         pipeline.extend(
             [
                 {"$addFields": {"id": "$_id"}},
-                {"$unset": ["_id", "author_id", "all_interactions"]},
+                {"$unset": ["_id", "cafe_ids", "creator_id", "all_interactions"]},
             ]
         )
 
         # Sorting
-        if sort_by and not announcement_id:
+        if sort_by and not event_id:
             direction = DESCENDING if sort_by.startswith("-") else ASCENDING
             field = sort_by.lstrip("-")
             pipeline.append({"$sort": {field: direction}})

@@ -65,7 +65,6 @@ async def search(query: str, **filters) -> Dict[str, List[Any]]:
             "contact": cafe.contact,
             "social_media": cafe.social_media,
             "payment_details": cafe.payment_details,
-            "additional_info": cafe.additional_info,
             "menu_items": filtered_menu_items,
         }
         matching_cafes_and_items.append(cafe_dict)

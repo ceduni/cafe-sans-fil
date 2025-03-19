@@ -11,18 +11,18 @@ from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
+from app.auth.dependencies import get_current_user, get_current_user_optional
 from app.cafe.announcement.models import (
+    AnnouncementAggregateOut,
     AnnouncementCreate,
     AnnouncementOut,
     AnnouncementUpdate,
-    AnnouncementView,
 )
 from app.cafe.announcement.service import AnnouncementService
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
 from app.models import ErrorResponse
 from app.service import parse_query_params
-from app.user.endpoints import get_current_user
 from app.user.models import User
 
 T = TypeVar("T")
@@ -34,7 +34,9 @@ class AnnouncementParams(Params):
     size: int = Query(20, ge=1, le=100, description="Page size")
     page: int = Query(1, ge=1, description="Page number")
     sort_by: Optional[str] = Query(None, description="Sort by a specific field")
-    cafe_id: Optional[PydanticObjectId] = Query(None, description="Filter by cafe ID")
+    cafe_id: Optional[PydanticObjectId] = Query(
+        None, description="Filter by cafe ID", example=""
+    )
 
 
 AnnouncementPage = CustomizedPage[
@@ -48,15 +50,19 @@ announcement_router = APIRouter()
 
 @announcement_router.get(
     "/announcements/",
-    response_model=AnnouncementPage[AnnouncementView],
+    response_model=AnnouncementPage[AnnouncementAggregateOut],
 )
 async def list_announcements(
     request: Request,
+    current_user: User = Depends(get_current_user_optional),
 ):
     """Get a list of announcements."""
     filters = parse_query_params(dict(request.query_params))
     announcements = await AnnouncementService.get_all(
-        to_list=False, as_view=True, **filters
+        to_list=False,
+        aggregate=True,
+        current_user_id=current_user.id if current_user else None,
+        **filters,
     )
     return await paginate(announcements)
 

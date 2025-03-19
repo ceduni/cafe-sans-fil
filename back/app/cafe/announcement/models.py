@@ -5,9 +5,10 @@ Module for handling announcement-related models.
 from datetime import UTC, datetime
 from typing import List, Optional
 
-from beanie import Document, PydanticObjectId, View
+from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, Field
 
+from app.interaction.models import InteractionOut
 from app.models import CafeId, Id
 from app.user.models import UserOut
 
@@ -58,40 +59,8 @@ class AnnouncementOut(AnnouncementBase, CafeId, Id):
     pass
 
 
-class AnnouncementView(View, AnnouncementBase, CafeId, Id):
-    """Model for announcement view."""
+class AnnouncementAggregateOut(AnnouncementBase, CafeId, Id):
+    """Model for aggregated announcement output."""
 
     author: UserOut
-
-    class Settings:
-        """Settings for announcement view."""
-
-        name = "announcements_view"
-        source = "announcements"
-        pipeline = [
-            {
-                "$lookup": {
-                    "from": "users",
-                    "localField": "author_id",
-                    "foreignField": "_id",
-                    "pipeline": [
-                        {
-                            "$project": {
-                                "_id": 0,
-                                "id": "$_id",
-                                "username": 1,
-                                "email": 1,
-                                "matricule": 1,
-                                "first_name": 1,
-                                "last_name": 1,
-                                "photo_url": 1,
-                            }
-                        }
-                    ],
-                    "as": "author",
-                }
-            },
-            {"$addFields": {"author": {"$arrayElemAt": ["$author", 0]}}},
-            {"$addFields": {"id": "$_id"}},
-            {"$unset": ["_id", "author_id"]},
-        ]
+    interactions: List[InteractionOut]

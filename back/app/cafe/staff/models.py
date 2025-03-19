@@ -22,3 +22,11 @@ class StaffOut(BaseModel):
 
     admins: List[UserOut] = []
     volunteers: List[UserOut] = []
+
+
+class StaffWithOwnerOut(BaseModel):
+    """Model for cafe staff with owner output."""
+
+    owner: UserOut
+    admins: List[UserOut] = []
+    volunteers: List[UserOut] = []

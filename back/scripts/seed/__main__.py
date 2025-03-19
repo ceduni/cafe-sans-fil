@@ -8,19 +8,19 @@ from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.cafe.announcement.models import Announcement
-from app.cafe.event.models import Event
 from app.cafe.menu.item.models import MenuItem
 from app.cafe.models import Cafe
 from app.cafe.order.models import Order
 from app.config import settings
+from app.event.models import Event
 from app.interaction.models import Interaction
 from app.user.models import User
 from scripts.seed.cafe import CafeSeeder
 from scripts.seed.cafe.announcement import AnnouncementSeeder
-from scripts.seed.cafe.event import EventSeeder
 from scripts.seed.cafe.menu import MenuSeeder
 from scripts.seed.cafe.order import OrderSeeder
 from scripts.seed.cafe.staff import StaffSeeder
+from scripts.seed.event import EventSeeder
 from scripts.seed.interaction import InteractionSeeder
 from scripts.seed.user import UserSeeder
 

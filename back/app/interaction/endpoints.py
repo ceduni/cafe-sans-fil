@@ -13,8 +13,8 @@ from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.cafe.announcement.service import AnnouncementService
-from app.cafe.event.service import EventService
 from app.cafe.menu.item.service import ItemService
+from app.event.service import EventService
 from app.interaction.enums import InteractionType
 from app.interaction.service import InteractionService
 from app.models import ErrorResponse
@@ -44,7 +44,7 @@ interaction_router = APIRouter()
     "/items/{id}/interactions/{interaction}",
     response_model=InteractionPage[UserOut],
 )
-async def get_item_interactions(
+async def list_item_interactions(
     request: Request,
     id: PydanticObjectId = Path(..., description="ID of the menu item"),
     interaction: Literal[InteractionType.LIKE, InteractionType.DISLIKE] = Path(
@@ -61,7 +61,7 @@ async def get_item_interactions(
 
     filters = parse_query_params(dict(request.query_params))
     filters["item_id"] = item.id
-    filters["type"] = interaction
+    filters["type"] = interaction.upper()
 
     items = await InteractionService.get_all(to_list=False, **filters)
 
@@ -72,7 +72,7 @@ async def get_item_interactions(
     "/announcements/{id}/interactions/{interaction}",
     response_model=InteractionPage[UserOut],
 )
-async def get_announcement_interactions(
+async def list_announcement_interactions(
     request: Request,
     id: PydanticObjectId = Path(..., description="ID of the announcement"),
     interaction: Literal[InteractionType.LIKE, InteractionType.DISLIKE] = Path(
@@ -89,7 +89,7 @@ async def get_announcement_interactions(
 
     filters = parse_query_params(dict(request.query_params))
     filters["announcement_id"] = id
-    filters["type"] = interaction
+    filters["type"] = interaction.upper()
 
     announcement = await InteractionService.get_all(to_list=False, **filters)
 
@@ -99,8 +99,9 @@ async def get_announcement_interactions(
 @interaction_router.get(
     "/events/{id}/interactions/{interaction}",
     response_model=InteractionPage[UserOut],
+    deprecated=True,
 )
-async def get_event_interactions(
+async def list_event_interactions(
     request: Request,
     id: PydanticObjectId = Path(..., description="ID of the event"),
     interaction: InteractionType = Path(..., description="Type of the interaction"),
@@ -115,7 +116,7 @@ async def get_event_interactions(
 
     filters = parse_query_params(dict(request.query_params))
     filters["event_id"] = id
-    filters["type"] = interaction
+    filters["type"] = interaction.upper()
 
     events = await InteractionService.get_all(to_list=False, **filters)
 
@@ -144,6 +145,7 @@ async def create_item_interaction(
             detail=[{"msg": "An item with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     if await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -180,6 +182,7 @@ async def create_announcement_interaction(
             detail=[{"msg": "An announcement with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     if await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -200,6 +203,7 @@ async def create_announcement_interaction(
         401: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
+    deprecated=True,
 )
 async def create_event_interaction(
     id: PydanticObjectId = Path(..., description="ID of the event"),
@@ -214,6 +218,7 @@ async def create_event_interaction(
             detail=[{"msg": "An event with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     if await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -250,6 +255,7 @@ async def delete_item_interaction(
             detail=[{"msg": "An item with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     interaction = await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -284,6 +290,7 @@ async def delete_announcement_interaction(
             detail=[{"msg": "An announcement with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     interaction = await InteractionService.get(
         user=current_user,
         type=interaction,
@@ -302,6 +309,7 @@ async def delete_announcement_interaction(
         401: {"model": ErrorResponse},
         404: {"model": ErrorResponse},
     },
+    deprecated=True,
 )
 async def delete_event_interaction(
     id: PydanticObjectId = Path(..., description="ID of the event"),
@@ -316,6 +324,7 @@ async def delete_event_interaction(
             detail=[{"msg": "An event with this ID does not exist."}],
         )
 
+    interaction = interaction.upper()
     interaction = await InteractionService.get(
         user=current_user,
         type=interaction,

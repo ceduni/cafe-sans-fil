@@ -43,6 +43,13 @@ class OrderBase(BaseModel):
     created_at: Optional[datetime] = Field(default_factory=lambda: datetime.now(UTC))
     updated_at: Optional[datetime] = Field(default_factory=lambda: datetime.now(UTC))
 
+    @field_validator("status", mode="before")
+    def capitalize(cls, value):
+        """Capitalize value."""
+        if isinstance(value, str):
+            return value.upper()
+        return value
+
 
 class Order(Document, OrderBase, CafeId, UserId):
     """Order document model."""
@@ -126,6 +133,13 @@ class OrderUpdate(BaseModel):
     """Model for updating orders."""
 
     status: Optional[OrderStatus] = None
+
+    @field_validator("status", mode="before")
+    def capitalize(cls, value):
+        """Capitalize value."""
+        if isinstance(value, str):
+            return value.upper()
+        return value
 
 
 class OrderOut(OrderBase, CafeId, UserId, Id):

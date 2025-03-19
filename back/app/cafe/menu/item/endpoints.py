@@ -90,13 +90,19 @@ async def create_item(
             detail=[{"msg": "A cafe with this slug does not exist."}],
         )
 
-    if data.category_id is not None:
-        category = await CategoryService.get_by_id(cafe, data.category_id)
-        if not category:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=[{"msg": "A category with this ID does not exist."}],
-            )
+    if data.category_ids is not None:
+        for category_id in data.category_ids:
+            category = await CategoryService.get_by_id(cafe, category_id)
+            if not category:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=[
+                        {
+                            "msg": "A category with this ID does not exist.",
+                            "id": str(category_id),
+                        }
+                    ],
+                )
 
     try:
         return await ItemService.create(cafe, data)
@@ -171,13 +177,19 @@ async def update_item(
             detail=[{"msg": "An item with this ID does not exist."}],
         )
 
-    if data.category_id is not None:
-        category = await CategoryService.get_by_id(cafe, data.category_id)
-        if not category:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=[{"msg": "A category with this ID does not exist."}],
-            )
+    if data.category_ids is not None:
+        for category_id in data.category_ids:
+            category = await CategoryService.get_by_id(cafe, category_id)
+            if not category:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=[
+                        {
+                            "msg": "A category with this ID does not exist.",
+                            "id": str(category_id),
+                        }
+                    ],
+                )
 
     try:
         return await ItemService.update(item, data)

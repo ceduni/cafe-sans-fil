@@ -9,7 +9,8 @@ from beanie import DecimalAnnotation
 from pydantic import BaseModel, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 
-from app.models import CafeId, CategoryId, CustomDocument, Id
+from app.interaction.models import InteractionOut
+from app.models import CafeId, CategoryIds, CustomDocument, Id
 
 
 class MenuItemOption(BaseModel):
@@ -48,16 +49,16 @@ class MenuItemBase(BaseModel):
         return price
 
 
-class MenuItem(CustomDocument, MenuItemBase, CategoryId, CafeId):
+class MenuItem(CustomDocument, MenuItemBase, CategoryIds, CafeId):
     """Menu item document model."""
 
     class Settings:
         """Settings for menu item document."""
 
-        name = "menus"
+        name = "items"
         indexes = [
             IndexModel([("cafe_id", pymongo.ASCENDING)]),
-            IndexModel([("category_id", pymongo.ASCENDING)]),
+            IndexModel([("category_ids", pymongo.ASCENDING)]),
             IndexModel([("name", pymongo.ASCENDING)]),
             IndexModel([("description", pymongo.ASCENDING)]),
             IndexModel([("_id", pymongo.ASCENDING), ("cafe_id", pymongo.ASCENDING)]),
@@ -68,13 +69,13 @@ class MenuItem(CustomDocument, MenuItemBase, CategoryId, CafeId):
         ]
 
 
-class MenuItemCreate(MenuItemBase, CategoryId):
+class MenuItemCreate(MenuItemBase, CategoryIds):
     """Model for creating menu items."""
 
     pass
 
 
-class MenuItemUpdate(BaseModel, CategoryId):
+class MenuItemUpdate(BaseModel, CategoryIds):
     """Model for updating menu items."""
 
     name: Optional[str] = Field(None, min_length=1, max_length=50)
@@ -94,13 +95,13 @@ class MenuItemUpdate(BaseModel, CategoryId):
         return price
 
 
-class MenuItemOut(MenuItemBase, CategoryId, CafeId, Id):
+class MenuItemOut(MenuItemBase, CategoryIds, CafeId, Id):
     """Model for menu item output."""
 
     pass
 
 
-class MenuItemNoRefOut(MenuItemBase, Id):
-    """Model for menu item output without references."""
+class MenuItemAggregateOut(MenuItemBase, Id):
+    """Model for menu item aggregate output."""
 
-    pass
+    interactions: List[InteractionOut]

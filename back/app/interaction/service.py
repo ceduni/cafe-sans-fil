@@ -8,8 +8,8 @@ from beanie import PydanticObjectId
 from beanie.odm.queries.find import AggregationQuery
 
 from app.cafe.announcement.models import Announcement
-from app.cafe.event.models import Event
 from app.cafe.menu.item.models import MenuItem
+from app.event.models import Event
 from app.interaction.models import (
     AnnouncementInteraction,
     EventInteraction,

@@ -42,10 +42,10 @@ class CafeId:
     cafe_id: PydanticObjectId
 
 
-class CategoryId:
-    """Model for category ID."""
+class CategoryIds:
+    """Model for category IDs."""
 
-    category_id: Optional[PydanticObjectId] = None
+    category_ids: Optional[List[PydanticObjectId]] = []
 
 
 class ItemId:

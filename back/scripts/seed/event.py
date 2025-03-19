@@ -11,9 +11,9 @@ from typing import List
 from beanie import PydanticObjectId
 from tqdm import tqdm
 
-from app.cafe.event.models import Event, EventCreate
 from app.cafe.models import Cafe
 from app.cafe.service import CafeService
+from app.event.models import Event, EventCreate
 
 random.seed(42)
 
@@ -53,8 +53,7 @@ class EventSeeder:
         data: dict = await self._random_event_data()
 
         return Event(
-            **EventCreate(**data).model_dump(),
-            cafe_id=cafe.id,
+            **EventCreate(**data, cafe_ids=[cafe.id]).model_dump(),
             creator_id=creator_id,
             created_at=datetime.now(UTC) - timedelta(days=random.randint(0, 30)),
             updated_at=datetime.now(UTC) - timedelta(days=random.randint(0, 30)),

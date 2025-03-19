@@ -6,7 +6,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from app.cafe.menu.item.models import MenuItemNoRefOut
+from app.cafe.menu.item.models import MenuItemAggregateOut
 from app.models import Id, IdDefaultFactory, IdOptional
 
 
@@ -47,4 +47,4 @@ class MenuCategoryItemOut(BaseModel, IdOptional):
 
     name: Optional[str] = Field(None, min_length=1, max_length=50)
     description: Optional[str] = Field(None, min_length=1, max_length=255)
-    items: List[MenuItemNoRefOut]
+    items: List[MenuItemAggregateOut]

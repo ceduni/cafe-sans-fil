@@ -4,13 +4,14 @@ Module for handling user-related models.
 
 import re
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 import pymongo
-from beanie import PydanticObjectId, View
+from beanie import PydanticObjectId
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 
+from app.cafe.staff.enums import Role
 from app.models import CustomDocument, Id
 
 
@@ -122,46 +123,16 @@ class UserOut(UserBase, Id):
 
 
 class UserCafesOut(BaseModel, Id):
-    """Cafe shorter output model."""
+    """Model for user cafes output."""
 
     name: str = Field(..., min_length=1, max_length=50)
     slug: Optional[str] = None
     logo_url: Optional[HttpUrl] = None
     banner_url: Optional[HttpUrl] = None
+    role: Literal["OWNER", Role.ADMIN, Role.VOLUNTEER]
 
 
-class UserView(View, UserBase, Id):
-    """Model for user view."""
+class UserAggregateOut(UserBase, Id):
+    """User aggregate output model."""
 
     cafes: List[UserCafesOut]
-
-    class Settings:
-        """Settings for user view."""
-
-        name = "users_view"
-        source = "users"
-        pipeline = [
-            # Lookup cafes
-            {
-                "$lookup": {
-                    "from": "cafes",
-                    "localField": "cafe_ids",
-                    "foreignField": "_id",
-                    "pipeline": [
-                        {
-                            "$project": {
-                                "_id": 0,
-                                "id": "$_id",
-                                "name": 1,
-                                "slug": 1,
-                                "logo_url": 1,
-                                "banner_url": 1,
-                            }
-                        }
-                    ],
-                    "as": "cafes",
-                }
-            },
-            {"$addFields": {"id": "$_id"}},
-            {"$unset": ["_id", "cafe_ids"]},
-        ]

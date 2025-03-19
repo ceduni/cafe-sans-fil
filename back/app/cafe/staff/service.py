@@ -2,9 +2,10 @@
 Module for handling staff-related operations.
 """
 
-from typing import List
+from typing import List, Optional
 
 from beanie import PydanticObjectId
+from bson.errors import InvalidId
 
 from app.cafe.models import Cafe
 from app.cafe.staff.enums import Role
@@ -21,6 +22,21 @@ class StaffService:
             or id in cafe.staff.admin_ids
             or id in cafe.staff.volunteer_ids
         )
+
+    @staticmethod
+    async def get(cafe_slug_or_id: str) -> Optional[dict]:
+        """Get all staff members of a cafe."""
+        try:
+            cafe_id = PydanticObjectId(cafe_slug_or_id)
+            filters = {"_id": cafe_id}
+        except InvalidId:
+            filters = {
+                "$or": [{"slug": cafe_slug_or_id}, {"previous_slugs": cafe_slug_or_id}]
+            }
+
+        pipeline = StaffService._build_pipeline(filters=filters)
+        result = await Cafe.aggregate(pipeline).to_list()
+        return result[0] if result else None
 
     @staticmethod
     async def add(cafe: Cafe, role: Role, id: PydanticObjectId) -> None:
@@ -71,3 +87,99 @@ class StaffService:
         staff_list[:] = [id for id in staff_list if id not in ids]
         if len(staff_list) != original_count:
             await cafe.save()
+
+    @staticmethod
+    def _build_pipeline(filters: Optional[dict] = None) -> list:
+        """Build aggregation pipeline."""
+        pipeline = []
+        filters = filters or {}
+
+        if filters:
+            pipeline.append({"$match": filters})
+
+        pipeline.extend(
+            [
+                # Lookup owner
+                {
+                    "$lookup": {
+                        "from": "users",
+                        "localField": "owner_id",
+                        "foreignField": "_id",
+                        "pipeline": [
+                            {
+                                "$project": {
+                                    "_id": 0,
+                                    "id": "$_id",
+                                    "username": 1,
+                                    "email": 1,
+                                    "matricule": 1,
+                                    "first_name": 1,
+                                    "last_name": 1,
+                                    "photo_url": 1,
+                                }
+                            }
+                        ],
+                        "as": "owner",
+                    }
+                },
+                # Lookup admins
+                {
+                    "$lookup": {
+                        "from": "users",
+                        "localField": "staff.admin_ids",
+                        "foreignField": "_id",
+                        "pipeline": [
+                            {
+                                "$project": {
+                                    "_id": 0,
+                                    "id": "$_id",
+                                    "username": 1,
+                                    "email": 1,
+                                    "matricule": 1,
+                                    "first_name": 1,
+                                    "last_name": 1,
+                                    "photo_url": 1,
+                                }
+                            }
+                        ],
+                        "as": "admins",
+                    }
+                },
+                # Lookup volunteers
+                {
+                    "$lookup": {
+                        "from": "users",
+                        "localField": "staff.volunteer_ids",
+                        "foreignField": "_id",
+                        "pipeline": [
+                            {
+                                "$project": {
+                                    "_id": 0,
+                                    "id": "$_id",
+                                    "username": 1,
+                                    "email": 1,
+                                    "matricule": 1,
+                                    "first_name": 1,
+                                    "last_name": 1,
+                                    "photo_url": 1,
+                                }
+                            }
+                        ],
+                        "as": "volunteers",
+                    }
+                },
+                # Add owner and staff
+                {"$addFields": {"owner": {"$arrayElemAt": ["$owner", 0]}}},
+                {"$addFields": {"id": "$_id"}},
+                # Clean up temporary fields
+                {
+                    "$unset": [
+                        "_id",
+                        "owner_id",
+                        "staff",
+                    ]
+                },
+            ]
+        )
+
+        return pipeline

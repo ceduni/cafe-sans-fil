@@ -52,7 +52,7 @@ order_router = APIRouter()
     },
     dependencies=[Depends(VolunteerPermission())],
 )
-async def list_cafe_orders(
+async def list_orders(
     request: Request,
     slug: str = Path(..., description="Slug of the cafe"),
 ):
@@ -79,7 +79,7 @@ async def list_cafe_orders(
     },
     dependencies=[Depends(VolunteerPermission())],
 )
-async def create_cafe_order(
+async def create_order(
     data: OrderCreate,
     slug: str = Path(..., description="Slug of the cafe"),
     current_user: User = Depends(get_current_user),
@@ -125,7 +125,7 @@ async def create_cafe_order(
     },
     dependencies=[Depends(VolunteerPermission())],
 )
-async def update_cafe_order(
+async def update_order(
     data: OrderUpdate,
     slug: str = Path(..., description="Slug of the cafe"),
     id: PydanticObjectId = Path(..., description="ID of the order"),

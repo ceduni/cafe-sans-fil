@@ -2,17 +2,17 @@
 Module for handling cafe-related models.
 """
 
-import re
 from datetime import datetime
 from typing import List, Optional
 
 import pymongo
-from beanie import DecimalAnnotation, Insert, PydanticObjectId, Save, View, before_event
-from pydantic import BaseModel, Field, EmailStr, HttpUrl, field_validator
+from beanie import DecimalAnnotation, Insert, PydanticObjectId, Save, before_event
+from pydantic import BaseModel, EmailStr, Field, HttpUrl, field_validator
 from pymongo import IndexModel
 from slugify import slugify
 
 from app.cafe.enums import Days, Feature, PaymentMethod
+from app.cafe.menu.enums import Layout
 from app.cafe.menu.models import Menu, MenuOut
 from app.cafe.staff.models import Staff, StaffOut
 from app.models import CustomDocument, Id
@@ -77,9 +77,9 @@ class Contact(BaseModel):
 class SocialMedia(BaseModel):
     """Model for social media links."""
 
-    facebook: Optional[str] = None
-    instagram: Optional[str] = None
-    x: Optional[str] = None
+    facebook: Optional[HttpUrl] = None
+    instagram: Optional[HttpUrl] = None
+    x: Optional[HttpUrl] = None
 
 
 class PaymentDetails(BaseModel):
@@ -87,15 +87,6 @@ class PaymentDetails(BaseModel):
 
     method: PaymentMethod
     minimum: Optional[DecimalAnnotation] = None
-
-
-class AdditionalInfo(BaseModel):
-    """Model for additional information."""
-
-    type: str = Field(..., min_length=1)
-    value: str = Field(..., min_length=1)
-    start: Optional[datetime] = None
-    end: Optional[datetime] = None
 
 
 class CafeBase(BaseModel):
@@ -117,7 +108,6 @@ class CafeBase(BaseModel):
     contact: Contact
     social_media: SocialMedia
     payment_details: List[PaymentDetails] = []
-    additional_info: List[AdditionalInfo] = []
 
     @field_validator("opening_hours")
     @classmethod
@@ -169,31 +159,13 @@ class CafeBase(BaseModel):
             raise ValueError("Duplicate payment method detected.")
         return payment_details
 
-    @field_validator("additional_info")
-    @classmethod
-    def validate_additional_info(cls, additional_info):
-        """Validate that additional info entries are unique."""
-        additional_info_combinations = set()
-        for info_data in additional_info:
-            if isinstance(info_data, dict):
-                info = AdditionalInfo(**info_data)
-            else:
-                info = info_data
-            additional_info_combinations.add((info.type, info.value))
-
-        if len(additional_info_combinations) != len(additional_info):
-            raise ValueError(
-                "Duplicate AdditionalInfo type-value combination detected."
-            )
-        return additional_info
-
 
 class Cafe(CustomDocument, CafeBase):
     """Cafe document model."""
 
     owner_id: PydanticObjectId
     staff: Staff = Staff(admin_ids=[], volunteer_ids=[])
-    menu: Menu = Menu(categories=[])
+    menu: Menu = Menu(categories=[], layout=Layout.LIST)
 
     @before_event([Insert, Save])
     async def handle_slug(self):
@@ -244,7 +216,6 @@ class CafeCreate(BaseModel):
     contact: Contact
     social_media: SocialMedia
     payment_details: List[PaymentDetails] = []
-    additional_info: Optional[List[AdditionalInfo]] = None
 
 
 class CafeUpdate(BaseModel):
@@ -264,7 +235,6 @@ class CafeUpdate(BaseModel):
     contact: Optional[Contact] = None
     social_media: Optional[SocialMedia] = None
     payment_details: Optional[List[PaymentDetails]] = None
-    additional_info: Optional[List[AdditionalInfo]] = None
     owner_id: Optional[PydanticObjectId] = None
 
 
@@ -291,198 +261,11 @@ class CafeShortOut(BaseModel, Id):
     opening_hours: List[DayHours]
     location: Location
     payment_details: List[PaymentDetails]
-    additional_info: List[AdditionalInfo]
 
 
-class CafeView(View, CafeBase, Id):
-    """Cafe view with complete staff and menu data."""
+class CafeAggregateOut(CafeBase, Id):
+    """Cafe aggregate output model."""
 
     owner: UserOut
     staff: StaffOut
     menu: MenuOut
-
-    class Settings:
-        """Settings for cafe view."""
-
-        name: str = "cafes_view"
-        source = "cafes"
-        pipeline = [
-            # Lookup owner
-            {
-                "$lookup": {
-                    "from": "users",
-                    "localField": "owner_id",
-                    "foreignField": "_id",
-                    "pipeline": [
-                        {
-                            "$project": {
-                                "_id": 0,
-                                "id": "$_id",
-                                "username": 1,
-                                "email": 1,
-                                "matricule": 1,
-                                "first_name": 1,
-                                "last_name": 1,
-                                "photo_url": 1,
-                            }
-                        }
-                    ],
-                    "as": "owner",
-                }
-            },
-            # Lookup menu items
-            {
-                "$lookup": {
-                    "from": "menus",
-                    "localField": "_id",
-                    "foreignField": "cafe_id",
-                    "as": "menu_items",
-                }
-            },
-            # Lookup admin users
-            {
-                "$lookup": {
-                    "from": "users",
-                    "localField": "staff.admin_ids",
-                    "foreignField": "_id",
-                    "pipeline": [
-                        {
-                            "$project": {
-                                "_id": 0,
-                                "id": "$_id",
-                                "username": 1,
-                                "email": 1,
-                                "matricule": 1,
-                                "first_name": 1,
-                                "last_name": 1,
-                                "photo_url": 1,
-                            }
-                        }
-                    ],
-                    "as": "admins",
-                }
-            },
-            # Lookup volunteer users
-            {
-                "$lookup": {
-                    "from": "users",
-                    "localField": "staff.volunteer_ids",
-                    "foreignField": "_id",
-                    "pipeline": [
-                        {
-                            "$project": {
-                                "_id": 0,
-                                "id": "$_id",
-                                "username": 1,
-                                "email": 1,
-                                "matricule": 1,
-                                "first_name": 1,
-                                "last_name": 1,
-                                "photo_url": 1,
-                            }
-                        }
-                    ],
-                    "as": "volunteers",
-                }
-            },
-            # Add owner, menu, and staff
-            {
-                "$addFields": {
-                    "owner": {"$arrayElemAt": ["$owner", 0]},
-                    "staff": {"admins": "$admins", "volunteers": "$volunteers"},
-                    "menu": {
-                        "categories": {
-                            "$concatArrays": [
-                                # Group items with no category
-                                [
-                                    {
-                                        "id": None,
-                                        "name": None,
-                                        "description": None,
-                                        "items": {
-                                            "$map": {
-                                                "input": {
-                                                    "$filter": {
-                                                        "input": "$menu_items",
-                                                        "as": "item",
-                                                        "cond": {
-                                                            "$eq": [
-                                                                "$$item.category_id",
-                                                                None,
-                                                            ]
-                                                        },
-                                                    }
-                                                },
-                                                "as": "item",
-                                                "in": {
-                                                    "id": "$$item._id",
-                                                    "name": "$$item.name",
-                                                    "description": "$$item.description",
-                                                    "tags": "$$item.tags",
-                                                    "image_url": "$$item.image_url",
-                                                    "price": "$$item.price",
-                                                    "in_stock": "$$item.in_stock",
-                                                    "options": "$$item.options",
-                                                },
-                                            }
-                                        },
-                                    }
-                                ],
-                                # Group items with categories
-                                {
-                                    "$map": {
-                                        "input": "$menu.categories",
-                                        "as": "cat",
-                                        "in": {
-                                            "id": "$$cat._id",
-                                            "name": "$$cat.name",
-                                            "description": "$$cat.description",
-                                            "items": {
-                                                "$map": {
-                                                    "input": {
-                                                        "$filter": {
-                                                            "input": "$menu_items",
-                                                            "as": "item",
-                                                            "cond": {
-                                                                "$eq": [
-                                                                    "$$item.category_id",
-                                                                    "$$cat._id",
-                                                                ]
-                                                            },
-                                                        }
-                                                    },
-                                                    "as": "item",
-                                                    "in": {
-                                                        "id": "$$item._id",
-                                                        "name": "$$item.name",
-                                                        "description": "$$item.description",
-                                                        "tags": "$$item.tags",
-                                                        "image_url": "$$item.image_url",
-                                                        "price": "$$item.price",
-                                                        "in_stock": "$$item.in_stock",
-                                                        "options": "$$item.options",
-                                                    },
-                                                }
-                                            },
-                                        },
-                                    }
-                                },
-                            ]
-                        }
-                    },
-                }
-            },
-            {"$addFields": {"id": "$_id"}},
-            # Clean up temporary fields
-            {
-                "$unset": [
-                    "_id",
-                    "owner_id",
-                    "menu_items",
-                    "admins",
-                    "volunteers",
-                    "staff.admin_ids",
-                    "staff.volunteer_ids",
-                ]
-            },
-        ]
