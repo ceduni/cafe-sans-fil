@@ -7,7 +7,13 @@ const isEmpty = (arr) => arr?.length === 0;
 
 function filterEvent(event, filters){
     //possible filters to apply to event list
-    const {pavillon, cafe, startTimeBefore, startTimeAfter, dateRangeStart, dateRangeEnd} = filters;
+    const {pavillon, cafe, dateRangeStart, dateRangeEnd} = filters;
+
+    if (event.id == cafe.id) {
+        return false;
+    }
+
+    return true
 }
 
 function renderError(error) {
@@ -30,7 +36,8 @@ function renderEvents(events, filters, setFilters) {
 
     return (
         <div className="relative bottom-4 xl:bottom-2">
-            {/* <Filters filters={filters} setFilters={setFilters} events={events} /> */}
+            <Filters filters={filters} setFilters={setFilters} events={events} />
+
             {isEmpty(filteredDate) && (
                 <div className="mt-20 mb-36">
                     <EmptyState name="evenement" />
