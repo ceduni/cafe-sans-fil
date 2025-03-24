@@ -5,9 +5,9 @@ import { EventAPI } from "@/utils/api"
 
 const isEmpty = (arr) => arr?.length === 0;
 
-function filterEvent(event, filters){
+function filterEvent(event, filters) {
     //possible filters to apply to event list
-    const {pavillon, cafe, startTimeBefore, startTimeAfter, dateRangeStart, dateRangeEnd} = filters;
+    const { pavillon, cafe, startTimeBefore, startTimeAfter, dateRangeStart, dateRangeEnd } = filters;
 }
 
 function renderError(error) {
@@ -18,7 +18,7 @@ function renderEmpty() {
     // temporary use of CafeCardLoading
     return (
         <div className="grid grid-cols-1 gap-4 py-8 animate-pulse duration-100">
-            {Array.from({length: 10}).map((_, i) => (
+            {Array.from({ length: 10 }).map((_, i) => (
                 <EventCardLoading key={i} />
             ))}
         </div>
@@ -26,12 +26,12 @@ function renderEmpty() {
 }
 
 function renderEvents(events, filters, setFilters) {
-    filteredData = events.filter((event) => filterEvent(event, filters))
+    const filteredData = events.filter((event) => filterEvent(event, filters))
 
     return (
         <div className="relative bottom-4 xl:bottom-2">
             {/* <Filters filters={filters} setFilters={setFilters} events={events} /> */}
-            {isEmpty(filteredDate) && (
+            {isEmpty(filteredData) && (
                 <div className="mt-20 mb-36">
                     <EmptyState name="evenement" />
                 </div>
@@ -46,14 +46,14 @@ function renderEvents(events, filters, setFilters) {
     );
 }
 
-const EventBoard = ({setStoredEvents, storedEvents}) => {
-    const [filters, setfilters] = useState({
+const EventBoard = ({ setStoredEvents, storedEvents }) => {
+    const [filters, setFilters] = useState({
         //filters
     });
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+
     // Fetching event
     useEffect(() => {
         EventAPI.getAll(setIsLoading)
@@ -74,7 +74,7 @@ const EventBoard = ({setStoredEvents, storedEvents}) => {
         return renderEmpty();
     }
 
-    return renderEvent(storedEvents, filters, setFilters);
+    return renderEvents(storedEvents, filters, setFilters);
 };
 
 export default EventBoard;

@@ -188,6 +188,6 @@ export const EventAPI = {
      */
     getAll: async function (setLoading = null, cancel = false) {
         const result = await fetchData(`/events`, setLoading);
-        return result.map(eventData => new Event(eventData));
+        return result.items.map(eventData => new Event(eventData));
     },
 }
