@@ -5,7 +5,7 @@ Module for handling staff-related routes.
 from typing import Literal
 
 from beanie import PydanticObjectId
-from fastapi import APIRouter, Depends, HTTPException, Path, status
+from fastapi import APIRouter, Depends, HTTPException, Path, status, Query
 
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
@@ -17,9 +17,44 @@ from app.user.service import UserService
 
 staff_router = APIRouter()
 
-
+    
 @staff_router.get(
     "/cafes/{slug}/staff",
+    response_model=StaffWithOwnerOut,
+)
+async def get_staff(
+    slug: str = Path(..., description="Slug of the cafe"),
+    role: Role = Query(None, description="Filter staff by role (e.g., admin, volunteer)"),
+):
+    """Get staff members."""
+    staff = await StaffService.get(slug, role)
+    if not staff:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
+
+    return staff
+
+@staff_router.get(
+    "/cafes/{slug}/admins",
+    response_model=StaffWithOwnerOut,
+)
+async def get_staff(
+    slug: str = Path(..., description="Slug of the cafe"),
+):
+    """Get staff members."""
+    staff = await StaffService.get(slug)
+    if not staff:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
+
+    return staff
+
+@staff_router.get(
+    "/cafes/{slug}/volunteers",
     response_model=StaffWithOwnerOut,
 )
 async def get_staff(

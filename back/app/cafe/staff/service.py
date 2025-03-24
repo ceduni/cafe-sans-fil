@@ -24,7 +24,7 @@ class StaffService:
         )
 
     @staticmethod
-    async def get(cafe_slug_or_id: str) -> Optional[dict]:
+    async def get(cafe_slug_or_id: str, role: str = None) -> Optional[dict]:
         """Get all staff members of a cafe."""
         try:
             cafe_id = PydanticObjectId(cafe_slug_or_id)
