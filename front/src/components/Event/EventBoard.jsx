@@ -7,7 +7,13 @@ const isEmpty = (arr) => arr?.length === 0;
 
 function filterEvent(event, filters) {
     //possible filters to apply to event list
-    const { pavillon, cafe, startTimeBefore, startTimeAfter, dateRangeStart, dateRangeEnd } = filters;
+    const {pavillon, cafe, dateRangeStart, dateRangeEnd} = filters;
+
+    if (event.id == cafe.id) {
+        return false;
+    }
+
+    return true
 }
 
 function renderError(error) {
