@@ -16,6 +16,7 @@ from app.auth.models import ResetPasswordCreate, TokenPayload, TokenSchema
 from app.auth.security import create_access_token, create_refresh_token
 from app.auth.service import AuthService
 from app.config import settings
+from app.email.service import EmailService
 from app.models import ErrorResponse
 from app.user.models import UserCreate, UserOut
 from app.user.service import UserService
@@ -124,16 +125,10 @@ async def register(user: UserCreate) -> UserOut:
 
     created_user = await UserService.create(user)
 
-    # TODO: Render blocking SMTP requests
-    # # Don't send email to test domains
-    # if await is_test_email(user.email):
-    #     return created_user
-
-    # email_context = {
-    #     "title": "Bienvenue à Café sans-fil",
-    #     "name": f"{user.first_name + ' ' + user.last_name}",
-    # }
-    # await send_registration_mail("Bienvenue à Café sans-fil", user.email, email_context)
+    if not await EmailService.is_test_email(user.email):
+        await EmailService.send_welcome_email(
+            user_email=user.email, user_name=f"{user.first_name} {user.last_name}"
+        )
 
     return created_user
 
@@ -148,25 +143,13 @@ async def forgot_password(
     user = await UserService.get_by_email(email)
 
     if user is None:
-        return None
+        return
 
-    # TODO: Render blocking SMTP requests
-    # token = create_access_token(user.id)
-    # reset_link = f"{settings.BASE_URL}/reset-password?token={token}"
-
-    # await send_reset_password_mail("Réinitialisation du mot de passe", user.email,
-    #     {
-    #         "title": "Réinitialisation du mot de passe",
-    #         "name": user.first_name + " " + user.last_name,
-    #         "reset_link": reset_link
-    #     }
-    # )
-
-    # return {
-    #     "reset_link": reset_link,
-    # }
-
-    return None
+    if not await EmailService.is_test_email(user.email):
+        await EmailService.send_password_reset(
+            user_email=user.email,
+            reset_link=f"{settings.BASE_URL}/reset-password?token={create_access_token(user.id)}",
+        )
 
 
 @auth_router.put(

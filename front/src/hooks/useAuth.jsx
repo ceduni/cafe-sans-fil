@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
   const createAccount = async (email, firstName, lastName, matricule, password) => {
     try {
-      const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/users", {
+      const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
