@@ -16,11 +16,13 @@ class ItemService:
     """Service class for CRUD and search operations on Menu."""
 
     @staticmethod
-    async def get_all(to_list: bool = True, **filters: dict) -> Union[FindMany[MenuItem], List[MenuItem]]:
+    async def get_all(
+        to_list: bool = True,
+        **filters: dict,
+    ) -> Union[FindMany[MenuItem], List[MenuItem]]:
         """Get menu items."""
         sort_by = filters.pop("sort_by", "name")
         query = MenuItem.find(filters).sort(sort_by)
-        
         return await query.to_list() if to_list else query
 
     @staticmethod

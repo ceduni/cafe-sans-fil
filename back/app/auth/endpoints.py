@@ -141,7 +141,6 @@ async def forgot_password(
 ):
     """Request a password reset for a user via their email address."""
     user = await UserService.get_by_email(email)
-
     if user is None:
         return
 

@@ -49,7 +49,7 @@ class CafeSeeder:
         path = os.path.join(os.getcwd(), "scripts", "seed", "data", "cafes_coords.json")
         with open(path, "r", encoding="utf-8") as f:
             coords_list = json.load(f)
-        
+
         coords_dict = {}
         for item in coords_list:
             normalized = self._normalize_pavillon(item["pavillon"])
