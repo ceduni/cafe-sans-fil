@@ -35,19 +35,44 @@ class CafeSeeder:
     def __init__(self):
         """Initializes the CafeSeeder."""
         self.cafes: List[Cafe] = []
-        self.data = self._load_data()
+        self.cafe_data = self._load_cafe_data()
+        self.coords_data = self._load_coords_data()
 
-    def _load_data(self):
-        """Loads cafe data from a JSON file."""
+    def _load_cafe_data(self) -> list:
+        """Loads cafe data."""
         path = os.path.join(os.getcwd(), "scripts", "seed", "data", "cafes.json")
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
+
+    def _load_coords_data(self) -> dict:
+        """Loads cafe coordinates data."""
+        path = os.path.join(os.getcwd(), "scripts", "seed", "data", "cafes_coords.json")
+        with open(path, "r", encoding="utf-8") as f:
+            coords_list = json.load(f)
+
+        coords_dict = {}
+        for item in coords_list:
+            normalized = self._normalize_pavillon(item["pavillon"])
+            coords_dict[normalized] = {"lat": item["lat"], "lng": item["lng"]}
+        return coords_dict
+
+    def _normalize_pavillon(self, name: str) -> str:
+        """Normalizes pavillon name for consistent lookup."""
+        return (
+            name.lower()
+            .replace(" ", "")
+            .replace("-", "")
+            .replace("'", "")
+            .replace("’", "")
+            .replace(".", "")
+            .replace(",", "")
+        )
 
     async def seed_cafes(self, num_cafes: int) -> None:
         """Seed cafes with realistic data."""
         users = await UserService.get_all(sort_by="_id")
 
-        for idx, cafe_data in enumerate(tqdm(self.data[:num_cafes], desc="Cafes")):
+        for idx, cafe_data in enumerate(tqdm(self.cafe_data[:num_cafes], desc="Cafes")):
             owner = users[idx % len(users)] if users else None
             self.cafes.append(await self._create_cafe(cafe_data, owner))
 
@@ -60,7 +85,22 @@ class CafeSeeder:
             await users[i].save()
 
     async def _create_cafe(self, data: dict, owner: User = None) -> Cafe:
-        """Build Cafe instance without inserting."""
+        """Build Cafe instance."""
+        # Handle location data with coordinates
+        location_data = data["location"].copy()
+        pavillon_name = location_data["pavillon"]
+        normalized_pavillon = self._normalize_pavillon(pavillon_name)
+
+        if normalized_pavillon in self.coords_data:
+            coord = self.coords_data[normalized_pavillon]
+            location_data["geometry"] = {
+                "type": "Point",
+                "coordinates": [coord["lng"], coord["lat"]],
+            }
+            print(f"✅ Coordinates found for pavillon: {pavillon_name}")
+        else:
+            print(f"❌ Coordinates NOT found for pavillon: {pavillon_name}")
+
         cafe_data = CafeCreate(
             name=data["name"],
             features=self._random_features(),
@@ -72,7 +112,7 @@ class CafeSeeder:
             is_open=self._random_open_status(),
             status_message=self._random_status_message(),
             opening_hours=self._random_opening_hours(),
-            location=Location(**data["location"]),
+            location=Location(**location_data),
             contact=Contact(**data["contact"]),
             social_media=SocialMedia(**data.get("social_media", {})),
             payment_details=self._random_payment_details(),
@@ -92,7 +132,7 @@ class CafeSeeder:
         return random.sample(list(Feature), k=random.randint(0, len(Feature)))
 
     def _random_photo_urls(self) -> List[str]:
-        """Curated cafe-related images"""
+        """Curated cafe-related images."""
         return [
             "https://picsum.photos/id/237/200/300",  # Random dog image
             "https://picsum.photos/id/238/200/300",  # Random city image
@@ -107,11 +147,11 @@ class CafeSeeder:
         ][: random.randint(0, 9)]
 
     def _random_open_status(self) -> bool:
-        """80% chance of being open"""
+        """80% chance of being open."""
         return random.random() < 0.8
 
     def _random_status_message(self) -> Optional[str]:
-        """Generate status message if closed"""
+        """Generate status message if closed."""
         if self._random_open_status():
             return None
         return random.choice(
@@ -126,7 +166,7 @@ class CafeSeeder:
         )
 
     def _random_opening_hours(self) -> List[DayHours]:
-        """Generate consistent opening hours"""
+        """Generate consistent opening hours."""
         hours = []
         for day in Days:
             # 20% chance of being closed on weekend days
@@ -155,7 +195,7 @@ class CafeSeeder:
         return hours
 
     def _random_payment_details(self) -> List[PaymentDetails]:
-        """Generate modern payment methods"""
+        """Generate modern payment methods."""
         methods = [
             (PaymentMethod.CASH, None),
             (PaymentMethod.DEBIT, random.randint(5, 10)),
