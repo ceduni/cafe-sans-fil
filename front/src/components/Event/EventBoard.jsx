@@ -7,7 +7,7 @@ import { EventAPI } from "@/utils/api";
 
 const isEmpty = (arr) => arr?.length === 0;
 
-function filterEvent(event, filters) {
+function filterEvent(event, filters){
     //possible filters to apply to event list
     const {pavillon, cafe, dateRangeStart, dateRangeEnd} = filters;
 
@@ -26,7 +26,7 @@ function renderEmpty() {
     // temporary use of CafeCardLoading
     return (
         <div className="grid grid-cols-1 gap-4 py-8 animate-pulse duration-100">
-            {Array.from({ length: 10 }).map((_, i) => (
+            {Array.from({length: 10}).map((_, i) => (
                 <EventCardLoading key={i} />
             ))}
         </div>
@@ -56,15 +56,14 @@ function renderEvents(events, filters, setFilters) {
     );
 }
 
-
-const EventBoard = ({ setStoredEvents, storedEvents }) => {
+const EventBoard = ({setStoredEvents, storedEvents}) => {
     const [filters, setFilters] = useState({
         //filters
     });
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    
     // Fetching event
     useEffect(() => {
         EventAPI.getAll(setIsLoading)

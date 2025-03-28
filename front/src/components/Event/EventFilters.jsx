@@ -16,6 +16,12 @@ const filterTypes = [
     },
 ];
 
+//add a button to create an event (prompt user to log in to create, maybe with an unclickable button)
+
+//add a creator filter for member to manage their events
+
+//add a filter for events member has shown interest in
+
 const EventFilters = ({ filters, setFilters, events }) => {
     const { t } = useTranslation();
     

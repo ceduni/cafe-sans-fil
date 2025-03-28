@@ -1,30 +1,39 @@
 import { Link } from "react-router-dom";
 import Card from "@/components/Card";
-import { displayCafeLocation } from "@/utils/cafe";
-import { CafeAPI } from "@/utils/api";
+import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
+import EventEditor from "@components/Event/EventEditor";
+
 
 const EventCard = ({event}) => {
 
-    const cafeLocation = displayCafeLocation(CafeAPI.get(event.id).location);
+    const { user, isLoggedIn } = useAuth();
+    const isCreator = event.creator === user?.id;
+    const [isEditing, setIsEditing] = useState(false);
+
+    //add a panel to show description and buttons
+    //if logged in user is the creator, add button to edit event
 
     return (
-        <Link
-            to={`/events/${event.slug}`}
-            state={event}
-            className="contents select-non"
-            onKeyDown={(e) => e.key === "Enter" && e.target.click()}>
-            <Card>
-                <Card.Image src={event.image} alt={event.name} />
-                <Card.Header>
-                    <Card.Header.Title>{event.name}</Card.Header.Title>
-                    <Card.Header.Subtitle>{cafeLocation}</Card.Header.Subtitle>
-                    <Card.Header.Subtitle>{event.hours}</Card.Header.Subtitle>
-                </Card.Header>
-                <Card.Body>
-                    <p>{event.description}</p>
-                </Card.Body>
-            </Card>
-        </Link>
+        <Card>
+            <Card.Image src={event.image_url} alt={event.name} />
+            <Card.Header>
+                <Card.Header.Title>{event.name}</Card.Header.Title>
+                <Card.Header.Subtitle>{event.location}</Card.Header.Subtitle>
+                <Card.Header.Subtitle>{event.hours}</Card.Header.Subtitle>
+            </Card.Header>
+            <Card.Body>
+                <p>{event.description}</p>
+                <div>
+                    <button onClick={() => setIsEditing(true)}>Modifier</button>
+
+                    {isEditing && (
+                        <EventEditor isNew={false} event={event} onClose={() => setIsEditing(false)}/>
+                    )}
+
+                </div>
+            </Card.Body>
+        </Card>
     )
 }
 
