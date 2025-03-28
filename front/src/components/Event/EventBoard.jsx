@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import EmptyState from "@/components/Error/EmptyState";
 import { EventCard, EventCardLoading } from "@/components/Event/EventCard";
-import { EventAPI } from "@/utils/api"
+import { EventAPI } from "@/utils/api";
+//import EventFilters from "@components/Event/EventFilters";
+
 
 const isEmpty = (arr) => arr?.length === 0;
 
@@ -32,17 +34,17 @@ function renderEmpty() {
 }
 
 function renderEvents(events, filters, setFilters) {
-    filteredData = events.filter((event) => filterEvent(event, filters))
+    const filteredData = events; //.filter((event) => filterEvent(event, filters))
 
     return (
         <div className="relative bottom-4 xl:bottom-2">
-            <Filters filters={filters} setFilters={setFilters} events={events} />
+            {/*<EventFilters filters={filters} setFilters={setFilters} events={events} />*/}
 
-            {isEmpty(filteredDate) && (
+            {/* isEmpty(filteredData) && (
                 <div className="mt-20 mb-36">
                     <EmptyState name="evenement" />
                 </div>
-            )}
+            )*/}
 
             <div className="grid grid-cols-1 gap-4 py-8 animate-pulse duration-100">
                 {filteredData.map((event) => (
@@ -54,7 +56,7 @@ function renderEvents(events, filters, setFilters) {
 }
 
 const EventBoard = ({setStoredEvents, storedEvents}) => {
-    const [filters, setfilters] = useState({
+    const [filters, setFilters] = useState({
         //filters
     });
 
@@ -81,7 +83,7 @@ const EventBoard = ({setStoredEvents, storedEvents}) => {
         return renderEmpty();
     }
 
-    return renderEvent(storedEvents, filters, setFilters);
+    return renderEvents(storedEvents, filters, setFilters);
 };
 
 export default EventBoard;
