@@ -74,6 +74,7 @@ class User(CustomDocument, UserBase):
     last_login_attempt: Optional[datetime] = Field(default=None)
     lockout_until: Optional[datetime] = Field(default=None)
     is_active: bool = True
+    is_verified: bool = False
 
     cafe_ids: List[PydanticObjectId] = []
 
