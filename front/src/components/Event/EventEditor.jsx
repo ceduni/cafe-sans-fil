@@ -1,7 +1,8 @@
 import authenticatedRequest from "@/helpers/authenticatedRequest";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { EventCard } from "@components/Event/EventCard"
+import { EventCard } from "@components/Event/EventCard";
+import Input from "@/components/Widgets/Input";
 import toast from "react-hot-toast";
 import { createPortal } from "react-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -28,8 +29,6 @@ const EventEditor = ({isNew, event, onClose}) => {
         location: event.location,
       });
 
-    console.log(eventData.start_date);
-
     // useEffect(() => {
     //     const fetchEvent = async () => {
     //         authenticatedRequest
@@ -48,7 +47,7 @@ const EventEditor = ({isNew, event, onClose}) => {
     // })
 
     const handleSubmit = async (e) => {
-        //e.preventDefault();
+        e.preventDefault();
         if (isNew) {
             toast.promise(
                 (await authenticatedRequest.post('/events/'), eventData),
@@ -59,7 +58,7 @@ const EventEditor = ({isNew, event, onClose}) => {
                 }
             ).then((response) => {
                 if (response.ok) {
-                    navigate('/'); //eventually redirect to /me/events
+                    //navigate('/'); //eventually redirect to /me/events
                 }
             })
         } else {
@@ -72,30 +71,30 @@ const EventEditor = ({isNew, event, onClose}) => {
                 }
             )
         }
-        navigate(previousPage);
+        //navigate(previousPage);
     };
 
     const handleChange = (e) => {
         setEventData({ ...eventData, [e.target.name]: e.target.value });
     };
 
+    //TODO: add management section for adding contributors and ticketing link...
+
     return (
         <div>
         <form onSubmit={handleSubmit} className="space-y-6">
+        <h2 className="text-2xl font-semibold text-gray-900">Édition d'événement</h2>
           <div className="border-b border-gray-900/10 pb-6">
-            <h2 className="text-2xl font-semibold text-gray-900">Éditer Événement</h2>
-
             <label htmlFor="title" className="block text-sm font-medium text-gray-700 mt-2">
               Titre de l'événement
             </label>
-            <input
+            <Input
               id="title"
               name="title"
               value={eventData.name}
               onChange={handleChange}
               placeholder="Titre de l'événement"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
 
@@ -106,59 +105,57 @@ const EventEditor = ({isNew, event, onClose}) => {
               name="description"
               value={eventData.description}
               onChange={handleChange}
+              rows={6}
               placeholder="Description de l'événement"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="px-4 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
 
           <div className="border-b border-gray-900/10 pb-6">
             <label htmlFor="start_date">Date et heure de début</label>
-            <input
+            <Input
               id="start_date"
               name="start_date"
               type="datetime-local"
               value={eventData.start_date}
               onChange={handleChange}
               required
-
             />
           </div>
 
           <div className="border-b border-gray-900/10 pb-6">
             <label htmlFor="end_date">Date et heure de fin</label>
-            <input
+            <Input
               id="end_date"
               name="end_date"
               type="datetime-local"
               value={eventData.end_date}
               onChange={handleChange}
-
             />
           </div>
 
           <div>
             <label htmlFor="image_url">URL de l'image</label>
-            <input
+            <Input
               id="image_url"
               name="image_url"
               type="url"
               value={eventData.image_url}
               onChange={handleChange}
               placeholder="https://exemple.com/image.jpg"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="px-4"
             />
           </div>
           <div>
             <label htmlFor="image_url">Lieu</label>
-            <input
+            <Input
               id="location"
               name="location"
               value={eventData.location}
               onChange={handleChange}
               placeholder="Palais Sans-Souci"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            />
+              />
           </div>
         
             <div className="flex items-center justify-end gap-x-6">

@@ -3,36 +3,80 @@ import Card from "@/components/Card";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import EventEditor from "@components/Event/EventEditor";
-
+import { ArrowRightEndOnRectangleIcon as AttendIcon,
+    HeartIcon as LikeIcon,
+    HandRaisedIcon as SupportIcon,
+    PencilIcon as EditIcon,
+    CalendarIcon, ShareIcon, TicketIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as LikedIcon,
+    ArrowRightEndOnRectangleIcon as AttendingIcon,
+    HandRaisedIcon as SupportingIcon,
+    PencilIcon as EditingIcon } from "@heroicons/react/24/solid";
 
 const EventCard = ({event}) => {
 
     const { user, isLoggedIn } = useAuth();
-    const isCreator = event.creator === user?.id;
-    const [isEditing, setIsEditing] = useState(false);
 
-    //add a panel to show description and buttons
-    //if logged in user is the creator, add button to edit event
+    //TODO: change to isContributor after implementing contributor functionality
+    const isCreator = true; //event.creator === user?.id;
+    const hasTicketing = event?.ticketing;
+    const [isEditing, setIsEditing] = useState(false);
+    const [viewMore, setViewMore] = useState(false);
+
+    //a bit repetitive
+    //const [likeCount, setLikeCount] = useState(event.interactions.likes.count);
+    //const [attendanceCount, setAttendanceCount] = useState(event.interactions.attend.count);
+    //const [supportCount, setSupportCount] = useState(event.interactions.support.count);
+
+    //TODO: add a panel to show description and buttons
+    //TODO: fix expandable on card click
 
     return (
-        <Card>
-            <Card.Image src={event.image_url} alt={event.name} />
+        <Card onClick={() => alert("yooooooooo")}>
+            <div className="relative">
+                <Card.Image src={event.image_url} alt={event.name} className="pointer-events-none"/>
+                {isCreator && (
+                    <button onClick={() => setIsEditing(!isEditing)} className="absolute top-2 right-2 shadow-sm top-2 right-2 bg-white size-10 flex items-center justify-center rounded-full">
+                        <EditIcon  className="size-6 text-blue-500" />
+                    </button>
+                )}
+            </div>
+                  
             <Card.Header>
                 <Card.Header.Title>{event.name}</Card.Header.Title>
-                <Card.Header.Subtitle>{event.location}</Card.Header.Subtitle>
-                <Card.Header.Subtitle>{event.hours}</Card.Header.Subtitle>
+                {viewMore && (
+                    <div className="flex justify-between">
+                        <Card.Header.Subtitle>{event.location}</Card.Header.Subtitle>
+                        <Card.Header.Subtitle>{event.hours}</Card.Header.Subtitle>
+                    </div>
+                )}
+                
             </Card.Header>
             <Card.Body>
-                <p>{event.description}</p>
-                <div>
-                    <button onClick={() => setIsEditing(true)}>Modifier</button>
-
-                    {isEditing && (
-                        <EventEditor isNew={false} event={event} onClose={() => setIsEditing(false)}/>
-                    )}
-
-                </div>
+                {viewMore && (
+                    <p>{event.description}</p>
+                )}
+                {isEditing && (
+                    <EventEditor isNew={false} event={event} onClose={() => setIsEditing(false)}/>
+                )}
             </Card.Body>
+            <Card.Footer>
+            <div className="buttons flex justify-between ">
+                <div className="left-side flex gap-2">
+                    <button><LikeIcon className="size-6 text-blue-500" /></button>
+                    <button><AttendIcon className="size-6 text-blue-500" /></button>
+                    <button><SupportIcon className="size-6 text-blue-500" alt="support" /></button>
+                </div>
+                <div className="right-side flex gap-2">
+                    <button><CalendarIcon className="size-6 text-blue-500" /></button>
+                    <div className=""></div>
+                    {hasTicketing && (
+                        <button><TicketIcon className="size-6 text-blue-500" /></button>
+                    )}
+                    <button><ShareIcon className="size-6 text-blue-500" /></button>
+                </div>
+            </div>
+            </Card.Footer>
         </Card>
     )
 }

@@ -23,7 +23,6 @@ function renderError(error) {
 }
 
 function renderEmpty() {
-    // temporary use of CafeCardLoading
     return (
         <div className="grid grid-cols-1 gap-4 py-8 animate-pulse duration-100">
             {Array.from({length: 10}).map((_, i) => (
@@ -47,7 +46,7 @@ function renderEvents(events, filters, setFilters) {
                 </div>
             )*/}
 
-            <div className="grid grid-cols-1 gap-4 py-8 animate-pulse duration-100">
+            <div className="grid grid-cols-1 gap-4 py-8 px-8 animate-fade-in w-128">
                 {filteredData.map((event) => (
                     <EventCard key={event.id} event={event} />
                 ))}
