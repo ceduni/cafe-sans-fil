@@ -13,6 +13,10 @@ from app.models import Id
 from app.user.models import UserOut
 
 
+class Ticketing(BaseModel):
+    ticket_url: HttpUrl
+    ticket_price: float
+
 class EventBase(BaseModel):
     """Base model for events."""
 
@@ -22,6 +26,7 @@ class EventBase(BaseModel):
     start_date: datetime
     end_date: datetime
     location: Optional[str] = None
+    ticket: Optional[Ticketing] = None
 
 
 class Event(Document, EventBase):
@@ -29,6 +34,7 @@ class Event(Document, EventBase):
 
     cafe_ids: List[PydanticObjectId] = []
     creator_id: PydanticObjectId
+    editor_ids: List[PydanticObjectId] = []
 
     class Settings:
         """Settings for event document."""
@@ -40,6 +46,8 @@ class EventCreate(EventBase):
     """Model for creating events."""
 
     cafe_ids: Optional[List[PydanticObjectId]] = None
+    editor_ids: Optional[List[PydanticObjectId]] = None
+    max_support: Optional[int] = None
 
 
 class EventUpdate(BaseModel):
@@ -51,6 +59,8 @@ class EventUpdate(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     location: Optional[str] = None
+    ticket: Optional[Ticketing] = None
+    editor_ids: Optional[List[PydanticObjectId]] = None
 
 
 class EventOut(EventBase, Id):
@@ -58,6 +68,7 @@ class EventOut(EventBase, Id):
 
     cafe_ids: List[PydanticObjectId]
     creator_id: PydanticObjectId
+    editor_ids: List[PydanticObjectId]
 
 
 class EventCafesOut(BaseModel, Id):
@@ -75,3 +86,4 @@ class EventAggregateOut(EventBase, Id):
     cafes: List[EventCafesOut]
     creator: UserOut
     interactions: List[InteractionOut]
+    #editors: List[UserOut]
