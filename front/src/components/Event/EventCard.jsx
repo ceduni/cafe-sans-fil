@@ -3,6 +3,7 @@ import Card from "@/components/Card";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import EventEditor from "@components/Event/EventEditor";
+import { LikeButton, AttendButton, SupportButton } from "@components/Event/EventInteractions";
 import { ArrowRightEndOnRectangleIcon as AttendIcon,
     HeartIcon as LikeIcon,
     HandRaisedIcon as SupportIcon,
@@ -19,9 +20,9 @@ const EventCard = ({event}) => {
 
     //TODO: change to isContributor after implementing contributor functionality
     const isCreator = true; //event.creator === user?.id;
-    const hasTicketing = event?.ticketing;
+    const hasTicketing = event?.ticket;
     const [isEditing, setIsEditing] = useState(false);
-    const [viewMore, setViewMore] = useState(false);
+    const [viewMore, setViewMore] = useState(true);
 
     //a bit repetitive
     //const [likeCount, setLikeCount] = useState(event.interactions.likes.count);
@@ -32,7 +33,7 @@ const EventCard = ({event}) => {
     //TODO: fix expandable on card click
 
     return (
-        <Card onClick={() => alert("yooooooooo")}>
+        <Card>
             <div className="relative">
                 <Card.Image src={event.image_url} alt={event.name} className="pointer-events-none"/>
                 {isCreator && (
@@ -47,7 +48,7 @@ const EventCard = ({event}) => {
                 {viewMore && (
                     <div className="flex justify-between">
                         <Card.Header.Subtitle>{event.location}</Card.Header.Subtitle>
-                        <Card.Header.Subtitle>{event.hours}</Card.Header.Subtitle>
+                        <Card.Header.Subtitle>{event.start_date}</Card.Header.Subtitle>
                     </div>
                 )}
                 
@@ -63,9 +64,9 @@ const EventCard = ({event}) => {
             <Card.Footer>
             <div className="buttons flex justify-between ">
                 <div className="left-side flex gap-2">
-                    <button><LikeIcon className="size-6 text-blue-500" /></button>
-                    <button><AttendIcon className="size-6 text-blue-500" /></button>
-                    <button><SupportIcon className="size-6 text-blue-500" alt="support" /></button>
+                    <LikeButton event={event}/>
+                    <AttendButton num={event.interactions?.attend?.count} state={event.interactions?.attend?.me}/>
+                    <SupportButton num={event.interactions?.support?.count} state={event.interactions?.support?.me}/>
                 </div>
                 <div className="right-side flex gap-2">
                     <button><CalendarIcon className="size-6 text-blue-500" /></button>

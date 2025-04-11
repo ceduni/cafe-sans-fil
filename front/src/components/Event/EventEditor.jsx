@@ -20,14 +20,7 @@ const EventEditor = ({isNew, event, onClose}) => {
 
     //const [ event, setEvent ] = useState(null);
     const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
-    const [eventData, setEventData] = useState({
-        name: event.name,
-        description: event.description,
-        start_date: event.start_date.substr(0,16),
-        end_date: event.end_date.substr(0,16),
-        image_url: event.image_url,
-        location: event.location,
-      });
+    const [eventData, setEventData] = useState(event);
 
     // useEffect(() => {
     //     const fetchEvent = async () => {
@@ -47,6 +40,7 @@ const EventEditor = ({isNew, event, onClose}) => {
     // })
 
     const handleSubmit = async (e) => {
+        console.log(eventData);
         e.preventDefault();
         if (isNew) {
             toast.promise(
@@ -76,9 +70,12 @@ const EventEditor = ({isNew, event, onClose}) => {
 
     const handleChange = (e) => {
         setEventData({ ...eventData, [e.target.name]: e.target.value });
+        console.log(eventData.start_date);
     };
 
-    //TODO: add management section for adding contributors and ticketing link...
+    //TODO: add section for editors
+    //TODO: add section for ticketing
+    //TODO: add section for support
 
     return (
         <div>
@@ -89,8 +86,8 @@ const EventEditor = ({isNew, event, onClose}) => {
               Titre de l'événement
             </label>
             <Input
-              id="title"
-              name="title"
+              id="name"
+              name="name"
               value={eventData.name}
               onChange={handleChange}
               placeholder="Titre de l'événement"

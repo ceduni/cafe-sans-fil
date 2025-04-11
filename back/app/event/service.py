@@ -227,6 +227,33 @@ class EventService:
                 {"$addFields": {"creator": {"$arrayElemAt": ["$creator", 0]}}},
             ]
         )
+        # Editors lookup
+        pipeline.extend(
+            [
+                {
+                    "$lookup": {
+                        "from": "users",
+                        "localField": "editor_ids",
+                        "foreignField": "_id",
+                        "pipeline": [
+                            {
+                                "$project": {
+                                    "_id": 0,
+                                    "id": "$_id",
+                                    "username": 1,
+                                    "email": 1,
+                                    "matricule": 1,
+                                    "first_name": 1,
+                                    "last_name": 1,
+                                    "photo_url": 1,
+                                }
+                            }
+                        ],
+                        "as": "editors",
+                    }
+                }
+            ]
+        )
 
         # Interaction
         pipeline.extend(

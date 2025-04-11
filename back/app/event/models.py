@@ -17,6 +17,11 @@ class Ticketing(BaseModel):
     ticket_url: HttpUrl
     ticket_price: float
 
+class CafesPublish(BaseModel):
+    cafe_id: PydanticObjectId
+    #0: request sent, 1: request accepted, -1: request rejected
+    status: int
+
 class EventBase(BaseModel):
     """Base model for events."""
 
@@ -46,7 +51,7 @@ class EventCreate(EventBase):
     """Model for creating events."""
 
     cafe_ids: Optional[List[PydanticObjectId]] = None
-    editor_ids: Optional[List[PydanticObjectId]] = None
+    creator: PydanticObjectId = None
     max_support: Optional[int] = None
 
 
@@ -60,6 +65,7 @@ class EventUpdate(BaseModel):
     end_date: Optional[datetime] = None
     location: Optional[str] = None
     ticket: Optional[Ticketing] = None
+    max_support: Optional[int] = None
     editor_ids: Optional[List[PydanticObjectId]] = None
 
 
@@ -85,5 +91,5 @@ class EventAggregateOut(EventBase, Id):
 
     cafes: List[EventCafesOut]
     creator: UserOut
+    editors: List[UserOut]
     interactions: List[InteractionOut]
-    #editors: List[UserOut]

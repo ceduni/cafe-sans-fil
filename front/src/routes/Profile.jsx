@@ -36,7 +36,7 @@ const Profile = () => {
 
   const getMemberCafes = () => {
     const memberCafes = [];
-    data?.map((cafe) => {
+    data?.item?.map((cafe) => {
       cafe.staff.map((staff) => {
         if (staff.username === user.username) {
           memberCafes.push({ ...cafe, role: staff.role });

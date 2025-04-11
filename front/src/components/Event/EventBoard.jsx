@@ -46,7 +46,7 @@ function renderEvents(events, filters, setFilters) {
                 </div>
             )*/}
 
-            <div className="grid grid-cols-1 gap-4 py-8 px-8 animate-fade-in w-128">
+            <div className="grid grid-cols-1 gap-4 py-8 animate-fade-in">
                 {filteredData.map((event) => (
                     <EventCard key={event.id} event={event} />
                 ))}
