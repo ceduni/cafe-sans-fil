@@ -12,6 +12,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.cafe.announcement.models import Announcement
 from app.cafe.menu.item.models import MenuItem
+from app.cafe.stock.stock_model import Stock
 from app.cafe.models import Cafe
 from app.cafe.order.models import Order
 from app.cafe.order.scheduler import order_scheduler
@@ -41,6 +42,7 @@ async def lifespan(app: FastAPI):
         document_models=[
             Cafe,
             MenuItem,
+            Stock,
             User,
             Order,
             Announcement,
