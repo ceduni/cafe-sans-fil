@@ -40,9 +40,11 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     else:
         user = await UserService.get_by_username(username=form_data.username)
 
-    # Check if inactive account
+    # Check account status
+    # if user and not user.is_verified:
+    #     raise HTTPException(status_code=403, detail="Please verify your email first")
     if user and not user.is_active:
-        raise HTTPException(status_code=403, detail="Account is inactive.")
+        raise HTTPException(status_code=403, detail="Account is inactive")
 
     # Check if user is currently locked out
     if (
@@ -124,10 +126,10 @@ async def register(user: UserCreate) -> UserOut:
         )
 
     created_user = await UserService.create(user)
-
     if not await EmailService.is_test_email(user.email):
-        await EmailService.send_welcome_email(
-            user_email=user.email, user_name=f"{user.first_name} {user.last_name}"
+        await EmailService.send_verification_email(
+            user_email=user.email,
+            verification_link=f"{settings.BASE_URL}/auth/verify?token={create_access_token(created_user.id)}"
         )
 
     return created_user
@@ -166,6 +168,15 @@ async def reset_password(
 
     await AuthService.reset_password(user, body.password)
     return {"msg": "Password has been reset successfully."}
+
+
+@auth_router.post("/auth/verify")
+async def verify_email(token: str = Body(...)):
+    """Verify user's email address."""
+    user = await get_current_user(token)
+    if not user.is_verified:
+        user.is_verified = True
+        await user.save()
 
 
 @auth_router.post(

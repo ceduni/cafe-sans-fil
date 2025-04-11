@@ -60,3 +60,20 @@ class EmailService:
             sg_client.send(message)
         except Exception as e:
             raise Exception(f"Failed to send password reset email: {str(e)}")
+
+    @staticmethod
+    async def send_verification_email(user_email: str, verification_link: str):
+        """Send a verification email to a new user."""
+        try:
+            template = template_env.get_template("auth/verification.html")
+            html_content = template.render(verification_link=verification_link)
+
+            message = Mail(
+                from_email=From("info@cafesansfil.com"),
+                to_emails=user_email,
+                subject="Verify your email",
+                html_content=html_content,
+            )
+            sg_client.send(message)
+        except Exception as e:
+            raise Exception(f"Failed to send verification email: {str(e)}")
