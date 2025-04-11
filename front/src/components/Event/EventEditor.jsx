@@ -19,7 +19,6 @@ const EventEditor = ({isNew, event, onClose}) => {
 
 
     //const [ event, setEvent ] = useState(null);
-    const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
     const [eventData, setEventData] = useState(event);
 
     // useEffect(() => {
@@ -40,7 +39,6 @@ const EventEditor = ({isNew, event, onClose}) => {
     // })
 
     const handleSubmit = async (e) => {
-        console.log(eventData);
         e.preventDefault();
         if (isNew) {
             toast.promise(
@@ -70,7 +68,6 @@ const EventEditor = ({isNew, event, onClose}) => {
 
     const handleChange = (e) => {
         setEventData({ ...eventData, [e.target.name]: e.target.value });
-        console.log(eventData.start_date);
     };
 
     //TODO: add section for editors
@@ -115,7 +112,7 @@ const EventEditor = ({isNew, event, onClose}) => {
               id="start_date"
               name="start_date"
               type="datetime-local"
-              value={eventData.start_date}
+              value={eventData.start_date.slice(0, 16)}
               onChange={handleChange}
               required
             />
@@ -127,7 +124,7 @@ const EventEditor = ({isNew, event, onClose}) => {
               id="end_date"
               name="end_date"
               type="datetime-local"
-              value={eventData.end_date}
+              value={eventData.end_date.slice(0, 16)}
               onChange={handleChange}
             />
           </div>

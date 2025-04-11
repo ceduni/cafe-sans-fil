@@ -13,39 +13,37 @@ import { HeartIcon as LikedIcon,
     PencilIcon as EditingIcon } from "@heroicons/react/24/solid";
 
 
-const LikeButton = ({event}) => {
-    const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
-
-    const [count, setCount] = useState(event.interactions?.likes?.count);
-    const [liked, setLiked] = useState(event.interactions?.likes?.me);
-
-    console.log(event?.interactions?.likes?.me, event.name);
-
-    const handleLike = async () => {
-        setLiked(!liked);
-        if (liked) {
-            setCount((count) => count - 1);
-        } else {
-            setCount((count) => count + 1);
-        }
-
-        // Create/Replace Interaction
-        const toastID = toast.loading("Ajout de l'évènement aux Favoris");
+const registerInteraction = async (type, state, event) => {
+    if (state) {
         authenticatedRequest
-            .post(`/events/${event.id}/interactions/LIKE/@me`)
+            .delete(`/events/${event.id}/interactions/${type}/@me`)
             .then((response) => {
-                toast.success("Ajouter aux Favoris!");
+                //toast.success("avoris!");
             })
             .catch((error) => {
                 toast.error(console.log(error));
             })
-            .finally(() => {
-                toast.dismiss(toastID);
+    } else {
+        authenticatedRequest
+            .post(`/events/${event.id}/interactions/${type}/@me`)
+            .then((response) => {
+                toast.success("Ajouter"); //custome message per interaction type
             })
-
-
-        console.log(liked);
+            .catch((error) => {
+                toast.error(console.log(error));
+            })
     }
+}
+
+//TODO: Refactor
+
+const LikeButton = ({event}) => {
+    const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
+
+    const [count, setCount] = useState(event.interactions?.likes?.count);
+    const [liked, setLiked] = useState(event.interactions?.likes?.me || false);
+
+    
 
     let likeButton;
     if (liked) {
@@ -54,19 +52,30 @@ const LikeButton = ({event}) => {
         likeButton = <LikeIcon className="size-6 text-blue-500"/>
     }
 
+    const handleClick = () => {
+        setLiked(!liked);
+        if (liked) {
+            setCount(count - 1);
+        } else {
+            setCount(count + 1);
+        }
+
+        registerInteraction("LIKE", liked, event);
+    }
+
     return (
         <div className="flex">
             <p>{count}</p>
-            <button onClick={handleLike}>
+            <button onClick={handleClick}>
                 {likeButton}
             </button>
         </div>
     )
 }
 
-const AttendButton = ({num, state}) => {
-    const [count, setCount] = useState(num);
-    const [attend, setAttend] = useState(state);
+const AttendButton = ({event}) => {
+    const [count, setCount] = useState(event.interactions?.attend?.count);
+    const [attend, setAttend] = useState(event.interactions?.attend?.me);
 
     let attendButton;
     if (attend) {
@@ -75,19 +84,30 @@ const AttendButton = ({num, state}) => {
         attendButton = <AttendIcon className="size-6 text-blue-500"/>
     }
 
+    const handleClick = () => {
+        setAttend(!attend);
+        if (attend) {
+            setCount(count - 1);
+        } else {
+            setCount(count + 1);
+        }
+
+        registerInteraction("ATTEND", attend, event);
+    }
+
     return (
         <div className="flex">
             <p>{count}</p>
-            <button onClick={() => {setAttend(!attend)} }>
+            <button onClick={handleClick}>
                 {attendButton}
             </button>
         </div>
     )
 }
 
-const SupportButton = ({num, state}) => {
-    const [count, setCount] = useState(num);
-    const [support, setSupport] = useState(state);
+const SupportButton = ({event}) => {
+    const [count, setCount] = useState(event.interactions?.support?.count);
+    const [support, setSupport] = useState(event.interactions?.support?.me);
 
     let supportButton;
     if (support) {
@@ -96,10 +116,21 @@ const SupportButton = ({num, state}) => {
         supportButton = <SupportIcon className="size-6 text-blue-500"/>
     }
 
+    const handleClick = () => {
+        setSupport(!support);
+        if (support) {
+            setCount(count - 1);
+        } else {
+            setCount(count + 1);
+        }
+
+        registerInteraction("SUPPORT", support, event);
+    }
+
     return (
         <div className="flex">
             <p>{count}</p>
-            <button onClick={() => setSupport(!support)}>
+            <button onClick={handleClick}>
                 {supportButton}
                 <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 
                    bg-gray-800 text-white text-xs rounded py-1 px-2 

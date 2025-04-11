@@ -65,8 +65,8 @@ const EventCard = ({event}) => {
             <div className="buttons flex justify-between ">
                 <div className="left-side flex gap-2">
                     <LikeButton event={event}/>
-                    <AttendButton num={event.interactions?.attend?.count} state={event.interactions?.attend?.me}/>
-                    <SupportButton num={event.interactions?.support?.count} state={event.interactions?.support?.me}/>
+                    <AttendButton event={event}/>
+                    <SupportButton event={event}/>
                 </div>
                 <div className="right-side flex gap-2">
                     <button><CalendarIcon className="size-6 text-blue-500" /></button>
