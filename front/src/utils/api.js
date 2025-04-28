@@ -15,8 +15,15 @@ async function fetchData(url, setLoading = null) {
     }
 
     try {
-        const response = await fetch(buildUrl(url));
-
+        const token = JSON.parse(localStorage.getItem("accessToken"));
+        let options = {};
+        if (token) {
+            options = {
+                headers: {"Authorization": `Bearer ${token}`}
+            }
+        }
+        const response = await fetch(buildUrl(url), options);
+        
         if (!response.ok) {
             throw new Error(response.statusText);
         }
@@ -54,7 +61,6 @@ export const CafeAPI = {
      */
     get: async function (id, setLoading = null, cancel = false) {
         const result = await fetchData(`/cafes/${id}`, setLoading);
-        console.log(result);
         return new Cafe(result);
     },
     /**
@@ -188,6 +194,16 @@ export const EventAPI = {
      */
     getAll: async function (setLoading = null, cancel = false) {
         const result = await fetchData(`/events`, setLoading);
+        return result.items.map(eventData => new Event(eventData));
+    },
+    /**
+     * Fetches all events created by user.
+     * @param {Function} setLoading - Optional. A function to set loading state.
+     * @param {boolean} cancel - Optional. Flag to cancel the request.
+     * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Event objects.
+     */
+    getAllByUser: async function (setLoading = null, cancel = false) {
+        const result = await fetchData(`/events/@me`, setLoading);
         return result.items.map(eventData => new Event(eventData));
     },
 }

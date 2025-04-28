@@ -6,7 +6,7 @@ import CafeList from "@/components/Cafe/CafeList";
 import SearchResults from "@/components/Search/SearchResults";
 import { useSearchParams } from 'react-router-dom';
 import useTitle from "@/hooks/useTitle";
-import EventBoard from "@/components/Event/EventBoard"
+import EventBoard from "@/components/Event/EventBoard";
 
 
 const Home = () => {
@@ -35,17 +35,19 @@ const Home = () => {
 
     return (
         <>
-            <main className="pt-10 pb-[3.25rem] sm:py-10 space-y-6 inline-flex justify-between">
-                <Container className="">
+            <main className="pt-10 pb-[3.25rem] sm:py-10 space-y-6">
+                <Container className="ml-auto">
                     {isSearching ? (
                         <SearchResults searchQuery={searchQuery} setStoredCafes={setStoredCafes} storedCafes={storedCafes}  />
                     ) : (
                         <CafeList  ref={cafeRef} setStoredCafes={setStoredCafes} storedCafes={storedCafes} />
                     )}
                 </Container>
-                <Container className="overflow-y-auto" style={{ height: gridHeight ? `${gridHeight}px` : undefined }}>
+                
+                <Container className="ml-auto">
                     <EventBoard setStoredEvents={setStoredEvents} storedEvents={storedEvents}/>                    
                 </Container>
+                
             </main>
         </>
     );
