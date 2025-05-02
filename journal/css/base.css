@@ -1,0 +1,123 @@
+﻿:root {
+    --accent: 31, 117, 254;
+    --accent-light: 146, 208, 80;
+    --accent-dark: 38, 103, 205;
+}
+
+/* Init */
+html, body { height: 100%; width: 100%; }
+
+html {
+    font: normal 10px system-ui, 'Segoe UI', 'Droid Sans', 'Lucida Grande', Helvetica, Arial, sans-serif;
+    line-height: 1.25; color: #333; 
+}
+
+h1 {
+    font-size: 4rem;
+    font-weight: 300;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+h2 {
+    margin-top: 0; margin-bottom: 1em;
+    font-size: 3rem; font-weight: 700;
+    line-height: 1;
+}
+
+h3 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 1em;
+}
+
+h4 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5em;
+    font-weight: 500;
+}
+
+p {
+    line-height: 1.5;
+}
+p, li, a, td { font-size: 1.5em ; }
+
+li li, li p, li a, li label, 
+p a, 
+label a, 
+a p { font-size: 1em; }
+
+li h3 { font-size: 1.2em; }
+
+a { text-decoration: none; }
+
+button { cursor: pointer; border: 0 none; background: none; outline: none; }
+    button:disabled { cursor: default; }   
+
+/* tables
+----------------------------------------------------------*/
+table { border-collapse: collapse; border-spacing: 0; border: 0; font: inherit;  margin: 0; vertical-align: baseline; } 
+
+th { font-size: 1.6em; border: 0 none; padding-left: 0; }
+
+td input[type="text"], 
+td input[type="email"], 
+td input[type="password"], 
+td input[type="date"], 
+td textarea { font-size: 1em; }
+
+.left { float: left; }
+
+.right { float: right; }
+
+.clear-fix:after { content: "."; clear: both; display: block; height: 0; visibility: hidden; }
+
+.noselect { -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;  }
+
+/* Fonts */
+.font-tiny { font: normal 11px Verdana, Geneva, Tahoma, Arial, Helvetica, sans-serif; }
+
+.font-ui { font-family: 'Segoe UI', 'Droid Sans', 'Lucida Grande', Helvetica, Arial, sans-serif; }
+
+.font-lino { font-family: Forte, 'Forte MT Std', Arial, sans-serif; }
+
+/* links */
+.link, .link--nav { color: #005eff; } 
+    .link:hover { color: #004fd7; }
+    .link:visited { color: #5687da; }
+
+/* buttons */
+.btn {
+    text-align: center;
+    box-sizing: border-box;
+    border: 0 none;
+    font: 600 1.6em 'Segoe UI', 'Droid Sans', Ubuntu, 'Lucida Grande', Helvetica, Arial, sans-serif;
+}
+    .btn:active { 
+        -webkit-transition: 0.2s; transition: 0.2s; 
+        -webkit-transform: scale(0.96); -ms-transform: scale(0.96); transform: scale(0.98); 
+        box-shadow: none; 
+    }
+
+
+/* Reset */
+
+.bare { margin: 0; padding: 0; }
+
+.bare-list { margin: 0; padding: 0; list-style: none; }
+
+.bare-link { color: inherit; text-decoration: none; }
+
+.block { display: block!important; }
+
+.inline { display: inline-block!important; }
+
+.hidden { display: none!important; }
+
+.fit-content { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+* {
+    box-sizing: border-box;
+}
