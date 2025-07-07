@@ -18,7 +18,7 @@ const registerInteraction = async (type, state, event) => {
         authenticatedRequest
             .delete(`/events/${event.id}/interactions/${type}/@me`)
             .then((response) => {
-                //toast.success("avoris!");
+                //toast.success("Favoris!");
             })
             .catch((error) => {
                 toast.error(console.log(error));
@@ -35,15 +35,13 @@ const registerInteraction = async (type, state, event) => {
     }
 }
 
-//TODO: Refactor
+// TODO: Refactor
 
 const LikeButton = ({event}) => {
     const { user, setUser, onAccountDelete, verifyPassword } = useAuth();
 
     const [count, setCount] = useState(event.interactions?.likes?.count);
     const [liked, setLiked] = useState(event.interactions?.likes?.me || false);
-
-    
 
     let likeButton;
     if (liked) {

@@ -15,7 +15,16 @@ async function fetchData(url, setLoading = null) {
     }
 
     try {
-        const response = await fetch(buildUrl(url));
+        const token = JSON.parse(localStorage.getItem("accessToken"));
+        let options = {};
+        if (token) {
+            options = {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        }
+        const response = await fetch(buildUrl(url), options);
 
         if (!response.ok) {
             throw new Error(response.statusText);
@@ -75,7 +84,7 @@ export const CafeAPI = {
      * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Cafe objects.
      */
     getAll: async function (setLoading = null, cancel = false) {
-        const {items: result} = await fetchData(`/cafes`, setLoading);
+        const { items: result } = await fetchData(`/cafes`, setLoading);
         return result.map(cafeData => new Cafe(cafeData));
     },
     /**

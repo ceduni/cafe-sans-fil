@@ -43,7 +43,7 @@ const Home = () => {
                         <CafeList  ref={cafeRef} setStoredCafes={setStoredCafes} storedCafes={storedCafes} />
                     )}
                 </Container>
-                <Container className="overflow-y-auto" style={{ height: gridHeight ? `${gridHeight}px` : undefined }}>
+                <Container className="h-screen overflow-y-auto" style={{ height: gridHeight ? `${gridHeight}px` : undefined }}>
                     <EventBoard setStoredEvents={setStoredEvents} storedEvents={storedEvents}/>                    
                 </Container>
             </main>
