@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet IFT3150 | StepOn</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="page-header">
+        <img class="logo" style="display: block" src="images/logo.png" height="180" alt="" />
+    
+        <h1 class="page-title">
+            Café sans-fil <br>
+            <span style="font-size: 0.6em; font-weight: 500;">IFT3150 &ndash; Projet informatique</span>
+        </h1>
+        
+        
+        <ul class="bare-list project-infos">
+            <!-- <li class="info ico ico-supervisor">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M404.7 79.78h-2.8c-7.5.26-15.8 1.73-24.8 4.3-18 5.16-38.4 14.56-59.3 25.78-41.9 22.4-85.8 52-121.5 68.6-26.4 12.4-59.3 20.4-89.8 27.5-30.5 7.1-58.95 13.4-74.36 20.6-7.13 3.4-10.9 6.9-12.71 9.9-1.8 2.9-2.1 5.2-1.44 8.4 1.32 6.4 8.57 15.4 18.49 21.9l3.29 2.1c162.63-2.3 289.43-13.7 387.73-52.6 2.1-17.6 6.7-34.7 16.5-48.5v-.1l.1-.1c24.5-32.2 8.9-72.58-22.4-84.89-5-1.95-10.7-2.91-17-2.93zm21.9 185.12c-44.2 25.1-103.8 37-169.2 41.2-68.7 4.4-143.7.1-213.52-7.8l1.89 14c31.19 3.2 98.53 11.8 172.83 11.5 77.2-.3 159.6-11.3 208.6-46.2-.2-4.1-.4-8.3-.6-12.7zm7.1 30.2c-46.9 31.5-113.8 42.9-179.9 45.8 44.7 39 89.3 55.1 127.3 59.1 45.2 4.8 81.5-8.7 94.8-19.8 13-10.8 17.5-19.5 18.3-26.2.7-6.8-2-13.3-8.2-20.5-11.3-13.4-33.5-26.4-52.3-38.4z"></path></svg>
+            </li> -->
+            <li class="info supervisor" title="Superviseur: Louis-Edouard LAFONTANT">
+                <svg class="ico" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M480 288c0-80.25-49.28-148.92-119.19-177.62L320 192V80a16 16 0 0 0-16-16h-96a16 16 0 0 0-16 16v112l-40.81-81.62C81.28 139.08 32 207.75 32 288v64h448zm16 96H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h480a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"></path></svg>
+                <span class="content">Louis-Edouard LAFONTANT</span>
+            </li>
+            <li class="info team" title="Étudiant: Mattéo Caron-Mondestin">
+                <svg class="ico" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 640 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM609.3 512H471.4c5.4-9.4 8.6-20.3 8.6-32v-8c0-60.7-27.1-115.2-69.8-151.8c2.4-.1 4.7-.2 7.1-.2h61.4C567.8 320 640 392.2 640 481.3c0 17-13.8 30.7-30.7 30.7zM432 256c-31 0-59-12.6-79.3-32.9C372.4 196.5 384 163.6 384 128c0-26.8-6.6-52.1-18.3-74.3C384.3 40.1 407.2 32 432 32c61.9 0 112 50.1 112 112s-50.1 112-112 112z"></path></svg>
+                <span class="content">Mattéo CARON-MONDESTIN</span>
+            </li>
+        </ul>
+
+        <ul class="bare-list project-links">
+            <li class="project-link repo">
+                <a class="bare-link" target="_blank" href="https://github.com/ceduni/cafe-sans-fil/tree/matteo">
+                    Code source <img class="ico" src="images/github-mark-white.svg" alt="Logo GitHub">
+                </a>
+            </li>
+            <li class="project-link doc">
+                <a class="bare-link disabled" href="#">
+                    Rapport <svg class="ico" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M272 41.69V188a4 4 0 0 0 4 4h146.31a2 2 0 0 0 1.42-3.41L275.41 40.27a2 2 0 0 0-3.41 1.42z"></path><path d="M248 224a8 8 0 0 1-8-8V32H92a12 12 0 0 0-12 12v424a12 12 0 0 0 12 12h328a12 12 0 0 0 12-12V224zm104 160H160v-32h192zm0-80H160v-32h192z"></path></svg>
+                </a>
+            </li>
+            <li class="project-link doc">
+                <a class="bare-link disabled" href="#">
+                    Présentation <svg class="ico" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.36L57.75,219a8,8,0,0,0,12.5,10l29.59-37h56.32l29.59,37a8,8,0,1,0,12.5-10l-21.61-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Z"></path></svg>
+                </a>
+            </li>
+        </ul>
+    </header>
+
+    <main class="page-body">
+        <header class="content-wrapper">
+            <h2>Description du projet</h2>
+            
+            <!-- TODO: Description du contexte -->
+            <p>
+                
+            </p>
+
+            <!-- TODO: Description de la problématique ou motivation -->
+            <p>
+                
+            </p>		
+
+            <!-- TODO: Description de la proposition et des objectifs -->
+            <p>
+                
+            </p>
+        </header>
+
+        
+        <section class="content-wrapper">
+            <h2>Exigences</h2>
+            <h3>Besoins fonctionnels</h3>
+              
+                
+            <h3>Besoins Non Fonctionnels</h3>
+        </section>
+
+        <section class="content-wrapper">
+            <h2>Infrastructure</h2>
+           
+        </section>
+
+        <section class="content-wrapper progress-section">
+            <header class="progress-section-header">
+                <h2 style="font-size: 3.3em; font-weight: 800;">Rapport d'avancement</h2>
+                <ul class="bare-list phases">
+                    <li class="phase fit-content current" title="Exigences & Analyse">Exigences & Analyse</li>
+                    <li class="phase fit-content" title="Prototypage & Conception">Prototypage & Conception</li>
+                    <li class="phase fit-content" title="Implémentation: Infrastructure & Application">Implémentation: Infrastructure & Application</li>
+                    <li class="phase fit-content" title="Validation">Validation</li>
+                </ul>
+                <div class="timeline"></div>
+            </header>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 1 &ndash;
+                        <time datetime="2024-09-09">Lundi 13 janvier 2025</time>
+                    </h3>
+                    <p>Ouverture de projet & Élaboration des exigences</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Se familiariser avec le code existant et les outils de développement</li>
+                        <li>Produire une première version de l'échéancier</li>
+                        <li>Brainstormez des idées pour capturer le concept d'évènements et activités.</li>
+                    </ul>
+
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Familiarisation avec le code source et la documentation du projet</li>
+                        <li>Recherches effectuées sur les librairies utilisées</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p></p>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 2 &ndash;
+                        <time datetime="2024-09-09">Lundi 20 janvier 2025</time>
+                    </h3>
+                    <p>Conceptualisation "Mode Boussole"</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Mettre sur point une maquette de l'interface basée sur le dessin original</li>
+                        <li>Tester le docker container du projet pour l'instanciation locale.</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>J'ai produit une maquette sur Figma assez simple sans transition ou animation mais les idées sont bien comprises</li>
+                        <li>Après feedback, j'ai vu où des améliorations et des généralisations peuvent être ajoutées à la maquette</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>Pour l'instanciation locale il me manquait l'API key dans les environment variables</p>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 3 &ndash;
+                        <time datetime="2024-09-09">Lundi 27 janvier 2025</time>
+                    </h3>
+                    <p>Conceptualisation "Mode Boussole"</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Améliorer la maquette de l'interface</li>
+                        <li>Produire les cas d'utilisation du mode boussole (peut-être aussi diagramme de séquences)</li>
+                        <li>Brainstormer des idées pour les concepts évènements et activités.</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Simplification des options de contrôle de l'interface (simple maintenant, expansion possible plus tard si possible)<img src="images/figma-prototype.png" alt="figma prototype final" style="width: 60%"></li>
+                        <li>Idée: tourner la boussole avec un "clic-and-drag" qui se traduira très bien à la plateforme mobile</li>
+                        <img src="images/compass-use-cases.png" alt="compass use cases" style="width: 40%"> 
+                        <li>Cas d'utilisation compléter, diagramme non nécessaire. </li>
+                        <li>Évènements seront assortis en ordre de pertinence sur la page d'accueil à côté des cafés. La section pourra être élargie pour donner une vue de tous les évènements sur un calendrier. Un utilisateur peut indiquer sa présence à un évènement ou le "supporter", ces deux actions influençant le score de pertinence de cet évènements. Sur la page d'un café, que les évènements de ce café seront visibles. Les infos d'un évènement devraient être dans les metadatas du lien de partage.</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>Quand un utilisateur affirme sa présence, son profil sera placé dans la liste des participants. On brainstormera comment implémenter des connections entre les utilisateurs qui se connaissent sans trop donner l'impression d'un réseau social.</p>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 4 &ndash;
+                        <time datetime="2024-09-09">Lundi 3 février 2025</time>
+                    </h3>
+                    <p>Prototype fonctionnel</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Prototypage de l'interface mode boussole en React</li>
+                        <li>Brainstormer la façon optimal d'évaluer le niveau d'activité d'un café et les connections entre utilisateurs qui se connaissent.</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Setup d'un environnement séparé pour prototyper la boussole</li>
+                        <li>Implémentation des boutons de contrôle (zoom et rotate)</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>Il n'y pas eu beaucoup de progrès cette semaine malheureusement. Mais après discussion sur mes idées d'implémentation, mon superviseur a suggéré d'utiliser des SVG au lieu de divs pour créer le visuel de la boussole et m'a présenté la librairie javascript D3.</p>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 5 &ndash;
+                        <time datetime="2024-09-09">Lundi 10 février 2025</time>
+                    </h3>
+                    <p>Progression Boussole</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Continuer le développement du prototype</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Le placement, zoom et rotation des "échelons" en SVG pure ont été réussi</li>
+                        <li>Collection des coordonnées (longitudes et latitudes) des campus dont fait référence la page d'accueil du siteweb afin de pouvoir prototyper le placement de ces 'landmarks' dans l'interface boussole</li>
+                        <li>Fonctions permettant la conversion des coordonnées en coordonnées polaires avec normalisation</li>
+                        <li>Tentative de séparer les controles dans un fonction component. Cependant j'ai rencontré une erreur curieuse. À revoir</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>Ayant courtement feulleté la documentation de SVG et D3, je m'étais dit que D3 était peut-être trop extensif pour nos besoins et que je pourrais implémenter qu'avec des components React et des SVG. Mais après avoir rencontré des difficulté avec le rendering cette semaine, je crois qu'il faudra faire appel à D3</p>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 6 &ndash;
+                        <time datetime="2024-09-09">Lundi 17 février 2025</time>
+                    </h3>
+                    <p>Pause - Examens Intra</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Pause sur le projet accordé pour me concentrer sur mes examens</li>
+                    </ul>
+                </div>
+            </section> 
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 7 &ndash;
+                        <time datetime="2024-09-09">Lundi 24 février 2025</time>
+                    </h3>
+                    <p>Switch à D3</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Intégré D3 dans l'interface Boussole</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Placement des 'landmark' sur les échelons de la boussole</li>
+                        <li>Méthode pour l'obtention de la localisation live de l'utilisateur</li>
+                        <li>Méthode pour l'obtention de l'orientation de l'appareil de l'utilisateur (heading). Pourtant mon navigateur marque cette fonctionnalité comme étant depricated. À revoir</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>Quelques artifactes graphique ce sont produits dans cet implémentation. Je me suis beaucoup inspiré de l'exemple Polar Clock sur le site de D3 et il y a surement quelque chose qui m'échappe. En plus de ça je n'arrive pas encore à tourner la boussole et de plus je suis un peu méfiant de l'orientation actuelle des 'landmark'. Vu comment je trouve cet implémentation compliqué, j'aimerais dorénavant travailler sur la boussole en parallèle avec Évènement et Activité. Peut-être avec un peu de recul j'y parviendrais.</p>
+                </div>
+            </section>
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 8 &ndash;
+                        <time datetime="2024-09-09">lundi 3 Mars 2025</time>
+                    </h3>
+                    <p>Familiarisation avec Event</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    
+                    <ul>
+                        <li>Etude du modele dans l'api: analyse de la structure de l’objet Event, des champs existants (titre, description, date, etc.) et des limitations initiales du modèle.</li>
+                        <li>Etude des outils de communication frontend-backend: fonctionnement des appels REST et des mécanismes d’authentification et de validation des requêtes.</li>
+                        <li>Etude des maquettes existantes: analyse des prototypes visuels d’interfaces de création et de visualisation d’événements, afin d’évaluer leur faisabilité et leur adéquation avec les besoins du projet.</li>
+                    </ul>
+
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Le modèle d’événement initial ne disposait pas d’un endpoint complet pour <code>/events/{id}</code>, ce qui limitait la consultation détaillée d’un événement individuel via l’API.</li>
+                        <li>La base de code frontend contient un module JavaScript nommé <code>EventAPI</code>, centralisant l’ensemble des requêtes vers l’API en lien avec les événements (création, édition, récupération, etc.).</li>
+                        
+                    </ul>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 9 &ndash;
+                        <time datetime="2024-09-09">lundi 10 Mars 2025</time>
+                    </h3>
+                    <p>EventBoard</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    
+                    <ul>
+                        <li>Ajout de l’affichage des événements récents sur la page d’accueil, afin d’en améliorer la visibilité et encourager l’engagement utilisateur dès l’arrivée sur la plateforme.</li>
+                        <li>Création d’un objet visualisateur d’événement, responsable de la présentation synthétique et interactive de chaque événement dans les différentes sections de l’interface.</li>
+                     </ul>
+
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Création des composants <code>EventBoard</code> et <code>EventCard</code>, inspirés de <code>CafeList</code> et <code>CafeCard</code>, pour structurer l’affichage des événements sous forme de grille.</li>
+                        <li>Le composant <code>EventCard</code> a été conçu de manière extensible, facilitant l’ajout futur de boutons d’interaction ou d’éléments contextuels sans restructuration majeure.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 10 &ndash;
+                        <time datetime="2024-09-09">lundi 17 Mars 2025</time>
+                    </h3>
+                    <p>Édition d'événements pt 1</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    
+                    <ul>
+                        <li>Implémentation du composant <code>EditEvent</code>, servant d’interface principale pour la création et la modification d’événements via un formulaire dynamique.</li>
+                        <li>Refactorisation du composant afin qu’il puisse être utilisé à la fois pour la création d’un nouvel événement et l’édition d’un événement existant, en fonction des paramètres fournis.</li>
+
+                    </ul>
+
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Un changement de configuration de mon poste de travail a entraîné un ralentissement temporaire du développement cette semaine. Ce problème technique, lié à mon environnement local, a affecté la fluidité de mes itérations jusqu’à ce que mon superviseur m’apporte son aide pour le résoudre efficacement.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 11 &ndash;
+                        <time datetime="2024-09-09">lundi 24 Mars 2025</time>
+                    </h3>
+                    <p>Édition d'évènements pt 2</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    
+                    <ul>
+                        <li>Implémentation du composant <code>EditEvent</code>, permettant à un utilisateur de créer ou modifier un événement via un formulaire complet et réactif.</li>
+                        <li>Conception d’une maquette pour la page dédiée à un événement, présentant ses détails, ses interactions possibles, ainsi que les liens vers son café associé ou ses éditeurs.</li>
+                    </ul>
+
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Le composant <code>EditEvent</code> intègre une vérification de l’authentification de l’utilisateur, afin de restreindre l’accès à la création ou à l’édition d’événements aux seuls utilisateurs connectés.</li>
+                        <li>Correction de bugs visuels présents dans le composant <code>Input</code> existant, améliorant ainsi la cohérence de l’interface et la lisibilité des formulaires.</li>
+
+                    </ul>
+
+                    <h4 class="title">Notes</h4>
+                    <p>Une page dédiée à un événement reste nécessaire pour permettre le partage externe via une URL, mais son intégration dans la plateforme peut sembler lourde. Une solution plus fluide serait d’afficher l’événement dans un popup après un clic sur une carte, tout en conservant un lien direct permettant d’ouvrir ce popup depuis l’extérieur.</p>
+                </div>
+            </section>
+
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 12 &ndash;
+                        <time datetime="2024-09-09">lundi 31 Mars 2025</time>
+                    </h3>
+                    <p>Interactions</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    <ul>
+                        <li>Ajout de nouvelles fonctionnalités au composant <code>EventCard</code>, incluant les interactions utilisateur (participer, soutenir), un accès rapide à l’édition pour les éditeurs, et un bouton “voir plus” menant à la vue détaillée de l’événement.</li>
+                        <li>Correction de plusieurs bugs liés à <code>EventCard</code>, notamment des problèmes d’affichage conditionnel et de réactivité sur différents formats d’écran.</li>
+                    </ul>
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Prototypage d’une fonctionnalité sur <code>EventCard</code> permettant à l’utilisateur, s’il est éditeur, d’accéder rapidement à un formulaire d’édition directement depuis la page d’accueil, sans changer de vue.</li>
+                    </ul>
+                    <h4 class="title">Notes</h4>
+                    <p>Pour améliorer l’édition rapide, un redesign de EventCard serait nécessaire afin de mieux l’intégrer. 
+                        Cela permettrait aussi d’ajouter une vue “voir plus” personnalisée, absente de CafeCard, 
+                        et d’offrir une apparence distincte entre cafés et événements pour une meilleure expérience utilisateur.
+                    </p>
+                </div>
+            </section>
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 13 &ndash;
+                        <time datetime="2024-09-09">lundi 7 Avril 2025</time>
+                    </h3>
+                    <p>Éditeurs</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    
+                    <ul>
+                        <li>Ajout de la fonctionnalité d’éditeurs au modèle <code>Event</code>, permettant à plusieurs utilisateurs de collaborer sur la création et la gestion d’un même événement.</li>
+                        <li>Ajout de nouveaux attributs au modèle <code>Event</code> dans le backend, incluant la liste des éditeurs, la capacité maximale de participants, un lien de billetterie et un prix de base pour les événements tarifés.</li>
+
+                    </ul>
+
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Ajout de nouveaux champs au modèle <code>Event</code> : éditeurs, lien vers une billetterie en ligne et nombre maximal de supporteurs souhaités, afin de mieux répondre aux besoins d’organisation et de gestion.</li>
+                        <li>Implémentation d’une section <strong>“Éditeurs”</strong> dans l’interface de création et de modification d’un événement, permettant d’ajouter des collaborateurs au projet de manière intuitive.</li>
+                    </ul>
+                </div>
+            </section>
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 14 &ndash;
+                        <time datetime="2024-09-09">lundi 14 Avril 2025</time>
+                    </h3>
+                    <p>Publications</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    
+                    <ul>
+                        <li>Ajout de la fonctionnalité de publication dans le composant <code>EditEvent</code>, permettant aux utilisateurs de soumettre leur événement à un café pour approbation.</li>
+                        <li>Implémentation du modèle <code>Publication</code> dans le backend, incluant les champs <code>event_id</code>, <code>cafe_id</code> et <code>status</code>, afin de gérer les demandes de publication avec validation par les cafés.</li>
+                    </ul>
+
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                        <li>Implémentation d’une section <strong>“Publications”</strong> dans l’interface d’édition d’événement, permettant de visualiser l’état des demandes de publication auprès des cafés et de suivre leur approbation ou refus.</li>
+                        <li>Refactorisation du composant <code>EventInteraction</code> pour en améliorer la clarté, la maintenabilité et faciliter sa réutilisation dans d’autres contextes de la plateforme.</li>
+                    </ul>
+                </div>
+            </section>
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine 15 &ndash;
+                        <time datetime="2024-09-09">lundi 21 Avril 2025</time>
+                    </h3>
+                    <p>Examens et rédaction rapport</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    
+                    <ul>
+                        <li>Cette semaine et la suivante sont consacrées à la rédaction de mon rapport final ainsi qu’à la préparation et la tenue de mes examens de fin de trimestre.</li>
+                    </ul>
+                    <p></p>
+                </div>
+            </section>
+
+            <!-- SECTION TEMPLATE
+            <section class="week">
+                <header class="week-header">
+                    <h3 class="week-title">Semaine [num] &ndash;
+                        <time datetime="2024-09-09">lundi [date] 2025</time>
+                    </h3>
+                    <p>[title]</p>
+                </header>
+                <div class="week-content">
+                    <h4 class="title">Objectifs</h4>
+                    
+                    <ul>
+                        <li></li>
+                    </ul>
+
+                    <h4 class="title">Réalisations</h4>
+                    <ul>
+                    </ul>
+
+                    <h4 class="title">Notes</h4>
+                    <p></p>
+                </div>
+            </section>
+            -->
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <a href="https://github.com/ceduni/cafe-sans-fil/tree/matteo" target="_blank">Répertoire GitHub</a>
+        <p>Dernière mise à jour: 19 janvier 2025</p>
+    </footer>
+
+    <script>
+        const NB_WEEK = 13;
+        let projetStart = new Date("2025-01-13");
+        let current = (Date.now() - projetStart) / 1000 / 60 / 60 / 24 / 7;
+        let progress = Math.round((current/NB_WEEK) * 100);
+
+        let timeline = document.querySelector('.timeline');
+        timeline.style.background = `linear-gradient(to right, rgb(var(--accent)) ${progress}%, #d5d5d5 0%)`;
+    </script>
+</body>
+
+</html>

@@ -28,6 +28,9 @@ import i18n from "./i18n";
 import { I18nextProvider } from "react-i18next";
 import { setRoot } from "./utils/globals";
 
+import { EventEditor, Events } from "@/components/Event/";
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -143,6 +146,30 @@ const router = createBrowserRouter([
         element: (
           <LoggedInOnly>
             <SalesReport />
+          </LoggedInOnly>
+        ),
+      },
+      {
+        path: "/events/",
+        element: <Events />,
+      },
+      {
+        path: "/events/:id",
+        element: <Event />,
+      },
+      {
+        path: "/events/new",
+        element: (
+          <LoggedInOnly>
+            <EventEditor isNew={true} />
+          </LoggedInOnly>
+        ),
+      },
+      {
+        path: "/events/edit/:id",
+        element: (
+          <LoggedInOnly>
+            <EventEditor isNew={false}/>            
           </LoggedInOnly>
         ),
       },

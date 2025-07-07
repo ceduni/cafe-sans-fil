@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-const Card = ({ className, children }) => {
+const Card = ({ className, children, onClick }) => {
   return (
     <div
       className={classNames(
@@ -8,7 +8,8 @@ const Card = ({ className, children }) => {
         sm:hover:shadow-lg sm:transition-shadow sm:duration-300 sm:ease-in-out hover:animate-scale",
         className
       )}
-      tabIndex="0">
+      tabIndex="0"
+      onClick={onClick}>
       {children}
     </div>
   );

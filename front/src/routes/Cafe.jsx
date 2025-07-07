@@ -15,17 +15,38 @@ import useTitle from "@/hooks/useTitle";
 
 const _lst = Object.entries;
 
+function CafeLogo({logo, alt}) {
+    if (!logo) {
+        return null
+    }
+
+    return <img className="cafe-logo" src={logo} alt={alt} />;
+}
+
+function CafeHeader({ cafe }) {
+    const { t } = useTranslation();
+
+    return (
+        <header className={`relative h-[400px] flex items-end justify-between overflow-hidden;`} style={{ background: `url(${cafe.image}) center / cover no-repeat` }}>
+            <div className="cafe-brand">
+                <CafeLogo logo={cafe?.logo} alt={t("alt.cafe_logo")} />
+                <ul className="bare-list socials">
+                    {_lst(cafe?.socials).map(([key, value], index) => (
+                        <SocialLink key={index} platform={key} url={value} />
+                    ))}
+                </ul>
+            </div>
+        </header>
+    )
+}
+
 
 const Cafe = () => {
     const { t } = useTranslation();
-
-    
-
     const { id } = useParams();
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
     const [cafe, setCafe] = useState(null);
 
     // Fetching cafe
@@ -41,7 +62,7 @@ const Cafe = () => {
     }, []);
 
     useTitle(cafe?.name && `${cafe.name} | ${APP_NAME}`)
-    
+
     if (error) {
         if (error.status === 404) {
             throw new Response("Not found", { status: 404, statusText: t("error.404.cafe_not_found") });
@@ -56,16 +77,7 @@ const Cafe = () => {
 
     return (
         <>
-            <header className={`relative h-[400px] flex items-end justify-between overflow-hidden;`} style={{ background: `url(${cafe.image}) center / cover no-repeat` }}>
-                <div className="cafe-brand">
-                    <img className="cafe-logo" src={cafe?.logo} alt={t("alt.cafe_logo")} />
-                    <ul className="bare-list socials">
-                        {_lst(cafe?.socials).map(([key, value], index) => (
-                            <SocialLink key={index} platform={key} url={value} />
-                        ))}
-                    </ul>
-                </div>
-            </header>
+            <CafeHeader cafe={cafe}></CafeHeader>
             <section className="main-body">
                 <div className="menu-section">
                     <div>
@@ -76,11 +88,10 @@ const Cafe = () => {
                             <PaymentType name={p.method} />
                         ))}
                     </div> */}
-                    <CafeMenu items={cafe?.menu} />
+                    <CafeMenu menu={cafe?.menu} />
                 </div>
-                <div className="cafe-identification">
-                    <CafeIdentification cafe={cafe} />
-                </div>
+                
+                <CafeIdentification cafe={cafe} />
                 {/* <div className="cafe-communication">
                     <div>
                         <h2 className="text-center my-0 text-3xl font-bold">Annonces</h2>
@@ -92,14 +103,14 @@ const Cafe = () => {
                     </ul>
                 </div> */}
             </section>
-            <section className="cafe-event">
+            {/* <section className="cafe-event">
                 <h3 className="title">{t("cafe.bulletin_board.title")}</h3>
                 <ul className="bare-list grid-content">
                     {cafe?.announcements.map((value) => (
                         <CafePost  key={value.id} post={value} />
                     ))}
                 </ul>
-            </section>
+            </section> */}
         </>
     );
 };

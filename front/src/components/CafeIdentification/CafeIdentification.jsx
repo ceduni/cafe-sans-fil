@@ -5,7 +5,7 @@ import './styles.css'
 const CafeIdentification = ({ cafe }) => {
     
   return (
-    <>
+    <div className="cafe-identification">
         <h3 className="cafe-name">{cafe.name}</h3>
         <p className="bare cafe-location">
             {cafe.location.toString()}
@@ -36,7 +36,7 @@ const CafeIdentification = ({ cafe }) => {
                 <span className="txt">bénévoles</span>
             </li>
         </ul>
-    </>
+    </div>
 )
 };
 

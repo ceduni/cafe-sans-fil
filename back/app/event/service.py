@@ -74,11 +74,43 @@ class EventService:
             query = Event.find(filters).sort(sort_by)
             return await query.to_list() if to_list else query
 
+    @staticmethod
+    async def get_all_for_user(
+        to_list: bool = True,
+        aggregate: bool = False,
+        current_user_id: PydanticObjectId = None,
+        **filters: dict,
+    ) -> Union[List[Event], FindMany[Event], List[dict], AggregationQuery[dict]]:
+        """Get all events where user is creator or editor."""
+        sort_by = filters.pop("sort_by", "-start_date")
+
+        user_filter = {
+            "$or": [
+                {"creator_id": current_user_id},
+            ]
+        }
+
+        # Merge with additional filters if needed
+        final_filter = {**user_filter, **filters}
+
+        if aggregate:
+            pipeline = EventService._build_pipeline(
+                filters=user_filter,
+                sort_by=sort_by,
+                current_user_id=current_user_id,
+            )
+            query = Event.aggregate(pipeline)
+            return await query.to_list() if to_list else query
+        else:
+            query = Event.find(final_filter).sort(sort_by)
+            return await query.to_list() if to_list else query
+
     @overload
     @staticmethod
     async def get(
         id: PydanticObjectId,
         aggregate: Literal[False] = False,
+        current_user_id: Optional[PydanticObjectId] = None,
     ) -> Optional[Event]: ...
 
     @overload
@@ -86,18 +118,20 @@ class EventService:
     async def get(
         id: PydanticObjectId,
         aggregate: Literal[True] = True,
+        current_user_id: Optional[PydanticObjectId] = None,
     ) -> Optional[dict]: ...
 
     @staticmethod
     async def get(
         id: PydanticObjectId,
         aggregate: bool = False,
+        current_user_id: Optional[PydanticObjectId] = None,
     ) -> Union[Optional[Event], Optional[dict]]:
         """Get an event by ID."""
         if not aggregate:
             return await Event.get(id)
 
-        pipeline = EventService._build_pipeline(announcement_id=id)
+        pipeline = EventService._build_pipeline(event_id=id)
         result = await Event.aggregate(pipeline).to_list()
         return result[0] if result else None
 
@@ -225,6 +259,33 @@ class EventService:
                     }
                 },
                 {"$addFields": {"creator": {"$arrayElemAt": ["$creator", 0]}}},
+            ]
+        )
+        # Editors lookup
+        pipeline.extend(
+            [
+                {
+                    "$lookup": {
+                        "from": "users",
+                        "localField": "editor_ids",
+                        "foreignField": "_id",
+                        "pipeline": [
+                            {
+                                "$project": {
+                                    "_id": 0,
+                                    "id": "$_id",
+                                    "username": 1,
+                                    "email": 1,
+                                    "matricule": 1,
+                                    "first_name": 1,
+                                    "last_name": 1,
+                                    "photo_url": 1,
+                                }
+                            }
+                        ],
+                        "as": "editors",
+                    }
+                }
             ]
         )
 

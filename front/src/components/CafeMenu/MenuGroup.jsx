@@ -26,7 +26,7 @@ const css = (...classes) => {
     }, []).join(' ');
 };
 
-const GroupBox = ({ category, items, onClick, onItemClick, activeItem, setActiveItem, open = false }) => {
+const GroupBox = ({ category, onClick, onItemClick, activeItem, setActiveItem, open = false }) => {
     const groupBoxElement = useRef(null);
 
     const handleClick = (event) => {
@@ -40,14 +40,13 @@ const GroupBox = ({ category, items, onClick, onItemClick, activeItem, setActive
                 setActiveItem(null);
             }
         }
-
     };
 
     return (
         <div className={css("group-box", { open })} ref={groupBoxElement} data-index={category.index} onClick={handleClick} tabIndex={0}>
-            <h4 className="group-box-title">{category}</h4>
+            <h4 className="group-box-title">{category.name}</h4>
             <div className="group-box-items">
-                {items.map((item, index) => (
+                {category.items.map((item, index) => (
                     <Item key={index} data={item} onClick={onItemClick} />
                 ))}
             </div>

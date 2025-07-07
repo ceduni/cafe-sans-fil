@@ -59,6 +59,44 @@ async def list_events(
     )
     return await paginate(events)
 
+@event_router.get(
+    "/events/{id}",
+    response_model=EventAggregateOut,
+)
+async def get_event(
+    id: PydanticObjectId = Path(..., description="ID of the event"),
+    current_user: User = Depends(get_current_user_optional),
+):
+    """Get an event with full details"""
+    event = await EventService.get(
+        id,
+        aggregate=True,
+        current_user_id=current_user.id if current_user else None,
+    )
+    if not event:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "An event with this id does not exist"}],
+        )
+    return event
+
+@event_router.get(
+    "/events/@me",
+    response_model=EventPage[EventAggregateOut],
+)
+async def get_events_for_user(
+    request: Request,
+    current_user: User = Depends(get_current_user),
+):
+    """Get events created by current user with full details"""
+    filters = parse_query_params(dict(request.query_params))
+    events = await EventService.get_all_for_user(
+        to_list=False,
+        aggregate=True,
+        current_user_id=current_user.id,
+        **filters,
+    )
+    return await paginate(events)
 
 @event_router.post(
     "/events/",

@@ -166,7 +166,8 @@ export const AuthProvider = ({ children }) => {
 
   const getCurrentUser = async () => {
     try {
-      const response = await authenticatedRequest.post("/auth/test-token");
+      const response = await authenticatedRequest.get("/users/@me");
+      console.log(response);
       return response.data;
     } catch (error) {
       toast.error(error.message);
