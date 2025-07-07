@@ -32,6 +32,7 @@ class EventBase(BaseModel):
     end_date: datetime
     location: Optional[str] = None
     ticket: Optional[Ticketing] = None
+    max_support: Optional[int] = 3
 
 
 class Event(Document, EventBase):
@@ -50,9 +51,7 @@ class Event(Document, EventBase):
 class EventCreate(EventBase):
     """Model for creating events."""
 
-    cafe_ids: Optional[List[PydanticObjectId]] = None
-    creator: PydanticObjectId = None
-    max_support: Optional[int] = None
+    cafe_ids: Optional[List[PydanticObjectId]] = []
 
 
 class EventUpdate(BaseModel):

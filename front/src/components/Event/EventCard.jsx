@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "@/components/Card";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import EventEditor from "@components/Event/EventEditor";
-import { LikeButton, AttendButton, SupportButton } from "@components/Event/EventInteractions";
+import { InteractiveButton } from "@components/Event/EventInteractions";
 import { ArrowRightEndOnRectangleIcon as AttendIcon,
     HeartIcon as LikeIcon,
     HandRaisedIcon as SupportIcon,
@@ -17,12 +17,13 @@ import { HeartIcon as LikedIcon,
 const EventCard = ({event}) => {
 
     const { user, isLoggedIn } = useAuth();
+    const navigate = useNavigate();
 
     //TODO: change to isContributor after implementing contributor functionality
-    const isCreator = true; //event.creator === user?.id;
+    const isEditor = true; //event.creator === user?.id || user?.id in event?.editors;
     const hasTicketing = event?.ticket;
     const [isEditing, setIsEditing] = useState(false);
-    const [viewMore, setViewMore] = useState(true);
+    const [viewMore, setViewMore] = useState(false);
 
     //a bit repetitive
     //const [likeCount, setLikeCount] = useState(event.interactions.likes.count);
@@ -31,13 +32,14 @@ const EventCard = ({event}) => {
 
     //TODO: add a panel to show description and buttons
     //TODO: fix expandable on card click
+    // TODO: edit button link to events/edit/id
 
     return (
         <Card>
             <div className="relative">
                 <Card.Image src={event.image_url} alt={event.name} className="pointer-events-none"/>
-                {isCreator && (
-                    <button onClick={() => setIsEditing(!isEditing)} className="absolute top-2 right-2 shadow-sm top-2 right-2 bg-white size-10 flex items-center justify-center rounded-full">
+                {isEditor && (
+                    <button onClick={() => navigate(`/events/edit/${event.id}`)} className="absolute top-2 right-2 shadow-sm top-2 right-2 bg-white size-10 flex items-center justify-center rounded-full">
                         <EditIcon  className="size-6 text-blue-500" />
                     </button>
                 )}
@@ -57,16 +59,13 @@ const EventCard = ({event}) => {
                 {viewMore && (
                     <p>{event.description}</p>
                 )}
-                {isEditing && (
-                    <EventEditor isNew={false} event={event} onClose={() => setIsEditing(false)}/>
-                )}
             </Card.Body>
             <Card.Footer>
             <div className="buttons flex justify-between ">
                 <div className="left-side flex gap-2">
-                    <LikeButton event={event}/>
-                    <AttendButton event={event}/>
-                    <SupportButton event={event}/>
+                    <InteractiveButton type={"LIKE"} event={event} />
+                    <InteractiveButton type={"ATTEND"} event={event} />
+                    <InteractiveButton type={"SUPPORT"} event={event} />
                 </div>
                 <div className="right-side flex gap-2">
                     <button><CalendarIcon className="size-6 text-blue-500" /></button>

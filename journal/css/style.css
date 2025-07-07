@@ -1,0 +1,214 @@
+.content-wrapper {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.page-header {
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 24px; padding-bottom: 24px;
+    background-color: #f5f5f5;
+}
+
+.logo {
+    display: block;
+}
+
+.page-title {
+    line-height: 1.25;
+    margin-bottom: 12px;
+}
+
+.project-infos {
+    display: flex; 
+    margin-bottom: 12px;
+}
+
+    .info {
+        display: flex; align-items: center;
+        margin-right: 12px;
+        color: #fff;
+        font-size: 1.6em; font-weight: 500;
+        background-color: #404040;    
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .info .ico {
+        display: block;
+        margin-right: 6px;
+        padding: 8px 12px;
+        width: 42px; height: 100%;
+        color: #fff;
+    }
+    .info.supervisor .ico {
+        background-color: #FF5653;    
+    }
+    .info.team .ico {
+        background-color: rgb(var(--accent));    
+    }
+
+    .info .content {
+        padding-left: 6px; padding-right: 6px;
+    }
+
+    
+.project-links {
+    display: flex; 
+}
+    .project-link:not(:last-child) {
+        margin-right: 6px;
+    }
+
+    .project-link a {
+        display: flex; place-items: center;
+        height: 100%;
+        padding: 8px 12px;
+        border-radius: 180px;
+        font-weight: bold;
+        color: #fff;
+        transition: .2s;
+    }
+        .project-link a.disabled {
+            pointer-events: none; /* Prevents clicking */
+            cursor: not-allowed;  /* Shows a not-allowed cursor */
+            color: #c0c0c0;          /* Changes the color to indicate it's disabled */
+            opacity: 0.7;
+        }
+
+    .repo a {
+        background-color: rgb(var(--accent));
+    }
+
+    .doc a {
+        background-color: #232425;
+    }
+
+        .project-link .ico {
+            display: inline-block;
+            margin-left: 6px;
+            height: 18px; width: 18px;
+            transition: .2s;
+            transition-property: transform;
+        }
+        
+        .project-link a:hover {
+            background-color: rgb(var(--accent-dark));
+        }
+
+            .project-link a:hover .ico {
+                transform: scale(1.1) translateX(2px);
+            }
+
+
+.page-footer {
+    padding-top: 24px; padding-bottom: 30px;
+    background-color: #232425;
+    color: #fff;
+    text-align: center;
+}
+
+    .page-footer a {
+        color: inherit;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+
+.page-body {
+    padding-top: 24px;
+}
+
+
+.progress-section {
+    background-color: #eee;
+    padding-top: 24px;
+    padding-bottom: 60px;
+}
+
+.progress-section-header {
+    text-align: center;
+}
+
+.phases {
+    display: flex;
+    width: 100%;
+}
+
+.phase {
+    padding-top: 12px;
+    padding-bottom: 4px;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 1.7em;
+}
+
+    .phase:nth-child(1) { width: 15%; }
+    .phase:nth-child(2) { width: 30%; }
+    .phase:nth-child(3) { width: 45%; }
+    .phase:nth-child(4) { width: 10%; }
+
+    .phase.current {
+        font-weight: 500;
+        color: rgb(var(--accent));
+    }
+
+.timeline {   
+    border-radius: 180px;
+    height: 18px;
+}
+
+.week {
+    margin-top: 24px;
+    padding: 18px 2% 12px;
+    border-radius: 12px;
+    background-color: #fefefe;
+}
+
+.week-header {
+    color: #444;
+}
+    .week-header p {
+        margin: 0;
+        font-size: 1.6em; font-weight: 500;
+    }
+
+    .week-title {
+        margin: 0;
+        font-size: 2em; font-weight: bold;
+        color: rgb(var(--accent-dark));
+    }
+
+.week-content {
+    color: #333;
+}
+
+    .week-content .title {
+        margin-top: 8px; margin-bottom: 2px;
+        font-size: 1.6em;
+        color: rgb(var(--accent));
+        text-transform: uppercase;
+    }
+
+    .week-content p {
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .week-content ul {
+        margin: 0;
+    }
+
+    .week-content li {
+        line-height: 1.5;
+    }
+.centered-image{
+    width: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.large-centered-image{
+    width: 650px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
