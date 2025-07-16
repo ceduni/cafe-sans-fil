@@ -4,7 +4,7 @@ import { useCart } from "react-use-cart";
 import toast from "react-hot-toast";
 import { getCafeFromId } from "@/utils/getFromId";
 import { formatPrice, getIdFromSelectedOptions } from "@/utils/cart";
-import classNames from "classnames";
+import clsx from "clsx";
 import { OUT_OF_STOCK_TEXT } from "@/utils/items";
 import EditItemView from "@/components/Items/EditItemView";
 
@@ -66,7 +66,7 @@ const ItemCard = ({ item, cafeSlug, edit, onItemUpdate, showDescription }) => {
             <img
               src={item.image_url || "https://placehold.co/300x300?text=Item"}
               alt={item.name}
-              className={classNames(
+              className={clsx(
                 "h-14 w-14 object-cover rounded-full transition-transform duration-500",
                 { "opacity-50": !item.in_stock },
                 { "group-hover:opacity-75": item.in_stock },
@@ -75,7 +75,7 @@ const ItemCard = ({ item, cafeSlug, edit, onItemUpdate, showDescription }) => {
               )}
             />
             {!item.in_stock && (
-                <div className={classNames(
+                <div className={clsx(
               "absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center font-bold text-white rounded-full transition-transform duration-500",
               {"scale-50": !showDescription}, 
               {"scale-200": showDescription}, )}>

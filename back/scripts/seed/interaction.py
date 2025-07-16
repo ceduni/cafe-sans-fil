@@ -10,16 +10,14 @@ from tqdm import tqdm
 
 from app.cafe.announcement.models import Announcement
 from app.cafe.announcement.service import AnnouncementService
-from app.cafe.menu.item.models import MenuItem
-from app.cafe.menu.item.service import ItemService
+from app.menu.item.models import MenuItem
+from app.menu.item.service import ItemService
 from app.event.models import Event
 from app.event.service import EventService
 from app.interaction.models import (
-    AnnouncementInteraction,
-    EventInteraction,
     Interaction,
     InteractionType,
-    ItemInteraction,
+    TargetType
 )
 from app.user.models import User
 from app.user.service import UserService
@@ -75,9 +73,10 @@ class InteractionSeeder:
                     )[0]
 
                     self.interactions.append(
-                        ItemInteraction(
+                        Interaction(
                             user_id=user.id,
-                            item_id=item.id,
+                            target_id=item.id,
+                            target_type=TargetType.ITEM,
                             type=interaction_type,
                             created_at=self._random_date(),
                         )
@@ -101,9 +100,10 @@ class InteractionSeeder:
                     )[0]
 
                     self.interactions.append(
-                        AnnouncementInteraction(
+                        Interaction(
                             user_id=user.id,
-                            announcement_id=announcement.id,
+                            target_id=announcement.id,
+                            target_type=TargetType.ANNOUNCEMENT,
                             type=interaction_type,
                             created_at=self._random_date(),
                         )
@@ -132,9 +132,10 @@ class InteractionSeeder:
                     )[0]
 
                     self.interactions.append(
-                        EventInteraction(
+                        Interaction(
                             user_id=user.id,
-                            event_id=event.id,
+                            target_id=event.id,
+                            target_type=TargetType.EVENT,
                             type=interaction_type,
                             created_at=self._random_date(),
                         )

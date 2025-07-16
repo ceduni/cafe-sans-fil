@@ -7,7 +7,7 @@ from typing import List, Union
 from beanie import PydanticObjectId
 from beanie.odm.queries.find import FindMany
 
-from app.cafe.menu.item.models import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.menu.item.models import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.cafe.models import Cafe
 from app.service import set_attributes
 

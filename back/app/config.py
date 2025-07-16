@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     )
     BASE_URL: str = config("BASE_URL", cast=str)
     PROJECT_NAME: str = "Café sans-fil"
-    VERSION: str = "0.2.0"
+    VERSION: str = "0.2.3"
 
     # Database
     MONGO_CONNECTION_STRING: str = config("MONGO_CONNECTION_STRING", cast=str)

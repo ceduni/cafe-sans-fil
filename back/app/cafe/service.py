@@ -9,7 +9,7 @@ from beanie.odm.queries.find import FindMany
 from bson.errors import InvalidId
 from pymongo import ASCENDING, DESCENDING
 
-from app.cafe.menu.models import MenuUpdate
+from app.menu.models import MenuUpdate
 from app.cafe.models import Cafe, CafeCreate, CafeUpdate
 from app.service import set_attributes
 

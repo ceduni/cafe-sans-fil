@@ -18,6 +18,7 @@ import {
   EditMenu,
   EditEvent,
   EditNews,
+  CafesMap
 } 
 from "@/routes";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/map",
+        element: <CafesMap />,
       },
       {
         path: "/login",

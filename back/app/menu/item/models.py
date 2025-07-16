@@ -27,6 +27,31 @@ class MenuItemOption(BaseModel):
         if fee < DecimalAnnotation(0.0):
             raise ValueError("Fee must be a non-negative value.")
         return fee
+   
+    
+class NutritionInfo(BaseModel):
+    calories: Optional[DecimalAnnotation] = Field(None, description="Calories in the item.")
+    lipids: Optional[DecimalAnnotation] = Field(None, description="Lipid content in the item.")
+    proteins: Optional[DecimalAnnotation] = Field(None, description="Protein content in the item.")
+    carbohydrates: Optional[DecimalAnnotation] = Field(None, description="Carbohydrate content in the item.")
+    sugar: Optional[DecimalAnnotation] = Field(None, description="Sugar content in the item.")
+    sodium: Optional[DecimalAnnotation] = Field(None, description="Salt content in the item.")
+    fiber: Optional[DecimalAnnotation] = Field(None, description="Fiber content in the item.")
+    saturated_fat: Optional[DecimalAnnotation] = Field(None, description="Saturated fat content in the item.")
+    # vitamins: Optional[DecimalAnnotation] = Field(None, description="Vitamins content in the item.")
+    #percentage_fruit_vegetables_nuts: Optional[DecimalAnnotation] = Field(None, description="Percentage on fruits, vegetables and nuts in the item.")
+    zinc: Optional[DecimalAnnotation] = Field(None, description="Zinc content in the item.")
+    iron: Optional[DecimalAnnotation] = Field(None, description="Iron content in the item.")
+    calcium: Optional[DecimalAnnotation] = Field(None, description="Calcium content in the item.")
+    magnesium: Optional[DecimalAnnotation] = Field(None, description="Magnesium content in the item.")
+    potassium: Optional[DecimalAnnotation] = Field(None, description="Potassium content in the item.")
+    vitamina: Optional[DecimalAnnotation] = Field(None, description="VitaminA content in the item.")
+    vitaminc: Optional[DecimalAnnotation] = Field(None, description="vitaminC content in the item.")
+    vitamind: Optional[DecimalAnnotation] = Field(None, description="vitaminD content in the item.")
+    vitamine: Optional[DecimalAnnotation] = Field(None, description="vitaminE content in the item.")
+    vitamink: Optional[DecimalAnnotation] = Field(None, description="vitaminK content in the item.")
+    vitaminb6: Optional[DecimalAnnotation] = Field(None, description="vitaminB6 content in the item.")
+    vitaminb12: Optional[DecimalAnnotation] = Field(None, description="vitaminB12 content in the item.")
 
 
 class MenuItemBase(BaseModel):
@@ -38,6 +63,10 @@ class MenuItemBase(BaseModel):
     image_url: Optional[HttpUrl] = None
     price: DecimalAnnotation
     in_stock: bool
+    likes: List[str] = Field(..., default_factory=list, description="List containing the ids of the users that liked this item.")
+    barecode: Optional[str] = Field(default=None, description="Food's barecode.")
+    nutritional_informations: NutritionInfo = Field(default_factory=NutritionInfo, description="Dictionnary of the nutritive values of an item.")
+    health_score: float = Field(default=0, description="Item health score.")
     options: List[MenuItemOption]
 
     @field_validator("price")

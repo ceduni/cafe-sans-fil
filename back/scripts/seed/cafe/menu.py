@@ -9,10 +9,10 @@ from typing import Dict
 
 from tqdm import tqdm
 
-from app.cafe.menu.category.models import MenuCategoryCreate
-from app.cafe.menu.category.service import CategoryService
-from app.cafe.menu.item.models import MenuItemCreate
-from app.cafe.menu.item.service import ItemService
+from app.menu.category.models import MenuCategoryCreate
+from app.menu.category.service import CategoryService
+from app.menu.item.models import MenuItemCreate
+from app.menu.item.service import ItemService
 from app.cafe.service import CafeService
 
 random.seed(42)

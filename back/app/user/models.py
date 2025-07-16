@@ -4,7 +4,7 @@ Module for handling user-related models.
 
 import re
 from datetime import datetime
-from typing import List, Literal, Optional
+from typing import List, Literal, Optional, Dict
 
 import pymongo
 from beanie import PydanticObjectId
@@ -13,6 +13,32 @@ from pymongo import IndexModel
 
 from app.cafe.staff.enums import Role
 from app.models import CustomDocument, Id
+
+
+# --- Diet Model ---
+class Diet(CustomDocument):
+    name: str
+    description: Optional[str]
+    category: Optional[str] 
+    forbidden_foods: Optional[List[str]] 
+    desired_foods: Optional[List[str]] 
+    valid_cafes: Optional[List[str]]
+    suitable_for_conditions: Optional[List[str]]
+    nutrient_targets: Optional[Dict[str, float]]
+    tags: Optional[List[str]]
+    
+    is_custom: Optional[bool] = False
+    created_by_user_id: Optional[PydanticObjectId]=Field(default=None)
+    created_at: Optional[datetime] = Field(default=None)
+    
+    class Settings:
+        name = "diets"
+
+# --- Diet Profile ---
+class DietProfile(BaseModel):
+    diet_ids: Optional[List[PydanticObjectId]] = Field(None, description="List of diets for the user.")
+    preferred_nutrients: Optional[Dict[str, int]] = Field(None, description="User's preferred nutrients.")
+    allergens: Optional[Dict[str, int]] = Field(None, description="User allergens. {Key= allergen name, Value= danger level}")
 
 
 class UserBase(BaseModel):
@@ -24,6 +50,7 @@ class UserBase(BaseModel):
     first_name: str = Field(..., min_length=2, max_length=30)
     last_name: str = Field(..., min_length=2, max_length=30)
     photo_url: Optional[HttpUrl] = None
+    diet_profile: Optional[DietProfile] = None
 
     @field_validator("username")
     @classmethod
@@ -69,6 +96,8 @@ class UserBase(BaseModel):
 class User(CustomDocument, UserBase):
     """User document model."""
 
+    wished_items: List[str] = Field(default_factory=list)
+    favorite_cafes: List[PydanticObjectId] = Field(default_factory=list)
     hashed_password: str
     login_attempts: int = Field(default=0)
     last_login_attempt: Optional[datetime] = Field(default=None)
@@ -76,7 +105,7 @@ class User(CustomDocument, UserBase):
     is_active: bool = True
     is_verified: bool = False
 
-    cafe_ids: List[PydanticObjectId] = []
+    cafe_ids: List[PydanticObjectId] = Field(default_factory=list)
 
     class Settings:
         """Settings for user document."""

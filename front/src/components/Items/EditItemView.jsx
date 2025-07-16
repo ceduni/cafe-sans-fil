@@ -6,7 +6,7 @@ import Input from "@/components/Widgets/Input";
 import Switch from "@/components/Widgets/CustomSwitch";
 import toast from "react-hot-toast";
 import authenticatedRequest from "@/helpers/authenticatedRequest";
-import classNames from "classnames";
+import clsx from "clsx";
 import EditItemOptions from "@/components/Items/EditItemOptions";
 
 const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
@@ -209,7 +209,7 @@ const EditItemView = ({ open, setOpen, item, cafeSlug, onItemUpdate }) => {
         <EditItemOptions productData={productData} setProductData={setProductData} />
 
         <div
-          className={classNames("flex items-center mt-12 text-sm font-semibold", {
+          className={clsx("flex items-center mt-12 text-sm font-semibold", {
             "justify-between": !isNewItem,
             "justify-end": isNewItem,
           })}>

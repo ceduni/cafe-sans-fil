@@ -8,10 +8,10 @@ from typing import List
 
 from tqdm import tqdm
 
-from app.cafe.menu.item.models import MenuItem
-from app.cafe.menu.item.service import ItemService
+from app.menu.item.models import MenuItem
+from app.menu.item.service import ItemService
 from app.cafe.models import Cafe
-from app.cafe.order.models import Order, OrderedItem, OrderStatus
+from app.order.models import Order, OrderedItem, OrderStatus
 from app.cafe.service import CafeService
 from app.user.models import User
 from app.user.service import UserService

@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 
 const Badge = ({ children, variant = "neutral", size = "sm" }) => {
   const colors = {
@@ -17,7 +17,7 @@ const Badge = ({ children, variant = "neutral", size = "sm" }) => {
 
   return (
     <span
-      className={classNames(
+      className={clsx(
         "inline-flex items-center font-medium rounded-md ring-1 ring-inset",
         colors[variant],
         sizes[size]

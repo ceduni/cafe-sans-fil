@@ -12,8 +12,8 @@ from pymongo import IndexModel
 from slugify import slugify
 
 from app.cafe.enums import Days, Feature, PaymentMethod
-from app.cafe.menu.enums import Layout
-from app.cafe.menu.models import Menu, MenuOut
+from app.menu.enums import Layout
+from app.menu.models import Menu, MenuOut
 from app.cafe.staff.models import Staff, StaffOut
 from app.models import CustomDocument, Id
 from app.user.models import UserOut
@@ -166,6 +166,7 @@ class Cafe(CustomDocument, CafeBase):
     owner_id: PydanticObjectId
     staff: Staff = Staff(admin_ids=[], volunteer_ids=[])
     menu: Menu = Menu(categories=[], layout=Layout.LIST)
+    health_score: float = Field(default=0, description="Cafe health score.")
 
     @before_event([Insert, Save])
     async def handle_slug(self):

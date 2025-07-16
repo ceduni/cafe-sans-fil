@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useState } from "react";
 
 const Avatar = ({ name, size = "sm", image }) => {
@@ -33,7 +33,7 @@ const Avatar = ({ name, size = "sm", image }) => {
     <div className="flex">
       {image && !isImageError ? (
         <img
-          className={classNames(
+          className={clsx(
             "inline-flex items-center justify-center rounded-full select-none object-cover",
             sizeClasses[size]
           )}
@@ -43,11 +43,11 @@ const Avatar = ({ name, size = "sm", image }) => {
         />
       ) : (
         <span
-          className={classNames(
+          className={clsx(
             "inline-flex items-center justify-center rounded-full bg-gray-500 select-none",
             sizeClasses[size]
           )}>
-          <span className={classNames(textClasses[size], "font-semibold leading-none text-white")}>{initials}</span>
+          <span className={clsx(textClasses[size], "font-semibold leading-none text-white")}>{initials}</span>
         </span>
       )}
     </div>

@@ -6,7 +6,7 @@ from datetime import UTC, datetime, timedelta
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from app.cafe.order.models import Order, OrderStatus
+from app.order.models import Order, OrderStatus
 
 
 class OrderScheduler:

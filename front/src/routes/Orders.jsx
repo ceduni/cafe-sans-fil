@@ -5,7 +5,7 @@ import EmptyState from "@/components/Error/EmptyState";
 import { useAuth } from "@/hooks/useAuth";
 import { ORDER_STATUS, isOldOrder } from "@/utils/orders";
 import { Tab } from "@headlessui/react";
-import classNames from "classnames";
+import clsx from "clsx";
 import { LoadingOrderCard, OrderCard } from "@/components/Orders/OrderCard";
 import useApi from "@/hooks/useApi";
 // import { Helmet } from "react-helmet-async";
@@ -97,7 +97,7 @@ function Orders() {
                   <Tab
                     key={category.name}
                     className={({ selected }) =>
-                      classNames(
+                      clsx(
                         selected ? "bg-white text-emerald-700 shadow" : "text-gray-600 hover:bg-white/[0.12]",
                         "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
                         "ring-white/60 ring-offset-2 ring-offset-gray-400 focus:outline-none focus:ring-2"

@@ -1,4 +1,4 @@
-import moment from "moment-timezone";
+import dayjs from 'dayjs';
 import Input from "@/components/Widgets/Input";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import toast from "react-hot-toast";
@@ -18,7 +18,7 @@ const EditAdditionalInfo = ({ cafeData, setCafeData }) => {
 
   const formatDatetimeForInput = (datetime) => {
     if (!datetime) return "";
-    return moment(datetime).tz("America/Montreal").format("YYYY-MM-DDTHH:mm:ss");
+    return dayjs(datetime).format("YYYY-MM-DDTHH:mm:ss");
   };
 
   const addAdditionalInfo = () => {

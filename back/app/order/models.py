@@ -10,8 +10,8 @@ from beanie import DecimalAnnotation, Document, Insert, Save, before_event
 from pydantic import BaseModel, Field, field_validator
 from pymongo import IndexModel
 
-from app.cafe.menu.item.models import MenuItemOption
-from app.cafe.order.enums import OrderStatus
+from app.menu.item.models import MenuItemOption
+from app.order.enums import OrderStatus
 from app.models import CafeId, Id, IdAlias, ItemId, UserId
 
 

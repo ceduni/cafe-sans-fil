@@ -12,9 +12,9 @@ from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
-from app.cafe.menu.category.service import CategoryService
-from app.cafe.menu.item.models import MenuItemCreate, MenuItemOut, MenuItemUpdate
-from app.cafe.menu.item.service import ItemService
+from app.menu.category.service import CategoryService
+from app.menu.item.models import MenuItemCreate, MenuItemOut, MenuItemUpdate
+from app.menu.item.service import ItemService
 from app.cafe.permissions import AdminPermission, VolunteerPermission
 from app.cafe.service import CafeService
 from app.models import ErrorConflictResponse, ErrorResponse

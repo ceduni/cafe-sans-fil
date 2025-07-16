@@ -9,13 +9,17 @@ from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, Field
 from pymongo import IndexModel
 
-from app.interaction.enums import InteractionType
+from app.interaction.enums import InteractionType, TargetType
 
 
 class Interaction(Document):
     """Model for interactions."""
 
     user_id: PydanticObjectId
+    target_id: PydanticObjectId
+    target_type: TargetType
+    type: InteractionType
+    rating: Optional[int] = Field(None, ge=1, le=5)
     created_at: Optional[datetime] = Field(default_factory=lambda: datetime.now(UTC))
 
     class Settings:
@@ -31,27 +35,6 @@ class Interaction(Document):
             IndexModel([("user_id", 1), ("announcement_id", 1), ("type", 1)]),
             IndexModel([("user_id", 1), ("event_id", 1), ("type", 1)]),
         ]
-
-
-class ItemInteraction(Interaction):
-    """Model for item interactions."""
-
-    item_id: PydanticObjectId
-    type: Literal[InteractionType.LIKE, InteractionType.DISLIKE]
-
-
-class AnnouncementInteraction(Interaction):
-    """Model for announcement interactions."""
-
-    announcement_id: PydanticObjectId
-    type: Literal[InteractionType.LIKE, InteractionType.DISLIKE]
-
-
-class EventInteraction(Interaction):
-    """Model for event interactions."""
-
-    event_id: PydanticObjectId
-    type: InteractionType
 
 
 class InteractionOut(BaseModel):

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import Badge from "@/components/Badge";
 import { DEFAULT_OPTION_NAME, arrayToOptionsByType, formatPrice } from "@/utils/cart";
-import classNames from "classnames";
+import clsx from "clsx";
 import { IN_STOCK_TEXT, OUT_OF_STOCK_TEXT } from "@/utils/items";
 import Modal from "@/components/Widgets/Modal";
 
@@ -90,7 +90,7 @@ const ProductView = ({
                         <RadioGroup.Option
                           key={option.value}
                           value={option.value}
-                          className={classNames({
+                          className={clsx({
                             "border-sky-500 bg-sky-50": selectedOptions[type]?.value === option.value,
                             "hover:bg-gray-50": selectedOptions[type]?.value !== option.value,
                             "cursor-pointer shadow-sm group relative flex items-center justify-center rounded-3xl border py-3 px-4 focus:outline-none sm:flex-1": true,

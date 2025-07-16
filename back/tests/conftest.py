@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.cafe.models import Cafe
-from app.cafe.order.models import Order
+from app.order.models import Order
 
 # Application settings and router
 from app.config import settings

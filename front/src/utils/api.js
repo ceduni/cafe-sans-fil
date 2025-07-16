@@ -19,11 +19,11 @@ async function fetchData(url, setLoading = null) {
         let options = {};
         if (token) {
             options = {
-                headers: {"Authorization": `Bearer ${token}`}
+                headers: { "Authorization": `Bearer ${token}` }
             }
         }
         const response = await fetch(buildUrl(url), options);
-        
+
         if (!response.ok) {
             throw new Error(response.statusText);
         }
@@ -41,17 +41,23 @@ async function fetchData(url, setLoading = null) {
     }
 }
 
-function resolveQuery(query) {
-    // TODO: Future development (small query language)
-    // Example: OrderAPI.get(`user:${this.id}`)
-}
-
 export async function isAPIAvailable() {
     const result = await fetchData(`/health`);
     return result.status === "available";
 }
 
 export const CafeAPI = {
+    /**
+     * Fetches all cafes.
+     * @param {Function} setLoading - Optional. A function to set loading state.
+     * @param {boolean} cancel - Optional. Flag to cancel the request.
+     * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Cafe objects.
+     */
+    getAll: async function (setLoading = null, cancel = false) {
+        const { items: result } = await fetchData(`/cafes`, setLoading);
+
+        return result.map(cafeData => new Cafe(cafeData));
+    },
     /**
      * Fetches a specific cafe by ID.
      * @param {string} id - The ID of the cafe to fetch.
@@ -73,16 +79,6 @@ export const CafeAPI = {
     find: async function (slug, setLoading = null, cancel = false) {
         const result = await fetchData(`/cafes?slug=${slug}`, setLoading);
         return new Cafe(result[0]);
-    },
-    /**
-     * Fetches all cafes.
-     * @param {Function} setLoading - Optional. A function to set loading state.
-     * @param {boolean} cancel - Optional. Flag to cancel the request.
-     * @returns {Promise<Cafe[]>} - A promise that resolves with an array of Cafe objects.
-     */
-    getAll: async function (setLoading = null, cancel = false) {
-        const { items: result } = await fetchData(`/cafes`, setLoading);
-        return result.map(cafeData => new Cafe(cafeData));
     },
     /**
      * Fetches the menu of a specific cafe.

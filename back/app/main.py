@@ -10,17 +10,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from app.cafe.announcement.models import Announcement
-from app.cafe.menu.item.models import MenuItem
-from app.cafe.stock.stock_model import Stock
 from app.cafe.models import Cafe
-from app.cafe.order.models import Order
-from app.cafe.order.scheduler import order_scheduler
+from app.cafe.announcement.models import Announcement
+from app.cafe.stock.stock_model import Stock
+from app.menu.item.models import MenuItem
+from app.order.models import Order
+from app.order.scheduler import order_scheduler
 from app.config import settings
 from app.event.models import Event
 from app.interaction.models import Interaction
+from app.notification.models import NotificationMessage, NotificationStatus
 from app.router import router
-from app.user.models import User
+from app.user.models import User, Diet
 
 description = """
 # API Documentation
@@ -41,6 +42,9 @@ async def lifespan(app: FastAPI):
         database=db_client[settings.MONGO_DB_NAME],
         document_models=[
             Cafe,
+            Diet,
+            NotificationMessage,
+            NotificationStatus,
             MenuItem,
             Stock,
             User,

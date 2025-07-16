@@ -6,8 +6,8 @@ from typing import List
 
 from pydantic import BaseModel, field_validator
 
-from app.cafe.menu.category.models import MenuCategory, MenuCategoryItemOut
-from app.cafe.menu.enums import Layout
+from app.menu.category.models import MenuCategory, MenuCategoryItemOut
+from app.menu.enums import Layout
 
 
 class Menu(BaseModel):

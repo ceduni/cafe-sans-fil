@@ -6,7 +6,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from app.cafe.menu.item.models import MenuItemAggregateOut
+from app.menu.item.models import MenuItemAggregateOut
 from app.models import Id, IdDefaultFactory, IdOptional
 
 

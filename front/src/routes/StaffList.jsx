@@ -12,7 +12,7 @@ import authenticatedRequest from "@/helpers/authenticatedRequest";
 import EmptyState from "@/components/Error/EmptyState";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Avatar from "@/components/Avatar";
-import classNames from "classnames";
+import clsx from "clsx";
 import useTitle from "@/hooks/useTitle";
 
 const StaffList = () => {
@@ -120,7 +120,7 @@ const StaffList = () => {
           <Breadcrumbs.Item>Staff</Breadcrumbs.Item>
         </Breadcrumbs>
 
-        <div className={classNames("pb-12 w-full", { "border-b border-gray-900/10": isLoggedUserAdmin })}>
+        <div className={clsx("pb-12 w-full", { "border-b border-gray-900/10": isLoggedUserAdmin })}>
           <h2 className="text-base font-semibold leading-7 text-gray-900">Liste de staff</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             {`${isLoggedUserAdmin ? "Gérer" : "Consulter"}`} les membres du personnel actuels du café.

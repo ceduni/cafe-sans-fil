@@ -11,7 +11,7 @@ from slugify import slugify
 from tqdm import tqdm
 
 from app.cafe.enums import Days, Feature, PaymentMethod
-from app.cafe.menu.enums import Layout
+from app.menu.enums import Layout
 from app.cafe.models import (
     Affiliation,
     Cafe,
@@ -80,9 +80,9 @@ class CafeSeeder:
         cafe_ids = result.inserted_ids
 
         # Update users' cafe_ids
-        for i in range(len(cafe_ids)):
-            users[i].cafe_ids.append(cafe_ids[i])
-            await users[i].save()
+        # for i in range(len(cafe_ids)):
+        #     users[i].cafe_ids.append(cafe_ids[i])
+        #     await users[i].save()
 
     async def _create_cafe(self, data: dict, owner: User = None) -> Cafe:
         """Build Cafe instance."""

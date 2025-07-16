@@ -60,6 +60,12 @@ class UserId:
     user_id: PydanticObjectId
 
 
+class EventId:
+    """Model for event ID."""
+
+    event_id: PydanticObjectId
+
+
 class ErrorDetail(BaseModel):
     """Model for error detail."""
 

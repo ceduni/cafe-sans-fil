@@ -9,6 +9,7 @@ Le backend de Café sans-fil repose principalement sur **FastAPI** (framework Py
     - [Configuration du fichier `.env`](#configuration-du-fichier-env)
   - [Démarrage du serveur](#démarrage-du-serveur)
   - [Initialisation de la base de données](#initialisation-de-la-base-de-données)
+    - [➡️ Nouveau : Exécuter le script de seed principal](#️nouveau-exécuter-le-script-de-seed-principal)
   - [Exécuter les tests](#exécuter-les-tests)
 - [Déploiement et Hébergement](#déploiement-et-hébergement)
   - [Service web (API)](#service-web-api)
@@ -97,6 +98,20 @@ Pour générer des données servant à peupler la base de données, nous utiliso
 
 > Vous pouvez ajuster le nombre d'utilisateurs créés en modifiant cette ligne dans le script `generate_all.py`: `user_usernames = await create_users(27)`.  
 > Par défaut, les données seront générées dans `MONGO_DB_NAME = settings.MONGO_DB_NAME + "test"`, mais vous pouvez les diriger vers votre base de données principale en modifiant le script `MONGO_DB_NAME = settings.MONGO_DB_NAME`.
+
+### ➡️ Nouveau : Exécuter le script de seed principal
+
+Un script de seed complet est disponible dans `/back/scripts/seed`.  
+Pour l’exécuter et initialiser toutes les collections avec des données de test :
+
+1. Depuis le dossier `/back`, activez l'environnement virtuel avec `pipenv shell`.
+2. Lancez la commande suivante :
+
+   ```bash
+   python -m scripts.seed
+   ```
+
+Ce script va réinitialiser la base de données et insérer des données fictives de test. 
 
 ## Exécuter les tests
 

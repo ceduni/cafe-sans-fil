@@ -4,7 +4,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { BellAlertIcon, ClockIcon, InformationCircleIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import { ORDER_STATUS, getBadgeVariant } from "@/utils/orders";
 import { formatDate } from "@/utils/dates";
-import classNames from "classnames";
+import clsx from "clsx";
 import { displayOptions, formatPrice } from "@/utils/cart";
 import { getUserFromUsername } from "@/utils/getFromId";
 import Avatar from "@/components/Avatar";
@@ -59,7 +59,7 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCompleted, setOrderCancel
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <BellAlertIcon
-                className={classNames("mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400", {
+                className={clsx("mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400", {
                   "text-red-500": minutes < 0,
                 })}
                 aria-hidden="true"
@@ -122,7 +122,7 @@ const CafeOrderCard = ({ order, setOrderReady, setOrderCompleted, setOrderCancel
                     <button
                       type="button"
                       onClick={() => setOrderCanceled(order.order_id)}
-                      className={classNames({
+                      className={clsx({
                         "bg-gray-100": active,
                         "block px-4 py-2 text-sm text-gray-700 w-full": true,
                       })}>

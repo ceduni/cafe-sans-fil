@@ -18,8 +18,6 @@ export class Cafe {
         this.openingHours = data.opening_hours.map(x => new OpeningHour(x));
         this.owner = data.owner;
         this.features = data.features ?? [];
-        // this.paymentMethods = data.payment_methods.map(x => new Payment(x));
-        // this.announcements = data.additional_info;
 
         if (data.menu) {
             this.menu = new CafeMenu(data.menu);
@@ -55,6 +53,10 @@ export class Cafe {
         });
     }
 
+    get coordinates() {
+        return this.location.coordinates;
+    }
+
     get managers() {
         return this.staff.admins;
     }
@@ -73,13 +75,17 @@ class OpeningHour {
 
 class Location {
     constructor(data) {
+        console.log("Creating Location with data:", data);
         this.pavillon = data.pavillon;
         this.local = data.local;
-        this.geometry = data.geometry;
+        this.floor = data.floor;
+        if (data.geometry) {
+            this.coordinates = [data.geometry?.coordinates[1], data.geometry?.coordinates[0]];
+        }
     }
 
     toString() {
-        return `${this.pavillon}, ${this.local}`;
+        return `${this.pavillon}, ${this.local} (${this.floor})`;
     }
 }
 

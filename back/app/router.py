@@ -7,14 +7,15 @@ from fastapi import APIRouter
 from app.auth.endpoints import auth_router
 from app.cafe.announcement.endpoints import announcement_router
 from app.cafe.endpoints import cafe_router
-from app.cafe.menu.category.endpoints import category_router
-from app.cafe.menu.item.endpoints import item_router
-from app.cafe.order.endpoints import order_router
+from app.menu.category.endpoints import category_router
+from app.menu.item.endpoints import item_router
+from app.order.endpoints import order_router
 from app.cafe.staff.endpoints import staff_router
 from app.event.endpoints import event_router
 from app.interaction.endpoints import interaction_router
 from app.search.endpoints import search_router
 from app.user.endpoints import user_router
+from app.notification.endpoints import notification_router
 
 router = APIRouter()
 router.include_router(cafe_router, tags=["cafes"])
@@ -28,6 +29,7 @@ router.include_router(interaction_router, tags=["interactions"])
 router.include_router(user_router, tags=["users"])
 router.include_router(auth_router, tags=["auth"])
 router.include_router(search_router, tags=["search"])
+router.include_router(notification_router, tags=["notifications"])
 
 
 @router.get("/health", include_in_schema=False)

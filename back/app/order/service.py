@@ -8,9 +8,9 @@ from typing import List, Optional, Union
 from beanie import PydanticObjectId
 from beanie.odm.queries.find import FindMany
 
-from app.cafe.menu.item.models import MenuItem
+from app.menu.item.models import MenuItem
 from app.cafe.models import Cafe
-from app.cafe.order.models import (
+from app.order.models import (
     Order,
     OrderCreate,
     OrderedItem,

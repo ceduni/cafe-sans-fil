@@ -13,7 +13,7 @@ from fastapi_pagination.links import Page
 from pymongo.errors import DuplicateKeyError
 
 from app.auth.dependencies import get_current_user, get_current_user_optional
-from app.cafe.menu.models import MenuUpdate
+from app.menu.models import MenuUpdate
 from app.cafe.models import (
     CafeAggregateOut,
     CafeCreate,

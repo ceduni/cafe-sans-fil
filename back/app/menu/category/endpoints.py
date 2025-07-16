@@ -7,12 +7,12 @@ from typing import List
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 
-from app.cafe.menu.category.models import (
+from app.menu.category.models import (
     MenuCategoryCreate,
     MenuCategoryOut,
     MenuCategoryUpdate,
 )
-from app.cafe.menu.category.service import CategoryService
+from app.menu.category.service import CategoryService
 from app.cafe.permissions import AdminPermission
 from app.cafe.service import CafeService
 from app.models import ErrorResponse

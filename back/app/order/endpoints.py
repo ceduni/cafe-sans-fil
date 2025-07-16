@@ -12,10 +12,10 @@ from fastapi_pagination.ext.beanie import paginate
 from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
-from app.cafe.menu.item.service import ItemService
-from app.cafe.order.enums import OrderStatus
-from app.cafe.order.models import OrderCreate, OrderOut, OrderUpdate
-from app.cafe.order.service import OrderService
+from app.menu.item.service import ItemService
+from app.order.enums import OrderStatus
+from app.order.models import OrderCreate, OrderOut, OrderUpdate
+from app.order.service import OrderService
 from app.cafe.permissions import VolunteerPermission
 from app.cafe.service import CafeService
 from app.models import ErrorResponse

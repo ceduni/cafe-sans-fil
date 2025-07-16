@@ -8,14 +8,12 @@ from beanie import PydanticObjectId
 from beanie.odm.queries.find import AggregationQuery
 
 from app.cafe.announcement.models import Announcement
-from app.cafe.menu.item.models import MenuItem
+from app.menu.item.models import MenuItem
 from app.event.models import Event
 from app.interaction.models import (
-    AnnouncementInteraction,
-    EventInteraction,
     Interaction,
     InteractionType,
-    ItemInteraction,
+    TargetType,
 )
 from app.user.models import User
 
@@ -64,23 +62,11 @@ class InteractionService:
         user: User,
         type: InteractionType,
         item: MenuItem = None,
-        event: Event = None,
-        announcement: Announcement = None,
     ) -> Interaction:
         """Get an interaction."""
-        if item:
-            return await ItemInteraction.find_one(
-                {"user_id": user.id, "item_id": item.id, "type": type}
-            )
-        if announcement:
-            return await AnnouncementInteraction.find_one(
-                {"user_id": user.id, "announcement_id": announcement.id, "type": type}
-            )
-        if event:
-            return await EventInteraction.find_one(
-                {"user_id": user.id, "event_id": event.id, "type": type}
-            )
-        return None
+        return await Interaction.find_one(
+            {"user_id": user.id, "target_id": item.id, "type": type}
+        )
 
     @staticmethod
     async def create(

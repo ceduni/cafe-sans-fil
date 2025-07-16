@@ -7,7 +7,7 @@ import Container from "@/components/Layout/Container";
 import Avatar from "@/components/Avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "react-use-cart";
-import classNames from "classnames";
+import clsx from "clsx";
 
 import SearchBar from "@/components/Search/SearchBar";
 import { useNavigate } from 'react-router-dom';
@@ -91,7 +91,7 @@ const Navbar = () => {
                                 {({ active }) => (
                                   <Link
                                     to={item.href}
-                                    className={classNames({
+                                    className={clsx({
                                       "bg-gray-100": active,
                                       "block px-4 py-2 text-sm text-gray-700": true,
                                     })}>
@@ -104,7 +104,7 @@ const Navbar = () => {
                               {({ active }) => (
                                 <button
                                   onClick={handleLogout}
-                                  className={classNames({
+                                  className={clsx({
                                     "bg-gray-100": active,
                                     "block px-4 py-2 text-sm text-gray-700 w-full text-left": true,
                                   })}>
@@ -120,7 +120,7 @@ const Navbar = () => {
                         <NavLink
                           to={routes.login}
                           className={({ isActive }) =>
-                            classNames({
+                            clsx({
                               "text-gray-900": isActive,
                               "text-gray-500 hover:text-gray-700": !isActive,
                               "text-sm font-medium": true,

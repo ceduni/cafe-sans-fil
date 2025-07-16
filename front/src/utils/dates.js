@@ -1,7 +1,8 @@
-import moment from "moment-timezone";
+import dayjs from "dayjs";
 
 export const UTCToMontrealTime = (date) => {
-  return moment.utc(date).local().format("YYYY-MM-DDTHH:mm:ss");
+  const localDate = new Date(date); // date is assumed to be in UTC
+  return dayjs(localDate).format("YYYY-MM-DDTHH:mm:ss");
 };
 
 const isValidTimestamp = (timestamp) => {
