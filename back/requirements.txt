@@ -9,7 +9,7 @@ python-decouple
 passlib
 python-jose
 python-multipart
-bcrypt
+bcrypt==4.3.0
 faker
 tqdm
 pytest
