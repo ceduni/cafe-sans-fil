@@ -1,8 +1,7 @@
 fastapi
 uvicorn
-motor
 beanie
-motor
+motor==3.6.0
 pymongo
 pydantic_settings
 email-validator
