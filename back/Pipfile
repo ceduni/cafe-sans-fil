@@ -6,9 +6,9 @@ name = "pypi"
 [packages]
 fastapi = "*"
 uvicorn = "*"
-beanie = "==1.11.0"
-motor = "==2.5.1"
-pymongo = "==3.12.3"
+beanie = "*"
+motor = "*"
+pymongo = "*"
 pydantic-settings = "*"
 email-validator = "*"
 python-decouple = "*"
@@ -31,4 +31,4 @@ sendgrid = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.11"
+python_version = "3.12"
