@@ -66,13 +66,19 @@ async def list_announcements(
         **filters,
     )
 
-    # If announcements is an AggregationQuery (backed by Motor), materialize it to a list
-    # before passing to paginate. Motor's latent cursor types aren't awaitable in newer
-    # driver versions and cause the "AsyncIOMotorLatentCommandCursor can't be used in 'await'"
-    # error. Converting to a list ensures pagination works consistently.
     if isinstance(announcements, AggregationQuery):
-        announcements = await announcements.to_list()
-
+        items = await announcements.to_list()
+        # Manual pagination for list
+        params = AnnouncementParams()
+        start = (params.page - 1) * params.size
+        end = start + params.size
+        paginated_items = items[start:end]
+        
+        return Page.create(
+            items=paginated_items,
+            total=len(items),
+            params=params
+        )
     return await paginate(announcements)
 
 
