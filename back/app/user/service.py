@@ -123,6 +123,20 @@ class UserService:
         await user.save()
 
     @staticmethod
+    async def delete_my_account(user: Union[User, dict]):
+        """Delete my user account from the database (hard delete - permanently removes user)."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        # Permanently delete user document from the database
+        await user.delete()
+    
+    @staticmethod
     async def add_cafe(
         user: User,
         cafe: Cafe,
