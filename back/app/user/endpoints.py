@@ -117,6 +117,20 @@ async def update_current_user(
         )
 
 
+@user_router.delete(
+    "/users/@me",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses={
+        401: {"model": ErrorResponse},
+    },
+)
+async def delete_my_account(
+    current_user: User = Depends(get_current_user),
+):
+    """Delete my account permanently from the database. (`MEMBER`)"""
+    await UserService.delete_my_account(current_user)
+
+
 @user_router.get(
     "/users/{id}",
     response_model=UserAggregateOut,

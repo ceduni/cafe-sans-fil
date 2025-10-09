@@ -125,6 +125,12 @@ class UserService:
         await user.save()
 
     @staticmethod
+    async def delete_my_account(user: User):
+        """Delete my user account from the database (hard delete - permanently removes user)."""
+        # Permanently delete user document from the database
+        await user.delete()
+
+    @staticmethod
     async def add_cafe(
         user: User,
         cafe: Cafe,
