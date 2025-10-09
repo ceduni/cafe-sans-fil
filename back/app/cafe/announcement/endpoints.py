@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, sta
 from fastapi_pagination import Params
 from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
+from beanie.odm.queries.find import AggregationQuery
 from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user, get_current_user_optional
@@ -64,6 +65,14 @@ async def list_announcements(
         current_user_id=current_user.id if current_user else None,
         **filters,
     )
+
+    # If announcements is an AggregationQuery (backed by Motor), materialize it to a list
+    # before passing to paginate. Motor's latent cursor types aren't awaitable in newer
+    # driver versions and cause the "AsyncIOMotorLatentCommandCursor can't be used in 'await'"
+    # error. Converting to a list ensures pagination works consistently.
+    if isinstance(announcements, AggregationQuery):
+        announcements = await announcements.to_list()
+
     return await paginate(announcements)
 
 
