@@ -1,7 +1,7 @@
 fastapi
 uvicorn
 motor==3.4.0
-pymongo==4.8.0
+pymongo
 beanie
 fastapi-pagination
 pydantic_settings
