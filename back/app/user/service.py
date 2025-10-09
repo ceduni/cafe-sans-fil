@@ -89,8 +89,14 @@ class UserService:
         return user
 
     @staticmethod
-    async def update(user: User, data: UserUpdate) -> User:
+    async def update(user: Union[User, dict], data: UserUpdate) -> User:
         """Update a user."""
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
         update_data = data.model_dump(exclude_unset=True)
 
         if "password" in update_data:
