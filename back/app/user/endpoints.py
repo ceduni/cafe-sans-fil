@@ -216,6 +216,67 @@ async def delete_my_cafes(
         )
 
 
+@user_router.put(
+        "/users/@me/articles",
+    response_model=UserAggregateOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+)
+async def update_my_articles(
+    article_id: str = Query(..., description="ID of the article to add to favorites"),
+    current_user: User = Depends(get_current_user),
+):
+    """Add an article to my favorites. (`MEMBER`)"""
+    try:
+        updated_user = await UserService.add_articles_favs(current_user, article_id)
+        # Fetch aggregated user with populated cafes
+        return await UserService.get_by_id(updated_user.id, aggregate=True)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
+    
+@user_router.delete(
+    "/users/@me/articles",
+    response_model=UserAggregateOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+)
+async def delete_my_articles(
+    article_id: str = Query(..., description="ID of the article to remove from favorites"),
+    current_user: User = Depends(get_current_user),
+):
+    """Remove an article from my favorites. (`MEMBER`)"""
+    try:
+        updated_user = await UserService.remove_articles_favs(current_user, article_id)
+        # Fetch aggregated user with populated cafes
+        return await UserService.get_by_id(updated_user.id, aggregate=True)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
+
+
 
 @user_router.put(
     "/users/{id}",

@@ -182,6 +182,49 @@ class UserService:
         user.cafe_favs.append(cafe_id)
         await user.save()
         return user
+    
+    @staticmethod
+    async def add_articles_favs(
+        user: Union[User, dict],
+        article_id: str,
+    ) -> User:
+        """Add an article to user's favorite articles."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        if article_id in user.articles_favs:
+            return user
+
+        user.articles_favs.append(article_id)
+        await user.save()
+        return user
+
+    @staticmethod
+    async def remove_articles_favs(
+        user: Union[User, dict],
+        article_id: str,
+    ) -> User:
+        """Remove an article from user's favorite articles."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        if article_id not in user.articles_favs:
+            return user
+
+        user.articles_favs.remove(article_id)
+        await user.save()
+        return user
+        
 
     @staticmethod
     async def remove_favorite_cafe(

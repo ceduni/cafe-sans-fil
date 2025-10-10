@@ -107,6 +107,7 @@ class User(CustomDocument, UserBase):
 
     cafe_ids: List[PydanticObjectId] = Field(default_factory=list)
     cafe_favs: List[str] = Field(default_factory=list)
+    articles_favs: List[str] = Field(default_factory=list)
 
     class Settings:
         """Settings for user document."""
@@ -168,3 +169,4 @@ class UserAggregateOut(UserBase, Id):
 
     cafes: List[UserCafesOut]
     cafe_favs: List[str] = []
+    articles_de_cafes_favs: List[str] = []
