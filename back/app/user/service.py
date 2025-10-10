@@ -187,6 +187,7 @@ class UserService:
     async def add_articles_favs(
         user: Union[User, dict],
         article_id: str,
+        cafe_id: str,
     ) -> User:
         """Add an article to user's favorite articles."""
         # Handle both User object and dict from aggregate
@@ -197,10 +198,14 @@ class UserService:
                 raise ValueError("User not found")
             user = user_obj
         
-        if article_id in user.articles_favs:
+        # Create list [article_id, cafe_id]
+        favorite_entry = [article_id, cafe_id]
+        
+        # Check if already exists
+        if favorite_entry in user.articles_favs:
             return user
 
-        user.articles_favs.append(article_id)
+        user.articles_favs.append(favorite_entry)
         await user.save()
         return user
 
@@ -208,6 +213,7 @@ class UserService:
     async def remove_articles_favs(
         user: Union[User, dict],
         article_id: str,
+        cafe_id: str,
     ) -> User:
         """Remove an article from user's favorite articles."""
         # Handle both User object and dict from aggregate
@@ -218,10 +224,14 @@ class UserService:
                 raise ValueError("User not found")
             user = user_obj
         
-        if article_id not in user.articles_favs:
+        # Create list [article_id, cafe_id]
+        favorite_entry = [article_id, cafe_id]
+        
+        # Check if exists
+        if favorite_entry not in user.articles_favs:
             return user
 
-        user.articles_favs.remove(article_id)
+        user.articles_favs.remove(favorite_entry)
         await user.save()
         return user
         
