@@ -160,7 +160,7 @@ class UserCafesOut(BaseModel, Id):
     slug: Optional[str] = None
     logo_url: Optional[HttpUrl] = None
     banner_url: Optional[HttpUrl] = None
-    role: Literal["OWNER", Role.ADMIN, Role.VOLUNTEER]
+    role: Optional[Literal["OWNER", Role.ADMIN, Role.VOLUNTEER]] = None
 
 
 class UserAggregateOut(UserBase, Id):
