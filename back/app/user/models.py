@@ -167,3 +167,4 @@ class UserAggregateOut(UserBase, Id):
     """User aggregate output model."""
 
     cafes: List[UserCafesOut]
+    cafe_favs: List[str] = []
