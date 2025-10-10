@@ -140,10 +140,18 @@ class UserService:
 
     @staticmethod
     async def add_cafe(
-        user: User,
-        cafe_id: str,
+        user: Union[User, dict],
+        cafe_id: PydanticObjectId,
     ) -> User:
         """Add a cafe to a user."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
         if cafe_id in user.cafe_ids:
             return user
 
@@ -153,10 +161,18 @@ class UserService:
 
     @staticmethod
     async def remove_cafe(
-        user: User,
-        cafe_id: str,
+        user: Union[User, dict],
+        cafe_id: PydanticObjectId,
     ) -> User:
         """Remove a cafe from a user."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
         if cafe_id not in user.cafe_ids:
             return user
 

@@ -166,7 +166,7 @@ async def get_user(
     },
 )
 async def update_my_cafes(
-    cafe_id: str = Query(..., description="ID of the cafe to add"),
+    cafe_id: PydanticObjectId = Query(..., description="ID of the cafe to add"),
     current_user: User = Depends(get_current_user),
 ):
     """Update my cafes. (`MEMBER`)"""
@@ -194,7 +194,7 @@ async def update_my_cafes(
     },
 )
 async def delete_my_cafes(
-    cafe_id: str = Query(..., description="ID of the cafe to remove"),
+    cafe_id: PydanticObjectId = Query(..., description="ID of the cafe to remove"),
     current_user: User = Depends(get_current_user),
 ):
     """Delete my cafes. (`MEMBER`)"""
