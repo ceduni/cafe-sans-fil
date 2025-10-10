@@ -176,4 +176,4 @@ class UserAggregateOut(UserBase, Id):
 
     cafes: List[UserCafesOut]
     cafe_favs: List[str] = []
-    articles_de_cafes_favs: List[List[str]] = []
+    articles_favs: List[List[str]] = []
