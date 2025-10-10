@@ -1,9 +1,8 @@
 fastapi
 uvicorn
+beanie
 motor==3.6.0
 pymongo
-beanie
-fastapi-pagination
 pydantic_settings
 email-validator
 python-decouple
