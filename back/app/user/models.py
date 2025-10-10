@@ -106,6 +106,7 @@ class User(CustomDocument, UserBase):
     is_verified: bool = False
 
     cafe_ids: List[PydanticObjectId] = Field(default_factory=list)
+    cafe_favs: List[str] = Field(default_factory=list)
 
     class Settings:
         """Settings for user document."""

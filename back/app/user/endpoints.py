@@ -166,12 +166,12 @@ async def get_user(
     },
 )
 async def update_my_cafes(
-    cafe_id: str = Query(..., description="ID of the cafe to add"),
+    cafe_id: str = Query(..., description="ID of the cafe to add to favorites"),
     current_user: User = Depends(get_current_user),
 ):
-    """Update my cafes. (`MEMBER`)"""
+    """Add a cafe to my favorites. (`MEMBER`)"""
     try:
-        updated_user = await UserService.add_cafe(current_user, PydanticObjectId(cafe_id))
+        updated_user = await UserService.add_favorite_cafe(current_user, cafe_id)
         # Fetch aggregated user with populated cafes
         return await UserService.get_by_id(updated_user.id, aggregate=True)
     except DuplicateKeyError as e:
@@ -196,12 +196,12 @@ async def update_my_cafes(
     },
 )
 async def delete_my_cafes(
-    cafe_id: str = Query(..., description="ID of the cafe to remove"),
+    cafe_id: str = Query(..., description="ID of the cafe to remove from favorites"),
     current_user: User = Depends(get_current_user),
 ):
-    """Delete my cafes. (`MEMBER`)"""
+    """Remove a cafe from my favorites. (`MEMBER`)"""
     try:
-        updated_user = await UserService.remove_cafe(current_user, PydanticObjectId(cafe_id))
+        updated_user = await UserService.remove_favorite_cafe(current_user, cafe_id)
         # Fetch aggregated user with populated cafes
         return await UserService.get_by_id(updated_user.id, aggregate=True)
     except DuplicateKeyError as e:

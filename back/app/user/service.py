@@ -140,10 +140,34 @@ class UserService:
 
     @staticmethod
     async def add_cafe(
-        user: Union[User, dict],
-        cafe_id: PydanticObjectId,
-    ) -> User:
+        user: User,
+        cafe: Cafe,
+    ) -> None:
         """Add a cafe to a user."""
+        if cafe.id in user.cafe_ids:
+            return
+
+        user.cafe_ids.append(cafe.id)
+        await user.save()
+
+    @staticmethod
+    async def remove_cafe(
+        user: User,
+        cafe: Cafe,
+    ) -> None:
+        """Remove a cafe from a user."""
+        if cafe.id not in user.cafe_ids:
+            return
+
+        user.cafe_ids.remove(cafe.id)
+        await user.save()
+
+    @staticmethod
+    async def add_favorite_cafe(
+        user: Union[User, dict],
+        cafe_id: str,
+    ) -> User:
+        """Add a cafe to user's favorites."""
         # Handle both User object and dict from aggregate
         if isinstance(user, dict):
             user_id = user.get("id") or user.get("_id")
@@ -152,19 +176,19 @@ class UserService:
                 raise ValueError("User not found")
             user = user_obj
         
-        if cafe_id in user.cafe_ids:
+        if cafe_id in user.cafe_favs:
             return user
 
-        user.cafe_ids.append(cafe_id)
+        user.cafe_favs.append(cafe_id)
         await user.save()
         return user
 
     @staticmethod
-    async def remove_cafe(
+    async def remove_favorite_cafe(
         user: Union[User, dict],
-        cafe_id: PydanticObjectId,
+        cafe_id: str,
     ) -> User:
-        """Remove a cafe from a user."""
+        """Remove a cafe from user's favorites."""
         # Handle both User object and dict from aggregate
         if isinstance(user, dict):
             user_id = user.get("id") or user.get("_id")
@@ -173,10 +197,10 @@ class UserService:
                 raise ValueError("User not found")
             user = user_obj
         
-        if cafe_id not in user.cafe_ids:
+        if cafe_id not in user.cafe_favs:
             return user
 
-        user.cafe_ids.remove(cafe_id)
+        user.cafe_favs.remove(cafe_id)
         await user.save()
         return user
 
