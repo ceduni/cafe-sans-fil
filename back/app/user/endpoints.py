@@ -155,6 +155,63 @@ async def get_user(
         )
     return user
 
+@user_router.put(
+    "/users/@me/cafes",
+    response_model=UserOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+)
+async def update_my_cafes(
+    cafe_id: str = Query(..., description="ID of the cafe to add"),
+    current_user: User = Depends(get_current_user),
+):
+    """Update my cafes. (`MEMBER`)"""
+    try:
+        return await UserService.add_cafe(current_user, PydanticObjectId(cafe_id))
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
+
+@user_router.delete(
+    "/users/@me/cafes",
+    response_model=UserOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+)
+async def delete_my_cafes(
+    cafe_id: str = Query(..., description="ID of the cafe to remove"),
+    current_user: User = Depends(get_current_user),
+):
+    """Delete my cafes. (`MEMBER`)"""
+    try:
+        return await UserService.remove_cafe(current_user, PydanticObjectId(cafe_id))
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
+
+
 
 @user_router.put(
     "/users/{id}",

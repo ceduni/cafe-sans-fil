@@ -141,26 +141,28 @@ class UserService:
     @staticmethod
     async def add_cafe(
         user: User,
-        cafe: Cafe,
-    ) -> None:
+        cafe_id: str,
+    ) -> User:
         """Add a cafe to a user."""
-        if cafe.id in user.cafe_ids:
-            return
+        if cafe_id in user.cafe_ids:
+            return user
 
-        user.cafe_ids.append(cafe.id)
+        user.cafe_ids.append(cafe_id)
         await user.save()
+        return user
 
     @staticmethod
     async def remove_cafe(
         user: User,
-        cafe: Cafe,
-    ) -> None:
+        cafe_id: str,
+    ) -> User:
         """Remove a cafe from a user."""
-        if cafe.id not in user.cafe_ids:
-            return
+        if cafe_id not in user.cafe_ids:
+            return user
 
-        user.cafe_ids.remove(cafe.id)
+        user.cafe_ids.remove(cafe_id)
         await user.save()
+        return user
 
     @staticmethod
     async def create_many(datas: List[UserCreate]) -> List[PydanticObjectId]:
