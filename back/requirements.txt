@@ -18,6 +18,5 @@ fastapi-mail
 apscheduler
 isort
 black
-fastapi-pagination
 python-slugify
 sendgrid

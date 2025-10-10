@@ -91,12 +91,14 @@ class UserService:
     @staticmethod
     async def update(user: Union[User, dict], data: UserUpdate) -> User:
         """Update a user."""
+        # Handle case where user is passed as dict (from aggregate queries)
         if isinstance(user, dict):
             user_id = user.get("id") or user.get("_id")
             user_obj = await User.get(PydanticObjectId(user_id))
             if not user_obj:
                 raise ValueError("User not found")
             user = user_obj
+
         update_data = data.model_dump(exclude_unset=True)
 
         if "password" in update_data:
@@ -135,7 +137,7 @@ class UserService:
         
         # Permanently delete user document from the database
         await user.delete()
-    
+
     @staticmethod
     async def add_cafe(
         user: User,
@@ -159,6 +161,48 @@ class UserService:
 
         user.cafe_ids.remove(cafe.id)
         await user.save()
+
+    @staticmethod
+    async def add_favorite_cafe(
+        user: Union[User, dict],
+        cafe_id: str,
+    ) -> User:
+        """Add a cafe to user's favorites."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        if cafe_id in user.cafe_favs:
+            return user
+
+        user.cafe_favs.append(cafe_id)
+        await user.save()
+        return user
+
+    @staticmethod
+    async def remove_favorite_cafe(
+        user: Union[User, dict],
+        cafe_id: str,
+    ) -> User:
+        """Remove a cafe from user's favorites."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        if cafe_id not in user.cafe_favs:
+            return user
+
+        user.cafe_favs.remove(cafe_id)
+        await user.save()
+        return user
 
     @staticmethod
     async def create_many(datas: List[UserCreate]) -> List[PydanticObjectId]:

@@ -117,6 +117,20 @@ async def update_current_user(
         )
 
 
+@user_router.delete(
+    "/users/@me",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses={
+        401: {"model": ErrorResponse},
+    },
+)
+async def delete_my_account(
+    current_user: User = Depends(get_current_user),
+):
+    """Delete my account permanently from the database. (`MEMBER`)"""
+    await UserService.delete_my_account(current_user)
+
+
 @user_router.get(
     "/users/{id}",
     response_model=UserAggregateOut,
@@ -141,18 +155,67 @@ async def get_user(
         )
     return user
 
-@user_router.delete(
-    "/users/@me",
-    status_code=status.HTTP_204_NO_CONTENT,
+@user_router.put(
+    "/users/@me/cafes",
+    response_model=UserAggregateOut,
     responses={
         401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
     },
 )
-async def delete_my_account(
+async def update_my_cafes(
+    cafe_id: str = Query(..., description="ID of the cafe to add to favorites"),
     current_user: User = Depends(get_current_user),
 ):
-    """Delete my account permanently from the database. (`MEMBER`)"""
-    await UserService.delete_my_account(current_user)
+    """Add a cafe to my favorites. (`MEMBER`)"""
+    try:
+        updated_user = await UserService.add_favorite_cafe(current_user, cafe_id)
+        # Fetch aggregated user with populated cafes
+        return await UserService.get_by_id(updated_user.id, aggregate=True)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
+
+@user_router.delete(
+    "/users/@me/cafes",
+    response_model=UserAggregateOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+)
+async def delete_my_cafes(
+    cafe_id: str = Query(..., description="ID of the cafe to remove from favorites"),
+    current_user: User = Depends(get_current_user),
+):
+    """Remove a cafe from my favorites. (`MEMBER`)"""
+    try:
+        updated_user = await UserService.remove_favorite_cafe(current_user, cafe_id)
+        # Fetch aggregated user with populated cafes
+        return await UserService.get_by_id(updated_user.id, aggregate=True)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
+
+
 
 @user_router.put(
     "/users/{id}",
