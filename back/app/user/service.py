@@ -3,7 +3,7 @@ Module for handling user-related operations.
 """
 
 from typing import List, Literal, Optional, Union, overload
-
+from fastapi import HTTPException
 from beanie import PydanticObjectId
 from beanie.odm.queries.find import FindMany
 from pymongo import ASCENDING, DESCENDING
@@ -17,9 +17,7 @@ class UserService:
     """Service class for User and Auth operations."""
 
     @staticmethod
-    async def get_all(
-        to_list: bool = True, **filters: dict
-    ) -> Union[FindMany[User], List[User]]:
+    async def get_all(to_list: bool = True, **filters: dict) -> Union[FindMany[User], List[User]]:
         """Get users."""
         sort_by = filters.pop("sort_by", "last_name")
         filters["is_active"] = True
@@ -37,23 +35,14 @@ class UserService:
 
     @overload
     @staticmethod
-    async def get_by_id(
-        id: PydanticObjectId,
-        aggregate: Literal[False] = False,
-    ) -> Optional[User]: ...
+    async def get_by_id(id: PydanticObjectId, aggregate: Literal[False] = False) -> Optional[User]: ...
 
     @overload
     @staticmethod
-    async def get_by_id(
-        id: PydanticObjectId,
-        aggregate: Literal[True] = True,
-    ) -> Optional[dict]: ...
+    async def get_by_id(id: PydanticObjectId, aggregate: Literal[True] = True) -> Optional[dict]: ...
 
     @staticmethod
-    async def get_by_id(
-        id: PydanticObjectId,
-        aggregate: bool = False,
-    ) -> Union[Optional[User], Optional[dict]]:
+    async def get_by_id(id: PydanticObjectId, aggregate: bool = False) -> Union[Optional[User], Optional[dict]]:
         """Get a user by id."""
         if not aggregate:
             return await User.find_one({"_id": id, "is_active": True})
@@ -117,10 +106,76 @@ class UserService:
         await user.save()
 
     @staticmethod
-    async def add_cafe(
-        user: User,
-        cafe: Cafe,
-    ) -> None:
+    async def toggle_favorite_cafe(user: User, cafe_id: PydanticObjectId):
+        if cafe_id in user.favorite_cafes:
+            user.favorite_cafes.remove(cafe_id)
+            action = "removed"
+        else:
+            user.favorite_cafes.append(cafe_id)
+            action = "added"
+
+        await user.save()
+        return { "cafe_id": cafe_id, "action": action }
+
+    @staticmethod
+    async def toggle_favorite_item(user: User, item_id: PydanticObjectId):
+        if item_id in user.favorite_items:
+            user.favorite_items.remove(item_id)
+            action = "removed"
+        else:
+            user.favorite_items.append(item_id)
+            action = "added"
+
+        await user.save()
+        return { "item_id": item_id, "action": action }
+    
+    
+    @staticmethod
+    async def add_favorite_cafe(user: User, cafe_ids: list[PydanticObjectId]) -> None:
+        """Add a cafe to the user list of favorite cafe."""
+        existing = set(user.favorite_cafes)
+        new_favs = list(existing.union(cafe_ids))
+        user.favorite_cafes = new_favs
+        await user.save()
+        
+        return user.favorite_cafes
+        
+    
+    @staticmethod
+    async def remove_favorite_cafe(user: User, cafe_ids: list[PydanticObjectId]) -> None:
+        """Remove a cafe to the user list of favorite cafe."""
+        existing = set(user.favorite_cafes)
+        updated_favs  = list(existing.difference(cafe_ids))
+        user.favorite_cafes = updated_favs
+        await user.save()
+        
+        return user.favorite_cafes
+
+
+    @staticmethod
+    async def add_favorite_item(user: User, item_ids: list[PydanticObjectId]) -> None:
+        """Add an item to the user list of favorite items."""
+        existing = set(user.favorite_items)
+        new_favs = list(existing.union(item_ids))
+        user.favorite_items = new_favs
+        await user.save()
+        
+        return user.favorite_items
+        
+    
+    @staticmethod
+    async def remove_favorite_item(user: User, item_ids: list[PydanticObjectId]) -> None:
+        """Remove an item to the user list of favorite items."""
+        existing = set(user.favorite_items)
+        updated_favs  = list(existing.difference(item_ids))
+        user.favorite_items = updated_favs
+        await user.save()
+        
+        return user.favorite_items
+
+
+    @staticmethod
+    async def add_cafe(user: User, cafe: Cafe) -> None:
         """Add a cafe to a user."""
         if cafe.id in user.cafe_ids:
             return
@@ -128,11 +183,9 @@ class UserService:
         user.cafe_ids.append(cafe.id)
         await user.save()
 
+
     @staticmethod
-    async def remove_cafe(
-        user: User,
-        cafe: Cafe,
-    ) -> None:
+    async def remove_cafe(user: User, cafe: Cafe) -> None:
         """Remove a cafe from a user."""
         if cafe.id not in user.cafe_ids:
             return
@@ -214,10 +267,7 @@ class UserService:
         return None
 
     @staticmethod
-    def _build_pipeline(
-        filters: Optional[dict] = None,
-        sort_by: Optional[str] = None,
-    ) -> list:
+    def _build_pipeline(filters: Optional[dict] = None, sort_by: Optional[str] = None) -> list:
         """Build aggregation pipeline."""
         pipeline = []
         filters = filters or {}

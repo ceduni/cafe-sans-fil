@@ -13,6 +13,7 @@ from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user
 from app.cafe.announcement.service import AnnouncementService
+from app.cafe.service import CafeService
 from app.menu.item.service import ItemService
 from app.event.service import EventService
 from app.interaction.enums import InteractionType
@@ -121,6 +122,60 @@ async def list_event_interactions(
     events = await InteractionService.get_all(to_list=False, **filters)
 
     return await paginate(events)
+
+
+@interaction_router.get(
+    "/cafes/{id}/interactions/{interaction}",
+    response_model=InteractionPage[UserOut],
+)
+async def list_cafe_interactions(
+    request: Request,
+    id: PydanticObjectId = Path(..., description="ID of the event"),
+    interaction: InteractionType = Path(..., description="Type of the interaction"),
+):
+    """Get a list of event interactions."""
+    cafe = await CafeService.get(id=id)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this ID does not exist."}],
+        )
+
+    filters = parse_query_params(dict(request.query_params))
+    filters["cafe_id"] = id
+    filters["type"] = interaction.upper()
+
+    cafes = await InteractionService.get_all(to_list=False, **filters)
+
+    return await paginate(cafes)
+
+
+@interaction_router.post(
+    "/cafes/{id}/interactions/{interaction}/@me",
+    responses={
+        401: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
+)
+async def create_cafe_interaction(
+    id: PydanticObjectId = Path(..., description="ID of the menu item"),
+    interaction: Literal[InteractionType.LIKE, InteractionType.DISLIKE] = Path(..., description="Type of the interaction"),
+    current_user: dict = Depends(get_current_user),
+):
+    """Create an interaction for a cafe."""
+    cafe = await CafeService.get(id=id)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this ID does not exist."}],
+        )
+
+    interaction = interaction.upper()
+    if await InteractionService.get(user=current_user, type=interaction, cafe=cafe,):
+        return
+
+    await InteractionService.create(user=current_user, type=interaction, cafe=cafe,)
+
 
 
 @interaction_router.post(

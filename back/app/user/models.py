@@ -10,7 +10,7 @@ import pymongo
 from beanie import PydanticObjectId
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, field_validator
 from pymongo import IndexModel
-
+from enum import Enum
 from app.cafe.staff.enums import Role
 from app.models import CustomDocument, Id
 
@@ -97,7 +97,9 @@ class User(CustomDocument, UserBase):
     """User document model."""
 
     wished_items: List[str] = Field(default_factory=list)
+    favorites: List[PydanticObjectId] = Field(default_factory=list)
     favorite_cafes: List[PydanticObjectId] = Field(default_factory=list)
+    favorite_items: List[PydanticObjectId] = Field(default_factory=list)
     hashed_password: str
     login_attempts: int = Field(default=0)
     last_login_attempt: Optional[datetime] = Field(default=None)
@@ -134,9 +136,7 @@ class UserUpdate(BaseModel):
 
     username: Optional[str] = Field(None, min_length=3, max_length=20)
     email: Optional[EmailStr] = None
-    matricule: Optional[str] = Field(
-        None, min_length=6, max_length=8, examples=["123456"]
-    )
+    matricule: Optional[str] = Field(None, min_length=6, max_length=8, examples=["123456"])
     password: Optional[str] = Field(None, min_length=6, max_length=100)
     first_name: Optional[str] = Field(None, min_length=2, max_length=30)
     last_name: Optional[str] = Field(None, min_length=2, max_length=30)
@@ -144,6 +144,30 @@ class UserUpdate(BaseModel):
 
     # @field_validator('password')
     # ...
+    
+    
+
+class FavoriteType(str, Enum):
+    CAFE = "cafe"
+    ITEM = "item"
+
+
+class FavoriteRequest(BaseModel):
+    id: PydanticObjectId = Field(..., description="ID of the resource to favorite")
+    type: FavoriteType = Field(..., description="Type of the resource (cafe or item)")
+    
+class BulkFavoriteRequest(BaseModel):
+    type: FavoriteType
+    ids: List[PydanticObjectId]
+    
+    
+class FavoriteCafeRequest(BaseModel):
+    cafe_id: PydanticObjectId = Field(..., description="ID of the café to add or remove")
+    
+class FavoriteResponse(BaseModel):
+    type: FavoriteType
+    ids: List[PydanticObjectId]
+    status: Literal["added", "removed", "toggled"]
 
 
 class UserOut(UserBase, Id):

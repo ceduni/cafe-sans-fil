@@ -2,7 +2,7 @@
 Module for handling user-related routes.
 """
 
-from typing import Optional, TypeVar
+from typing import Optional, TypeVar, List
 
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
@@ -15,7 +15,7 @@ from pymongo.errors import DuplicateKeyError
 from app.auth.dependencies import get_current_user, get_current_user_aggregate
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
-from app.user.models import User, UserAggregateOut, UserOut, UserUpdate
+from app.user.models import User, UserAggregateOut, UserOut, UserUpdate, FavoriteRequest, FavoriteType, BulkFavoriteRequest, FavoriteResponse
 from app.user.service import UserService
 
 T = TypeVar("T")
@@ -38,34 +38,6 @@ UserPage = CustomizedPage[
 user_router = APIRouter()
 
 
-# Deprecated
-@user_router.get(
-    "/users",
-    response_model=UserPage[UserOut],
-    responses={
-        401: {"model": ErrorResponse},
-    },
-    deprecated=True,
-)
-async def list_users(
-    request: Request,
-    current_user: User = Depends(get_current_user),
-):
-    """Get a list of users. (`MEMBER`)"""
-    filters = parse_query_params(dict(request.query_params))
-    users = await UserService.get_all(to_list=False, **filters)
-    return await paginate(users)
-
-
-# Deprecated
-@user_router.get(
-    "/users/me",
-    response_model=UserAggregateOut,
-    responses={
-        401: {"model": ErrorResponse},
-    },
-    deprecated=True,
-)
 @user_router.get(
     "/users/@me",
     response_model=UserAggregateOut,
@@ -80,16 +52,133 @@ async def get_current_user(
     return current_user
 
 
-# Deprecated
-@user_router.put(
-    "/users/me",
-    response_model=UserOut,
-    responses={
-        401: {"model": ErrorResponse},
-        409: {"model": ErrorConflictResponse},
-    },
-    deprecated=True,
+@user_router.get(
+    "/users/@me/favorites",
+    summary="Get current user's favorite cafes or items",
+    response_model=List[PydanticObjectId],
+    responses={ 401: {"model": ErrorResponse} },
 )
+async def get_current_user_favorites(
+    type: FavoriteType = Query(..., description="Type of favorite to retrieve"),
+    current_user: User = Depends(get_current_user_aggregate),
+):
+    if type == FavoriteType.CAFE:
+        return current_user.favorite_cafes
+    if type == FavoriteType.ITEM:
+        return current_user.favorite_items
+
+@user_router.post(
+    "/users/@me/favorites",
+    summary="Add a single favorite",
+    response_model=FavoriteResponse,
+    responses={401: {"model": ErrorResponse}},
+)
+async def add_favorites(
+    data: FavoriteRequest,
+    current_user: User = Depends(get_current_user_aggregate),
+):
+    if data.type == FavoriteType.CAFE:
+        await UserService.add_favorite_cafe(current_user, [data.id])
+    if data.type == FavoriteType.ITEM:
+        await UserService.add_favorite_item(current_user, [data.id])
+    else:
+        raise HTTPException(status_code=400, detail="Invalid favorite type.")
+
+    return FavoriteResponse(
+        type = data.type,
+        ids = [data.id],
+        status="added"
+    )
+
+@user_router.delete(
+    "/users/@me/favorites",
+    response_model=FavoriteResponse,
+    responses={401: {"model": ErrorResponse}},
+)
+async def remove_favorites(
+    data: FavoriteRequest,
+    current_user: User = Depends(get_current_user_aggregate),
+):
+    if data.type == FavoriteType.CAFE:
+        await UserService.remove_favorite_cafe(current_user, [data.id])
+    if data.type == FavoriteType.ITEM:
+        await UserService.remove_favorite_item(current_user, [data.id])
+    else:
+        raise HTTPException(status_code=400, detail="Invalid favorite type.")
+
+    return FavoriteResponse(
+        type = data.type,
+        ids = [data.id],
+        status="removed"
+    )
+
+
+@user_router.patch(
+    "/users/@me/favorites",
+    response_model=FavoriteResponse,
+    summary="Toggle a favorite item or cafe",
+)
+async def toggle_user_favorite(
+    data: FavoriteRequest,
+    current_user: User = Depends(get_current_user_aggregate),
+):
+    if data.type == FavoriteType.CAFE:
+        result = await UserService.toggle_favorite_cafe(current_user, data.id)
+    if data.type == FavoriteType.ITEM:
+        result = await UserService.toggle_favorite_item(current_user, data.id)
+    else:
+        raise HTTPException(status_code=400, detail="Invalid favorite type.")
+
+    return FavoriteResponse(
+        type = data.type,
+        ids = [data.id],
+        status = result.action
+    )
+    
+    
+@user_router.post(
+    "/users/@me/favorites/bulk",
+    response_model=FavoriteResponse,
+)
+async def add_bulk_favorites(
+    data: BulkFavoriteRequest,
+    current_user: User = Depends(get_current_user_aggregate),
+):
+    if data.type == FavoriteType.CAFE:
+        await UserService.add_favorite_cafe(current_user, data.ids)
+    if data.type == FavoriteType.ITEM:
+        await UserService.add_favorite_item(current_user, data.ids)
+    else:
+        raise HTTPException(status_code=400, detail="Invalid favorite type.")
+    
+    return FavoriteResponse(
+        type = data.type,
+        ids = data.ids,
+        status="added"
+    )
+
+@user_router.delete(
+    "/users/@me/favorites/bulk",
+    response_model=FavoriteResponse,
+)
+async def remove_bulk_favorites(
+    data: BulkFavoriteRequest,
+    current_user: User = Depends(get_current_user_aggregate),
+):
+    if data.type == FavoriteType.CAFE:
+        await UserService.remove_favorite_cafe(current_user, data.ids)
+    if data.type == FavoriteType.ITEM:
+        await UserService.remove_favorite_item(current_user, data.ids)
+    else:
+        raise HTTPException(status_code=400, detail="Invalid favorite type.")
+    
+    return FavoriteResponse(
+        type = data.type,
+        ids = data.ids,
+        status="removed"
+    )
+
+
 @user_router.put(
     "/users/@me",
     response_model=UserOut,

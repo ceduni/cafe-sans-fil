@@ -8,6 +8,7 @@ from beanie import PydanticObjectId
 from beanie.odm.queries.find import AggregationQuery
 
 from app.cafe.announcement.models import Announcement
+from app.cafe.models import Cafe
 from app.menu.item.models import MenuItem
 from app.event.models import Event
 from app.interaction.models import (
@@ -73,6 +74,7 @@ class InteractionService:
         user: User,
         type: InteractionType,
         item: MenuItem = None,
+        cafe: Cafe = None,
         event: Event = None,
         announcement: Announcement = None,
     ) -> None:
@@ -113,6 +115,21 @@ class InteractionService:
                 event.id,
                 EventInteraction,
                 "event_id",
+                type,
+            )
+
+            interaction = EventInteraction(
+                user_id=user.id,
+                event_id=event.id,
+                type=type,
+            )
+            await interaction.insert()
+        if cafe:
+            await InteractionService._handle_mutual_exclusivity(
+                user,
+                cafe.id,
+                EventInteraction,
+                "cafe_id",
                 type,
             )
 
