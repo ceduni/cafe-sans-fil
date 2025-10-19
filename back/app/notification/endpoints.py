@@ -1,57 +1,65 @@
 """
-Module for handling interaction-related routes.
+Module for handling notification-related routes.
 """
 
-from typing import Literal, Optional, TypeVar
+from typing import List
 
-from beanie import PydanticObjectId
-from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
-from fastapi_pagination import Params
-from fastapi_pagination.customization import CustomizedPage, UseParams
-from fastapi_pagination.ext.beanie import paginate
-from fastapi_pagination.links import Page
+from fastapi import APIRouter, HTTPException, Path, status
 
-from app.auth.dependencies import get_current_user
-from app.cafe.announcement.service import AnnouncementService
-from app.menu.item.service import ItemService
-from app.event.service import EventService
-from app.interaction.enums import InteractionType
-from app.interaction.service import InteractionService
-from app.models import ErrorResponse
-from app.service import parse_query_params
-from app.user.models import UserOut
-
-T = TypeVar("T")
-
-
-class InteractionParams(Params):
-    """Custom pagination parameters."""
-
-    size: int = Query(20, ge=1, le=100, description="Page size")
-    page: int = Query(1, ge=1, description="Page number")
-
-
-InteractionPage = CustomizedPage[
-    Page[T],
-    UseParams(InteractionParams),
-]
+from app.notification.models import (
+    NotificationToken,
+    SentNotification,
+    SendNotificationRequest,
+)
+from app.notification.service import NotificationService
 
 
 notification_router = APIRouter()
 
 
-@notification_router.get("/users/{id}/notifications/{interaction}", response_model=InteractionPage[UserOut])
-async def list_notifications(
-    request: Request,
-    id: PydanticObjectId = Path(..., description="ID of the menu item"),
-    interaction: Literal[InteractionType.LIKE, InteractionType.DISLIKE] = Path(
-        ..., description="Type of the interaction"
-    ),
+@notification_router.post(
+    "/notifications/register/{expo_token}",
+    response_model=NotificationToken,
+    status_code=status.HTTP_201_CREATED,
+)
+async def register_notification_token(
+    expo_token: str = Path(..., description="Expo push token to register"),
 ):
-    """Get a list of item interactions."""
-    user = await get_current_user(request)
-    NotificationService.get_all(
-        to_list=True,
+    """Register an Expo push token for notifications."""
+    try:
+        token = await NotificationService.register_token(expo_token)
+        return token
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to register token: {str(e)}",
+        )
+
+
+@notification_router.post("/notifications/send", status_code=status.HTTP_200_OK)
+async def send_notification(request: SendNotificationRequest):
+    """Send push notification to all registered devices."""
+    result = await NotificationService.send_push_notification(
+        title=request.title,
+        body=request.body,
     )
-    return await paginate(items)
+    
+    if result.get("status") == "error":
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=result.get("message"),
+        )
+    
+    return result
+
+
+@notification_router.get(
+    "/notifications",
+    response_model=List[SentNotification],
+    status_code=status.HTTP_200_OK,
+)
+async def get_notifications():
+    """Get all sent notifications."""
+    notifications = await NotificationService.get_all_notifications()
+    return notifications
 

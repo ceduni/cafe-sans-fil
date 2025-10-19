@@ -60,4 +60,41 @@ class UserNotification(BaseModel):
     delivered_at: datetime
 
     class Config:
-        orm_mode = True 
+        orm_mode = True
+
+
+class NotificationToken(CustomDocument):
+    """Model for storing Expo push tokens."""
+
+    id: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
+    expo_token: str = Field(..., description="Expo push token", unique=True)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+
+    class Settings:
+        """Settings for notification token document."""
+        name = "notification_ids"
+        is_root = True
+        indexes = [
+            IndexModel("expo_token", unique=True),
+        ]
+
+
+class SentNotification(CustomDocument):
+    """Model for storing sent push notifications."""
+
+    id: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
+    title: str = Field(..., description="Notification title")
+    body: str = Field(..., description="Notification body")
+    sent_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+
+    class Settings:
+        """Settings for sent notification document."""
+        name = "notifs"
+        is_root = True
+
+
+class SendNotificationRequest(BaseModel):
+    """Request model for sending notifications."""
+    title: str = Field(..., description="Notification title")
+    body: str = Field(..., description="Notification body") 

@@ -12,6 +12,7 @@ python-multipart
 bcrypt==4.3.0
 faker
 tqdm
+fastapi_pagination
 pytest
 httpx
 fastapi-mail
