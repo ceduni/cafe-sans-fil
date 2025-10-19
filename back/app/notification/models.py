@@ -79,37 +79,43 @@ class UserNotification(View):
     created_at: datetime
     read: bool
     delivered_at: datetime
-    read_at: Optional[datetime]
-        
+
+    class Config:
+        orm_mode = True
+
+
+class NotificationToken(CustomDocument):
+    """Model for storing Expo push tokens."""
+
+    id: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
+    expo_token: str = Field(..., description="Expo push token", unique=True)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+
     class Settings:
-        name: str = "user_notifications_view"
-        source = "notification_status"
-        is_view = True
-        @classmethod
-        def pipeline(cls):
-            return UserNotificationPipelineBuilder(cls).build_pipeline()
-        # pipeline = UserNotificationPipelineBuilder().build_pipeline()
-        # pipeline = [
-        #     {
-        #         "$lookup": {
-        #             "from": "notification_messages",
-        #             "localField": "message_id",
-        #             "foreignField": "_id",
-        #             "as": "message"
-        #         }
-        #     },
-        #     {
-        #         "$project": {
-        #             "user_id": 1,
-        #             "read": 1,
-        #             "delivered_at": 1,
-        #             "message_id": "$message._id",
-        #             "title": "$message.title",
-        #             "message": "$message.message",
-        #             "type": "$message.type",
-        #             "action": "$message.action",
-        #             "created_at": "$message.created_at",
-        #             "read_at": "$message.read_at"
-        #         }
-        #     },
-        # ]
+        """Settings for notification token document."""
+        name = "notification_ids"
+        is_root = True
+        indexes = [
+            IndexModel("expo_token", unique=True),
+        ]
+
+
+class SentNotification(CustomDocument):
+    """Model for storing sent push notifications."""
+
+    id: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
+    title: str = Field(..., description="Notification title")
+    body: str = Field(..., description="Notification body")
+    sent_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+
+    class Settings:
+        """Settings for sent notification document."""
+        name = "notifs"
+        is_root = True
+
+
+class SendNotificationRequest(BaseModel):
+    """Request model for sending notifications."""
+    title: str = Field(..., description="Notification title")
+    body: str = Field(..., description="Notification body") 

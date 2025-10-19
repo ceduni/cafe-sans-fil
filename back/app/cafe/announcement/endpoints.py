@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, sta
 from fastapi_pagination import Params
 from fastapi_pagination.customization import CustomizedPage, UseParams
 from fastapi_pagination.ext.beanie import paginate
+from beanie.odm.queries.find import AggregationQuery
 from fastapi_pagination.links import Page
 
 from app.auth.dependencies import get_current_user, get_current_user_optional
@@ -64,6 +65,20 @@ async def list_announcements(
         current_user_id=current_user.id if current_user else None,
         **filters,
     )
+
+    if isinstance(announcements, AggregationQuery):
+        items = await announcements.to_list()
+        # Manual pagination for list
+        params = AnnouncementParams()
+        start = (params.page - 1) * params.size
+        end = start + params.size
+        paginated_items = items[start:end]
+        
+        return Page.create(
+            items=paginated_items,
+            total=len(items),
+            params=params
+        )
     return await paginate(announcements)
 
 

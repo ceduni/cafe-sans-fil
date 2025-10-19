@@ -78,8 +78,16 @@ class UserService:
         return user
 
     @staticmethod
-    async def update(user: User, data: UserUpdate) -> User:
+    async def update(user: Union[User, dict], data: UserUpdate) -> User:
         """Update a user."""
+        # Handle case where user is passed as dict (from aggregate queries)
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+
         update_data = data.model_dump(exclude_unset=True)
 
         if "password" in update_data:
@@ -175,6 +183,20 @@ class UserService:
 
 
     @staticmethod
+    async def delete_my_account(user: Union[User, dict]):
+        """Delete my user account from the database (hard delete - permanently removes user)."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        # Permanently delete user document from the database
+        await user.delete()
+
+    @staticmethod
     async def add_cafe(user: User, cafe: Cafe) -> None:
         """Add a cafe to a user."""
         if cafe.id in user.cafe_ids:
@@ -192,6 +214,101 @@ class UserService:
 
         user.cafe_ids.remove(cafe.id)
         await user.save()
+
+    @staticmethod
+    async def add_favorite_cafe(
+        user: Union[User, dict],
+        cafe_id: str,
+    ) -> User:
+        """Add a cafe to user's favorites."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        if cafe_id in user.cafe_favs:
+            return user
+
+        user.cafe_favs.append(cafe_id)
+        await user.save()
+        return user
+    
+    @staticmethod
+    async def add_articles_favs(
+        user: Union[User, dict],
+        article_id: str,
+        cafe_id: str,
+    ) -> User:
+        """Add an article to user's favorite articles."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        # Create list [article_id, cafe_id]
+        favorite_entry = [article_id, cafe_id]
+        
+        # Check if already exists
+        if favorite_entry in user.articles_favs:
+            return user
+
+        user.articles_favs.append(favorite_entry)
+        await user.save()
+        return user
+
+    @staticmethod
+    async def remove_articles_favs(
+        user: Union[User, dict],
+        article_id: str,
+        cafe_id: str,
+    ) -> User:
+        """Remove an article from user's favorite articles."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        # Create list [article_id, cafe_id]
+        favorite_entry = [article_id, cafe_id]
+        
+        # Check if exists
+        if favorite_entry not in user.articles_favs:
+            return user
+
+        user.articles_favs.remove(favorite_entry)
+        await user.save()
+        return user
+        
+
+    @staticmethod
+    async def remove_favorite_cafe(
+        user: Union[User, dict],
+        cafe_id: str,
+    ) -> User:
+        """Remove a cafe from user's favorites."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        if cafe_id not in user.cafe_favs:
+            return user
+
+        user.cafe_favs.remove(cafe_id)
+        await user.save()
+        return user
 
     @staticmethod
     async def create_many(datas: List[UserCreate]) -> List[PydanticObjectId]:

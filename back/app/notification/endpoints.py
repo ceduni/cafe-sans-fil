@@ -1,73 +1,65 @@
 """
-Module for handling interaction-related routes.
+Module for handling notification-related routes.
 """
 
-from typing import Literal, Optional, TypeVar
+from typing import List
 
-from beanie import PydanticObjectId
-from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
-from fastapi_pagination import Params
-from fastapi_pagination.customization import CustomizedPage, UseParams
-from fastapi_pagination.ext.beanie import paginate
-from fastapi_pagination.links import Page
+from fastapi import APIRouter, HTTPException, Path, status
 
-from app.auth.dependencies import get_current_user
-from app.notification.models import UserNotification
-from app.notification.notification_message_service import NotificationMessageService
-from app.notification.notification_status_service import NotificationStatusService
-from app.notification.user_notification_service import UserNotificationService
-from app.service import parse_query_params
-from app.user.models import User
-
-T = TypeVar("T")
-
-
-class InteractionParams(Params):
-    """Custom pagination parameters."""
-
-    size: int = Query(20, ge=1, le=100, description="Page size")
-    page: int = Query(1, ge=1, description="Page number")
-
-
-InteractionPage = CustomizedPage[
-    Page[T],
-    UseParams(InteractionParams),
-]
+from app.notification.models import (
+    NotificationToken,
+    SentNotification,
+    SendNotificationRequest,
+)
+from app.notification.service import NotificationService
 
 
 notification_router = APIRouter()
 
-@notification_router.get("/notifications/", response_model=InteractionPage[UserNotification])
-async def list_user_notifications(
-    request: Request,
-    current_user: User = Depends(get_current_user),
-):
-    """Get a list of notifications for the current user."""
-    filters = parse_query_params(dict(request.query_params))
-    notifications = UserNotificationService.get_all(
-        user_id=current_user.id if current_user else None,
-        to_list=True,
-        **filters,
-    )
-    
-    return await paginate(notifications)
 
-@notification_router.get("/notifications/{id}", response_model=InteractionPage[UserNotification])
-async def get_user_notification(
-    current_user: User = Depends(get_current_user),
-    id: PydanticObjectId = Path(..., description="ID of the notification")
+@notification_router.post(
+    "/notifications/register/{expo_token}",
+    response_model=NotificationToken,
+    status_code=status.HTTP_201_CREATED,
+)
+async def register_notification_token(
+    expo_token: str = Path(..., description="Expo push token to register"),
 ):
-    """Get a list of notifications for the current user."""
-    notification = UserNotificationService.get_by_id(
-        current_user,
-        id,
+    """Register an Expo push token for notifications."""
+    try:
+        token = await NotificationService.register_token(expo_token)
+        return token
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to register token: {str(e)}",
+        )
+
+
+@notification_router.post("/notifications/send", status_code=status.HTTP_200_OK)
+async def send_notification(request: SendNotificationRequest):
+    """Send push notification to all registered devices."""
+    result = await NotificationService.send_push_notification(
+        title=request.title,
+        body=request.body,
     )
     
-    if not notification:
+    if result.get("status") == "error":
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=[{"msg": "A notification with this id does not exist"}],
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=result.get("message"),
         )
-        
-    return await notification
+    
+    return result
+
+
+@notification_router.get(
+    "/notifications",
+    response_model=List[SentNotification],
+    status_code=status.HTTP_200_OK,
+)
+async def get_notifications():
+    """Get all sent notifications."""
+    notifications = await NotificationService.get_all_notifications()
+    return notifications
 
