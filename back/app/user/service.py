@@ -78,7 +78,6 @@ class UserService:
         """Create a new user."""
         user = User(
             email=data.email,
-            matricule=data.matricule,
             username=data.username,
             hashed_password=get_password(data.password),
             first_name=data.first_name,
@@ -264,7 +263,6 @@ class UserService:
         for data in datas:
             user = User(
                 email=data.email,
-                matricule=data.matricule,
                 username=data.username,
                 hashed_password=get_password(data.password),
                 first_name=data.first_name,
@@ -307,14 +305,13 @@ class UserService:
 
     @staticmethod
     async def check_existing_user_attributes(
-        email: str, matricule: str, username: str
+        email: str, username: str
     ) -> Optional[str]:
-        """Check if a user with the provided email, matricule, or username exists."""
+        """Check if a user with the provided email or username exists."""
         user = await User.find_one(
             {
                 "$or": [
                     {"email": email},
-                    {"matricule": matricule},
                     {"username": username},
                 ]
             }
@@ -323,8 +320,6 @@ class UserService:
         if user:
             if user.email == email:
                 return "email"
-            if user.matricule == matricule:
-                return "matricule"
             if user.username == username:
                 return "username"
 
