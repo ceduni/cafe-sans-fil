@@ -15,7 +15,7 @@ from pymongo.errors import DuplicateKeyError
 from app.auth.dependencies import get_current_user, get_current_user_aggregate
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
-from app.user.models import User, UserAggregateOut, UserOut, UserUpdate
+from app.user.models import User, UserAggregateOut, UserOut, UserUpdate, ArticleFavoriteRequest
 from app.user.service import UserService
 
 T = TypeVar("T")
@@ -202,6 +202,67 @@ async def delete_my_cafes(
     """Remove a cafe from my favorites. (`MEMBER`)"""
     try:
         updated_user = await UserService.remove_favorite_cafe(current_user, cafe_id)
+        # Fetch aggregated user with populated cafes
+        return await UserService.get_by_id(updated_user.id, aggregate=True)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
+
+
+@user_router.put(
+    "/users/@me/articles",
+    response_model=UserAggregateOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+)
+async def update_my_articles(
+    data: ArticleFavoriteRequest,
+    current_user: User = Depends(get_current_user),
+):
+    """Add an article to my favorites. (`MEMBER`)"""
+    try:
+        updated_user = await UserService.add_articles_favs(current_user, data.article_id, data.cafe_id)
+        # Fetch aggregated user with populated cafes
+        return await UserService.get_by_id(updated_user.id, aggregate=True)
+    except DuplicateKeyError as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=[
+                {
+                    "msg": "User with these fields already exists.",
+                    "fields": list(e.details.get("keyPattern", {}).keys()),
+                }
+            ],
+        )
+    
+@user_router.delete(
+    "/users/@me/articles",
+    response_model=UserAggregateOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+        409: {"model": ErrorConflictResponse},
+    },
+)
+async def delete_my_articles(
+    data: ArticleFavoriteRequest,
+    current_user: User = Depends(get_current_user),
+):
+    """Remove an article from my favorites. (`MEMBER`)"""
+    try:
+        updated_user = await UserService.remove_articles_favs(current_user, data.article_id, data.cafe_id)
         # Fetch aggregated user with populated cafes
         return await UserService.get_by_id(updated_user.id, aggregate=True)
     except DuplicateKeyError as e:

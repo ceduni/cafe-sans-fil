@@ -78,7 +78,6 @@ class UserService:
         """Create a new user."""
         user = User(
             email=data.email,
-            matricule=data.matricule,
             username=data.username,
             hashed_password=get_password(data.password),
             first_name=data.first_name,
@@ -182,6 +181,59 @@ class UserService:
         user.cafe_favs.append(cafe_id)
         await user.save()
         return user
+    
+    @staticmethod
+    async def add_articles_favs(
+        user: Union[User, dict],
+        article_id: str,
+        cafe_id: str,
+    ) -> User:
+        """Add an article to user's favorite articles."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        # Create list [article_id, cafe_id]
+        favorite_entry = [article_id, cafe_id]
+        
+        # Check if already exists
+        if favorite_entry in user.articles_favs:
+            return user
+
+        user.articles_favs.append(favorite_entry)
+        await user.save()
+        return user
+
+    @staticmethod
+    async def remove_articles_favs(
+        user: Union[User, dict],
+        article_id: str,
+        cafe_id: str,
+    ) -> User:
+        """Remove an article from user's favorite articles."""
+        # Handle both User object and dict from aggregate
+        if isinstance(user, dict):
+            user_id = user.get("id") or user.get("_id")
+            user_obj = await User.get(PydanticObjectId(user_id))
+            if not user_obj:
+                raise ValueError("User not found")
+            user = user_obj
+        
+        # Create list [article_id, cafe_id]
+        favorite_entry = [article_id, cafe_id]
+        
+        # Check if exists
+        if favorite_entry not in user.articles_favs:
+            return user
+
+        user.articles_favs.remove(favorite_entry)
+        await user.save()
+        return user
+        
 
     @staticmethod
     async def remove_favorite_cafe(
@@ -211,7 +263,6 @@ class UserService:
         for data in datas:
             user = User(
                 email=data.email,
-                matricule=data.matricule,
                 username=data.username,
                 hashed_password=get_password(data.password),
                 first_name=data.first_name,
@@ -254,14 +305,13 @@ class UserService:
 
     @staticmethod
     async def check_existing_user_attributes(
-        email: str, matricule: str, username: str
+        email: str, username: str
     ) -> Optional[str]:
-        """Check if a user with the provided email, matricule, or username exists."""
+        """Check if a user with the provided email or username exists."""
         user = await User.find_one(
             {
                 "$or": [
                     {"email": email},
-                    {"matricule": matricule},
                     {"username": username},
                 ]
             }
@@ -270,8 +320,6 @@ class UserService:
         if user:
             if user.email == email:
                 return "email"
-            if user.matricule == matricule:
-                return "matricule"
             if user.username == username:
                 return "username"
 

@@ -9,7 +9,6 @@ export default defineConfig({
   server: {
     host: '0.0.0.0', // Allows external access, necessary for Docker
     port: 3000,      // Set the desired port
-    allowedHosts: ['cafesansfil-b4ip.onrender.com'],
   },
   plugins: [react(), tailwindcss()],
   css: {
