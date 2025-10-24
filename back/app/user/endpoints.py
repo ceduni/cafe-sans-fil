@@ -15,7 +15,7 @@ from pymongo.errors import DuplicateKeyError
 from app.auth.dependencies import get_current_user, get_current_user_aggregate
 from app.models import ErrorConflictResponse, ErrorResponse
 from app.service import parse_query_params
-from app.user.models import User, UserAggregateOut, UserOut, UserUpdate, FavoriteRequest, FavoriteType, BulkFavoriteRequest, FavoriteResponse
+from app.user.models import User, UserAggregateOut, UserOut, UserUpdate, FavoriteRequest, ArticleFavoriteRequest, FavoriteType, BulkFavoriteRequest, FavoriteResponse
 from app.user.service import UserService
 
 T = TypeVar("T")

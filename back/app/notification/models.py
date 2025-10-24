@@ -81,7 +81,7 @@ class UserNotification(View):
     delivered_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class NotificationToken(CustomDocument):
