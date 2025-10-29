@@ -36,7 +36,6 @@ class UserSeeder:
         """Seeds a specified number of users."""
         datas = []
         for i in tqdm(range(num_users), desc="Users"):
-            matricule = self.generate_matricule()
             first_name = fake.first_name()
             last_name = fake.last_name()
             email = (
@@ -45,13 +44,13 @@ class UserSeeder:
                 + self.normalize_string(last_name).replace(" ", "").lower()
                 + "@umontreal.ca"
             )
+            username = self.normalize_string(first_name).lower() + self.normalize_string(last_name).lower()
             password = "Cafepass1"
             photo_url = self.photo_urls[i] if random.random() <= 1.00 else None
 
             data = UserCreate(
                 email=email,
-                matricule=matricule,
-                username=matricule,
+                username=username,
                 password=password,
                 first_name=first_name,
                 last_name=last_name,
@@ -65,11 +64,9 @@ class UserSeeder:
     async def update_first_user(self):
         """Updates the first user to cafesansfil."""
         user = await UserService.get_by_id(self.ids[0])
-        matricule = "7802085"
         data = {
             "email": "cafesansfil@umontreal.ca",
-            "matricule": matricule,
-            "username": matricule,
+            "username": "cafesansfil",
             "password": "Cafepass1",
             "first_name": "Tom",
             "last_name": "Holland",
@@ -82,15 +79,3 @@ class UserSeeder:
         normalized_str = unicodedata.normalize("NFKD", input_str)
         ascii_str = normalized_str.encode("ascii", "ignore")
         return ascii_str.decode("ascii")
-
-    def generate_matricule(self):
-        """Generates a random matricule."""
-        if random.random() < 0.95:
-            # 8 digit
-            matricule_num = random.randint(20000000, 20299999)
-        else:
-            # 6 or 7 digits
-            length = random.choice([6, 7])
-            matricule_num = random.randint(10 ** (length - 1), (10**length) - 1)
-
-        return str(matricule_num)

@@ -45,7 +45,6 @@ class InteractionService:
                     "id": {"$toString": "$_id"},
                     "username": 1,
                     "email": 1,
-                    "matricule": 1,
                     "first_name": 1,
                     "last_name": 1,
                     "photo_url": 1,

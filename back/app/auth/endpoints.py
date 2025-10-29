@@ -117,7 +117,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
 async def register(user: UserCreate) -> UserOut:
     """Register a new user."""
     existing_attribute = await UserService.check_existing_user_attributes(
-        user.email, user.matricule, user.username
+        user.email, user.username
     )
     if existing_attribute:
         raise HTTPException(
