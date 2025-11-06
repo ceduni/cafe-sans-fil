@@ -26,7 +26,6 @@ def user_data():
     )
     return {
         "email": email,
-        "matricule": fake.numerify(text="2#41###"),
         "username": fake.user_name(),
         "password": password,
         "first_name": first_name,
@@ -39,8 +38,7 @@ def user_data():
 def user_data_cafesansfil():
     return {
         "email": "cafesansfil@umontreal.ca",
-        "matricule": "20303214",
-        "username": "7802085",
+        "username": "cafesansfil",
         "password": "Cafepass1",
         "first_name": "Tom",
         "last_name": "Holland",
