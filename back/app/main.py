@@ -15,7 +15,6 @@ from app.cafe.announcement.models import Announcement
 from app.cafe.stock.stock_model import Stock
 from app.menu.item.models import MenuItem
 from app.order.models import Order
-from app.order.scheduler import order_scheduler
 from app.config import settings
 from app.event.models import Event
 from app.interaction.models import Interaction

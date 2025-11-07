@@ -46,7 +46,6 @@ class UserBase(BaseModel):
 
     username: str = Field(..., min_length=3, max_length=20)
     email: EmailStr
-    matricule: str = Field(..., min_length=6, max_length=8, examples=["123456"])
     first_name: str = Field(..., min_length=2, max_length=30)
     last_name: str = Field(..., min_length=2, max_length=30)
     photo_url: Optional[HttpUrl] = None
@@ -67,13 +66,6 @@ class UserBase(BaseModel):
             raise ValueError(
                 "Username may only contain alphanumeric characters or single hyphens"
             )
-        return v
-
-    @field_validator("matricule")
-    @classmethod
-    def validate_matricule(cls, v):
-        if not re.match(r"^\d{6,8}$", v):
-            raise ValueError("Matricule must contain exactly 6-8 digits")
         return v
 
     @field_validator("first_name")
@@ -118,7 +110,6 @@ class User(CustomDocument, UserBase):
         indexes = [
             IndexModel([("username", pymongo.ASCENDING)], unique=True),
             IndexModel([("email", pymongo.ASCENDING)], unique=True),
-            IndexModel([("matricule", pymongo.ASCENDING)], unique=True),
             IndexModel([("first_name", pymongo.ASCENDING)]),
             IndexModel([("last_name", pymongo.ASCENDING)]),
         ]
@@ -138,7 +129,6 @@ class UserUpdate(BaseModel):
 
     username: Optional[str] = Field(None, min_length=3, max_length=20)
     email: Optional[EmailStr] = None
-    matricule: Optional[str] = Field(None, min_length=6, max_length=8, examples=["123456"])
     password: Optional[str] = Field(None, min_length=6, max_length=100)
     first_name: Optional[str] = Field(None, min_length=2, max_length=30)
     last_name: Optional[str] = Field(None, min_length=2, max_length=30)

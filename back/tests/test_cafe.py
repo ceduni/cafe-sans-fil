@@ -394,7 +394,6 @@ def test_create_staff_member_success(client, list_cafes, auth_login):
     user_data = {
         "username": "TestStaff",
         "password": "TestPassword",
-        "matricule": "12345678",
         "first_name": "Test",
         "last_name": "Staff",
         "email": "test@umontreal.ca",

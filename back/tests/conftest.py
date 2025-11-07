@@ -40,7 +40,7 @@ def client():
 @pytest.fixture(scope="module")
 def auth_login(client):
     login_data = {
-        "username": "7802085",
+        "username": "cafesansfil",
         "password": "Cafepass1",
     }
     response = client.post("/api/auth/login", data=login_data)
