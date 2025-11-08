@@ -56,7 +56,7 @@ const Navbar = () => {
           <nav aria-label="Top">
             <div className="border-b border-gray-200">
               <Container>
-                <div className="flex h-16 items-center">
+                <div className="flex h-16 items-center justify-between">
                   {/* Logo */}
                   <div className="flex hover:animate-scale">
                     <Link to={routes.home} className="flex items-center gap-2 md:gap-4">
@@ -65,9 +65,9 @@ const Navbar = () => {
                   </div>
 
                   {/* SearchBar */}
-                  <div className="flex-1 max-w-xl mx-auto">
+                  {/* <div className="flex-1 max-w-xl mx-auto">
                       <SearchBar onSearch={handleSearch} />
-                  </div>
+                  </div> */}
 
                   <div className="flex items-center">
                     {isLoggedIn ? (

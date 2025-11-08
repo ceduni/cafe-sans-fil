@@ -6,7 +6,6 @@ import CafeList from "@/components/Cafe/CafeList";
 import SearchResults from "@/components/Search/SearchResults";
 import { useSearchParams } from 'react-router-dom';
 import useTitle from "@/hooks/useTitle";
-import EventBoard from "@/components/Event/EventBoard";
 
 
 const Home = () => {
@@ -29,7 +28,6 @@ const Home = () => {
     useEffect(() => {
         if (cafeRef.current) {
             setGridHeight(cafeRef.current.height);
-            console.log(gridHeight);
         }
     }, [storedCafes]);
 
@@ -44,9 +42,9 @@ const Home = () => {
                     )}
                 </Container>
                 
-                <Container className="ml-auto">
+                {/* <Container className="ml-auto">
                     <EventBoard setStoredEvents={setStoredEvents} storedEvents={storedEvents}/>                    
-                </Container>
+                </Container> */}
                 
             </main>
         </>
