@@ -63,6 +63,7 @@ class MenuItemBase(BaseModel):
     image_url: Optional[HttpUrl] = None
     price: DecimalAnnotation
     in_stock: bool
+    is_highlighted: bool = Field(default=False, description="Whether the item is highlighted/featured.")
     likes: List[str] = Field(..., default_factory=list, description="List containing the ids of the users that liked this item.")
     barecode: Optional[str] = Field(default=None, description="Food's barecode.")
     nutritional_informations: NutritionInfo = Field(default_factory=NutritionInfo, description="Dictionnary of the nutritive values of an item.")
@@ -113,6 +114,7 @@ class MenuItemUpdate(BaseModel, CategoryIds):
     image_url: Optional[HttpUrl] = None
     price: Optional[DecimalAnnotation] = None
     in_stock: Optional[bool] = None
+    is_highlighted: Optional[bool] = None
     options: Optional[List[MenuItemOption]] = None
 
     @field_validator("price")

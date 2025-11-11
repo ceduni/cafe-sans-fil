@@ -234,3 +234,35 @@ async def delete_item(
         )
 
     await ItemService.delete(item)
+
+
+@item_router.put(
+    "/cafes/{slug}/menu/items/{id}/toggle-highlight",
+    response_model=MenuItemOut,
+    responses={
+        401: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        404: {"model": ErrorResponse},
+    },
+    dependencies=[Depends(VolunteerPermission())],
+)
+async def toggle_item_highlight(
+    slug: str = Path(..., description="Slug of the cafe"),
+    id: PydanticObjectId = Path(..., description="ID of the menu item"),
+):
+    """Toggle the highlighted status of a menu item. (`VOLUNTEER`)"""
+    cafe = await CafeService.get(slug)
+    if not cafe:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "A cafe with this slug does not exist."}],
+        )
+
+    item = await ItemService.get_by_id_and_cafe_id(id, cafe.id)
+    if not item:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=[{"msg": "An item with this ID does not exist."}],
+        )
+
+    return await ItemService.toggle_highlighted(item)
