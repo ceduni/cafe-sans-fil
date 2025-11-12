@@ -61,6 +61,13 @@ class ItemService:
         await item.delete()
 
     @staticmethod
+    async def toggle_highlighted(item: MenuItem) -> MenuItem:
+        """Toggle the highlighted status of a menu item."""
+        item.is_highlighted = not item.is_highlighted
+        await item.save()
+        return item
+
+    @staticmethod
     async def create_many(cafe: Cafe, data: List[MenuItemCreate]) -> List[MenuItem]:
         """Create multiple menu items."""
         items = [

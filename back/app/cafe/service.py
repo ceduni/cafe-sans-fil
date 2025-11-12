@@ -267,6 +267,7 @@ class CafeService:
                                                                 "image_url": "$$item.image_url",
                                                                 "price": "$$item.price",
                                                                 "in_stock": "$$item.in_stock",
+                                                                "is_highlighted": "$$item.is_highlighted",
                                                                 "options": "$$item.options",
                                                                 "interactions": {
                                                                     "$let": {
@@ -382,6 +383,7 @@ class CafeService:
                                                             "image_url": "$$item.image_url",
                                                             "price": "$$item.price",
                                                             "in_stock": "$$item.in_stock",
+                                                            "is_highlighted": "$$item.is_highlighted",
                                                             "options": "$$item.options",
                                                             "interactions": {
                                                                 "$let": {
