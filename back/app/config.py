@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     """Settings for the application."""
 
     model_config = SettingsConfigDict(case_sensitive=True)
-    API_V1_STR: str = "/"
+    API_V1_STR: str = "/v1"
     JWT_SECRET_KEY: str = config("JWT_SECRET_KEY", cast=str)
     JWT_REFRESH_SECRET_KEY: str = config("JWT_REFRESH_SECRET_KEY", cast=str)
     ALGORITHM: str = "HS256"
