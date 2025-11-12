@@ -63,37 +63,6 @@ async def list_cafes(
     cafes = await CafeService.get_all(to_list=False, **filters)
     return await paginate(cafes)
 
-
-@cafe_router.post(
-    "/cafes",
-    response_model=CafeOut,
-    responses={
-        401: {"model": ErrorResponse},
-        409: {"model": ErrorConflictResponse},
-    },
-)
-async def create_cafe(
-    data: CafeCreate,
-    current_user: User = Depends(get_current_user),
-):
-    """Create a cafe. (`MEMBER`)"""
-    try:
-        cafe = await CafeService.create(data, current_user.id)
-        await UserService.add_cafe(current_user, cafe)
-        return cafe
-
-    except DuplicateKeyError as e:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=[
-                {
-                    "msg": "A cafe with these fields already exists.",
-                    "fields": list(e.details.get("keyPattern", {}).keys()),
-                }
-            ],
-        )
-
-
 @cafe_router.get(
     "/cafes/{slug}",
     response_model=CafeAggregateOut,

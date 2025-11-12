@@ -1,0 +1,67 @@
+{
+  "navbar.course_selection": "Mon cheminement",
+  "navbar.about": "À propos",
+  "navbar.course_schedule": "Horaires de cours",
+  "navbar.advanced_search": "Recherche de cours",
+  "navbar.calendar": "Calendrier",
+  
+  "searchbar.placeholder": "Entrez le nom du programme",
+  "seachbar.program.courses.placeholder": "Cherchez un cours dans ce programme",
+
+  "history.drop_message": "Glissez et déposez vos cours réussis ici",
+
+  "course_search.placeholder": "Rechercher des cours",
+  "semester.drop_message": "Glissez et déposez vos cours ici",
+  "semester.resize.expand": "Développer le trimestre",
+  "semester.resize.collapse": "Réduire le trimestre",
+  "semester.remove.button": "Vider le trimestre",
+  "semester.menu.export": "Exporter",
+  "semester.menu.delete": "Supprimer le trimestre",
+  "course_list.program_structure": "Structure du programme",
+  "total_credit": "Crédits total",
+  "credit": "crédit",
+  "credits": "crédits",
+  "export": "Exporter",
+  "copied.toast": "Copié dans le presse-papier",
+  
+  "form.name": "Nom du parcours",
+  "form.name.placeholder": "Entrer le nom",
+  "form.chooseOptions": "Segments par défault",
+  "form.title": "Exporter votre horaire",
+  "form.submit": "Soumettre",
+  "form.share": "Partager",
+  "programresearch": "Recherche de programme",
+  "orientation": "Orientation",
+  "program": "Programme",
+  "department": "Departement",
+  "faculty": "Faculté",
+  "byDefault": "Aucune orientation",
+  "winter": "hiver",
+  "summer": "été",
+  "autumn": "automne",
+  "fall": "automne",
+
+  "export.tooltip": "Exporter votre sélection de cours",
+  "copy.tooltip": "Copier l'URL",
+  "deleteall.tooltip": "Vider l'horaire",
+
+  "filter.header": "Programme",
+  "filter.dropdowns.title": "Trouvez votre programme étape par étape",
+  "filter.search.title": "Trouvez votre programme par nom",
+
+  "advancedSearch.title": "Recherche avancée",
+  "AdvancedSearch.searchButton": "Rechercher",
+  "advancedSearch.placeholder": "Rechercher des horaires",
+
+
+  "footer.copyright": "Tous droits réservés",
+  "footer.about": "À propos",
+  "footer.contact": "Contact",
+  "footer.privacy": "Politique de confidentialité",
+  "footer.terms": "Conditions d'utilisation",
+  "footer.developed_by": "Développé par",
+
+  "planifium": "Planifium",
+  "diro": "Département d'informatique et de recherche opérationnelle",
+  "udem": "Université de Montréal"
+}

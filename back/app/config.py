@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     """Settings for the application."""
 
     model_config = SettingsConfigDict(case_sensitive=True)
-    API_V1_STR: str = "/api"
+    API_V1_STR: str = "/"
     JWT_SECRET_KEY: str = config("JWT_SECRET_KEY", cast=str)
     JWT_REFRESH_SECRET_KEY: str = config("JWT_REFRESH_SECRET_KEY", cast=str)
     ALGORITHM: str = "HS256"
@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     )
     BASE_URL: str = config("BASE_URL", cast=str)
     PROJECT_NAME: str = "Café sans-fil"
-    VERSION: str = "0.2.3"
+    VERSION: str = "0.3.0"
 
     # Database
     MONGO_CONNECTION_STRING: str = config("MONGO_CONNECTION_STRING", cast=str)

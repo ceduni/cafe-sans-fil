@@ -8,7 +8,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   server: {
     host: '0.0.0.0', // Allows external access, necessary for Docker
-    port: 3000,      // Set the desired port
+    port: 3001,      // Set the desired port
   },
   plugins: [react(), tailwindcss()],
   css: {

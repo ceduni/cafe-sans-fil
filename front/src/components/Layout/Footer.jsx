@@ -26,7 +26,7 @@ const Footer = () => {
                         <QuestionMarkCircleIcon className="h-5 w-5 text-gray-500" />
                         <span className="text-left">Vous êtes gérant d'un café étudiant? Ajoutez&nbsp;votre café</span>
                     </a>
-                    <p className="font-medium">&copy; 2024 Café sans-fil</p>
+                    <p className="font-medium">&copy; {new Date().getFullYear()} Café sans-fil</p>
                 </div>
             </div>
         </footer>

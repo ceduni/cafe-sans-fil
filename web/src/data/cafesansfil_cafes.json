@@ -1,0 +1,4799 @@
+[{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa25b"
+  },
+  "name": "Café Beagel",
+  "slug": "cafe-beagel",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Cafés, bagels et jeux de société",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/01879182-4a8a-482a-6d3d-be47e0f56400/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Médecine vétérinaire"
+  },
+  "is_open": true,
+  "status_message": "Réouverture le 15 août",
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Campus de Saint-Hyacinthe",
+    "local": "local 0140",
+    "floor": "1st floor",
+    "geometry": null
+  },
+  "contact": {
+    "email": "cafebeagel@gmail.com",
+    "phone_number": "(514)-814-3535",
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/CafeBeagel/",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa247"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "GRID",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa296"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa297"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa298"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa299"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa25e"
+  },
+  "name": "CaféKine",
+  "slug": "cafekine",
+  "previous_slugs": [],
+  "features": [
+    "ORDER"
+  ],
+  "description": "Barres protéinées. Permis d’alcool. Diffusion d’évènements sportifs. Prix concurrentiel de la bière. Ouvert le soir. Seul café sportif ouvert 7 jours sur 7, même l’été.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/076e4883-ada8-4616-7fd3-7037bffdfe00/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Kinésiologie et éducation physique"
+  },
+  "is_open": true,
+  "status_message": "Fermé pour rénovation",
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Cepsum",
+    "local": "local 3222",
+    "floor": null,
+    "geometry": null
+  },
+  "contact": {
+    "email": "cafekine.udem@gmail.com",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/CafeKine/",
+    "instagram": "https://www.instagram.com/cafekine.cepsum/?hl=en",
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa24a"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "GRID",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2c0"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2c1"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2c2"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2c3"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa264"
+  },
+  "name": "La Retenue",
+  "slug": "la-retenue",
+  "previous_slugs": [],
+  "features": [
+    "ORDER"
+  ],
+  "description": "Terrasse et grande variété de produits.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/451127a5-9bbe-401c-0240-02b3d7c82400/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5",
+    "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Sciences de l’éducation"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Marie-Victorin",
+    "local": "local C-219",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61164866212512,
+        45.510619686954136
+      ]
+    }
+  },
+  "contact": {
+    "email": null,
+    "phone_number": null,
+    "website": "https://horaires.me/0322312/Cafe_La_Retenue"
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/CafeLaRetenue",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa250"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2f8"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2f9"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2fa"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2fb"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa25d"
+  },
+  "name": "Café-In",
+  "slug": "cafe-in",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Avec son café torréfié localement, ses pâtisseries fraîches et les fameux jeudis pizza, le Café-In est le catalyseur le plus efficace pour une journée au bilan positif!",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/01d1c644-978b-416b-d8cd-75f74eef4500/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5",
+    "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Chimie"
+  },
+  "is_open": false,
+  "status_message": "Fermé pour MIDIRO",
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": []
+    }
+  ],
+  "location": {
+    "pavillon": "Campus MIL",
+    "local": "local B-0110.1",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61966164943738,
+        45.5231172783649
+      ]
+    }
+  },
+  "contact": {
+    "email": "contact@cafein.ca",
+    "phone_number": "(514)-343-6111 poste 30442",
+    "website": "http://www.cafein.ca/"
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/UdeMCafeIn/",
+    "instagram": "https://www.instagram.com/le_cafe_in/?hl=fr",
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    },
+    {
+      "method": "DEBIT",
+      "minimum": {
+        "$numberDecimal": "7"
+      }
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa249"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "GRID",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2b2"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2b3"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2b4"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2b5"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa25f"
+  },
+  "name": "Holocène",
+  "slug": "holocene",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Café 100 % végé. Produits véganes. Prix abordables surtout pour les samosas. Bonne ambiance. Immense collection de jeux de société. Café third wave à prix dérisoire.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/5919e165-43bb-4ed8-624b-3fb635fc5c00/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Géographie"
+  },
+  "is_open": false,
+  "status_message": "Fermé pour rénovation",
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Campus MIL",
+    "local": "local B-0110.4",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61966164943738,
+        45.5231172783649
+      ]
+    }
+  },
+  "contact": {
+    "email": "assogeoudm@gmail.com",
+    "phone_number": "(438)-503-5913",
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/cafegeoudem/",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa24b"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "GRID",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2ce"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2cf"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2d0"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2d1"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa263"
+  },
+  "name": "La Planck",
+  "slug": "la-planck",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Café espresso à 0,25 $ et café latte à 1 $.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/0dfa1e13-5b48-4a43-f001-561aaec56e00/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Physique"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Campus MIL",
+    "local": "local B-0110.3",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61966164943738,
+        45.5231172783649
+      ]
+    }
+  },
+  "contact": {
+    "email": "lecafelaplanck@gmail.com",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": null,
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa24f"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "GRID",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2ea"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2eb"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2ec"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2ed"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa267"
+  },
+  "name": "Le Triton",
+  "slug": "le-triton",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Petit café au service simple sans prétention.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/3578cb4a-9c36-4d1f-8b1a-370556332100/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5",
+    "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Musique"
+  },
+  "is_open": false,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon de la Faculté de Musique",
+    "local": "local B-261",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.60856773744851,
+        45.50929993324537
+      ]
+    }
+  },
+  "contact": {
+    "email": "benoit.archambault@amenagement.coop",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/cafeletriton",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa253"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa322"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa323"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa324"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa325"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa26b"
+  },
+  "name": "Tore et fraction",
+  "slug": "tore-et-fraction",
+  "previous_slugs": [],
+  "features": [],
+  "description": "Café 100% bénévoles, vue du coucher de soleil magnifique, on remplit votre tasse pour 0,50$.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/b108d192-c9ea-4827-18a0-ccb528642f00/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Informatique et recherche opérationnelle, mathématiques et statistiques"
+  },
+  "is_open": true,
+  "status_message": "Congés annuels jusqu'au 30 juillet",
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": []
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon André-Aisenstadt",
+    "local": "local AA-1221",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.6158027337848,
+        45.501118321893316
+      ]
+    }
+  },
+  "contact": {
+    "email": "toreetfraction@gmail.com",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/CafeToreetFraction",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa257"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa376"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa377"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa378"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa379"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa258"
+  },
+  "name": "Acquis de droit",
+  "slug": "acquis-de-droit",
+  "previous_slugs": [],
+  "features": [],
+  "description": "Sandwichs maisons préparés sur place. Succulents bagels au saumon fumé. De nombreux choix végé. Carte de fidélité disponible. Baby-foot. Ouvert l'été.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/92b3119c-ada7-44c8-f8c3-72a40f867300/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Droit"
+  },
+  "is_open": true,
+  "status_message": "De retour dans 1 heure",
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Maximilien-Caron",
+    "local": "local A-2470",
+    "floor": "2nd floor",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61698298364878,
+        45.49864611249791
+      ]
+    }
+  },
+  "contact": {
+    "email": "jeremy.dinh@droit.coop",
+    "phone_number": "(514)-998-9008",
+    "website": "https://www.droit.coop/fr/nav/Cafe.html"
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/cafe.acquis.de.droit",
+    "instagram": "https://www.instagram.com/cafeacquis/?hl=fr",
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CREDIT",
+      "minimum": {
+        "$numberDecimal": "11"
+      }
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa244"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa26c"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa26d"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa26e"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa26f"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa260"
+  },
+  "name": "L’établi",
+  "slug": "letabli",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Pour un café chaud ou un froid, l'équipe de L’Établi est là pour vous accueillir.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/f2bf0b34-0577-4674-5c58-8b045ca41900/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Aménagement, urbanisme, architecture, design, paysage"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": []
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon de la Faculté de l’Aménagement",
+    "local": "local 1100",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.62119293577463,
+        45.50463484932084
+      ]
+    }
+  },
+  "contact": {
+    "email": "benoit.archambault@amenagement.coop",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/Letabliame/",
+    "instagram": "https://www.instagram.com/cafe.etabli/?hl=fr",
+    "x": null
+  },
+  "payment_details": [],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa24c"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa34c"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa34d"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa34e"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa34f"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa261"
+  },
+  "name": "L’Intermed",
+  "slug": "lintermed",
+  "previous_slugs": [],
+  "features": [
+    "ORDER",
+    "DISCORD_BOT"
+  ],
+  "description": "Café autogéré par une vingtaine d’étudiantes et d’étudiants bénévoles visant à promouvoir l’implication sociale.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/1e9edc57-6bd1-4bd6-ea9c-5fa357a32200/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Médecine"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Roger-Gaudry",
+    "local": "local X-031",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61583834278646,
+        45.502683040350085
+      ]
+    }
+  },
+  "contact": {
+    "email": "intermed@aeemum.org",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/IntermedUdeM",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CREDIT",
+      "minimum": {
+        "$numberDecimal": "11"
+      }
+    },
+    {
+      "method": "CASH",
+      "minimum": null
+    },
+    {
+      "method": "DEBIT",
+      "minimum": {
+        "$numberDecimal": "6"
+      }
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa24d"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa33e"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa33f"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa340"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa341"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa265"
+  },
+  "name": "Le Macrophage",
+  "slug": "le-macrophage",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Espace pour jeux vidéos.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/0468454c-5544-4509-d66e-2ab28a5b3d00/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Biochimie et médecine moléculaire"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": []
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Roger-Gaudry",
+    "local": "local E-212",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61583834278646,
+        45.502683040350085
+      ]
+    }
+  },
+  "contact": {
+    "email": "aebbium@umontreal.ca",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/MacrophageE212",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    },
+    {
+      "method": "CREDIT",
+      "minimum": {
+        "$numberDecimal": "14"
+      }
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa251"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa306"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa307"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa308"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa309"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa266"
+  },
+  "name": "Le Mal-aimé",
+  "slug": "le-mal-aime",
+  "previous_slugs": [],
+  "features": [
+    "ORDER"
+  ],
+  "description": "Tout petit café très convivial et chaleureux avec bas prix.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/c41f6044-6d19-40f7-e590-9b18c6a7d700/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Travail social"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": []
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Lionel-Groulx",
+    "local": "local C-7143",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61811440328101,
+        45.4992286213827
+      ]
+    }
+  },
+  "contact": {
+    "email": "aetsum@umontreal.ca",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/cafemalaime",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CREDIT",
+      "minimum": {
+        "$numberDecimal": "14"
+      }
+    },
+    {
+      "method": "CASH",
+      "minimum": null
+    },
+    {
+      "method": "DEBIT",
+      "minimum": {
+        "$numberDecimal": "5"
+      }
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa252"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa314"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa315"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa316"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa317"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa26a"
+  },
+  "name": "Psychic",
+  "slug": "psychic",
+  "previous_slugs": [],
+  "features": [],
+  "description": "Café rénové.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/d745cbe0-4352-44bf-815c-221325e86300/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Psychologie"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Marie-Victorin",
+    "local": "local D-428",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61164866212512,
+        45.510619686954136
+      ]
+    }
+  },
+  "contact": {
+    "email": "cafelepsychic@gmail.com",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/LePsychic",
+    "instagram": "https://www.instagram.com/cafe_lepsychic/?hl=fr",
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    },
+    {
+      "method": "CREDIT",
+      "minimum": {
+        "$numberDecimal": "10"
+      }
+    },
+    {
+      "method": "DEBIT",
+      "minimum": {
+        "$numberDecimal": "8"
+      }
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa256"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "GRID",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa368"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa369"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa36a"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa36b"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa259"
+  },
+  "name": "CafCom",
+  "slug": "cafcom",
+  "previous_slugs": [],
+  "features": [],
+  "description": "Café intime. Grilled cheese maison.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/4662de53-0a17-4e12-5288-a9b250d1b100/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Communication"
+  },
+  "is_open": true,
+  "status_message": "Fermé pour MIDIRO",
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Marie-Victorin",
+    "local": "local D-266",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61164866212512,
+        45.510619686954136
+      ]
+    }
+  },
+  "contact": {
+    "email": "cafcom@aecum.ca",
+    "phone_number": "(514)-123-4567",
+    "website": "http://www.aecum.ca/cafcom"
+  },
+  "social_media": {
+    "facebook": null,
+    "instagram": null,
+    "x": "https://twitter.com/cafcom"
+  },
+  "payment_details": [],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa245"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "GRID",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa27a"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa27b"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa27c"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa27d"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa25a"
+  },
+  "name": "Café Anthropologie",
+  "slug": "cafe-anthropologie",
+  "previous_slugs": [],
+  "features": [
+    "ORDER",
+    "DISCORD_BOT"
+  ],
+  "description": "Café accueillant et chaleureux, prix abordables.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/e5767637-50a5-4130-3bbf-960392a50100/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Anthropologie"
+  },
+  "is_open": false,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": []
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Lionel-Groulx",
+    "local": "local C-3029",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61811440328101,
+        45.4992286213827
+      ]
+    }
+  },
+  "contact": {
+    "email": "cafedanthropo@gmail.com",
+    "phone_number": "(514)-123-5678",
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/search/top?q=caf%C3%A9%20anthropologie",
+    "instagram": "https://www.instagram.com/caf%C3%A9-anthropologie-udm-167230620307/?hl=fr",
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "CASH",
+      "minimum": null
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa246"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa288"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa289"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa28a"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa28b"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa25c"
+  },
+  "name": "Café nutri-bar",
+  "slug": "cafe-nutri-bar",
+  "previous_slugs": [],
+  "features": [
+    "ORDER",
+    "DISCORD_BOT"
+  ],
+  "description": "Menu majoritairement santé. Seul service alimentaire du Pavillon.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/b45a47f6-d08c-45b2-1019-7c54ea4e7000/public",
+  "photo_urls": [],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Sciences infirmières et nutrition"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Liliane-De-Stewart",
+    "local": "local 1125",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61924582738257,
+        45.50972366912569
+      ]
+    }
+  },
+  "contact": {
+    "email": "nutribarudem@gmail.com",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/nutribar.udem",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "DEBIT",
+      "minimum": {
+        "$numberDecimal": "7"
+      }
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa248"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2a4"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2a5"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2a6"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d07a6b7c156881aa2a7"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa262"
+  },
+  "name": "La Brunante",
+  "slug": "la-brunante",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Le SEUL café-bar sur le Campus de la montagne à l’ouest de la tour.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/5d037109-fbab-4f2e-01dd-6865d90a2f00/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Éducation permanente"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "3200, rue Jean-Brillant",
+    "local": "local B-2326",
+    "floor": null,
+    "geometry": null
+  },
+  "contact": {
+    "email": "gerance@labrunante.com",
+    "phone_number": "(514)-343-6111 poste 1232",
+    "website": "https://labrunante.com/"
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/labrunante",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "DEBIT",
+      "minimum": {
+        "$numberDecimal": "7"
+      }
+    },
+    {
+      "method": "CREDIT",
+      "minimum": {
+        "$numberDecimal": "11"
+      }
+    },
+    {
+      "method": "CASH",
+      "minimum": null
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa24e"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2dc"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2dd"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2de"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa2df"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa268"
+  },
+  "name": "Le Vivarium",
+  "slug": "le-vivarium",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Café chaleureux et abordable, bonbons en vrac et nourriture végane.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/1d342826-4fb7-4898-00d6-55c6e5059e00/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300",
+    "https://picsum.photos/id/241/200/300",
+    "https://unsplash.com/photos/3Z70SDuYs5g"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Biologie"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "19:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Campus MIL",
+    "local": "local B-0110.2",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61966164943738,
+        45.5231172783649
+      ]
+    }
+  },
+  "contact": {
+    "email": "cafe.bio.udem@gmail.com",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/cafebiolevivarium",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa254"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa255"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "LIST",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa330"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa331"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa332"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d08a6b7c156881aa333"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+},
+{
+  "_id": {
+    "$oid": "68770cfda6b7c156881aa269"
+  },
+  "name": "Pill Pub",
+  "slug": "pill-pub",
+  "previous_slugs": [],
+  "features": [
+    "DISCORD_BOT"
+  ],
+  "description": "Café pas cher, situé dans un local très lumineux.",
+  "logo_url": null,
+  "banner_url": "https://imagedelivery.net/70kpvhLybTnH06xFu8o2DQ/db42a0f6-6e3c-4507-eb92-9ca0826cd400/public",
+  "photo_urls": [
+    "https://picsum.photos/id/237/200/300",
+    "https://picsum.photos/id/238/200/300",
+    "https://picsum.photos/id/239/200/300",
+    "https://unsplash.com/photos/1J8k0qqUfYY",
+    "https://picsum.photos/id/240/200/300"
+  ],
+  "affiliation": {
+    "university": "Université de Montréal",
+    "faculty": "Pharmacie"
+  },
+  "is_open": true,
+  "status_message": null,
+  "opening_hours": [
+    {
+      "day": "MONDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "TUESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "WEDNESDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "12:00"
+        }
+      ]
+    },
+    {
+      "day": "THURSDAY",
+      "blocks": [
+        {
+          "start": "08:00",
+          "end": "13:00"
+        },
+        {
+          "start": "14:00",
+          "end": "20:00"
+        }
+      ]
+    },
+    {
+      "day": "FRIDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        },
+        {
+          "start": "15:00",
+          "end": "18:00"
+        }
+      ]
+    },
+    {
+      "day": "SATURDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        }
+      ]
+    },
+    {
+      "day": "SUNDAY",
+      "blocks": [
+        {
+          "start": "07:00",
+          "end": "13:00"
+        }
+      ]
+    }
+  ],
+  "location": {
+    "pavillon": "Pavillon Jean-Coutu",
+    "local": "local S1-184",
+    "floor": null,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -73.61474544264088,
+        45.500485542287784
+      ]
+    }
+  },
+  "contact": {
+    "email": "pillpub.aepum@gmail.com",
+    "phone_number": null,
+    "website": null
+  },
+  "social_media": {
+    "facebook": "https://www.facebook.com/PillPub",
+    "instagram": null,
+    "x": null
+  },
+  "payment_details": [
+    {
+      "method": "DEBIT",
+      "minimum": {
+        "$numberDecimal": "7"
+      }
+    },
+    {
+      "method": "CREDIT",
+      "minimum": {
+        "$numberDecimal": "14"
+      }
+    }
+  ],
+  "owner_id": {
+    "$oid": "68770cfca6b7c156881aa255"
+  },
+  "staff": {
+    "admin_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa253"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa252"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa251"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24c"
+      }
+    ],
+    "volunteer_ids": [
+      {
+        "$oid": "68770cfca6b7c156881aa247"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa250"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa257"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa245"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa249"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24a"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24f"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa248"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24e"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24d"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa24b"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa256"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa246"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa254"
+      },
+      {
+        "$oid": "68770cfca6b7c156881aa244"
+      }
+    ]
+  },
+  "menu": {
+    "layout": "GRID",
+    "categories": [
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa35a"
+        },
+        "name": "Grilled Cheese",
+        "description": "Sandwichs grillés au fromage fondant"
+      },
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa35b"
+        },
+        "name": "Boissons chaudes",
+        "description": "Cafés, thés et autres boissons chaudes"
+      },
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa35c"
+        },
+        "name": "Boissons froides",
+        "description": "Rafraîchissements et boissons froides"
+      },
+      {
+        "_id": {
+          "$oid": "68770d09a6b7c156881aa35d"
+        },
+        "name": "Collations",
+        "description": "En-cas et petites faims"
+      }
+    ]
+  },
+  "health_score": 0
+}]
