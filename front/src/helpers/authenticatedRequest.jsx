@@ -2,7 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const authenticatedRequest = axios.create({
-  baseURL: import.meta.env.VITE_API_ENDPOINT + "/api",
+  baseURL: import.meta.env.VITE_API_ENDPOINT + "/v1",
 });
 
 // Intercepter les requêtes pour ajouter le token d'authentification

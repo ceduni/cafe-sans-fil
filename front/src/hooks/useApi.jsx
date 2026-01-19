@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const buildUrl = (url) => import.meta.env.VITE_API_ENDPOINT + "/api" + url;
+const buildUrl = (url) => import.meta.env.VITE_API_ENDPOINT + "/v1" + url;
 
 const fetchData = async ({url, okCb, errorCb, pre = null, post = null}) => {
     try {

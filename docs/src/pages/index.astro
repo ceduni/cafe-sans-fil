@@ -11,7 +11,7 @@ const testers = contributors.filter(c=>c.role==="tester");
 
 let cafes = []
 try {
-	const response = await fetch('https://cafesansfil-api.onrender.com/api/cafes/');
+	const response = await fetch('https://api.cafesansfil.ca/v1/cafes/');
 	if (!response.ok){
 		throw new Error("Bad response when fetching cafes", { cause: { response }})
 	}
@@ -29,8 +29,8 @@ try {
 			</div>
 	
 			<ul class="bare-list cafes">
-				{ cafes.map((cafe) => (
-				<li class="cafe" style={{background: `url(${cafe['image_url']}) 100%/cover no-repeat;`}}>
+				{ cafes.items.map((cafe) => (
+				<li class="cafe" style={{background: `url(${cafe['banner_url']}) 100%/cover no-repeat;`}}>
 					{cafe['name']}
 				</li>
 				))}
@@ -47,13 +47,13 @@ try {
 	
 			<ul role="list" class="bare-list link-card-grid">
 				<Card
-					href="https://cafesansfil.onrender.com/"
+					href="https://admin.cafesansfil.ca/"
 					title="Application"
 					preview=true
 					body="Plongez dans l'univers des cafés étudiants de l'UdeM et passez une commande."
 				/>
 				<Card
-					href="https://cafesansfil-api.onrender.com/docs"
+					href="https://api.cafesansfil.ca/docs"
 					title="API"
 					preview=true
 					body="Intégrez votre application à l'API de Café sans-fil. Explorez la documentation."
@@ -110,11 +110,10 @@ try {
 
 		<section class="contributor-section">
 			<div class="content-wrapper">
-				<h2 class="section-title">Développement</h2>
+				<h2 class="section-title">Tout le monde</h2>
 
 				<div class="section-content">
-					<div class="contributor-section-roadmap">
-						<!-- <h3>Roadmap</h3> -->
+					<!-- <div class="contributor-section-roadmap">
 						<ul class="bare-list timeline">
 							{roadmap.map((phase) => (
 								<li class="phase">
@@ -129,10 +128,10 @@ try {
 								</li>
 							))}
 						</ul>
-					</div>
+					</div> -->
 
 					<div class="contributor-section-team">
-						<h3 class="contributor-section-team-title">Tout le monde</h3>
+						<!-- <h3 class="contributor-section-team-title">Tout le monde</h3> -->
 						<!-- <p class="section-intro">
 							Notre équipe est composé d'étudiants et finissants en informatique.
 						</p> -->
@@ -146,6 +145,28 @@ try {
 								<span class="contributor-role">{contributor.title}</span>
 							</li>
 							))}
+						</ul>
+
+						<h4 style="font-size: 2rem">Le CADUM</h4>
+						<ul class="bare-list contributors developers">
+							<li class="contributor">
+								<img class="contributor-img" src="https://cadum.aediroum.ca/jalal.jpg">
+								<h4 class="contributor-name">
+									<a href="https://www.linkedin.com/in/jalal-fatouaki/">Jalal Fatouaki</a>
+								</h4>
+							</li>
+							<li class="contributor">
+								<img class="contributor-img" src="https://cadum.aediroum.ca/william.jpeg">
+								<h4 class="contributor-name">
+									<a href="https://www.linkedin.com/in/william-hayward-45016134b/">William Hayward</a>
+								</h4>
+							</li>
+							<li class="contributor">
+								<img class="contributor-img" src="https://media.istockphoto.com/id/1223671392/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=s0aTdmT5aU6b8ot7VKm11DeID6NctRCpB755rA1BIP0=">
+								<h4 class="contributor-name">
+									<a href="https://www.linkedin.com/in/dthierno">Thierno Diallo</a>
+								</h4>
+							</li>
 						</ul>
 
 						<h4 style="font-size: 2rem">Les testeurs 🫶</h4>

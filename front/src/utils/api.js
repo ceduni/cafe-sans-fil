@@ -6,7 +6,7 @@ const buildUrl = (url) => {
         return `http://localhost:8000${url}`;
     }
 
-    return import.meta.env.VITE_API_ENDPOINT + "/api" + url;
+    return import.meta.env.VITE_API_ENDPOINT + "/v1" + url;
 }
 
 async function fetchData(url, setLoading = null) {
